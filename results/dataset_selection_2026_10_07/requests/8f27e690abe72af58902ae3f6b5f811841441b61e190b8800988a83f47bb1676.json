@@ -1,0 +1,3483 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Anopheles%22+AND+TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22salivary+gland%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:52.486910+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 36,
+    "nextCursorMark": "AoJZAigzMDk4MDExMw==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Anopheles%22+AND+TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22salivary+gland%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&cursorMark=AoJZAigzMDk4MDExMw%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Anopheles\" AND TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"infection\" OR \"host response\" OR \"transcriptome\") AND TITLE_ABS:(\"salivary gland\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "18974882",
+          "source": "MED",
+          "pmid": "18974882",
+          "pmcid": "PMC2570797",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2570797"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1000195",
+          "title": "Proteomic profiling of Plasmodium sporozoite maturation identifies new proteins essential for parasite development and infectivity.",
+          "authorString": "Lasonder E, Janse CJ, van Gemert GJ, Mair GR, Vermunt AM, Douradinha BG, van Noort V, Huynen MA, Luty AJ, Kroeze H, Khan SM, Sauerwein RW, Waters AP, Mann M, Stunnenberg HG.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lasonder E",
+                "lastName": "Lasonder",
+                "firstName": "Edwin",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2582-3444"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Biology, NCMLS, Radboud University Nijmegen, Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Janse CJ",
+                "lastName": "Janse",
+                "firstName": "Chris J",
+                "initials": "CJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6410-6205"
+                }
+              },
+              {
+                "fullName": "van Gemert GJ",
+                "lastName": "van Gemert",
+                "firstName": "Geert-Jan",
+                "initials": "GJ"
+              },
+              {
+                "fullName": "Mair GR",
+                "lastName": "Mair",
+                "firstName": "Gunnar R",
+                "initials": "GR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5187-3691"
+                }
+              },
+              {
+                "fullName": "Vermunt AM",
+                "lastName": "Vermunt",
+                "firstName": "Adriaan M W",
+                "initials": "AM"
+              },
+              {
+                "fullName": "Douradinha BG",
+                "lastName": "Douradinha",
+                "firstName": "Bruno G",
+                "initials": "BG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9980-4505"
+                }
+              },
+              {
+                "fullName": "van Noort V",
+                "lastName": "van Noort",
+                "firstName": "Vera",
+                "initials": "V"
+              },
+              {
+                "fullName": "Huynen MA",
+                "lastName": "Huynen",
+                "firstName": "Martijn A",
+                "initials": "MA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6189-5491"
+                }
+              },
+              {
+                "fullName": "Luty AJ",
+                "lastName": "Luty",
+                "firstName": "Adrian J F",
+                "initials": "AJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8830-3425"
+                }
+              },
+              {
+                "fullName": "Kroeze H",
+                "lastName": "Kroeze",
+                "firstName": "Hans",
+                "initials": "H"
+              },
+              {
+                "fullName": "Khan SM",
+                "lastName": "Khan",
+                "firstName": "Shahid M",
+                "initials": "SM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0533-4670"
+                }
+              },
+              {
+                "fullName": "Sauerwein RW",
+                "lastName": "Sauerwein",
+                "firstName": "Robert W",
+                "initials": "RW"
+              },
+              {
+                "fullName": "Waters AP",
+                "lastName": "Waters",
+                "firstName": "Andrew P",
+                "initials": "AP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8900-2982"
+                }
+              },
+              {
+                "fullName": "Mann M",
+                "lastName": "Mann",
+                "firstName": "Matthias",
+                "initials": "M"
+              },
+              {
+                "fullName": "Stunnenberg HG",
+                "lastName": "Stunnenberg",
+                "firstName": "Hendrik G",
+                "initials": "HG"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6189-5491"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8830-3425"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8900-2982"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0533-4670"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5187-3691"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6410-6205"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9980-4505"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2582-3444"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "4",
+            "journalIssueId": 1561280,
+            "dateOfPublication": "2008 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2008,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2008-10-01"
+          },
+          "pubYear": "2008",
+          "pageInfo": "e1000195",
+          "abstractText": "Plasmodium falciparum sporozoites that develop and mature inside an Anopheles mosquito initiate a malaria infection in humans. Here we report the first proteomic comparison of different parasite stages from the mosquito -- early and late oocysts containing midgut sporozoites, and the mature, infectious salivary gland sporozoites. Despite the morphological similarity between midgut and salivary gland sporozoites, their proteomes are markedly different, in agreement with their increase in hepatocyte infectivity. The different sporozoite proteomes contain a large number of stage specific proteins whose annotation suggest an involvement in sporozoite maturation, motility, infection of the human host and associated metabolic adjustments. Analyses of proteins identified in the P. falciparum sporozoite proteomes by orthologous gene disruption in the rodent malaria parasite, P. berghei, revealed three previously uncharacterized Plasmodium proteins that appear to be essential for sporozoite development at distinct points of maturation in the mosquito. This study sheds light on the development and maturation of the malaria parasite in an Anopheles mosquito and also identifies proteins that may be essential for sporozoite infectivity to humans.",
+          "affiliation": "Department of Molecular Biology, NCMLS, Radboud University Nijmegen, Nijmegen, The Netherlands.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Dutch Research Council (NWO)",
+                "grantId": "050-10-053",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "083811",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium berghei",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oocysts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sporozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Databases, Genetic"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1000195"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2570797"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2570797?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 178,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2009-02-10",
+          "dateOfCreation": "2008-11-01",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2008-10-31",
+          "firstPublicationDate": "2008-10-31",
+          "firstIndexDate": "2010-09-23",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23325771",
+          "source": "MED",
+          "pmid": "23325771",
+          "pmcid": "PMC3650326",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3650326"
+            ]
+          },
+          "doi": "10.1074/mcp.m112.024505",
+          "title": "Total and putative surface proteomics of malaria parasite salivary gland sporozoites.",
+          "authorString": "Lindner SE, Swearingen KE, Harupa A, Vaughan AM, Sinnis P, Moritz RL, Kappe SH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lindner SE",
+                "lastName": "Lindner",
+                "firstName": "Scott E",
+                "initials": "SE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1799-3726"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Malaria Program, Seattle Biomedical Research Institute, 307 Westlake Avenue North, Suite 500, Seattle, Washington 98109, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Swearingen KE",
+                "lastName": "Swearingen",
+                "firstName": "Kristian E",
+                "initials": "KE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6756-4471"
+                }
+              },
+              {
+                "fullName": "Harupa A",
+                "lastName": "Harupa",
+                "firstName": "Anke",
+                "initials": "A"
+              },
+              {
+                "fullName": "Vaughan AM",
+                "lastName": "Vaughan",
+                "firstName": "Ashley M",
+                "initials": "AM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5815-756X"
+                }
+              },
+              {
+                "fullName": "Sinnis P",
+                "lastName": "Sinnis",
+                "firstName": "Photini",
+                "initials": "P"
+              },
+              {
+                "fullName": "Moritz RL",
+                "lastName": "Moritz",
+                "firstName": "Robert L",
+                "initials": "RL"
+              },
+              {
+                "fullName": "Kappe SH",
+                "lastName": "Kappe",
+                "firstName": "Stefan H I",
+                "initials": "SH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1540-1731"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5815-756X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6756-4471"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1540-1731"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1799-3726"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "12",
+            "journalIssueId": 2036792,
+            "dateOfPublication": "2013 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "Mol Cell Proteomics",
+              "title": "Molecular & cellular proteomics : MCP",
+              "essn": "1535-9484",
+              "issn": "1535-9476",
+              "nlmid": "101125647",
+              "isoabbreviation": "Mol Cell Proteomics"
+            },
+            "printPublicationDate": "2013-05-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "1127-1143",
+          "abstractText": "Malaria infections of mammals are initiated by the transmission of Plasmodium salivary gland sporozoites during an Anopheles mosquito vector bite. Sporozoites make their way through the skin and eventually to the liver, where they infect hepatocytes. Blocking this initial stage of infection is a promising malaria vaccine strategy. Therefore, comprehensively elucidating the protein composition of sporozoites will be invaluable in identifying novel targets for blocking infection. Previous efforts to identify the proteins expressed in Plasmodium mosquito stages were hampered by the technical difficulty of separating the parasite from its vector; without effective purifications, the large majority of proteins identified were of vector origin. Here we describe the proteomic profiling of highly purified salivary gland sporozoites from two Plasmodium species: human-infective Plasmodium falciparum and rodent-infective Plasmodium yoelii. The combination of improved sample purification and high mass accuracy mass spectrometry has facilitated the most complete proteome coverage to date for a pre-erythrocytic stage of the parasite. A total of 1991 P. falciparum sporozoite proteins and 1876 P. yoelii sporozoite proteins were identified, with >86% identified with high sequence coverage. The proteomic data were used to confirm the presence of components of three features critical for sporozoite infection of the mammalian host: the sporozoite motility and invasion apparatus (glideosome), sporozoite signaling pathways, and the contents of the apical secretory organelles. Furthermore, chemical labeling and identification of proteins on live sporozoites revealed previously uncharacterized complexity of the putative sporozoite surface-exposed proteome. Taken together, the data constitute the most comprehensive analysis to date of the protein expression of salivary gland sporozoites and reveal novel potential surface-exposed proteins that might be valuable targets for antibody blockage of infection.",
+          "affiliation": "Malaria Program, Seattle Biomedical Research Institute, 307 Westlake Avenue North, Suite 500, Seattle, Washington 98109, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "2P50 GM076547",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHGRI NIH HHS",
+                "acronym": "HG",
+                "grantId": "RC2 HG005805",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI053709",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI053709-",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R01 GM087221",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "F32 GM083438",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "F32GM083438",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "P50 GM076547",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI056840",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "GM087221",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium yoelii",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sporozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Electrophoresis, Polyacrylamide Gel"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insect Vectors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Calcium Signaling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Secretory Pathway"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/mcp.M112.024505"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3650326"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3650326?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/mcp.m112.024505"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 175,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "PRIDE"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2013-12-09",
+          "dateOfCreation": "2013-01-18",
+          "dateOfRevision": "2022-03-09",
+          "electronicPublicationDate": "2013-01-16",
+          "firstPublicationDate": "2013-01-16",
+          "firstIndexDate": "2013-01-18",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "1594289",
+          "source": "MED",
+          "pmid": "1594289",
+          "doi": "10.1017/s0031182000061667",
+          "title": "Relationship between body size of adult Anopheles gambiae s.l. and infection with the malaria parasite Plasmodium falciparum.",
+          "authorString": "Lyimo EO, Koella JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lyimo EO",
+                "lastName": "Lyimo",
+                "firstName": "E O",
+                "initials": "EO",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ifakara Centre, Tanzania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Koella JC",
+                "lastName": "Koella",
+                "firstName": "J C",
+                "initials": "JC"
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "104 ( Pt 2)",
+            "journalIssueId": 590486,
+            "dateOfPublication": "1992 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 1992,
+            "journal": {
+              "medlineAbbreviation": "Parasitology",
+              "title": "Parasitology",
+              "essn": "1469-8161",
+              "issn": "0031-1820",
+              "nlmid": "0401121",
+              "isoabbreviation": "Parasitology"
+            },
+            "printPublicationDate": "1992-04-01"
+          },
+          "pubYear": "1992",
+          "pageInfo": "233-237",
+          "abstractText": "The influence of adult female body size of Anopheles gambiae s.l. on development of midgut and salivary gland infections by the parasite Plasmodium falciparum was investigated in a field study carried out in Tanzania. The proportion of mosquitoes infected during a blood meal was independent of size. However, the number of oocysts harboured by infected mosquitoes increased with size of the mosquito. The proportion of mosquitoes with sporozoites, and thus potentially infective to humans, was highest in intermediate-sized mosquitoes, whereas the largest and smallest mosquitoes were less likely to have sporozoites. This pattern is interpreted as a combination of high survival rate of large, uninfected mosquitoes and of low survival rate of mosquitoes infected with many oocysts.",
+          "affiliation": "Ifakara Centre, Tanzania.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AH",
+                      "qualifierName": "anatomy & histology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Regression Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insect Vectors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AH",
+                      "qualifierName": "anatomy & histology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Wings, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AH",
+                      "qualifierName": "anatomy & histology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "http://doc.rero.ch/record/289612/files/S0031182000061667.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1017/s0031182000061667"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 104,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1992-06-29",
+          "dateOfCreation": "1992-04-01",
+          "dateOfRevision": "2022-04-10",
+          "firstPublicationDate": "1992-04-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "3555134",
+          "source": "MED",
+          "pmid": "3555134",
+          "doi": "10.4269/ajtmh.1987.36.459",
+          "title": "Field evaluation of an enzyme-linked immunosorbent assay (ELISA) for Plasmodium falciparum sporozoite detection in anopheline mosquitoes from Kenya.",
+          "authorString": "Beier JC, Perkins PV, Wirtz RA, Whitmire RE, Mugambi M, Hockmeyer WT.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Beier JC",
+                "lastName": "Beier",
+                "firstName": "J C",
+                "initials": "JC"
+              },
+              {
+                "fullName": "Perkins PV",
+                "lastName": "Perkins",
+                "firstName": "P V",
+                "initials": "PV"
+              },
+              {
+                "fullName": "Wirtz RA",
+                "lastName": "Wirtz",
+                "firstName": "R A",
+                "initials": "RA"
+              },
+              {
+                "fullName": "Whitmire RE",
+                "lastName": "Whitmire",
+                "firstName": "R E",
+                "initials": "RE"
+              },
+              {
+                "fullName": "Mugambi M",
+                "lastName": "Mugambi",
+                "firstName": "M",
+                "initials": "M"
+              },
+              {
+                "fullName": "Hockmeyer WT",
+                "lastName": "Hockmeyer",
+                "firstName": "W T",
+                "initials": "WT"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "36",
+            "journalIssueId": 833651,
+            "dateOfPublication": "1987 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 1987,
+            "journal": {
+              "medlineAbbreviation": "Am J Trop Med Hyg",
+              "title": "The American journal of tropical medicine and hygiene",
+              "essn": "1476-1645",
+              "issn": "0002-9637",
+              "nlmid": "0370507",
+              "isoabbreviation": "Am J Trop Med Hyg"
+            },
+            "printPublicationDate": "1987-05-01"
+          },
+          "pubYear": "1987",
+          "pageInfo": "459-468",
+          "abstractText": "An enzyme-linked immunosorbent assay (ELISA) using a monoclonal antibody that recognizes a repetitive epitope on the circumsporozoite protein of Plasmodium falciparum was used in Kenya to assess malaria infections in Anopheles gambiae s.l. and An. funestus. The ELISA confirmed that 88% of 44 sporozoite-positive gland dissections were P. falciparum. The ELISA infection rate of 18.6% (n = 736) for individually tested mosquitoes for both species was significantly higher than the 10.4% (n = 537) salivary gland sporozoite rate determined by dissection. This difference was due to ELISA detection of medium and large sized oocysts on the midguts of infected mosquitoes which did not contain salivary gland sporozoites. From a series of 379 Anopheles that were cut at the thorax, ELISA tests on \"head\" and \"body\" portions showed that 29.5% of 95 positive mosquitoes contained circumsporozoite antigen in the body portion in the absence of salivary gland infections. This field evaluation demonstrates that the ELISA can most accurately be used to estimate sporozoite rates by cutting mosquitoes at the thorax and testing anterior portions.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Monoclonal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme-Linked Immunosorbent Assay"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Kenya"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "circumsporozoite protein, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Monoclonal",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.4269/ajtmh.1987.36.459"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 81,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1987-06-12",
+          "dateOfCreation": "1987-05-01",
+          "dateOfRevision": "2019-05-16",
+          "firstPublicationDate": "1987-05-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "18688281",
+          "source": "MED",
+          "pmid": "18688281",
+          "pmcid": "PMC2488394",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2488394"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1000121",
+          "title": "Temperature shift and host cell contact up-regulate sporozoite expression of Plasmodium falciparum genes involved in hepatocyte infection.",
+          "authorString": "Siau A, Silvie O, Franetich JF, Yalaoui S, Marinach C, Hannoun L, van Gemert GJ, Luty AJ, Bischoff E, David PH, Snounou G, Vaquero C, Froissard P, Mazier D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Siau A",
+                "lastName": "Siau",
+                "firstName": "Anthony",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "INSERM, U511, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Silvie O",
+                "lastName": "Silvie",
+                "firstName": "Olivier",
+                "initials": "O",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0525-6940"
+                }
+              },
+              {
+                "fullName": "Franetich JF",
+                "lastName": "Franetich",
+                "firstName": "Jean-Fran\u00e7ois",
+                "initials": "JF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3308-8550"
+                }
+              },
+              {
+                "fullName": "Yalaoui S",
+                "lastName": "Yalaoui",
+                "firstName": "Samir",
+                "initials": "S"
+              },
+              {
+                "fullName": "Marinach C",
+                "lastName": "Marinach",
+                "firstName": "Carine",
+                "initials": "C"
+              },
+              {
+                "fullName": "Hannoun L",
+                "lastName": "Hannoun",
+                "firstName": "Laurent",
+                "initials": "L"
+              },
+              {
+                "fullName": "van Gemert GJ",
+                "lastName": "van Gemert",
+                "firstName": "Geert-Jaan",
+                "initials": "GJ"
+              },
+              {
+                "fullName": "Luty AJ",
+                "lastName": "Luty",
+                "firstName": "Adrian J F",
+                "initials": "AJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8830-3425"
+                }
+              },
+              {
+                "fullName": "Bischoff E",
+                "lastName": "Bischoff",
+                "firstName": "Emmanuel",
+                "initials": "E"
+              },
+              {
+                "fullName": "David PH",
+                "lastName": "David",
+                "firstName": "Peter H",
+                "initials": "PH"
+              },
+              {
+                "fullName": "Snounou G",
+                "lastName": "Snounou",
+                "firstName": "Georges",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6133-6398"
+                }
+              },
+              {
+                "fullName": "Vaquero C",
+                "lastName": "Vaquero",
+                "firstName": "Catherine",
+                "initials": "C"
+              },
+              {
+                "fullName": "Froissard P",
+                "lastName": "Froissard",
+                "firstName": "Patrick",
+                "initials": "P"
+              },
+              {
+                "fullName": "Mazier D",
+                "lastName": "Mazier",
+                "firstName": "Dominique",
+                "initials": "D"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8830-3425"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0525-6940"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3308-8550"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6133-6398"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "full_text"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "4",
+            "journalIssueId": 1547894,
+            "dateOfPublication": "2008 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2008,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2008-08-01"
+          },
+          "pubYear": "2008",
+          "pageInfo": "e1000121",
+          "abstractText": "Plasmodium sporozoites are deposited in the skin by Anopheles mosquitoes. They then find their way to the liver, where they specifically invade hepatocytes in which they develop to yield merozoites infective to red blood cells. Relatively little is known of the molecular interactions during these initial obligatory phases of the infection. Recent data suggested that many of the inoculated sporozoites invade hepatocytes an hour or more after the infective bite. We hypothesised that this pre-invasive period in the mammalian host prepares sporozoites for successful hepatocyte infection. Therefore, the genes whose expression becomes modified prior to hepatocyte invasion would be those likely to code for proteins implicated in the subsequent events of invasion and development. We have used P. falciparum sporozoites and their natural host cells, primary human hepatocytes, in in vitro co-culture system as a model for the pre-invasive period. We first established that under co-culture conditions, sporozoites maintain infectivity for an hour or more, in contrast to a drastic loss in infectivity when hepatocytes were not included. Thus, a differential transcriptome of salivary gland sporozoites versus sporozoites co-cultured with hepatocytes was established using a pan-genomic P. falciparum microarray. The expression of 532 genes was found to have been up-regulated following co-culture. A fifth of these genes had no orthologues in the genomes of Plasmodium species used in rodent models of malaria. Quantitative RT-PCR analysis of a selection of 21 genes confirmed the reliability of the microarray data. Time-course analysis further indicated two patterns of up-regulation following sporozoite co-culture, one transient and the other sustained, suggesting roles in hepatocyte invasion and liver stage development, respectively. This was supported by functional studies of four hitherto uncharacterized proteins of which two were shown to be sporozoite surface proteins involved in hepatocyte invasion, while the other two were predominantly expressed during hepatic parasite development. The genome-wide up-regulation of expression observed supports the hypothesis that the shift from the mosquito to the mammalian host contributes to activate quiescent salivary gland sporozoites into a state of readiness for the hepatic stages. Functional studies on four of the up-regulated genes validated our approach as one means to determine the repertoire of proteins implicated during the early events of the Plasmodium infection, and in this case that of P. falciparum, the species responsible for the severest forms of malaria.",
+          "affiliation": "INSERM, U511, Paris, France.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hepatocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reverse Transcriptase Polymerase Chain Reaction"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Up-Regulation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hot Temperature"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://journals.plos.org/plospathogens/article/file?id=10.1371/journal.ppat.1000121&type=printable"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1000121"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2488394"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2488394?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 80,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2008-11-18",
+          "dateOfCreation": "2008-08-09",
+          "dateOfRevision": "2021-10-20",
+          "electronicPublicationDate": "2008-08-08",
+          "firstPublicationDate": "2008-08-08",
+          "firstIndexDate": "2009-12-24",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "1858963",
+          "source": "MED",
+          "pmid": "1858963",
+          "doi": "10.4269/ajtmh.1991.44.598",
+          "title": "Comparative susceptibility of anopheline mosquitoes to Plasmodium falciparum in Rondonia, Brazil.",
+          "authorString": "Klein TA, Lima JB, Tada MS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Klein TA",
+                "lastName": "Klein",
+                "firstName": "T A",
+                "initials": "TA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "US Army Medical Research Unit-Brazil, American Consulate-Rio, APO Miami, Florida."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lima JB",
+                "lastName": "Lima",
+                "firstName": "J B",
+                "initials": "JB"
+              },
+              {
+                "fullName": "Tada MS",
+                "lastName": "Tada",
+                "firstName": "M S",
+                "initials": "MS"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "44",
+            "journalIssueId": 856232,
+            "dateOfPublication": "1991 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 1991,
+            "journal": {
+              "medlineAbbreviation": "Am J Trop Med Hyg",
+              "title": "The American journal of tropical medicine and hygiene",
+              "essn": "1476-1645",
+              "issn": "0002-9637",
+              "nlmid": "0370507",
+              "isoabbreviation": "Am J Trop Med Hyg"
+            },
+            "printPublicationDate": "1991-06-01"
+          },
+          "pubYear": "1991",
+          "pageInfo": "598-603",
+          "abstractText": "Five anopheline species, Anopheles deaneorum, An. albitarsis, An. triannulatus, An. oswaldoi, and An. mediopunctatus were compared to An. darlingi for susceptibility to infection by P. falciparum in Costa Marques, Rondonia, Brazil. Laboratory reared F1 An. darlingi and anopheline test species were allowed to feed at the same time on falciparum malaria patients who had gametocytes in their blood, and who had not yet been treated with quinine. Mosquitoes were dissected and examined for oocysts on day 9, and for sporozoites on days 16-20 after feeding. Anopheles mediopunctatus had higher mean numbers of oocysts and oocyst positive rates than An. darlingi. The oocyst positive rate and the mean number of oocysts in An. deaneorum and An. darlingi were similar. Anopheles triannulatus and An. oswaldoi had fewer oocysts than An. darlingi. The salivary gland sporozoite infection rate was similar for An. mediopunctatus and An. deaneorum and much lower for An. triannulatus and An. oswaldoi when compared to An. darlingi. Anopheles albitarsis developed oocysts, but sporozoites did not invade the salivary glands. In relative levels of susceptibility to P. falciparum, An. darlingi was equal to An. mediopunctatus which was greater than An. deaneorum, which was greater than An. triannulatus, which was greater than An. oswaldoi.",
+          "affiliation": "US Army Medical Research Unit-Brazil, American Consulate-Rio, APO Miami, Florida.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Species Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brazil"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.4269/ajtmh.1991.44.598"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 69,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1991-08-28",
+          "dateOfCreation": "1991-06-01",
+          "dateOfRevision": "2019-05-16",
+          "firstPublicationDate": "1991-06-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "8074258",
+          "source": "MED",
+          "pmid": "8074258",
+          "doi": "10.4269/ajtmh.1994.51.233",
+          "title": "Sporogonic development of cultured Plasmodium falciparum in six species of laboratory-reared Anopheles mosquitoes.",
+          "authorString": "Vaughan JA, Noden BH, Beier JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Vaughan JA",
+                "lastName": "Vaughan",
+                "firstName": "J A",
+                "initials": "JA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology and Infectious Diseases, School of Hygiene and Public Health, Johns Hopkins University, Baltimore, Maryland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Noden BH",
+                "lastName": "Noden",
+                "firstName": "B H",
+                "initials": "BH"
+              },
+              {
+                "fullName": "Beier JC",
+                "lastName": "Beier",
+                "firstName": "J C",
+                "initials": "JC"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "51",
+            "journalIssueId": 801132,
+            "dateOfPublication": "1994 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 1994,
+            "journal": {
+              "medlineAbbreviation": "Am J Trop Med Hyg",
+              "title": "The American journal of tropical medicine and hygiene",
+              "essn": "1476-1645",
+              "issn": "0002-9637",
+              "nlmid": "0370507",
+              "isoabbreviation": "Am J Trop Med Hyg"
+            },
+            "printPublicationDate": "1994-08-01"
+          },
+          "pubYear": "1994",
+          "pageInfo": "233-243",
+          "abstractText": "Sporogonic development of cultured Plasmodium falciparum was compared in six species of Anopheles mosquitoes. A reference species, A. gambiae, was selected as the standard for comparison. Estimates of absolute densities were determined for each lifestage. From these data, four aspects of parasite population dynamics were analyzed quantitatively: 1) successive losses in abundance as parasites developed from gametocyte to ookinete to oocyst stages, 2) oocyst production of sporozoites, 3) correlation between various lifestage parameters, and 4) parasite distribution. Parasite populations in A. gambiae incurred a 316-fold loss in abundance during the transition from macrogametocyte to ookinete stage, a 100-fold loss from ookinete to oocyst stage, yielding a total loss of approximately 31,600-fold (i.e., losses are multiplicative). Comparative susceptibilities in order were A. freeborni >> A. gambiae, A. arabiensis, A. dirus > A. stephensi, A. albimanus. The key transition(s) determining overall susceptibility differed among species. Despite species differences in oocyst densities and infection rates, salivary gland sporozoite production per oocyst (approximately 640) was the same among species. The most consistent association among lifestage parameters was a positive correlation between densities and infection rates of homologous lifestages. A curvilinear relationship between ookinete and oocyst densities in A. gambiae indicated a threshold density was required for ookinete conversion to oocysts (approximately 30 ookinetes per mosquito). The same relationship in A. freeborni was linear, with no distinct threshold. Ookinete and oocyst populations were negative binomially distributed in all species. Indices of heterogeneity in mosquito susceptibility to infection indicated that gene frequencies determining susceptibility fluctuated with time in all species, except A. freeborni where susceptibility remained homogenous throughout the study. This approach provides a framework for identifying mechanisms of susceptibility and evaluating Plasmodium sporogonic development in naturally occurring vector species in nature.",
+          "affiliation": "Department of Immunology and Infectious Diseases, School of Hygiene and Public Health, Johns Hopkins University, Baltimore, Maryland.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI-29000",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Analysis of Variance"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Feeding Behavior"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insect Vectors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Species Specificity"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://shareok.org/bitstream/11244/335135/2/oksd_noden_sporogonicdevelopment_1994.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.4269/ajtmh.1994.51.233"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 67,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1994-09-29",
+          "dateOfCreation": "1994-08-01",
+          "dateOfRevision": "2019-05-16",
+          "firstPublicationDate": "1994-08-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "2185363",
+          "source": "MED",
+          "pmid": "2185363",
+          "doi": "10.1093/jmedent/27.3.377",
+          "title": "Malaria sporozoite detection by dissection and ELISA to assess infectivity of afrotropical Anopheles (Diptera: Culicidae).",
+          "authorString": "Beier JC, Perkins PV, Koros JK, Onyango FK, Gargan TP, Wirtz RA, Koech DK, Roberts CR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Beier JC",
+                "lastName": "Beier",
+                "firstName": "J C",
+                "initials": "JC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute, Nairobi."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Perkins PV",
+                "lastName": "Perkins",
+                "firstName": "P V",
+                "initials": "PV"
+              },
+              {
+                "fullName": "Koros JK",
+                "lastName": "Koros",
+                "firstName": "J K",
+                "initials": "JK"
+              },
+              {
+                "fullName": "Onyango FK",
+                "lastName": "Onyango",
+                "firstName": "F K",
+                "initials": "FK"
+              },
+              {
+                "fullName": "Gargan TP",
+                "lastName": "Gargan",
+                "firstName": "T P",
+                "initials": "TP"
+              },
+              {
+                "fullName": "Wirtz RA",
+                "lastName": "Wirtz",
+                "firstName": "R A",
+                "initials": "RA"
+              },
+              {
+                "fullName": "Koech DK",
+                "lastName": "Koech",
+                "firstName": "D K",
+                "initials": "DK"
+              },
+              {
+                "fullName": "Roberts CR",
+                "lastName": "Roberts",
+                "firstName": "C R",
+                "initials": "CR"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "27",
+            "journalIssueId": 741532,
+            "dateOfPublication": "1990 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 1990,
+            "journal": {
+              "medlineAbbreviation": "J Med Entomol",
+              "title": "Journal of medical entomology",
+              "essn": "1938-2928",
+              "issn": "0022-2585",
+              "nlmid": "0375400",
+              "isoabbreviation": "J Med Entomol"
+            },
+            "printPublicationDate": "1990-05-01"
+          },
+          "pubYear": "1990",
+          "pageInfo": "377-384",
+          "abstractText": "Malaria infection rates determined by dissection and Plasmodium falciparum enzyme-linked immunosorbent assay (ELISA) were compared for 26,935 Anopheles gambiae Giles sensu lato and 17,739 Anopheles funestus Giles collected during 20 mo in western Kenya. ELISA infection rates were about 43% higher than dissection sporozoite rates. In dissection-negative Anopheles, circumsporozoite (CS) protein was detected by ELISA in 5.2% of 10,017 salivary gland samples and in 12.2% of 237 thorax samples. The accuracy of dissection and ELISA techniques was compared by the following tests on a group of 352 field-collected Anopheles (held 10 d to ensure sporogonic development): salivary gland dissection, examination of Giemsa-stained dissection slides, ELISA tests on salivary gland and thorax body parts, and microscopic techniques for determining sporozoite loads. Respective infection rates were 9.9%, 10.8%, and 15.6% for dissection, stained slides, and ELISA. Sporozoite loads were associated significantly with ELISA absorbance values (r = 0.76). Compared with Giemsa-stained dissection slide results, the sensitivity of sporozoite detection was 92.1% for dissection compared with 78.9% for ELISA; specificity was 100.0% for dissection versus 92.0% for ELISA. Immunological detection of CS protein in head-thorax samples of Afrotropical vectors overestimated the proportion of infective Anopheles because the comparison of techniques indicated that 45.4% of the ELISA positive Anopheles did not contain salivary gland sporozoites.",
+          "affiliation": "Kenya Medical Research Institute, Nairobi.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Thorax",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium malariae",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme-Linked Immunosorbent Assay"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dissection"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Predictive Value of Tests"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/jmedent/27.3.377"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 58,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1990-06-01",
+          "dateOfCreation": "1990-05-01",
+          "dateOfRevision": "2019-05-10",
+          "firstPublicationDate": "1990-05-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "29649443",
+          "source": "MED",
+          "pmid": "29649443",
+          "pmcid": "PMC5998332",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC5998332"
+            ]
+          },
+          "doi": "10.1016/j.chom.2018.03.008",
+          "title": "Immunization with AgTRIO, a Protein in Anopheles Saliva, Contributes to Protection against Plasmodium Infection in Mice.",
+          "authorString": "Dragovic SM, Agunbiade TA, Freudzon M, Yang J, Hastings AK, Schleicher TR, Zhou X, Craft S, Chuang YM, Gonzalez F, Li Y, Hrebikova G, Tripathi A, Mlambo G, Almeras L, Ploss A, Dimopoulos G, Fikrig E.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Dragovic SM",
+                "lastName": "Dragovic",
+                "firstName": "Srdjan M",
+                "initials": "SM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0008-2269-4476"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA. Electronic address: srdan.dragovic@yale.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Agunbiade TA",
+                "lastName": "Agunbiade",
+                "firstName": "Tolulope A",
+                "initials": "TA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Freudzon M",
+                "lastName": "Freudzon",
+                "firstName": "Marianna",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA; Department of Dermatology, Yale University School of Medicine, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang J",
+                "lastName": "Yang",
+                "firstName": "Jing",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5414-2141"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hastings AK",
+                "lastName": "Hastings",
+                "firstName": "Andrew K",
+                "initials": "AK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schleicher TR",
+                "lastName": "Schleicher",
+                "firstName": "Tyler R",
+                "initials": "TR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou X",
+                "lastName": "Zhou",
+                "firstName": "Xia",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Craft S",
+                "lastName": "Craft",
+                "firstName": "Sam",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chuang YM",
+                "lastName": "Chuang",
+                "firstName": "Yu-Min",
+                "initials": "YM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gonzalez F",
+                "lastName": "Gonzalez",
+                "firstName": "Floricel",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Y",
+                "lastName": "Li",
+                "firstName": "Youquan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hrebikova G",
+                "lastName": "Hrebikova",
+                "firstName": "Gabriela",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Biology, Princeton University, Princeton, NJ 08544, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tripathi A",
+                "lastName": "Tripathi",
+                "firstName": "Abhai",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9848-0142"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Bloomberg School of Public Health, Johns Hopkins University, Baltimore, MD 21205, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mlambo G",
+                "lastName": "Mlambo",
+                "firstName": "Godfree",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Bloomberg School of Public Health, Johns Hopkins University, Baltimore, MD 21205, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Almeras L",
+                "lastName": "Almeras",
+                "firstName": "Lionel",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 de Parasitologie et Entomologie, D\u00e9partement des Maladies Infectieuses, Institut de Recherche Biom\u00e9dicale des Arm\u00e9es, Marseille, France; Aix Marseille Universit\u00e9, Marseille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ploss A",
+                "lastName": "Ploss",
+                "firstName": "Alexander",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9322-7252"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Biology, Princeton University, Princeton, NJ 08544, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dimopoulos G",
+                "lastName": "Dimopoulos",
+                "firstName": "George",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Bloomberg School of Public Health, Johns Hopkins University, Baltimore, MD 21205, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fikrig E",
+                "lastName": "Fikrig",
+                "firstName": "Erol",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA; Howard Hughes Medical Institute, Chevy Chase, MD 20815, USA. Electronic address: erol.fikrig@yale.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5414-2141"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9322-7252"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9848-0142"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0008-2269-4476"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "23",
+            "journalIssueId": 2672505,
+            "dateOfPublication": "2018 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2018,
+            "journal": {
+              "medlineAbbreviation": "Cell Host Microbe",
+              "title": "Cell host & microbe",
+              "essn": "1934-6069",
+              "issn": "1931-3128",
+              "nlmid": "101302316",
+              "isoabbreviation": "Cell Host Microbe"
+            },
+            "printPublicationDate": "2018-04-01"
+          },
+          "pubYear": "2018",
+          "pageInfo": "523-535.e5",
+          "abstractText": "Plasmodium infection begins with the bite of an anopheline mosquito, when sporozoites along with saliva are injected into a vertebrate host. The role of the host responses to mosquito saliva components in malaria remains unclear. We observed that antisera against Anopheles gambiae salivary glands partially protected mice from mosquito-borne Plasmodium infection. Specifically, antibodies to A.\u00a0gambiae TRIO (AgTRIO), a mosquito salivary gland antigen, contributed to the protection. Mice administered AgTRIO antiserum showed lower Plasmodium liver burden and decreased parasitemia when exposed to infected mosquitoes. Active immunization with AgTRIO was also partially protective against Plasmodium berghei infection. A combination of AgTRIO antiserum and antibodies against Plasmodium circumsporozoite protein, a vaccine candidate, further decreased P.\u00a0berghei infection. In humanized mice, AgTRIO antiserum afforded some protection against mosquito-transmitted Plasmodium falciparum. AgTRIO antiserum reduced the movement of sporozoites in the murine dermis. AgTRIO may serve as an arthropod-based target against Plasmodium to combat malaria.",
+          "affiliation": "Section of Infectious Diseases, Department of Internal Medicine, Yale University School of Medicine, The Anlyan Center for Medical Research and Education, 300 Cedar Street, New Haven, CT 06520, USA. Electronic address: srdan.dragovic@yale.edu.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI131574",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI129862",
+                "orderIn": 0
+              },
+              {
+                "agency": "Burroughs Wellcome Fund",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI131574",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R01 GM054787",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "orderIn": 0
+              },
+              {
+                "agency": "Princeton University",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAMS NIH HHS",
+                "acronym": "AR",
+                "grantId": "T32 AR007016",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Liver",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium berghei",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasitemia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insect Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Treatment Outcome"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Immunization, Passive"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Proteins and Peptides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasite Load"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium",
+              "Saliva",
+              "Malaria",
+              "Immunity",
+              "Anopheles Mosquito",
+              "Agtrio"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Insect Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Salivary Proteins and Peptides",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.chom.2018.03.008"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5998332"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5998332?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.chom.2018.03.008"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 56,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS968012",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2018-09-19",
+          "dateOfCreation": "2018-04-13",
+          "dateOfRevision": "2024-11-08",
+          "firstPublicationDate": "2018-04-01",
+          "firstIndexDate": "2018-04-13",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23473542",
+          "source": "MED",
+          "pmid": "23473542",
+          "doi": "10.1111/pim.12031",
+          "title": "Influence of infection on malaria-specific antibody dynamics in a cohort exposed to intense malaria transmission in northern Uganda.",
+          "authorString": "Proietti C, Verra F, Bretscher MT, Stone W, Kanoi BN, Balikagala B, Egwang TG, Corran P, Ronca R, Arc\u00e0 B, Riley EM, Crisanti A, Drakeley C, Bousema T.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Proietti C",
+                "lastName": "Proietti",
+                "firstName": "C",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6290-0261"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology and Infection, Faculty of Infectious and Tropical Diseases, London School of Hygiene and Tropical Medicine, London, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Verra F",
+                "lastName": "Verra",
+                "firstName": "F",
+                "initials": "F"
+              },
+              {
+                "fullName": "Bretscher MT",
+                "lastName": "Bretscher",
+                "firstName": "M T",
+                "initials": "MT"
+              },
+              {
+                "fullName": "Stone W",
+                "lastName": "Stone",
+                "firstName": "W",
+                "initials": "W",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6647-0166"
+                }
+              },
+              {
+                "fullName": "Kanoi BN",
+                "lastName": "Kanoi",
+                "firstName": "B N",
+                "initials": "BN",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2772-7579"
+                }
+              },
+              {
+                "fullName": "Balikagala B",
+                "lastName": "Balikagala",
+                "firstName": "B",
+                "initials": "B"
+              },
+              {
+                "fullName": "Egwang TG",
+                "lastName": "Egwang",
+                "firstName": "T G",
+                "initials": "TG"
+              },
+              {
+                "fullName": "Corran P",
+                "lastName": "Corran",
+                "firstName": "P",
+                "initials": "P"
+              },
+              {
+                "fullName": "Ronca R",
+                "lastName": "Ronca",
+                "firstName": "R",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2217-3378"
+                }
+              },
+              {
+                "fullName": "Arc\u00e0 B",
+                "lastName": "Arc\u00e0",
+                "firstName": "B",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4029-0984"
+                }
+              },
+              {
+                "fullName": "Riley EM",
+                "lastName": "Riley",
+                "firstName": "E M",
+                "initials": "EM"
+              },
+              {
+                "fullName": "Crisanti A",
+                "lastName": "Crisanti",
+                "firstName": "A",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2406-4426"
+                }
+              },
+              {
+                "fullName": "Drakeley C",
+                "lastName": "Drakeley",
+                "firstName": "C",
+                "initials": "C"
+              },
+              {
+                "fullName": "Bousema T",
+                "lastName": "Bousema",
+                "firstName": "T",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2666-094X"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2406-4426"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4029-0984"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6290-0261"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6647-0166"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2217-3378"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2666-094X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2772-7579"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5-6",
+            "volume": "35",
+            "journalIssueId": 2048819,
+            "dateOfPublication": "2013 May-Jun",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "Parasite Immunol",
+              "title": "Parasite immunology",
+              "essn": "1365-3024",
+              "issn": "0141-9838",
+              "nlmid": "7910948",
+              "isoabbreviation": "Parasite Immunol"
+            },
+            "printPublicationDate": "2013-05-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "164-173",
+          "abstractText": "The role of submicroscopic infections in modulating malaria antibody responses is poorly understood and requires longitudinal studies. A cohort of 249 children \u22645\u00a0years of age, 126 children between 6 and 10\u00a0years and 134 adults \u226520\u00a0years was recruited in an area of intense malaria transmission in Apac, Uganda and treated with artemether/lumefantrine at enrolment. Parasite carriage was determined at enrolment and after 6 and 16\u00a0weeks using microscopy and PCR. Antibody prevalence and titres to circumsporozoite protein, apical membrane antigen-1 (AMA-1), merozoite surface protein-1 (MSP-119 ), merozoite surface protein-2 (MSP-2) and Anopheles gambiae salivary gland protein 6 (gSG6) were determined by ELISA. Plasmodium falciparum infections were detected in 38\u00b71% (194/509) of the individuals by microscopy and in 57\u00b71% (284/493) of the individuals by PCR at enrolment. Antibody prevalence and titre against AMA-1, MSP-119 , MSP-2 and gSG6 were related to concurrent (sub-)microscopic parasitaemia. Responses were stable in children who were continuously infected with malaria parasites but declined in children who were never parasitaemic during the study or were not re-infected after treatment. These findings indicate that continued malaria infections are required to maintain antibody titres in an area of intense malaria transmission.",
+          "affiliation": "Department of Immunology and Infection, Faculty of Infectious and Tropical Diseases, London School of Hygiene and Tropical Medicine, London, UK.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasitemia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insect Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme-Linked Immunosorbent Assay"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Prevalence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cross-Sectional Studies"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Age Factors"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adult"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child, Preschool"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Uganda",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Young Adult"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antibodies",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Insect Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1111/pim.12031"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 41,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2014-05-09",
+          "dateOfCreation": "2013-03-12",
+          "dateOfRevision": "2026-01-28",
+          "firstPublicationDate": "2013-05-01",
+          "firstIndexDate": "2013-03-12",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

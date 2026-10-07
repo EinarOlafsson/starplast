@@ -1,0 +1,4145 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:44.498332+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1032,
+    "nextCursorMark": "AoJZHyc2MTAyMzA2",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&cursorMark=AoJZHyc2MTAyMzA2&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:(\"surfaceome\" OR \"cell-surface\" OR \"surface proteome\") AND TITLE_ABS:(\"brain\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "26884166",
+          "source": "MED",
+          "pmid": "26884166",
+          "pmcid": "PMC4812770",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4812770"
+            ]
+          },
+          "doi": "10.1073/pnas.1525528113",
+          "title": "New tools for studying microglia in the mouse and human CNS.",
+          "authorString": "Bennett ML, Bennett FC, Liddelow SA, Ajami B, Zamanian JL, Fernhoff NB, Mulinyawe SB, Bohlen CJ, Adil A, Tucker A, Weissman IL, Chang EF, Li G, Grant GA, Hayden Gephart MG, Barres BA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bennett ML",
+                "lastName": "Bennett",
+                "firstName": "Mariko L",
+                "initials": "ML",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1642-2887"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305; marikobennett@stanford.edu barres@stanford.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bennett FC",
+                "lastName": "Bennett",
+                "firstName": "F Chris",
+                "initials": "FC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305; Department of Psychiatry and Behavioral Sciences, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liddelow SA",
+                "lastName": "Liddelow",
+                "firstName": "Shane A",
+                "initials": "SA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0840-1437"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305; Department of Pharmacology and Therapeutics, University of Melbourne, Melbourne, VIC, Australia, 3010;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ajami B",
+                "lastName": "Ajami",
+                "firstName": "Bahareh",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zamanian JL",
+                "lastName": "Zamanian",
+                "firstName": "Jennifer L",
+                "initials": "JL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1256-7496"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fernhoff NB",
+                "lastName": "Fernhoff",
+                "firstName": "Nathaniel B",
+                "initials": "NB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Stem Cell Biology and Regenerative Medicine, Stanford University School of Medicine, Stanford, CA 94305; Ludwig Center for Cancer Stem Cell Research and Medicine, Stanford University School of Medicine, Stanford, CA 94305; Stanford Cancer Institute, Stanford University School of Medicine, Stanford, CA 94305; Department of Pathology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mulinyawe SB",
+                "lastName": "Mulinyawe",
+                "firstName": "Sara B",
+                "initials": "SB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bohlen CJ",
+                "lastName": "Bohlen",
+                "firstName": "Christopher J",
+                "initials": "CJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Adil A",
+                "lastName": "Adil",
+                "firstName": "Aykezar",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tucker A",
+                "lastName": "Tucker",
+                "firstName": "Andrew",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Weissman IL",
+                "lastName": "Weissman",
+                "firstName": "Irving L",
+                "initials": "IL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Stem Cell Biology and Regenerative Medicine, Stanford University School of Medicine, Stanford, CA 94305; Ludwig Center for Cancer Stem Cell Research and Medicine, Stanford University School of Medicine, Stanford, CA 94305; Stanford Cancer Institute, Stanford University School of Medicine, Stanford, CA 94305; Department of Pathology, Stanford University School of Medicine, Stanford, CA 94305;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chang EF",
+                "lastName": "Chang",
+                "firstName": "Edward F",
+                "initials": "EF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "University of California, San Francisco Epilepsy Center, University of California, San Francisco, CA 94143;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li G",
+                "lastName": "Li",
+                "firstName": "Gordon",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8372-0676"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, Stanford University School of Medicine, Stanford, CA 94305."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Grant GA",
+                "lastName": "Grant",
+                "firstName": "Gerald A",
+                "initials": "GA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, Stanford University School of Medicine, Stanford, CA 94305."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hayden Gephart MG",
+                "lastName": "Hayden Gephart",
+                "firstName": "Melanie G",
+                "initials": "MG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2965-9231"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, Stanford University School of Medicine, Stanford, CA 94305."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Barres BA",
+                "lastName": "Barres",
+                "firstName": "Ben A",
+                "initials": "BA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305; marikobennett@stanford.edu barres@stanford.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8372-0676"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0840-1437"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1642-2887"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1256-7496"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2570-0620"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2965-9231"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "113",
+            "journalIssueId": 2392694,
+            "dateOfPublication": "2016 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Proc Natl Acad Sci U S A",
+              "title": "Proceedings of the National Academy of Sciences of the United States of America",
+              "essn": "1091-6490",
+              "issn": "0027-8424",
+              "nlmid": "7505876",
+              "isoabbreviation": "Proc Natl Acad Sci U S A"
+            },
+            "printPublicationDate": "2016-03-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "E1738-46",
+          "abstractText": "The specific function of microglia, the tissue resident macrophages of the brain and spinal cord, has been difficult to ascertain because of a lack of tools to distinguish microglia from other immune cells, thereby limiting specific immunostaining, purification, and manipulation. Because of their unique developmental origins and predicted functions, the distinction of microglia from other myeloid cells is critically important for understanding brain development and disease; better tools would greatly facilitate studies of microglia function in the developing, adult, and injured CNS. Here, we identify transmembrane protein 119 (Tmem119), a cell-surface protein of unknown function, as a highly expressed microglia-specific marker in both mouse and human. We developed monoclonal antibodies to its intracellular and extracellular domains that enable the immunostaining of microglia in histological sections in healthy and diseased brains, as well as isolation of pure nonactivated microglia by FACS. Using our antibodies, we provide, to our knowledge, the first RNAseq profiles of highly pure mouse microglia during development and after an immune challenge. We used these to demonstrate that mouse microglia mature by the second postnatal week and to predict novel microglial functions. Together, we anticipate these resources will be valuable for the future study and understanding of microglia in health and disease.",
+          "affiliation": "Department of Neurobiology, Stanford University School of Medicine, Stanford, CA 94305; marikobennett@stanford.edu barres@stanford.edu.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "F32HL115963-02",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "NS069375",
+                "orderIn": 0
+              },
+              {
+                "agency": "NICHD NIH HHS",
+                "acronym": "HD",
+                "grantId": "R21 HD075359",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDA NIH HHS",
+                "acronym": "DA",
+                "grantId": "R01 DA015043",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIMH NIH HHS",
+                "acronym": "MH",
+                "grantId": "T32 MH019938",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "F31 NS078813",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "F32 HL115963",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "K08 NS075144",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Institute of Neurological Disorders and Stroke",
+                "grantId": "5K08NS075144-05",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "5K08NS075144-05",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Health, Australian Government | National Health and Medical Research Council",
+                "grantId": "GNT1052961",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCRR NIH HHS",
+                "acronym": "RR",
+                "grantId": "S10 RR025518",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDA NIH HHS",
+                "acronym": "DA",
+                "grantId": "R37 DA015043",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDA NIH HHS",
+                "acronym": "DA",
+                "grantId": "R47DA15043",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCRR NIH HHS",
+                "acronym": "RR",
+                "grantId": "S10RR025518-01",
+                "orderIn": 0
+              },
+              {
+                "agency": "Canadian Institutes of Health Research",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Cancer Institute",
+                "grantId": "F32HL115973-02",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "P30 NS069375",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Institute of Mental Health",
+                "grantId": "5T32MH019938-22",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIMH NIH HHS",
+                "acronym": "MH",
+                "grantId": "5T32MH019938-22",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Institute of Child Health and Human Development",
+                "grantId": "F31NS078813",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Institute of Child Health and Human Development",
+                "grantId": "R21HD075359",
+                "orderIn": 0
+              },
+              {
+                "agency": "NICHD NIH HHS",
+                "acronym": "HD",
+                "grantId": "R21HD075359",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Institute of Neurological Disorders and Stroke",
+                "grantId": "R47DA15043",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EM",
+                      "qualifierName": "embryology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Temporal Lobe",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sciatic Nerve",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IN",
+                      "qualifierName": "injuries"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rabbits"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Endotoxemia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Optic Nerve Injuries",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipopolysaccharides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TO",
+                      "qualifierName": "toxicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DF",
+                      "qualifierName": "deficiency"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nerve Tissue Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Monoclonal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nerve Crush"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Analysis, RNA"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Division"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organ Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation, Developmental"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Lineage"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Biomarkers"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Macrophage",
+              "Microglia",
+              "Glia",
+              "Rnaseq",
+              "Developmental Neuroscience"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Lipopolysaccharides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nerve Tissue Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Monoclonal",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Obif protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Biomarkers",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Tmem119 protein, human",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.1525528113"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4812770"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4812770?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.1525528113"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "26966229",
+                "reference": "Proc Natl Acad Sci U S A. 2016 Mar 22;113(12):3130-2. doi: 10.1073/pnas.1601669113",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1545,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "OMIM"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject"
+            ]
+          },
+          "dateOfCompletion": "2016-08-22",
+          "dateOfCreation": "2016-02-18",
+          "dateOfRevision": "2024-01-04",
+          "electronicPublicationDate": "2016-02-16",
+          "firstPublicationDate": "2016-02-16",
+          "firstIndexDate": "2016-02-20",
+          "fullTextReceivedDate": "2020-07-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "9626554",
+          "source": "MED",
+          "pmid": "9626554",
+          "doi": "10.1210/edrv.19.3.0334",
+          "title": "Prolactin (PRL) and its receptor: actions, signal transduction pathways and phenotypes observed in PRL receptor knockout mice.",
+          "authorString": "Bole-Feysot C, Goffin V, Edery M, Binart N, Kelly PA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bole-Feysot C",
+                "lastName": "Bole-Feysot",
+                "firstName": "C",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "INSERM Unit\u00e9 344-Endocrinologie Mol\u00e9culaire, Facult\u00e9 de M\u00e9decine Necker, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Goffin V",
+                "lastName": "Goffin",
+                "firstName": "V",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8021-3086"
+                }
+              },
+              {
+                "fullName": "Edery M",
+                "lastName": "Edery",
+                "firstName": "M",
+                "initials": "M"
+              },
+              {
+                "fullName": "Binart N",
+                "lastName": "Binart",
+                "firstName": "N",
+                "initials": "N"
+              },
+              {
+                "fullName": "Kelly PA",
+                "lastName": "Kelly",
+                "firstName": "P A",
+                "initials": "PA"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8021-3086"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "19",
+            "journalIssueId": 910524,
+            "dateOfPublication": "1998 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 1998,
+            "journal": {
+              "medlineAbbreviation": "Endocr Rev",
+              "title": "Endocrine reviews",
+              "essn": "1945-7189",
+              "issn": "0163-769X",
+              "nlmid": "8006258",
+              "isoabbreviation": "Endocr Rev"
+            },
+            "printPublicationDate": "1998-06-01"
+          },
+          "pubYear": "1998",
+          "pageInfo": "225-268",
+          "abstractText": "PRL is an anterior pituitary hormone that, along with GH and PLs, forms a family of hormones that probably resulted from the duplication of an ancestral gene. The PRLR is also a member of a larger family, known as the cytokine class-1 receptor superfamily, which currently has more than 20 different members. PRLRs or binding sites are widely distributed throughout the body. In fact, it is difficult to find a tissue that does not express any PRLR mRNA or protein. In agreement with this wide distribution of receptors is the fact that now more than 300 separate actions of PRL have been reported in various vertebrates, including effects on water and salt balance, growth and development, endocrinology and metabolism, brain and behavior, reproduction, and immune regulation and protection. Clearly, a large proportion of these actions are directly or indirectly associated with the process of reproduction, including many behavioral effects. PRL is also becoming well known as an important regulator of immune function. A number of disease states, including the growth of different forms of cancer as well as various autoimmune diseases, appear to be related to an overproduction of PRL, which may act in an endocrine, autocrine, or paracrine manner, or via an increased sensitivity to the hormone. The first step in the mechanism of action of PRL is the binding to a cell surface receptor. The ligand binds in a two-step process in which site 1 on PRL binds to one receptor molecule, after which a second receptor molecule binds to site 2 on the hormone, forming a homodimer consisting of one molecule of PRL and two molecules of receptor. The PRLR contains no intrinsic tyrosine kinase cytoplasmic domain but associates with a cytoplasmic tyrosine kinase, JAK2. Dimerization of the receptor induces tyrosine phosphorylation and activation of the JAK kinase followed by phosphorylation of the receptor. Other receptor-associated kinases of the Src family have also been shown to be activated by PRL. One major pathway of signaling involves phosphorylation of cytoplasmic State proteins, which themselves dimerize and translocate to nucleus and bind to specific promoter elements on PRL-responsive genes. In addition, the Ras/Raf/MAP kinase pathway is also activated by PRL and may be involved in the proliferative effects of the hormone. Finally, a number of other potential mediators have been identified, including IRS-1, PI-3 kinase, SHP-2, PLC gamma, PKC, and intracellular Ca2+. The technique of gene targeting in mice has been used to develop the first experimental model in which the effect of the complete absence of any lactogen or PRL-mediated effects can be studied. Heterozygous (+/-) females show almost complete failure to lactate after the first, but not subsequent, pregnancies. Homozygous (-/-) females are infertile due to multiple reproductive abnormalities, including ovulation of premeiotic oocytes, reduced fertilization of oocytes, reduced preimplantation oocyte development, lack of embryo implantation, and the absence of pseudopregnancy. Twenty per cent of the homozygous males showed delayed fertility. Other phenotypes, including effects on the immune system and bone, are currently being examined. It is clear that there are multiple actions associated with PRL. It will be important to correlate known effects with local production of PRL to differentiate classic endocrine from autocrine/paracrine effects. The fact that extrapituitary PRL can, under some circumstances, compensate for pituitary PRL raises the interesting possibility that there may be effects of PRL other than those originally observed in hypophysectomized rats. The PRLR knockout mouse model should be an interesting system by which to look for effects activated only by PRL or other lactogenic hormones. On the other hand, many of the effects reported in this review may be shared with other hormones, cytokines, or growth factors and thus will be more difficult to study. (ABSTRACT TRUNCATED)",
+          "affiliation": "INSERM Unit\u00e9 344-Endocrinologie Mol\u00e9culaire, Facult\u00e9 de M\u00e9decine Necker, Paris, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Prolactin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Prolactin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phenotype"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Prolactin",
+                "registryNumber": "9002-62-4"
+              },
+              {
+                "name": "Receptors, Prolactin",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "endojournals.org",
+                "url": "https://doi.org/10.1210/er.19.3.225"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1210/edrv.19.3.0334"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1274,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1998-08-28",
+          "dateOfCreation": "1998-06-17",
+          "dateOfRevision": "2022-03-18",
+          "firstPublicationDate": "1998-06-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "19242475",
+          "source": "MED",
+          "pmid": "19242475",
+          "pmcid": "PMC2748841",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2748841"
+            ]
+          },
+          "doi": "10.1038/nature07761",
+          "title": "Cellular prion protein mediates impairment of synaptic plasticity by amyloid-beta oligomers.",
+          "authorString": "Laur\u00e9n J, Gimbel DA, Nygaard HB, Gilbert JW, Strittmatter SM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Laur\u00e9n J",
+                "lastName": "Laur\u00e9n",
+                "firstName": "Juha",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cellular Neuroscience, Neurodegeneration and Repair Program, Yale University School of Medicine, New Haven, Connecticut 06536, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gimbel DA",
+                "lastName": "Gimbel",
+                "firstName": "David A",
+                "initials": "DA"
+              },
+              {
+                "fullName": "Nygaard HB",
+                "lastName": "Nygaard",
+                "firstName": "Haakon B",
+                "initials": "HB"
+              },
+              {
+                "fullName": "Gilbert JW",
+                "lastName": "Gilbert",
+                "firstName": "John W",
+                "initials": "JW"
+              },
+              {
+                "fullName": "Strittmatter SM",
+                "lastName": "Strittmatter",
+                "firstName": "Stephen M",
+                "initials": "SM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8188-3092"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8188-3092"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7233",
+            "volume": "457",
+            "journalIssueId": 1600842,
+            "dateOfPublication": "2009 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2009,
+            "journal": {
+              "medlineAbbreviation": "Nature",
+              "title": "Nature",
+              "essn": "1476-4687",
+              "issn": "0028-0836",
+              "nlmid": "0410462",
+              "isoabbreviation": "Nature"
+            },
+            "printPublicationDate": "2009-02-01"
+          },
+          "pubYear": "2009",
+          "pageInfo": "1128-1132",
+          "abstractText": "A pathological hallmark of Alzheimer's disease is an accumulation of insoluble plaque containing the amyloid-beta peptide of 40-42 amino acid residues. Prefibrillar, soluble oligomers of amyloid-beta have been recognized to be early and key intermediates in Alzheimer's-disease-related synaptic dysfunction. At nanomolar concentrations, soluble amyloid-beta oligomers block hippocampal long-term potentiation, cause dendritic spine retraction from pyramidal cells and impair rodent spatial memory. Soluble amyloid-beta oligomers have been prepared from chemical syntheses, transfected cell culture supernatants, transgenic mouse brain and human Alzheimer's disease brain. Together, these data imply a high-affinity cell-surface receptor for soluble amyloid-beta oligomers on neurons-one that is central to the pathophysiological process in Alzheimer's disease. Here we identify the cellular prion protein (PrP(C)) as an amyloid-beta-oligomer receptor by expression cloning. Amyloid-beta oligomers bind with nanomolar affinity to PrP(C), but the interaction does not require the infectious PrP(Sc) conformation. Synaptic responsiveness in hippocampal slices from young adult PrP null mice is normal, but the amyloid-beta oligomer blockade of long-term potentiation is absent. Anti-PrP antibodies prevent amyloid-beta-oligomer binding to PrP(C) and rescue synaptic plasticity in hippocampal slices from oligomeric amyloid-beta. Thus, PrP(C) is a mediator of amyloid-beta-oligomer-induced synaptic dysfunction, and PrP(C)-specific pharmaceuticals may have therapeutic potential for Alzheimer's disease.",
+          "affiliation": "Cellular Neuroscience, Neurodegeneration and Repair Program, Yale University School of Medicine, New Haven, Connecticut 06536, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "PHS HHS",
+                "grantId": "5T32GN07205",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R01 NS042304",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDA NIH HHS",
+                "acronym": "DA",
+                "grantId": "P30 DA018343",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R01 NS039962",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R37 NS033020",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hippocampus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Synapses",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "COS Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Alzheimer Disease",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amyloidosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Peptide Fragments",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Cell Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Prions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Binding"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Neuronal Plasticity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Long-Term Potentiation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amyloid Precursor Protein Secretases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protein Multimerization"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amyloid beta-Peptides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chlorocebus aethiops"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "amyloid beta-protein (1-42)",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Peptide Fragments",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Cell Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Prions",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Amyloid Precursor Protein Secretases",
+                "registryNumber": "EC 3.4.-"
+              },
+              {
+                "name": "Amyloid beta-Peptides",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://europepmc.org/articles/pmc2748841?pdf=render"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature07761"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2748841"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2748841?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "19242462",
+                "reference": "Nature. 2009 Feb 26;457(7233):1090-1. doi: 10.1038/4571090a.",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "20703260",
+                "reference": "Nature. 2010 Aug 12;466(7308):E3-4; discussion E4-5. doi: 10.1038/nature09217.",
+                "type": "Comment in",
+                "orderIn": 2
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1269,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "INTACT",
+              "OMIM"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS102739",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2009-04-07",
+          "dateOfCreation": "2009-02-27",
+          "dateOfRevision": "2025-05-29",
+          "firstPublicationDate": "2009-02-01",
+          "firstIndexDate": "2010-08-19",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "2163307",
+          "source": "MED",
+          "pmid": "2163307",
+          "doi": "10.1210/endo-127-1-126",
+          "title": "Establishment of a pancreatic beta cell line that retains glucose-inducible insulin secretion: special reference to expression of glucose transporter isoforms.",
+          "authorString": "Miyazaki J, Araki K, Yamato E, Ikegami H, Asano T, Shibasaki Y, Oka Y, Yamamura K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Miyazaki J",
+                "lastName": "Miyazaki",
+                "firstName": "J",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Medical Genetics, Kumamoto University Medical School, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Araki K",
+                "lastName": "Araki",
+                "firstName": "K",
+                "initials": "K"
+              },
+              {
+                "fullName": "Yamato E",
+                "lastName": "Yamato",
+                "firstName": "E",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9075-6869"
+                }
+              },
+              {
+                "fullName": "Ikegami H",
+                "lastName": "Ikegami",
+                "firstName": "H",
+                "initials": "H"
+              },
+              {
+                "fullName": "Asano T",
+                "lastName": "Asano",
+                "firstName": "T",
+                "initials": "T"
+              },
+              {
+                "fullName": "Shibasaki Y",
+                "lastName": "Shibasaki",
+                "firstName": "Y",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Oka Y",
+                "lastName": "Oka",
+                "firstName": "Y",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Yamamura K",
+                "lastName": "Yamamura",
+                "firstName": "K",
+                "initials": "K"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9075-6869"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "127",
+            "journalIssueId": 759932,
+            "dateOfPublication": "1990 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 1990,
+            "journal": {
+              "medlineAbbreviation": "Endocrinology",
+              "title": "Endocrinology",
+              "essn": "1945-7170",
+              "issn": "0013-7227",
+              "nlmid": "0375040",
+              "isoabbreviation": "Endocrinology"
+            },
+            "printPublicationDate": "1990-07-01"
+          },
+          "pubYear": "1990",
+          "pageInfo": "126-132",
+          "abstractText": "Two cell lines have been established from insulinomas obtained by targeted expression of the simian virus 40 T antigen gene in transgenic mice. These cell lines, designated MIN6 and MIN7, produce insulin and T antigen and have morphological characteristics of pancreatic beta cells. MIN6 cells exhibit glucose-inducible insulin secretion comparable with cultured normal mouse islet cells, whereas MIN7 cells do not. Both cell lines produce liver-type glucose transporter (GT) mRNA at high level. Brain-type GT mRNA is also present at considerable level in MIN7 cells, but is barely detectable in MIN6 cells, suggesting that exclusive expression of the liver-type GT is related to glucose-inducible insulin secretion. MIN6 cells do not express either major histocompatibility (MHC) class I or class II antigens on the cell surface. However, treatment with interferon-gamma induces high levels of MHC class I antigens, and a combination of interferon-gamma and tumor necrosis factor-alpha induces a MHC class II antigen on the cell surface. These results emphasize that the MIN6 cell line retains physiological characteristics of normal beta cells. The MIN6 cell line will be especially useful to analyze the molecular mechanisms by which beta cells regulate insulin secretion in response to extracellular glucose concentrations. We discuss a possible role of GT isoforms in glucose sensing by beta cells.",
+          "affiliation": "Institute for Medical Genetics, Kumamoto University Medical School, Japan.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Liver",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Islets of Langerhans",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Transgenic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Simian virus 40"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulinoma"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pancreatic Neoplasms"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tumor Necrosis Factor-alpha",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Monosaccharide Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Viral, Tumor",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histocompatibility Antigens Class I",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histocompatibility Antigens Class II",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulin Secretion"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histocompatibility Antigens Class II",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Viral, Tumor",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histocompatibility Antigens Class I",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Monosaccharide Transport Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Tumor Necrosis Factor-alpha",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              },
+              {
+                "name": "Insulin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glucose",
+                "registryNumber": "IY9XDZ35W2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1210/endo-127-1-126"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1033,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1990-08-08",
+          "dateOfCreation": "1990-07-01",
+          "dateOfRevision": "2025-06-05",
+          "firstPublicationDate": "1990-07-01",
+          "firstIndexDate": "2008-12-24",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "26523646",
+          "source": "MED",
+          "pmid": "26523646",
+          "pmcid": "PMC7116867",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7116867"
+            ]
+          },
+          "doi": "10.1038/nn.4160",
+          "title": "Cell type- and brain region-resolved mouse brain proteome.",
+          "authorString": "Sharma K, Schmitt S, Bergner CG, Tyanova S, Kannaiyan N, Manrique-Hoyos N, Kongi K, Cantuti L, Hanisch UK, Philips MA, Rossner MJ, Mann M, Simons M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Sharma K",
+                "lastName": "Sharma",
+                "firstName": "Kirti",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3704-1466"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Proteomics and Signal Transduction, Max-Planck Institute of Biochemistry, Martinsried, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schmitt S",
+                "lastName": "Schmitt",
+                "firstName": "Sebastian",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3906-2933"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Max Planck Institute of Experimental Medicine, G\u00f6ttingen, Germany."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of G\u00f6ttingen, G\u00f6ttingen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bergner CG",
+                "lastName": "Bergner",
+                "firstName": "Caroline G",
+                "initials": "CG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Max Planck Institute of Experimental Medicine, G\u00f6ttingen, Germany."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of G\u00f6ttingen, G\u00f6ttingen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tyanova S",
+                "lastName": "Tyanova",
+                "firstName": "Stefka",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Proteomics and Signal Transduction, Max-Planck Institute of Biochemistry, Martinsried, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kannaiyan N",
+                "lastName": "Kannaiyan",
+                "firstName": "Nirmal",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7408-6842"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Psychiatry, Ludwig-Maximillian University, Munich, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Manrique-Hoyos N",
+                "lastName": "Manrique-Hoyos",
+                "firstName": "Natalia",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2478-7456"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Max Planck Institute of Experimental Medicine, G\u00f6ttingen, Germany."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of G\u00f6ttingen, G\u00f6ttingen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kongi K",
+                "lastName": "Kongi",
+                "firstName": "Karina",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology, Institute of Biomedicine and Translational Medicine, University of Tartu, Estonia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cantuti L",
+                "lastName": "Cantuti",
+                "firstName": "Ludovico",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0642-1610"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Max Planck Institute of Experimental Medicine, G\u00f6ttingen, Germany."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of G\u00f6ttingen, G\u00f6ttingen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hanisch UK",
+                "lastName": "Hanisch",
+                "firstName": "Uwe-Karsten",
+                "initials": "UK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuropathology, University of G\u00f6ttingen, G\u00f6ttingen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Philips MA",
+                "lastName": "Philips",
+                "firstName": "Mari-Anne",
+                "initials": "MA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7103-4038"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology, Institute of Biomedicine and Translational Medicine, University of Tartu, Estonia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rossner MJ",
+                "lastName": "Rossner",
+                "firstName": "Moritz J",
+                "initials": "MJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Max Planck Institute of Experimental Medicine, G\u00f6ttingen, Germany."
+                    },
+                    {
+                      "affiliation": "Department of Psychiatry, Ludwig-Maximillian University, Munich, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mann M",
+                "lastName": "Mann",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Proteomics and Signal Transduction, Max-Planck Institute of Biochemistry, Martinsried, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Simons M",
+                "lastName": "Simons",
+                "firstName": "Mikael",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5329-192X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Max Planck Institute of Experimental Medicine, G\u00f6ttingen, Germany."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of G\u00f6ttingen, G\u00f6ttingen, Germany."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5329-192X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7103-4038"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0642-1610"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2478-7456"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3906-2933"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7408-6842"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3704-1466"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "18",
+            "journalIssueId": 2345930,
+            "dateOfPublication": "2015 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2015,
+            "journal": {
+              "medlineAbbreviation": "Nat Neurosci",
+              "title": "Nature neuroscience",
+              "essn": "1546-1726",
+              "issn": "1097-6256",
+              "nlmid": "9809671",
+              "isoabbreviation": "Nat Neurosci"
+            },
+            "printPublicationDate": "2015-12-01"
+          },
+          "pubYear": "2015",
+          "pageInfo": "1819-1831",
+          "abstractText": "Brain transcriptome and connectome maps are being generated, but an equivalent effort on the proteome is currently lacking. We performed high-resolution mass spectrometry-based proteomics for in-depth analysis of the mouse brain and its major brain regions and cell types. Comparisons of the 12,934 identified proteins in oligodendrocytes, astrocytes, microglia and cortical neurons with deep sequencing data of the transcriptome indicated deep coverage of the proteome. Cell type-specific proteins defined as tenfold more abundant than average expression represented about a tenth of the proteome, with an overrepresentation of cell surface proteins. To demonstrate the utility of our resource, we focused on this class of proteins and identified Lsamp, an adhesion molecule of the IgLON family, as a negative regulator of myelination. Our findings provide a framework for a system-level understanding of cell-type diversity in the CNS and serves as a rich resource for analyses of brain development and function.",
+          "affiliation": "Department of Proteomics and Signal Transduction, Max-Planck Institute of Biochemistry, Martinsried, Germany.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "European Research Council",
+                "acronym": "ERC_",
+                "grantId": "647168",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Research Council",
+                "acronym": "ERC_",
+                "grantId": "318987",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nn.4160"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7116867"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7116867?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nn.4160"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 697,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "PRIDE"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS116660",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pxd"
+            ]
+          },
+          "dateOfCompletion": "2016-03-14",
+          "dateOfCreation": "2015-11-03",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2015-11-02",
+          "firstPublicationDate": "2015-11-02",
+          "firstIndexDate": "2015-11-04",
+          "fullTextReceivedDate": "2025-12-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "28671693",
+          "source": "MED",
+          "pmid": "28671693",
+          "doi": "10.1038/nn.4597",
+          "title": "Transcriptomic analysis of purified human cortical microglia reveals age-associated changes.",
+          "authorString": "Galatro TF, Holtman IR, Lerario AM, Vainchtein ID, Brouwer N, Sola PR, Veras MM, Pereira TF, Leite REP, M\u00f6ller T, Wes PD, Sogayar MC, Laman JD, den Dunnen W, Pasqualucci CA, Oba-Shinjo SM, Boddeke EWGM, Marie SKN, Eggen BJL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Galatro TF",
+                "lastName": "Galatro",
+                "firstName": "Thais F",
+                "initials": "TF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3811-7680"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, Laboratory of Molecular and Cellular Biology, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Holtman IR",
+                "lastName": "Holtman",
+                "firstName": "Inge R",
+                "initials": "IR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9752-4756"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lerario AM",
+                "lastName": "Lerario",
+                "firstName": "Antonio M",
+                "initials": "AM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8336-6432"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Division of Metabolism, Endocrinology, and Diabetes, University of Michigan, Ann Arbor, Michigan, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vainchtein ID",
+                "lastName": "Vainchtein",
+                "firstName": "Ilia D",
+                "initials": "ID",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3190-8524"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Brouwer N",
+                "lastName": "Brouwer",
+                "firstName": "Nieske",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sola PR",
+                "lastName": "Sola",
+                "firstName": "Paula R",
+                "initials": "PR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, Laboratory of Molecular and Cellular Biology, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Veras MM",
+                "lastName": "Veras",
+                "firstName": "Mariana M",
+                "initials": "MM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8363-4329"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Brazilian Aging Brain Study Group, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pereira TF",
+                "lastName": "Pereira",
+                "firstName": "Tulio F",
+                "initials": "TF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Studies of Cellular and Molecular Therapy (NAP-NETCEM-NUCEL), University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    },
+                    {
+                      "affiliation": "Chemistry Institute, Department of Biochemistry, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Leite REP",
+                "lastName": "Leite",
+                "firstName": "Renata E P",
+                "initials": "REP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Brazilian Aging Brain Study Group, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "M\u00f6ller T",
+                "lastName": "M\u00f6ller",
+                "firstName": "Thomas",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroinflammation Disease Biology Unit, Lundbeck Research USA, Paramus, New Jersey, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wes PD",
+                "lastName": "Wes",
+                "firstName": "Paul D",
+                "initials": "PD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroinflammation Disease Biology Unit, Lundbeck Research USA, Paramus, New Jersey, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sogayar MC",
+                "lastName": "Sogayar",
+                "firstName": "Mari C",
+                "initials": "MC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4805-4609"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Studies of Cellular and Molecular Therapy (NAP-NETCEM-NUCEL), University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Laman JD",
+                "lastName": "Laman",
+                "firstName": "Jon D",
+                "initials": "JD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "den Dunnen W",
+                "lastName": "den Dunnen",
+                "firstName": "Wilfred",
+                "initials": "W",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4168-1207"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pasqualucci CA",
+                "lastName": "Pasqualucci",
+                "firstName": "Carlos A",
+                "initials": "CA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Brazilian Aging Brain Study Group, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Oba-Shinjo SM",
+                "lastName": "Oba-Shinjo",
+                "firstName": "Sueli M",
+                "initials": "SM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, Laboratory of Molecular and Cellular Biology, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boddeke EWGM",
+                "lastName": "Boddeke",
+                "firstName": "Erik W G M",
+                "initials": "EWGM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marie SKN",
+                "lastName": "Marie",
+                "firstName": "Suely K N",
+                "initials": "SKN",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4419-7928"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, Laboratory of Molecular and Cellular Biology, School of Medicine, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    },
+                    {
+                      "affiliation": "Center for Studies of Cellular and Molecular Therapy (NAP-NETCEM-NUCEL), University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Eggen BJL",
+                "lastName": "Eggen",
+                "firstName": "Bart J L",
+                "initials": "BJL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8941-0353"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8941-0353"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9752-4756"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1650-5973"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3811-7680"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4168-1207"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8336-6432"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8363-4329"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3190-8524"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4419-7928"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4805-4609"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "20",
+            "journalIssueId": 2580438,
+            "dateOfPublication": "2017 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2017,
+            "journal": {
+              "medlineAbbreviation": "Nat Neurosci",
+              "title": "Nature neuroscience",
+              "essn": "1546-1726",
+              "issn": "1097-6256",
+              "nlmid": "9809671",
+              "isoabbreviation": "Nat Neurosci"
+            },
+            "printPublicationDate": "2017-08-01"
+          },
+          "pubYear": "2017",
+          "pageInfo": "1162-1171",
+          "abstractText": "Microglia are essential for CNS homeostasis and innate neuroimmune function, and play important roles in neurodegeneration and brain aging. Here we present gene expression profiles of purified microglia isolated at autopsy from the parietal cortex of 39 human subjects with intact cognition. Overall, genes expressed by human microglia were similar to those in mouse, including established microglial genes CX3CR1, P2RY12 and ITGAM (CD11B). However, a number of immune genes, not identified as part of the mouse microglial signature, were abundantly expressed in human microglia, including TLR, Fc\u03b3 and SIGLEC receptors, as well as TAL1 and IFI16, regulators of proliferation and cell cycle. Age-associated changes in human microglia were enriched for genes involved in cell adhesion, axonal guidance, cell surface receptor expression and actin (dis)assembly. Limited overlap was observed in microglial genes regulated during aging between mice and humans, indicating that human and mouse microglia age differently.",
+          "affiliation": "Department of Neuroscience, Section Medical Physiology, University of Groningen, University Medical Center Groningen, Groningen, the Netherlands.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Axons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "CD11b Antigen",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "ITGAM protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "CD11b Antigen",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://pure.rug.nl/ws/files/49242797/2017_Transcriptomic_analysis_of_purified.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nn.4597"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 614,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2017-09-05",
+          "dateOfCreation": "2017-07-04",
+          "dateOfRevision": "2022-04-09",
+          "electronicPublicationDate": "2017-07-03",
+          "firstPublicationDate": "2017-07-03",
+          "firstIndexDate": "2017-07-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "6368220",
+          "source": "MED",
+          "pmid": "6368220",
+          "pmcid": "PMC557289",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC557289"
+            ]
+          },
+          "doi": "10.1002/j.1460-2075.1984.tb01753.x",
+          "title": "Immunocytological and biochemical characterization of a new neuronal cell surface component (L1 antigen) which is involved in cell adhesion.",
+          "authorString": "Rathjen FG, Schachner M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Rathjen FG",
+                "lastName": "Rathjen",
+                "firstName": "F G",
+                "initials": "FG"
+              },
+              {
+                "fullName": "Schachner M",
+                "lastName": "Schachner",
+                "firstName": "M",
+                "initials": "M"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "3",
+            "journalIssueId": 616617,
+            "dateOfPublication": "1984 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 1984,
+            "journal": {
+              "medlineAbbreviation": "EMBO J",
+              "title": "The EMBO journal",
+              "essn": "1460-2075",
+              "issn": "0261-4189",
+              "nlmid": "8208664",
+              "isoabbreviation": "EMBO J"
+            },
+            "printPublicationDate": "1984-01-01"
+          },
+          "pubYear": "1984",
+          "pageInfo": "1-10",
+          "abstractText": "Monoclonal and polyclonal L1 antibodies react by indirect immunofluorescence with the cell surface of cultured tetanus toxin-positive neurons from post-natal cerebella of mice, but not with glial fibrillary acidic protein-positive astrocytes, O4 antigen-positive oligodendrocytes or fibronectin-positive fibroblasts or fibroblast-like cells. During cerebellar development L1 antigen is detectable on tetanus toxin-positive cells as early as embryonic day 13 after 3 days in culture. In sections of the early post-natal cerebellum, L1 antigen is found on pre-migratory neurons in the internal, but not in the external part of the external granular layer. In the adult cerebellum, L1 antigen is predominantly localized in the molecular layer and around Purkinje cells. Fibers in white matter and the granular layer are also L1 antigen-positive. Granule cell bodies and synaptic glomeruli are weakly antigen-positive. Several cell lines derived from neuroblastoma C1300 also express L1 antigen. The antigen is not detectable by enzyme-linked immunosorbent assay in tissue homogenates of liver, kidney, lung, heart, sperm or thymus. With polyclonal L1 antibodies, cross-reactive determinants are found in brains of rat, guinea pig, hamster, chicken, rabbit and man, but not in frog, while monoclonal antibody reacts detectably only with mouse brain. The molecular species recognized by both monoclonal and polyclonal antibodies display two prominent bands by SDS-PAGE under reducing and non-reducing conditions with apparent mol. wts. of 140 and 200 kd. L1 antigen isolated from cultured cerebellar cells consists mainly of a band in the 200-kd range and a faint one at 140 kd. L1 antigen from neuroblastoma N2A shows two bands with slightly higher apparent mol. wts. All molecular forms of L1 antigen can be labeled by [3H]fucose and [3H]glucosamine. Ca2+-independent re-aggregation of cerebellar cells from early post-natal C57BL/6J mice and of the continuous cell line N2A derived from the murine neuroblastoma C1300 is inhibited by Fab fragments of the polyclonal, but not of monoclonal antibody, both of which are known to react with the surface membrane of these cells.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cerebellum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats, Inbred Strains"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Monoclonal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigen-Antibody Complex"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fluorescent Antibody Technique"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Adhesion"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Weight"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antibodies",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigen-Antibody Complex",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Monoclonal",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://europepmc.org/articles/pmc557289?pdf=render"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/j.1460-2075.1984.tb01753.x"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC557289"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC557289?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/j.1460-2075.1984.tb01753.x"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 592,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1984-05-10",
+          "dateOfCreation": "1984-01-01",
+          "dateOfRevision": "2022-05-11",
+          "firstPublicationDate": "1984-01-01",
+          "firstIndexDate": "2009-12-23",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "24692354",
+          "source": "MED",
+          "pmid": "24692354",
+          "pmcid": "PMC4044301",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4044301"
+            ]
+          },
+          "doi": "10.1152/physrev.00033.2013",
+          "title": "Sialic acids in the brain: gangliosides and polysialic acid in nervous system development, stability, disease, and regeneration.",
+          "authorString": "Schnaar RL, Gerardy-Schahn R, Hildebrandt H.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Schnaar RL",
+                "lastName": "Schnaar",
+                "firstName": "Ronald L",
+                "initials": "RL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7701-5484"
+                }
+              },
+              {
+                "fullName": "Gerardy-Schahn R",
+                "lastName": "Gerardy-Schahn",
+                "firstName": "Rita",
+                "initials": "R"
+              },
+              {
+                "fullName": "Hildebrandt H",
+                "lastName": "Hildebrandt",
+                "firstName": "Herbert",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1044-0881"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1044-0881"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7701-5484"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "94",
+            "journalIssueId": 2144965,
+            "dateOfPublication": "2014 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2014,
+            "journal": {
+              "medlineAbbreviation": "Physiol Rev",
+              "title": "Physiological reviews",
+              "essn": "1522-1210",
+              "issn": "0031-9333",
+              "nlmid": "0231714",
+              "isoabbreviation": "Physiol Rev"
+            },
+            "printPublicationDate": "2014-04-01"
+          },
+          "pubYear": "2014",
+          "pageInfo": "461-518",
+          "abstractText": "Every cell in nature carries a rich surface coat of glycans, its glycocalyx, which constitutes the cell's interface with its environment. In eukaryotes, the glycocalyx is composed of glycolipids, glycoproteins, and proteoglycans, the compositions of which vary among different tissues and cell types. Many of the linear and branched glycans on cell surface glycoproteins and glycolipids of vertebrates are terminated with sialic acids, nine-carbon sugars with a carboxylic acid, a glycerol side-chain, and an N-acyl group that, along with their display at the outmost end of cell surface glycans, provide for varied molecular interactions. Among their functions, sialic acids regulate cell-cell interactions, modulate the activities of their glycoprotein and glycolipid scaffolds as well as other cell surface molecules, and are receptors for pathogens and toxins. In the brain, two families of sialoglycans are of particular interest: gangliosides and polysialic acid. Gangliosides, sialylated glycosphingolipids, are the most abundant sialoglycans of nerve cells. Mouse genetic studies and human disorders of ganglioside metabolism implicate gangliosides in axon-myelin interactions, axon stability, axon regeneration, and the modulation of nerve cell excitability. Polysialic acid is a unique homopolymer that reaches >90 sialic acid residues attached to select glycoproteins, especially the neural cell adhesion molecule in the brain. Molecular, cellular, and genetic studies implicate polysialic acid in the control of cell-cell and cell-matrix interactions, intermolecular interactions at cell surfaces, and interactions with other molecules in the cellular environment. Polysialic acid is essential for appropriate brain development, and polymorphisms in the human genes responsible for polysialic acid biosynthesis are associated with psychiatric disorders including schizophrenia, autism, and bipolar disorder. Polysialic acid also appears to play a role in adult brain plasticity, including regeneration. Together, vertebrate brain sialoglycans are key regulatory components that contribute to proper development, maintenance, and health of the nervous system.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "review-article",
+              "Review",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "NS057338",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R01 NS057338",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R01 NS037096",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R37 NS037096",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "NS037096",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Central Nervous System Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sialic Acids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gangliosides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mental Disorders",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Nerve Regeneration"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Signal Transduction"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "polysialic acid",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Gangliosides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Sialic Acids",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1152/physrev.00033.2013"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4044301"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4044301?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1152/physrev.00033.2013"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 586,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "uniprot",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2014-05-30",
+          "dateOfCreation": "2014-04-03",
+          "dateOfRevision": "2026-02-15",
+          "firstPublicationDate": "2014-04-01",
+          "firstIndexDate": "2014-04-03",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "6823544",
+          "source": "MED",
+          "pmid": "6823544",
+          "doi": "10.1126/science.6823544",
+          "title": "Cell adhesion molecules.",
+          "authorString": "Edelman GM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Edelman GM",
+                "lastName": "Edelman",
+                "firstName": "G M",
+                "initials": "GM"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4584",
+            "volume": "219",
+            "journalIssueId": 528176,
+            "dateOfPublication": "1983 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 1983,
+            "journal": {
+              "medlineAbbreviation": "Science",
+              "title": "Science (New York, N.Y.)",
+              "essn": "1095-9203",
+              "issn": "0036-8075",
+              "nlmid": "0404511",
+              "isoabbreviation": "Science"
+            },
+            "printPublicationDate": "1983-02-01"
+          },
+          "pubYear": "1983",
+          "pageInfo": "450-457",
+          "abstractText": "It has been proposed that cell-cell recognition occurs by means of local cell surface modulation of a small number of proteins rather than by expression of large numbers of different cell surface markers. Several different cell adhesion molecules (CAM's) have now been found in a number of vertebrate species in different tissues such as liver and striated muscle and even in a single complex structure such as the brain, where different molecules specific for neurons and glia have been identified. The neuron-specific molecule is involved in early embryonic events but also mediates neurite fasciculation, neuromuscular interaction, and orderly layering of neural tissue. It undergoes local surface modulation with loss of sialic acid during development. A failure of this process is closely correlated with connectional disorders in the staggerer mutant of the mouse. The accumulated data on this and other CAM's favor modulation theories rather than strict chemoaffinity theories of cell-cell recognition.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EM",
+                      "qualifierName": "embryology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Intercellular Junctions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chick Embryo"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Neurologic Mutants"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sialoglycoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fibronectins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Adhesion Molecules"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Monoclonal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Communication"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Embryonic Induction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Aggregation"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Models, Biological"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Embryo, Mammalian",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Sialoglycoproteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Monoclonal",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Fibronectins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cell Adhesion Molecules",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1126/science.6823544"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 584,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1983-03-11",
+          "dateOfCreation": "1983-02-04",
+          "dateOfRevision": "2019-06-18",
+          "firstPublicationDate": "1983-02-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "1371136",
+          "source": "MED",
+          "pmid": "1371136",
+          "doi": "10.4049/jimmunol.148.4.1274",
+          "title": "The cDNA structure, expression, and chromosomal assignment of the mouse Fas antigen.",
+          "authorString": "Watanabe-Fukunaga R, Brannan CI, Itoh N, Yonehara S, Copeland NG, Jenkins NA, Nagata S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Watanabe-Fukunaga R",
+                "lastName": "Watanabe-Fukunaga",
+                "firstName": "R",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Osaka Bioscience Institute, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Brannan CI",
+                "lastName": "Brannan",
+                "firstName": "C I",
+                "initials": "CI"
+              },
+              {
+                "fullName": "Itoh N",
+                "lastName": "Itoh",
+                "firstName": "N",
+                "initials": "N"
+              },
+              {
+                "fullName": "Yonehara S",
+                "lastName": "Yonehara",
+                "firstName": "S",
+                "initials": "S"
+              },
+              {
+                "fullName": "Copeland NG",
+                "lastName": "Copeland",
+                "firstName": "N G",
+                "initials": "NG"
+              },
+              {
+                "fullName": "Jenkins NA",
+                "lastName": "Jenkins",
+                "firstName": "N A",
+                "initials": "NA"
+              },
+              {
+                "fullName": "Nagata S",
+                "lastName": "Nagata",
+                "firstName": "S",
+                "initials": "S"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "148",
+            "journalIssueId": 562071,
+            "dateOfPublication": "1992 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 1992,
+            "journal": {
+              "medlineAbbreviation": "J Immunol",
+              "title": "Journal of immunology (Baltimore, Md. : 1950)",
+              "essn": "1550-6606",
+              "issn": "0022-1767",
+              "nlmid": "2985117R",
+              "isoabbreviation": "J Immunol"
+            },
+            "printPublicationDate": "1992-02-01"
+          },
+          "pubYear": "1992",
+          "pageInfo": "1274-1279",
+          "abstractText": "The cell surface Fas antigen is a membrane-associated polypeptide which can mediate apoptosis. cDNA clones encoding the Fas antigen were isolated from a cDNA library constructed with mRNA from the mouse macrophage cell line BAM3. The nucleotide sequence and the deduced amino acid sequence of the mouse Fas antigen were 58.5 and 49.3% identical, respectively, to the corresponding sequences of human Fas antigen cDNA. The mouse Fas antigen consists of 306 amino acids with a calculated Mr of 34,971 and contains a single transmembrane domain which divides the molecule into extracellular and cytoplasmic domains. A 2.1-kb mRNA coding for the Fas antigen was detected in the mouse thymus, heart, liver, and ovary but not in brain and spleen. The expression of the Fas antigen gene in mouse fibroblast L929 and macrophage BAM3 cell lines was significantly induced by treatment with IFN-gamma but not by IFN-alpha/beta. Interspecific backcross analysis indicated that the gene coding for the Fas antigen is in the distal region of mouse chromosome 19.",
+          "affiliation": "Osaka Bioscience Institute, Japan.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CO",
+                "grantId": "N01-CO74101",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Chromosome Mapping"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "fas Receptor"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "DNA",
+                "registryNumber": "9007-49-2"
+              },
+              {
+                "name": "Antigens, Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              },
+              {
+                "name": "fas Receptor",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "OpenAlex",
+                "url": "https://doi.org/10.4049/jimmunol.148.4.1274"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "www.jimmunol.org",
+                "url": "http://www.jimmunol.org/cgi/content/abstract/148/4/1274"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 505,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL",
+              "OMIM"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1992-03-16",
+          "dateOfCreation": "1992-02-15",
+          "dateOfRevision": "2022-03-11",
+          "firstPublicationDate": "1992-02-01",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

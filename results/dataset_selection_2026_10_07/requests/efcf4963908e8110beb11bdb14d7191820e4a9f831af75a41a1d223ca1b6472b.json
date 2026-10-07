@@ -1,0 +1,1346 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22neuron%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:04.212179+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 5,
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"infection\" OR \"host response\" OR \"transcriptome\") AND TITLE_ABS:(\"neuron\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "36968101",
+          "source": "MED",
+          "pmid": "36968101",
+          "pmcid": "PMC10031036",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10031036"
+            ]
+          },
+          "doi": "10.3389/fcimb.2023.1129451",
+          "title": "Use of <i>in vitro</i> derived human neuronal models to study host-parasite interactions of <i>Toxoplasma gondii</i> in neurons and neuropathogenesis of chronic toxoplasmosis.",
+          "authorString": "Halonen SK.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Halonen SK",
+                "lastName": "Halonen",
+                "firstName": "Sandra K",
+                "initials": "SK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Cell Biology, Montana State University, Bozeman, MT, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "13",
+            "journalIssueId": 3497169,
+            "dateOfPublication": "2023 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Front Cell Infect Microbiol",
+              "title": "Frontiers in cellular and infection microbiology",
+              "essn": "2235-2988",
+              "issn": "2235-2988",
+              "isoabbreviation": "Front Cell Infect Microbiol",
+              "nlmid": "101585359"
+            },
+            "printPublicationDate": "2023-01-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "1129451",
+          "abstractText": "<i>Toxoplasma gondii</i> infects approximately one-third of the world's population resulting in a chronic infection with the parasite located in cysts in neurons in the brain. In most immunocompetent hosts the chronic infection is asymptomatic, but several studies have found correlations between <i>Toxoplasma</i> seropositivity and neuropsychiatric disorders, including Schizophrenia, and some other neurological disorders. Host-parasite interactions of bradyzoites in cysts in neurons is not well understood due in part to the lack of suitable <i>in vitro</i> human neuronal models. The advent of stem cell technologies in which human neurons can be derived <i>in vitro</i> from human induced pluripotent stem cells (hiPSCs) or direct conversion of somatic cells generating induced neurons (iNs), affords the opportunity to develop <i>in vitro</i> human neuronal culture systems to advance the understanding of <i>T. gondii</i> in human neurons. Human neurons derived from hiPSCs or iNs, generate pure human neuron monolayers that express differentiated neuronal characteristics. hiPSCs also generate 3D neuronal models that better recapitulate the cytoarchitecture of the human brain. In this review, an overview of iPSC-derived neurons and iN protocols leading to 2D human neuron cultures and hiPSC-derived 3D cerebral organoids will be given. The potential applications of these 2D and 3D human neuronal models to address questions about host-parasite interactions of <i>T. gondii</i> in neurons and the parasite in the CNS, will be discussed. These human neuronal <i>in vitro</i> models hold the promise to advance the understanding of <i>T. gondii</i> in human neurons and to improve the understanding of neuropathogenesis of chronic toxoplasmosis.",
+          "affiliation": "Department of Microbiology and Cell Biology, Montana State University, Bozeman, MT, United States.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Induced Pluripotent Stem Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Persistent Infection"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Human Ipscs",
+              "Human Neurons",
+              "Cerebral Organoids",
+              "Bradyzoites",
+              "Spontaneous Cystogenesis"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fcimb.2023.1129451/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fcimb.2023.1129451"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10031036"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10031036?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 6,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2023-03-28",
+          "dateOfCreation": "2023-03-27",
+          "dateOfRevision": "2023-03-28",
+          "electronicPublicationDate": "2023-03-08",
+          "firstPublicationDate": "2023-03-08",
+          "firstIndexDate": "2023-03-29",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "35941154",
+          "source": "MED",
+          "pmid": "35941154",
+          "pmcid": "PMC9360015",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC9360015"
+            ]
+          },
+          "doi": "10.1038/s41467-022-32225-z",
+          "title": "IFN-\u03b3 stimulated murine and human neurons mount anti-parasitic defenses against the intracellular parasite Toxoplasma gondii.",
+          "authorString": "Chandrasekaran S, Kochanowsky JA, Merritt EF, Lagas JS, Swannigan A, Koshy AA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Chandrasekaran S",
+                "lastName": "Chandrasekaran",
+                "firstName": "Sambamurthy",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2443-2794"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, AZ, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kochanowsky JA",
+                "lastName": "Kochanowsky",
+                "firstName": "Joshua A",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7260-3159"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunobiology, University of Arizona, Tucson, AZ, USA."
+                    },
+                    {
+                      "affiliation": "University of California, Los Angeles, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Merritt EF",
+                "lastName": "Merritt",
+                "firstName": "Emily F",
+                "initials": "EF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunobiology, University of Arizona, Tucson, AZ, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lagas JS",
+                "lastName": "Lagas",
+                "firstName": "Joseph S",
+                "initials": "JS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Undergraduate Biology Research Program, University of Arizona, Tucson, AZ, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Swannigan A",
+                "lastName": "Swannigan",
+                "firstName": "Ayesha",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Undergraduate Research Opportunities Consortium, University of Arizona, Tucson, AZ, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Koshy AA",
+                "lastName": "Koshy",
+                "firstName": "Anita A",
+                "initials": "AA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8705-3233"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, AZ, USA. akoshy@arizona.edu."
+                    },
+                    {
+                      "affiliation": "Department of Immunobiology, University of Arizona, Tucson, AZ, USA. akoshy@arizona.edu."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of Arizona, Tucson, AZ, USA. akoshy@arizona.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7260-3159"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8705-3233"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2443-2794"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "13",
+            "journalIssueId": 3399484,
+            "dateOfPublication": "2022 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2022,
+            "journal": {
+              "medlineAbbreviation": "Nat Commun",
+              "title": "Nature communications",
+              "essn": "2041-1723",
+              "issn": "2041-1723",
+              "isoabbreviation": "Nat Commun",
+              "nlmid": "101528555"
+            },
+            "printPublicationDate": "2022-08-01"
+          },
+          "pubYear": "2022",
+          "pageInfo": "4605",
+          "abstractText": "Dogma holds that Toxoplasma gondii persists in neurons because neurons cannot clear intracellular parasites, even with IFN-\u03b3 stimulation. As several recent studies questioned this idea, here we use primary murine neuronal cultures from wild type and transgenic mice in combination with IFN-\u03b3 stimulation and parental and transgenic parasites to reassess IFN-\u03b3 dependent neuronal clearance of intracellular parasites. We find that neurons respond to IFN-\u03b3 and that a subset of neurons clear intracellular parasites via immunity regulated GTPases. Whole neuron reconstructions from mice infected with parasites that trigger neuron GFP expression only after full invasion reveal that ~50% of these T. gondii-invaded neurons no longer harbor parasites. Finally, IFN-\u03b3 stimulated human\u00a0pluripotent stem cell derived neurons show an ~50% decrease in parasite infection rate when compared to unstimulated cultures. This work highlights the capability of human and murine neurons to mount cytokine-dependent anti-T. gondii defense mechanisms in vitro and in vivo.",
+          "affiliation": "BIO5 Institute, University of Arizona, Tucson, AZ, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI147711",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "F31 AI147711",
+                "orderIn": 0
+              },
+              {
+                "agency": "Undergraduate Biological Research Program, University of Arizona",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute of Neurological Disorders and Stroke",
+                "grantId": "NS095994",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute of Allergy and Infectious Diseases",
+                "orderIn": 0
+              },
+              {
+                "agency": "Undergraduate Research Opportunities Consortium",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI157247",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "T32 GM139779",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute on Aging",
+                "grantId": "AG058503",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R01 NS095994",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI157247",
+                "orderIn": 0
+              },
+              {
+                "agency": "BIO5 Institute, University of Arizona",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Parasites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "GTP Phosphohydrolases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "GTP Phosphohydrolases",
+                "registryNumber": "EC 3.6.1.-"
+              },
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41467-022-32225-z"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC9360015"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC9360015?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "36280528",
+                "reference": "Trends Parasitol. 2022 Dec;38(12):1023-1025. doi: 10.1016/j.pt.2022.10.001.",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "PPR",
+                "id": "PPR418769",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 40,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2022-08-10",
+          "dateOfCreation": "2022-08-08",
+          "dateOfRevision": "2025-07-28",
+          "electronicPublicationDate": "2022-08-08",
+          "firstPublicationDate": "2022-08-08",
+          "firstIndexDate": "2022-08-10",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR418769",
+          "source": "PPR",
+          "doi": "10.1101/2021.11.10.468098",
+          "title": "IFN-\u03b3 stimulated murine and human neurons mount anti-parasitic defenses against the intracellular parasite  <i>Toxoplasma gondii</i>",
+          "authorString": "Chandrasekaran S, Kochanowsky JA, Merritt EF, Lagas JS, Swannigan A, Koshy AA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Chandrasekaran S",
+                "lastName": "Chandrasekaran",
+                "firstName": "Sambamurthy",
+                "initials": "S"
+              },
+              {
+                "fullName": "Kochanowsky JA",
+                "lastName": "Kochanowsky",
+                "firstName": "Joshua",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7260-3159"
+                }
+              },
+              {
+                "fullName": "Merritt EF",
+                "lastName": "Merritt",
+                "firstName": "Emily",
+                "initials": "EF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9449-4683"
+                }
+              },
+              {
+                "fullName": "Lagas JS",
+                "lastName": "Lagas",
+                "firstName": "Joseph",
+                "initials": "JS"
+              },
+              {
+                "fullName": "Swannigan A",
+                "lastName": "Swannigan",
+                "firstName": "Ayesha",
+                "initials": "A"
+              },
+              {
+                "fullName": "Koshy AA",
+                "lastName": "Koshy",
+                "firstName": "Anita",
+                "initials": "AA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8705-3233"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7260-3159"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8705-3233"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9449-4683"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "pubYear": "2021",
+          "abstractText": "<h4>Summary</h4>  Dogma holds that  Toxoplasma gondii persists in neurons because neurons cannot clear intracellular parasites, even with IFN-\u03b3 stimulation. As several recent studies questioned this idea, we used primary murine neuronal cultures from wild-type and transgenic mice in combination with IFN-\u03b3 stimulation and parental and transgenic parasites to reassess IFN-\u03b3 dependent neuronal clearance of intracellular parasites. We found that neurons respond to IFN-\u03b3 and that a subset of neurons clear intracellular parasites via immunity regulated GTPases. Whole neuron reconstructions from mice infected with parasites that trigger neuron GFP expression only after full invasion revealed that \u223c40% of these  T. gondii -invaded neurons no longer harbor parasites. Finally, IFN-\u03b3 stimulated human stem cell derived neurons showed a \u223c 50% decrease in parasite infection rate when compared to unstimulated cultures. This work highlights the capability of human and murine neurons to mount cytokine-dependent anti-  T. gondii defense mechanisms  in vitro and  in vivo .",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2021
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.biorxiv.org/content/biorxiv/early/2021/12/03/2021.11.10.468098.full.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1101/2021.11.10.468098"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "35941154",
+                "reference": "Nature communications. 2022 Aug;13(1):4605",
+                "type": "Preprint of",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2021-11-12",
+          "firstPublicationDate": "2021-11-11",
+          "firstIndexDate": "2021-11-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "31803748",
+          "source": "MED",
+          "pmid": "31803748",
+          "pmcid": "PMC6877604",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6877604"
+            ]
+          },
+          "doi": "10.3389/fmed.2019.00267",
+          "title": "The Neurotropic Parasite <i>Toxoplasma gondii</i> Induces Astrocyte Polarization Through NF\u03baB Pathway.",
+          "authorString": "Jin Y, Yao Y, El-Ashram S, Tian J, Shen J, Ji Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Jin Y",
+                "lastName": "Jin",
+                "firstName": "Yu",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anhui Provincial Laboratory of Microbiology and Parasitology, Laboratory of Tropical and Parasitic Diseases Control, Department of Microbiology and Parasitology, Anhui Medical University, Hefei, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yao Y",
+                "lastName": "Yao",
+                "firstName": "Yong",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anhui Provincial Laboratory of Microbiology and Parasitology, Laboratory of Tropical and Parasitic Diseases Control, Department of Microbiology and Parasitology, Anhui Medical University, Hefei, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "El-Ashram S",
+                "lastName": "El-Ashram",
+                "firstName": "Saeed",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0389-1980"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Life Science and Engineering, Foshan University, Foshan, China."
+                    },
+                    {
+                      "affiliation": "Faculty of Science, Kafrelsheikh University, Kafr El-Shaikh, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian J",
+                "lastName": "Tian",
+                "firstName": "Jiaming",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anhui Provincial Laboratory of Microbiology and Parasitology, Laboratory of Tropical and Parasitic Diseases Control, Department of Microbiology and Parasitology, Anhui Medical University, Hefei, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shen J",
+                "lastName": "Shen",
+                "firstName": "Jilong",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anhui Provincial Laboratory of Microbiology and Parasitology, Laboratory of Tropical and Parasitic Diseases Control, Department of Microbiology and Parasitology, Anhui Medical University, Hefei, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ji Y",
+                "lastName": "Ji",
+                "firstName": "Yongsheng",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3273-5947"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anhui Provincial Laboratory of Microbiology and Parasitology, Laboratory of Tropical and Parasitic Diseases Control, Department of Microbiology and Parasitology, Anhui Medical University, Hefei, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3273-5947"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0389-1980"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "volume": "6",
+            "journalIssueId": 2778734,
+            "dateOfPublication": "2019 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2019,
+            "journal": {
+              "medlineAbbreviation": "Front Med (Lausanne)",
+              "title": "Frontiers in medicine",
+              "essn": "2296-858X",
+              "issn": "2296-858X",
+              "isoabbreviation": "Front Med (Lausanne)",
+              "nlmid": "101648047"
+            },
+            "printPublicationDate": "2019-01-01"
+          },
+          "pubYear": "2019",
+          "pageInfo": "267",
+          "abstractText": "<b>Background:</b> <i>Toxoplasma gondii</i> is a protozoan parasite that chronically infects nearly one-third of the world's human population. In immunosuppressed individuals and fetus, infection with <i>T. gondii</i> contributes to a series of devastating conditions, including toxoplasmic encephalitis (TE), which is characterized by neuron damage in the central nervous system (CNS). Astrocyte polarization is currently found in some neurodegenerative diseases, and A1 subtype of astrocyte leads to neuron apoptosis. However, little information has been available on the role of astrocyte polarization in TE. <b>Methods:</b> In the present study, we established a mouse model to study TE and detected A1 astrocyte in the brains of mice with TE. Expression level of A1 astrocyte-specific marker C3 was evaluated using indirect fluorescent assay (IFA) and Western blotting. Primary mouse astrocytes were incubated with different concentrations of <i>T. gondii</i> excreted-secreted antigens (<i>Tg</i>ESAs) <i>in vitro</i>. Expression level of C3 and A1 astrocyte-specific transcription levels were assessed using Western blotting and qRT-PCR, respectively. Bay11-7082 was used to study nuclear factor (NF) \u03baB pathway in <i>Tg</i>ESA-induced astrocyte polarization. <b>Results:</b> In mice with TE, the proportion of A1 astrocyte (GFAP<sup>+</sup>C3<sup>+</sup>) increased significantly. The results of <i>in vitro</i> study showed that <i>Tg</i>ESAs induced astrocyte polarization to A1 subtype. Blocking of NF\u03baB pathway by Bay11-7082 inhibited <i>Tg</i>ESA-induced astrocyte polarization. <b>Conclusions:</b> Our preliminary study showed the involvement of A1 astrocyte in the process of TE in mice, and <i>Tg</i>ESAs could trigger astrocyte to polarize to A1 subtype. These findings suggest a new mechanism underlying the neuropathogenesis induced by <i>T. gondii</i> infection.",
+          "affiliation": "Anhui Provincial Laboratory of Microbiology and Parasitology, Laboratory of Tropical and Parasitic Diseases Control, Department of Microbiology and Parasitology, Anhui Medical University, Hefei, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "brief-report",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Natural Science Foundation of Anhui Province",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Encephalitis",
+              "Neuron",
+              "Astrocyte",
+              "Toxoplasma gondii",
+              "Nf\u03bab Pathway"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fmed.2019.00267/pdf"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fmed.2019.00267/pdf"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fmed.2019.00267/pdf"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fmed.2019.00267/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fmed.2019.00267"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6877604"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6877604?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "31921872",
+                "reference": "Front Med (Lausanne). 2019 Dec 20;6:299. doi: 10.3389/fmed.2019.00299",
+                "type": "Erratum in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 23,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2019-12-06",
+          "dateOfRevision": "2020-09-28",
+          "electronicPublicationDate": "2019-11-19",
+          "firstPublicationDate": "2019-11-19",
+          "firstIndexDate": "2019-12-05",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23437042",
+          "source": "MED",
+          "pmid": "23437042",
+          "pmcid": "PMC3578837",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3578837"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0054358",
+          "title": "Toxoplasma gondii migration within and infection of human retina.",
+          "authorString": "Furtado JM, Ashander LM, Mohs K, Chipps TJ, Appukuttan B, Smith JR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Furtado JM",
+                "lastName": "Furtado",
+                "firstName": "Jo\u00e3o M",
+                "initials": "JM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2490-5747"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Casey Eye Institute, Oregon Health & Science University, Portland, Oregon, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ashander LM",
+                "lastName": "Ashander",
+                "firstName": "Liam M",
+                "initials": "LM"
+              },
+              {
+                "fullName": "Mohs K",
+                "lastName": "Mohs",
+                "firstName": "Kathleen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Chipps TJ",
+                "lastName": "Chipps",
+                "firstName": "Timothy J",
+                "initials": "TJ"
+              },
+              {
+                "fullName": "Appukuttan B",
+                "lastName": "Appukuttan",
+                "firstName": "Binoy",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-1340-8542"
+                }
+              },
+              {
+                "fullName": "Smith JR",
+                "lastName": "Smith",
+                "firstName": "Justine R",
+                "initials": "JR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4756-5493"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4756-5493"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2490-5747"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0002-1340-8542"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "8",
+            "journalIssueId": 2007094,
+            "dateOfPublication": "2013 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "isoabbreviation": "PLoS One",
+              "nlmid": "101285081"
+            },
+            "printPublicationDate": "2013-01-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "e54358",
+          "abstractText": "Toxoplasmic retinochoroiditis is a common blinding retinal infection caused by the parasite, Toxoplasma gondii. Basic processes relating to establishment of infection in the human eye by T. gondii tachyzoites have not been investigated. To evaluate the ability of tachyzoites to navigate the human retina, we developed an ex vivo assay, in which a suspension containing 1.5 \u00d7 10(7) parasites replaced vitreous in a posterior eyecup. After 8 hours, the retina was formalin-fixed and paraffin-embedded, and sections were immunostained to identify tachyzoites. To determine the preference of tachyzoites for human retinal neuronal versus glial populations, we infected dissociated retinal cultures, subsequently characterized by neuron-specific enolase or glial fibrillary acidic protein expression, and retinal cell lines, with YFP-expressing tachyzoites. In migration assays, retinas contained 110-250 live tachyzoites; 64.5-95.2% (mean \u200a=79.6%) were localized to the nerve fiber layer, but some were detected in the outer retina. Epifluorescence imaging of dissociated retinal cultures 24 hours after infection indicated preferential infection of glia. This observation was confirmed in growth assays, with significantly higher (p \u2264 0.005) numbers of tachyzoites measured in glial verus neuronal cell lines. Our translational studies indicate that, after entering retina, tachyzoites may navigate multiple tissue layers. Tachyzoites preferentially infect glial cells, which exist throughout the retina. These properties may contribute to the success of T. gondii as a human pathogen.",
+          "affiliation": "Casey Eye Institute, Oregon Health & Science University, Portland, Oregon, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NEI NIH HHS",
+                "acronym": "EY",
+                "grantId": "P30 EY010572",
+                "orderIn": 0
+              },
+              {
+                "agency": "NEI NIH HHS",
+                "acronym": "EY",
+                "grantId": "R21 EY019550",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neuroglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Retina",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Ocular",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Movement",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0054358"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3578837"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3578837?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 30,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2013-08-21",
+          "dateOfCreation": "2013-02-26",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2013-02-21",
+          "firstPublicationDate": "2013-02-21",
+          "firstIndexDate": "2013-02-28",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22bone-marrow+macrophage%22+OR+%22bone+marrow-derived+macrophage%22+OR+BMDM+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:36.554824+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1,
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"infection\" OR \"host response\" OR \"transcriptome\") AND TITLE_ABS:(\"bone-marrow macrophage\" OR \"bone marrow-derived macrophage\" OR BMDM OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "33622246",
+          "source": "MED",
+          "pmid": "33622246",
+          "pmcid": "PMC7903719",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7903719"
+            ]
+          },
+          "doi": "10.1186/s12864-021-07437-0",
+          "title": "Transcriptomics analysis of Toxoplasma gondii-infected mouse macrophages reveals coding and noncoding signatures in the presence and absence of MyD88.",
+          "authorString": "Menard KL, Bu L, Denkers EY.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Menard KL",
+                "lastName": "Menard",
+                "firstName": "Kayla L",
+                "initials": "KL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Evolutionary and Theoretical Immunology and Department of Biology, University of New Mexico, Albuquerque, NM, USA. kmenard@unm.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bu L",
+                "lastName": "Bu",
+                "firstName": "Lijing",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Evolutionary and Theoretical Immunology and Department of Biology, University of New Mexico, Albuquerque, NM, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Denkers EY",
+                "lastName": "Denkers",
+                "firstName": "Eric Y",
+                "initials": "EY",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9020-3327"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Evolutionary and Theoretical Immunology and Department of Biology, University of New Mexico, Albuquerque, NM, USA. edenkers@unm.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9020-3327"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "22",
+            "journalIssueId": 3103388,
+            "dateOfPublication": "2021 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2021,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2021-02-01"
+          },
+          "pubYear": "2021",
+          "pageInfo": "130",
+          "abstractText": "<h4>Background</h4>Toxoplasma gondii is a globally distributed protozoan parasite that establishes life-long asymptomatic infection in humans, often emerging as a life-threatening opportunistic pathogen during immunodeficiency. As an intracellular microbe, Toxoplasma establishes an intimate relationship with its host cell from the outset of infection. Macrophages are targets of infection and they are important in early innate immunity and possibly parasite dissemination throughout the host. Here, we employ an RNA-sequencing approach to identify host and parasite transcriptional responses during infection of mouse bone marrow-derived macrophages (BMDM). We incorporated into our analysis infection with the high virulence Type I RH strain and the low virulence Type II strain PTG. Because the well-known TLR-MyD88 signaling axis is likely of less importance in humans, we examined transcriptional responses in both MyD88<sup>+/+</sup> and MyD88<sup>-/-</sup> BMDM. Long noncoding (lnc) RNA molecules are emerging as key regulators in infection and immunity, and were, therefore, included in our analysis.<h4>Results</h4>We found significantly more host genes were differentially expressed in response to the highly virulent RH strain rather than with the less virulent PTG strain (335 versus 74 protein coding genes for RH and PTG, respectively). Enriched in these protein coding genes were subsets associated with the immune response as well as cell adhesion and migration. We identified 249 and 83 non-coding RNAs as differentially expressed during infection with RH and PTG strains, respectively. Although the majority of these are of unknown function, one conserved lncRNA termed mir17hg encodes the mir17 microRNA gene cluster that has been implicated in down-regulating host cell apoptosis during T. gondii infection. Only a minimal number of transcripts were differentially expressed between MyD88 knockout and wild type cells. However, several immune genes were among the differences. While transcripts for parasite secretory proteins were amongst the most highly expressed T. gondii genes during infection, no differentially expressed parasite genes were identified when comparing infection in MyD88 knockout and wild type host BMDM.<h4>Conclusions</h4>The large dataset presented here lays the groundwork for continued studies on both the MyD88-independent immune response and the function of lncRNAs during Toxoplasma gondii infection.",
+          "affiliation": "Center for Evolutionary and Theoretical Immunology and Department of Biology, University of New Mexico, Albuquerque, NM, USA. kmenard@unm.edu.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "GM110907",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI139628",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI139628",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of General Medical Sciences",
+                "grantId": "GM110907",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "P30 GM110907",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Myeloid Differentiation Factor 88",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Macrophages",
+              "Parasite",
+              "Toxoplasma gondii",
+              "Noncoding RNA",
+              "MyD88",
+              "Lncrna"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Myeloid differentiation factor 88",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Myd88 protein, mouse",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bmcgenomics.biomedcentral.com/track/pdf/10.1186/s12864-021-07437-0"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12864-021-07437-0"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7903719"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7903719?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 13,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gca",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2021-05-14",
+          "dateOfCreation": "2021-02-24",
+          "dateOfRevision": "2024-05-02",
+          "electronicPublicationDate": "2021-02-23",
+          "firstPublicationDate": "2021-02-23",
+          "firstIndexDate": "2021-02-25",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

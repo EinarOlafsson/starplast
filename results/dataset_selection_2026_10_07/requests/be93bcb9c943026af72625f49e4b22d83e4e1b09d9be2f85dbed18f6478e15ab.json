@@ -1,0 +1,3349 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22bone+marrow%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:05.105108+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 670,
+    "nextCursorMark": "AoJwgNun3Z8DKDU2MTM1NTAw",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22bone+marrow%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgNun3Z8DKDU2MTM1NTAw&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"proteome\" OR \"proteomics\" OR \"mass spectrometry\") AND TITLE_ABS:(\"bone marrow\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42811049",
+          "source": "MED",
+          "pmid": "42811049",
+          "doi": "10.1038/s41418-026-01882-8",
+          "title": "Efferocytosis triggered proteomic reprogramming of macrophages reveals CD97 as a novel apoptotic receptor.",
+          "authorString": "Raymond BBA, Novenstern J, Dannoura A, Meng M, Frey AM, Sneperger T, Zechini L, Scopelliti A, Wood W, Trost M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Raymond BBA",
+                "lastName": "Raymond",
+                "firstName": "Benjamin Bernard Armando",
+                "initials": "BBA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK. ben.raymond@manchester.ac.uk."
+                    },
+                    {
+                      "affiliation": "Division of Molecular and Cellular Function, School of Biological Sciences, The University of Manchester, Manchester, UK. ben.raymond@manchester.ac.uk."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Novenstern J",
+                "lastName": "Novenstern",
+                "firstName": "Jasmin",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dannoura A",
+                "lastName": "Dannoura",
+                "firstName": "Abeer",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Meng M",
+                "lastName": "Meng",
+                "firstName": "Meihan",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-5806-9549"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK."
+                    },
+                    {
+                      "affiliation": "Division of Molecular and Cellular Function, School of Biological Sciences, The University of Manchester, Manchester, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Frey AM",
+                "lastName": "Frey",
+                "firstName": "Andrew Michael",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sneperger T",
+                "lastName": "Sneperger",
+                "firstName": "Tamara",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0849-1310"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for Inflammation Research, University of Edinburgh, Edinburgh, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zechini L",
+                "lastName": "Zechini",
+                "firstName": "Luigi",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for Inflammation Research, University of Edinburgh, Edinburgh, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Scopelliti A",
+                "lastName": "Scopelliti",
+                "firstName": "Alessandro",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7541-8108"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for Inflammation Research, University of Edinburgh, Edinburgh, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wood W",
+                "lastName": "Wood",
+                "firstName": "Will",
+                "initials": "W",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5485-0236"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for Inflammation Research, University of Edinburgh, Edinburgh, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Trost M",
+                "lastName": "Trost",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5732-700X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK. matthias.trost@manchester.ac.uk."
+                    },
+                    {
+                      "affiliation": "Division of Molecular and Cellular Function, School of Biological Sciences, The University of Manchester, Manchester, UK. matthias.trost@manchester.ac.uk."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5485-0236"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5732-700X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7541-8108"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0849-1310"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-5806-9549"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4252608,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Cell Death Differ",
+              "title": "Cell death and differentiation",
+              "essn": "1476-5403",
+              "issn": "1350-9047",
+              "isoabbreviation": "Cell Death Differ",
+              "nlmid": "9437445"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "abstractText": "During the daily process of healthy cellular turnover in the human body, billions of cells undergo apoptosis. These cells are removed by phagocytic cells, namely macrophages through a process known as efferocytosis, which triggers a cascade of reprogramming events in the cell, with a shift towards a pro-resolving or 'wound healing' phenotype. To date, no study has attempted to investigate these phenotypic changes from a proteomic perspective. Here, we present a novel and robust workflow for the investigation of proteome and secretome changes in bone marrow-derived macrophages (BMDMs) and alveolar macrophages following efferocytosis using stable isotope labelling by amino acids in cell culture (SILAC) combined with data-independent acquisition (DIA) mass spectrometry. Using this workflow, we dissected the mixed proteomes of BMDMs and apoptotic cells to map the reprogramming events occurring in macrophages in the later stages of efferocytosis. Specifically, we identified the adhesion G protein-coupled receptor Adgre5/CD97 as a novel efferocytosis-associated protein and showed that this evolutionary conserved protein plays a role in the uptake of apoptotic cells (ACs) by macrophages from mouse, human and fly. Additionally, we show that CD97 may act as a co-receptor for ACs with other efferocytic receptors such as MerTK. Our results provide an unprecedented view of the efferocytic landscape of macrophages and will aid in further understanding this important immunological process in the larger context of immune homeostasis and inflammatory disorders.",
+          "affiliation": "Biosciences Institute, Newcastle University, Newcastle upon Tyne, UK. ben.raymond@manchester.ac.uk.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "grantId": "UKRI4492/R134208",
+                "orderIn": 0
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41418-026-01882-8"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-29",
+          "dateOfRevision": "2026-09-29",
+          "electronicPublicationDate": "2026-09-29",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-09-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1321394",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10125959/v1",
+          "title": "Lactylation of histone variant MacroH2A1 at K134 regulates osteogenic differentiation of bone marrow mesenchymal stem cells",
+          "authorString": "Liu J, Ma B, Li X, Long K, He S, Wu P, Xu X, Long L, Wang T, Xiong J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Liu J",
+                "lastName": "Liu",
+                "firstName": "Jianyun",
+                "initials": "J"
+              },
+              {
+                "fullName": "Ma B",
+                "lastName": "Ma",
+                "firstName": "Baicheng",
+                "initials": "B"
+              },
+              {
+                "fullName": "Li X",
+                "lastName": "Li",
+                "firstName": "Xingnuan",
+                "initials": "X"
+              },
+              {
+                "fullName": "Long K",
+                "lastName": "Long",
+                "firstName": "Kai",
+                "initials": "K"
+              },
+              {
+                "fullName": "He S",
+                "lastName": "He",
+                "firstName": "Shan",
+                "initials": "S"
+              },
+              {
+                "fullName": "Wu P",
+                "lastName": "Wu",
+                "firstName": "Ping",
+                "initials": "P"
+              },
+              {
+                "fullName": "Xu X",
+                "lastName": "Xu",
+                "firstName": "Xiaoyuan",
+                "initials": "X"
+              },
+              {
+                "fullName": "Long L",
+                "lastName": "Long",
+                "firstName": "Ling",
+                "initials": "L"
+              },
+              {
+                "fullName": "Wang T",
+                "lastName": "Wang",
+                "firstName": "Tao",
+                "initials": "T"
+              },
+              {
+                "fullName": "Xiong J",
+                "lastName": "Xiong",
+                "firstName": "Jianjun",
+                "initials": "J"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>  <bold>Background</bold>  Osteoporosis arises from disrupted bone marrow mesenchymal stem cell (BMSC) osteogenic-adipogenic balance and osteoblast\u2013osteoclast dyshomeostasis. Lactate metabolism and histone lactylation bridge metabolic signaling and epigenetic regulation, yet how lactylation governs BMSC osteogenic differentiation in osteoporosis remains unclear. This study aimed to dissect the epigenetic mechanism linking MacroH2A1 lysine lactylation to bone homeostasis.  <bold>Methods</bold>  We detected dynamic lactate and global lactylation levels during human BMSC osteogenic/adipogenic induction. Quantitative lactylome proteomics identified core lactylated histone variants. Lentiviral K134A mutant MacroH2A1 was constructed to ablate its lactylation site for in vitro functional assays. AAV9-delivered mutant MacroH2A1 was injected into bone marrow of ovariectomy (OVX) osteoporotic mice for in vivo validation. ATAC-seq and RNA-seq were integrated to analyze chromatin accessibility and transcriptomic changes.  <bold>Results</bold>  Intracellular lactate and global protein lactylation declined progressively during BMSC differentiation. Exogenous L-lactate suppressed osteogenesis, while lactate dehydrogenase inhibition enhanced mineralization. Proteomics pinpointed MacroH2A1 K134 as a drastically downregulated lactylation site upon osteogenic induction. The K134A mutation boosted RUNX2/OCN expression, ALP activity and matrix mineralization in vitro. In OVX mice, mutant MacroH2A1 elevated trabecular bone mass and reduced marrow fat accumulation. Mechanistically, loss of K134 lactylation remodeled open chromatin and activated osteogenic gene programs related to skeletal development and extracellular matrix organization.  <bold>Conclusions</bold>  MacroH2A1 K134 lactylation epigenetically restricts BMSC osteogenic differentiation and aggravates postmenopausal bone loss. Blocking this modification improves bone microstructure, providing a novel epigenetic therapeutic target for osteoporosis.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10125959/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-18",
+          "firstPublicationDate": "2026-09-17",
+          "firstIndexDate": "2026-09-18",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1321394",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-09-17",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42746789",
+          "source": "MED",
+          "pmid": "42746789",
+          "doi": "10.1111/iej.70266",
+          "title": "Inhibition of Jaw Bone Marrow Mesenchymal Stem Cell Cuproptosis Attenuates Bone Loss in Apical Periodontitis via Suppressing the FoxO Signalling Pathway.",
+          "authorString": "Zhang K, Ma Z, Wen B, Cui H, Ma D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhang K",
+                "lastName": "Zhang",
+                "firstName": "Kaiying",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3079-1777"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Endodontics, Stomatological Hospital, School of Stomatology, Southern Medical University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ma Z",
+                "lastName": "Ma",
+                "firstName": "Zhensheng",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0008-9980-6835"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Endodontics, Stomatological Hospital, School of Stomatology, Southern Medical University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wen B",
+                "lastName": "Wen",
+                "firstName": "Bo",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-8188-5513"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Endodontics, Stomatological Hospital, School of Stomatology, Southern Medical University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cui H",
+                "lastName": "Cui",
+                "firstName": "Hao",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Endodontics, Stomatological Hospital, School of Stomatology, Southern Medical University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ma D",
+                "lastName": "Ma",
+                "firstName": "Dandan",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4484-9455"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Endodontics, Stomatological Hospital, School of Stomatology, Southern Medical University, Guangzhou, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3079-1777"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4484-9455"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-8188-5513"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0008-9980-6835"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4251746,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Int Endod J",
+              "title": "International endodontic journal",
+              "essn": "1365-2591",
+              "issn": "0143-2885",
+              "isoabbreviation": "Int Endod J",
+              "nlmid": "8004996"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Aim</h4>Apical periodontitis (AP) is an infectious disorder characterized by periapical inflammation and alveolar bone destruction. Recent evidence suggests that cuproptosis, a distinctive form of copper-regulated cell death, has been implicated in the regulation of bone loss. This study aimed to investigate the involvement of cuproptosis and its mechanism in modulating bone loss in AP.<h4>Methodology</h4>Periapical specimens from healthy subjects or AP patients were collected to evaluate copper content and the expression level of cuproptosis-associated proteins. Single-cell RNA sequencing (scRNA-seq) datasets (GSE171213, GSE181688, and GSE197680) were re-analysed to identify the specific cell types undergoing cuproptosis. An AP rat model was constructed and treated with the copper chelator tetrathiomolybdate (TTM). Alveolar bone loss was assessed using micro-CT, H&E staining, copper ion staining, and immunohistochemistry. In\u00a0vitro, jaw bone marrow mesenchymal stem cells (JBMMSCs) were stimulated with lipopolysaccharide (LPS) or cuproptosis inducer (Elesclomol-Cu) to mimic the AP microenvironment. The effects of TTM on osteogenic differentiation were examined via qRT-PCR, Western blotting, ALP staining, and ARS staining. LC-MS/MS proteomics was utilized to explore the mechanism by which TTM attenuates bone loss. Moreover, cuproptotic JBMMSCs were treated with JY-2 (FoxO inhibitor) to determine whether cuproptosis aggravates osteogenic dysfunction via the FoxO/\u03b2-catenin axis.<h4>Results</h4>Copper concentrations were significantly elevated in human and rat AP tissues compared with healthy tissues. Analysis of scRNA-seq data revealed that cuproptosis predominantly occurred in JBMMSCs. In the rat model, TTM administration significantly alleviated alveolar bone loss by reducing cuproptosis in JBMMSCs. Furthermore, JBMMSCs stimulated with LPS or Elesclomol-Cu exhibited characteristics of cuproptosis and impaired osteogenic function. TTM treatment markedly reduced cuproptosis and restored osteogenic capacity. Mechanistically, cuproptosis in JBMMSCs led to the dephosphorylation of FoxOs. Conversely, TTM reversed these changes both in\u00a0vivo and in\u00a0vitro. Furthermore, inhibition of FoxO signalling with JY-2 disrupted FoxO3/\u03b2-catenin interaction, enhanced \u03b2-catenin expression and rescued the osteogenic dysfunction induced by cuproptosis.<h4>Conclusions</h4>Cuproptosis acts as a novel driver of alveolar bone loss in AP by impairing the osteogenic potential of JBMMSCs. TTM targeting cuproptosis represents a promising strategy to attenuate bone resorption in AP by the cuproptosis/FoxO/\u03b2-catenin pathway.",
+          "affiliation": "Department of Endodontics, Stomatological Hospital, School of Stomatology, Southern Medical University, Guangzhou, China.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "82470963",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "82401079",
+                "orderIn": 0
+              },
+              {
+                "agency": "Guangzhou Municipal Basic and Applied Basic Research Project",
+                "grantId": "2024A04J6614",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Bone loss",
+              "Apical Periodontitis",
+              "Tetrathiomolybdate",
+              "Cuproptosis",
+              "Foxo Signalling",
+              "Jaw Bone Marrow Mesenchymal Stem Cell"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1111/iej.70266"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-16",
+          "dateOfRevision": "2026-09-16",
+          "electronicPublicationDate": "2026-09-16",
+          "firstPublicationDate": "2026-09-16",
+          "firstIndexDate": "2026-09-17",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42792816",
+          "source": "MED",
+          "pmid": "42792816",
+          "pmcid": "PMC13604808",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13604808"
+            ]
+          },
+          "doi": "10.3390/biomedicines14092074",
+          "title": "Microbiota-Inflammation Crosstalk in Myeloproliferative Neoplasms: MPN-Specific Human Data, Mechanistic Plausibility and Translational Priorities.",
+          "authorString": "\u021a\u00eerlea LG, Lipan L, T\u0103nase AD.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "\u021a\u00eerlea LG",
+                "lastName": "\u021a\u00eerlea",
+                "firstName": "Laura-Gabriela",
+                "initials": "LG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Doctoral School Department, University of Medicine and Pharmacy \"Carol Davila\", 020021 Bucharest, Romania."
+                    },
+                    {
+                      "affiliation": "Colentina Clinical Hospital, Hematology I, 020125 Bucharest, Romania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lipan L",
+                "lastName": "Lipan",
+                "firstName": "Lavinia",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-6135-0112"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Doctoral School Department, University of Medicine and Pharmacy \"Carol Davila\", 020021 Bucharest, Romania."
+                    },
+                    {
+                      "affiliation": "Bone Marrow Transplant Unit, Fundeni Clinical Institute, 022328 Bucharest, Romania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "T\u0103nase AD",
+                "lastName": "T\u0103nase",
+                "firstName": "Alina Daniela",
+                "initials": "AD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Doctoral School Department, University of Medicine and Pharmacy \"Carol Davila\", 020021 Bucharest, Romania."
+                    },
+                    {
+                      "affiliation": "Bone Marrow Transplant Unit, Fundeni Clinical Institute, 022328 Bucharest, Romania."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0009-0009-6135-0112"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "14",
+            "journalIssueId": 4265254,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Biomedicines",
+              "title": "Biomedicines",
+              "essn": "2227-9059",
+              "issn": "2227-9059",
+              "isoabbreviation": "Biomedicines",
+              "nlmid": "101691304"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "2074",
+          "abstractText": "Myeloproliferative neoplasms (MPNs) are clonal hematopoietic stem cell disorders driven mainly by somatic mutations in <i>JAK2</i>, <i>CALR</i> or <i>MPL</i>, but their clinical phenotype is also shaped by chronic inflammation, immune dysregulation, vascular complications and microenvironmental remodeling. Emerging evidence suggests that the gut microbiota may contribute to this inflammatory and immunometabolic landscape; however, the current literature remains heterogeneous and its translational relevance is still insufficiently defined. This critical narrative review maps the available evidence linking the gut microbiota, microbial metabolites and systemic microbial signatures to MPN biology. We distinguish direct human MPN data from indirect mechanistic evidence derived from studies of intestinal barrier dysfunction, thrombo-inflammation, hematopoietic regulation, allogeneic hematopoietic cell transplantation and infection risk. Across human MPN cohorts, the most consistent findings are not uniform changes in global microbial diversity, but rather alterations in specific immunoregulatory taxa, particularly reduced <i>Firmicutes</i>/<i>Faecalibacterium</i>-related communities and dysbiotic signatures associated with <i>JAK2V617F</i> status. Mechanistically, dysbiosis and impaired intestinal barrier integrity may facilitate low-grade endotoxemia, TLR4/NF-\u03baB activation, cytokine amplification, endothelial activation and platelet priming. In parallel, microbial metabolites may influence hematopoietic stem cell programs, the bone marrow niche, megakaryopoiesis and thrombopoiesis. Treatment exposure and diet are relevant modifiers of the microbiota-inflammation axis, although available interventional data remain preliminary. Mendelian randomization and multi-omics studies provide hypothesis-generating evidence for microbiota-metabolome-MPN interactions, but require longitudinal validation, functional studies and contamination-aware analytical pipelines, especially for low-biomass blood and bone marrow samples. Microbiota-targeted strategies, including nutritional interventions and fecal or washed microbiota transplantation, represent promising but still investigational approaches, particularly in immunocompromised or post-transplant settings. Future studies should integrate microbiome, metabolome, genome, proteome, inflammatory biomarkers and clinical outcomes while controlling for diet, antibiotics, treatment exposure and driver mutation status. Such an approach may clarify whether the microbiota is a biomarker, mediator or therapeutic target in MPNs.",
+          "affiliation": "Doctoral School Department, University of Medicine and Pharmacy \"Carol Davila\", 020021 Bucharest, Romania.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Diet",
+              "Inflammation",
+              "metabolome",
+              "Gut Microbiota",
+              "Dysbiosis",
+              "Myeloproliferative Neoplasms",
+              "Jak2v617f",
+              "Fecal Microbiota Transplantation",
+              "Thrombo-inflammation",
+              "Multi-omics",
+              "Gut\u2013Bone Marrow Axis"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/biomedicines14092074"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13604808"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13604808?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-26",
+          "dateOfCreation": "2026-09-26",
+          "dateOfRevision": "2026-09-29",
+          "electronicPublicationDate": "2026-09-15",
+          "firstPublicationDate": "2026-09-15",
+          "firstIndexDate": "2026-09-26",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42748657",
+          "source": "MED",
+          "pmid": "42748657",
+          "pmcid": "PMC13595006",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13595006"
+            ]
+          },
+          "doi": "10.1016/j.redox.2026.104386",
+          "title": "Comparative analysis of myeloperoxidase deficiency in humans and mice: Conserved and species-specific effects on neutrophil biology.",
+          "authorString": "Ahdab M, Guthoff H, Nix N, Derman S, Barbe AG, Nemade H, Philip ES, Singgih K, Nellessen K, H\u00fcttermann A, Paunel-G\u00f6rg\u00fcl\u00fc A, Diekmann C, Hoyer FF, Schelemei P, Lackmann JW, M\u00fcller S, Johannis W, Streichert T, Baldus S, Winkels H, von Stein P, Mollenhauer M, Hof A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ahdab M",
+                "lastName": "Ahdab",
+                "firstName": "Maysam",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Guthoff H",
+                "lastName": "Guthoff",
+                "firstName": "Henning",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nix N",
+                "lastName": "Nix",
+                "firstName": "Nathalie",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Derman S",
+                "lastName": "Derman",
+                "firstName": "Sonja",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine and University Hospital Cologne, Polyclinic for Operative Dentistry and Periodontology, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Barbe AG",
+                "lastName": "Barbe",
+                "firstName": "Anna Greta",
+                "initials": "AG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine and University Hospital Cologne, Polyclinic for Operative Dentistry and Periodontology, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nemade H",
+                "lastName": "Nemade",
+                "firstName": "Harshal",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Philip ES",
+                "lastName": "Philip",
+                "firstName": "Elvina S",
+                "initials": "ES",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singgih K",
+                "lastName": "Singgih",
+                "firstName": "Kezia",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nellessen K",
+                "lastName": "Nellessen",
+                "firstName": "Kathrin",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "H\u00fcttermann A",
+                "lastName": "H\u00fcttermann",
+                "firstName": "Alina",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Paunel-G\u00f6rg\u00fcl\u00fc A",
+                "lastName": "Paunel-G\u00f6rg\u00fcl\u00fc",
+                "firstName": "Adnana",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiac Surgery, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Diekmann C",
+                "lastName": "Diekmann",
+                "firstName": "Chris",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hoyer FF",
+                "lastName": "Hoyer",
+                "firstName": "Friedrich F",
+                "initials": "FF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schelemei P",
+                "lastName": "Schelemei",
+                "firstName": "Patrick",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lackmann JW",
+                "lastName": "Lackmann",
+                "firstName": "Jan-Wilm",
+                "initials": "JW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "M\u00fcller S",
+                "lastName": "M\u00fcller",
+                "firstName": "Stefan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Johannis W",
+                "lastName": "Johannis",
+                "firstName": "Wibke",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Clinical Chemistry, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Streichert T",
+                "lastName": "Streichert",
+                "firstName": "Thomas",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Clinical Chemistry, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Baldus S",
+                "lastName": "Baldus",
+                "firstName": "Stephan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Winkels H",
+                "lastName": "Winkels",
+                "firstName": "Holger",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "von Stein P",
+                "lastName": "von Stein",
+                "firstName": "Philipp",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mollenhauer M",
+                "lastName": "Mollenhauer",
+                "firstName": "Martin",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hof A",
+                "lastName": "Hof",
+                "firstName": "Alexander",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany. Electronic address: alexander.hof@uk-koeln.de."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "97",
+            "journalIssueId": 4253582,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Redox Biol",
+              "title": "Redox biology",
+              "essn": "2213-2317",
+              "issn": "2213-2317",
+              "isoabbreviation": "Redox Biol",
+              "nlmid": "101605639"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "104386",
+          "abstractText": "<h4>Background</h4>Myeloperoxidase (MPO), a heme-containing enzyme released by activated polymorphonuclear neutrophils (PMNs) represents a key mediator of inflammation-driven cardiovascular disease, positioning MPO as a promising therapeutic target. However, substantial interspecies differences between murine and human neutrophil biology challenge the translation of preclinical findings from rodent studies into patients.<h4>Methods</h4>11,608 patients were screened for MPO deficiency using the ADVIA 2120i system. 282 individuals exhibited a reduced MPO activity. 56 patients were eligible, consented to be enrolled and were compared to 20 control patients. MPO levels and activity were measured by enzyme-linked immunosorbent assay (ELISA), immunoblotting, a tetramethylbenzidin (TMB)-based peroxidase and nitric oxide (NO)-consumption assay. For cross-species analysis, shotgun proteomics, Gene Ontology (GO) and REACTOME pathway enrichment analyses were conducted on bone marrow derived PMNs from Mpo<sup>-/-</sup> mice and human MPO-deficient PMNs.<h4>Results</h4>Patients with persistent (MPO<sup>low</sup>, n\u202f=\u202f12) and transient (MPO<sup>rec</sup>, n\u202f=\u202f44) MPO deficiency were identified. MPO<sup>low</sup> individuals showed significantly decreased neutrophil MPO concentrations, enzymatic activity, and plasma MPO levels. Proteomic profiling revealed substantial overlap in altered biological processes across both species. Species-specific enrichments included humoral immunity, complement activation, and coagulation in humans, phagocytosis, chemotaxis, and transcriptional regulation in mice. These differences have been reported alongside distinct signaling patterns, with predominance of Mitogen-activated protein (MAP)-kinase and cytokine activity in humans, and Ras homolog family (Rho)-GTPase pathways in mice.<h4>Conclusion</h4>MPO deficiency leads to broadly conserved alterations in neutrophil immune and stress responses across humans and mice. However, similar functional outcomes may involve different signaling pathways in each species contributing to divergent phenotypes in disease models. These findings underscore species-specific mechanisms in MPO-related neutrophil biology and highlight critical considerations for translating MPO-targeted therapies from animal models to human disease.",
+          "affiliation": "Heart Center, Department of Cardiology, Faculty of Medicine and University Hospital Cologne, University of Cologne, Cologne, Germany; Center for Molecular Medicine Cologne, University of Cologne, Cologne, Germany.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Myeloperoxidase",
+              "Innate Immune System",
+              "Neutrophil Biology",
+              "Mpo Deficiency"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.redox.2026.104386"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13595006"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13595006?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-16",
+          "dateOfRevision": "2026-09-24",
+          "electronicPublicationDate": "2026-09-09",
+          "firstPublicationDate": "2026-09-09",
+          "firstIndexDate": "2026-09-17",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42686375",
+          "source": "MED",
+          "pmid": "42686375",
+          "pmcid": "PMC13548287",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13548287"
+            ]
+          },
+          "doi": "10.1136/jitc-2026-015703",
+          "title": "GTPase RAB31 supports ANXA1-driven macrophage education through clathrin-mediated endocytosis to suppress antitumor immunity.",
+          "authorString": "Liu J, Wang S, Bao D, Dong G, Ma Y, Zhang G, Liu X, Zhang D, Wang L, Xu S, Cai Z.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Liu J",
+                "lastName": "Liu",
+                "firstName": "Jingjing",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-2681-7936"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, State Key Laboratory of Experimental Hematology, Tianjin Key Laboratory of Inflammatory Biology, School of Basic Medical Science, Tianjin Medical University, Tianjin, China US36zcai@tmu.edu.cn Liujingjing123@tmu.edu.cn shuqian.xu@email.sdu.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang S",
+                "lastName": "Wang",
+                "firstName": "Shanshan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, State Key Laboratory of Experimental Hematology, Tianjin Key Laboratory of Inflammatory Biology, School of Basic Medical Science, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bao D",
+                "lastName": "Bao",
+                "firstName": "Dengyi",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bioinformatics, The Province and Ministry Co-sponsored Collaborative Innovation Center for Medical Epigenetics, School of Basic Medical Science, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dong G",
+                "lastName": "Dong",
+                "firstName": "Ge",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, State Key Laboratory of Experimental Hematology, Tianjin Key Laboratory of Inflammatory Biology, School of Basic Medical Science, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ma Y",
+                "lastName": "Ma",
+                "firstName": "Yunxi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bioinformatics, The Province and Ministry Co-sponsored Collaborative Innovation Center for Medical Epigenetics, School of Basic Medical Science, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang G",
+                "lastName": "Zhang",
+                "firstName": "Guorong",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, State Key Laboratory of Experimental Hematology, Tianjin Key Laboratory of Inflammatory Biology, School of Basic Medical Science, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu X",
+                "lastName": "Liu",
+                "firstName": "Xin",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3456-3795"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of General Surgery, Tianjin Medical University General Hospital, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang D",
+                "lastName": "Zhang",
+                "firstName": "Dongli",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Pharmacy, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang L",
+                "lastName": "Wang",
+                "firstName": "Lulu",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8402-5616"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Pharmacy, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu S",
+                "lastName": "Xu",
+                "firstName": "Shuqian",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shandong Provincial Clinical Research Center for Hematological Diseases, Shandong Key Laboratory of Hematological Diseases and Immune Microenvironment, Jinan, China US36zcai@tmu.edu.cn Liujingjing123@tmu.edu.cn shuqian.xu@email.sdu.edu.cn."
+                    },
+                    {
+                      "affiliation": "Department of Hematology, Qilu Hospital of Shandong University, Jinan, China, Jianan, Shandong, People's Republic of China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cai Z",
+                "lastName": "Cai",
+                "firstName": "Zhigang",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, State Key Laboratory of Experimental Hematology, Tianjin Key Laboratory of Inflammatory Biology, School of Basic Medical Science, Tianjin Medical University, Tianjin, China US36zcai@tmu.edu.cn Liujingjing123@tmu.edu.cn shuqian.xu@email.sdu.edu.cn."
+                    },
+                    {
+                      "affiliation": "Department of Bioinformatics, The Province and Ministry Co-sponsored Collaborative Innovation Center for Medical Epigenetics, School of Basic Medical Science, Tianjin Medical University, Tianjin, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8402-5616"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3456-3795"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-2681-7936"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "14",
+            "journalIssueId": 4252486,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Immunother Cancer",
+              "title": "Journal for immunotherapy of cancer",
+              "essn": "2051-1426",
+              "issn": "2051-1426",
+              "isoabbreviation": "J Immunother Cancer",
+              "nlmid": "101620585"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e015703",
+          "abstractText": "<h4>Background</h4>Tumor-associated macrophages (TAMs) play pivotal roles in shaping the tumor-microenvironment (TME) through functional plasticity, which is regulated by extrinsic and intrinsic signals. However, the role of vesicular trafficking in TAMs remains poorly understood. RAB31, a small GTPase enriched in myeloid cells, was proposed as a potential regulator of TAM polarization through clathrin-mediated endocytosis (CME). We hypothesized that RAB31 modulates TAM education by tumor-derived signals and thereby shapes antitumor immunity.<h4>Methods</h4>We profiled RAB31 expression in human cancers using public single-cell RNA sequencing (scRNA-seq) datasets and clinical sample immunofluorescence staining. Rab31 knockout mice were employed in subcutaneous tumor models. The TME was profiled by scRNA-seq, bulk RNA-seq, and flow cytometry. Bone marrow transplantation, adoptive cell transfer, and antibody-mediated depletion were performed to identify the effector cell populations. Co-immunoprecipitation coupled with mass spectrometry, receptor half-life assays, inhibitor intervention and lysosomal colocalization experiments dissected the molecular mechanism. Functional T-cell chemotaxis, activation, and anti-programmed death-ligand 1 (PD-L1) response assays were performed.<h4>Results</h4>RAB31 was highly expressed in TAMs across multiple cancers and correlated with poor prognosis and immunosuppressive TME. Rab31 deficiency reprogrammed TAMs to M1-like phenotype, enhanced CD8<sup>+</sup> T-cell infiltration and activation, and suppressed tumor growth. Mechanistically, Rab31 preserves FPR2 cell surface stability through a CME-dependent mechanism; its loss redirected FPR2 to lysosomal degradation, disrupted tumor-derived ANXA1 signaling, and unleashed NF-\u03baB activity. Rab31 deficiency synergized with anti-PD-L1 therapy in a CD8<sup>+</sup> T cell-dependent manner.<h4>Conclusions</h4>These findings establish the CME/RAB31 pathway as an indispensable regulator of TAM polarization, underscoring the pivotal role of vesicular trafficking in the TME.",
+          "affiliation": "Department of Pharmacology, State Key Laboratory of Experimental Hematology, Tianjin Key Laboratory of Inflammatory Biology, School of Basic Medical Science, Tianjin Medical University, Tianjin, China US36zcai@tmu.edu.cn Liujingjing123@tmu.edu.cn shuqian.xu@email.sdu.edu.cn.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Science Foundation of China",
+                "grantId": "82170173",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Science Foundation of China",
+                "grantId": "82371789",
+                "orderIn": 0
+              },
+              {
+                "agency": "Tianjin Medical University Talent Program",
+                "grantId": "U25A2050",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Neoplasms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "rab GTP-Binding Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Annexin A1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Clathrin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Endocytosis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tumor Microenvironment",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Tumor-Associated Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Macrophage",
+              "Immunotherapy",
+              "Biomarker",
+              "Tumor Microenvironment"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Clathrin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Annexin A1",
+                "registryNumber": "0"
+              },
+              {
+                "name": "rab GTP-Binding Proteins",
+                "registryNumber": "EC 3.6.5.2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1136/jitc-2026-015703"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13548287"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13548287?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-02",
+          "dateOfCreation": "2026-09-02",
+          "dateOfRevision": "2026-09-09",
+          "electronicPublicationDate": "2026-09-02",
+          "firstPublicationDate": "2026-09-02",
+          "firstIndexDate": "2026-09-03",
+          "fullTextReceivedDate": "2026-09-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42618695",
+          "source": "MED",
+          "pmid": "42618695",
+          "pmcid": "PMC13538355",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13538355"
+            ]
+          },
+          "doi": "10.1038/s12276-026-01805-0",
+          "title": "Hematopoietic stem cell aging: a review of transcriptional and multi-omics insights and potential paths for AI integration.",
+          "authorString": "Park B, Yanai H, Ding J, Beerman I.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Park B",
+                "lastName": "Park",
+                "firstName": "Bongsoo",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Genetic and Epigenetic Mechanisms of Stem Cells Unit, Translational Gerontology Branch, National Institute on Aging, National Institutes of Health, Baltimore, MD, USA. bongsoo.park@nih.gov."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yanai H",
+                "lastName": "Yanai",
+                "firstName": "Hagai",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Genetic and Epigenetic Mechanisms of Stem Cells Unit, Translational Gerontology Branch, National Institute on Aging, National Institutes of Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ding J",
+                "lastName": "Ding",
+                "firstName": "Jun",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Human Statistical Genetics Unit, Translational Gerontology Branch, National Institute on Aging, National Institutes of Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Beerman I",
+                "lastName": "Beerman",
+                "firstName": "Isabel",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Genetic and Epigenetic Mechanisms of Stem Cells Unit, Translational Gerontology Branch, National Institute on Aging, National Institutes of Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "58",
+            "journalIssueId": 4254729,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Exp Mol Med",
+              "title": "Experimental & molecular medicine",
+              "essn": "2092-6413",
+              "issn": "1226-3613",
+              "isoabbreviation": "Exp Mol Med",
+              "nlmid": "9607880"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "2576-2589",
+          "abstractText": "Hematopoietic stem cell (HSC) aging underlies age-related immune decline, anemia and increased risk of hematologic malignancies, including clonal hematopoiesis and leukemia. Many available microarray and bulk RNA sequencing studies have elucidated conserved transcriptional hallmarks, such as myeloid bias, inflammation dysregulation, and self-renewal reinforcement in aged HSCs across mouse and human models. Here, we review key publicly available transcriptome and epigenome datasets from landmark studies, highlighting their contributions to defining HSC molecular aging signatures. We also summarize recent single-cell RNA sequencing, HSC aging intervention, and sex difference datasets. Despite these advances in technology and available sequencing datasets, fragmented data access, limited cross-species integration, and scarcity of multi-omics and single-cell contexts hinder progress. We discuss strategies for dataset harmonization, incorporation of multi-omics (transcriptome, epigenome, and proteome) and single-cell resolution to uncover heterogeneity and trajectories, as well as introduce the application of artificial intelligence and machine learning for predictive modeling, epigenome aging clocks, variant calling, clonal hematopoiesis detection, chromatin-based age prediction, and trajectory inference. Bridging insights from genetic mutant mouse models to emerging human bone marrow organoids offers translational potential for modeling HSC aging in vitro. We propose a curated, centralized, interactive database as a community resource to integrate these layers, enabling meta-analyses, artificial intelligence-driven discoveries, and accelerated therapeutic interventions for age-related hematopoietic disorders.",
+          "affiliation": "Genetic and Epigenetic Mechanisms of Stem Cells Unit, Translational Gerontology Branch, National Institute on Aging, National Institutes of Health, Baltimore, MD, USA. bongsoo.park@nih.gov.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Hematopoietic Stem Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Artificial Intelligence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cellular Senescence",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Multiomics"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s12276-026-01805-0"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13538355"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13538355?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-03",
+          "dateOfCreation": "2026-08-20",
+          "dateOfRevision": "2026-09-05",
+          "electronicPublicationDate": "2026-08-19",
+          "firstPublicationDate": "2026-08-19",
+          "firstIndexDate": "2026-08-22",
+          "fullTextReceivedDate": "2026-09-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42554055",
+          "source": "MED",
+          "pmid": "42554055",
+          "doi": "10.1161/circresaha.125.328171",
+          "title": "Mast Cell St8sia1 Is a Glyco-Epigenetic Checkpoint Driving Cardiac Remodeling.",
+          "authorString": "Zhou C, Fu L, Yuan T, Li F, Tang F, Wu X, Ye Y, Gao L, Jin C, Zhang Q, Xu L, Liu S, Chen S, Li J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhou C",
+                "lastName": "Zhou",
+                "firstName": "Changzuan",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fu L",
+                "lastName": "Fu",
+                "firstName": "Lisheng",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yuan T",
+                "lastName": "Yuan",
+                "firstName": "Tianyou",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5963-3166"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li F",
+                "lastName": "Li",
+                "firstName": "Fangfang",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5219-8336"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tang F",
+                "lastName": "Tang",
+                "firstName": "Fanhuan",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu X",
+                "lastName": "Wu",
+                "firstName": "Xiaoyu",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1816-1550"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ye Y",
+                "lastName": "Ye",
+                "firstName": "Yutong",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0003-9892-1376"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gao L",
+                "lastName": "Gao",
+                "firstName": "Longzhe",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-8538-166X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jin C",
+                "lastName": "Jin",
+                "firstName": "Chenyang",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Q",
+                "lastName": "Zhang",
+                "firstName": "Qitong",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu L",
+                "lastName": "Xu",
+                "firstName": "Liang",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu S",
+                "lastName": "Liu",
+                "firstName": "Shaowen",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen S",
+                "lastName": "Chen",
+                "firstName": "Songwen",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6492-5702"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li J",
+                "lastName": "Li",
+                "firstName": "Jun",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5219-8336"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5963-3166"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6492-5702"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1816-1550"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0003-9892-1376"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-8538-166X"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "7",
+            "volume": "139",
+            "journalIssueId": 4260696,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Circ Res",
+              "title": "Circulation research",
+              "essn": "1524-4571",
+              "issn": "0009-7330",
+              "isoabbreviation": "Circ Res",
+              "nlmid": "0047103"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e328171",
+          "abstractText": "<h4>Background</h4>Pathogenic immune-cardiac crosstalk underlies maladaptive remodeling in chronic heart failure, yet therapies directly targeting this axis are lacking. Glycoconjugates, which are crucial for signal transduction and extracellular matrix integrity, represent an underexploited therapeutic avenue. This study sought to define the role of glycoconjugate-metabolizing enzymes at the immune-cardiac interface and evaluate their translational potential.<h4>Methods</h4>We performed integrative analyses of bulk and single-cell RNA sequencing data from failing human and mouse hearts. Employing mouse models of pressure overload (transverse aortic constriction) and ischemia-reperfusion, we used global and mast cell (MC)-specific gene deletion, bone-marrow chimeras, and pharmacological neutralization. Mechanistic insights were gained through multiomics profiling, including RNA-seq, ATAC-seq, CUT&Tag, and proteomics.<h4>Results</h4>The ganglioside GD3 synthase, St8sia1, was selectively induced in cardiac MCs during pathological remodeling in both mice and humans. MC-specific or hematopoietic deletion of <i>St8sia1</i> preserved ventricular function, attenuated fibrosis, and markedly reduced neutrophil and Ly6C<sup>+</sup> monocyte recruitment after transverse aortic constriction and ischemia-reperfusion. Therapeutic neutralization of GD3 with the clinical-grade monoclonal antibody R24 improved cardiac function and diminished scar formation after ischemia-reperfusion. Mechanistically, GD3 bound specific histone variants, such as H2A.Z and H3.3C, thereby reprogramming chromatin accessibility to activate proinflammatory and profibrotic transcriptional programs in MCs. Consequently, GD3 inhibition suppressed MC degranulation, disrupted pathogenic MC-cardiomyocyte/fibroblast crosstalk, and preserved reparative macrophage populations.<h4>Conclusions</h4>The MC-restricted St8sia1-GD3 axis functions as a glyco-epigenetic checkpoint driving maladaptive cardiac remodeling. Targeting this axis represents a translatable immunomodulatory strategy to prevent the progression to chronic heart failure.",
+          "affiliation": "Department of Cardiology, Shanghai General Hospital, Shanghai Jiaotong University School of Medicine, China.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mast Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Sialyltransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epigenesis, Genetic"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Ventricular Remodeling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Heart Failure",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Mast cells",
+              "Macrophages",
+              "Heart Failure",
+              "chromatin",
+              "Histones"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Sialyltransferases",
+                "registryNumber": "EC 2.4.99.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1161/CIRCRESAHA.125.328171"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-09-10",
+          "dateOfCreation": "2026-08-05",
+          "dateOfRevision": "2026-09-10",
+          "electronicPublicationDate": "2026-08-05",
+          "firstPublicationDate": "2026-08-05",
+          "firstIndexDate": "2026-08-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42549511",
+          "source": "MED",
+          "pmid": "42549511",
+          "pmcid": "PMC13544581",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13544581"
+            ]
+          },
+          "doi": "10.1161/circulationaha.126.080261",
+          "title": "COL1A1-Enhanced CD44/SLC7A11 Interaction and Cystine Uptake Result in CD34&lt;sup&gt;+&lt;/sup&gt; Foam-Like Macrophage Accumulation in Transplant Arteriosclerosis.",
+          "authorString": "Wu J, He T, Qi M, Chen L, Yao M, Zhao X, Zhou Q, Zhang W, Huang X, Liu Y, Gong Y, Shi T, Hong Y, Gao H, Weng C, Peng L, Xiao Q, Lu Y, Yuan H, Xu Q, Cai J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Wu J",
+                "lastName": "Wu",
+                "firstName": "Junru",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    },
+                    {
+                      "affiliation": "State Key Laboratory of New Targets Discovery and Drug Development for Major Diseases, First Affiliated Hospital, Gannan Medical University, Ganzhou, China (J.W., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "He T",
+                "lastName": "He",
+                "firstName": "Tian",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-1371-2052"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, Tianjin Medical University General Hospital, Tianjin Medical University, China (T.H.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qi M",
+                "lastName": "Qi",
+                "firstName": "Mengyao",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen L",
+                "lastName": "Chen",
+                "firstName": "Liang",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6374-112X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Cardiovascular Disease, National Clinical Research Center for Cardiovascular Diseases, Fuwai Hospital, National Center for Cardiovascular Diseases, Chinese Academy of Medical Sciences and Peking Union Medical College, Beijing, China (L.C., Y.H., H.G.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yao M",
+                "lastName": "Yao",
+                "firstName": "Meng",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao X",
+                "lastName": "Zhao",
+                "firstName": "Xiexiong",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2570-7390"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou Q",
+                "lastName": "Zhou",
+                "firstName": "Qiaoyu",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang W",
+                "lastName": "Zhang",
+                "firstName": "Wen",
+                "initials": "W",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0210-7544"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Huang X",
+                "lastName": "Huang",
+                "firstName": "Xuewei",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5570-023X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu Y",
+                "lastName": "Liu",
+                "firstName": "Yuqing",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gong Y",
+                "lastName": "Gong",
+                "firstName": "Yingxuan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shi T",
+                "lastName": "Shi",
+                "firstName": "Tianrui",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hong Y",
+                "lastName": "Hong",
+                "firstName": "Yun",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Cardiovascular Disease, National Clinical Research Center for Cardiovascular Diseases, Fuwai Hospital, National Center for Cardiovascular Diseases, Chinese Academy of Medical Sciences and Peking Union Medical College, Beijing, China (L.C., Y.H., H.G.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gao H",
+                "lastName": "Gao",
+                "firstName": "Hang",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Cardiovascular Disease, National Clinical Research Center for Cardiovascular Diseases, Fuwai Hospital, National Center for Cardiovascular Diseases, Chinese Academy of Medical Sciences and Peking Union Medical College, Beijing, China (L.C., Y.H., H.G.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Weng C",
+                "lastName": "Weng",
+                "firstName": "Chunyan",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8105-6492"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Peng L",
+                "lastName": "Peng",
+                "firstName": "Liping",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xiao Q",
+                "lastName": "Xiao",
+                "firstName": "Qingzhong",
+                "initials": "Q",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9101-0498"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cardiology, the First Affiliated Hospital, School of Medicine, Zhejiang University, China (Q.X.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lu Y",
+                "lastName": "Lu",
+                "firstName": "Yao",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6743-7870"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yuan H",
+                "lastName": "Yuan",
+                "firstName": "Hong",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3634-2622"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu Q",
+                "lastName": "Xu",
+                "firstName": "Qingbo",
+                "initials": "Q",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2474-8155"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for Clinical Pharmacology, William Harvey Research Institute, Barts and The London School of Medicine and Dentistry, Queen Mary University of London, UK (Q.X.)."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cai J",
+                "lastName": "Cai",
+                "firstName": "Jingjing",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7820-536X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.)."
+                    },
+                    {
+                      "affiliation": "State Key Laboratory of New Targets Discovery and Drug Development for Major Diseases, First Affiliated Hospital, Gannan Medical University, Ganzhou, China (J.W., J.C.)."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5570-023X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6374-112X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6743-7870"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8105-6492"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9101-0498"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0210-7544"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2570-7390"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3634-2622"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7820-536X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2474-8155"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-1371-2052"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "154",
+            "journalIssueId": 4259683,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Circulation",
+              "title": "Circulation",
+              "essn": "1524-4539",
+              "issn": "0009-7322",
+              "isoabbreviation": "Circulation",
+              "nlmid": "0147763"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "909-930",
+          "abstractText": "<h4>Background</h4>Chronic transplant arteriosclerosis is the primary cause of long-term graft failure. Selectively targeting specific inflammatory macrophage subpopulations is essential for inhibiting the primary triggers of inflammatory and immune responses. Therefore, elucidating the origins and regulatory mechanisms of these macrophages in allograft arteriosclerosis is key for the development of targeted therapies.<h4>Methods</h4>We performed single-cell RNA sequencing and spatial transcriptomics or integrated transcriptomic data from human chronic allograft vasculopathy specimens and mouse vascular allograft models. Flow cytometry and immunofluorescence staining were used to characterize macrophage subpopulations within remodeled allograft arteries. To determine cellular origins, CD34<sup>+</sup> lineage tracing and depletion strategies were used. The interactions among COL1A1 (collagen type 1 \u03b11), CD44, and SLC7A11 (solute carrier family 7 member 11) were analyzed using proximity ligation assays and coimmunoprecipitation. Furthermore, metabolic profiles were investigated with ultraperformance liquid chromatography coupled with high-resolution mass spectrometry. To validate the role of cystine transport in macrophage differentiation, we used pharmacologic inhibitors and a genetic approach using myeloid-specific <i>Slc7a11</i> knockout mice (Lysm-<i>Slc7a11</i>-KO). The mechanisms identified in vivo were further corroborated through in vitro experiments.<h4>Results</h4>We identified a novel proinflammatory foam-like macrophage phenotype in allograft arterial adventitia. These macrophages primarily originated from bone marrow-derived CD34<sup>+</sup> lineage cells and exhibit heightened de novo lipogenesis and proinflammatory activity. Their lipogenesis is driven by increased cystine uptake, facilitated by enhanced membrane expression of the CD44-SLC7A11 complex, which activates mTORC1 (mechanistic target of rapamycin complex 1)-HIF-1\u03b1 (hypoxia-inducible factor 1\u03b1) signaling. We also revealed that fibroblast-secreted COL1A1 is essential for anchoring the complex to the cell membrane through its direct interaction with CD44. Blocking COL1A1, CD44, or SLC7A11 effectively attenuated mTORC1-HIF-1\u03b1 signaling, inflammation, and lipogenesis in macrophages as well as accumulation of foam-like cells and intimal hyperplasia in allograft arteries.<h4>Conclusions</h4>This study has revealed previously uncharacterized foam-like macrophages in transplant arteriosclerosis, with COL1A1-enhanced amino acid metabolism modulating lipogenesis and foamy macrophage formation. This study offers potential therapeutic targets to modulate immune response and enhance transplant outcomes.",
+          "affiliation": "Clinical Research Center, Department of Cardiology, The Third Xiangya Hospital, Central South University, Changsha, China (J.W., M.Q., M.Y., X.Z., Q.Z., W.Z., X.H., Y.L., Y.G., T.S., C.W., L.P., Y.L., H.Y., J.C.).",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Foam Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Arteriosclerosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Collagen Type I",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Amino Acid Transport System y+",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, CD34",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Hyaluronan Receptors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Collagen Type I, alpha 1 Chain"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Macrophages",
+              "Cystine",
+              "Foam cells",
+              "Lipogenesis",
+              "arteriosclerosis",
+              "Allografts"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "collagen type I, alpha 1 chain",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, CD34",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Amino Acid Transport System y+",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Collagen Type I",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cd44 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Hyaluronan Receptors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1161/CIRCULATIONAHA.126.080261"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13544581"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13544581?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCompletion": "2026-09-08",
+          "dateOfCreation": "2026-08-04",
+          "dateOfRevision": "2026-09-08",
+          "electronicPublicationDate": "2026-08-04",
+          "firstPublicationDate": "2026-08-04",
+          "firstIndexDate": "2026-08-04",
+          "fullTextReceivedDate": "2026-09-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42592823",
+          "source": "MED",
+          "pmid": "42592823",
+          "pmcid": "PMC13470680",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13470680"
+            ]
+          },
+          "doi": "10.1002/mgg3.70273",
+          "title": "N-Terminal Variant p.Ala2Val in X-Linked Dyskeratosis Congenita Gene (DKC1) Disrupts Its Post-Translational Modification and Nucleolar Localization.",
+          "authorString": "Sheikh TI, Vincent JB.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Sheikh TI",
+                "lastName": "Sheikh",
+                "firstName": "Taimoor I",
+                "initials": "TI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8251-6574"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Neuropsychiatry & Development (MiND) Lab, Molecular Brain Science Research Department, Campbell Family Mental Health Research Institute, Centre for Addiction and Mental Health, Toronto, Ontario, Canada."
+                    },
+                    {
+                      "affiliation": "Department of Pathology, Allegheny Health Network, Pittsburgh, Pennsylvania, USA."
+                    },
+                    {
+                      "affiliation": "Department of Pathology and Laboratory Medicine, Drexel University College of Medicine, Philadelphia, Pennsylvania, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vincent JB",
+                "lastName": "Vincent",
+                "firstName": "John B",
+                "initials": "JB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0692-2519"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Neuropsychiatry & Development (MiND) Lab, Molecular Brain Science Research Department, Campbell Family Mental Health Research Institute, Centre for Addiction and Mental Health, Toronto, Ontario, Canada."
+                    },
+                    {
+                      "affiliation": "Institute of Medical Science, University of Toronto, Toronto, Ontario, Canada."
+                    },
+                    {
+                      "affiliation": "Department of Psychiatry, University of Toronto, Toronto, Ontario, Canada."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8251-6574"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0692-2519"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "14",
+            "journalIssueId": 4234439,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Mol Genet Genomic Med",
+              "title": "Molecular genetics & genomic medicine",
+              "essn": "2324-9269",
+              "issn": "2324-9269",
+              "isoabbreviation": "Mol Genet Genomic Med",
+              "nlmid": "101603758"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e70273",
+          "abstractText": "<h4>Background</h4>Dyskeratosis congenita (DKC) is typically characterized by the triad of abnormal cutaneous pigmentation, nail dystrophy, and oral mucosal leukoplakia. Progressive bone marrow failure develops in over 80% of cases and constitutes the leading cause of early mortality. Pathogenic variants in DKC1 have been associated with a high risk of developing aplastic anemia, myelodysplastic syndrome, leukemia, and solid tumors. The DKC1 missense variant, c.5C>T, leading to p.(Ala2Val), has been reported in families affected with dyskeratosis congenita. However, due to lack of functional analysis, it remains a variant of uncertain significance (VUS). Here, we performed functional analysis of the DKC1 gene product to investigate the pathophysiology of DKC1-related dyskeratosis congenita.<h4>Methods</h4>We performed co-localization studies of HEK293T cells transfected with GFP-tagged constructs encoding either a wild-type (WT) or p.(Ala2Val) human DKC1 protein, along with Liquid Chromatography Mass Spectrometry (LCMS) of immunoprecipitated (IP) WT or p.(Ala2Val) DKC1 protein to study post-translation modification status.<h4>Results</h4>We have shown that p.(Ala2Val) DKC1 leads to mis-localization of the protein from the nucleolus to the nucleoplasm. Also, LCMS showed that N-terminal methionine cleavage occurs for both, but N-acetylation occurs for WT but not for p.(Ala2Val) DKC1.<h4>Conclusion</h4>The mis-localization and altered post-translational modification of p.(Ala2Val) DKC1 provides functional evidence to clinical laboratories to reclassify p.(Ala2Val) variant as \"pathogenic\" as per American College of Medical Genetics (ACMG) variant interpretation guidelines.",
+          "affiliation": "Molecular Neuropsychiatry & Development (MiND) Lab, Molecular Brain Science Research Department, Campbell Family Mental Health Research Institute, Centre for Addiction and Mental Health, Toronto, Ontario, Canada.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Nucleolus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Dyskeratosis Congenita",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Cycle Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Nuclear Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protein Processing, Post-Translational"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mutation, Missense"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "DKC1 protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nuclear Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cell Cycle Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/mgg3.70273"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13470680"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13470680?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "omim"
+            ]
+          },
+          "dateOfCompletion": "2026-08-13",
+          "dateOfCreation": "2026-08-13",
+          "dateOfRevision": "2026-08-15",
+          "firstPublicationDate": "2026-08-01",
+          "firstIndexDate": "2026-08-15",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

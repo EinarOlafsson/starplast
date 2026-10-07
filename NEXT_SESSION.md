@@ -17,7 +17,8 @@ The controlling plan is **[instruction 64](instructions/open/64_information_spac
 including 16 scoped refusals. Evidence and gaps are in
 `results/information_inventory_2026_10_07/README.md`. Continue at **64.03**, measurement provenance.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
-the entire 40-item progress table. Keep the stored tracker and completion evidence current.
+the entire progress table (40 instruction-64 rows plus four instruction-65 rows).
+Keep the stored tracker and completion evidence current.
 
 **New user priority (2026-10-07):** [instruction 65](instructions/open/65_dataset_selection_audit.md)
 audits all dataset choices against literature alternatives. For comparable admitted datasets,
@@ -27,6 +28,18 @@ do not guess missing metadata or promote unsuitable popular papers. Host storage
 (7 Hs/3 Mm sources, 20,989/15,590 protein rows; 12/50 host slot views filled), while independent
 host gene spaces/inference packs remain pending under 64.21/64.22/64.28/64.29. Instruction 65
 adds four bounded audit/promotion rows to the progress report.
+
+**Instruction 65.01–65.03 complete:** all 162 sources accounted for; 95 recorded
+PMID/DOI identities resolved; all 297 slots searched, 2,032 distinct publications
+retained. Six diagnostic quantity/context traps triaged, no sources promoted.
+**576 checks passed; one optional pdoc documentation module skipped locally.**
+Read `results/dataset_selection_2026_10_07/README.md`; executed notebooks and
+checksummed primary responses retain the evidence. **65.04 remains open**:
+origin-paper/deposit lineage, 231 truncated searches, measured assay coverage and
+validated replacements. First pages by total citations/date can miss the highest
+annual citation-rate paper. Prioritize host rhoptry journal-version equivalence,
+2017 quantitative RBC complement, GTEx v10 lineage, then the all-source review queue.
+Do not mistake metadata resolution or pending abstract hits for admitted biology.
 
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
 branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7

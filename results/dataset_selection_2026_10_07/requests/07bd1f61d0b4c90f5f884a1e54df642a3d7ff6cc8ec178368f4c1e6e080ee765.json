@@ -1,0 +1,3075 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22dermis%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:14.099243+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 93,
+    "nextCursorMark": "AoJwgNjwooEDKDQ2MjgyODQ5",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22dermis%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgNjwooEDKDQ2MjgyODQ5&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"surfaceome\" OR \"cell-surface\" OR \"surface proteome\") AND TITLE_ABS:(\"dermis\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42488351",
+          "source": "MED",
+          "pmid": "42488351",
+          "pmcid": "PMC13391046",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13391046"
+            ]
+          },
+          "doi": "10.3389/fgene.2026.1807347",
+          "title": "Epigenetic regulators are preferentially coordinated with protocadherin gene expression across the human brain: a genome-wide co-expression analysis.",
+          "authorString": "Harbert DH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Harbert DH",
+                "lastName": "Harbert",
+                "firstName": "Drake H",
+                "initials": "DH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Inner Architecture LLC, Canton, OH, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4110724,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Genet",
+              "title": "Frontiers in genetics",
+              "essn": "1664-8021",
+              "issn": "1664-8021",
+              "nlmid": "101560621",
+              "isoabbreviation": "Front Genet"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1807347",
+          "abstractText": "How does the brain build and maintain the precise wiring patterns that distinguish one neuron from another? Clustered protocadherins (PCDHs)-a family of cell-surface molecules that give each neuron a unique identity tag-are central to this process. Their expression is famously controlled by an elaborate locus-specific epigenetic system involving DNA methylation, CTCF binding, and chromatin looping. Whether the activity of the broader epigenetic regulatory machinery is coordinated with protocadherin expression across the human brain has not been systematically tested. Here we show that epigenetic regulators are preferentially co-expressed with protocadherins across multiple human brain regions, suggesting a broader transcriptional coordination than the locus-specific mechanisms previously characterized. Using GTEx v8 RNA-seq data from 2,642 brain samples across 13 regions, we conducted a genome-wide co-expression screen and observed a 6.5-fold enrichment of epigenetic regulators in the top 5% of PCDH-coordinated genes in prefrontal cortex (Fisher's exact p = 2.8 \u00d7 10<sup>-10</sup>). The enrichment replicated independently across additional brain regions, persisted under multiple sensitivity analyses, was preserved after adjustment for cell-type composition, and replicated in an independent brain-bank cohort. The top-ranked epigenetic regulators converge on a defined set of chromatin-remodeling genes implicated in well-characterized neurodevelopmental syndromes. These findings reframe protocadherin biology by extending its epigenetically coordinated context beyond the locus itself to a broader transcriptional program shared with the chromatin-remodeling machinery associated with neurodevelopmental disease. The conceptual advance is consistent with-though does not by itself establish-direct co-regulation, and identifies a specific set of testable mechanistic hypotheses for how disrupted chromatin-remodeling activity in neurodevelopmental disorders may propagate to PCDH-dependent neuronal identity programs in the human brain.",
+          "affiliation": "Inner Architecture LLC, Canton, OH, United States.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Chromatin remodeling",
+              "human brain",
+              "Epigenetic regulation",
+              "Co-expression",
+              "Neurodevelopmental Disorders",
+              "Protocadherin",
+              "Gtex",
+              "Cell-type Deconvolution"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fgene.2026.1807347"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13391046"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13391046?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "go"
+            ]
+          },
+          "dateOfCompletion": "2026-07-23",
+          "dateOfCreation": "2026-07-23",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-07-09",
+          "firstPublicationDate": "2026-07-09",
+          "firstIndexDate": "2026-07-23",
+          "fullTextReceivedDate": "2026-09-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40560397",
+          "source": "MED",
+          "pmid": "40560397",
+          "pmcid": "PMC12367305",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12367305"
+            ]
+          },
+          "doi": "10.1091/mbc.e25-02-0074",
+          "title": "Dysregulation of extracellular fibronectin and \u03b15-integrin in dermal aging.",
+          "authorString": "Lee Y, Shen X, Dreesen O, Zhu J, Li R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lee Y",
+                "lastName": "Lee",
+                "firstName": "Yaelim",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2561-6218"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mechanobiology Institute, National University of Singapore, Singapore 117411."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shen X",
+                "lastName": "Shen",
+                "firstName": "Xingyu",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mechanobiology Institute, National University of Singapore, Singapore 117411."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dreesen O",
+                "lastName": "Dreesen",
+                "firstName": "Oliver",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mechanobiology Institute, National University of Singapore, Singapore 117411."
+                    },
+                    {
+                      "affiliation": "A*STAR Skin Research Labs (A*SRL), Agency for Science, Technology and Research (A*STAR), Singapore 138648."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhu J",
+                "lastName": "Zhu",
+                "firstName": "Jin",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mechanobiology Institute, National University of Singapore, Singapore 117411."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li R",
+                "lastName": "Li",
+                "firstName": "Rong",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mechanobiology Institute, National University of Singapore, Singapore 117411."
+                    },
+                    {
+                      "affiliation": "Department of Biological Sciences, National University of Singapore, Singapore 117558."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2561-6218"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "36",
+            "journalIssueId": 3975500,
+            "dateOfPublication": "2025 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Mol Biol Cell",
+              "title": "Molecular biology of the cell",
+              "essn": "1939-4586",
+              "issn": "1059-1524",
+              "nlmid": "9201390",
+              "isoabbreviation": "Mol Biol Cell"
+            },
+            "printPublicationDate": "2025-08-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "ar99",
+          "abstractText": "Dermal aging is a complex process characterized by structural and functional changes in the extracellular matrix (ECM) and the resident cells, such as dermal fibroblasts. Fibronectin (FN) ECM is a crucial component of the dermis, yet its role in natural aging remains poorly understood. Here, we demonstrate a significant reduction in FN ECM in aged, otherwise healthy, mouse dermis. To explore whether aging dermal fibroblasts contribute to this decline in FN levels, we examined human dermal fibroblasts (HDF) from aged skin and observed that they produce lower extracellular FN densities in vitro than young HDFs. This age-associated deficiency correlates with reduced level of \u03b15-integrin, a cell-surface FN receptor essential for extracellular FN assembly. Knockdown of \u03b15-integrin (\u03b15KD) in young HDFs impairs FN ECM formation and induces phenotypes characteristic of cellular senescence. Interestingly, the proliferation defect in \u03b15KD fibroblasts is largely restored by cell-derived matrices\u00a0(CDMs) in vitro, highlighting the importance of ECM organization. These findings underscore the essential role of \u03b15-integrin in maintaining proper ECM formation, which in turn protects against fibroblast senescence during dermal aging.",
+          "affiliation": "Mechanobiology Institute, National University of Singapore, Singapore 117411.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Extracellular Matrix",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fibroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Skin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dermis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Fibronectins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Integrin alpha5",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Proliferation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Skin Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cellular Senescence",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Fibronectins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Integrin alpha5",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1091/mbc.E25-02-0074"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12367305"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12367305?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "igsr"
+            ]
+          },
+          "dateOfCompletion": "2025-07-17",
+          "dateOfCreation": "2025-06-25",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2025-06-25",
+          "firstPublicationDate": "2025-06-25",
+          "firstIndexDate": "2025-06-26",
+          "fullTextReceivedDate": "2026-09-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40422831",
+          "source": "MED",
+          "pmid": "40422831",
+          "pmcid": "PMC12112233",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12112233"
+            ]
+          },
+          "doi": "10.3390/jfb16050167",
+          "title": "Effect of Hyaluronan in Collagen Biomaterials on Human Macrophages and Fibroblasts &lt;i&gt;In Vitro&lt;/i&gt;.",
+          "authorString": "Avila-Martinez N, Pfirrmann M, Gomes MLNP, Krymchenko R, Versteeg EMM, Vlig M, Verdoes M, van Kuppevelt TH, Boekema BKHL, Daamen WF.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Avila-Martinez N",
+                "lastName": "Avila-Martinez",
+                "firstName": "Nancy",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5689-9957"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pfirrmann M",
+                "lastName": "Pfirrmann",
+                "firstName": "Maren",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gomes MLNP",
+                "lastName": "Gomes",
+                "firstName": "Madalena L N P",
+                "initials": "MLNP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0007-7590-3166"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Amsterdam University Medical Center (AUMC), Location AMC, 1081 HV Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Tissue Function and Regeneration, Amsterdam Movement Sciences Research Institute, 1081 HV Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Department of Plastic, Reconstructive and Hand Surgery, Amsterdam University Medical Center (AUMC), Location AMC, 1081 HV Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Alliance of Dutch Burn Care, Burn Research Lab, 1941 AJ Beverwijk, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Krymchenko R",
+                "lastName": "Krymchenko",
+                "firstName": "Roman",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9627-8856"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Versteeg EMM",
+                "lastName": "Versteeg",
+                "firstName": "Elly M M",
+                "initials": "EMM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7047-5173"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vlig M",
+                "lastName": "Vlig",
+                "firstName": "Marcel",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3280-5877"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Alliance of Dutch Burn Care, Burn Research Lab, 1941 AJ Beverwijk, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Verdoes M",
+                "lastName": "Verdoes",
+                "firstName": "Martijn",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8753-3528"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Department of Immunology, Leiden University Medical Center (LUMC), 2333 ZA Leiden, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "van Kuppevelt TH",
+                "lastName": "van Kuppevelt",
+                "firstName": "Toin H",
+                "initials": "TH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boekema BKHL",
+                "lastName": "Boekema",
+                "firstName": "Bouke K H L",
+                "initials": "BKHL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9085-6982"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Tissue Function and Regeneration, Amsterdam Movement Sciences Research Institute, 1081 HV Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Department of Plastic, Reconstructive and Hand Surgery, Amsterdam University Medical Center (AUMC), Location AMC, 1081 HV Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Alliance of Dutch Burn Care, Burn Research Lab, 1941 AJ Beverwijk, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Daamen WF",
+                "lastName": "Daamen",
+                "firstName": "Willeke F",
+                "initials": "WF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3155-3030"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5689-9957"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7047-5173"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8753-3528"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9627-8856"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9085-6982"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3155-3030"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3280-5877"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0007-7590-3166"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "16",
+            "journalIssueId": 3947967,
+            "dateOfPublication": "2025 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "J Funct Biomater",
+              "title": "Journal of functional biomaterials",
+              "essn": "2079-4983",
+              "issn": "2079-4983",
+              "nlmid": "101570734",
+              "isoabbreviation": "J Funct Biomater"
+            },
+            "printPublicationDate": "2025-05-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "167",
+          "abstractText": "In adults, scars are formed after deep skin wound injuries like burns. However, the fetal microenvironment allows for scarless skin regeneration. One component that is abundantly present in the fetal extracellular matrix is hyaluronan (HA). To study whether biomaterials with HA improve wound healing, type I collagen scaffolds with and without HA were prepared and characterized. Their immune effect was tested using macrophages and their phenotypes were analyzed through cell surface markers and cytokine expression after 48 h. Since fibroblasts are the main cellular component in the dermis, adult, fetal and eschar-derived cells were cultured on scaffolds for 14 days and evaluated using histology, gene and protein expression analyses. Biochemical assays demonstrated that HA was successfully incorporated and evenly distributed throughout the scaffolds. Macrophages (M0) cultured on Col I+HA scaffolds exhibited a profile resembling the M2c-like phenotype (CD206<sup>high</sup>, CD163<sup>high</sup> and IL10<sup>high</sup>). HA did not significantly affect gene expression in adult and fetal fibroblasts, but significantly reduced scarring-related genes, such as transforming growth factor beta 1 (TGFB1) and type X collagen alpha 1 chain (COL10A1), in myofibroblast-like eschar cells. These findings highlight the potential of incorporating HA into collagen-based skin substitutes to improve the wound healing response.",
+          "affiliation": "Department of Medical BioSciences, Research Institute for Medical Innovation, Radboud university medical center, 6525 GA Nijmegen, The Netherlands.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "European Union's Horizon 2020 research and innovation programme under the Marie Sk\u0142odowska-Curie Grant Agreement",
+                "grantId": "955722",
+                "orderIn": 0
+              },
+              {
+                "agency": "Radboud University Medical Center",
+                "grantId": "PhD round 2020",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Hyaluronic acid",
+              "Fetal",
+              "Scaffolds",
+              "Dermal",
+              "Eschar",
+              "Skin Regeneration"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/jfb16050167"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12112233"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12112233?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2025-05-27",
+          "dateOfRevision": "2026-09-24",
+          "electronicPublicationDate": "2025-05-08",
+          "firstPublicationDate": "2025-05-08",
+          "firstIndexDate": "2025-05-28",
+          "fullTextReceivedDate": "2025-12-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR999100",
+          "source": "PPR",
+          "doi": "10.1101/2025.04.04.647113",
+          "title": "Ebola\u2019s Hidden Target: Virus Transmission to and Accumulation within Skin",
+          "authorString": "Richards PT, Fleck A, Patel R, Fakhimi M, Bohan D, Geohegan-Barek K, Stolte AE, Messingham CO, Connell S, Crowe T, Gourronc F, Carrion R, Griffiths A, Meyerholz DK, Klingelhutz A, Davey RA, Messingham KN, Maury W.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Richards PT",
+                "lastName": "Richards",
+                "firstName": "Paige",
+                "initials": "PT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9488-3101"
+                }
+              },
+              {
+                "fullName": "Fleck A",
+                "lastName": "Fleck",
+                "firstName": "Anthony",
+                "initials": "A"
+              },
+              {
+                "fullName": "Patel R",
+                "lastName": "Patel",
+                "firstName": "Radhika",
+                "initials": "R"
+              },
+              {
+                "fullName": "Fakhimi M",
+                "lastName": "Fakhimi",
+                "firstName": "Maryam",
+                "initials": "M"
+              },
+              {
+                "fullName": "Bohan D",
+                "lastName": "Bohan",
+                "firstName": "Dana",
+                "initials": "D"
+              },
+              {
+                "fullName": "Geohegan-Barek K",
+                "lastName": "Geohegan-Barek",
+                "firstName": "Kathleen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Stolte AE",
+                "lastName": "Stolte",
+                "firstName": "Allison",
+                "initials": "AE"
+              },
+              {
+                "fullName": "Messingham CO",
+                "lastName": "Messingham",
+                "firstName": "Caitlin",
+                "initials": "CO"
+              },
+              {
+                "fullName": "Connell S",
+                "lastName": "Connell",
+                "firstName": "Samuel",
+                "initials": "S"
+              },
+              {
+                "fullName": "Crowe T",
+                "lastName": "Crowe",
+                "firstName": "Tyler",
+                "initials": "T"
+              },
+              {
+                "fullName": "Gourronc F",
+                "lastName": "Gourronc",
+                "firstName": "Francoise",
+                "initials": "F"
+              },
+              {
+                "fullName": "Carrion R",
+                "lastName": "Carrion",
+                "firstName": "Ricardo",
+                "initials": "R"
+              },
+              {
+                "fullName": "Griffiths A",
+                "lastName": "Griffiths",
+                "firstName": "Anthony",
+                "initials": "A"
+              },
+              {
+                "fullName": "Meyerholz DK",
+                "lastName": "Meyerholz",
+                "firstName": "David",
+                "initials": "DK"
+              },
+              {
+                "fullName": "Klingelhutz A",
+                "lastName": "Klingelhutz",
+                "firstName": "Al",
+                "initials": "A"
+              },
+              {
+                "fullName": "Davey RA",
+                "lastName": "Davey",
+                "firstName": "Robert",
+                "initials": "RA"
+              },
+              {
+                "fullName": "Messingham KN",
+                "lastName": "Messingham",
+                "firstName": "Kelly",
+                "initials": "KN"
+              },
+              {
+                "fullName": "Maury W",
+                "lastName": "Maury",
+                "firstName": "Wendy",
+                "initials": "W"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9488-3101"
+              }
+            ]
+          },
+          "pubYear": "2025",
+          "abstractText": "<h4>ABSTRACT</h4>  Ebola virus (EBOV), the causative agent of Ebola virus disease (EVD), remains one of WHO\u2019s top ten threats to global health. Infectious EBOV virions can be found on the surface of skin late during systemic infection and passed from the deceased through skin-to-skin contact. Here, we assess viral load and antigen expression in the skin of EBOV-infected non-human primates (NHP) and mouse adapted-EBOV (ma-EBOV) - infected mice and use the low containment viral model, rVSV/EBOV GP, to mechanistically define skin infection in mice. Viral RNA peaked within the skin proximal to the site of injection in EBOV-infected NHPs on day 6. In contrast, mouse skin sites distal to the site of ma-EBOV injection achieved maximal viral loads by day 3. At late times of infection, viral antigen-positive cells co-localized with markers for endothelial, stromal, and immune cells in the dermis. Epidermal cells within and surrounding hair follicles also harbored viral antigen, suggesting a potential mechanism of virus trafficking to the epidermal surface. Despite robust viral infection, distal skin sites of ma-EBOV-infected mice had low expression of proinflammatory stimulated genes. A similar cellular tropism was observed in the skin of mice infected with rVSV/EBOV GP, with discrete focal areas of intense infection. When virus was applied to the surface of gently abraded skin to remove the stratum corneum, epidermal keratinocytes were robustly infected, followed by systemic viral dissemination. To define cell surface receptors critical for virus trafficking to and replication within the skin, mice lacking the phosphatidylserine receptors were infected intraperitoneally with rVSV/EBOV GP. At day 3 of infection, skin distal to the site of infection of TIM-1 knock out (KO) mice had significantly lower levels of infectious virus than the control mice, suggesting that TIM-1 is essential for efficient distribution of virus to the skin. Our findings reveal that EBOV targets specific skin cell populations at late times of viral infection and that the host receptor TIM-1 is required for optimal viral dissemination.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2025
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.biorxiv.org/content/biorxiv/early/2025/04/04/2025.04.04.647113.full.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1101/2025.04.04.647113"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2025-04-07",
+          "firstPublicationDate": "2025-04-04",
+          "firstIndexDate": "2025-04-07",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38979944",
+          "source": "MED",
+          "pmid": "38979944",
+          "doi": "10.1096/fj.202302176r",
+          "title": "Systematic pan-cancer analysis insights into ICAM1 as an immunological and prognostic biomarker.",
+          "authorString": "Yang C, Ni B, Shen L, Li Z, Zhou L, Wu H, Zhang Y, Liu L, Liu J, Tian L, Yan L, Jin X.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang C",
+                "lastName": "Yang",
+                "firstName": "Chunjiao",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9528-3909"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ni B",
+                "lastName": "Ni",
+                "firstName": "Bingqiang",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3490-4652"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shen L",
+                "lastName": "Shen",
+                "firstName": "Ling",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5677-4932"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Z",
+                "lastName": "Li",
+                "firstName": "Zhenlong",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-5622-8816"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou L",
+                "lastName": "Zhou",
+                "firstName": "Lu",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4987-0683"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu H",
+                "lastName": "Wu",
+                "firstName": "Huayun",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0003-1447-4602"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yuzhe",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9216-5811"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The First Laboratory of Cancer Institute, The First Hospital of China Medical University, Shenyang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu L",
+                "lastName": "Liu",
+                "firstName": "Ling",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0006-8075-1534"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Benxi Central Hospital, Benxi, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu J",
+                "lastName": "Liu",
+                "firstName": "Jiao",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shenzhen Longhua Maternity and Child Healthcare Hospital, Shenzhen, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian L",
+                "lastName": "Tian",
+                "firstName": "Liansheng",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-4865-1439"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Benxi Central Hospital, Benxi, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yan L",
+                "lastName": "Yan",
+                "firstName": "Lirong",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7980-1238"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The First Laboratory of Cancer Institute, The First Hospital of China Medical University, Shenyang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jin X",
+                "lastName": "Jin",
+                "firstName": "Xin",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-7333-0398"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Respiratory Medicine, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7980-1238"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9216-5811"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3490-4652"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5677-4932"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9528-3909"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4987-0683"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0001-7510-8070"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0002-5622-8816"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0003-1447-4602"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-7333-0398"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0006-8075-1534"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-4865-1439"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "13",
+            "volume": "38",
+            "journalIssueId": 3786618,
+            "dateOfPublication": "2024 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "FASEB J",
+              "title": "FASEB journal : official publication of the Federation of American Societies for Experimental Biology",
+              "essn": "1530-6860",
+              "issn": "0892-6638",
+              "nlmid": "8804484",
+              "isoabbreviation": "FASEB J"
+            },
+            "printPublicationDate": "2024-07-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "e23802",
+          "abstractText": "Intercellular adhesion molecule 1 (ICAM1) is a cell surface adhesion glycoprotein in the immunoglobulin supergene family. It is associated with several epithelial tumorigenesis processes, as well as with inflammation. However, the function of ICAM1 in the prognosis of tumor immunity is still unclear. This study aimed to examine the immune function of ICAM1 in 33 tumor types and to investigate the prognostic value of tumors. Using datasets from the Cancer Genome Atlas (TCGA), Genotype Tissue Expression (GTEx), Cancer Cell Lines Encyclopedia (CCLE), Human Protein Atlas (HPA), and cBioPortal, we investigated the role of ICAM1 in tumors. We explored the potential correlation between ICAM1 expression and tumor prognosis, gene mutations, microsatellite instability, and tumor immune cell levels in various cancers. We observed that ICAM1 is highly expressed in multiple malignant tumors. Furthermore, ICAM1 is negatively or positively associated with different malignant tumor prognoses. The expression levels of ICAM1 were correlated with the tumor mutation burden (TMB) in 11 tumors and with MSI in eight tumors. ICAM1 is a gene associated with immune infiltrating cells, such as M1 macrophages and CD8+ T cells in gastric and colon cancer. Meanwhile, the expression of ICAM1 is associated with several immune-related functions and immune-regulation-related signaling pathways, such as the chemokine signaling pathway. Our study shows that ICAM1 can be used as a prognostic biomarker in many cancer types because of its function in tumorigenesis and malignant tumor immunity.",
+          "affiliation": "Department of Oncology, The Fifth Affiliated Hospital of Guangxi Medical University & The First People's Hospital of Nanning, Nanning, China.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Neoplasms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Intercellular Adhesion Molecule-1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Prognosis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation, Neoplastic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mutation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microsatellite Instability"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tumor Microenvironment",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Biomarkers, Tumor",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Immunization",
+              "Prognosis",
+              "Immune Infiltration",
+              "Intercellular Adhesion Molecule 1 (Icam1)",
+              "Pan\u2010Cancer"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Intercellular Adhesion Molecule-1",
+                "registryNumber": "126547-89-5"
+              },
+              {
+                "name": "ICAM1 protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Biomarkers, Tumor",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1096/fj.202302176R"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 9,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2024-07-09",
+          "dateOfCreation": "2024-07-09",
+          "dateOfRevision": "2026-06-09",
+          "firstPublicationDate": "2024-07-01",
+          "firstIndexDate": "2024-07-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38351729",
+          "source": "MED",
+          "pmid": "38351729",
+          "pmcid": "PMC10864774",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10864774"
+            ]
+          },
+          "doi": "10.22074/cellj.2023.1996297.1262",
+          "title": "Candidate Biomarkers for Targeting in Type 1 Diabetes; A Bioinformatic Analysis of Pancreatic Cell Surface Antigens.",
+          "authorString": "Dabiri H, Habibi-Anbouhi M, Ziaei V, Moghadasi Z, Sadeghizadeh M, Sadeghizadeh M, Hajizadeh-Saffar E.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Dabiri H",
+                "lastName": "Dabiri",
+                "firstName": "Hamed",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2439-3155"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics, Faculty of Biological Sciences, Tarbiat Modares University, Tehran, Iran."
+                    },
+                    {
+                      "affiliation": "Department of Stem Cells and Developmental Biology, Cell Science Research Center, Royan Institute for Stem Cell Biology and Technology, ACECR, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Habibi-Anbouhi M",
+                "lastName": "Habibi-Anbouhi",
+                "firstName": "Mahdi",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3151-152X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Cell Bank of Iran, Pasteur Institute of Iran, Tehran, Iran. Email: habibi_m@pasteur.ac.ir."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ziaei V",
+                "lastName": "Ziaei",
+                "firstName": "Vahab",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7007-2913"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Cell Bank of Iran, Pasteur Institute of Iran, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moghadasi Z",
+                "lastName": "Moghadasi",
+                "firstName": "Zahra",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3571-0240"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Cell Bank of Iran, Pasteur Institute of Iran, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sadeghizadeh M",
+                "lastName": "Sadeghizadeh",
+                "firstName": "Majid",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2497-3152"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics, Faculty of Biological Sciences, Tarbiat Modares University, Tehran, Iran. Email: sadeghma@modares.ac.ir."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sadeghizadeh M",
+                "lastName": "Sadeghizadeh",
+                "firstName": "Majid",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7380-4099"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics, Faculty of Biological Sciences, Tarbiat Modares University, Tehran, Iran. Email: sadeghma@modares.ac.ir."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hajizadeh-Saffar E",
+                "lastName": "Hajizadeh-Saffar",
+                "firstName": "Ensiyeh",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7891-1870"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Regenerative Medicine, Cell Science Research Center, Royan Institute for Stem Cell Biology and Technology, ACECR, Tehran, Iran. Email: en.hajizadeh@royan-rc.ac.ir."
+                    },
+                    {
+                      "affiliation": "Advanced Therapy Medicinal Product Technology Development Center (ATMP-TDC), Royan Institute for Stem Cell Biology and Technology, ACECR, Tehran, Iran."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7007-2913"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2497-3152"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3151-152X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7380-4099"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7891-1870"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2439-3155"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3571-0240"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "26",
+            "journalIssueId": 3719282,
+            "dateOfPublication": "2024 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "Cell J",
+              "title": "Cell journal",
+              "essn": "2228-5814",
+              "issn": "2228-5806",
+              "nlmid": "101566618",
+              "isoabbreviation": "Cell J"
+            },
+            "printPublicationDate": "2024-01-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "51-61",
+          "abstractText": "<h4>Objective</h4>Type 1 diabetes (T1Ds) is an autoimmune disease in which the immune system invades and destroys insulin-producing cells. Nevertheless, at the time of diagnosis, about 30-40% of pancreatic beta cells are healthy and capable of producing insulin. Bi-specific antibodies, chimeric antigen receptor regulatory T cells (CAR-Treg cells), and labeled antibodies could be a new emerging option for the treatment or diagnosis of type I diabetic patients. The aim of the study is to choose appropriate cell surface antigens in the pancreas tissue for generating an antibody for type I diabetic patients.<h4>Materials and methods</h4>In this bioinformatics study, we extracted pancreas-specific proteins from two large databases; the Human Protein Atlas (HPA) and Genotype-Tissue Expression (GTEx) Portal. Pancreatic-enriched genes were chosen and narrowed down by Protter software for the investigation of accessible extracellular domains. The immunohistochemistry (IHC) data of the protein atlas database were used to evaluate the protein expression of selected antigens. We explored the function of candidate antigens by using the GeneCards database to evaluate the potential dysfunction or activation/hyperactivation of antigens after antibody binding.<h4>Results</h4>The results showed 429 genes are highly expressed in the pancreas tissue. Also, eighteen genes encoded plasma membrane proteins that have high expression in the microarray (GEO) dataset. Our results introduced four structural proteins, including NPHS1, KIRREL2, GP2, and CUZD1, among all seventeen candidate proteins.<h4>Conclusion</h4>The presented antigens can potentially be used to produce specific pancreatic antibodies that guide CARTreg, bi-specific, or labeling molecules to the pancreas for treatment, detection, or other molecular targeted therapy scopes for type I diabetes.",
+          "affiliation": "Department of Genetics, Faculty of Biological Sciences, Tarbiat Modares University, Tehran, Iran.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Bioinformatics",
+              "type 1 diabetes",
+              "pancreatic islets",
+              "Molecular Targeted Therapies",
+              "Cell Surface Antigens"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.22074/cellj.2023.1996297.1262"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10864774"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10864774?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCreation": "2024-02-14",
+          "dateOfRevision": "2024-02-17",
+          "electronicPublicationDate": "2024-01-31",
+          "firstPublicationDate": "2024-01-31",
+          "firstIndexDate": "2024-02-14",
+          "fullTextReceivedDate": "2024-02-16",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38177192",
+          "source": "MED",
+          "pmid": "38177192",
+          "pmcid": "PMC10766640",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10766640"
+            ]
+          },
+          "doi": "10.1038/s41598-023-50957-w",
+          "title": "An N-glycome tissue atlas of 15 human normal and cancer tissue types determined by MALDI-imaging mass spectrometry.",
+          "authorString": "Wallace EN, West CA, McDowell CT, Lu X, Bruner E, Mehta AS, Aoki-Kinoshita KF, Angel PM, Drake RR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Wallace EN",
+                "lastName": "Wallace",
+                "firstName": "Elizabeth N",
+                "initials": "EN",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA. wallaeli@musc.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "West CA",
+                "lastName": "West",
+                "firstName": "Connor A",
+                "initials": "CA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "McDowell CT",
+                "lastName": "McDowell",
+                "firstName": "Colin T",
+                "initials": "CT",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lu X",
+                "lastName": "Lu",
+                "firstName": "Xiaowei",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bruner E",
+                "lastName": "Bruner",
+                "firstName": "Evelyn",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology and Laboratory Medicine, Medical University of South Carolina, Charleston, SC, 29425, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mehta AS",
+                "lastName": "Mehta",
+                "firstName": "Anand S",
+                "initials": "AS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Aoki-Kinoshita KF",
+                "lastName": "Aoki-Kinoshita",
+                "firstName": "Kiyoko F",
+                "initials": "KF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bioinformatics, Soka University, Tokyo, 192-8577, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Angel PM",
+                "lastName": "Angel",
+                "firstName": "Peggi M",
+                "initials": "PM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Drake RR",
+                "lastName": "Drake",
+                "firstName": "Richard R",
+                "initials": "RR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6285-6440"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA. draker@musc.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6285-6440"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "14",
+            "journalIssueId": 3689431,
+            "dateOfPublication": "2024 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "Sci Rep",
+              "title": "Scientific reports",
+              "essn": "2045-2322",
+              "issn": "2045-2322",
+              "nlmid": "101563288",
+              "isoabbreviation": "Sci Rep"
+            },
+            "printPublicationDate": "2024-01-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "489",
+          "abstractText": "N-glycosylation is an abundant post-translational modification of most cell-surface proteins. N-glycans play a crucial role in cellular functions like protein folding, protein localization, cell-cell signaling, and immune detection. As different tissue types display different N-glycan profiles, changes in N-glycan compositions occur in tissue-specific ways with development of disease, like cancer. However, no comparative atlas resource exists for documenting N-glycome alterations across various human tissue types, particularly comparing normal and cancerous tissues. In order to study a broad range of human tissue N-glycomes, N-glycan targeted MALDI imaging\u00a0mass spectrometry was applied to custom formalin-fixed paraffin-embedded tissue microarrays. These encompassed fifteen human tissue types including bladder, breast, cervix, colon, esophagus, gastric, kidney, liver, lung, pancreas, prostate, sarcoma, skin, thyroid, and uterus. Each array contained both normal and tumor cores from the same pathology block, selected by a pathologist, allowing more in-depth comparisons of the N-glycome differences between tumor and normal and across tissue types. Using established MALDI-IMS workflows and existing N-glycan databases, the N-glycans present in each tissue core were spatially profiled and peak intensity data compiled for comparative analyses. Further structural information was determined for core fucosylation using endoglycosidase F3, and differentiation of sialic acid linkages through stabilization chemistry. Glycan structural differences across the tissue types were compared for oligomannose levels, branching complexity, presence of bisecting N-acetylglucosamine, fucosylation, and sialylation. Collectively, our research identified the N-glycans that were significantly increased and/or decreased in relative abundance in cancer for each tissue type. This study offers valuable information on a wide scale for both normal and cancerous tissues, serving as a reference for future studies and potential diagnostic applications of MALDI-IMS.",
+          "affiliation": "Department of Cell and Molecular Pharmacology and Experimental Therapeutics, Medical University of South Carolina, Charleston, SC, 29425, USA. wallaeli@musc.edu.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "R33 CA267226",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "U01 CA242096",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biorepository and Tissue Analysis Shared Resource, Hollings Cancer Center, Medical University of South Carolina",
+                "grantId": "P30 CA138313",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "U01CA242096",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "T32 GM132055",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "U01CA242096",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "P30 DK123704",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "R33CA267226",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "P30 CA138313",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIA NIH HHS",
+                "acronym": "AG",
+                "grantId": "R01 AG078702",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "R33CA267226",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "OD",
+                "grantId": "S10 OD030212",
+                "orderIn": 0
+              },
+              {
+                "agency": "GaLSIC collaborative research fund",
+                "orderIn": 0
+              },
+              {
+                "agency": "South Carolina Smart State Centers of Economic Excellence",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Sarcoma"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polysaccharides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Spectrometry, Mass, Matrix-Assisted Laser Desorption-Ionization",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protein Processing, Post-Translational"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycosylation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Polysaccharides",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.nature.com/articles/s41598-023-50957-w.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41598-023-50957-w"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10766640"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10766640?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 63,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2024-01-08",
+          "dateOfCreation": "2024-01-04",
+          "dateOfRevision": "2026-04-15",
+          "electronicPublicationDate": "2024-01-04",
+          "firstPublicationDate": "2024-01-04",
+          "firstIndexDate": "2024-01-05",
+          "fullTextReceivedDate": "2024-01-08",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "37535223",
+          "source": "MED",
+          "pmid": "37535223",
+          "doi": "10.1007/s13577-023-00957-9",
+          "title": "Adenosine metabolism by mesenchymal stromal cells isolated from different human tissues.",
+          "authorString": "Galgaro BC, Beckenkamp LR, Naasani LIS, Wink MR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Galgaro BC",
+                "lastName": "Galgaro",
+                "firstName": "Bruna Campos",
+                "initials": "BC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5731-126X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laborat\u00f3rio de Biologia Celular, Universidade Federal de Ci\u00eancias da Sa\u00fade de Porto Alegre, UFCSPA, Rua Sarmento Leite, 245, Porto Alegre, RS, CEP 90050-170, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Beckenkamp LR",
+                "lastName": "Beckenkamp",
+                "firstName": "Liziane Raquel",
+                "initials": "LR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laborat\u00f3rio de Biologia Celular, Universidade Federal de Ci\u00eancias da Sa\u00fade de Porto Alegre, UFCSPA, Rua Sarmento Leite, 245, Porto Alegre, RS, CEP 90050-170, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Naasani LIS",
+                "lastName": "Naasani",
+                "firstName": "Liliana I Sous",
+                "initials": "LIS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laborat\u00f3rio de Biologia Celular, Universidade Federal de Ci\u00eancias da Sa\u00fade de Porto Alegre, UFCSPA, Rua Sarmento Leite, 245, Porto Alegre, RS, CEP 90050-170, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wink MR",
+                "lastName": "Wink",
+                "firstName": "M\u00e1rcia Ros\u00e2ngela",
+                "initials": "MR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5987-3509"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laborat\u00f3rio de Biologia Celular, Universidade Federal de Ci\u00eancias da Sa\u00fade de Porto Alegre, UFCSPA, Rua Sarmento Leite, 245, Porto Alegre, RS, CEP 90050-170, Brazil. mwink@ufcspa.edu.br."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5987-3509"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5731-126X"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "36",
+            "journalIssueId": 3651815,
+            "dateOfPublication": "2023 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Hum Cell",
+              "title": "Human cell",
+              "essn": "1749-0774",
+              "issn": "0914-7470",
+              "nlmid": "8912329",
+              "isoabbreviation": "Hum Cell"
+            },
+            "printPublicationDate": "2023-11-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "2247-2258",
+          "abstractText": "Mesenchymal stromal cells (MSCs) have unique biological properties and play important functions, which make them attractive tools for cell-based therapies. The basic mechanisms of these cells are not fully understood. However, the adenosinergic pathway contributes to the main effects attributed to MSCs. Adenosine is a highly immunosuppressive molecule and exerts a central role in inflammation by neutralizing the proinflammatory ATP influence. This nucleoside is produced by purinergic signaling, an important physiological pathway for MSCs, which involves proliferation, migration, differentiation, and apoptosis. Therefore, in this study, we analyzed the extracellular AMP hydrolysis and consequent adenosine production, as well as the expression of CD73 and adenosine receptors on the cell surface of MSCs isolated from different human tissues: dermis (D-MSCs), adipose tissue (AD-MSCs), and umbilical cord (UC-MSCs). All cells confirmed their multipotent capacity by adipogenic, osteogenic, and chondrogenic differentiation, as well as the expression of cell surface markers including CD44\u2009+\u2009, CD105\u2009+\u2009, and CD90\u2009+\u2009. All MSCs expressed similar levels of CD73 and CD26 without a statistical difference among the different tissues, whereas ADA expression was lower in AD-MSCs. In addition, A1R and A3R mRNA levels were higher in D-MSCs and AD-MSCs, respectively. Enzymatic assay showed that AD-MSCs have the highest hydrolysis rate of AMP, leading to increased amount of adenosine production. Moreover, despite all MSCs completely hydrolyze extracellular AMP generating adenosine, the pattern of nucleosides metabolism was different. Therefore, although MSCs share certain characteristics as the multilineage potential and immunophenotype, they show different adenosinergic profiles according to tissue origin.",
+          "affiliation": "Laborat\u00f3rio de Biologia Celular, Universidade Federal de Ci\u00eancias da Sa\u00fade de Porto Alegre, UFCSPA, Rua Sarmento Leite, 245, Porto Alegre, RS, CEP 90050-170, Brazil.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado do Rio Grande do Sul",
+                "grantId": "PROGRAMA PESQUISADOR GA\u00daCHO - PqG (21/2551-0001947-6)",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado do Rio Grande do Sul",
+                "grantId": "RITES (22/2551-0000385-0)",
+                "orderIn": 0
+              },
+              {
+                "agency": "Conselho Nacional de Desenvolvimento Cient\u00edfico e Tecnol\u00f3gico",
+                "grantId": "MS-SCTIE-DECIT-DGITIS-CGCIS/CNPq n\u00ba 26/2020 (442586/2020-5)",
+                "orderIn": 0
+              },
+              {
+                "agency": "Conselho Nacional de Desenvolvimento Cient\u00edfico e Tecnol\u00f3gico",
+                "grantId": "MS-SCTIE-Decit/CNPq no 12/2018 (441575/2018-8)",
+                "orderIn": 0
+              },
+              {
+                "agency": "Conselho Nacional de Desenvolvimento Cient\u00edfico e Tecnol\u00f3gico",
+                "grantId": "National Institute of Science and Technology in 3D printing and Advanced Materials Applied to Human and Veterinary Health - INCT _3D-Sa\u00fade, CNPq (406436/2022-3)",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado do Rio Grande do Sul",
+                "grantId": "PROGRAMA PESQUISADOR GA\u00daCHO \u2013 PqG (21/2551-0001947-6)",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adipose Tissue",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mesenchymal Stem Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Umbilical Cord",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adenosine Deaminase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "5'-Nucleotidase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Purinergic P1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Adenosine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adenosine Monophosphate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Differentiation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "GPI-Linked Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Adenosine deaminase",
+              "AMP",
+              "Adenosine",
+              "Purinergic Signaling",
+              "Cd73",
+              "Human Mesenchymal Stromal Cells"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Adenosine Deaminase",
+                "registryNumber": "EC 3.5.4.4"
+              },
+              {
+                "name": "5'-Nucleotidase",
+                "registryNumber": "EC 3.1.3.5"
+              },
+              {
+                "name": "Receptors, Purinergic P1",
+                "registryNumber": "0"
+              },
+              {
+                "name": "NT5E protein, human",
+                "registryNumber": "EC 3.1.3.5"
+              },
+              {
+                "name": "GPI-Linked Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Adenosine Monophosphate",
+                "registryNumber": "415SHH325A"
+              },
+              {
+                "name": "Adenosine",
+                "registryNumber": "K72T3FS567"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s13577-023-00957-9"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-03-10",
+          "dateOfCreation": "2023-08-03",
+          "dateOfRevision": "2026-03-10",
+          "electronicPublicationDate": "2023-08-03",
+          "firstPublicationDate": "2023-08-03",
+          "firstIndexDate": "2023-08-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "36876041",
+          "source": "MED",
+          "pmid": "36876041",
+          "pmcid": "PMC9981664",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC9981664"
+            ]
+          },
+          "doi": "10.3389/fmolb.2023.1026810",
+          "title": "Proteolysis of CD44 at the cell surface controls a downstream protease network.",
+          "authorString": "W\u00f6hner B, Li W, Hey S, Drobny A, Werny L, Becker-Pauly C, Lucius R, Zunke F, Linder S, Arnold P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "W\u00f6hner B",
+                "lastName": "W\u00f6hner",
+                "firstName": "Birte",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anatomical Institute, Christian-Albrechts-University Kiel, Kiel, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li W",
+                "lastName": "Li",
+                "firstName": "Wenjia",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Functional and Clinical Anatomy, Friedrich-Alexander-University Erlangen-N\u00fcrnberg (FAU), Erlangen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hey S",
+                "lastName": "Hey",
+                "firstName": "Sven",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Medical Microbiology, Virology, and Hygiene, University Medical Center Eppendorf, Hamburg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Drobny A",
+                "lastName": "Drobny",
+                "firstName": "Alice",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Neurology, University Hospital Erlangen, Friedrich-Alexander-University Erlangen-N\u00fcrnberg (FAU), Erlangen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Werny L",
+                "lastName": "Werny",
+                "firstName": "Ludwig",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biochemical Institute, Christian-Albrechts-University Kiel, Kiel, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Becker-Pauly C",
+                "lastName": "Becker-Pauly",
+                "firstName": "Christoph",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biochemical Institute, Christian-Albrechts-University Kiel, Kiel, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lucius R",
+                "lastName": "Lucius",
+                "firstName": "Ralph",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anatomical Institute, Christian-Albrechts-University Kiel, Kiel, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zunke F",
+                "lastName": "Zunke",
+                "firstName": "Friederike",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0408-6388"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Neurology, University Hospital Erlangen, Friedrich-Alexander-University Erlangen-N\u00fcrnberg (FAU), Erlangen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Linder S",
+                "lastName": "Linder",
+                "firstName": "Stefan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Medical Microbiology, Virology, and Hygiene, University Medical Center Eppendorf, Hamburg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Arnold P",
+                "lastName": "Arnold",
+                "firstName": "Philipp",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Functional and Clinical Anatomy, Friedrich-Alexander-University Erlangen-N\u00fcrnberg (FAU), Erlangen, Germany."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0408-6388"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "10",
+            "journalIssueId": 3497186,
+            "dateOfPublication": "2023 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Front Mol Biosci",
+              "title": "Frontiers in molecular biosciences",
+              "essn": "2296-889X",
+              "issn": "2296-889X",
+              "nlmid": "101653173",
+              "isoabbreviation": "Front Mol Biosci"
+            },
+            "printPublicationDate": "2023-01-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "1026810",
+          "abstractText": "The cell surface receptor cluster of differentiation 44 (CD44) is the main hyaluronan receptor of the human body. At the cell surface, it can be proteolytically processed by different proteases and was shown to interact with different matrix metalloproteinases. Upon proteolytic processing of CD44 and generation of a C-terminal fragment (CTF), an intracellular domain (ICD) is released after intramembranous cleavage by the \u03b3-secretase complex. This intracellular domain then translocates to the nucleus and induces transcriptional activation of target genes. In the past CD44 was identified as a risk gene for different tumor entities and a switch in CD44 isoform expression towards isoform CD44s associates with epithelial to mesenchymal transition (EMT) and cancer cell invasion. Here, we introduce meprin \u03b2 as a new sheddase of CD44 and use a CRISPR/Cas9 approach to deplete CD44 and its sheddases ADAM10 and MMP14 in HeLa cells. We here identify a regulatory loop at the transcriptional level between ADAM10, CD44, MMP14 and MMP2. We show that this interplay is not only present in our cell model, but also across different human tissues as deduced from GTEx (Gene Tissue Expression) data. Furthermore, we identify a close relation between CD44 and MMP14 that is also reflected in functional assays for cell proliferation, spheroid formation, migration and adhesion.",
+          "affiliation": "Anatomical Institute, Christian-Albrechts-University Kiel, Kiel, Germany.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Cell adhesion",
+              "CD44",
+              "Adam10",
+              "Mmp2",
+              "Shedding",
+              "Tumor Spheroid",
+              "Mmp14",
+              "Meprin \u0392"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fmolb.2023.1026810"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC9981664"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC9981664?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 22,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pxd",
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2023-03-06",
+          "dateOfRevision": "2023-03-07",
+          "electronicPublicationDate": "2023-02-17",
+          "firstPublicationDate": "2023-02-17",
+          "firstIndexDate": "2023-03-07",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "35757747",
+          "source": "MED",
+          "pmid": "35757747",
+          "pmcid": "PMC9218250",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC9218250"
+            ]
+          },
+          "doi": "10.3389/fimmu.2022.885642",
+          "title": "Tissue-Specific Diversity of Group 2 Innate Lymphoid Cells in the Skin.",
+          "authorString": "Kobayashi T, Moro K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kobayashi T",
+                "lastName": "Kobayashi",
+                "firstName": "Tetsuro",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2316-4748"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory for Innate Immune Systems, RIKEN Center for Integrative Medical Sciences (IMS), Yokohama, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moro K",
+                "lastName": "Moro",
+                "firstName": "Kazuyo",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory for Innate Immune Systems, RIKEN Center for Integrative Medical Sciences (IMS), Yokohama, Japan."
+                    },
+                    {
+                      "affiliation": "Laboratory for Innate Immune Systems, Department of Microbiology and Immunology, Graduate School of Medicine, Osaka University, Osaka, Japan."
+                    },
+                    {
+                      "affiliation": "Laboratory for Innate Immune Systems, Immunology Frontier Research Center (iFReC), Osaka University, Osaka, Japan."
+                    },
+                    {
+                      "affiliation": "Laboratory for Innate Immune Systems, Graduate School of Frontier Biosciences, Osaka University, Osaka, Japan."
+                    },
+                    {
+                      "affiliation": "Integrated Frontier Research for Medical Science Division, Institute for Open and Transdisciplinary Research Initiatives (OTRI), Osaka University, Osaka, Japan."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2316-4748"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "volume": "13",
+            "journalIssueId": 3304879,
+            "dateOfPublication": "2022 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2022,
+            "journal": {
+              "medlineAbbreviation": "Front Immunol",
+              "title": "Frontiers in immunology",
+              "essn": "1664-3224",
+              "issn": "1664-3224",
+              "nlmid": "101560960",
+              "isoabbreviation": "Front Immunol"
+            },
+            "printPublicationDate": "2022-01-01"
+          },
+          "pubYear": "2022",
+          "pageInfo": "885642",
+          "abstractText": "Since the discovery of group 2 innate lymphoid cells (ILC2s), their developmental pathways, mechanisms of activation and regulation, and immunological roles in the steady state and in disease have been reported in various organs. ILC2s, which produce large amounts of IL-5 and IL-13 in response to tissue-derived factors and are essential in inducing and promoting allergic inflammation, have also been found to play multifaceted roles in maintaining tissue homeostasis. While T cells respond to foreign antigens, the activation of ILC2s is regulated by various tissue-derived factors, including cytokines, lipids, hormones, and neurotransmitters, and ILC2s show different phenotypes depending on the tissue in which they are present. In this review, we discuss tissue-specific characteristics of ILC2s in the skin. ILC2s, as defined in the lungs, intestinal tract, and adipose tissue, cannot be directly applied to cutaneous ILC biology, because skin ILC2s exhibit different aspects in the expression patterns of cell surface markers, the response to tissue-derived cytokines and the functions in both steady-state and inflammation. The skin contains ILCs with features of both ILC2s and ILC3s, and the plasticity between ILCs complicates their characters. Furthermore, the epidermis, dermis, and subcutaneous tissues contain ILCs with different characteristics; their localization has expanded our understanding of ILC function. Single-cell RNA-seq technology has further elucidated the role of ILCs in human skin and disease pathogenesis. Overall, this review discusses the phenotypical and functional heterogeneity of skin ILCs reported in recent years and highlights future directions within the field of ILC biology.",
+          "affiliation": "Laboratory for Innate Immune Systems, RIKEN Center for Integrative Medical Sciences (IMS), Yokohama, Japan.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Japan Society for the Promotion of Science",
+                "orderIn": 0
+              },
+              {
+                "agency": "LEO Foundation",
+                "grantId": "LF-AW_RAP-19-400048",
+                "orderIn": 0
+              },
+              {
+                "agency": "Japan Agency for Medical Research and Development",
+                "grantId": "JP21gm6510005",
+                "orderIn": 0
+              },
+              {
+                "agency": "Japan Society for the Promotion of Science",
+                "grantId": "20H03705, 20K21534, 18H05286",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lymphocytes"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Skin"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Inflammation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytokines"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Immunity, Innate"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Allergy",
+              "Diversity",
+              "SKin",
+              "Dermatology",
+              "Ilc2"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Cytokines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fimmu.2022.885642/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fimmu.2022.885642"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC9218250"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC9218250?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 15,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2022-06-28",
+          "dateOfCreation": "2022-06-27",
+          "dateOfRevision": "2022-07-16",
+          "electronicPublicationDate": "2022-06-09",
+          "firstPublicationDate": "2022-06-09",
+          "firstIndexDate": "2022-06-28",
+          "fullTextReceivedDate": "2022-06-27",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

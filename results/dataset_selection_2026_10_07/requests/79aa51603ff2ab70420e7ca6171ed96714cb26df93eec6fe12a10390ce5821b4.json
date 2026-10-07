@@ -1,0 +1,440 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22phosphoproteome%22+OR+%22acetylome%22+OR+%22ubiquitinome%22+OR+%22glycoproteome%22+OR+%22palmitoylome%22+OR+%22post-translational%22%29+AND+TITLE_ABS%3A%28%22arginine%22+OR+%22methylation%22%29+AND+TITLE_ABS%3A%22asexual+blood+stage%22+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:00:30.567096+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1,
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"phosphoproteome\" OR \"acetylome\" OR \"ubiquitinome\" OR \"glycoproteome\" OR \"palmitoylome\" OR \"post-translational\") AND TITLE_ABS:(\"arginine\" OR \"methylation\") AND TITLE_ABS:\"asexual blood stage\" sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "27762281",
+          "source": "MED",
+          "pmid": "27762281",
+          "pmcid": "PMC5071865",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC5071865"
+            ]
+          },
+          "doi": "10.1038/srep35432",
+          "title": "Widespread occurrence of lysine methylation in Plasmodium falciparum proteins at asexual blood stages.",
+          "authorString": "Kaur I, Zeeshan M, Saini E, Kaushik A, Mohmmed A, Gupta D, Malhotra P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kaur I",
+                "lastName": "Kaur",
+                "firstName": "Inderjeet",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8778-1396"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Malaria Biology Group, International Centre for Genetic Engineering and Biotechnology, ICGEB, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zeeshan M",
+                "lastName": "Zeeshan",
+                "firstName": "Mohammad",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Malaria Biology Group, International Centre for Genetic Engineering and Biotechnology, ICGEB, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    },
+                    {
+                      "affiliation": "Translational Bioinformatics Group, International Centre for Genetic Engineering and Biotechnology, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saini E",
+                "lastName": "Saini",
+                "firstName": "Ekta",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5701-6108"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Malaria Biology Group, International Centre for Genetic Engineering and Biotechnology, ICGEB, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kaushik A",
+                "lastName": "Kaushik",
+                "firstName": "Abhinav",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5682-0209"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Translational Bioinformatics Group, International Centre for Genetic Engineering and Biotechnology, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mohmmed A",
+                "lastName": "Mohmmed",
+                "firstName": "Asif",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Parasite Cell Biology Group, International Centre for Genetic Engineering and Biotechnology, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gupta D",
+                "lastName": "Gupta",
+                "firstName": "Dinesh",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Translational Bioinformatics Group, International Centre for Genetic Engineering and Biotechnology, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Malhotra P",
+                "lastName": "Malhotra",
+                "firstName": "Pawan",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Malaria Biology Group, International Centre for Genetic Engineering and Biotechnology, ICGEB, Aruna Asaf Ali Marg, New Delhi-110067, India."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5682-0209"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5701-6108"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8778-1396"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "6",
+            "journalIssueId": 2457456,
+            "dateOfPublication": "2016 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Sci Rep",
+              "title": "Scientific reports",
+              "essn": "2045-2322",
+              "issn": "2045-2322",
+              "isoabbreviation": "Sci Rep",
+              "nlmid": "101563288"
+            },
+            "printPublicationDate": "2016-10-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "35432",
+          "abstractText": "Post-transcriptional and post-translational modifications play a major role in Plasmodium life cycle regulation. Lysine methylation of histone proteins is well documented in several organisms, however in recent years lysine methylation of proteins outside histone code is emerging out as an important post-translational modification (PTM). In the present study we have performed global analysis of lysine methylation of proteins in asexual blood stages of Plasmodium falciparum development. We immunoprecipitated stage specific Plasmodium lysates using anti-methyl lysine specific antibodies that immunostained the asexual blood stage parasites. Using liquid chromatography and tandem mass spectrometry analysis, 570 lysine methylated proteins at three different blood stages were identified. Analysis of the peptide sequences identified 605 methylated sites within 422 proteins. Functional classification of the methylated proteins revealed that the proteins are mainly involved in nucleotide metabolic processes, chromatin organization, transport, homeostatic processes and protein folding. The motif analysis of the methylated lysine peptides reveals novel motifs. Many of the identified lysine methylated proteins are also interacting partners/substrates of PfSET domain proteins as revealed by STRING database analysis. Our findings suggest that the protein methylation at lysine residues is widespread in Plasmodium and plays an important regulatory role in diverse set of the parasite pathways.",
+          "affiliation": "Malaria Biology Group, International Centre for Genetic Engineering and Biotechnology, ICGEB, Aruna Asaf Ali Marg, New Delhi-110067, India.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histone-Lysine N-Methyltransferase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lysine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibody Specificity",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Motifs"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Substrate Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Methylation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Position-Specific Scoring Matrices"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histone-Lysine N-Methyltransferase",
+                "registryNumber": "EC 2.1.1.43"
+              },
+              {
+                "name": "Lysine",
+                "registryNumber": "K3Z4F929H6"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.nature.com/articles/srep35432.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/srep35432"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5071865"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5071865?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 17,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2018-04-23",
+          "dateOfCreation": "2016-10-21",
+          "dateOfRevision": "2018-11-13",
+          "electronicPublicationDate": "2016-10-20",
+          "firstPublicationDate": "2016-10-20",
+          "firstIndexDate": "2016-10-27",
+          "fullTextReceivedDate": "2020-07-12",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

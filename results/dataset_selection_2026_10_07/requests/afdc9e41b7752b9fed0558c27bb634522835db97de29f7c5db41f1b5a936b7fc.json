@@ -1,0 +1,3400 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22interactome%22+OR+%22interaction%22+OR+%22co-immunoprecipitation%22+OR+%22BioID%22+OR+%22TurboID%22+OR+%22crosslinking+mass+spectrometry%22+OR+%22yeast+two-hybrid%22%29+AND+TITLE_ABS%3A%28%22RNA-binding%22+OR+%22targets%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:01:38.433710+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 88,
+    "nextCursorMark": "AoJwwO+V2ZYDKDUzMDQwMzY3",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22interactome%22+OR+%22interaction%22+OR+%22co-immunoprecipitation%22+OR+%22BioID%22+OR+%22TurboID%22+OR+%22crosslinking+mass+spectrometry%22+OR+%22yeast+two-hybrid%22%29+AND+TITLE_ABS%3A%28%22RNA-binding%22+OR+%22targets%22%29+sort_date%3Ay&cursorMark=AoJwwO%2BV2ZYDKDUzMDQwMzY3&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"interactome\" OR \"interaction\" OR \"co-immunoprecipitation\" OR \"BioID\" OR \"TurboID\" OR \"crosslinking mass spectrometry\" OR \"yeast two-hybrid\") AND TITLE_ABS:(\"RNA-binding\" OR \"targets\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42586428",
+          "source": "MED",
+          "pmid": "42586428",
+          "pmcid": "PMC13599632",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13599632"
+            ]
+          },
+          "doi": "10.1016/j.jbc.2026.113436",
+          "title": "PUF family RNA-binding proteins Puf1 and Puf2 promote transcript degradation in Toxoplasma gondii.",
+          "authorString": "Khandavalli CR, Gurupwar R, Deshmukh AS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Khandavalli CR",
+                "lastName": "Khandavalli",
+                "firstName": "Chitti Raju",
+                "initials": "CR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Parasitology Laboratory, BRIC-National Institute of Animal Biotechnology, Hyderabad, Telangana, India; Regional Centre for Biotechnology (RCB), Faridabad, Haryana, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gurupwar R",
+                "lastName": "Gurupwar",
+                "firstName": "Rajkumar",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Parasitology Laboratory, BRIC-National Institute of Animal Biotechnology, Hyderabad, Telangana, India; Regional Centre for Biotechnology (RCB), Faridabad, Haryana, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Deshmukh AS",
+                "lastName": "Deshmukh",
+                "firstName": "Abhijit S",
+                "initials": "AS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Parasitology Laboratory, BRIC-National Institute of Animal Biotechnology, Hyderabad, Telangana, India; Regional Centre for Biotechnology (RCB), Faridabad, Haryana, India. Electronic address: abhijit@niab.org.in."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "302",
+            "journalIssueId": 4253108,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Biol Chem",
+              "title": "The Journal of biological chemistry",
+              "essn": "1083-351X",
+              "issn": "0021-9258",
+              "nlmid": "2985121R",
+              "isoabbreviation": "J Biol Chem"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "113436",
+          "abstractText": "Toxoplasma gondii, a highly successful apicomplexan parasite, primarily relies on post-transcriptional mechanisms to regulate mRNA stability and translation during rapid life-cycle stage transitions and to adapt to diverse host environments. While RNA-binding proteins (RBPs) are crucial for these regulatory processes, their specific roles in mRNA translation, storage, and degradation during life-stage transitions and under physiological stress in Toxoplasma remain poorly understood. Here, we identified the PUF family of RBPs and characterized two conserved members, TgPuf1 and TgPuf2. We examined their expression, localization, RNA-binding activity, essentiality during asexual stages in cell culture and mouse host, responses to stress conditions, and roles in transcript regulation. Gene-knockout studies in cell culture showed that TgPuf1 modestly supports parasite fitness under both normal and stress conditions, while TgPuf2 appears largely dispensable. Mice infected with Puf1-deleted tachyzoites showed delayed mortality compared with wild-type, whereas neither Puf1 nor Puf2 deletion affected bradyzoite development. Both TgPuf proteins bind to a conserved RNA sequence known as PUF recognition elements (PREs), associate with ribonucleoprotein complexes, and interact with the deadenylase enzyme TgPop2. Using reporter gene systems, we demonstrated that, upon interaction with TgPop2, TgPuf proteins stimulate the removal of the poly(A) tail from RNA targets, thereby promoting RNA degradation. The inability to generate the double knockout is adequately addressed using TgPuf1-mAID in the delta TgPuf2 background, indicating that individual Puf proteins are dispensable; however, the lack of both results in severe growth defects. Overall, these findings suggest that PUF proteins regulate transcript levels in Toxoplasma through a deadenylation-dependent mechanism.",
+          "affiliation": "Molecular Parasitology Laboratory, BRIC-National Institute of Animal Biotechnology, Hyderabad, Telangana, India; Regional Centre for Biotechnology (RCB), Faridabad, Haryana, India.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Institute of Agricultural Botany",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Biotechnology",
+                "grantId": "BT/PR56247/BSA/33/399/2024",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Science and Technology",
+                "grantId": "CRG/2023/004341/BHS",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "RNA-binding protein",
+              "RNA degradation",
+              "Toxoplasma gondii",
+              "Puf",
+              "Deadenylase",
+              "Apicomplexan"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jbc.2026.113436"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13599632"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13599632?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2026-08-12",
+          "dateOfRevision": "2026-09-25",
+          "electronicPublicationDate": "2026-08-12",
+          "firstPublicationDate": "2026-08-12",
+          "firstIndexDate": "2026-08-15",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42111053",
+          "source": "MED",
+          "pmid": "42111053",
+          "pmcid": "PMC13157305",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13157305"
+            ]
+          },
+          "doi": "10.1155/tbed/8426765",
+          "title": "&lt;i&gt;Toxoplasma gondii&lt;/i&gt; KCR is a Noncanonical Modulator of CSF2 Signaling that Targets the CSF2R\u03b1-JAK2/STAT5 Axis.",
+          "authorString": "Mei J, Pu X, Zhang M, Liu Y, Meng C, Xu L, Song X, Yan R, Li X, Lu M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Mei J",
+                "lastName": "Mei",
+                "firstName": "Jie",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pu X",
+                "lastName": "Pu",
+                "firstName": "Xianglin",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang M",
+                "lastName": "Zhang",
+                "firstName": "Mengkai",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu Y",
+                "lastName": "Liu",
+                "firstName": "Yue",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Meng C",
+                "lastName": "Meng",
+                "firstName": "Chuang",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Zoonosis, Yangzhou University, Yangzhou, Jiangsu, 225009, China, yzu.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu L",
+                "lastName": "Xu",
+                "firstName": "Lixin",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Song X",
+                "lastName": "Song",
+                "firstName": "Xiaokai",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0102-0938"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yan R",
+                "lastName": "Yan",
+                "firstName": "Ruofeng",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8347-3097"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li X",
+                "lastName": "Li",
+                "firstName": "Xiangrui",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lu M",
+                "lastName": "Lu",
+                "firstName": "Mingmin",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7343-7815"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn."
+                    },
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Zoonosis, Yangzhou University, Yangzhou, Jiangsu, 225009, China, yzu.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8347-3097"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7343-7815"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0102-0938"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "2026",
+            "journalIssueId": 4084982,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Transbound Emerg Dis",
+              "title": "Transboundary and emerging diseases",
+              "essn": "1865-1682",
+              "issn": "1865-1674",
+              "nlmid": "101319538",
+              "isoabbreviation": "Transbound Emerg Dis"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "8426765",
+          "abstractText": "<i>Toxoplasma gondii</i> establishes infection in hosts by deploying effector proteins that reprogram cytokine-driven immunity. While protozoan parasite-encoded macrophage migration inhibitory factor (MIF) homologs exemplify cytokine mimicry, whether <i>T. gondii</i> targets additional host cytokine axes remains unclear. Here, we identify a <i>T. gondii</i> 3-ketoacyl-CoA reductase (KCR) as a noncanonical cytokine modulator that engages the granulocyte-macrophage colony-stimulating factor (CSF2) receptor alpha chain (CSF2R\u03b1). In HEK293T cells, forward and reverse co-immunoprecipitation (Co-IP) assays demonstrated a specific interaction between KCR and murine CSF2R\u03b1. The recombinant KCR triggered rapid activation of canonical CSF2 signaling in RAW264.7 macrophages, inducing phosphorylation of JAK2 and STAT5 to levels comparable to murine CSF2. Functionally, KCR enhanced NADPH oxidase-dependent oxidative responses, increasing intracellular reactive oxygen species (ROS) and upregulating transcripts encoding core oxidase subunits, including CYBB, CYBA, NCF1, and NCF2. KCR also promoted phagocytic capacity, elevating FITC-dextran uptake and inducing expression of complement, Fc, and scavenger receptor genes, including CR3, CD16, CD64, MSR1, and MARCO. Notably, KCR pretreatment attenuated CSF2-induced JAK2/STAT5 phosphorylation, ROS production, and phagocytosis, consistent with competitive interference with endogenous CSF2-CSF2R signaling. Together, these findings reveal KCR as a previously unrecognized <i>T. gondii</i> factor that targets the CSF2/CSF2R axis to recalibrate macrophage effector functions, expanding the repertoire of parasite strategies for cytokine pathway modulation and highlighting CSF2-CSF2R signaling as a potential interface for mechanistic and therapeutic investigation in toxoplasmosis.",
+          "affiliation": "Ministry of Education (MOE) Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, 210095, China, njau.edu.cn.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Key Research and Development Program of China",
+                "grantId": "2022YFD1800200",
+                "orderIn": 0
+              },
+              {
+                "agency": "Fundamental Research Funds for the Central Universities",
+                "grantId": "YDZX2026009",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Granulocyte-Macrophage Colony-Stimulating Factor",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, Granulocyte-Macrophage Colony-Stimulating Factor",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "STAT5 Transcription Factor",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Janus Kinase 2",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RAW 264.7 Cells"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "Immune Evasion",
+              "Kcr",
+              "Csf2",
+              "Jak2/stat5 Signaling"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Granulocyte-Macrophage Colony-Stimulating Factor",
+                "registryNumber": "83869-56-1"
+              },
+              {
+                "name": "Receptors, Granulocyte-Macrophage Colony-Stimulating Factor",
+                "registryNumber": "0"
+              },
+              {
+                "name": "STAT5 Transcription Factor",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Janus Kinase 2",
+                "registryNumber": "EC 2.7.10.2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1155/tbed/8426765"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13157305"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13157305?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2026-07-16",
+          "dateOfCreation": "2026-05-11",
+          "dateOfRevision": "2026-09-26",
+          "electronicPublicationDate": "2026-05-09",
+          "firstPublicationDate": "2026-05-09",
+          "firstIndexDate": "2026-05-13",
+          "fullTextReceivedDate": "2026-05-20",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41619985",
+          "source": "MED",
+          "pmid": "41619985",
+          "doi": "10.1016/j.bbi.2026.106473",
+          "title": "Atovaquone/proguanil use and zoster vaccination are associated with reduced Alzheimer's disease risk in two cohorts: implications for a latent Toxoplasma gondii mechanism.",
+          "authorString": "Israel A, Weizman A, Israel S, Ashkenazi S, Vinker S, Magen E, Merzon E.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Israel A",
+                "lastName": "Israel",
+                "firstName": "Ariel",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Leumit Research Institute, Leumit Health Services, Tel-Aviv, Israel; Department of Epidemiology and Preventive Medicine, School of Public Health, Gray Faculty of Medical & Health Sciences, Tel Aviv University, Tel-Aviv, Israel. Electronic address: aisrael@leumit.co.il."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Weizman A",
+                "lastName": "Weizman",
+                "firstName": "Abraham",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Research Unit, Geha Mental Health Center, Felsenstein Medical Research Center and Sagol School of Neurosciences, Faculty of Medical & Health Sciences, Tel-Aviv University, Tel-Aviv, Israel."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Israel S",
+                "lastName": "Israel",
+                "firstName": "Sarah",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Clinical Microbiology and Infectious Diseases, Hadassah-Hebrew University Medical Center, Faculty of Medicine, Hebrew University of Jerusalem, Jerusalem Israel."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ashkenazi S",
+                "lastName": "Ashkenazi",
+                "firstName": "Shai",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adelson School of Medicine, Ariel University, Ariel, Israel; Department of Infectious Diseases, Schneider Children's Medical Center, Petah-Tikva, Israel."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vinker S",
+                "lastName": "Vinker",
+                "firstName": "Shlomo",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Leumit Research Institute, Leumit Health Services, Tel-Aviv, Israel."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Magen E",
+                "lastName": "Magen",
+                "firstName": "Eli",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7713-423X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Medicine A Department, Assuta Ashdod University Medical Center, Ben Gurion University of the Negev, Beer Sheva, Israel."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Merzon E",
+                "lastName": "Merzon",
+                "firstName": "Eugene",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Leumit Research Institute, Leumit Health Services, Tel-Aviv, Israel; Adelson School of Medicine, Ariel University, Ariel, Israel."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7713-423X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4389-8896"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "volume": "134",
+            "journalIssueId": 4179016,
+            "dateOfPublication": "2026 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Brain Behav Immun",
+              "title": "Brain, behavior, and immunity",
+              "essn": "1090-2139",
+              "issn": "0889-1591",
+              "nlmid": "8800478",
+              "isoabbreviation": "Brain Behav Immun"
+            },
+            "printPublicationDate": "2026-05-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "106473",
+          "abstractText": "Alzheimer's disease (AD) is a progressive neurodegenerative disorder with a multifactorial and incompletely understood etiology. Identifying exposures associated with reduced AD risk may help generate mechanistic hypotheses and inform future prevention strategies. To investigate such associations, we analyzed electronic health records from a national Israeli health provider, retrospectively comparing 9124 individuals with AD to 18,248 matched controls. We systematically screened prior medication purchases recorded up to 10\u00a0years before diagnosis. Significant associations, adjusted for residual confounding, were further evaluated in the TriNetX network, where large propensity score-matched cohorts were compared for incident dementia following medication exposure or vaccination. Among all exposures assessed, strong protective associations were observed for atovaquone-proguanil, an antiprotozoal agent with established activity against Toxoplasma gondii, and for two different varicella-zoster virus (VZV) vaccines. These associations persisted after adjustment for demographic factors, comorbidities, and baseline healthcare utilization, and were independently reproduced in TriNetX across three strata of exposure age (50-59, 60-69, 70-79\u00a0years). In addition, T. gondii seropositivity was associated with increased dementia risk among individuals tested. In exploratory analyses, the magnitude of the association between atovaquone-proguanil and subsequent dementia appeared to differ according to prior VZV vaccination status, suggesting a possible interaction between protozoal suppression and antiviral immunity. Together, these findings provide population-level evidence consistent with a latent T. gondii-related mechanism in AD pathogenesis, and highlight testable targets for future mechanistic and interventional research.",
+          "affiliation": "Leumit Research Institute, Leumit Health Services, Tel-Aviv, Israel; Department of Epidemiology and Preventive Medicine, School of Public Health, Gray Faculty of Medical & Health Sciences, Tel Aviv University, Tel-Aviv, Israel. Electronic address: aisrael@leumit.co.il.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Herpesvirus 3, Human",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Herpes Zoster",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Alzheimer Disease",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Drug Combinations"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vaccination",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Retrospective Studies"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cohort Studies"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Israel"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Atovaquone",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proguanil",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Herpesvirus",
+              "Toxoplasma gondii",
+              "Alzheimer\u2019s disease",
+              "Dementia",
+              "Antiprotozoal",
+              "Atovaquone",
+              "Zoster Vaccination"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Drug Combinations",
+                "registryNumber": "0"
+              },
+              {
+                "name": "atovaquone, proguanil drug combination",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proguanil",
+                "registryNumber": "S61K3P7B2V"
+              },
+              {
+                "name": "Atovaquone",
+                "registryNumber": "Y883P1Z2LT"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.bbi.2026.106473"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-07-06",
+          "dateOfCreation": "2026-01-31",
+          "dateOfRevision": "2026-07-06",
+          "electronicPublicationDate": "2026-01-29",
+          "firstPublicationDate": "2026-01-29",
+          "firstIndexDate": "2026-02-06",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1136570",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-8320689/v1",
+          "title": "Computational Profiling of Electronic and Pharmacophoric Features of Felidae Drugs Against Toxoplasma gondii",
+          "authorString": "Manzoor N, Sharma V, Kamal MA, Bhat AR, Raju SK, Sharma V, Humaidi JR, Upadhye VJ, Ahmed S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Manzoor N",
+                "lastName": "Manzoor",
+                "firstName": "Nargis",
+                "initials": "N"
+              },
+              {
+                "fullName": "Sharma V",
+                "lastName": "Sharma",
+                "firstName": "Vinita",
+                "initials": "V"
+              },
+              {
+                "fullName": "Kamal MA",
+                "lastName": "Kamal",
+                "firstName": "Mohammad Amjad",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Bhat AR",
+                "lastName": "Bhat",
+                "firstName": "Ajmal",
+                "initials": "AR"
+              },
+              {
+                "fullName": "Raju SK",
+                "lastName": "Raju",
+                "firstName": "Senthil Kumar",
+                "initials": "SK"
+              },
+              {
+                "fullName": "Sharma V",
+                "lastName": "Sharma",
+                "firstName": "Vipin",
+                "initials": "V"
+              },
+              {
+                "fullName": "Humaidi JR",
+                "lastName": "Humaidi",
+                "firstName": "Jamal",
+                "initials": "JR"
+              },
+              {
+                "fullName": "Upadhye VJ",
+                "lastName": "Upadhye",
+                "firstName": "Vijay Jagdish",
+                "initials": "VJ"
+              },
+              {
+                "fullName": "Ahmed S",
+                "lastName": "Ahmed",
+                "firstName": "Sumeer",
+                "initials": "S"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5302-8857"
+              }
+            ]
+          },
+          "pubYear": "2025",
+          "abstractText": "<title>Abstract</title>  <p>  <italic>Toxoplasma gondii</italic>  , an obligate intracellular protozoan parasite, remains a major zoonotic pathogen with members of the family Felidae serving as its definitive hosts. The limited efficacy and emerging resistance of current anti-toxoplasmic agents necessitate the identification of improved inhibitors targeting the parasite\u2019s key metabolic enzymes. This study leverages a multi-parametric computational approach to evaluate the efficacy of Pyrimethamine, Sulfadiazine, and Clindamycin as potential TS-DHFR (Thymidylate synthase-dihydrofolate reductase) inhibitors targeting  <italic>Toxoplasma gondii</italic>  . A series of  <italic>in silico</italic>  techniques are employed to thoroughly evaluate their drug-likeness, pharmacokinetics, toxicity, and binding affinity. An analysis of physicochemical properties is performed to evaluate key molecular descriptors, including molecular weight, LogP, hydrogen bond donors and acceptors, topological polar surface area (TPSA), and rotatable bond count, all of which influence the ability of a compound to permeate biological membranes. The POM analysis, integrating PETRA, Osiris, and Molinspiration modules are utilised to compute quantum mechanical descriptors, predict toxicity risks, and estimate bioactivity scores across a range of pharmacological targets.  <italic>In silico</italic>  ADMET profiling performed using SwissADME, pkCSM, and ADMETlab that predict toxicity risks, and estimate bioactivity scores across a range of pharmacological targets, such as oral absorption, blood-brain barrier penetration, cytochrome P450 enzyme interactions, and potential toxicological endpoints, including hepatotoxicity, AMES mutagenicity, and skin sensitisation, thereby establishing a preliminary safety profile. Pharmacokinetic simulations are also carried out to forecast oral bioavailability, gastrointestinal absorption, volume of distribution, systemic clearance, and biological half-life. Moreover, molecular docking using AutoDock simulated the interaction of the three drugs with the TS-DHFR active site, evaluating binding energies, types of interactions hydrogen bonds, hydrophobic contacts, \u03c0-\u03c0 stacking), and identifying key amino acid residues involved in ligand binding. Finally, Density Functional Theory (DFT) studies are conducted to complement the molecular-level understanding. These involved geometry optimization, Molecular Electrostatic Potential (MEP) mapping, Mulliken charge distribution analysis, and frontier molecular orbital (HOMO-LUMO) evaluations, providing insights into the electronic properties, reactivity, and stability of the ligands. This integrative computational framework provides a comprehensive  <italic>in silico</italic>  evaluation of the three clinically relevant potential drugs for systematic drug repurposing and optimisation strategies aimed at treating toxoplasmosis through TS-DHFR inhibition within wild and domestic members of Family  <italic>Felidae</italic>  .  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2025
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-8320689/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2025-12-23",
+          "firstPublicationDate": "2025-12-22",
+          "firstIndexDate": "2025-12-23",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1136570",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2025-12-22",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41073664",
+          "source": "MED",
+          "pmid": "41073664",
+          "pmcid": "PMC12669045",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12669045"
+            ]
+          },
+          "doi": "10.1038/s41564-025-02144-y",
+          "title": "Toxoplasma gondii VIP1 mediates parasitophorous vacuole-host endoplasmic reticulum interactions to facilitate parasite development.",
+          "authorString": "Romano JD, Buh R, Grudda T, Box JR, Beltran J, Khan SM, Coppens I.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Romano JD",
+                "lastName": "Romano",
+                "firstName": "Julia D",
+                "initials": "JD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8956-7377"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA. jromano2@jhu.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Buh R",
+                "lastName": "Buh",
+                "firstName": "Ruth",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Grudda T",
+                "lastName": "Grudda",
+                "firstName": "Tanner",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9045-2753"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Box JR",
+                "lastName": "Box",
+                "firstName": "Julia R",
+                "initials": "JR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-1548-5922"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Beltran J",
+                "lastName": "Beltran",
+                "firstName": "John",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Khan SM",
+                "lastName": "Khan",
+                "firstName": "Shahbaz M",
+                "initials": "SM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6239-9446"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coppens I",
+                "lastName": "Coppens",
+                "firstName": "Isabelle",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5549-2362"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA. icoppen1@jhu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5549-2362"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8956-7377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9045-2753"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6239-9446"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-1548-5922"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "10",
+            "journalIssueId": 4060159,
+            "dateOfPublication": "2025 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Nat Microbiol",
+              "title": "Nature microbiology",
+              "essn": "2058-5276",
+              "issn": "2058-5276",
+              "nlmid": "101674869",
+              "isoabbreviation": "Nat Microbiol"
+            },
+            "printPublicationDate": "2025-12-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "3315-3330",
+          "abstractText": "Membrane contact sites (MCS) are areas of close apposition between organelles without membrane fusion, allowing for exchange of biomolecules. The endoplasmic reticulum (ER) forms many MCS via two proteins, vesicle-associated membrane protein-associated proteins A and B (VAPA and VAPB). The obligate intracellular parasite Toxoplasma gondii resides within mammalian cells in a parasitophorous vacuole (PV), which closely contacts the host ER at distances compatible with MCS. However, the proteins mediating this interaction remain largely unknown. Here, using molecular and microscopy approaches, we show that VAPA and VAPB localize at the PV membrane and, with motile sperm domain-containing protein 2 (MOSPD2), mediate ER-PV interactions. Cells deficient in VAPA, VAPB and MOSPD2 do not recruit host ER at the PV, and parasites show growth defects. We identify a parasite protein that localizes at the PV membrane, called TgVIP1, which harbours an FFAT-like motif that binds VAPA and VAPB. These findings lay the basis for understanding how and why Toxoplasma exploits ER-PV interactions and may uncover new drug targets.",
+          "affiliation": "Department of Molecular Microbiology and Immunology, Johns Hopkins University Bloomberg School of Public Health, Baltimore, MD, USA. jromano2@jhu.edu.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI166921",
+                "orderIn": 0
+              },
+              {
+                "agency": "Division of Intramural Research, National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI060767",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI060767",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI060767",
+                "orderIn": 0
+              },
+              {
+                "agency": "Division of Intramural Research, National Institute of Allergy and Infectious Diseases (Division of Intramural Research of the NIAID)",
+                "grantId": "AI060767",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health & Human Services | NIH | National Institute of Allergy and Infectious Diseases (NIAID)",
+                "grantId": "AI060767",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Vacuoles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Endoplasmic Reticulum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vesicular Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Parasite Interactions"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Vesicular Transport Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41564-025-02144-y"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12669045"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12669045?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "41430484",
+                "reference": "Nat Microbiol. 2026 Feb;11(2):611. doi: 10.1038/s41564-025-02255-6.",
+                "type": "Erratum in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 9,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-12-02",
+          "dateOfCreation": "2025-10-10",
+          "dateOfRevision": "2026-09-19",
+          "electronicPublicationDate": "2025-10-10",
+          "firstPublicationDate": "2025-10-10",
+          "firstIndexDate": "2025-10-12",
+          "fullTextReceivedDate": "2025-12-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40888172",
+          "source": "MED",
+          "pmid": "40888172",
+          "pmcid": "PMC12449179",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12449179"
+            ]
+          },
+          "doi": "10.1093/glycob/cwaf051",
+          "title": "O-fucosylation affects abundance but not localization of select nucleocytoplasmic proteins in toxoplasma gondii.",
+          "authorString": "Tiwari M, Gas-Pascual E, Teal-Urquides J, Samuelson J, West CM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Tiwari M",
+                "lastName": "Tiwari",
+                "firstName": "Megna",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6788-2675"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, 120 East Green Street, University of Georgia, Athens GA 30602, USA."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens GA 30602, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gas-Pascual E",
+                "lastName": "Gas-Pascual",
+                "firstName": "Elisabet",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2643-6916"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, 120 East Green Street, University of Georgia, Athens GA 30602, USA."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens GA 30602, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Teal-Urquides J",
+                "lastName": "Teal-Urquides",
+                "firstName": "Janice",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, 120 East Green Street, University of Georgia, Athens GA 30602, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Samuelson J",
+                "lastName": "Samuelson",
+                "firstName": "John",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9533-3040"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular & Cell Biology, Boston University School of Dental Medicine, Boston, MA 02118, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "West CM",
+                "lastName": "West",
+                "firstName": "Christopher M",
+                "initials": "CM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9077-965X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, 120 East Green Street, University of Georgia, Athens GA 30602, USA."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens GA 30602, USA."
+                    },
+                    {
+                      "affiliation": "Complex Carbohydrate Research Center, University of Georgia, Athens GA 30602, USA."
+                    },
+                    {
+                      "affiliation": "Center for Molecular Medicine, 325 Riverbend Road, University of Georgia, Athens GA 30602, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6788-2675"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9077-965X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9533-3040"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2643-6916"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "35",
+            "journalIssueId": 4010674,
+            "dateOfPublication": "2025 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Glycobiology",
+              "title": "Glycobiology",
+              "essn": "1460-2423",
+              "issn": "0959-6658",
+              "nlmid": "9104124",
+              "isoabbreviation": "Glycobiology"
+            },
+            "printPublicationDate": "2025-09-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "cwaf051",
+          "abstractText": "Toxoplasma gondii is a highly successful intracellular mammalian and avian pathogen that must adapt to a wide range of intracellular and extracellular environments. A mechanism that may support this is the modification of hydroxyamino acid rich sequences of nucleocytoplasmic proteins with O-fucose. O-fucosylation of possibly hundreds of proteins is mediated by a single highly conserved nucleocytoplasmic enzyme. Deletion of the SPY O-fucosyltransferase gene is tolerated but inhibits parasite proliferation in fibroblasts and their accumulation in mouse brains. A prior ectopic expression study suggested that O-fucose is required to detect proteins considered essential. To distinguish whether the SPY requirement was specific to the method or for protein expression per se, GPN1, an RNA polymerase chaperone, was epitope-tagged at its endogenous locus in both normal and SPY\u0394 strains. GPN1 was shown to be substantially and quantitatively O-fucosylated and exhibited a modest 24% reduction in level in SPY\u0394 cells. Proteomic analysis of its interactome indicated that fucosylation did not affect its association with RNA polymerase subunits. GPN1 was mostly cytoplasmic based on super-resolution immunofluorescence microscopy, and this localization was not affected by O-Fuc. A fusion of its O-fucosylated serine-rich domain to yellow fluorescent protein behaved similarly. In comparison, the abundance of a Zn-finger containing protein also depended on SPY, whereas the abundance and localization of ERK7 were not affected nor were levels of two other proteins. Thus O-fucose directly but modestly promotes the accumulation of select targets, but it does not enforce their localization in nuclear assemblies that are highlighted by immunofluorescence studies.",
+          "affiliation": "Department of Biochemistry and Molecular Biology, 120 East Green Street, University of Georgia, Athens GA 30602, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIH",
+                "grantId": "T32AI060546",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "GF",
+                "grantId": "T32AI060546",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH",
+                "grantId": "R01GM129324",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI060546",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "GF",
+                "grantId": "R01GM129324",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R01 GM129324",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fucosyltransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Fucose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycosylation"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "O-fucose",
+              "Spindly",
+              "Gpn-loop Gtpase",
+              "Nucleocytoplasmic Glycosylation"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Fucosyltransferases",
+                "registryNumber": "EC 2.4.1.-"
+              },
+              {
+                "name": "Fucose",
+                "registryNumber": "28RYY2IV3F"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/glycob/cwaf051"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12449179"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12449179?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/glycob/cwaf051"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "PRIDE"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "uniprot",
+              "pxd"
+            ]
+          },
+          "dateOfCompletion": "2025-09-19",
+          "dateOfCreation": "2025-09-01",
+          "dateOfRevision": "2026-09-01",
+          "firstPublicationDate": "2025-09-01",
+          "firstIndexDate": "2025-09-04",
+          "fullTextReceivedDate": "2026-09-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40716488",
+          "source": "MED",
+          "pmid": "40716488",
+          "doi": "10.1016/j.jprot.2025.105509",
+          "title": "Quantitative proteomic analysis of the Toxoplasma gondii cytoskeleton and bioinformatic identification of highly antigenic proteins.",
+          "authorString": "Araujo-Ruiz K, L\u00f3pez-Flores DI, Mart\u00ednez-Mun\u00e9 MK, Garc\u00eda-S\u00e1nchez BY, Ram\u00edrez-Flores CJ, Sandoval-Rodr\u00edguez FE, R\u00edos-Castro E, Mondrag\u00f3n-Castel\u00e1n ME, Gonz\u00e1lez-Pozos S, Mondrag\u00f3n-Flores R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Araujo-Ruiz K",
+                "lastName": "Araujo-Ruiz",
+                "firstName": "Karina",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "L\u00f3pez-Flores DI",
+                "lastName": "L\u00f3pez-Flores",
+                "firstName": "Daniel Ignacio",
+                "initials": "DI",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mart\u00ednez-Mun\u00e9 MK",
+                "lastName": "Mart\u00ednez-Mun\u00e9",
+                "firstName": "Mar\u00eda Karla",
+                "initials": "MK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Garc\u00eda-S\u00e1nchez BY",
+                "lastName": "Garc\u00eda-S\u00e1nchez",
+                "firstName": "Brenda Yomara",
+                "initials": "BY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ram\u00edrez-Flores CJ",
+                "lastName": "Ram\u00edrez-Flores",
+                "firstName": "Carlos J",
+                "initials": "CJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1485-3499"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Infect\u00f3mica y Patog\u00e9nesis Molecular, Cinvestav, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sandoval-Rodr\u00edguez FE",
+                "lastName": "Sandoval-Rodr\u00edguez",
+                "firstName": "Francisco Ernesto",
+                "initials": "FE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "R\u00edos-Castro E",
+                "lastName": "R\u00edos-Castro",
+                "firstName": "Emmanuel",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unidad de Gen\u00f3mica, Prote\u00f3mica y Metabol\u00f3mica, LaNSE, Cinvestav, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mondrag\u00f3n-Castel\u00e1n ME",
+                "lastName": "Mondrag\u00f3n-Castel\u00e1n",
+                "firstName": "M\u00f3nica Edith",
+                "initials": "ME",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gonz\u00e1lez-Pozos S",
+                "lastName": "Gonz\u00e1lez-Pozos",
+                "firstName": "Sirenia",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unidad de Microscop\u00eda Electr\u00f3nica, LaNSE, Cinvestav, Mexico."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mondrag\u00f3n-Flores R",
+                "lastName": "Mondrag\u00f3n-Flores",
+                "firstName": "Ricardo",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico. Electronic address: rmflores@cinvestav.mx."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1485-3499"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "321",
+            "journalIssueId": 4017497,
+            "dateOfPublication": "2025 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "J Proteomics",
+              "title": "Journal of proteomics",
+              "essn": "1876-7737",
+              "issn": "1874-3919",
+              "nlmid": "101475056",
+              "isoabbreviation": "J Proteomics"
+            },
+            "printPublicationDate": "2025-10-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "105509",
+          "abstractText": "The Toxoplasma gondii cytoskeleton is a highly organized structure essential for parasite motility, replication, and host cell invasion. To identify its components, a highly enriched fraction of tachyzoite cytoskeletons was obtained and quantitatively analyzed by mass spectrometry. We identified 623 proteins classified into 18 functional groups, including 30 IMC proteins, 34 cytoskeleton proteins, and 14 uncharacterized proteins. A comprehensive bioinformatic analysis was conducted to assess protein abundance (fmol), antigenicity, accessibility, interactome, and homology, with the aim of identifying immunogenic targets. Among the top vaccine candidates were -GRA12, IMC1, ROP8, and -IMC4, with ROP8 emerging as the most promising based on epitope prediction. Data are available via ProteomeXchange with identifier PXD063409. SIGNIFICANCE: Toxoplasma gondii represents one of the most virulent and successful parasites in human and veterinary pathogenesis. Since T. gondii is a highly dynamic parasite that depends on its cytoskeleton to invade and disseminate through tissues, knowledge of its cytoskeleton composition is essential for understanding the biological mechanisms involved in parasite-host interactions and for the design of pharmaceutical and vaccination strategies. Quantitative proteomic analysis of the T. gondii cytoskeleton provided new and extensive information on its composition and, through bioinformatics approaches, allowed us to suggest several candidate molecules for future immunoprotective design.",
+          "affiliation": "Departamento de Bioqu\u00edmica, Centro de Investigaci\u00f3n y de Estudios Avanzados del Instituto Polit\u00e9cnico Nacional (Cinvestav), Av. IPN No. 2508, Ciudad de Mexico, C.P. 07360, Mexico.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Consejo Nacional de Humanidades, Ciencias y Tecnolog\u00edas",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cytoskeleton",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proteome"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Computational Biology",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Cytoskeleton",
+              "Toxoplasma gondii",
+              "Quantitative Mass Spectrometry",
+              "Immunogenic Peptides"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jprot.2025.105509"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 4,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "PRIDE"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pxd"
+            ]
+          },
+          "dateOfCompletion": "2025-09-16",
+          "dateOfCreation": "2025-07-27",
+          "dateOfRevision": "2025-09-16",
+          "electronicPublicationDate": "2025-07-25",
+          "firstPublicationDate": "2025-07-25",
+          "firstIndexDate": "2025-07-28",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40684184",
+          "source": "MED",
+          "pmid": "40684184",
+          "pmcid": "PMC12276700",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12276700"
+            ]
+          },
+          "doi": "10.1186/s13071-025-06933-6",
+          "title": "TAF15 mediates ROP16-induced apoptosis and cell cycle arrest in lung cancer.",
+          "authorString": "Li G, Tian M, Zhou Y, Ma S, Ma S, Ge Q, Zhao Z.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Li G",
+                "lastName": "Li",
+                "firstName": "Guangqi",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Medical Laboratory Center, General Hospital of Ningxia Medical University, Yinchuan, Ningxia, China."
+                    },
+                    {
+                      "affiliation": "Ningxia Key Laboratory of Clinical Pathogenic Microorganisms, Yinchuan, Ningxia, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian M",
+                "lastName": "Tian",
+                "firstName": "Mei",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Laboratory Technology, Ningxia Medical University, Yinchuan, Ningxia, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou Y",
+                "lastName": "Zhou",
+                "firstName": "Yuning",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Clinical Medicine, Ningxia Medical University, Yinchuan, Ningxia, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ma S",
+                "lastName": "Ma",
+                "firstName": "Shaohan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Clinical Medicine, Ningxia Medical University, Yinchuan, Ningxia, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ma S",
+                "lastName": "Ma",
+                "firstName": "Shanni",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Clinical Medicine, Ningxia Medical University, Yinchuan, Ningxia, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ge Q",
+                "lastName": "Ge",
+                "firstName": "Qirui",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Clinical Medicine, Ningxia Medical University, Yinchuan, Ningxia, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao Z",
+                "lastName": "Zhao",
+                "firstName": "Zhijun",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Central Laboratory, Peking University First Hospital Ningxia Women and Children's Hospital (Ningxia Hui Autonomous Region Maternal and Child Health Hospital), Yinchuan, Ningxia, China. z15815z@163.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "18",
+            "journalIssueId": 3969849,
+            "dateOfPublication": "2025 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Parasit Vectors",
+              "title": "Parasites & vectors",
+              "essn": "1756-3305",
+              "issn": "1756-3305",
+              "nlmid": "101462774",
+              "isoabbreviation": "Parasit Vectors"
+            },
+            "printPublicationDate": "2025-07-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "287",
+          "abstractText": "<h4>Objective</h4>This study aimed to investigate the effects of the interaction between ROP16 and TAF15 on apoptosis and cell cycle regulation in A549 lung adenocarcinoma cells.<h4>Methods</h4>Lentivirus-infected A549 cells which could overexpress type I, II, and III ROP16, along with an empty vector control group, were established. Potential interacting proteins with ROP16 were identified by using co-immunoprecipitation (Co-IP) and liquid chromatography-mass spectrometry (LC-MS). High-scoring interacting proteins were selected for verification through Venn diagram analysis, scoring, and intensity evaluation. The interaction between ROP16 and TAF15 was confirmed by using co-immunoprecipitation. Moreover, TAF15-specific siRNA was synthesized and transfected into A549 cells overexpressing ROP16 types I, II, and III. The levels of apoptosis and cell cycle were detected by flow cytometry (FCM), and the expression levels of apoptosis-related proteins and cell cycle-related proteins were detected by real-time fluorescence quantitative PCR (RT-qPCR) and western blotting.<h4>Results</h4>Three stable A549 cell lines overexpressing type I, II, and III ROP16 were successfully established. IP-LC/MS identified 29 potential ROP16-interacting proteins, among which 13 had a score greater than 100. Subsequent bioinformatic analysis and co-immunoprecipitation confirmed the interaction between ROP16 and TAF15. Flow cytometry analysis revealed that type I and III ROP16 promoted A549 cell apoptosis and induced cell cycle arrest. Furthermore, western blotting and RT-qPCR demonstrated their modulation of the expression of cell cycle regulators (p21, CDK6, Cyclin D1) and apoptosis-related proteins (Bax, BCL-2, p53, Caspase-9). In contrast, type II ROP16 exhibited none of these effects. However, upon TAF15 silencing, the pro-apoptotic effects of type I and III ROP16 were attenuated, no significant cell cycle arrest was observed, and their regulatory effects on the expression of cell cycle- and apoptosis-related proteins were also significantly diminished.<h4>Conclusions</h4>Our study demonstrates that type I/III ROP16 induce apoptosis and cell cycle arrest in A549 cells through interactions with the host RNA-binding protein TAF15. These findings not only provide compelling evidence for the oncosuppressive potential of Toxoplasma gondii-derived secretory proteins but also uncover a previously unrecognized mechanism by which parasite effectors hijack host transcriptional regulators to subvert cancer cell survival pathways.",
+          "affiliation": "Medical Laboratory Center, General Hospital of Ningxia Medical University, Yinchuan, Ningxia, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Provincial key research and development program",
+                "grantId": "2023BEG02002",
+                "orderIn": 0
+              },
+              {
+                "agency": "Project of the Health Commission of Ningxia Hui Autonomous Region",
+                "grantId": "2024-NWZC-B002",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lung Neoplasms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "TATA-Binding Protein Associated Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Apoptosis"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Cycle Checkpoints"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "A549 Cells"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Apoptosis",
+              "Cell cycle",
+              "Lung adenocarcinoma",
+              "Toxoplasma gondii",
+              "Taf15",
+              "Rop16"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "TATA-Binding Protein Associated Factors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1186/s13071-025-06933-6"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s13071-025-06933-6"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12276700"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12276700?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-07-20",
+          "dateOfCreation": "2025-07-19",
+          "dateOfRevision": "2025-07-22",
+          "electronicPublicationDate": "2025-07-19",
+          "firstPublicationDate": "2025-07-19",
+          "firstIndexDate": "2025-07-20",
+          "fullTextReceivedDate": "2025-11-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40599769",
+          "source": "MED",
+          "pmid": "40599769",
+          "pmcid": "PMC12209286",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12209286"
+            ]
+          },
+          "doi": "10.3389/fimmu.2025.1607247",
+          "title": "Interferons and &lt;i&gt;Toxoplasma gondii&lt;/i&gt; shape PD-L1 regulation in retinal barrier cells: the critical role of proteases.",
+          "authorString": "Geiller B, Cevallos C, Tsybenko I, Arnoux L, Felder-Schmittbuhl MP, Pfaff AW.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Geiller B",
+                "lastName": "Geiller",
+                "firstName": "Benjamin",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UR 3073 Pathogens Host Arthropods Vectors Interface, Toxoplasmosis Immunology Team, Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cevallos C",
+                "lastName": "Cevallos",
+                "firstName": "Camila",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UR 3073 Pathogens Host Arthropods Vectors Interface, Toxoplasmosis Immunology Team, Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tsybenko I",
+                "lastName": "Tsybenko",
+                "firstName": "Iuliia",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UR 3073 Pathogens Host Arthropods Vectors Interface, Toxoplasmosis Immunology Team, Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Arnoux L",
+                "lastName": "Arnoux",
+                "firstName": "Lydia",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UR 3073 Pathogens Host Arthropods Vectors Interface, Toxoplasmosis Immunology Team, Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Felder-Schmittbuhl MP",
+                "lastName": "Felder-Schmittbuhl",
+                "firstName": "Marie-Paule",
+                "initials": "MP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de la Recherche Scientifique, Institut des Neurosciences Cellulaires et Int\u00e9gratives (UPR 3212), Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pfaff AW",
+                "lastName": "Pfaff",
+                "firstName": "Alexander W",
+                "initials": "AW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UR 3073 Pathogens Host Arthropods Vectors Interface, Toxoplasmosis Immunology Team, Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France."
+                    },
+                    {
+                      "affiliation": "Service de Parasitologie et Mycologie M\u00e9dicale, H\u00f4pitaux Universitaires de Strasbourg, Strasbourg,\u00a0France."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "volume": "16",
+            "journalIssueId": 3892856,
+            "dateOfPublication": "2025 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Front Immunol",
+              "title": "Frontiers in immunology",
+              "essn": "1664-3224",
+              "issn": "1664-3224",
+              "nlmid": "101560960",
+              "isoabbreviation": "Front Immunol"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "1607247",
+          "abstractText": "<h4>Introduction</h4>The apicomplexan parasite <i>Toxoplasma gondii</i> establishes chronic infection in the central nervous system, including the retina, causing ocular toxoplasmosis (OT). This persistence relies on a fine balance between inflammatory and immunomodulatory mechanisms, especially in the immune-privileged ocular environment. We previously described the immunologic interactions between retinal cells, and particularly the roles of type I and III interferons. In this study, we investigated the regulatory dynamics of PD-L1, a central immunomodulatory receptor on immune cells.<h4>Methods</h4>We first investigated the mechanisms of PD-L1 regulation and the roles of type I and III interferons in an <i>in vitro T. gondii</i> infection model using mono- and co-culture systems of human microglia, astrocytes, and M\u00fcller cells. We also assessed PD-L1 expression in an outer blood-retina barrier model (oBRB) of differentiated retinal pigmented epithelial (RPE) cells. Additionally, we looked at retinal cell activation, PD-L1 expression and the roles of these interferons in a mouse model of OT.<h4>Results</h4>Our findings reveal new roles for type I and III interferons in regulating glial cell activation and PD-L1 expression in RPE, M\u00fcller, astrocytes and microglial cells. Notably, M\u00fcller cells, the most abundant glial cells in the retina, showed the highest baseline PD-L1 expression at both the mRNA and protein levels, and responded robustly to interferon stimulation. This points to a more prominent immunoregulatory role for M\u00fcller cells in the retina than previously recognized. Furthermore, we identified a parasite protease-dependent mechanism that reduces PD-L1 expression in our <i>in vitro</i> oBRB model potentially contributing to immune evasion and inflammation during OT. Finally, in a murine model of OT, we demonstrated that PD-L1 expression reached its peak on day 7 post-infection and that interferon neutralization plays a crucial role in regulating both PD-L1 expression and glial activation.<h4>Discussion</h4>The parasite <i>T. gondii</i> orchestrates the IFN type I and III dependent retinal immune interaction and downregulates PD-L1 in the oBRB by a protease-dependent mechanism, potentially contributing to immune evasion and inflammation in retinal infection. Our results can pave the way to fully elucidate retinal immune networks and PD-L1 regulation mechanisms, offering potential targets for therapeutic interventions in OT and other retinal inflammatory diseases.",
+          "affiliation": "UR 3073 Pathogens Host Arthropods Vectors Interface, Toxoplasmosis Immunology Team, Universit\u00e9 de Strasbourg, Strasbourg,\u00a0France.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Fondation de France",
+                "grantId": "00120246 / WB-2021-36350, 00154900 / WB-2024-54768",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Blood-Retinal Barrier",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Astrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Retina",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis, Ocular",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Peptide Hydrolases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Interferons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Retinal Pigment Epithelium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "B7-H1 Antigen",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Retina",
+              "Interferons",
+              "Toxoplasma gondii",
+              "PD-L1",
+              "immune privilege",
+              "Ocular Toxoplasmosis"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Peptide Hydrolases",
+                "registryNumber": "EC 3.4.-"
+              },
+              {
+                "name": "Interferons",
+                "registryNumber": "9008-11-1"
+              },
+              {
+                "name": "CD274 protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cd274 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "B7-H1 Antigen",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fimmu.2025.1607247"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12209286"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12209286?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-07-02",
+          "dateOfCreation": "2025-07-02",
+          "dateOfRevision": "2025-07-03",
+          "electronicPublicationDate": "2025-06-17",
+          "firstPublicationDate": "2025-06-17",
+          "firstIndexDate": "2025-07-03",
+          "fullTextReceivedDate": "2025-12-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40417354",
+          "source": "MED",
+          "pmid": "40417354",
+          "pmcid": "PMC12098569",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12098569"
+            ]
+          },
+          "doi": "10.3389/fvets.2025.1585261",
+          "title": "Molecular interactions of &lt;i&gt;Toxoplasma gondii&lt;/i&gt; dense granule 23 (GRA23) with host proteins PEX3 and TRAP1.",
+          "authorString": "Fan X, Zhang N, Zhang X, Li S, Fu J, Sun M, Ma X, Khan MZ, Jiang X.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Fan X",
+                "lastName": "Fan",
+                "firstName": "Xuewei",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Jilin University, Changchun, Jilin, China."
+                    },
+                    {
+                      "affiliation": "Heilongjiang Agricultural Economy Vocational College, Mudanjiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang N",
+                "lastName": "Zhang",
+                "firstName": "Nan",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Jilin University, Changchun, Jilin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang X",
+                "lastName": "Zhang",
+                "firstName": "Xichen",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Jilin University, Changchun, Jilin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li S",
+                "lastName": "Li",
+                "firstName": "Shudong",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heilongjiang Agricultural Economy Vocational College, Mudanjiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fu J",
+                "lastName": "Fu",
+                "firstName": "Jiangming",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heilongjiang Agricultural Economy Vocational College, Mudanjiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun M",
+                "lastName": "Sun",
+                "firstName": "Min",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Jilin University, Changchun, Jilin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ma X",
+                "lastName": "Ma",
+                "firstName": "Xiaoxiao",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Jilin University, Changchun, Jilin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Khan MZ",
+                "lastName": "Khan",
+                "firstName": "Muhammad Zahoor",
+                "initials": "MZ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Agriculture and Biology, Liaocheng University, Liaocheng, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jiang X",
+                "lastName": "Jiang",
+                "firstName": "Xin",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Heilongjiang Agricultural Economy Vocational College, Mudanjiang, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "12",
+            "journalIssueId": 3893250,
+            "dateOfPublication": "2025 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Front Vet Sci",
+              "title": "Frontiers in veterinary science",
+              "essn": "2297-1769",
+              "issn": "2297-1769",
+              "nlmid": "101666658",
+              "isoabbreviation": "Front Vet Sci"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "1585261",
+          "abstractText": "<h4>Background</h4><i>Toxoplasma gondii</i>, an obligate intracellular protozoan, utilizes dense granule proteins to modulate host cell processes. Dense granule protein 23 (GRA23) facilitates molecular trafficking between the parasitophorous vacuole and host cell cyto-plasm, though its specific host protein interactions remain poorly characterized.<h4>Methods</h4>This study employed pull-down assays coupled with mass spectrometry to identify host proteins interacting with GRA23.<h4>Results</h4>Among 35 proteins identified, peroxisomal biogenesis factor 3 (PEX3) and TNF receptor-associated protein 1 (TRAP1) were validated through bimolecular fluorescence complementation (BiFC) and co-immunoprecipitation (Co-IP) assays. Gene Ontology (GO) and Kyoto Encyclopedia of Genes and Genomes (KEGG) analyses revealed significant enrichment of these interacting proteins in metabolic pathways and cellular processes related to reproduction, growth, and development.<h4>Conclusion</h4>The interaction between GRA23 and PEX3 suggests potential parasite modulation of peroxisomal functions, while its association with TRAP1 indicates possible exploitation of host chaperone mechanisms. This study provides the first evidence that GRA23 interacts with host proteins implicated in key cellular functions, offering novel insights into <i>T. gondii</i> pathogenesis and potential therapeutic targets for toxoplasmosis treatment.",
+          "affiliation": "College of Veterinary Medicine, Jilin University, Changchun, Jilin, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "Trap1",
+              "Bifc",
+              "Pex3",
+              "Gra23"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fvets.2025.1585261"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12098569"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12098569?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2025-05-26",
+          "dateOfRevision": "2025-05-27",
+          "electronicPublicationDate": "2025-05-09",
+          "firstPublicationDate": "2025-05-09",
+          "firstIndexDate": "2025-05-26",
+          "fullTextReceivedDate": "2025-11-28",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

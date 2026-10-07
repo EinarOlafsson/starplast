@@ -1,0 +1,3942 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22antigen%22+OR+%22seroreactivity%22+OR+%22epitope%22+OR+%22immunogenic%22+OR+%22vaccine+candidate%22%29+AND+TITLE_ABS%3A%28%22T-cell%22+OR+%22epitope%22+OR+%22content%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:01:13.294273+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 475,
+    "nextCursorMark": "AoJwgP/ayJ8DKDU2MDE2NjM4",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22antigen%22+OR+%22seroreactivity%22+OR+%22epitope%22+OR+%22immunogenic%22+OR+%22vaccine+candidate%22%29+AND+TITLE_ABS%3A%28%22T-cell%22+OR+%22epitope%22+OR+%22content%22%29+sort_date%3Ay&cursorMark=AoJwgP%2FayJ8DKDU2MDE2NjM4&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"antigen\" OR \"seroreactivity\" OR \"epitope\" OR \"immunogenic\" OR \"vaccine candidate\") AND TITLE_ABS:(\"T-cell\" OR \"epitope\" OR \"content\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42827948",
+          "source": "MED",
+          "pmid": "42827948",
+          "pmcid": "PMC13630998",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13630998"
+            ]
+          },
+          "doi": "10.3389/fimmu.2026.1944643",
+          "title": "Immune signatures of common exposures through co-occurrence of T-cell receptors in tens of thousands of donors.",
+          "authorString": "May DH, Woodhouse S, Noakes MT, Doroschak K, Elyanow R, Moore AJ, Osborne EJ, Greenfield B, Hayes T, Taniguchi R, Yang Z, Grino JR, Byron R, Oaks J, Chen-Harris H, Sherwood A, Greissl J, Howie B, Klinger M, Robins HS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "May DH",
+                "lastName": "May",
+                "firstName": "Damon H",
+                "initials": "DH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Woodhouse S",
+                "lastName": "Woodhouse",
+                "firstName": "Steven",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Noakes MT",
+                "lastName": "Noakes",
+                "firstName": "Matthew T",
+                "initials": "MT",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Doroschak K",
+                "lastName": "Doroschak",
+                "firstName": "Kathryn",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Elyanow R",
+                "lastName": "Elyanow",
+                "firstName": "Rebecca",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moore AJ",
+                "lastName": "Moore",
+                "firstName": "Amanda J",
+                "initials": "AJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Osborne EJ",
+                "lastName": "Osborne",
+                "firstName": "Edward J",
+                "initials": "EJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Greenfield B",
+                "lastName": "Greenfield",
+                "firstName": "Brad",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hayes T",
+                "lastName": "Hayes",
+                "firstName": "Tim",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Taniguchi R",
+                "lastName": "Taniguchi",
+                "firstName": "Ruth",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang Z",
+                "lastName": "Yang",
+                "firstName": "Zheng",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Grino JR",
+                "lastName": "Grino",
+                "firstName": "John R",
+                "initials": "JR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Byron R",
+                "lastName": "Byron",
+                "firstName": "Rachel",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Oaks J",
+                "lastName": "Oaks",
+                "firstName": "Jamie",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen-Harris H",
+                "lastName": "Chen-Harris",
+                "firstName": "Haiyin",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sherwood A",
+                "lastName": "Sherwood",
+                "firstName": "Anna",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Greissl J",
+                "lastName": "Greissl",
+                "firstName": "Julia",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Microsoft Research, Redmond, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Howie B",
+                "lastName": "Howie",
+                "firstName": "Bryan",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Klinger M",
+                "lastName": "Klinger",
+                "firstName": "Mark",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Robins HS",
+                "lastName": "Robins",
+                "firstName": "Harlan S",
+                "initials": "HS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4103356,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Immunol",
+              "title": "Frontiers in immunology",
+              "essn": "1664-3224",
+              "issn": "1664-3224",
+              "nlmid": "101560960",
+              "isoabbreviation": "Front Immunol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1944643",
+          "abstractText": "<h4>Background</h4>Memory T cells are records of clonal expansion from prior immune exposures such as infections, vaccines and chronic diseases. Some of the receptors of these expanded T cell clones in a typical immune repertoire are highly public (present in many individuals) because they respond to the same peptide from a prevalent immune exposure, presented by the same Human Leukocyte Antigen (HLA) allele. Only a tiny fraction of public T-cell receptor \u03b2 sequences (TCRs) have known associations with exposures or specific peptides.<h4>Methods</h4>We mined the TCR repertoires of tens of thousands of donors to define \"ECOclusters\" (Exposure Co-Occurrence clusters): clusters of public TCRs that tend to occur in the same donors. First, we built models to infer donor HLA type from the TCR repertoire, then associated public TCRs with HLA alleles. Next, we derived co-occurrence clusters of TCRs responding to antigens presented by the same HLA allele, then combined those clusters by co-occurrence across HLA alleles. Each such cross-HLA ECOcluster putatively represents a public TCR signature of a single exposure.<h4>Results</h4>We constructed sensitive, specific models to predict the presence of 220 HLA alleles from TCR repertoires and clustered 8,618,285 HLA allele-associated TCRs to define 11,058 ECOclusters. Using serologically labeled repertoires, we identified ECOclusters associated with HSV-1, HSV-2, EBV, Parvovirus, <i>Toxoplasma gondii</i>, Cytomegalovirus (CMV) and SARS-CoV-2, and constructed sensitive, specific classifiers of exposure. We explore the 50,217 TCRs in the CMV ECOcluster in detail, including diagnostic performance of each HLA-associated component and intersection with public TCR databases. ECOclusters represent a step toward deciphering the ledger of immune exposure history encoded by the T-cell repertoire.",
+          "affiliation": "Adaptive Biotechnologies, Seattle, WA,\u00a0United States.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytomegalovirus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, Antigen, T-Cell",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, Antigen, T-Cell, alpha-beta",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "HLA Antigens",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Alleles"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "SARS-CoV-2",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Memory T Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "T cell receptor",
+              "T cells",
+              "Cytomegalovirus",
+              "Machine Learning",
+              "Tcr Repertoire",
+              "Tcr-seq"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "HLA Antigens",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Antigen, T-Cell",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Antigen, T-Cell, alpha-beta",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fimmu.2026.1944643"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13630998"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13630998?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR828918",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-10-03",
+          "dateOfCreation": "2026-10-03",
+          "dateOfRevision": "2026-10-03",
+          "electronicPublicationDate": "2026-09-18",
+          "firstPublicationDate": "2026-09-18",
+          "firstIndexDate": "2026-10-04",
+          "fullTextReceivedDate": "2026-10-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42819373",
+          "source": "MED",
+          "pmid": "42819373",
+          "pmcid": "PMC13624080",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13624080"
+            ]
+          },
+          "doi": "10.3389/fimmu.2026.1915667",
+          "title": "Recombinant &lt;i&gt;Toxoplasma gondii&lt;/i&gt; expressing OVA confers antigen-specific protection against &lt;i&gt;Eimeria falciformis&lt;/i&gt;.",
+          "authorString": "Sun Y, Yang Y, Xie F, Tao Z, Zhang S, Yao X, Zhang T, Suo X, Liu X.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Sun Y",
+                "lastName": "Sun",
+                "firstName": "Yingying",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang Y",
+                "lastName": "Yang",
+                "firstName": "Yilin",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xie F",
+                "lastName": "Xie",
+                "firstName": "Fujie",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tao Z",
+                "lastName": "Tao",
+                "firstName": "Zongyue",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang S",
+                "lastName": "Zhang",
+                "firstName": "Sixin",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Southwest University, Chongqing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yao X",
+                "lastName": "Yao",
+                "firstName": "Xiaotong",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang T",
+                "lastName": "Zhang",
+                "firstName": "Tingyu",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Suo X",
+                "lastName": "Suo",
+                "firstName": "Xun",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu X",
+                "lastName": "Liu",
+                "firstName": "Xianyong",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4103356,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Immunol",
+              "title": "Frontiers in immunology",
+              "essn": "1664-3224",
+              "issn": "1664-3224",
+              "nlmid": "101560960",
+              "isoabbreviation": "Front Immunol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1915667",
+          "abstractText": "Coccidiosis, caused by protozoan parasites of the genus <i>Eimeria</i>, remains a major enteric disease that requires effective antigen-specific cellular immunity for protection. In this study, we evaluated genetically engineered <i>Toxoplasma gondii</i>, an apicomplexan parasite closely related to <i>Eimeria</i>, as a live-vector platform for antigen delivery and induction of protective immunity against <i>Eimeria</i> infection. Recombinant RH\u0394<i>ku80</i> strains expressing ovalbumin (OVA) alone or fused with four tandem copies of complement fragment C3d (OVA-C3d<sub>4</sub>) were generated using a CRISPR/Cas9-mediated strategy. Stable transgene integration and expression were confirmed by PCR, immunofluorescence assay, western blotting, and whole-genome resequencing. Phenotypic characterization demonstrated that expression of OVA or OVA-C3d<sub>4</sub> did not significantly affect parasite invasion, intracellular replication, plaque formation, or acute virulence in mice. Immunization with recombinant parasites induced robust antigen-specific cellular immune responses, as evidenced by increased frequencies of IFN-\u03b3-secreting splenocytes following stimulation with OVA-derived CD4<sup>+</sup> and CD8<sup>+</sup>\u00a0T-cell epitopes. Fusion with C3d<sub>4</sub> modestly influenced immune responses by\u00a0altering antibody isotype profiles in an inversely dose-dependent manner, although total antibody titers were not substantially increased. Protective efficacy was evaluated using challenge infection with OVA-expressing <i>Eimeria</i> falciformis. Mice immunized with RH\u0394<i>ku80-OVA</i> or RH\u0394<i>ku80-OVA-C3d<sub>4</sub></i> exhibited significantly reduced oocyst shedding and alleviated intestinal pathology compared with unimmunized controls. However, no significant additional protective benefit was observed for the C3d<sub>4</sub>-containing recombinant strain compared with the OVA-expressing strain under the experimental conditions tested. Collectively, these findings demonstrate that recombinant <i>T. gondii</i> can serve as an effective\u00a0live-vector platform for inducing antigen-specific cellular immunity and partial\u00a0protection against OVA-expressing <i>E. falciformis</i> challenge. This study highlights\u00a0the potential of protozoan-based vaccine platforms and supports a potential\u00a0contribution of antigen-specific cellular immunity to protection against coccidiosis.",
+          "affiliation": "State Key Laboratory of Veterinary Public Health and Safety; Key Laboratory of Animal Epidemiology and Zoonosis of Ministry of Agriculture, National Animal Protozoa Laboratory & College of Veterinary Medicine, China Agricultural University, Beijing,\u00a0China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Eimeria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Coccidiosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Ovalbumin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunity, Cellular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Eimeria",
+              "Protective immunity",
+              "Toxoplasma gondii",
+              "Ovalbumin (Ova)",
+              "C3d",
+              "Live-vector Vaccine",
+              "Antigen-specific Cellular Immunity"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Ovalbumin",
+                "registryNumber": "9006-59-1"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fimmu.2026.1915667"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13624080"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13624080?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-10-01",
+          "dateOfCreation": "2026-10-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-09-16",
+          "firstPublicationDate": "2026-09-16",
+          "firstIndexDate": "2026-10-02",
+          "fullTextReceivedDate": "2026-10-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42797284",
+          "source": "MED",
+          "pmid": "42797284",
+          "pmcid": "PMC13610485",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13610485"
+            ]
+          },
+          "doi": "10.3390/pharmaceutics18091109",
+          "title": "Nasal Nanoparticle Vaccine Induces a Cross-Strain T-Cell Immunity Against &lt;i&gt;Toxoplasma gondii&lt;/i&gt;.",
+          "authorString": "Lecouffe A, Bouillet T, Thiroux B, Degraeve A, Vreulx AC, Magnez R, Scuotto A, Barnier-Quer C, Betbeder D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lecouffe A",
+                "lastName": "Lecouffe",
+                "firstName": "Aurane",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bouillet T",
+                "lastName": "Bouillet",
+                "firstName": "Thomas",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Thiroux B",
+                "lastName": "Thiroux",
+                "firstName": "Bryan",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Degraeve A",
+                "lastName": "Degraeve",
+                "firstName": "Am\u00e9lie",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vreulx AC",
+                "lastName": "Vreulx",
+                "firstName": "Ana\u00efs-Camille",
+                "initials": "AC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Magnez R",
+                "lastName": "Magnez",
+                "firstName": "Romain",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Scuotto A",
+                "lastName": "Scuotto",
+                "firstName": "Angelo",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Barnier-Quer C",
+                "lastName": "Barnier-Quer",
+                "firstName": "Christophe",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Betbeder D",
+                "lastName": "Betbeder",
+                "firstName": "Didier",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "18",
+            "journalIssueId": 4270475,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Pharmaceutics",
+              "title": "Pharmaceutics",
+              "essn": "1999-4923",
+              "issn": "1999-4923",
+              "nlmid": "101534003",
+              "isoabbreviation": "Pharmaceutics"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1109",
+          "abstractText": "<b>Background/Objectives</b>: <i>Toxoplasma gondii</i> is a globally distributed parasite responsible for significant morbidity in both humans and animals. VXN-Toxo, is an intranasal vaccine based on maltodextrin nanoparticles formulated with inactivated <i>T. gondii</i> parasites. A vaccination campaign conducted worldwide in zoological parks demonstrated high efficacy across multiple species and geographical regions. These findings suggest that VXN-Toxo may induce broad cross-reactive immunity against <i>T. gondii</i> strains circulating in various regions. <b>Methods</b>: To further characterize the immune mechanisms, we evaluated the cellular immune response induced by VXN-Toxo in C57BL/6 mice. Following vaccination, splenocytes were stimulated with antigens derived from multiple <i>T. gondii</i> strains, representing the major haplogroups (types I, II, III, and atypical strains). <b>Results</b>: ELISPOT analysis demonstrated that VXN-Toxo induced strong antigen-specific T cell responses, characterized by robust IFN-\u03b3 and IL-17 production upon stimulation with both homologous and heterologous antigens. Flow cytometry analysis further revealed the activation of both CD4<sup>+</sup> and CD8<sup>+</sup> T cells, with the notable presence of IFN-\u03b3-producing CD8<sup>+</sup> central and effector memory cells and CD4<sup>+</sup> effector memory T cells. <b>Conclusions</b>: Altogether, these results indicate that VXN-Toxo induces a broad, T cell-mediated immune response with cross-reactive properties and highlight its potential as a promising vaccine candidate for both human and veterinary applications.",
+          "affiliation": "Vaxinano SAS, 84 Rue du Docteur Yersin, 59120 Loos, France.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Vaccine",
+              "Nanoparticles",
+              "Intranasal immunization",
+              "Toxoplasma gondii",
+              "Cross-Strain Immunity"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/pharmaceutics18091109"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13610485"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13610485?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-26",
+          "dateOfCreation": "2026-09-26",
+          "dateOfRevision": "2026-09-29",
+          "electronicPublicationDate": "2026-09-03",
+          "firstPublicationDate": "2026-09-03",
+          "firstIndexDate": "2026-09-28",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42638180",
+          "source": "MED",
+          "pmid": "42638180",
+          "pmcid": "PMC13504016",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13504016"
+            ]
+          },
+          "doi": "10.1002/vms3.71189",
+          "title": "Rpf-Toxo: A Preliminary Computationally Designed Dense Granule Antigen-Based Multi-Epitope Vaccine Against Toxoplasma gondii.",
+          "authorString": "Safari MH, Hosseini SA, Ghiabi S, Ghiabi S, Siamian D, Majidiani H, Irannejad H, Asghari A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Safari MH",
+                "lastName": "Safari",
+                "firstName": "Mohamad Hosein",
+                "initials": "MH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-9339-9264"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Faculty of Veterinary Medicine, University of Tehran, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hosseini SA",
+                "lastName": "Hosseini",
+                "firstName": "Seyyed Amir",
+                "initials": "SA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Faculty of Veterinary Medicine, University of Tehran, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ghiabi S",
+                "lastName": "Ghiabi",
+                "firstName": "Shadan",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1719-756X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Veterinary Medicine, Science and Research Branch, Islamic Azad University, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ghiabi S",
+                "lastName": "Ghiabi",
+                "firstName": "Shamim",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Chemistry, Faculty of Pharmacy, Tehran Medical Sciences, Islamic Azad University, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Siamian D",
+                "lastName": "Siamian",
+                "firstName": "Davood",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0000-1682-0095"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Faculty of Basic Science, Islamic Azad University, Tonekabon Branch, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Majidiani H",
+                "lastName": "Majidiani",
+                "firstName": "Hamidreza",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5568-1366"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Basic Medical Sciences, Faculty of Medicine, Neyshabur University of Medical Sciences, Neyshabur, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Irannejad H",
+                "lastName": "Irannejad",
+                "firstName": "Hamid",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7513-6162"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicinal Chemistry, Faculty of Pharmacy, Mazandaran University of Medical Sciences, Sari, Iran."
+                    },
+                    {
+                      "affiliation": "Drug Design and Development Research Center, The Institute of Pharmaceutical Sciences, Tehran University of Medical Sciences, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Asghari A",
+                "lastName": "Asghari",
+                "firstName": "Ali",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4005-2687"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Basic Medical Sciences, Khoy University of Medical Sciences, Khoy, Iran."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5568-1366"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7513-6162"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4005-2687"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1719-756X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0000-1682-0095"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-9339-9264"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "12",
+            "journalIssueId": 4235113,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Vet Med Sci",
+              "title": "Veterinary medicine and science",
+              "essn": "2053-1095",
+              "issn": "2053-1095",
+              "nlmid": "101678837",
+              "isoabbreviation": "Vet Med Sci"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e71189",
+          "abstractText": "<h4>Background</h4>Toxoplasma gondii is a protozoan parasite of medical and veterinary importance causing abortion. While current therapies are limited to address the chronic phase of infection, effective prophylactic vaccines are warranted.<h4>Objectives</h4>In this study, we applied a rational vaccine design approach centred around immunodominant dense granule antigens (GRAs).<h4>Methods</h4>In silico epitope mapping was performed on six GRAs (GRA15, GRA60, GRA76, GRA83, GRA-\u03b1 and GRA-\u03b2). Using web servers, B-cell, cytotoxic T-lymphocyte and helper T-lymphocyte epitopes were predicted and then filtered for antigenicity, solubility and allergenicity. We designed four vaccine constructs by fusing predicted epitopes with specific linkers and adjuvants (RS-09, RpfE/50S ribosomal protein of Mycobacterium tuberculosis, and human interferon gamma [IFN-\u03b3]). Constructs were subjected to rigorous evaluation, which included physicochemical evaluation, 3D structural prediction and refinement, toll-like receptor-4 (TLR-4) docking, immune simulation and codon adaptation.<h4>Results</h4>All candidates exhibited high antigenicity (VaxiJen scores >\u00a00.9) and solubility (>\u00a00.6). Rpf-Toxo emerged optimal, with non-allergenic, antigenic (0.9148), soluble (0.658), stable (instability index: 35.41) and hydrophilic (grand average of hydropathicity: -0.641) properties. Docking revealed strong TLR-4 binding activity (affinity: -20.6\u00a0kcal/mol; K<sub>d</sub>: 7.3e-16\u00a0M) and immune simulation predicted robust responses, including antibody titers >\u00a0170,000, Th1-skewed IFN-\u03b3 (380,000\u00a0ng/mL) and memory cell activation; however, these in silico predictions need experimental validation. Codon optimization enhanced expression (CAI: 1.00; GC: 65.63%), and\u00a0in silico\u00a0cloning indicated compatibility with pET28a(+).<h4>Conclusion</h4>These computational predictions require future experimental validation through in vitro and in vivo studies to confirm safety and protective efficacy.",
+          "affiliation": "Department of Internal Medicine, Faculty of Veterinary Medicine, University of Tehran, Tehran, Iran.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epitopes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Epitope Mapping"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computer Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunoinformatics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Subunit Vaccines"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Antigens",
+              "Vaccines",
+              "Computer simulation",
+              "Toxoplasma gondii",
+              "Gras",
+              "Multi\u2010epitope"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Epitopes",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protein Subunit Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/vms3.71189"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13504016"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13504016?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pdb",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-08-25",
+          "dateOfCreation": "2026-08-25",
+          "dateOfRevision": "2026-08-27",
+          "firstPublicationDate": "2026-09-01",
+          "firstIndexDate": "2026-08-25",
+          "fullTextReceivedDate": "2026-09-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42615648",
+          "source": "MED",
+          "pmid": "42615648",
+          "doi": "10.1128/spectrum.03933-25",
+          "title": "The establishment of a universal blocking ELISA for echinococcosis using immunoglobulin against a new conserved linear B-cell epitope.",
+          "authorString": "Zhou G, Zheng L, Xin Z, He J, Li Z, Duo H, Meng R, Guo Z, Fu Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhou G",
+                "lastName": "Zhou",
+                "firstName": "Guoyan",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0003-1238-1357"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China."
+                    },
+                    {
+                      "affiliation": "State Key Laboratory for Diagnosis and Treatment of Severe Zoonotic Infectious Diseases, Key Laboratory for Zoonosis Research of the Ministry of Education, Qinghai University, Xining, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zheng L",
+                "lastName": "Zheng",
+                "firstName": "Lijuan",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Diseases Diagnostic and Immunology, Ministry of Agriculture, MOE Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xin Z",
+                "lastName": "Xin",
+                "firstName": "Zhendong",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Diseases Diagnostic and Immunology, Ministry of Agriculture, MOE Joint International Research Laboratory of Animal Health and Food Safety, College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "He J",
+                "lastName": "He",
+                "firstName": "Jun",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China."
+                    },
+                    {
+                      "affiliation": "State Key Laboratory for Diagnosis and Treatment of Severe Zoonotic Infectious Diseases, Key Laboratory for Zoonosis Research of the Ministry of Education, Qinghai University, Xining, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Z",
+                "lastName": "Li",
+                "firstName": "Zhi",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Duo H",
+                "lastName": "Duo",
+                "firstName": "Hong",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Meng R",
+                "lastName": "Meng",
+                "firstName": "Ru",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xining Animal Disease Prevention and Control Center, Xining, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Guo Z",
+                "lastName": "Guo",
+                "firstName": "Zhihong",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fu Y",
+                "lastName": "Fu",
+                "firstName": "Yong",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3354-9107"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China."
+                    },
+                    {
+                      "affiliation": "State Key Laboratory for Diagnosis and Treatment of Severe Zoonotic Infectious Diseases, Key Laboratory for Zoonosis Research of the Ministry of Education, Qinghai University, Xining, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3354-9107"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0003-1238-1357"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4237302,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Microbiol Spectr",
+              "title": "Microbiology spectrum",
+              "essn": "2165-0497",
+              "issn": "2165-0497",
+              "nlmid": "101634614",
+              "isoabbreviation": "Microbiol Spectr"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0393325",
+          "abstractText": "Echinococcosis is a neglected tropical disease that poses a severe threat to global public health and socioeconomic development. Given its alarming global spread, there is an urgent need to develop accurate diagnostic methods to support targeted and personalized treatment. <i>Echinococcus multilocularis</i> Em18 has been demonstrated to exhibit the most prominent diagnostic relevance in the progression of alveolar echinococcosis (AE). In this study, six highly specific monoclonal antibodies (mAbs) against the Em18 protein-designated 8G6F, 11E2E, 11E7C, 11E7E, 11E8C, and 11E10D-were generated using hybridoma technology. Indirect ELISA showed that the supernatant titers ranged from 1:1,600 to 1:12,800, while the ascites titers varied from 1:128,000 to 1:512,000. Further analysis indicated that all mAbs belonged to the IgG1 \u03ba isotype. After purification, the ascites-derived mAbs exhibited expected heavy-chain and light-chain bands at approximately 50 kDa and 25 kDa, respectively. Notably, western blot and indirect immunofluorescence assay collectively demonstrated that all mAbs exhibited high specificity for recombinant Em18 protein of approximately 18.65 kDa. Through peptide scanning technology, we identified the antigenic epitope recognized by six mAbs as the region <sup>99</sup>RMREKHDAKHKS<sup>108</sup>, a highly conserved linear B-cell epitope on the Em18 protein. Amino acid sequence alignment confirmed the complete conservation of this epitope, which is surface-exposed. Furthermore, the optimal blocking antibody 11E8C was selected and labeled with horseradish peroxidase (HRP) based on which a blocking ELISA was established using the anti-Em18 mAbs. Serum samples with a percent inhibition (PI) \u226522.48% were determined as positive, and those with PI \u226417.64% as negative. This method showed no cross-reactivity with positive sera against <i>Toxoplasma gondii</i>, <i>Babesia</i> spp., <i>Cysticercus tenuicollis</i>, <i>Coenurus cerebralis</i>, and other non-echinococcosis pathogens. Sensitivity testing showed a positive detection rate of 90%, and positive signals remained stable even when positive sera were diluted up to 1:16. The intra-assay and inter-assay coefficients of variation (CV) were both below 10%. In a concordance evaluation using 47 clinical serum samples from cattle and sheep, the overall agreement between our assay and a commercial kit was 93.62%. Furthermore, the mAbs developed in this study accurately identified intermediate and advanced AE infections, providing a reliable tool for assessing disease progression. Importantly, its cross-reactivity with cystic echinococcosis (CE)-infected sera demonstrates promising potential for the broad-spectrum serodiagnosis of echinococcosis. Collectively, these results suggest that this study provides a novel technical resource for improving serological detection and developing early diagnostic reagents for echinococcosis and offers experimental support for the surveillance, prevention, control, and evaluation of this disease.IMPORTANCEEchinococcosis is a neglected tropical disease posing significant threats to global public health and economic development. We have developed six highly specific mAbs capable of precisely recognizing the Em18 protein, a key biomarker for disease progression, and have for the first time identified their antigenic epitope. These antibodies can not only accurately distinguish intermediate and advanced infection stages but also exhibit cross-reactivity with cystic echinococcosis, demonstrating potential as a broad-spectrum diagnostic tool. This achievement paves a new path for developing rapid and precise clinical detection methods, holding significant importance for improving disease prevention and control capabilities.",
+          "affiliation": "Academy of Animal Science and Veterinary, Qinghai Provincial Key Laboratory of Pathogen Diagnosis for Animal Diseases and Green Technical Research for Prevention and Control, Qinghai University, Xining, China.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Monoclonal antibody",
+              "B-cell Epitope",
+              "Hybridoma Technology",
+              "Echinococcosis, Em18"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/spectrum.03933-25"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-19",
+          "dateOfRevision": "2026-09-02",
+          "electronicPublicationDate": "2026-08-19",
+          "firstPublicationDate": "2026-08-19",
+          "firstIndexDate": "2026-08-22",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42676359",
+          "source": "MED",
+          "pmid": "42676359",
+          "pmcid": "PMC13526547",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13526547"
+            ]
+          },
+          "doi": "10.3389/fcimb.2026.1905185",
+          "title": "&lt;i&gt;In Silico&lt;/i&gt; design and evaluation of a multi-epitope vaccine candidate against &lt;i&gt;Toxoplasma gondii&lt;/i&gt; for humans.",
+          "authorString": "Yi C, Shen Y, Luo Y, Wang Q, Tong X.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yi C",
+                "lastName": "Yi",
+                "firstName": "Chenchen",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Assisted Reproduction Unit, Department of Obstetrics and Gynecology, Sir Run Run Shaw Hospital, School of Medicine, Zhejiang University, Hangzhou,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shen Y",
+                "lastName": "Shen",
+                "firstName": "Yu",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Hangzhou Center for Disease Control and Prevention (Hangzhou Health Supervision Institution), Hangzhou,\u00a0China."
+                    },
+                    {
+                      "affiliation": "Zhejiang Key Laboratory of High-level Biosafety and Biomedical Transformation, Hangzhou,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Luo Y",
+                "lastName": "Luo",
+                "firstName": "Ye",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Assisted Reproduction Unit, Department of Obstetrics and Gynecology, Sir Run Run Shaw Hospital, School of Medicine, Zhejiang University, Hangzhou,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang Q",
+                "lastName": "Wang",
+                "firstName": "Qin",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Assisted Reproduction Unit, Department of Obstetrics and Gynecology, Sir Run Run Shaw Hospital, School of Medicine, Zhejiang University, Hangzhou,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tong X",
+                "lastName": "Tong",
+                "firstName": "Xiaomei",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Assisted Reproduction Unit, Department of Obstetrics and Gynecology, Sir Run Run Shaw Hospital, School of Medicine, Zhejiang University, Hangzhou,\u00a0China."
+                    },
+                    {
+                      "affiliation": "Zhejiang Key Laboratory of Precise Protection and Promotion of Fertility, Hangzhou,\u00a0China."
+                    },
+                    {
+                      "affiliation": "Zhejiang Provincial Clinical Research Center for Reproductive Health and Disease, Hangzhou,\u00a0China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "16",
+            "journalIssueId": 4112174,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Cell Infect Microbiol",
+              "title": "Frontiers in cellular and infection microbiology",
+              "essn": "2235-2988",
+              "issn": "2235-2988",
+              "nlmid": "101585359",
+              "isoabbreviation": "Front Cell Infect Microbiol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1905185",
+          "abstractText": "<h4>Introduction</h4><i>Toxoplasma gondii</i> is a significant zoonotic pathogen responsible for severe disease in immunocompromised individuals, adverse pregnancy outcomes, and substantial economic losses in the livestock industry. Given the limitations of current therapeutic strategies and vaccines, this study utilized immunoinformatics and reverse vaccinology approaches to design a multi-epitope candidate vaccine.<h4>Methods</h4>A total of 49 T. gondii proteins from the SAG, GRA, MIC, and ROP families were screened. Epitopes were selected based on antigenicity, immunogenicity, cytokine-inducing potential, toxicity, and allergenicity. The selected epitopes were assembled using AAY, GPGPG, and KK linkers, with the 50S ribosomal protein L7/L12 as an adjuvant. Physicochemical properties, molecular docking, molecular dynamics simulations, immune simulations, and codon optimization were subsequently evaluated.<h4>Results</h4>We identified 9 cytotoxic T lymphocyte (CTL), 6 helper T lymphocyte (HTL), and 11 B-cell epitopes. The finalized 556-amino-acid construct (61.13 kDa) demonstrated favorable antigenicity (VaxiJen score: 0.6843), stability (instability index: 39.05), solubility (0.663), and hydrophilicity (GRAVY: -0.502), while maintaining safety profiles. Molecular docking and dynamics simulations confirmed robust and stable binding to TLR2 (-32.8 kcal/mol) and TLR4 (-72.37 kcal/mol). Furthermore, immune simulations predicted a strong, memory-forming humoral and cellular immune response. Codon optimization (CAI: 0.93, GC content: 56.43%) suggested high expression efficiency in <i>Escherichia coli</i>.<h4>Discussion</h4>The rationally designed multi-epitope vaccine demonstrates robust theoretical potential to elicit comprehensive, long-lasting immunity in humans, although its safety and effectiveness require additional experimental validation.",
+          "affiliation": "Assisted Reproduction Unit, Department of Obstetrics and Gynecology, Sir Run Run Shaw Hospital, School of Medicine, Zhejiang University, Hangzhou,\u00a0China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "T-Lymphocytes, Cytotoxic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epitopes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Epitopes, B-Lymphocyte",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epitopes, T-Lymphocyte",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computer Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Dynamics Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Docking Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunogenicity, Vaccine"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunoinformatics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Subunit Vaccines"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reverse Vaccinology"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Immune response",
+              "Toxoplasma gondii",
+              "Zoonotic Diseases",
+              "Immunoinformatics",
+              "Multi-epitope Vaccine"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Epitopes",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Epitopes, B-Lymphocyte",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Epitopes, T-Lymphocyte",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protein Subunit Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fcimb.2026.1905185"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13526547"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13526547?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "uniprot",
+              "pdb"
+            ]
+          },
+          "dateOfCompletion": "2026-09-01",
+          "dateOfCreation": "2026-09-01",
+          "dateOfRevision": "2026-09-02",
+          "electronicPublicationDate": "2026-08-17",
+          "firstPublicationDate": "2026-08-17",
+          "firstIndexDate": "2026-09-02",
+          "fullTextReceivedDate": "2026-09-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42565651",
+          "source": "MED",
+          "pmid": "42565651",
+          "pmcid": "PMC13456505",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13456505"
+            ]
+          },
+          "doi": "10.1080/21505594.2026.2713823",
+          "title": "Live-attenuated &lt;i&gt;Toxoplasma gondii&lt;/i&gt; RH\u0394&lt;i&gt;ddx6&lt;/i&gt; mutant establishes comprehensive immunity against acute, chronic, and congenital toxoplasmosis.",
+          "authorString": "Yang Z, Wang J, Wu J, Fan Y, Ying T, Zhang H, Bai J, Wang Y, Liu P, Li G, Nie M, Tian X, Mei X, Zhang Z, Wang Q, Wang S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang Z",
+                "lastName": "Yang",
+                "firstName": "Zhenke",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang J",
+                "lastName": "Wang",
+                "firstName": "Jinghui",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu J",
+                "lastName": "Wu",
+                "firstName": "Junru",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fan Y",
+                "lastName": "Fan",
+                "firstName": "Youke",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ying T",
+                "lastName": "Ying",
+                "firstName": "Tingting",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang H",
+                "lastName": "Zhang",
+                "firstName": "Haina",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Rehabilitation, The First Affiliated Hospital of Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bai J",
+                "lastName": "Bai",
+                "firstName": "Jiakang",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang Y",
+                "lastName": "Wang",
+                "firstName": "Yuanfeng",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu P",
+                "lastName": "Liu",
+                "firstName": "Ping",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li G",
+                "lastName": "Li",
+                "firstName": "Guofeng",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nie M",
+                "lastName": "Nie",
+                "firstName": "Mengxue",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian X",
+                "lastName": "Tian",
+                "firstName": "Xiaowei",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mei X",
+                "lastName": "Mei",
+                "firstName": "Xuefang",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Z",
+                "lastName": "Zhang",
+                "firstName": "Zhenchao",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3386-9947"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang Q",
+                "lastName": "Wang",
+                "firstName": "Qiangqiang",
+                "initials": "Q",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0001-6826-813X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Animal Science and Veterinary Medicine, Henan Institute of Science and Technology, Xinxiang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang S",
+                "lastName": "Wang",
+                "firstName": "Shuai",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2916-9147"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2916-9147"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3386-9947"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0001-6826-813X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "17",
+            "journalIssueId": 4069776,
+            "dateOfPublication": "2026 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Virulence",
+              "title": "Virulence",
+              "essn": "2150-5608",
+              "issn": "2150-5594",
+              "nlmid": "101531386",
+              "isoabbreviation": "Virulence"
+            },
+            "printPublicationDate": "2026-12-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "2713823",
+          "abstractText": "<i>Toxoplasma gondii</i> is an obligate intracellular parasite causing severe disease in immunocompromised individuals and congenitally infected infants. Despite decades of research, no licensed human vaccine exists. This study evaluates a novel live-attenuated vaccine candidate based on depletion of DDX6, a conserved DEAD-box RNA helicase involved in post-transcriptional gene regulation. A \u0394<i>ddx6</i> strain was generated in the type I virulent RH strain using CRISPR/Cas9, and its phenotype was comprehensively assessed. Although the mutant displayed only subtle defects in certain <i>in vitro</i> assays, it exhibited almost complete avirulence in mice even at high inoculums (10<sup>6</sup> tachyzoites), representing a dramatic attenuation phenotype not fully predicted by <i>in vitro</i> analyses. A single immunization with 1\u2009\u00d7\u200910<sup>6</sup> \u0394<i>ddx6</i> tachyzoites induced robust Th1-biased immunity characterized by high <i>T. gondii</i>-specific IgG titers, CD4<sup>+</sup>/CD8<sup>+</sup> T-cell activation, and IFN-\u03b3 production. Vaccinated mice achieved 100% survival against lethal RH challenge and showed a 99.5% reduction in brain cyst burden following PRU strain infection. Furthermore, the vaccine completely prevented vertical transmission in a pregnancy model. Transcriptomic analysis revealed widespread dysregulation in the \u0394<i>ddx6</i> strain, particularly downregulation of key virulence factors (ROPs, SAGs) and genes involved in intracellular transport. These findings demonstrate that targeting DDX6 generates a highly attenuated yet strongly immunogenic strain with exceptional cross-stage protective efficacy against acute, chronic, and congenital toxoplasmosis, representing a promising vaccine candidate worthy of further development.",
+          "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Department of Pathogenic Biology, School of Basic Medical Sciences, Henan Medical University, Xinxiang, China.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "the Key Scientific Research Projects of Colleges and Universities in Henan Province",
+                "grantId": "25A310018",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Doctoral Scientific Research Activation Foundation of Xinxiang Medical University",
+                "grantId": "XYBSKYZZ202179",
+                "orderIn": 0
+              },
+              {
+                "agency": "the National Natural Science Foundation of China",
+                "grantId": "82302552",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Innovation and Entrepreneurship Training Plan for College Students in Henan Province",
+                "grantId": "S202510472053",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Graduate Research Innovation Support Program of Henan Medical University",
+                "grantId": "YJSCX202539Y",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Science and Technology Planning Project of Henan Province",
+                "grantId": "252102310342",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Joint Fund of Henan Provincial Science and Technology Research and Development Program",
+                "grantId": "252103810374",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis, Congenital",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chronic Disease"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vaccines, Attenuated",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Virulence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pregnancy"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "DEAD-box RNA Helicases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Infectious Disease Transmission, Vertical",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Immunogenicity",
+              "T. gondii",
+              "Live-attenuated Vaccine",
+              "Ddx6",
+              "Congenital Protection"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Vaccines, Attenuated",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "DEAD-box RNA Helicases",
+                "registryNumber": "EC 3.6.4.13"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1080/21505594.2026.2713823"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13456505"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13456505?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2026-08-07",
+          "dateOfCreation": "2026-08-07",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-08-07",
+          "firstPublicationDate": "2026-08-07",
+          "firstIndexDate": "2026-08-07",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42683412",
+          "source": "MED",
+          "pmid": "42683412",
+          "pmcid": "PMC13532287",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13532287"
+            ]
+          },
+          "doi": "10.1128/asmcr.00070-26",
+          "title": "Toxoplasmosis-associated hemophagocytic lymphohistiocytosis during tumor-infiltrating lymphocyte therapy.",
+          "authorString": "Odeh T, Quach P, Mostofizadeh A, Hankins JD, Hamilton-Seth R, Gorsline C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Odeh T",
+                "lastName": "Odeh",
+                "firstName": "Tariq",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0000-2524-4018"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Division of Pulmonary, Critical Care, and Sleep Medicine, University of Kansas Medical Center, Kansas City, Kansas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Quach P",
+                "lastName": "Quach",
+                "firstName": "Priscilla",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, University of Kansas Medical Center, Kansas City, Kansas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mostofizadeh A",
+                "lastName": "Mostofizadeh",
+                "firstName": "Amin",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, University of Kansas Medical Center, Kansas City, Kansas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hankins JD",
+                "lastName": "Hankins",
+                "firstName": "Julia D",
+                "initials": "JD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, University of Kansas Medical Center, Kansas City, Kansas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hamilton-Seth R",
+                "lastName": "Hamilton-Seth",
+                "firstName": "Robert",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6542-7214"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, University of Kansas Medical Center, Kansas City, Kansas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gorsline C",
+                "lastName": "Gorsline",
+                "firstName": "Chelsea",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1068-2493"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Division of Infectious Diseases, University of Kansas Medical Center, Kansas City, Kansas, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6542-7214"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1068-2493"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0000-2524-4018"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "2",
+            "journalIssueId": 4253169,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "ASM Case Rep",
+              "title": "ASM case reports",
+              "essn": "2996-2684",
+              "issn": "2996-2684",
+              "nlmid": "9919031604206676",
+              "isoabbreviation": "ASM Case Rep"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e00070-26",
+          "abstractText": "<h4>Background</h4>Hemophagocytic lymphohistiocytosis (HLH) is a severe hyperinflammatory syndrome triggered by infections, malignancies, or autoimmune disorders. Tumor-infiltrating lymphocyte (TIL) therapy requires lymphodepleting chemotherapy and interleukin-2, producing profound immunosuppression. While HLH-like syndromes have been characterized after chimeric antigen receptor T-cell therapy, HLH has not been reported in the setting of TIL therapy. <i>Toxoplasma gondii</i> is a recognized but uncommon parasitic trigger of secondary HLH.<h4>Case summary</h4>A 68-year-old male with metastatic melanoma undergoing TIL therapy presented with altered mental status. He had chronic lymphopenia and reported gastrointestinal intolerance to trimethoprim-sulfamethoxazole, documented as a sulfonamide allergy without formal testing, limiting prophylaxis to inhaled pentamidine, which has no anti-<i>Toxoplasma</i> activity. On admission, he was febrile (39.3\u00b0C) with pancytopenia, hypofibrinogenemia (44 mg/dL [normal 200-400]), hyperferritinemia (>30,000 ng/mL [normal 30-300]), hypertriglyceridemia (410 mg/dL [normal 150]), and elevated soluble CD25 (6,979.4 pg/mL [normal 175.3-858.2]); HScore was 283 (>99% probability of HLH). Bone marrow biopsy revealed bradyzoites, tachyzoites, pseudocysts, and hemophagocytosis. Disseminated toxoplasmosis was confirmed by positive serum <i>Toxoplasma</i> IgG, negative IgM, and cerebrospinal fluid <i>Toxoplasma</i> PCR of 13,700 copies/mL (reference: not detected), with brain MRI demonstrating targetoid enhancing lesions. Treatment with pyrimethamine, sulfadiazine, and leucovorin was initiated, but the patient continued to deteriorate and transitioned to comfort measures.<h4>Conclusion</h4>This represents the first toxoplasmosis-associated HLH during TIL therapy. It underscores the importance of distinguishing drug intolerance from true allergy, ensuring <i>Toxoplasma</i>-active prophylaxis in profoundly immunosuppressed patients, and recognizing that HIV-derived CD4 thresholds may not apply to non-HIV immunocompromised populations.",
+          "affiliation": "Department of Internal Medicine, Division of Pulmonary, Critical Care, and Sleep Medicine, University of Kansas Medical Center, Kansas City, Kansas, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article",
+              "Case Reports",
+              "case-report"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasmosis",
+              "Immunocompromised",
+              "Opportunistic Infection",
+              "Til Therapy",
+              "Hlh"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/asmcr.00070-26"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13532287"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13532287?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-09-02",
+          "dateOfCreation": "2026-09-02",
+          "dateOfRevision": "2026-09-03",
+          "electronicPublicationDate": "2026-08-06",
+          "firstPublicationDate": "2026-08-06",
+          "firstIndexDate": "2026-09-03",
+          "fullTextReceivedDate": "2026-09-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42601991",
+          "source": "MED",
+          "pmid": "42601991",
+          "pmcid": "PMC13472923",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13472923"
+            ]
+          },
+          "doi": "10.3389/fimmu.2026.1830954",
+          "title": "Bioinformatics-driven design and protective efficacy assessment of a multi-epitope vaccine for &lt;i&gt;Toxoplasma gondii&lt;/i&gt;.",
+          "authorString": "Feng W, Sun L, Yang C, Cao J, Zhou Y, Zhou J, Yu L, Zhang H.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Feng W",
+                "lastName": "Feng",
+                "firstName": "Wenyong",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    },
+                    {
+                      "affiliation": "College of Agriculture, Yanbian University, Yanji, Jilin,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun L",
+                "lastName": "Sun",
+                "firstName": "Lu",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang C",
+                "lastName": "Yang",
+                "firstName": "Chenglong",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    },
+                    {
+                      "affiliation": "College of Agriculture, Yanbian University, Yanji, Jilin,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cao J",
+                "lastName": "Cao",
+                "firstName": "Jie",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou Y",
+                "lastName": "Zhou",
+                "firstName": "Yongzhi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou J",
+                "lastName": "Zhou",
+                "firstName": "Jinlin",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yu L",
+                "lastName": "Yu",
+                "firstName": "Longzheng",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Agriculture, Yanbian University, Yanji, Jilin,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang H",
+                "lastName": "Zhang",
+                "firstName": "Houshuang",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4103356,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Immunol",
+              "title": "Frontiers in immunology",
+              "essn": "1664-3224",
+              "issn": "1664-3224",
+              "nlmid": "101560960",
+              "isoabbreviation": "Front Immunol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1830954",
+          "abstractText": "<h4>Introduction</h4><i>Toxoplasma gondii</i> can cause toxoplasmosis. It is an important type of pathogen within the broad category of emerging and re-emerging zoonoses. As an infectious disease featuring a complex multi-host transmission cycle, it poses an increasingly severe threat to global public health. No licensed vaccines are currently available for pets and humans, and thus a novel high-efficiency vaccine is urgently required.<h4>Methods</h4>Six antigens (GRA1, MIC17A, OWP2, LEA880, LEA870, and a hypothetical protein LEA530) representing different stages of the parasite lifecycle were selected from ToxoDB. T-cell and B-cell epitopes were predicted using immunoinformatics tools and screened based on antigenicity, allergenicity, and toxicity. The multi-epitope peptide (MEP1) was evaluated using molecular docking with Toll-like receptor 4 (TLR4) and immune simulation. The optimized sequence was expressed in HEK293T cells as a recombinant plasmid (MEP1-pcDNA3.1) and further evaluated in BALB/c mice.<h4>Results</h4>MEP1 contained 13 cytotoxic T lymphocyte epitopes, 16 helper T lymphocyte epitopes, and 12 B-cell epitopes, with a length of 732 amino acids and a predicted molecular weight of 75.73 kDa. The antigenicity score was 0.7343, and structural modeling indicated stable secondary and tertiary conformations. Molecular docking suggested strong binding affinity to TLR4. Immune simulation predicted increased B-cell and T-cell responses following vaccination. <i>In vivo</i>, MEP1-pcDNA3.1 immunization significantly increased serum IFN-\u03b3 levels (526.81 pg/mL) compared with PBS and pcDNA3.1 controls. Splenocyte proliferation was significantly enhanced in the MEP1-pcDNA3.1 group (SI\u00a0=\u00a01.58 \u00b1 0.21) compared with PBS (1.10 \u00b1 0.09) and pcDNA3.1 (1.12 \u00b1 0.04) groups (<i>P</i>\u00a0<\u00a00.01). Following challenge with 5 \u00d7 10\u00b3 tachyzoites of the PLK strain, survival was markedly prolonged in vaccinated mice, whereas all control mice died within 2-4 days.<h4>Conclusion</h4>This study demonstrates an immunoinformatics-guided multi-epitope vaccine strategy against <i>T. gondii</i>, supported by <i>in vivo</i> immunogenicity and partial protective efficacy in a mouse model.",
+          "affiliation": "Key Laboratory of Animal Parasitology of Ministry of Agriculture, Shanghai Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Shanghai,\u00a0China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epitopes, B-Lymphocyte",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epitopes, T-Lymphocyte",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computational Biology",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Docking Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunoinformatics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Subunit Vaccines"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Bioinformatics",
+              "Toxoplasma gondii",
+              "Multi-epitope Vaccine",
+              "Mep1",
+              "Protective Efficacy Assessment"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Epitopes, B-Lymphocyte",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Epitopes, T-Lymphocyte",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protein Subunit Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fimmu.2026.1830954"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13472923"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13472923?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "refseq",
+              "pdb",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-08-15",
+          "dateOfCreation": "2026-08-15",
+          "dateOfRevision": "2026-08-16",
+          "electronicPublicationDate": "2026-07-31",
+          "firstPublicationDate": "2026-07-31",
+          "firstIndexDate": "2026-08-16",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42492874",
+          "source": "MED",
+          "pmid": "42492874",
+          "doi": "10.1016/j.actatropica.2026.108245",
+          "title": "Immunogenicity and protective efficacy of a Toxoplasma gondii glycoprotein-enriched fraction in mice.",
+          "authorString": "El Shanawany EE, Abdel-Rahman EH, Hassan SE, Desouky HM, Nofal AE, Shaapan RM, Younis SS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "El Shanawany EE",
+                "lastName": "El Shanawany",
+                "firstName": "Eman E",
+                "initials": "EE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7045-9157"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Parasitology and Animal Diseases Department, Veterinary Research Institute, National Research Centre, Dokki, Giza, Egypt. Electronic address: ee.el-shanawany@nrc.sci.eg."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Abdel-Rahman EH",
+                "lastName": "Abdel-Rahman",
+                "firstName": "Eman H",
+                "initials": "EH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Parasitology and Animal Diseases Department, Veterinary Research Institute, National Research Centre, Dokki, Giza, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hassan SE",
+                "lastName": "Hassan",
+                "firstName": "Soad E",
+                "initials": "SE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Parasitology and Animal Diseases Department, Veterinary Research Institute, National Research Centre, Dokki, Giza, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Desouky HM",
+                "lastName": "Desouky",
+                "firstName": "Hassan M",
+                "initials": "HM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Animal reproduction and artificial insemination Department, Veterinary Research Institute, National Research Centre, Dokki, Giza, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nofal AE",
+                "lastName": "Nofal",
+                "firstName": "Amany Ebrahim",
+                "initials": "AE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3641-258X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Histology and histochemistry, Zoology Department, Faculty of Science, Menoufia University, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shaapan RM",
+                "lastName": "Shaapan",
+                "firstName": "Raafat M",
+                "initials": "RM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Zoonosis, Veterinary Research Institute, National Research Center, Dokki, Giza, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Younis SS",
+                "lastName": "Younis",
+                "firstName": "Salwa Sami",
+                "initials": "SS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Medical Parasitology Department, Faculty of Medicine, Alexandria University, Alexandria, Egypt."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7045-9157"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3641-258X"
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "282",
+            "journalIssueId": 4267241,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Acta Trop",
+              "title": "Acta tropica",
+              "essn": "1873-6254",
+              "issn": "0001-706X",
+              "nlmid": "0370374",
+              "isoabbreviation": "Acta Trop"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "108245",
+          "abstractText": "Toxoplasma gondii remains a significant parasitic pathogen with limited effective vaccines against its acute virulent form. This study aimed to evaluate the protective and immunological efficacy of a total glycoprotein-based vaccine isolated from T. gondii tachyzoites against infection with the virulent RH strain in Swiss albino mice. A glycoprotein-enriched fraction was isolated from T. gondii tachyzoites using Concanavalin A affinity column chromatography. Mice were divided into four groups (n = 12/group): group I received three subcutaneous doses of 25 \u03bcg total isolated glycoproteins emulsified in Freund's adjuvant; goup II received adjuvant only; group III served as control positive (infected, non-vaccinated); Group IV served as control negative. Two weeks after the final dose, groups I-III were challenged intraperitoneally with 2500 tachyzoites of the RH strain. Survival, parasite load, antibody responses, cytokine levels (IFN-\u03b3, IL-12, IL-17), histopathological changes, and CD4<sup>+</sup>/CD8<sup>+</sup> cell infiltration were evaluated. Vaccinated mice (group I) showed a 60 % survival rate, with significantly prolonged survival (13.77 \u00b1 0.878 days) compared to controls. Parasite load in peritoneal fluid and liver was reduced by 99.8 % and 98.6 %, respectively. Vaccination induced a significant increase in antigen-specific IgG and pro-inflammatory cytokines (IFN-\u03b3, IL-12, and IL-17), suggesting a potent Th1/Th17-mediated immune response. Histopathological and immunohistochemical analyses confirmed reduced tissue damage, absence of tachyzoites, and enhanced CD4+/CD8+ T-cell infiltration in the vaccinated group. In conclusion, the glycoprotein-based fraction provided significant protection against acute toxoplasmosis, demonstrating potential for further development as a subunit vaccine candidate.",
+          "affiliation": "Parasitology and Animal Diseases Department, Veterinary Research Institute, National Research Centre, Dokki, Giza, Egypt. Electronic address: ee.el-shanawany@nrc.sci.eg.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Research Centre",
+                "grantId": "13010125",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Liver",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "CD4-Positive T-Lymphocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "CD8-Positive T-Lymphocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Glycoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunoglobulin G",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytokines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histocytochemistry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Survival Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasite Load"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Subunit Vaccines"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Cytokines",
+              "Immune response",
+              "Toxoplasma gondii",
+              "Acute Toxoplasmosis",
+              "Glycoprotein Vaccine"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Glycoproteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Immunoglobulin G",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cytokines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protein Subunit Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.actatropica.2026.108245"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-09-17",
+          "dateOfCreation": "2026-07-23",
+          "dateOfRevision": "2026-09-17",
+          "electronicPublicationDate": "2026-07-24",
+          "firstPublicationDate": "2026-07-24",
+          "firstIndexDate": "2026-07-24",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

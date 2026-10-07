@@ -1,0 +1,5129 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22genome%22+OR+%22domain%22+OR+%22ortholog%22+OR+%22paralog%22+OR+%22AlphaFold%22+OR+%22structure+prediction%22%29+AND+TITLE_ABS%3A%28%22strain%22+OR+%22variation%22%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:59.286559+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 664,
+    "nextCursorMark": "AoJbEygyMzM1NDM3Mw==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22genome%22+OR+%22domain%22+OR+%22ortholog%22+OR+%22paralog%22+OR+%22AlphaFold%22+OR+%22structure+prediction%22%29+AND+TITLE_ABS%3A%28%22strain%22+OR+%22variation%22%29+sort_cited%3Ay&cursorMark=AoJbEygyMzM1NDM3Mw%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"genome\" OR \"domain\" OR \"ortholog\" OR \"paralog\" OR \"AlphaFold\" OR \"structure prediction\") AND TITLE_ABS:(\"strain\" OR \"variation\") sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "12368864",
+          "source": "MED",
+          "pmid": "12368864",
+          "pmcid": "PMC3836256",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3836256"
+            ]
+          },
+          "doi": "10.1038/nature01097",
+          "title": "Genome sequence of the human malaria parasite Plasmodium falciparum.",
+          "authorString": "Gardner MJ, Hall N, Fung E, White O, Berriman M, Hyman RW, Carlton JM, Pain A, Nelson KE, Bowman S, Paulsen IT, James K, Eisen JA, Rutherford K, Salzberg SL, Craig A, Kyes S, Chan MS, Nene V, Shallom SJ, Suh B, Peterson J, Angiuoli S, Pertea M, Allen J, Selengut J, Haft D, Mather MW, Vaidya AB, Martin DM, Fairlamb AH, Fraunholz MJ, Roos DS, Ralph SA, McFadden GI, Cummings LM, Subramanian GM, Mungall C, Venter JC, Carucci DJ, Hoffman SL, Newbold C, Davis RW, Fraser CM, Barrell B.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Gardner MJ",
+                "lastName": "Gardner",
+                "firstName": "Malcolm J",
+                "initials": "MJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Institute for Genomic Research, 9712 Medical Center Drive, Rockville, Maryland 20850, USA. gardner@tigr.org"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hall N",
+                "lastName": "Hall",
+                "firstName": "Neil",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2808-0009"
+                }
+              },
+              {
+                "fullName": "Fung E",
+                "lastName": "Fung",
+                "firstName": "Eula",
+                "initials": "E"
+              },
+              {
+                "fullName": "White O",
+                "lastName": "White",
+                "firstName": "Owen",
+                "initials": "O"
+              },
+              {
+                "fullName": "Berriman M",
+                "lastName": "Berriman",
+                "firstName": "Matthew",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9581-0377"
+                }
+              },
+              {
+                "fullName": "Hyman RW",
+                "lastName": "Hyman",
+                "firstName": "Richard W",
+                "initials": "RW"
+              },
+              {
+                "fullName": "Carlton JM",
+                "lastName": "Carlton",
+                "firstName": "Jane M",
+                "initials": "JM"
+              },
+              {
+                "fullName": "Pain A",
+                "lastName": "Pain",
+                "firstName": "Arnab",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1755-2819"
+                }
+              },
+              {
+                "fullName": "Nelson KE",
+                "lastName": "Nelson",
+                "firstName": "Karen E",
+                "initials": "KE"
+              },
+              {
+                "fullName": "Bowman S",
+                "lastName": "Bowman",
+                "firstName": "Sharen",
+                "initials": "S"
+              },
+              {
+                "fullName": "Paulsen IT",
+                "lastName": "Paulsen",
+                "firstName": "Ian T",
+                "initials": "IT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9015-9418"
+                }
+              },
+              {
+                "fullName": "James K",
+                "lastName": "James",
+                "firstName": "Keith",
+                "initials": "K"
+              },
+              {
+                "fullName": "Eisen JA",
+                "lastName": "Eisen",
+                "firstName": "Jonathan A",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0159-2197"
+                }
+              },
+              {
+                "fullName": "Rutherford K",
+                "lastName": "Rutherford",
+                "firstName": "Kim",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6277-726X"
+                }
+              },
+              {
+                "fullName": "Salzberg SL",
+                "lastName": "Salzberg",
+                "firstName": "Steven L",
+                "initials": "SL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8859-7432"
+                }
+              },
+              {
+                "fullName": "Craig A",
+                "lastName": "Craig",
+                "firstName": "Alister",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0914-6164"
+                }
+              },
+              {
+                "fullName": "Kyes S",
+                "lastName": "Kyes",
+                "firstName": "Sue",
+                "initials": "S"
+              },
+              {
+                "fullName": "Chan MS",
+                "lastName": "Chan",
+                "firstName": "Man-Suen",
+                "initials": "MS"
+              },
+              {
+                "fullName": "Nene V",
+                "lastName": "Nene",
+                "firstName": "Vishvanath",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7066-4169"
+                }
+              },
+              {
+                "fullName": "Shallom SJ",
+                "lastName": "Shallom",
+                "firstName": "Shamira J",
+                "initials": "SJ"
+              },
+              {
+                "fullName": "Suh B",
+                "lastName": "Suh",
+                "firstName": "Bernard",
+                "initials": "B"
+              },
+              {
+                "fullName": "Peterson J",
+                "lastName": "Peterson",
+                "firstName": "Jeremy",
+                "initials": "J"
+              },
+              {
+                "fullName": "Angiuoli S",
+                "lastName": "Angiuoli",
+                "firstName": "Sam",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9525-4350"
+                }
+              },
+              {
+                "fullName": "Pertea M",
+                "lastName": "Pertea",
+                "firstName": "Mihaela",
+                "initials": "M"
+              },
+              {
+                "fullName": "Allen J",
+                "lastName": "Allen",
+                "firstName": "Jonathan",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4359-8263"
+                }
+              },
+              {
+                "fullName": "Selengut J",
+                "lastName": "Selengut",
+                "firstName": "Jeremy",
+                "initials": "J"
+              },
+              {
+                "fullName": "Haft D",
+                "lastName": "Haft",
+                "firstName": "Daniel",
+                "initials": "D"
+              },
+              {
+                "fullName": "Mather MW",
+                "lastName": "Mather",
+                "firstName": "Michael W",
+                "initials": "MW",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1062-0137"
+                }
+              },
+              {
+                "fullName": "Vaidya AB",
+                "lastName": "Vaidya",
+                "firstName": "Akhil B",
+                "initials": "AB"
+              },
+              {
+                "fullName": "Martin DM",
+                "lastName": "Martin",
+                "firstName": "David M A",
+                "initials": "DM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8732-204X"
+                }
+              },
+              {
+                "fullName": "Fairlamb AH",
+                "lastName": "Fairlamb",
+                "firstName": "Alan H",
+                "initials": "AH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5134-0329"
+                }
+              },
+              {
+                "fullName": "Fraunholz MJ",
+                "lastName": "Fraunholz",
+                "firstName": "Martin J",
+                "initials": "MJ"
+              },
+              {
+                "fullName": "Roos DS",
+                "lastName": "Roos",
+                "firstName": "David S",
+                "initials": "DS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6725-4089"
+                }
+              },
+              {
+                "fullName": "Ralph SA",
+                "lastName": "Ralph",
+                "firstName": "Stuart A",
+                "initials": "SA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0114-7808"
+                }
+              },
+              {
+                "fullName": "McFadden GI",
+                "lastName": "McFadden",
+                "firstName": "Geoffrey I",
+                "initials": "GI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5351-1627"
+                }
+              },
+              {
+                "fullName": "Cummings LM",
+                "lastName": "Cummings",
+                "firstName": "Leda M",
+                "initials": "LM"
+              },
+              {
+                "fullName": "Subramanian GM",
+                "lastName": "Subramanian",
+                "firstName": "G Mani",
+                "initials": "GM"
+              },
+              {
+                "fullName": "Mungall C",
+                "lastName": "Mungall",
+                "firstName": "Chris",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6601-2165"
+                }
+              },
+              {
+                "fullName": "Venter JC",
+                "lastName": "Venter",
+                "firstName": "J Craig",
+                "initials": "JC"
+              },
+              {
+                "fullName": "Carucci DJ",
+                "lastName": "Carucci",
+                "firstName": "Daniel J",
+                "initials": "DJ"
+              },
+              {
+                "fullName": "Hoffman SL",
+                "lastName": "Hoffman",
+                "firstName": "Stephen L",
+                "initials": "SL"
+              },
+              {
+                "fullName": "Newbold C",
+                "lastName": "Newbold",
+                "firstName": "Chris",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9274-3789"
+                }
+              },
+              {
+                "fullName": "Davis RW",
+                "lastName": "Davis",
+                "firstName": "Ronald W",
+                "initials": "RW"
+              },
+              {
+                "fullName": "Fraser CM",
+                "lastName": "Fraser",
+                "firstName": "Claire M",
+                "initials": "CM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1462-2428"
+                }
+              },
+              {
+                "fullName": "Barrell B",
+                "lastName": "Barrell",
+                "firstName": "Bart",
+                "initials": "B"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5134-0329"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6277-726X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6725-4089"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7066-4169"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9015-9418"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9525-4350"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0159-2197"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1062-0137"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1755-2819"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4359-8263"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5351-1627"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6601-2165"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8732-204X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8859-7432"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9274-3789"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9581-0377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0114-7808"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0914-6164"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1462-2428"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2808-0009"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "recommended_reviews",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "6906",
+            "volume": "419",
+            "journalIssueId": 1122692,
+            "dateOfPublication": "2002 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2002,
+            "journal": {
+              "medlineAbbreviation": "Nature",
+              "title": "Nature",
+              "essn": "1476-4687",
+              "issn": "0028-0836",
+              "nlmid": "0410462",
+              "isoabbreviation": "Nature"
+            },
+            "printPublicationDate": "2002-10-01"
+          },
+          "pubYear": "2002",
+          "pageInfo": "498-511",
+          "abstractText": "The parasite Plasmodium falciparum is responsible for hundreds of millions of cases of malaria, and kills more than one million African children annually. Here we report an analysis of the genome sequence of P. falciparum clone 3D7. The 23-megabase nuclear genome consists of 14 chromosomes, encodes about 5,300 genes, and is the most (A + T)-rich genome sequenced to date. Genes involved in antigenic variation are concentrated in the subtelomeric regions of the chromosomes. Compared to the genomes of free-living eukaryotic microbes, the genome of this intracellular parasite encodes fewer enzymes and transporters, but a large proportion of genes are devoted to immune evasion and host-parasite interactions. Many nuclear-encoded proteins are targeted to the apicoplast, an organelle involved in fatty-acid and isoprenoid metabolism. The genome sequence provides the foundation for future studies of this organism, and is being exploited in the search for new drugs and vaccines to fight malaria.",
+          "affiliation": "The Institute for Genomic Research, 9712 Medical Center Drive, Rockville, Maryland 20850, USA. gardner@tigr.org",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI028398",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "061524",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosome Structures"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plastids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria Vaccines"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Analysis, DNA",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Evolution, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA Repair"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA Replication"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Recombination, Genetic"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Transport Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "DNA, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Malaria Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature01097"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3836256"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3836256?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature01097"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "12368829",
+                "reference": "Nature. 2002 Oct 3;419(6906):426-8. doi: 10.1038/419426a.",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "12368831",
+                "reference": "Nature. 2002 Oct 3;419(6906):431. doi: 10.1038/419431a.",
+                "type": "Comment in",
+                "orderIn": 2
+              },
+              {
+                "source": "MED",
+                "id": "12368860",
+                "reference": "Nature. 2002 Oct 3;419(6906):490-2. doi: 10.1038/419490a.",
+                "type": "Comment in",
+                "orderIn": 3
+              },
+              {
+                "source": "MED",
+                "id": "12368861",
+                "reference": "Nature. 2002 Oct 3;419(6906):493-4. doi: 10.1038/419493a.",
+                "type": "Comment in",
+                "orderIn": 4
+              },
+              {
+                "source": "MED",
+                "id": "12368862",
+                "reference": "Nature. 2002 Oct 3;419(6906):495-6. doi: 10.1038/419495a.",
+                "type": "Comment in",
+                "orderIn": 5
+              },
+              {
+                "source": "MED",
+                "id": "12511928",
+                "reference": "Nature. 2003 Jan 2;421(6918):13. doi: 10.1038/421013b.",
+                "type": "Comment in",
+                "orderIn": 6
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 3263,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL",
+              "INTERPRO",
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS54165",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2002-10-17",
+          "dateOfCreation": "2002-10-09",
+          "dateOfRevision": "2025-05-29",
+          "firstPublicationDate": "2002-10-01",
+          "firstIndexDate": "2008-01-29",
+          "fullTextReceivedDate": "2025-11-22",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "12929205",
+          "source": "MED",
+          "pmid": "12929205",
+          "pmcid": "PMC176545",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC176545"
+            ]
+          },
+          "doi": "10.1371/journal.pbio.0000005",
+          "title": "The transcriptome of the intraerythrocytic developmental cycle of Plasmodium falciparum.",
+          "authorString": "Bozdech Z, Llin\u00e1s M, Pulliam BL, Wong ED, Zhu J, DeRisi JL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bozdech Z",
+                "lastName": "Bozdech",
+                "firstName": "Zbynek",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9830-8446"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Biophysics, University of California, San Francisco, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Llin\u00e1s M",
+                "lastName": "Llin\u00e1s",
+                "firstName": "Manuel",
+                "initials": "M"
+              },
+              {
+                "fullName": "Pulliam BL",
+                "lastName": "Pulliam",
+                "firstName": "Brian Lee",
+                "initials": "BL"
+              },
+              {
+                "fullName": "Wong ED",
+                "lastName": "Wong",
+                "firstName": "Edith D",
+                "initials": "ED"
+              },
+              {
+                "fullName": "Zhu J",
+                "lastName": "Zhu",
+                "firstName": "Jingchun",
+                "initials": "J"
+              },
+              {
+                "fullName": "DeRisi JL",
+                "lastName": "DeRisi",
+                "firstName": "Joseph L",
+                "initials": "JL"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9830-8446"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "1",
+            "journalIssueId": 1197178,
+            "dateOfPublication": "2003 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2003,
+            "journal": {
+              "medlineAbbreviation": "PLoS Biol",
+              "title": "PLoS biology",
+              "essn": "1545-7885",
+              "issn": "1544-9173",
+              "nlmid": "101183755",
+              "isoabbreviation": "PLoS Biol"
+            },
+            "printPublicationDate": "2003-10-01"
+          },
+          "pubYear": "2003",
+          "pageInfo": "E5",
+          "abstractText": "Plasmodium falciparum is the causative agent of the most burdensome form of human malaria, affecting 200-300 million individuals per year worldwide. The recently sequenced genome of P. falciparum revealed over 5,400 genes, of which 60% encode proteins of unknown function. Insights into the biochemical function and regulation of these genes will provide the foundation for future drug and vaccine development efforts toward eradication of this disease. By analyzing the complete asexual intraerythrocytic developmental cycle (IDC) transcriptome of the HB3 strain of P. falciparum, we demonstrate that at least 60% of the genome is transcriptionally active during this stage. Our data demonstrate that this parasite has evolved an extremely specialized mode of transcriptional regulation that produces a continuous cascade of gene expression, beginning with genes corresponding to general cellular processes, such as protein synthesis, and ending with Plasmodium-specific functionalities, such as genes involved in erythrocyte invasion. The data reveal that genes contiguous along the chromosomes are rarely coregulated, while transcription from the plastid genome is highly coregulated and likely polycistronic. Comparative genomic hybridization between HB3 and the reference genome strain (3D7) was used to distinguish between genes not expressed during the IDC and genes not detected because of possible sequence variations. Genomic differences between these strains were found almost exclusively in the highly antigenic subtelomeric regions of chromosomes. The simple cascade of gene regulation that directs the asexual development of P. falciparum is unprecedented in eukaryotic biology. The transcriptome of the IDC resembles a \"just-in-time\" manufacturing process whereby induction of any given gene occurs once per cycle and only at a time when it is required. These data provide to our knowledge the first comprehensive view of the timing of transcription throughout the intraerythrocytic development of P. falciparum and provide a resource for the identification of new chemotherapeutic and vaccine candidates.",
+          "affiliation": "Department of Biochemistry and Biophysics, University of California, San Francisco, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "U01 AI053862",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI53862",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosomes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "UL",
+                      "qualifierName": "ultrastructure"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plastids"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosome Mapping"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nucleic Acid Hybridization"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcription, Genetic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation, Developmental"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Open Reading Frames"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Time Factors"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Oligonucleotides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://escholarship.org/uc/item/8fm308cs"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pbio.0000005"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC176545"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC176545?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "17593892",
+                "reference": "PLoS Biol. 2005 Dec;3(12):e426. doi: 10.1371/journal.pbio.0030426",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "36696650",
+                "reference": "PLoS Biol. 2023 Jan 25;21(1):e3001997. doi: 10.1371/journal.pbio.3001997",
+                "type": "Comment in",
+                "orderIn": 2
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1266,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2006-01-26",
+          "dateOfCreation": "2003-08-21",
+          "dateOfRevision": "2023-01-26",
+          "electronicPublicationDate": "2003-08-18",
+          "firstPublicationDate": "2003-08-18",
+          "firstIndexDate": "2009-12-24",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "24880488",
+          "source": "MED",
+          "pmid": "24880488",
+          "doi": "10.1038/nbt.2925",
+          "title": "Genome editing in the human malaria parasite Plasmodium falciparum using the CRISPR-Cas9 system.",
+          "authorString": "Ghorbal M, Gorman M, Macpherson CR, Martins RM, Scherf A, Lopez-Rubio JJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ghorbal M",
+                "lastName": "Ghorbal",
+                "firstName": "Mehdi",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8896-2786"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France. [3]."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gorman M",
+                "lastName": "Gorman",
+                "firstName": "Molly",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Macpherson CR",
+                "lastName": "Macpherson",
+                "firstName": "Cameron Ross",
+                "initials": "CR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8945-9736"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Martins RM",
+                "lastName": "Martins",
+                "firstName": "Rafael Miyazawa",
+                "initials": "RM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Scherf A",
+                "lastName": "Scherf",
+                "firstName": "Artur",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2411-3328"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lopez-Rubio JJ",
+                "lastName": "Lopez-Rubio",
+                "firstName": "Jose-Juan",
+                "initials": "JJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0555-1122"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France. [3]."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7449-0696"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0555-1122"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8896-2786"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8945-9736"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2411-3328"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "recommended_reviews"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "32",
+            "journalIssueId": 2189229,
+            "dateOfPublication": "2014 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2014,
+            "journal": {
+              "medlineAbbreviation": "Nat Biotechnol",
+              "title": "Nature biotechnology",
+              "essn": "1546-1696",
+              "issn": "1087-0156",
+              "nlmid": "9604648",
+              "isoabbreviation": "Nat Biotechnol"
+            },
+            "printPublicationDate": "2014-08-01"
+          },
+          "pubYear": "2014",
+          "pageInfo": "819-821",
+          "abstractText": "Genome manipulation in the malaria parasite Plasmodium falciparum remains largely intractable and improved genomic tools are needed to further understand pathogenesis and drug resistance. We demonstrated the CRISPR-Cas9 system for use in P. falciparum by disrupting chromosomal loci and generating marker-free, single-nucleotide substitutions with high efficiency. Additionally, an artemisinin-resistant strain was generated by introducing a previously implicated polymorphism, thus illustrating the value of efficient genome editing in malaria research.",
+          "affiliation": "1] Biology of Host-Parasite Interactions Unit, Institut Pasteur, Paris, France. [2] CNRS URA 2581, Institut Pasteur, Paris, France. [3].",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Clustered Regularly Interspaced Short Palindromic Repeats",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nbt.2925"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 555,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2015-04-13",
+          "dateOfCreation": "2014-06-02",
+          "dateOfRevision": "2024-01-04",
+          "electronicPublicationDate": "2014-06-01",
+          "firstPublicationDate": "2014-06-01",
+          "firstIndexDate": "2014-06-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "22722859",
+          "source": "MED",
+          "pmid": "22722859",
+          "pmcid": "PMC3738909",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3738909"
+            ]
+          },
+          "doi": "10.1038/nature11174",
+          "title": "Analysis of Plasmodium falciparum diversity in natural infections by deep sequencing.",
+          "authorString": "Manske M, Miotto O, Campino S, Auburn S, Almagro-Garcia J, Maslen G, O'Brien J, Djimde A, Doumbo O, Zongo I, Ouedraogo JB, Michon P, Mueller I, Siba P, Nzila A, Borrmann S, Kiara SM, Marsh K, Jiang H, Su XZ, Amaratunga C, Fairhurst R, Socheat D, Nosten F, Imwong M, White NJ, Sanders M, Anastasi E, Alcock D, Drury E, Oyola S, Quail MA, Turner DJ, Ruano-Rubio V, Jyothi D, Amenga-Etego L, Hubbart C, Jeffreys A, Rowlands K, Sutherland C, Roper C, Mangano V, Modiano D, Tan JC, Ferdig MT, Amambua-Ngwa A, Conway DJ, Takala-Harrison S, Plowe CV, Rayner JC, Rockett KA, Clark TG, Newbold CI, Berriman M, MacInnis B, Kwiatkowski DP.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Manske M",
+                "lastName": "Manske",
+                "firstName": "Magnus",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5916-0947"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Trust Sanger Institute, Hinxton, Cambridge CB10 1SA, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Miotto O",
+                "lastName": "Miotto",
+                "firstName": "Olivo",
+                "initials": "O",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8060-6771"
+                }
+              },
+              {
+                "fullName": "Campino S",
+                "lastName": "Campino",
+                "firstName": "Susana",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1403-6138"
+                }
+              },
+              {
+                "fullName": "Auburn S",
+                "lastName": "Auburn",
+                "firstName": "Sarah",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4638-536X"
+                }
+              },
+              {
+                "fullName": "Almagro-Garcia J",
+                "lastName": "Almagro-Garcia",
+                "firstName": "Jacob",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0595-7333"
+                }
+              },
+              {
+                "fullName": "Maslen G",
+                "lastName": "Maslen",
+                "firstName": "Gareth",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7318-3678"
+                }
+              },
+              {
+                "fullName": "O'Brien J",
+                "lastName": "O'Brien",
+                "firstName": "Jack",
+                "initials": "J"
+              },
+              {
+                "fullName": "Djimde A",
+                "lastName": "Djimde",
+                "firstName": "Abdoulaye",
+                "initials": "A"
+              },
+              {
+                "fullName": "Doumbo O",
+                "lastName": "Doumbo",
+                "firstName": "Ogobara",
+                "initials": "O"
+              },
+              {
+                "fullName": "Zongo I",
+                "lastName": "Zongo",
+                "firstName": "Issaka",
+                "initials": "I"
+              },
+              {
+                "fullName": "Ouedraogo JB",
+                "lastName": "Ouedraogo",
+                "firstName": "Jean-Bosco",
+                "initials": "JB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0412-8733"
+                }
+              },
+              {
+                "fullName": "Michon P",
+                "lastName": "Michon",
+                "firstName": "Pascal",
+                "initials": "P"
+              },
+              {
+                "fullName": "Mueller I",
+                "lastName": "Mueller",
+                "firstName": "Ivo",
+                "initials": "I"
+              },
+              {
+                "fullName": "Siba P",
+                "lastName": "Siba",
+                "firstName": "Peter",
+                "initials": "P"
+              },
+              {
+                "fullName": "Nzila A",
+                "lastName": "Nzila",
+                "firstName": "Alexis",
+                "initials": "A"
+              },
+              {
+                "fullName": "Borrmann S",
+                "lastName": "Borrmann",
+                "firstName": "Steffen",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9189-4393"
+                }
+              },
+              {
+                "fullName": "Kiara SM",
+                "lastName": "Kiara",
+                "firstName": "Steven M",
+                "initials": "SM"
+              },
+              {
+                "fullName": "Marsh K",
+                "lastName": "Marsh",
+                "firstName": "Kevin",
+                "initials": "K"
+              },
+              {
+                "fullName": "Jiang H",
+                "lastName": "Jiang",
+                "firstName": "Hongying",
+                "initials": "H"
+              },
+              {
+                "fullName": "Su XZ",
+                "lastName": "Su",
+                "firstName": "Xin-Zhuan",
+                "initials": "XZ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3246-3248"
+                }
+              },
+              {
+                "fullName": "Amaratunga C",
+                "lastName": "Amaratunga",
+                "firstName": "Chanaki",
+                "initials": "C"
+              },
+              {
+                "fullName": "Fairhurst R",
+                "lastName": "Fairhurst",
+                "firstName": "Rick",
+                "initials": "R"
+              },
+              {
+                "fullName": "Socheat D",
+                "lastName": "Socheat",
+                "firstName": "Duong",
+                "initials": "D"
+              },
+              {
+                "fullName": "Nosten F",
+                "lastName": "Nosten",
+                "firstName": "Francois",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7951-0745"
+                }
+              },
+              {
+                "fullName": "Imwong M",
+                "lastName": "Imwong",
+                "firstName": "Mallika",
+                "initials": "M"
+              },
+              {
+                "fullName": "White NJ",
+                "lastName": "White",
+                "firstName": "Nicholas J",
+                "initials": "NJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1897-1978"
+                }
+              },
+              {
+                "fullName": "Sanders M",
+                "lastName": "Sanders",
+                "firstName": "Mandy",
+                "initials": "M"
+              },
+              {
+                "fullName": "Anastasi E",
+                "lastName": "Anastasi",
+                "firstName": "Elisa",
+                "initials": "E"
+              },
+              {
+                "fullName": "Alcock D",
+                "lastName": "Alcock",
+                "firstName": "Dan",
+                "initials": "D"
+              },
+              {
+                "fullName": "Drury E",
+                "lastName": "Drury",
+                "firstName": "Eleanor",
+                "initials": "E"
+              },
+              {
+                "fullName": "Oyola S",
+                "lastName": "Oyola",
+                "firstName": "Samuel",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6425-7345"
+                }
+              },
+              {
+                "fullName": "Quail MA",
+                "lastName": "Quail",
+                "firstName": "Michael A",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Turner DJ",
+                "lastName": "Turner",
+                "firstName": "Daniel J",
+                "initials": "DJ"
+              },
+              {
+                "fullName": "Ruano-Rubio V",
+                "lastName": "Ruano-Rubio",
+                "firstName": "Valentin",
+                "initials": "V"
+              },
+              {
+                "fullName": "Jyothi D",
+                "lastName": "Jyothi",
+                "firstName": "Dushyanth",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0448-5303"
+                }
+              },
+              {
+                "fullName": "Amenga-Etego L",
+                "lastName": "Amenga-Etego",
+                "firstName": "Lucas",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4468-0506"
+                }
+              },
+              {
+                "fullName": "Hubbart C",
+                "lastName": "Hubbart",
+                "firstName": "Christina",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9576-9581"
+                }
+              },
+              {
+                "fullName": "Jeffreys A",
+                "lastName": "Jeffreys",
+                "firstName": "Anna",
+                "initials": "A"
+              },
+              {
+                "fullName": "Rowlands K",
+                "lastName": "Rowlands",
+                "firstName": "Kate",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3519-0612"
+                }
+              },
+              {
+                "fullName": "Sutherland C",
+                "lastName": "Sutherland",
+                "firstName": "Colin",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1592-6407"
+                }
+              },
+              {
+                "fullName": "Roper C",
+                "lastName": "Roper",
+                "firstName": "Cally",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6545-309X"
+                }
+              },
+              {
+                "fullName": "Mangano V",
+                "lastName": "Mangano",
+                "firstName": "Valentina",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2021-6162"
+                }
+              },
+              {
+                "fullName": "Modiano D",
+                "lastName": "Modiano",
+                "firstName": "David",
+                "initials": "D"
+              },
+              {
+                "fullName": "Tan JC",
+                "lastName": "Tan",
+                "firstName": "John C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4803-714X"
+                }
+              },
+              {
+                "fullName": "Ferdig MT",
+                "lastName": "Ferdig",
+                "firstName": "Michael T",
+                "initials": "MT"
+              },
+              {
+                "fullName": "Amambua-Ngwa A",
+                "lastName": "Amambua-Ngwa",
+                "firstName": "Alfred",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4478-3601"
+                }
+              },
+              {
+                "fullName": "Conway DJ",
+                "lastName": "Conway",
+                "firstName": "David J",
+                "initials": "DJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8711-3037"
+                }
+              },
+              {
+                "fullName": "Takala-Harrison S",
+                "lastName": "Takala-Harrison",
+                "firstName": "Shannon",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4674-8500"
+                }
+              },
+              {
+                "fullName": "Plowe CV",
+                "lastName": "Plowe",
+                "firstName": "Christopher V",
+                "initials": "CV"
+              },
+              {
+                "fullName": "Rayner JC",
+                "lastName": "Rayner",
+                "firstName": "Julian C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9835-1014"
+                }
+              },
+              {
+                "fullName": "Rockett KA",
+                "lastName": "Rockett",
+                "firstName": "Kirk A",
+                "initials": "KA"
+              },
+              {
+                "fullName": "Clark TG",
+                "lastName": "Clark",
+                "firstName": "Taane G",
+                "initials": "TG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8985-9265"
+                }
+              },
+              {
+                "fullName": "Newbold CI",
+                "lastName": "Newbold",
+                "firstName": "Chris I",
+                "initials": "CI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9274-3789"
+                }
+              },
+              {
+                "fullName": "Berriman M",
+                "lastName": "Berriman",
+                "firstName": "Matthew",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9581-0377"
+                }
+              },
+              {
+                "fullName": "MacInnis B",
+                "lastName": "MacInnis",
+                "firstName": "Bronwyn",
+                "initials": "B"
+              },
+              {
+                "fullName": "Kwiatkowski DP",
+                "lastName": "Kwiatkowski",
+                "firstName": "Dominic P",
+                "initials": "DP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5023-0176"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5916-0947"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7318-3678"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8060-6771"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8985-9265"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9189-4393"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9576-9581"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0448-5303"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0595-7333"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1897-1978"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2021-6162"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3519-0612"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4638-536X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4803-714X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5023-0176"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6425-7345"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6545-309X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7951-0745"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8711-3037"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9274-3789"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9581-0377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9835-1014"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0412-8733"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1403-6138"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1592-6407"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3246-3248"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4468-0506"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4478-3601"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4674-8500"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7407",
+            "volume": "487",
+            "journalIssueId": 1950448,
+            "dateOfPublication": "2012 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2012,
+            "journal": {
+              "medlineAbbreviation": "Nature",
+              "title": "Nature",
+              "essn": "1476-4687",
+              "issn": "0028-0836",
+              "nlmid": "0410462",
+              "isoabbreviation": "Nature"
+            },
+            "printPublicationDate": "2012-07-01"
+          },
+          "pubYear": "2012",
+          "pageInfo": "375-379",
+          "abstractText": "Malaria elimination strategies require surveillance of the parasite population for genetic changes that demand a public health response, such as new forms of drug resistance. Here we describe methods for the large-scale analysis of genetic variation in Plasmodium falciparum by deep sequencing of parasite DNA obtained from the blood of patients with malaria, either directly or after short-term culture. Analysis of 86,158 exonic single nucleotide polymorphisms that passed genotyping quality control in 227 samples from Africa, Asia and Oceania provides genome-wide estimates of allele frequency distribution, population structure and linkage disequilibrium. By comparing the genetic diversity of individual infections with that of the local parasite population, we derive a metric of within-host diversity that is related to the level of inbreeding in the population. An open-access web application has been established for the exploration of regional differences in allele frequency and of highly differentiated loci in the P.\u2009falciparum genome.",
+          "affiliation": "Wellcome Trust Sanger Institute, Hinxton, Cambridge CB10 1SA, UK.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, N.I.H., Intramural",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "077012/Z/05/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "092654",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G0600718",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090532/Z/09/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G19/9",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "093956",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "098051",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G0600230",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "089275",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090770",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT",
+                "grantId": "093956/Z/10/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "acronym": "HHMI",
+                "grantId": "55005502",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "082370",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090532",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "075491/Z/04",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090770/Z/09/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Intramural NIH HHS",
+                "acronym": "ImNIH",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CL",
+                      "qualifierName": "classification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Biodiversity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phylogeny"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genotype"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Single Nucleotide"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Alleles"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Principal Component Analysis"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "High-Throughput Nucleotide Sequencing"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.nature.com/articles/nature11174.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature11174"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3738909"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3738909?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "37700050",
+                "reference": "Nat Rev Microbiol. 2023 Oct;21(10):633. doi: 10.1038/s41579-023-00935-w.",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 478,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS49873",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2012-08-17",
+          "dateOfCreation": "2012-06-23",
+          "dateOfRevision": "2025-05-29",
+          "firstPublicationDate": "2012-07-01",
+          "firstIndexDate": "2012-06-23",
+          "fullTextReceivedDate": "2025-11-22",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "19287394",
+          "source": "MED",
+          "pmid": "19287394",
+          "pmcid": "PMC2664327",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2664327"
+            ]
+          },
+          "doi": "10.1038/nmeth.1311",
+          "title": "Amplification-free Illumina sequencing-library preparation facilitates improved mapping and assembly of (G+C)-biased genomes.",
+          "authorString": "Kozarewa I, Ning Z, Quail MA, Sanders MJ, Berriman M, Turner DJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kozarewa I",
+                "lastName": "Kozarewa",
+                "firstName": "Iwanka",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Wellcome Trust Sanger Institute, Wellcome Trust Genome Campus, Hinxton, Cambridge, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ning Z",
+                "lastName": "Ning",
+                "firstName": "Zemin",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4359-776X"
+                }
+              },
+              {
+                "fullName": "Quail MA",
+                "lastName": "Quail",
+                "firstName": "Michael A",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Sanders MJ",
+                "lastName": "Sanders",
+                "firstName": "Mandy J",
+                "initials": "MJ"
+              },
+              {
+                "fullName": "Berriman M",
+                "lastName": "Berriman",
+                "firstName": "Matthew",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9581-0377"
+                }
+              },
+              {
+                "fullName": "Turner DJ",
+                "lastName": "Turner",
+                "firstName": "Daniel J",
+                "initials": "DJ"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9581-0377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4359-776X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "6",
+            "journalIssueId": 1612327,
+            "dateOfPublication": "2009 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2009,
+            "journal": {
+              "medlineAbbreviation": "Nat Methods",
+              "title": "Nature methods",
+              "essn": "1548-7105",
+              "issn": "1548-7091",
+              "nlmid": "101215604",
+              "isoabbreviation": "Nat Methods"
+            },
+            "printPublicationDate": "2009-04-01"
+          },
+          "pubYear": "2009",
+          "pageInfo": "291-295",
+          "abstractText": "Amplification artifacts introduced during library preparation for the Illumina Genome Analyzer increase the likelihood that an appreciable proportion of these sequences will be duplicates and cause an uneven distribution of read coverage across the targeted sequencing regions. As a consequence, these unfavorable features result in difficulties in genome assembly and variation analysis from the short reads, particularly when the sequences are from genomes with base compositions at the extremes of high or low G+C content. Here we present an amplification-free method of library preparation, in which the cluster amplification step, rather than the PCR, enriches for fully ligated template strands, reducing the incidence of duplicate sequences, improving read mapping and single nucleotide polymorphism calling and aiding de novo assembly. We illustrate this by generating and analyzing DNA sequences from extremely (G+C)-poor (Plasmodium falciparum), (G+C)-neutral (Escherichia coli) and (G+C)-rich (Bordetella pertussis) genomes.",
+          "affiliation": "The Wellcome Trust Sanger Institute, Wellcome Trust Genome Campus, Hinxton, Cambridge, UK.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "WT079643",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "079643",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosome Mapping",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nucleic Acid Amplification Techniques"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Analysis, DNA",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Base Composition"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Single Nucleotide",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Library"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nmeth.1311"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2664327"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2664327?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 454,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "UKMS4024",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2009-04-22",
+          "dateOfCreation": "2009-03-17",
+          "dateOfRevision": "2021-10-28",
+          "electronicPublicationDate": "2009-03-15",
+          "firstPublicationDate": "2009-03-15",
+          "firstIndexDate": "2009-12-23",
+          "fullTextReceivedDate": "2025-11-21",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23624527",
+          "source": "MED",
+          "pmid": "23624527",
+          "pmcid": "PMC3807790",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3807790"
+            ]
+          },
+          "doi": "10.1038/ng.2624",
+          "title": "Multiple populations of artemisinin-resistant Plasmodium falciparum in Cambodia.",
+          "authorString": "Miotto O, Almagro-Garcia J, Manske M, Macinnis B, Campino S, Rockett KA, Amaratunga C, Lim P, Suon S, Sreng S, Anderson JM, Duong S, Nguon C, Chuor CM, Saunders D, Se Y, Lon C, Fukuda MM, Amenga-Etego L, Hodgson AV, Asoala V, Imwong M, Takala-Harrison S, Nosten F, Su XZ, Ringwald P, Ariey F, Dolecek C, Hien TT, Boni MF, Thai CQ, Amambua-Ngwa A, Conway DJ, Djimd\u00e9 AA, Doumbo OK, Zongo I, Ouedraogo JB, Alcock D, Drury E, Auburn S, Koch O, Sanders M, Hubbart C, Maslen G, Ruano-Rubio V, Jyothi D, Miles A, O'Brien J, Gamble C, Oyola SO, Rayner JC, Newbold CI, Berriman M, Spencer CC, McVean G, Day NP, White NJ, Bethell D, Dondorp AM, Plowe CV, Fairhurst RM, Kwiatkowski DP.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Miotto O",
+                "lastName": "Miotto",
+                "firstName": "Olivo",
+                "initials": "O",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8060-6771"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Medical Research Council MRC Centre for Genomics and Global Health, University of Oxford, Oxford, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Almagro-Garcia J",
+                "lastName": "Almagro-Garcia",
+                "firstName": "Jacob",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0595-7333"
+                }
+              },
+              {
+                "fullName": "Manske M",
+                "lastName": "Manske",
+                "firstName": "Magnus",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5916-0947"
+                }
+              },
+              {
+                "fullName": "Macinnis B",
+                "lastName": "Macinnis",
+                "firstName": "Bronwyn",
+                "initials": "B"
+              },
+              {
+                "fullName": "Campino S",
+                "lastName": "Campino",
+                "firstName": "Susana",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1403-6138"
+                }
+              },
+              {
+                "fullName": "Rockett KA",
+                "lastName": "Rockett",
+                "firstName": "Kirk A",
+                "initials": "KA"
+              },
+              {
+                "fullName": "Amaratunga C",
+                "lastName": "Amaratunga",
+                "firstName": "Chanaki",
+                "initials": "C"
+              },
+              {
+                "fullName": "Lim P",
+                "lastName": "Lim",
+                "firstName": "Pharath",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1012-2461"
+                }
+              },
+              {
+                "fullName": "Suon S",
+                "lastName": "Suon",
+                "firstName": "Seila",
+                "initials": "S"
+              },
+              {
+                "fullName": "Sreng S",
+                "lastName": "Sreng",
+                "firstName": "Sokunthea",
+                "initials": "S"
+              },
+              {
+                "fullName": "Anderson JM",
+                "lastName": "Anderson",
+                "firstName": "Jennifer M",
+                "initials": "JM"
+              },
+              {
+                "fullName": "Duong S",
+                "lastName": "Duong",
+                "firstName": "Socheat",
+                "initials": "S"
+              },
+              {
+                "fullName": "Nguon C",
+                "lastName": "Nguon",
+                "firstName": "Chea",
+                "initials": "C"
+              },
+              {
+                "fullName": "Chuor CM",
+                "lastName": "Chuor",
+                "firstName": "Char Meng",
+                "initials": "CM"
+              },
+              {
+                "fullName": "Saunders D",
+                "lastName": "Saunders",
+                "firstName": "David",
+                "initials": "D"
+              },
+              {
+                "fullName": "Se Y",
+                "lastName": "Se",
+                "firstName": "Youry",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Lon C",
+                "lastName": "Lon",
+                "firstName": "Chantap",
+                "initials": "C"
+              },
+              {
+                "fullName": "Fukuda MM",
+                "lastName": "Fukuda",
+                "firstName": "Mark M",
+                "initials": "MM"
+              },
+              {
+                "fullName": "Amenga-Etego L",
+                "lastName": "Amenga-Etego",
+                "firstName": "Lucas",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4468-0506"
+                }
+              },
+              {
+                "fullName": "Hodgson AV",
+                "lastName": "Hodgson",
+                "firstName": "Abraham V O",
+                "initials": "AV"
+              },
+              {
+                "fullName": "Asoala V",
+                "lastName": "Asoala",
+                "firstName": "Victor",
+                "initials": "V"
+              },
+              {
+                "fullName": "Imwong M",
+                "lastName": "Imwong",
+                "firstName": "Mallika",
+                "initials": "M"
+              },
+              {
+                "fullName": "Takala-Harrison S",
+                "lastName": "Takala-Harrison",
+                "firstName": "Shannon",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4674-8500"
+                }
+              },
+              {
+                "fullName": "Nosten F",
+                "lastName": "Nosten",
+                "firstName": "Fran\u00e7ois",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7951-0745"
+                }
+              },
+              {
+                "fullName": "Su XZ",
+                "lastName": "Su",
+                "firstName": "Xin-Zhuan",
+                "initials": "XZ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3246-3248"
+                }
+              },
+              {
+                "fullName": "Ringwald P",
+                "lastName": "Ringwald",
+                "firstName": "Pascal",
+                "initials": "P"
+              },
+              {
+                "fullName": "Ariey F",
+                "lastName": "Ariey",
+                "firstName": "Fr\u00e9d\u00e9ric",
+                "initials": "F"
+              },
+              {
+                "fullName": "Dolecek C",
+                "lastName": "Dolecek",
+                "firstName": "Christiane",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4635-9567"
+                }
+              },
+              {
+                "fullName": "Hien TT",
+                "lastName": "Hien",
+                "firstName": "Tran Tinh",
+                "initials": "TT"
+              },
+              {
+                "fullName": "Boni MF",
+                "lastName": "Boni",
+                "firstName": "Maciej F",
+                "initials": "MF"
+              },
+              {
+                "fullName": "Thai CQ",
+                "lastName": "Thai",
+                "firstName": "Cao Quang",
+                "initials": "CQ"
+              },
+              {
+                "fullName": "Amambua-Ngwa A",
+                "lastName": "Amambua-Ngwa",
+                "firstName": "Alfred",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4478-3601"
+                }
+              },
+              {
+                "fullName": "Conway DJ",
+                "lastName": "Conway",
+                "firstName": "David J",
+                "initials": "DJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8711-3037"
+                }
+              },
+              {
+                "fullName": "Djimd\u00e9 AA",
+                "lastName": "Djimd\u00e9",
+                "firstName": "Abdoulaye A",
+                "initials": "AA"
+              },
+              {
+                "fullName": "Doumbo OK",
+                "lastName": "Doumbo",
+                "firstName": "Ogobara K",
+                "initials": "OK"
+              },
+              {
+                "fullName": "Zongo I",
+                "lastName": "Zongo",
+                "firstName": "Issaka",
+                "initials": "I"
+              },
+              {
+                "fullName": "Ouedraogo JB",
+                "lastName": "Ouedraogo",
+                "firstName": "Jean-Bosco",
+                "initials": "JB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0412-8733"
+                }
+              },
+              {
+                "fullName": "Alcock D",
+                "lastName": "Alcock",
+                "firstName": "Daniel",
+                "initials": "D"
+              },
+              {
+                "fullName": "Drury E",
+                "lastName": "Drury",
+                "firstName": "Eleanor",
+                "initials": "E"
+              },
+              {
+                "fullName": "Auburn S",
+                "lastName": "Auburn",
+                "firstName": "Sarah",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4638-536X"
+                }
+              },
+              {
+                "fullName": "Koch O",
+                "lastName": "Koch",
+                "firstName": "Oliver",
+                "initials": "O",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3454-2855"
+                }
+              },
+              {
+                "fullName": "Sanders M",
+                "lastName": "Sanders",
+                "firstName": "Mandy",
+                "initials": "M"
+              },
+              {
+                "fullName": "Hubbart C",
+                "lastName": "Hubbart",
+                "firstName": "Christina",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9576-9581"
+                }
+              },
+              {
+                "fullName": "Maslen G",
+                "lastName": "Maslen",
+                "firstName": "Gareth",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7318-3678"
+                }
+              },
+              {
+                "fullName": "Ruano-Rubio V",
+                "lastName": "Ruano-Rubio",
+                "firstName": "Valentin",
+                "initials": "V"
+              },
+              {
+                "fullName": "Jyothi D",
+                "lastName": "Jyothi",
+                "firstName": "Dushyanth",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0448-5303"
+                }
+              },
+              {
+                "fullName": "Miles A",
+                "lastName": "Miles",
+                "firstName": "Alistair",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9018-4680"
+                }
+              },
+              {
+                "fullName": "O'Brien J",
+                "lastName": "O'Brien",
+                "firstName": "John",
+                "initials": "J"
+              },
+              {
+                "fullName": "Gamble C",
+                "lastName": "Gamble",
+                "firstName": "Chris",
+                "initials": "C"
+              },
+              {
+                "fullName": "Oyola SO",
+                "lastName": "Oyola",
+                "firstName": "Samuel O",
+                "initials": "SO",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6425-7345"
+                }
+              },
+              {
+                "fullName": "Rayner JC",
+                "lastName": "Rayner",
+                "firstName": "Julian C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9835-1014"
+                }
+              },
+              {
+                "fullName": "Newbold CI",
+                "lastName": "Newbold",
+                "firstName": "Chris I",
+                "initials": "CI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9274-3789"
+                }
+              },
+              {
+                "fullName": "Berriman M",
+                "lastName": "Berriman",
+                "firstName": "Matthew",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9581-0377"
+                }
+              },
+              {
+                "fullName": "Spencer CC",
+                "lastName": "Spencer",
+                "firstName": "Chris C A",
+                "initials": "CC"
+              },
+              {
+                "fullName": "McVean G",
+                "lastName": "McVean",
+                "firstName": "Gilean",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5012-4162"
+                }
+              },
+              {
+                "fullName": "Day NP",
+                "lastName": "Day",
+                "firstName": "Nicholas P",
+                "initials": "NP"
+              },
+              {
+                "fullName": "White NJ",
+                "lastName": "White",
+                "firstName": "Nicholas J",
+                "initials": "NJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1897-1978"
+                }
+              },
+              {
+                "fullName": "Bethell D",
+                "lastName": "Bethell",
+                "firstName": "Delia",
+                "initials": "D"
+              },
+              {
+                "fullName": "Dondorp AM",
+                "lastName": "Dondorp",
+                "firstName": "Arjen M",
+                "initials": "AM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5190-2395"
+                }
+              },
+              {
+                "fullName": "Plowe CV",
+                "lastName": "Plowe",
+                "firstName": "Christopher V",
+                "initials": "CV"
+              },
+              {
+                "fullName": "Fairhurst RM",
+                "lastName": "Fairhurst",
+                "firstName": "Rick M",
+                "initials": "RM"
+              },
+              {
+                "fullName": "Kwiatkowski DP",
+                "lastName": "Kwiatkowski",
+                "firstName": "Dominic P",
+                "initials": "DP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5023-0176"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5190-2395"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5916-0947"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7318-3678"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7717-4330"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8060-6771"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9018-4680"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9576-9581"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0448-5303"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0595-7333"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1012-2461"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1897-1978"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4635-9567"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4638-536X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5012-4162"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5023-0176"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6425-7345"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7951-0745"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8711-3037"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9274-3789"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9581-0377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9835-1014"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0412-8733"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1403-6138"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3246-3248"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3454-2855"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4468-0506"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4478-3601"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4674-8500"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "outdated_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "45",
+            "journalIssueId": 2047289,
+            "dateOfPublication": "2013 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "Nat Genet",
+              "title": "Nature genetics",
+              "essn": "1546-1718",
+              "issn": "1061-4036",
+              "nlmid": "9216904",
+              "isoabbreviation": "Nat Genet"
+            },
+            "printPublicationDate": "2013-06-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "648-655",
+          "abstractText": "We describe an analysis of genome variation in 825 P. falciparum samples from Asia and Africa that identifies an unusual pattern of parasite population structure at the epicenter of artemisinin resistance in western Cambodia. Within this relatively small geographic area, we have discovered several distinct but apparently sympatric parasite subpopulations with extremely high levels of genetic differentiation. Of particular interest are three subpopulations, all associated with clinical resistance to artemisinin, which have skewed allele frequency spectra and high levels of haplotype homozygosity, indicative of founder effects and recent population expansion. We provide a catalog of SNPs that show high levels of differentiation in the artemisinin-resistant subpopulations, including codon variants in transporter proteins and DNA mismatch repair proteins. These data provide a population-level genetic framework for investigating the biological origins of artemisinin resistance and for defining molecular markers to assist in its elimination.",
+          "affiliation": "Medical Research Council MRC Centre for Genomics and Global Health, University of Oxford, Oxford, UK.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "089276",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G0600230",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "G0600718",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MC_EX_MR/K02440X/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "075491",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "077012/Z/05/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090532",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI101713",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "089275",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090532/Z/09/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "093956",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT",
+                "grantId": "093956/Z/10/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "acronym": "HHMI",
+                "grantId": "55005502",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G0600718",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MC_U190081987",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "082370",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G19/9",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090770/Z/09/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "098051",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090770",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "1252410",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Artemisinins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosome Painting"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cluster Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Drug Resistance"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Founder Effect"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Homozygote"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Single Nucleotide"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Principal Component Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Models, Genetic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cambodia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genetic Association Studies"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Artemisinins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "artemisinin",
+                "registryNumber": "9RMU91N5K2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3807790"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/ng.2624"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3807790"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3807790?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "23715326",
+                "reference": "Nat Genet. 2013 Jun;45(6):589-90. doi: 10.1038/ng.2648.",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 397,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS53146",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "nct"
+            ]
+          },
+          "dateOfCompletion": "2013-08-02",
+          "dateOfCreation": "2013-04-30",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2013-04-28",
+          "firstPublicationDate": "2013-04-28",
+          "firstIndexDate": "2013-04-30",
+          "fullTextReceivedDate": "2025-11-21",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "9804551",
+          "source": "MED",
+          "pmid": "9804551",
+          "doi": "10.1126/science.282.5391.1126",
+          "title": "Chromosome 2 sequence of the human malaria parasite Plasmodium falciparum.",
+          "authorString": "Gardner MJ, Tettelin H, Carucci DJ, Cummings LM, Aravind L, Koonin EV, Shallom S, Mason T, Yu K, Fujii C, Pederson J, Shen K, Jing J, Aston C, Lai Z, Schwartz DC, Pertea M, Salzberg S, Zhou L, Sutton GG, Clayton R, White O, Smith HO, Fraser CM, Adams MD, Venter JC, Hoffman SL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Gardner MJ",
+                "lastName": "Gardner",
+                "firstName": "M J",
+                "initials": "MJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Genomic Research, Rockville, MD 20850, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tettelin H",
+                "lastName": "Tettelin",
+                "firstName": "H",
+                "initials": "H"
+              },
+              {
+                "fullName": "Carucci DJ",
+                "lastName": "Carucci",
+                "firstName": "D J",
+                "initials": "DJ"
+              },
+              {
+                "fullName": "Cummings LM",
+                "lastName": "Cummings",
+                "firstName": "L M",
+                "initials": "LM"
+              },
+              {
+                "fullName": "Aravind L",
+                "lastName": "Aravind",
+                "firstName": "L",
+                "initials": "L"
+              },
+              {
+                "fullName": "Koonin EV",
+                "lastName": "Koonin",
+                "firstName": "E V",
+                "initials": "EV"
+              },
+              {
+                "fullName": "Shallom S",
+                "lastName": "Shallom",
+                "firstName": "S",
+                "initials": "S"
+              },
+              {
+                "fullName": "Mason T",
+                "lastName": "Mason",
+                "firstName": "T",
+                "initials": "T"
+              },
+              {
+                "fullName": "Yu K",
+                "lastName": "Yu",
+                "firstName": "K",
+                "initials": "K"
+              },
+              {
+                "fullName": "Fujii C",
+                "lastName": "Fujii",
+                "firstName": "C",
+                "initials": "C"
+              },
+              {
+                "fullName": "Pederson J",
+                "lastName": "Pederson",
+                "firstName": "J",
+                "initials": "J"
+              },
+              {
+                "fullName": "Shen K",
+                "lastName": "Shen",
+                "firstName": "K",
+                "initials": "K"
+              },
+              {
+                "fullName": "Jing J",
+                "lastName": "Jing",
+                "firstName": "J",
+                "initials": "J"
+              },
+              {
+                "fullName": "Aston C",
+                "lastName": "Aston",
+                "firstName": "C",
+                "initials": "C"
+              },
+              {
+                "fullName": "Lai Z",
+                "lastName": "Lai",
+                "firstName": "Z",
+                "initials": "Z"
+              },
+              {
+                "fullName": "Schwartz DC",
+                "lastName": "Schwartz",
+                "firstName": "D C",
+                "initials": "DC"
+              },
+              {
+                "fullName": "Pertea M",
+                "lastName": "Pertea",
+                "firstName": "M",
+                "initials": "M"
+              },
+              {
+                "fullName": "Salzberg S",
+                "lastName": "Salzberg",
+                "firstName": "S",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8859-7432"
+                }
+              },
+              {
+                "fullName": "Zhou L",
+                "lastName": "Zhou",
+                "firstName": "L",
+                "initials": "L"
+              },
+              {
+                "fullName": "Sutton GG",
+                "lastName": "Sutton",
+                "firstName": "G G",
+                "initials": "GG"
+              },
+              {
+                "fullName": "Clayton R",
+                "lastName": "Clayton",
+                "firstName": "R",
+                "initials": "R"
+              },
+              {
+                "fullName": "White O",
+                "lastName": "White",
+                "firstName": "O",
+                "initials": "O"
+              },
+              {
+                "fullName": "Smith HO",
+                "lastName": "Smith",
+                "firstName": "H O",
+                "initials": "HO"
+              },
+              {
+                "fullName": "Fraser CM",
+                "lastName": "Fraser",
+                "firstName": "C M",
+                "initials": "CM"
+              },
+              {
+                "fullName": "Adams MD",
+                "lastName": "Adams",
+                "firstName": "M D",
+                "initials": "MD"
+              },
+              {
+                "fullName": "Venter JC",
+                "lastName": "Venter",
+                "firstName": "J C",
+                "initials": "JC"
+              },
+              {
+                "fullName": "Hoffman SL",
+                "lastName": "Hoffman",
+                "firstName": "S L",
+                "initials": "SL"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8859-7432"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5391",
+            "volume": "282",
+            "journalIssueId": 946720,
+            "dateOfPublication": "1998 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 1998,
+            "journal": {
+              "medlineAbbreviation": "Science",
+              "title": "Science (New York, N.Y.)",
+              "essn": "1095-9203",
+              "issn": "0036-8075",
+              "nlmid": "0404511",
+              "isoabbreviation": "Science"
+            },
+            "printPublicationDate": "1998-11-01"
+          },
+          "pubYear": "1998",
+          "pageInfo": "1126-1132",
+          "abstractText": "Chromosome 2 of Plasmodium falciparum was sequenced; this sequence contains 947,103 base pairs and encodes 210 predicted genes. In comparison with the Saccharomyces cerevisiae genome, chromosome 2 has a lower gene density, introns are more frequent, and proteins are markedly enriched in nonglobular domains. A family of surface proteins, rifins, that may play a role in antigenic variation was identified. The complete sequencing of chromosome 2 has shown that sequencing of the A+T-rich P. falciparum genome is technically feasible.",
+          "affiliation": "Institute for Genomic Research, Rockville, MD 20850, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI40125-01",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosomes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Transfer, Glu",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Physical Chromosome Mapping"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reverse Transcriptase Polymerase Chain Reaction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Alignment"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Sequence Analysis, DNA"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Evolution, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Composition"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Repetitive Sequences, Nucleic Acid"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Multigene Family"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Introns"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "serine repeat antigen, Plasmodium",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Transfer, Glu",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1126/science.282.5391.1126"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "reference": "Science 1998 Dec 4;282(5395):1827",
+                "type": "Erratum in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 337,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL",
+              "INTERPRO",
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1998-11-25",
+          "dateOfCreation": "1998-11-06",
+          "dateOfRevision": "2019-06-19",
+          "firstPublicationDate": "1998-11-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "22214261",
+          "source": "MED",
+          "pmid": "22214261",
+          "pmcid": "PMC3312816",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3312816"
+            ]
+          },
+          "doi": "10.1186/1471-2164-13-1",
+          "title": "Optimizing Illumina next-generation sequencing library preparation for extremely AT-biased genomes.",
+          "authorString": "Oyola SO, Otto TD, Gu Y, Maslen G, Manske M, Campino S, Turner DJ, Macinnis B, Kwiatkowski DP, Swerdlow HP, Quail MA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Oyola SO",
+                "lastName": "Oyola",
+                "firstName": "Samuel O",
+                "initials": "SO",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6425-7345"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Trust Sanger Institute, Hinxton, Cambridge, UK. so1@sanger.ac.uk"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Otto TD",
+                "lastName": "Otto",
+                "firstName": "Thomas D",
+                "initials": "TD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1246-7404"
+                }
+              },
+              {
+                "fullName": "Gu Y",
+                "lastName": "Gu",
+                "firstName": "Yong",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Maslen G",
+                "lastName": "Maslen",
+                "firstName": "Gareth",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7318-3678"
+                }
+              },
+              {
+                "fullName": "Manske M",
+                "lastName": "Manske",
+                "firstName": "Magnus",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5916-0947"
+                }
+              },
+              {
+                "fullName": "Campino S",
+                "lastName": "Campino",
+                "firstName": "Susana",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1403-6138"
+                }
+              },
+              {
+                "fullName": "Turner DJ",
+                "lastName": "Turner",
+                "firstName": "Daniel J",
+                "initials": "DJ"
+              },
+              {
+                "fullName": "Macinnis B",
+                "lastName": "Macinnis",
+                "firstName": "Bronwyn",
+                "initials": "B"
+              },
+              {
+                "fullName": "Kwiatkowski DP",
+                "lastName": "Kwiatkowski",
+                "firstName": "Dominic P",
+                "initials": "DP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5023-0176"
+                }
+              },
+              {
+                "fullName": "Swerdlow HP",
+                "lastName": "Swerdlow",
+                "firstName": "Harold P",
+                "initials": "HP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9510-160X"
+                }
+              },
+              {
+                "fullName": "Quail MA",
+                "lastName": "Quail",
+                "firstName": "Michael A",
+                "initials": "MA"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5916-0947"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7318-3678"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1246-7404"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5023-0176"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6425-7345"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9510-160X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1403-6138"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "13",
+            "journalIssueId": 2470600,
+            "dateOfPublication": "2012 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2012,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2012-01-01"
+          },
+          "pubYear": "2012",
+          "pageInfo": "1",
+          "abstractText": "<h4>Background</h4>Massively parallel sequencing technology is revolutionizing approaches to genomic and genetic research. Since its advent, the scale and efficiency of Next-Generation Sequencing (NGS) has rapidly improved. In spite of this success, sequencing genomes or genomic regions with extremely biased base composition is still a great challenge to the currently available NGS platforms. The genomes of some important pathogenic organisms like Plasmodium falciparum (high AT content) and Mycobacterium tuberculosis (high GC content) display extremes of base composition. The standard library preparation procedures that employ PCR amplification have been shown to cause uneven read coverage particularly across AT and GC rich regions, leading to problems in genome assembly and variation analyses. Alternative library-preparation approaches that omit PCR amplification require large quantities of starting material and hence are not suitable for small amounts of DNA/RNA such as those from clinical isolates. We have developed and optimized library-preparation procedures suitable for low quantity starting material and tolerant to extremely high AT content sequences.<h4>Results</h4>We have used our optimized conditions in parallel with standard methods to prepare Illumina sequencing libraries from a non-clinical and a clinical isolate (containing ~53% host contamination). By analyzing and comparing the quality of sequence data generated, we show that our optimized conditions that involve a PCR additive (TMAC), produces amplified libraries with improved coverage of extremely AT-rich regions and reduced bias toward GC neutral templates.<h4>Conclusion</h4>We have developed a robust and optimized Next-Generation Sequencing library amplification method suitable for extremely AT-rich genomes. The new amplification conditions significantly reduce bias and retain the complexity of either extremes of base composition. This development will greatly benefit sequencing clinical samples that often require amplification due to low mass of DNA starting material.",
+          "affiliation": "Wellcome Trust Sanger Institute, Hinxton, Cambridge, UK. so1@sanger.ac.uk",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G0600718",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G19/9",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "090532",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "079355/Z/06/Z",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA-Directed RNA Polymerases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Viral Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reproducibility of Results"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymerase Chain Reaction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Composition"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Library"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genetic Loci"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "High-Throughput Nucleotide Sequencing",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Viral Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "DNA-Directed RNA Polymerases",
+                "registryNumber": "EC 2.7.7.6"
+              },
+              {
+                "name": "bacteriophage T7 RNA polymerase",
+                "registryNumber": "EC 2.7.7.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/1471-2164-13-1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3312816"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3312816?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 333,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2012-07-13",
+          "dateOfCreation": "2012-01-05",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2012-01-03",
+          "firstPublicationDate": "2012-01-03",
+          "firstIndexDate": "2012-01-05",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "20862303",
+          "source": "MED",
+          "pmid": "20862303",
+          "pmcid": "PMC2940729",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2940729"
+            ]
+          },
+          "doi": "10.1371/journal.pcbi.1000933",
+          "title": "Plasmodium falciparum erythrocyte membrane protein 1 diversity in seven genomes--divide and conquer.",
+          "authorString": "Rask TS, Hansen DA, Theander TG, Gorm Pedersen A, Lavstsen T.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Rask TS",
+                "lastName": "Rask",
+                "firstName": "Thomas S",
+                "initials": "TS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Biological Sequence Analysis, Department of Systems Biology, Technical University of Denmark, Lyngby, Denmark. rask@cbs.dtu.dk"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hansen DA",
+                "lastName": "Hansen",
+                "firstName": "Daniel A",
+                "initials": "DA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3285-605X"
+                }
+              },
+              {
+                "fullName": "Theander TG",
+                "lastName": "Theander",
+                "firstName": "Thor G",
+                "initials": "TG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3509-7514"
+                }
+              },
+              {
+                "fullName": "Gorm Pedersen A",
+                "lastName": "Gorm Pedersen",
+                "firstName": "Anders",
+                "initials": "A"
+              },
+              {
+                "fullName": "Lavstsen T",
+                "lastName": "Lavstsen",
+                "firstName": "Thomas",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3044-4249"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9650-8965"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3044-4249"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3509-7514"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3285-605X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "6",
+            "journalIssueId": 1760589,
+            "dateOfPublication": "2010 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2010,
+            "journal": {
+              "medlineAbbreviation": "PLoS Comput Biol",
+              "title": "PLoS computational biology",
+              "essn": "1553-7358",
+              "issn": "1553-734X",
+              "nlmid": "101238922",
+              "isoabbreviation": "PLoS Comput Biol"
+            },
+            "printPublicationDate": "2010-09-01"
+          },
+          "pubYear": "2010",
+          "pageInfo": "e1000933",
+          "abstractText": "The var gene encoded hyper-variable Plasmodium falciparum erythrocyte membrane protein 1 (PfEMP1) family mediates cytoadhesion of infected erythrocytes to human endothelium. Antibodies blocking cytoadhesion are important mediators of malaria immunity acquired by endemic populations. The development of a PfEMP1 based vaccine mimicking natural acquired immunity depends on a thorough understanding of the evolved PfEMP1 diversity, balancing antigenic variation against conserved receptor binding affinities. This study redefines and reclassifies the domains of PfEMP1 from seven genomes. Analysis of domains in 399 different PfEMP1 sequences allowed identification of several novel domain classes, and a high degree of PfEMP1 domain compositional order, including conserved domain cassettes not always associated with the established group A-E division of PfEMP1. A novel iterative homology block (HB) detection method was applied, allowing identification of 628 conserved minimal PfEMP1 building blocks, describing on average 83% of a PfEMP1 sequence. Using the HBs, similarities between domain classes were determined, and Duffy binding-like (DBL) domain subclasses were found in many cases to be hybrids of major domain classes. Related to this, a recombination hotspot was uncovered between DBL subdomains S2 and S3. The VarDom server is introduced, from which information on domain classes and homology blocks can be retrieved, and new sequences can be classified. Several conserved sequence elements were found, including: (1) residues conserved in all DBL domains predicted to interact and hold together the three DBL subdomains, (2) potential integrin binding sites in DBL\u03b1 domains, (3) an acylation motif conserved in group A var genes suggesting N-terminal N-myristoylation, (4) PfEMP1 inter-domain regions proposed to be elastic disordered structures, and (5) several conserved predicted phosphorylation sites. Ideally, this comprehensive categorization of PfEMP1 will provide a platform for future studies on var/PfEMP1 expression and function.",
+          "affiliation": "Center for Biological Sequence Analysis, Department of Systems Biology, Technical University of Denmark, Lyngby, Denmark. rask@cbs.dtu.dk",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cluster Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Markov Chains"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Analysis, Protein",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computational Biology",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phylogeny"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Conserved Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Structure, Tertiary"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Homology, Amino Acid"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Models, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Annotation"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "erythrocyte membrane protein 1, Plasmodium falciparum",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pcbi.1000933"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2940729"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2940729?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 319,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "INTERPRO"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2011-01-10",
+          "dateOfCreation": "2010-09-24",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2010-09-16",
+          "firstPublicationDate": "2010-09-16",
+          "firstIndexDate": "2010-10-01",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "19218088",
+          "source": "MED",
+          "pmid": "19218088",
+          "doi": "10.1016/j.chom.2008.12.012",
+          "title": "Genome-wide analysis of heterochromatin associates clonally variant gene regulation with perinuclear repressive centers in malaria parasites.",
+          "authorString": "Lopez-Rubio JJ, Mancio-Silva L, Scherf A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lopez-Rubio JJ",
+                "lastName": "Lopez-Rubio",
+                "firstName": "Jose-Juan",
+                "initials": "JJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0555-1122"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 de Biologie des Interactions H\u00f4te-Parasite, CNRS URA2581, Institut Pasteur, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mancio-Silva L",
+                "lastName": "Mancio-Silva",
+                "firstName": "Liliana",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5585-018X"
+                }
+              },
+              {
+                "fullName": "Scherf A",
+                "lastName": "Scherf",
+                "firstName": "Artur",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2411-3328"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0555-1122"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5585-018X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2411-3328"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "5",
+            "journalIssueId": 1598503,
+            "dateOfPublication": "2009 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2009,
+            "journal": {
+              "medlineAbbreviation": "Cell Host Microbe",
+              "title": "Cell host & microbe",
+              "essn": "1934-6069",
+              "issn": "1931-3128",
+              "nlmid": "101302316",
+              "isoabbreviation": "Cell Host Microbe"
+            },
+            "printPublicationDate": "2009-02-01"
+          },
+          "pubYear": "2009",
+          "pageInfo": "179-190",
+          "abstractText": "Clonally variant gene families underlie phenotypic plasticity in Plasmodium falciparum, a process indispensable for survival of the pathogen in its human host. Differential transcription of one of these gene families in clonal parasite lineages has been associated with chromatin modifications. Here, we determine the genome-wide distribution in P. falciparum of a histone mark of heterochromatin, trimethylation of histone H3 lysine 9 (H3K9me3), using high-resolution ChIP-chip analysis. We show that H3K9me3 is specifically associated with clonally variant gene families, which are clustered on subtelomeric and some chromosome internal regions. High levels of H3K9me3 correlate with genes localized to the nuclear periphery, implying chromosome loop formation. Disruption of the histone deacetylase PfSir2 causes changes in H3K9me3 that are discontinuous along chromosomes and associated with disrupted monoallelic transcription. Our data point to the existence of perinuclear repressive centers associated with control of expression of malaria parasite genes involved in phenotypic variation and pathogenesis.",
+          "affiliation": "Unit\u00e9 de Biologie des Interactions H\u00f4te-Parasite, CNRS URA2581, Institut Pasteur, Paris, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Nucleus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Heterochromatin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sirtuins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histones",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromatin Immunoprecipitation"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Knockout Techniques"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Histones",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Heterochromatin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Sirtuins",
+                "registryNumber": "EC 3.5.1.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.chom.2008.12.012"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "19218082",
+                "reference": "Cell Host Microbe. 2009 Feb 19;5(2):112-3. doi: 10.1016/j.chom.2009.01.006",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 315,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "ARXPR"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2009-03-06",
+          "dateOfCreation": "2009-02-17",
+          "dateOfRevision": "2020-09-30",
+          "firstPublicationDate": "2009-02-01",
+          "firstIndexDate": "2009-03-07",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

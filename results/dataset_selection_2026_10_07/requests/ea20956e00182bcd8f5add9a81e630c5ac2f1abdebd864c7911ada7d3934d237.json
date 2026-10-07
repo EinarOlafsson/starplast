@@ -1,0 +1,2359 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22RNA-seq%22+OR+%22transcriptome%22+OR+%22transcriptomic%22+OR+%22microarray%22+OR+%22scRNA-seq%22%29+AND+TITLE_ABS%3A%28%22transcription%22+OR+%22rate%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:42.836572+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 152,
+    "nextCursorMark": "AoJwwMWf8pwDKDU1MjE3Mjg2",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22RNA-seq%22+OR+%22transcriptome%22+OR+%22transcriptomic%22+OR+%22microarray%22+OR+%22scRNA-seq%22%29+AND+TITLE_ABS%3A%28%22transcription%22+OR+%22rate%22%29+sort_date%3Ay&cursorMark=AoJwwMWf8pwDKDU1MjE3Mjg2&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"RNA-seq\" OR \"transcriptome\" OR \"transcriptomic\" OR \"microarray\" OR \"scRNA-seq\") AND TITLE_ABS:(\"transcription\" OR \"rate\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42575702",
+          "source": "MED",
+          "pmid": "42575702",
+          "doi": "10.1261/rna.081149.126",
+          "title": "Sense-Antisense RNA duplexes mediate stress-responsive translational control in Plasmodium falciparum.",
+          "authorString": "Malhotra R, Pandit K, Malhotra P, Karmodiya K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Malhotra R",
+                "lastName": "Malhotra",
+                "firstName": "Rashim",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Indian Institute of Science Education and Research Pune."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pandit K",
+                "lastName": "Pandit",
+                "firstName": "Kushankur",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Indian Institute of Science Education and Research Pune."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Malhotra P",
+                "lastName": "Malhotra",
+                "firstName": "Pawan",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7384-6280"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology New Delhi."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Karmodiya K",
+                "lastName": "Karmodiya",
+                "firstName": "Krishanpal",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5714-0587"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Indian Institute of Science Education and Research Pune; krish@iiserpune.ac.in."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5714-0587"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7384-6280"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4242157,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "RNA",
+              "title": "RNA (New York, N.Y.)",
+              "essn": "1469-9001",
+              "issn": "1355-8382",
+              "isoabbreviation": "RNA",
+              "nlmid": "9509184"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "rna.081149.126",
+          "abstractText": "Plasmodium falciparum, the primary cause of human malaria, relies on tightly coordinated gene-expression programs to adapt to host-derived stress despite possessing a limited repertoire of canonical transcription factors. Antisense long noncoding RNAs have emerged as important regulators of parasite biology, including virulence gene regulation and sexual commitment; however, their prevalence, origin, and broader functional significance remain poorly understood. Here, we demonstrate that antisense transcription is a widespread, reproducible, and regulated feature of the P. falciparum transcriptome rather than a byproduct of pervasive euchromatic transcription. Environmental stress, including febrile temperature exposure and artemisinin treatment, extensively remodelled antisense transcription, particularly at loci associated with virulence and stress adaptation, promoting widespread sense-antisense RNA duplex formation. Functional analyses of two stress-responsive chromatin regulators, PfGCN5 and PfHDAC1, identified as antisense-expressing loci, revealed that increased antisense expression elevated steady-state mRNA abundance while reducing cognate protein levels. Mechanistically, sense-antisense RNA duplex formation stabilized complementary transcripts but suppressed translation. Integrated transcriptomic, RNA-RNA duplex profiling, ribosome sequencing, and proteomic analyses further showed that duplex-enriched transcripts exhibit reduced ribosome occupancy and reduced protein abundance, accompanied by localized antisense enrichment near transcription end sites and altered ribosome distribution consistent with impaired translational engagement. Collectively, our findings identify an antisense RNA-ribosome regulatory axis that couples RNA duplex formation to adaptive translational control, providing a previously unrecognized mechanism underlying stress adaptation and post-transcriptional gene regulation in P. falciparum.",
+          "affiliation": "Indian Institute of Science Education and Research Pune.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Malaria",
+              "Antisense RNA",
+              "Transcription regulation",
+              "Plasmodium falciparum"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1261/rna.081149.126"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-10",
+          "dateOfRevision": "2026-08-10",
+          "electronicPublicationDate": "2026-08-10",
+          "firstPublicationDate": "2026-08-10",
+          "firstIndexDate": "2026-08-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1288464",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10280857/v1",
+          "title": "Malaria parasites coordinate host cell remodeling through the AP2-HCR DNA-binding protein",
+          "authorString": "Pain A, Subudhi A, Vedagiri D, Mfarrej S, Abu-Shamma R, Satyam R, Salunke R, Liu D, Ayach M, Dada A, Kadamany A, Ferguson DJP, Absalon S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Pain A",
+                "lastName": "Pain",
+                "firstName": "Arnab",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1755-2819"
+                }
+              },
+              {
+                "fullName": "Subudhi A",
+                "lastName": "Subudhi",
+                "firstName": "Amit",
+                "initials": "A"
+              },
+              {
+                "fullName": "Vedagiri D",
+                "lastName": "Vedagiri",
+                "firstName": "Dhiviya",
+                "initials": "D"
+              },
+              {
+                "fullName": "Mfarrej S",
+                "lastName": "Mfarrej",
+                "firstName": "Sara",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6460-8862"
+                }
+              },
+              {
+                "fullName": "Abu-Shamma R",
+                "lastName": "Abu-Shamma",
+                "firstName": "Reem",
+                "initials": "R"
+              },
+              {
+                "fullName": "Satyam R",
+                "lastName": "Satyam",
+                "firstName": "Rohit",
+                "initials": "R"
+              },
+              {
+                "fullName": "Salunke R",
+                "lastName": "Salunke",
+                "firstName": "Rahul",
+                "initials": "R"
+              },
+              {
+                "fullName": "Liu D",
+                "lastName": "Liu",
+                "firstName": "Di",
+                "initials": "D"
+              },
+              {
+                "fullName": "Ayach M",
+                "lastName": "Ayach",
+                "firstName": "Maya",
+                "initials": "M"
+              },
+              {
+                "fullName": "Dada A",
+                "lastName": "Dada",
+                "firstName": "Ashraf",
+                "initials": "A"
+              },
+              {
+                "fullName": "Kadamany A",
+                "lastName": "Kadamany",
+                "firstName": "Abdullah",
+                "initials": "A"
+              },
+              {
+                "fullName": "Ferguson DJP",
+                "lastName": "Ferguson",
+                "firstName": "David",
+                "initials": "DJP"
+              },
+              {
+                "fullName": "Absalon S",
+                "lastName": "Absalon",
+                "firstName": "Sabrina",
+                "initials": "S"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1755-2819"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6460-8862"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>Parasite-induced host cell remodeling is essential for Plasmodium falciparum survival during the intraerythrocytic developmental cycle (IDC), yet the transcriptional mechanisms coordinating this process remain poorly understood. Here, we characterize an essential ApiAP2 transcription factor, PfAP2-HCR (host cell remodeling), during both the asexual and sexual blood stages of P. falciparum. Conditional truncation of pfap2-hcr demonstrated that PfAP2-HCR is essential for ring-stage development and parasite maturation. Loss of PfAP2-HCR disrupted the expression of host cell remodeling genes, resulting in the absence of Maurer's clefts and collapse of the parasite protein export machinery. Integrated RNA-seq and ChIP-seq analyses revealed that PfAP2-HCR directly or indirectly regulates approximately 30% of exported proteins, including 27 essential exported factors, the parasitophorous vacuole membrane (PVM) resident protein EXP1, and the core PTEX component EXP2. We further show that PfAP2-HCR is also indispensable for gametocytogenesis, as conditional truncation results in either complete ablation or the formation of severely deformed gametocytes. Together, these findings establish PfAP2-HCR as a central transcriptional regulator that orchestrates the expression of host cell remodeling factors required to transform a terminally differentiated erythrocyte into a permissive environment for parasite survival, development, and transmission.</p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10280857/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-07-31",
+          "firstPublicationDate": "2026-07-30",
+          "firstIndexDate": "2026-07-31",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1288464",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-07-30",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42781706",
+          "source": "MED",
+          "pmid": "42781706",
+          "pmcid": "PMC7619496",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7619496"
+            ]
+          },
+          "doi": "10.1186/s44330-026-00082-7",
+          "title": "BLASE: bulk linkage analysis for single cell experiments - teasing out the secrets of bulk transcriptomics with trajectory analysis.",
+          "authorString": "McCluskey A, Kettlewell T, Smith AM, Kundu R, Gunn DA, Otto TD.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "McCluskey A",
+                "lastName": "McCluskey",
+                "firstName": "Andrew",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Infection and Immunity, University of Glasgow, Glasgow, UK."
+                    },
+                    {
+                      "affiliation": "Bernhard Nocht Institute for Tropical Medicine, Hamburg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kettlewell T",
+                "lastName": "Kettlewell",
+                "firstName": "Toby",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Mathematics and Statistics, University of Glasgow, Glasgow, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Smith AM",
+                "lastName": "Smith",
+                "firstName": "Adrian M",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unilever R & D, Colworth Science Park, Bedford, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kundu R",
+                "lastName": "Kundu",
+                "firstName": "Rhiannon",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unilever R & D, King's College London, London, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gunn DA",
+                "lastName": "Gunn",
+                "firstName": "David A",
+                "initials": "DA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unilever R & D, King's College London, London, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Otto TD",
+                "lastName": "Otto",
+                "firstName": "Thomas D",
+                "initials": "TD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Infection and Immunity, University of Glasgow, Glasgow, UK."
+                    },
+                    {
+                      "affiliation": "LPHI, CNRS, INSERM, Universit\u00e9 de Montpellier, Montpellier, France."
+                    },
+                    {
+                      "affiliation": "Bernhard Nocht Institute for Tropical Medicine, Hamburg, Germany."
+                    },
+                    {
+                      "affiliation": "University of Hamburg, Hamburg, Germany."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "3",
+            "journalIssueId": 4269845,
+            "dateOfPublication": "2026 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "BMC Methods",
+              "title": "BMC methods",
+              "essn": "3004-8729",
+              "issn": "3004-8729",
+              "isoabbreviation": "BMC Methods",
+              "nlmid": "9918842189006676"
+            },
+            "printPublicationDate": "2026-07-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "s44330-026-00082-7",
+          "abstractText": "<h4>Background</h4>Transcriptomics has profoundly improved our knowledge of cells. The advent of single-cell transcriptomics has enabled researchers to investigate the changes which individual cells undergo, such as cell type differentiation. Bulk RNA-seq is more practical in both cost and ease, but cannot elucidate cell type specific trajectories. Deconvolution methods can estimate cell types in RNA-seq data, but there is a need for methods characterising their position on a trajectory.<h4>Methods</h4>We present a new method called BLASE, which discretises the pseudotime of a scRNA-seq trajectory, and then uses Spearman correlation to infer the closest matching period of pseudotime to a bulk RNA-seq sample. Bootstrapping provides confidence intervals around the correlation, and subsequently informs \"strong\" calls. BLASE can discretise pseudotime using several different methods, provides heuristics for hyperparameter selection, and enables the visualisation of results.<h4>Results</h4>BLASE performs correctly and outperforms other tools. In simulated scRNA-seq data it accurately identified the correct pseudotime bin for 10 pseudobulked pseudotime bins, whereas other tools we tested ranged in accuracy from around 40-90%. In experimental data, BLASE correctly mapped all pseudobulked pseudotime bins, compared to a range of around 20-75%. We tested BLASE on use cases with published single-cell and bulk transcriptomics. On 10x Visium spatial data, BLASE could resolve the spatio-temporal process of keratinocyte differentiation. When mapping a time-course of 48 hour microarray data to the <i>Plasmodium falciparum</i> lifecycle, BLASE correctly identified the predominant cell type of synchronised cells in 48/48 samples (30 strong). Finally, BLASE identified a developmental rate difference in <i>P. falciparum</i> grown with or without heat shock conditions. Of 345 genes differentially expressed, 142 were attributed to developmental rate differences. The remaining 203 should represent the true signal better, and revealed new gene ontology terms.<h4>Discussion</h4>BLASE outperforms existing tools in simulated and experimental data. It can be used to a) annotate scRNA-seq data from existing RNA-seq, b) identify progress of RNA-seq data through a process captured in scRNA-seq, and c) be used to correct developmental differences in differential expression analysis. BLASE is released as an open-source R package under the GPL3 license, and is available on Bioconductor.<h4>Clinical trial</h4>Not applicable.",
+          "affiliation": "School of Infection and Immunity, University of Glasgow, Glasgow, UK.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "104111/Z/14/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT",
+                "grantId": "225254",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "grantId": "BB/X511389/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "225254/Z/22/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Deconvolution",
+              "Transcriptomics",
+              "Single-cell",
+              "Pseudotime"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s44330-026-00082-7"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7619496"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7619496?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1079958",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS217646",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2026-09-24",
+          "dateOfRevision": "2026-09-27",
+          "firstPublicationDate": "2026-07-01",
+          "firstIndexDate": "2026-09-25",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42445490",
+          "source": "MED",
+          "pmid": "42445490",
+          "pmcid": "PMC13357928",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13357928"
+            ]
+          },
+          "doi": "10.3389/fmicb.2026.1846174",
+          "title": "Genome-wide analysis of strand-specific transcription and DNA methylation in &lt;i&gt;Plasmodium falciparum&lt;/i&gt; severe malaria.",
+          "authorString": "Gujarati S, Singal BR, Majumder S, Kochar SK, Kochar DK, Das A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Gujarati S",
+                "lastName": "Gujarati",
+                "firstName": "Sukriti",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, Birla Institute of Technology and Science (BITS), Pilani, Rajasthan, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singal BR",
+                "lastName": "Singal",
+                "firstName": "Bharat Raj",
+                "initials": "BR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, Birla Institute of Technology and Science (BITS), Pilani, Rajasthan, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Majumder S",
+                "lastName": "Majumder",
+                "firstName": "Syamantak",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, Birla Institute of Technology and Science (BITS), Pilani, Rajasthan, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kochar SK",
+                "lastName": "Kochar",
+                "firstName": "Sanjay Kumar",
+                "initials": "SK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, S.P. Medical College, Bikaner, Rajasthan, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kochar DK",
+                "lastName": "Kochar",
+                "firstName": "Dhanpat Kumar",
+                "initials": "DK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, S.P. Medical College, Bikaner, Rajasthan, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Das A",
+                "lastName": "Das",
+                "firstName": "Ashis",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, Birla Institute of Technology and Science (BITS), Pilani, Rajasthan, India."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4112147,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Microbiol",
+              "title": "Frontiers in microbiology",
+              "essn": "1664-302X",
+              "issn": "1664-302X",
+              "isoabbreviation": "Front Microbiol",
+              "nlmid": "101548977"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1846174",
+          "abstractText": "<h4>Introduction</h4>Gene expression and regulation are central to the survival and adaptation of <i>Plasmodium falciparum</i>. However, the interplay between transcriptional activity, Natural Antisense Transcripts (NATs), and DNA methylation in clinical isolates associated with different malaria manifestations remains poorly understood.<h4>Methods</h4>Here, we present an integrated, strand-specific transcriptome and methylome analysis of <i>P. falciparum</i> derived from patients with uncomplicated malaria (UNC), hepatic dysfunction (HD), and cerebral malaria (CM), using custom, strand-aware microarrays, and directional short-read RNA sequencing. We also performed long-read Nanopore sequencing to simultaneously identify 5-methylcytosine (5mC) and 5-hydroxymethylcytosine (5hmC) modifications in a subset of these isolates.<h4>Results</h4>We identified widespread NATs expressed in distinct disease manifestations. Transcriptional regulation in <i>P. falciparum</i> appears to require an expression flux in which coordinated S-AS expression occurs in the nucleus, whereas mitochondrial genes exhibit a high functional demand with limited antisense control. NATs complementary to rRNA species reveal a potential regulatory role for rRNA stability in parasites. We report novel associations between mitochondrial respiration and disease severity. Despite globally low methylation levels, intragenic methylation is consistently associated with transcription, with the enrichment of differentially methylated events within exons.<h4>Discussion</h4>Together, we provide the first integrated view of DNA methylation and global transcription in clinical isolates of <i>P. falciparum</i>, elucidating a multilayered regulatory mechanism of parasite adaptation in the host, paving the way for disease-specific, informed antimalarial approaches.",
+          "affiliation": "Department of Biological Sciences, Birla Institute of Technology and Science (BITS), Pilani, Rajasthan, India.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Malaria",
+              "Plasmodium falciparum",
+              "Cpg Methylation",
+              "Nanopore Sequencing",
+              "Natural Antisense Transcripts",
+              "Integrative Epigenetics"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fmicb.2026.1846174"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13357928"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13357928?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-07-14",
+          "dateOfCreation": "2026-07-14",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-06-29",
+          "firstPublicationDate": "2026-06-29",
+          "firstIndexDate": "2026-07-15",
+          "fullTextReceivedDate": "2026-09-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1259056",
+          "source": "PPR",
+          "doi": "10.64898/2026.06.23.733580",
+          "title": "Malaria parasites coordinate host cell remodeling through the AP2-HCR DNA-binding protein",
+          "authorString": "Subudhi AK, Vedagiri D, Mfarrej S, Abu-Shamma R, Satyam R, Salunke RP, Liu D, Ayach M, Dada A, Kadamany AF, Ferguson DJ, Absalon S, Pain A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Subudhi AK",
+                "lastName": "Subudhi",
+                "firstName": "Amit Kumar",
+                "initials": "AK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3079-3705"
+                }
+              },
+              {
+                "fullName": "Vedagiri D",
+                "lastName": "Vedagiri",
+                "firstName": "Dhiviya",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6460-8862"
+                }
+              },
+              {
+                "fullName": "Mfarrej S",
+                "lastName": "Mfarrej",
+                "firstName": "Sara",
+                "initials": "S"
+              },
+              {
+                "fullName": "Abu-Shamma R",
+                "lastName": "Abu-Shamma",
+                "firstName": "Reem",
+                "initials": "R"
+              },
+              {
+                "fullName": "Satyam R",
+                "lastName": "Satyam",
+                "firstName": "Rohit",
+                "initials": "R"
+              },
+              {
+                "fullName": "Salunke RP",
+                "lastName": "Salunke",
+                "firstName": "Rahul",
+                "initials": "RP"
+              },
+              {
+                "fullName": "Liu D",
+                "lastName": "Liu",
+                "firstName": "Di",
+                "initials": "D"
+              },
+              {
+                "fullName": "Ayach M",
+                "lastName": "Ayach",
+                "firstName": "Maya",
+                "initials": "M"
+              },
+              {
+                "fullName": "Dada A",
+                "lastName": "Dada",
+                "firstName": "Ashraf",
+                "initials": "A"
+              },
+              {
+                "fullName": "Kadamany AF",
+                "lastName": "Kadamany",
+                "firstName": "Abdullah Fuaad",
+                "initials": "AF"
+              },
+              {
+                "fullName": "Ferguson DJ",
+                "lastName": "Ferguson",
+                "firstName": "David J.P.",
+                "initials": "DJ"
+              },
+              {
+                "fullName": "Absalon S",
+                "lastName": "Absalon",
+                "firstName": "Sabrina",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1755-2819"
+                }
+              },
+              {
+                "fullName": "Pain A",
+                "lastName": "Pain",
+                "firstName": "Arnab",
+                "initials": "A"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1755-2819"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3079-3705"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6460-8862"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Parasite-induced host cell remodeling is essential for  Plasmodium falciparum survival during the intraerythrocytic developmental cycle (IDC), yet the transcriptional mechanisms coordinating this process remain poorly understood. Here, we characterize an essential ApiAP2 transcription factor, PfAP2-HCR (host cell remodeling), during both the asexual and sexual blood stages of  P. falciparum . Conditional truncation of  pfap2-hcr demonstrated that PfAP2-HCR is essential for ring stage development and parasite maturation. Loss of PfAP2-HCR disrupted the expression of host cell remodeling genes, resulting in the absence of Maurer\u2019s clefts and collapse of the parasite protein export machinery. Integrated RNA-seq and ChIP-seq analyses revealed that PfAP2-HCR directly or indirectly regulates approximately 30% of exported proteins, including 27 essential exported factors, the parasitophorous vacuole membrane (PVM) resident protein EXP1, and the core PTEX component EXP2. We further show that PfAP2-HCR is also indispensable for gametocytogenesis, as conditional truncation results in either complete ablation or the formation of severely deformed gametocytes. Together, these findings establish PfAP2-HCR as a central transcriptional regulator that orchestrates the expression of host cell remodeling factors required to transform a terminally differentiated erythrocyte into a permissive environment for parasite survival, development, and transmission.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.06.23.733580"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-06-25",
+          "firstPublicationDate": "2026-06-23",
+          "firstIndexDate": "2026-06-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42294623",
+          "source": "MED",
+          "pmid": "42294623",
+          "pmcid": "PMC13410765",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13410765"
+            ]
+          },
+          "doi": "10.1128/msphere.00186-26",
+          "title": "&lt;i&gt;Plasmodium falciparum&lt;/i&gt; leucine-rich repeat 5 disruption alters the transcription progression during asexual and sexual stage development.",
+          "authorString": "Pires CV, Wang CCQ, Zhang M, Micchelli C, Prakash P, Oberstabler J, Rayner JC, Otto TD, Adams JH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Pires CV",
+                "lastName": "Pires",
+                "firstName": "Camilla V",
+                "initials": "CV",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5470-1342"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang CCQ",
+                "lastName": "Wang",
+                "firstName": "Chengqi C Q",
+                "initials": "CCQ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7582-3824"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang M",
+                "lastName": "Zhang",
+                "firstName": "Min",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5443-0992"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Micchelli C",
+                "lastName": "Micchelli",
+                "firstName": "Chiara",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-4474-8912"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    },
+                    {
+                      "affiliation": "Department of Molecular Medicine, Morsani College of Medicine, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Prakash P",
+                "lastName": "Prakash",
+                "firstName": "Prem",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3051-9092"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Oberstabler J",
+                "lastName": "Oberstabler",
+                "firstName": "Jenna",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3033-2212"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rayner JC",
+                "lastName": "Rayner",
+                "firstName": "Julian C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9835-1014"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cambridge Institute for Medical Research, University of Cambridge, Cambridge, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Otto TD",
+                "lastName": "Otto",
+                "firstName": "Thomas D",
+                "initials": "TD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1246-7404"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Infection, Immunity, and Inflammation, College of Medical, Veterinary and Life Sciences, University of Glasgow, Glasgow, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Bernhard Nocht Institute for Tropical Medicine, Hamburg, Germany."
+                    },
+                    {
+                      "affiliation": "University of Hamburg, Hamburg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Adams JH",
+                "lastName": "Adams",
+                "firstName": "John H",
+                "initials": "JH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3707-7979"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1246-7404"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3033-2212"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5443-0992"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5470-1342"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7582-3824"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9835-1014"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3051-9092"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3707-7979"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-4474-8912"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7",
+            "volume": "11",
+            "journalIssueId": 4234322,
+            "dateOfPublication": "2026 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "mSphere",
+              "title": "mSphere",
+              "essn": "2379-5042",
+              "issn": "2379-5042",
+              "isoabbreviation": "mSphere",
+              "nlmid": "101674533"
+            },
+            "printPublicationDate": "2026-07-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0018626",
+          "abstractText": "How <i>Plasmodium falciparum</i> responds to stresses such as antimalarial drug pressure and uses them to trigger developmental decisions such as the production of sexual gametocytes remains poorly understood. Here, we investigated the function of the leucine-rich repeat protein LRR5 (PF3D7_1432400). Previous genome-wide <i>piggyBac</i> mutagenesis established that disruptions of LRR5 increase sensitivity to artemisinin and heat-shock and enhance gametocyte production. Using an optimized single-cell RNA sequencing approach applied to unsynchronized parasite cultures, we profiled transcriptional heterogeneity across the intraerythrocytic developmental cycle in wild-type NF54 parasites and an isogenic LRR5 <i>piggyBac</i> mutant (LRR5pB). Disruption of LRR5 reshaped the parasite transcriptome across multiple stages, with marked downregulation of pathways involved in protein folding, protein export, and host-cell remodeling, including Maurer's cleft components, the PTEX export machinery, and the exported chaperone HSP70-x. In contrast, cytoplasmic heat-shock proteins and translation-associated genes were upregulated, suggesting a compensatory stress response. Notably, LRR5pB parasites displayed premature activation of gametocyte-associated transcriptional programs, including elevated expression of the early gametocyte marker Pfs16, which was confirmed at the protein level. Pseudotime analysis further revealed accelerated transcriptional progression with mistimed expression of trophozoite-, merozoite-, and gametocyte-associated gene clusters. Together, these findings suggest LRR5 as a link between proteostasis, host-cell remodeling, and developmental timing in <i>P. falciparum</i>.IMPORTANCEMalaria parasites must survive environmental stress while deciding whether to continue asexual replication in the blood stream or instead commit to sexual gametocytes for transmission. Understanding how these processes are coordinated is critical for developing new strategies to block both disease and transmission. In this study, we used single-cell transcriptomics to examine how disruption of the <i>P. falciparum</i> protein LRR5 alters parasite development. By analyzing individual parasites from unsynchronized cultures, we uncovered hidden changes in stress-response pathways, host-cell remodeling, and early activation of genes linked to sexual development. Our findings show that loss of LRR5 weakens the parasite's ability to manage stress while prematurely priming parasites for gametocyte formation. These results suggest LRR5 as a link to stress adaptation to transmission potential.",
+          "affiliation": "Center for Global Health and Interdisciplinary Research, Department of Global, Environmental, and Genomic Health Sciences, College of Public Health, University of South Florida, Tampa, Florida, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI117017",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "R01AI117017, R01AI130171",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI130171",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcription, Genetic"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Life Cycle Stages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reproduction, Asexual",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Leucine-Rich Repeat Proteins"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium falciparum",
+              "Single-cell Rnaseq",
+              "Leucine-rich Repeat 5"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "leucine-rich repeat proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/msphere.00186-26"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13410765"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13410765?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "42644621",
+                "reference": "mSphere. 2026 Aug 26:e0059226. doi: 10.1128/msphere.00592-26.",
+                "type": "Erratum in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "go",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-07-29",
+          "dateOfCreation": "2026-06-15",
+          "dateOfRevision": "2026-08-26",
+          "electronicPublicationDate": "2026-06-15",
+          "firstPublicationDate": "2026-06-15",
+          "firstIndexDate": "2026-06-16",
+          "fullTextReceivedDate": "2026-09-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1242059",
+          "source": "PPR",
+          "doi": "10.64898/2026.05.27.728291",
+          "title": "Single-cell analysis of  <i>Plasmodium falciparum</i>  transcripts after drug perturbation identifies feedback regulation as well as increased transmission potential",
+          "authorString": "Godinez-Macias KP, Calla J, Jepsen K, Winzeler EA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Godinez-Macias KP",
+                "lastName": "Godinez-Macias",
+                "firstName": "Karla",
+                "initials": "KP"
+              },
+              {
+                "fullName": "Calla J",
+                "lastName": "Calla",
+                "firstName": "Jaeson",
+                "initials": "J"
+              },
+              {
+                "fullName": "Jepsen K",
+                "lastName": "Jepsen",
+                "firstName": "Kristen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Winzeler EA",
+                "lastName": "Winzeler",
+                "firstName": "Elizabeth",
+                "initials": "EA"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Gene expression analysis in malaria parasites has been used to define transcriptional regulatory networks but has been used less frequently to characterize parasite response to drug treatment or to show how parasites may evade killing. Here, we applied single-cell RNA sequencing (scRNA-seq) to hundreds of thousands of individually infected asynchronous red blood cells to evaluate the parasite\u2019s response to treatment with three chemotypes that can be used for treatment (artemisinin) or prophylaxis and treatment (atovaquone, ganaplacide). We found that each treatment gave rise to different cell populations with different transcriptional profiles. Comparing single cell transcription patterns in compound-treated cells, to transcript patterns observed previously with synchronized cells showed an enrichment of cells expressing gametocyte-associated genes after artemisinin treatment but fewer lifecycle perturbations after treatment with the two other compounds. In contrast, bulk analysis showed an enrichment of pyrimidine biosynthesis transcripts for atovaquone treatment. Our results show that scRNA-seq may be used to profile diverse drug responses across many lifecycle stages and to potentially classify drug classes. <h4>Importance</h4>  Determining the mechanism of action (MOA) of compounds with antimalarial activity remains a key activity in both drug development and drug resistance studies but remains challenging for some chemotypes. Here we highlight the potential of single cell transcriptional sequencing to augment the process of MOA deconvolution. We develop a new analytical pipeline that involves comparing single cell transcription patterns to existing profiles from synchronized parasites to comprehensively characterize life cycle stage enrichments that may be observed after chemical perturbations. We also show that transcriptional feedback regulation may be present for some drug classes.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.05.27.728291"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-06-03",
+          "firstPublicationDate": "2026-05-29",
+          "firstIndexDate": "2026-06-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42272758",
+          "source": "MED",
+          "pmid": "42272758",
+          "pmcid": "PMC13247540",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13247540"
+            ]
+          },
+          "doi": "10.3389/fcimb.2026.1842355",
+          "title": "The serine-arginine-rich protein PfSR-X2 modulates human malaria parasite gene expression during the intraerythrocytic developmental cycle.",
+          "authorString": "Hu Y, Zhuang C, Li M, Wu J, Zhou L, Li M, Li X, Du X, Shang X, Bai Y, Zhao D, Chen S, Fan Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hu Y",
+                "lastName": "Hu",
+                "firstName": "Ye",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhuang C",
+                "lastName": "Zhuang",
+                "firstName": "Chunyu",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li M",
+                "lastName": "Li",
+                "firstName": "Mengyu",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu J",
+                "lastName": "Wu",
+                "firstName": "Jiawei",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou L",
+                "lastName": "Zhou",
+                "firstName": "Lili",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li M",
+                "lastName": "Li",
+                "firstName": "Minghao",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li X",
+                "lastName": "Li",
+                "firstName": "Xinyue",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Du X",
+                "lastName": "Du",
+                "firstName": "Xuli",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shang X",
+                "lastName": "Shang",
+                "firstName": "Xiaomin",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Basic Medical Science, Central South University, Changsha, Hunan,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bai Y",
+                "lastName": "Bai",
+                "firstName": "Yanli",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao D",
+                "lastName": "Zhao",
+                "firstName": "Dezhi",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen S",
+                "lastName": "Chen",
+                "firstName": "Shenbo",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Key Laboratory of Intelligent Tracking and Forecasting for Infectious Diseases, National Institute of Parasitic Diseases, Chinese Center for Disease Control and Prevention (Chinese Center for Tropical Diseases Research), National Health Commission of the People's Republic of China (NHC) Key Laboratory of Parasite and Vector Biology, World Health Organization (WHO) Collaborating Center for Tropical Diseases, National Center for International Research on Tropical Diseases, Shanghai,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fan Y",
+                "lastName": "Fan",
+                "firstName": "Yanting",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "16",
+            "journalIssueId": 4112174,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Cell Infect Microbiol",
+              "title": "Frontiers in cellular and infection microbiology",
+              "essn": "2235-2988",
+              "issn": "2235-2988",
+              "isoabbreviation": "Front Cell Infect Microbiol",
+              "nlmid": "101585359"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1842355",
+          "abstractText": "<h4>Background</h4>Malaria, caused by <i>Plasmodium</i> parasites, remains a major parasitic disease worldwide. Post-transcriptional gene regulation is essential for the intraerythrocytic development of <i>Plasmodium falciparum</i>, yet the functions of many parasite RNA-binding proteins remain poorly understood. Serine/arginine-rich proteins are important regulators of RNA metabolism in eukaryotes. In this study, we investigated the function of the SR-related protein PfSR-X2, encoded by PF3D7_0319500, during the asexual blood-stage development of <i>P. falciparum</i>.<h4>Methods</h4>PfSR-X2 was characterized by sequence analysis, structural prediction, expression profiling, and subcellular localization assays. A glucosamine-inducible <i>glmS</i>-based conditional knockdown parasite line was generated using CRISPR-Cas9-mediated genome editing. The effects of PfSR-X2 depletion on parasite growth, developmental progression, gene expression, and alternative splicing were examined by growth assays, Giemsa-stained blood smears, and RNA sequencing. RNA immunoprecipitation followed by sequencing was further performed to identify PfSR-X2-associated transcripts.<h4>Results</h4>PfSR-X2 was expressed throughout the intraerythrocytic developmental cycle and localized to both nuclear and cytoplasmic compartments. Attempts to disrupt <i>pfsr-x2</i> were unsuccessful, suggesting that PfSR-X2 is required for asexual blood-stage growth. Conditional depletion of PfSR-X2 resulted in reduced parasite proliferation and impaired merozoite production. Transcriptomic analysis revealed marked stage-specific changes in gene expression after PfSR-X2 knockdown, particularly affecting genes involved in RNA metabolism, antigenic variation, host-parasite interactions, and ApiAP2-associated regulatory pathways. The <i>rif</i> multigene family was strongly perturbed, whereas the overall <i>var</i> transcriptional pattern was largely unchanged. In contrast, alternative splicing changes were limited and were mainly detected at the schizont stage. RNA immunoprecipitation sequencing identified a defined subset of PfSR-X2-associated transcripts, including transcripts encoding antigenically variant proteins and ApiAP2 transcription factors.<h4>Conclusion</h4>These findings identify PfSR-X2 as an essential RNA-associated regulator in <i>P. falciparum</i>. Rather than acting as a global splicing factor, PfSR-X2 appears to contribute mainly to stage-specific post-transcriptional regulation of transcripts associated with parasite development, antigenic variation, and transcriptional regulatory networks.",
+          "affiliation": "Department of Parasitology, School of Medicine, and Department of Blood Transfusion, Xi'an International Medical Center Hospital, Northwest University, Xi'an, Shaanxi,\u00a0China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "RNA-Binding Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Alternative Splicing"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Knockdown Techniques"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Post transcriptional regulation",
+              "Apiap2 Gene Family",
+              "Plasmodium Faciparum",
+              "Pfsr-X2",
+              "Rif Multigene Family",
+              "Rna Bind Protein"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA-Binding Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fcimb.2026.1842355"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13247540"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13247540?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "uniprot"
+            ]
+          },
+          "dateOfCompletion": "2026-06-12",
+          "dateOfCreation": "2026-06-11",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-05-26",
+          "firstPublicationDate": "2026-05-26",
+          "firstIndexDate": "2026-06-11",
+          "fullTextReceivedDate": "2026-06-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1236164",
+          "source": "PPR",
+          "doi": "10.64898/2026.05.19.726191",
+          "title": "m  <sup>6</sup>  A positions polyadenylation in  <i>Plasmodium falciparum</i>",
+          "authorString": "Levendis JM, Distiller A, Mussgnug S, Fernando L, Lancashire S, Young ND, McHugh E, Baumgarten S, Ralph SA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Levendis JM",
+                "lastName": "Levendis",
+                "firstName": "Joshua",
+                "initials": "JM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-8517-9587"
+                }
+              },
+              {
+                "fullName": "Distiller A",
+                "lastName": "Distiller",
+                "firstName": "Amy",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8019-4367"
+                }
+              },
+              {
+                "fullName": "Mussgnug S",
+                "lastName": "Mussgnug",
+                "firstName": "Selina",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-0805-1690"
+                }
+              },
+              {
+                "fullName": "Fernando L",
+                "lastName": "Fernando",
+                "firstName": "Lakvin",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-0614-7526"
+                }
+              },
+              {
+                "fullName": "Lancashire S",
+                "lastName": "Lancashire",
+                "firstName": "Steven",
+                "initials": "S"
+              },
+              {
+                "fullName": "Young ND",
+                "lastName": "Young",
+                "firstName": "Neil",
+                "initials": "ND",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8756-229X"
+                }
+              },
+              {
+                "fullName": "McHugh E",
+                "lastName": "McHugh",
+                "firstName": "Emma",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0278-4171"
+                }
+              },
+              {
+                "fullName": "Baumgarten S",
+                "lastName": "Baumgarten",
+                "firstName": "Sebastian",
+                "initials": "S"
+              },
+              {
+                "fullName": "Ralph SA",
+                "lastName": "Ralph",
+                "firstName": "Stuart",
+                "initials": "SA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0114-7808"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8019-4367"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8756-229X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0114-7808"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0278-4171"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-8517-9587"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-0614-7526"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-0805-1690"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "N  6 -methyladenosine (m  6 A) is the most abundant modification in eukaryotic mRNA and can influence gene expression, but the molecular mechanisms by which it does this at an individual gene level are poorly understood. The eukaryote with the highest known percentage of adenosine in its RNA is  P. falciparum , causative agent of the deadliest form of malaria.  P. falciparum has a high genomic AT content (>80% A+T) and a particular A-bias in mRNA - coding strands have an average adenosine content of 44%.  Plasmodium parasites employ extensive transcriptional and post-transcriptional control over gene expression to differentiate within and between sexual and asexual stages in response to changing environments and hosts. We used direct Nanopore RNA sequencing and GLORI-seq to interrogate m  6 A methylation of the asexual  Plasmodium falciparum transcriptome, revealing m  6 A depletion in protein coding regions relative to the 3\u2019UTR, where m  6 A is deposited in precise patterns approximately 50 nt upstream of the polyadenylation site. We used an inducible protein mislocalisation system to disrupt the methyltransferase, which writes m  6 A to mRNA, and observed m  6 A depletion associated with transcriptional readthrough and chimeric transcripts. We show that m  6 A in transcript 3\u2019UTRs is required for faithful positioning of polyadenylation and transcription termination. This work highlights the importance of m  6 A to mRNA processing in  P. falciparum , and potentially a wider role in post-transcriptional regulation.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Australian Research Council",
+                "grantId": "108083",
+                "orderIn": 0
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.05.19.726191"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-05-22",
+          "firstPublicationDate": "2026-05-19",
+          "firstIndexDate": "2026-05-22",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41893796",
+          "source": "MED",
+          "pmid": "41893796",
+          "pmcid": "PMC13030575",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13030575"
+            ]
+          },
+          "doi": "10.3390/vaccines14030260",
+          "title": "Development and Evaluation of Compact Semi-Synthetic Promoters for Enhanced Antigen Expression in Adenoviral-Vectored Vaccines.",
+          "authorString": "Hlav\u00e1\u010d M, Morris SJ, Dema B, Ulaszewska M, Al-Hareth Z, Douradinha B, Gilbert SC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hlav\u00e1\u010d M",
+                "lastName": "Hlav\u00e1\u010d",
+                "firstName": "Mat\u011bj",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-4596-253X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Morris SJ",
+                "lastName": "Morris",
+                "firstName": "Susan J",
+                "initials": "SJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0000-1813-0557"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dema B",
+                "lastName": "Dema",
+                "firstName": "Barbara",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1692-9987"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ulaszewska M",
+                "lastName": "Ulaszewska",
+                "firstName": "Marta",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4288-2892"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Al-Hareth Z",
+                "lastName": "Al-Hareth",
+                "firstName": "Zakia",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Douradinha B",
+                "lastName": "Douradinha",
+                "firstName": "Bruno",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9980-4505"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gilbert SC",
+                "lastName": "Gilbert",
+                "firstName": "Sarah C",
+                "initials": "SC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6823-9750"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK."
+                    },
+                    {
+                      "affiliation": "CAMS Oxford Institute, Chinese Academy of Medical Sciences & Peking Union Medical College, University of Oxford, Oxford OX3 7BN, UK."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1692-9987"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6823-9750"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9980-4505"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4288-2892"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0000-1813-0557"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0002-4596-253X"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "14",
+            "journalIssueId": 4161737,
+            "dateOfPublication": "2026 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Vaccines (Basel)",
+              "title": "Vaccines",
+              "essn": "2076-393X",
+              "issn": "2076-393X",
+              "isoabbreviation": "Vaccines (Basel)",
+              "nlmid": "101629355"
+            },
+            "printPublicationDate": "2026-03-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "260",
+          "abstractText": "<h4>Background/objectives</h4>The large size of commonly used regulatory elements such as the cytomegalovirus (CMV) immediate-early promoter imposes a significant burden on the already restricted payload capacity of first-generation adenoviral vectors, potentially hindering the development of multi-antigen vaccine candidates. To address this limitation, we have engineered a panel of novel, small, semi-synthetic promoters designed to leverage the changes in transcriptomic milieu following adenoviral vector entry.<h4>Methods</h4>Eight synthetic enhancer modules (SE1-SE8) were designed in silico, each composed of transcription factor binding sites (TFBSs) previously found in host genes that are upregulated during early adenoviral infection. These synthetic enhancers were coupled with a minimal CMV core promoter to generate a panel of compact semi-synthetic promoters (cSE1-cSE8), and their activity was evaluated in the context of ChAdOx1 viral vectors expressing GFP or a modified <i>Plasmodium falciparum</i> circumsporozoite (CSN) antigen. Promoter performance was characterised in vitro via flow cytometry, RT-qPCR, and Western blotting, and in vivo by quantifying antigen-specific T-cell (IFN-\u03b3 ELISpot) and IgG antibody (ELISA) responses in BALB/c mice.<h4>Results</h4>In vitro characterisation revealed a wide range of promoter activity across the panel, with cSE3 and cSE5 driving transgene expression levels comparable to the benchmark CMV promoters despite their markedly reduced genomic footprint. In vivo, ChAdOx1 vectors incorporating cSE3 and cSE5 elicited potent antigen-specific T-cell and IgG responses that were comparable to those induced by the larger CMV control promoters.<h4>Conclusions</h4>We have successfully developed semi-synthetic promoters that match the potency of the much larger, frequently used CMV promoters whilst simultaneously reducing genomic footprint. These novel regulatory elements will facilitate the design of next-generation vaccines, particularly those requiring large antigens or multi-antigen cassettes.",
+          "affiliation": "Pandemic Sciences Institute, Nuffield Department of Medicine, University of Oxford, Oxford OX3 7DQ, UK.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "philanthropic donations",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Antigen expression",
+              "Synthetic Promoters",
+              "Chadox1",
+              "Adenoviral-vector Vaccines"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/vaccines14030260"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13030575"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13030575?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-03-27",
+          "dateOfCreation": "2026-03-27",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-03-13",
+          "firstPublicationDate": "2026-03-13",
+          "firstIndexDate": "2026-03-28",
+          "fullTextReceivedDate": "2026-03-28",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

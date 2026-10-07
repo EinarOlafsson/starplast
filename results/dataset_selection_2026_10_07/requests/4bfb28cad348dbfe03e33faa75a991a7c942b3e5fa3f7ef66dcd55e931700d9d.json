@@ -1,0 +1,2122 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22neuron%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:11.990426+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 410,
+    "nextCursorMark": "AoJwwKPEmKADKDU2MjU2OTY5",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22neuron%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwwKPEmKADKDU2MjU2OTY5&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"proteome\" OR \"proteomics\" OR \"mass spectrometry\") AND TITLE_ABS:(\"neuron\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1335348",
+          "source": "PPR",
+          "doi": "10.64898/2026.10.05.756667",
+          "title": "Metabolic commitment to human motor neurons is characterized by mitochondrial depletion and pyruvate rewiring",
+          "authorString": "Torregrosa-Munumer R, Turkia J, Spirin D, Kvist J, Saarimaki-Vire J, Povea-Cabello S, Ermis R, Pennonen J, Kuuluvainen E, Otonkoski T, Hietakangas V, McWilliams TG, Fernandez-Vizarra E, Katajisto P, Tyynismaa H.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Torregrosa-Munumer R",
+                "lastName": "Torregrosa-Munumer",
+                "firstName": "Ruben",
+                "initials": "R"
+              },
+              {
+                "fullName": "Turkia J",
+                "lastName": "Turkia",
+                "firstName": "Jeremi",
+                "initials": "J"
+              },
+              {
+                "fullName": "Spirin D",
+                "lastName": "Spirin",
+                "firstName": "Danil",
+                "initials": "D"
+              },
+              {
+                "fullName": "Kvist J",
+                "lastName": "Kvist",
+                "firstName": "Jouni",
+                "initials": "J"
+              },
+              {
+                "fullName": "Saarimaki-Vire J",
+                "lastName": "Saarimaki-Vire",
+                "firstName": "Jonna",
+                "initials": "J"
+              },
+              {
+                "fullName": "Povea-Cabello S",
+                "lastName": "Povea-Cabello",
+                "firstName": "Suleva",
+                "initials": "S"
+              },
+              {
+                "fullName": "Ermis R",
+                "lastName": "Ermis",
+                "firstName": "Rumeysa",
+                "initials": "R"
+              },
+              {
+                "fullName": "Pennonen J",
+                "lastName": "Pennonen",
+                "firstName": "Jana",
+                "initials": "J"
+              },
+              {
+                "fullName": "Kuuluvainen E",
+                "lastName": "Kuuluvainen",
+                "firstName": "Emilia",
+                "initials": "E"
+              },
+              {
+                "fullName": "Otonkoski T",
+                "lastName": "Otonkoski",
+                "firstName": "Timo",
+                "initials": "T"
+              },
+              {
+                "fullName": "Hietakangas V",
+                "lastName": "Hietakangas",
+                "firstName": "Ville",
+                "initials": "V"
+              },
+              {
+                "fullName": "McWilliams TG",
+                "lastName": "McWilliams",
+                "firstName": "Thomas",
+                "initials": "TG"
+              },
+              {
+                "fullName": "Fernandez-Vizarra E",
+                "lastName": "Fernandez-Vizarra",
+                "firstName": "Erika",
+                "initials": "E"
+              },
+              {
+                "fullName": "Katajisto P",
+                "lastName": "Katajisto",
+                "firstName": "Pekka",
+                "initials": "P"
+              },
+              {
+                "fullName": "Tyynismaa H",
+                "lastName": "Tyynismaa",
+                "firstName": "Henna",
+                "initials": "H"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Mitochondrial remodelling is a key feature of neurogenesis in cortical and hippocampal neuronal lineages, yet the temporal control of organellar homeostasis in developing human motor neurons remains poorly understood. Here, we generated a high-resolution temporal resource integrating proteomics, metabolomics, and mitochondrial characterization across human iPSC-to-motor neuron differentiation. This analysis revealed prolonged mitochondrial depletion during early neurogenesis, characterized by reduced mitochondrial content, mitochondrial fragmentation, and lysosome-dependent turnover. This state persisted throughout the neural progenitor stage and was followed by recovery of mitochondrial content during neuronal maturation. During this transition, pyruvate utilization shifted from pyruvate carboxylation towards pyruvate dehydrogenase-dependent oxidation. Pharmacological manipulation of pyruvate partitioning demonstrated that this metabolic switch is required for human neuronal differentiation. Our findings establish a temporal framework for the metabolic control of human motor neuron differentiation and reveal a progenitor-specific state linking mitochondrial depletion to pyruvate metabolism.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.10.05.756667"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-07",
+          "firstPublicationDate": "2026-10-06",
+          "firstIndexDate": "2026-10-07",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1333525",
+          "source": "PPR",
+          "doi": "10.64898/2026.10.01.756094",
+          "title": "DNA polymerase kappa supports repair-associated DNA synthesis and neuronal genome resilience",
+          "authorString": "Goyal G, Palanisamy P, Paul A, Paul A, Paul S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Goyal G",
+                "lastName": "Goyal",
+                "firstName": "Gunjan",
+                "initials": "G"
+              },
+              {
+                "fullName": "Palanisamy P",
+                "lastName": "Palanisamy",
+                "firstName": "Premkumar",
+                "initials": "P"
+              },
+              {
+                "fullName": "Paul A",
+                "lastName": "Paul",
+                "firstName": "Ainesh",
+                "initials": "A"
+              },
+              {
+                "fullName": "Paul A",
+                "lastName": "Paul",
+                "firstName": "Anirban",
+                "initials": "A"
+              },
+              {
+                "fullName": "Paul S",
+                "lastName": "Paul",
+                "firstName": "Shilpi",
+                "initials": "S"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Postmitotic neurons must preserve genome integrity for decades despite continuous oxidative, transcription-associated, and environmental DNA damage. Although recent studies have established ongoing repair-associated DNA synthesis in mature neurons, the polymerases that execute this synthesis remain incompletely defined. DNA polymerase kappa (POLK), a Y-family translesion synthesis polymerase, is highly expressed in neurons and undergoes an age-associated redistribution from the nucleus to the cytoplasm, suggesting that loss of nuclear POLK may compromise neuronal genome maintenance. Here, we investigated the consequences of POLK loss and augmentation in primary mouse cortical neurons and human induced pluripotent stem cell-derived forebrain neurons, including APOE e4/e4 backgrounds. Partial POLK depletion reduced neuronal arbor complexity, enlarged neuronal nuclei, increased LAMIN A/C and nuclear-envelope abnormalities, and induced a multidimensional senescence-like stress phenotype characterized by increased senescence-associated \u03b2-galactosidase, p21, nuclear p38 MAPK, inflammatory signaling, lysosomal remodeling, and reduced mitochondrial-associated staining. POLK localized in proximity to EdU-labeled DNA in mature neurons, and POLK depletion reproducibly reduced EdU incorporation across independent human neuronal backgrounds and maturation stages. Exploratory nuclear POLK immunoprecipitation-mass spectrometry, together with proximity ligation assays, placed POLK near proteins involved in nucleotide excision repair, base-excision/single-strand break repair, DNA-end repair, checkpoint signaling, and specialized polymerase regulation, including PCNA-Ub and RAD18. POLK loss also produced Alzheimer disease-relevant cellular phenotypes. In wild-type neurons, POLK depletion increased 6E10 immunoreactivity and was accompanied by remodeling of APP/endosomal, lipid/cholesterol, and lysosomal pathways. In APOE e4/e4 neurons, POLK depletion increased cytoplasmic dsDNA and phospho-tau. Conversely, neuron-directed POLK augmentation increased EdU incorporation while reducing 53BP1 and \u03b3H2AX signals, p38 MAPK, cytoplasmic dsDNA, 6E10 immunoreactivity, and phospho-tau. Together, these findings identify POLK as a component of repair-associated DNA synthesis in mature neurons and support a model in which neuronal POLK availability contributes to genome maintenance, stress resilience, and vulnerability in aging and Alzheimer disease-relevant states.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.10.01.756094"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-05",
+          "firstPublicationDate": "2026-10-04",
+          "firstIndexDate": "2026-10-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42822390",
+          "source": "MED",
+          "pmid": "42822390",
+          "doi": "10.1016/j.redox.2026.104416",
+          "title": "USP18/DDX5 axis ameliorates mitochondrial morphofunctional damage via OPA1 to inhibit neuronal apoptosis after traumatic brain injury.",
+          "authorString": "Zhao Y, Lei P, Li Y, Liu C, Zhang Y, Zeng C, Sun Y, Chen X, Yuan R, Fan H, Cheng S, Zhang Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhao Y",
+                "lastName": "Zhao",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lei P",
+                "lastName": "Lei",
+                "firstName": "Pan",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Y",
+                "lastName": "Li",
+                "firstName": "Yulong",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu C",
+                "lastName": "Liu",
+                "firstName": "Chengxi",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Applied Biology and Chemical Technology, Food Safety and Technology Research Centre and Research Centre for Chinese Medicine Innovation, The Hong Kong Polytechnic University, Hung Hom, Kowloon, Hong Kong Special Administrative Region of China; State Key Laboratory of Chinese Medicine and Molecular Pharmacology (Incubation) and Shenzhen Key Laboratory of Food Biological Safety Control, Hong Kong Polytechnic University Shenzhen Research Institute, Shenzhen, 518057, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yichen",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zeng C",
+                "lastName": "Zeng",
+                "firstName": "Chuan",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun Y",
+                "lastName": "Sun",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Quantitative Synthetic Biology, Shenzhen Institute of Synthetic Biology, Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences, Shenzhen, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen X",
+                "lastName": "Chen",
+                "firstName": "Xinhui",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yuan R",
+                "lastName": "Yuan",
+                "firstName": "Raorao",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fan H",
+                "lastName": "Fan",
+                "firstName": "Hengyi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cheng S",
+                "lastName": "Cheng",
+                "firstName": "Shiqi",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China; Jiangxi Academy of Medical Sciences, No. 461, Bayi Road, Nanchang, China; Key Laboratory of Encephalopathy Research, Nanchang University, China; Nanchang Cranio-Cerebral Trauma Laboratory, Nanchang, Jiangxi, China. Electronic address: ndefy12388@ncu.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "97",
+            "journalIssueId": 4253582,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Redox Biol",
+              "title": "Redox biology",
+              "essn": "2213-2317",
+              "issn": "2213-2317",
+              "nlmid": "101605639",
+              "isoabbreviation": "Redox Biol"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "104416",
+          "abstractText": "<h4>Background</h4>Traumatic brain injury (TBI) is a leading cause of mortality and morbidity and a major contributor to loss of working capacity in young adults. Current therapeutic options for TBI remain limited. This study aimed to assess the potential role and therapeutic value of ubiquitin-specific protease 18 (USP18) in TBI.<h4>Methods</h4>A TBI model was established using the weight-drop model. Neuron-specific Usp18 knockout on the C57BL/6J background was generated by crossbreeding Usp18<sup>f/f</sup> and Thy1-Cre mice. A recombinant adeno-associated virus serotype 9 carrying Usp18 under control of the hSyn promoter was injected into wild-type mice. Mechanical stretch injury-exposed HT22\u202fcells subjected to a well-established stretch injury model were used to simulate TBI in vitro. The underlying molecular mechanism was explored through bulk-RNA sequencing, immunoprecipitation and mass spectrometry (MS) analysis, RNA immunoprecipitation sequencing, and RNA immunoprecipitation assays.<h4>Results</h4>Multi-omics analysis of mouse brain and RNA-seq profiling of human brain tissues indicated that the expression of the deubiquitinating enzyme USP18 was substantially decreased in hippocampal neurons. Neuron-specific overexpression of Usp18 via recombinant adeno-associated virus 9 (AAV9) led to reduced neuronal apoptosis and improved cognitive performance in mice. The RNA-seq analysis revealed that Usp18 overexpression enhanced the homeostasis of mitochondrial dynamics, ameliorated neuronal mitochondrial dysfunction, and suppressed oxidative stress injury. These results were also confirmed in a well-established mechanical stretch injury model in HT22\u202fcells. Moreover, compared with control mice, neuron-specific Usp18 knockout mice displayed more severe mitochondrial morphological disarray and neuronal damage after TBI. RNA sequencing, MS analysis, RNA immunoprecipitation sequencing, and RNA immunoprecipitation assays mechanistically revealed that USP18 directly interacted with DEAD-box helicase 5 (DDX5) and deubiquitinated and stabilized DDX5 at the K470 residue (via K48-linked ubiquitination) to increase the stability of the Opa1 mRNA, thereby impeding mitochondrial morphofunctional defects. Collectively, the results of this study reveal the protective effect of and molecular mechanism regulating USP18 in TBI pathology and reveal a novel neuron-specific USP18-DDX5-OPA1 axis involved in TBI.<h4>Conclusions</h4>We identified a USP18-promoted mechanism that maintains the homeostasis of mitochondrial dynamics through the DDX5-OPA1 axis in a TBI model; this pathway inhibits neuronal apoptosis and improves cognitive function in mice, suggesting that USP18 activation or AAV9-Usp18 delivery represents a potential therapeutic strategy for TBI.",
+          "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Traumatic brain injury",
+              "Neuronal apoptosis",
+              "Mitochondrial Dynamics",
+              "Ubiquitin-specific Protease 18",
+              "Dead-box Helicase 5"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.redox.2026.104416"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-09-29",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42785993",
+          "source": "MED",
+          "pmid": "42785993",
+          "doi": "10.1523/jneurosci.0708-25.2026",
+          "title": "Regulation of protein kinase pathways in primary neuron model of anti-NMDA receptor encephalitis.",
+          "authorString": "Joo Y, Ciryam P, Zhang T, Huang W, Dean CA, Lawrence AP, Vu TH, Gooya N, Dessain SK, Kane MA, Benavides DR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Joo Y",
+                "lastName": "Joo",
+                "firstName": "Yuyoung",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ciryam P",
+                "lastName": "Ciryam",
+                "firstName": "Prajwal",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang T",
+                "lastName": "Zhang",
+                "firstName": "Timothy",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Huang W",
+                "lastName": "Huang",
+                "firstName": "Weiliang",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmaceutical Sciences, University of Maryland School of Pharmacy, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dean CA",
+                "lastName": "Dean",
+                "firstName": "Charles A",
+                "initials": "CA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lawrence AP",
+                "lastName": "Lawrence",
+                "firstName": "Audrey P",
+                "initials": "AP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vu TH",
+                "lastName": "Vu",
+                "firstName": "Thanh Hien",
+                "initials": "TH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gooya N",
+                "lastName": "Gooya",
+                "firstName": "Niki",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dessain SK",
+                "lastName": "Dessain",
+                "firstName": "Scott K",
+                "initials": "SK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Lankenau Institute for Medical Research, Wynnewood, Pennsylvania 19096."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kane MA",
+                "lastName": "Kane",
+                "firstName": "Maureen A",
+                "initials": "MA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmaceutical Sciences, University of Maryland School of Pharmacy, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Benavides DR",
+                "lastName": "Benavides",
+                "firstName": "David R",
+                "initials": "DR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4252534,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Neurosci",
+              "title": "The Journal of neuroscience : the official journal of the Society for Neuroscience",
+              "essn": "1529-2401",
+              "issn": "0270-6474",
+              "nlmid": "8102140",
+              "isoabbreviation": "J Neurosci"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0708252026",
+          "abstractText": "The most common form of autoimmune encephalitis is associated with antibodies that target N-methyl-D-aspartic acid receptors (NMDARs). NMDARs play a pivotal role in neurotransmission and synaptic plasticity. Mounting evidence has shown that antibody targeting of the NMDAR GluN1 subunit, as in anti-NMDAR encephalitis, leads to NMDAR cross-linking and receptor internalization. However, the underlying signaling pathways affected by antibodies targeting NMDARs remain to be explored. We previously demonstrated that a human GluN1 monoclonal antibody 5F5 (GluN1 mAb 5F5) rapidly localizes to and regulates synaptic NMDAR function at native synapses of primary hippocampal neurons. Here, we sought to explore signaling targets of GluN1 mAb 5F5 in primary cortical neurons of either sex using subcellular fractionation, Western blotting, and label-free quantitative phosphoproteomics by mass spectrometry. We find that human GluN1 mAb 5F5 does not change NMDAR abundance or surface levels of GluN1 on primary cortical neurons at 2 hr. Despite this, we observe that GluN1 mAb 5F5 alters the phosphoproteome in synaptoneurosomes and regulates numerous synapse-related biological processes and protein kinase activities. Bioinformatic analyses suggest that these phosphoproteomic changes are positively correlated with NMDAR activation and negatively correlated with NMDAR inhibition. Together, these data suggest that GluN1 mAb 5F5 alters intracellular kinase signaling pathways in primary cortical neurons, likely by activating the NMDAR. These studies may help to identify novel therapeutic strategies for anti-NMDAR encephalitis and other antibody-mediated encephalitides targeting cell surface antigens.<b>Significance statement</b> Anti-NMDAR encephalitis is the most common form of autoimmune encephalitis. The pathophysiology of this clinical syndrome remains poorly defined but is currently thought to involve pathogenic antibodies that crosslink and internalize NMDARs. We identify intracellular signaling pathways targeted by human NMDAR antibodies in primary cortical neurons. Our key findings are obtained using specific, patient-derived human monoclonal antibodies with high affinity to the GluN1 subunit of NMDARs, which have been shown to induce key pathogenic effects of anti-NMDAR encephalitis (Sharma, Al-Saleem, Panzer, et al. 2018; Taraschenko, Fox, Eldridge, et al. 2021; Taraschenko, Fox, Zekeridou, et al. 2021; Dean et al. 2022). These studies expand the underlying pathophysiological molecular mechanisms involved in anti-NMDAR encephalitis.",
+          "affiliation": "Department of Neurology, University of Maryland School of Medicine, Baltimore, Maryland 21201.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1523/JNEUROSCI.0708-25.2026"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1325155",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-24",
+          "dateOfRevision": "2026-09-24",
+          "electronicPublicationDate": "2026-09-24",
+          "firstPublicationDate": "2026-09-24",
+          "firstIndexDate": "2026-09-26",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1327231",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.23.753976",
+          "title": "Human iPSC-derived neurons identify West Nile virus neuropathogenesis signatures and reveal strain-dependent neuroattenuation",
+          "authorString": "Mat\u00eda A, Anaya A, Akgul A, Singapuri A, Lee S, Wang J, Wagoner N, Wernig M, S\u00fcdhof TC, Barker CM, Diamond MS, Arias C, H\u00fcttenhain R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Mat\u00eda A",
+                "lastName": "Mat\u00eda",
+                "firstName": "Alejandro",
+                "initials": "A"
+              },
+              {
+                "fullName": "Anaya A",
+                "lastName": "Anaya",
+                "firstName": "Astrid",
+                "initials": "A"
+              },
+              {
+                "fullName": "Akgul A",
+                "lastName": "Akgul",
+                "firstName": "Ali",
+                "initials": "A"
+              },
+              {
+                "fullName": "Singapuri A",
+                "lastName": "Singapuri",
+                "firstName": "Anil",
+                "initials": "A"
+              },
+              {
+                "fullName": "Lee S",
+                "lastName": "Lee",
+                "firstName": "Sunny",
+                "initials": "S"
+              },
+              {
+                "fullName": "Wang J",
+                "lastName": "Wang",
+                "firstName": "Jinzhao",
+                "initials": "J"
+              },
+              {
+                "fullName": "Wagoner N",
+                "lastName": "Wagoner",
+                "firstName": "Ngan",
+                "initials": "N"
+              },
+              {
+                "fullName": "Wernig M",
+                "lastName": "Wernig",
+                "firstName": "Marius",
+                "initials": "M"
+              },
+              {
+                "fullName": "S\u00fcdhof TC",
+                "lastName": "S\u00fcdhof",
+                "firstName": "Thomas",
+                "initials": "TC"
+              },
+              {
+                "fullName": "Barker CM",
+                "lastName": "Barker",
+                "firstName": "Christopher",
+                "initials": "CM"
+              },
+              {
+                "fullName": "Diamond MS",
+                "lastName": "Diamond",
+                "firstName": "Michael",
+                "initials": "MS"
+              },
+              {
+                "fullName": "Arias C",
+                "lastName": "Arias",
+                "firstName": "Carolina",
+                "initials": "C"
+              },
+              {
+                "fullName": "H\u00fcttenhain R",
+                "lastName": "H\u00fcttenhain",
+                "firstName": "Ruth",
+                "initials": "R"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "West Nile virus (WNV) is one of the leading causes of arthropod-transmitted encephalitis in the world, yet its effects on neurons, the principal target of WNV in the brain, remain poorly defined. Here we establish and use  Ngn2 -induced human iPSC-derived gluta-matergic neurons to define the neuronal response to WNV through integrated temporal proteomics and transcriptomics. Temporal multi-omic profiling revealed that infection activated innate immunity and the Unfolded Protein Response while suppressing axonogenesis and synaptic programs. WNV infection also disrupted calcium homeostasis, reduced STMN2 abundance, and promoted cytoplasmic redistribution of TDP-43. Applying this neuronal model to characterize contemporary California isolates, we identified LA24, a lineage 1 strain that replicates efficiently in non-neuronal cell lines but is selectively attenuated in neurons, with reduced viral burden in the brain and attenuated pathogenicity in mice. Together, these findings uncover neuron-specific signatures of WNV pathogenesis and demonstrate that neuronal replication phenotypes can reveal strain-dependent virulence differences not captured by conventional cell lines.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.23.753976"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-25",
+          "firstPublicationDate": "2026-09-24",
+          "firstIndexDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1325155",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.15.751835",
+          "title": "Regulation of protein kinase pathways in primary neuron model of anti-NMDA receptor encephalitis",
+          "authorString": "Joo Y, Ciryam P, Zhang T, Huang W, Dean CA, Lawrence AP, Vu TH, Gooya N, Dessain SK, Kane MA, Benavides DR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Joo Y",
+                "lastName": "Joo",
+                "firstName": "Yuyoung",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Ciryam P",
+                "lastName": "Ciryam",
+                "firstName": "Prajwal",
+                "initials": "P"
+              },
+              {
+                "fullName": "Zhang T",
+                "lastName": "Zhang",
+                "firstName": "Timothy",
+                "initials": "T"
+              },
+              {
+                "fullName": "Huang W",
+                "lastName": "Huang",
+                "firstName": "Weiliang",
+                "initials": "W"
+              },
+              {
+                "fullName": "Dean CA",
+                "lastName": "Dean",
+                "firstName": "Charles",
+                "initials": "CA"
+              },
+              {
+                "fullName": "Lawrence AP",
+                "lastName": "Lawrence",
+                "firstName": "Audrey",
+                "initials": "AP"
+              },
+              {
+                "fullName": "Vu TH",
+                "lastName": "Vu",
+                "firstName": "Thanh Hien",
+                "initials": "TH"
+              },
+              {
+                "fullName": "Gooya N",
+                "lastName": "Gooya",
+                "firstName": "Niki",
+                "initials": "N"
+              },
+              {
+                "fullName": "Dessain SK",
+                "lastName": "Dessain",
+                "firstName": "Scott",
+                "initials": "SK"
+              },
+              {
+                "fullName": "Kane MA",
+                "lastName": "Kane",
+                "firstName": "Maureen",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Benavides DR",
+                "lastName": "Benavides",
+                "firstName": "David",
+                "initials": "DR"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "The most common form of autoimmune encephalitis is associated with antibodies that target N-methyl-D-aspartic acid receptors (NMDARs). NMDARs play a pivotal role in neurotransmission and synaptic plasticity. Mounting evidence has shown that antibody targeting of the NMDAR GluN1 subunit, as in anti-NMDAR encephalitis, leads to NMDAR cross-linking and receptor internalization. However, the underlying signaling pathways affected by antibodies targeting NMDARs remain to be explored. We previously demonstrated that a human GluN1 monoclonal antibody 5F5 (GluN1 mAb 5F5) rapidly localizes to and regulates synaptic NMDAR function at native synapses of primary hippocampal neurons. Here, we sought to explore signaling targets of GluN1 mAb 5F5 in primary cortical neurons of either sex using subcellular fractionation, Western blotting, and label-free quantitative phosphoproteomics by mass spectrometry. We find that human GluN1 mAb 5F5 does not change NMDAR abundance or surface levels of GluN1 on primary cortical neurons at 2 hr. Despite this, we observe that GluN1 mAb 5F5 alters the phosphoproteome in synaptoneurosomes and regulates numerous synapse-related biological processes and protein kinase activities. Bioinformatic analyses suggest that these phosphoproteomic changes are positively correlated with NMDAR activation and negatively correlated with NMDAR inhibition. Together, these data suggest that GluN1 mAb 5F5 alters intracellular kinase signaling pathways in primary cortical neurons, likely by activating the NMDAR. These studies may help to identify novel therapeutic strategies for anti-NMDAR encephalitis and other antibody-mediated encephalitides targeting cell surface antigens. <h4>Significance statement</h4>  Anti-NMDAR encephalitis is the most common form of autoimmune encephalitis. The pathophysiology of this clinical syndrome remains poorly defined but is currently thought to involve pathogenic antibodies that crosslink and internalize NMDARs. We identify intracellular signaling pathways targeted by human NMDAR antibodies in primary cortical neurons. Our key findings are obtained using specific, patient-derived human monoclonal antibodies with high affinity to the GluN1 subunit of NMDARs, which have been shown to induce key pathogenic effects of anti-NMDAR encephalitis (Sharma, Al-Saleem, Panzer, et al. 2018; Taraschenko, Fox, Eldridge, et al. 2021; Taraschenko, Fox, Zekeridou, et al. 2021; Dean et al. 2022). These studies expand the underlying pathophysiological molecular mechanisms involved in anti-NMDAR encephalitis.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.15.751835"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "42785993",
+                "reference": "The Journal of neuroscience : the official journal of the Society for Neuroscience. \n    2026 Sep;:e0708252026",
+                "type": "Preprint of",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-23",
+          "firstPublicationDate": "2026-09-21",
+          "firstIndexDate": "2026-09-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42734212",
+          "source": "MED",
+          "pmid": "42734212",
+          "doi": "10.1002/ana.78352",
+          "title": "Circulating Exosomes Drive Persistent Neuronal Dysfunction in Post-Herpetic Neuralgia Patients.",
+          "authorString": "Niemeyer CS, Frietze S, Lewis SWR, Artman EC, Coughlan C, Vaseemuddin SI, Polese AG, Nagel MA, Tyring SK, Okundia F, Saviola AJ, Curhan GC, Curhan SG, Restrepo D, Bubak AN.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Niemeyer CS",
+                "lastName": "Niemeyer",
+                "firstName": "Christy S",
+                "initials": "CS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Frietze S",
+                "lastName": "Frietze",
+                "firstName": "Seth",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biomedical and Health Sciences, University of Vermont, Burlington, Vermont, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lewis SWR",
+                "lastName": "Lewis",
+                "firstName": "Serena W R",
+                "initials": "SWR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Artman EC",
+                "lastName": "Artman",
+                "firstName": "Emily C",
+                "initials": "EC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coughlan C",
+                "lastName": "Coughlan",
+                "firstName": "Christina",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vaseemuddin SI",
+                "lastName": "Vaseemuddin",
+                "firstName": "Safa I",
+                "initials": "SI",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Polese AG",
+                "lastName": "Polese",
+                "firstName": "Arianna Gentile",
+                "initials": "AG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nagel MA",
+                "lastName": "Nagel",
+                "firstName": "Maria A",
+                "initials": "MA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    },
+                    {
+                      "affiliation": "Department of Ophthalmology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tyring SK",
+                "lastName": "Tyring",
+                "firstName": "Stephen K",
+                "initials": "SK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Clinical Studies and Department of Dermatology, McGovern School of Medicine, University of Texas Health Science Center, Houston, Texas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Okundia F",
+                "lastName": "Okundia",
+                "firstName": "Fyona",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Clinical Studies and Department of Dermatology, McGovern School of Medicine, University of Texas Health Science Center, Houston, Texas, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saviola AJ",
+                "lastName": "Saviola",
+                "firstName": "Anthony J",
+                "initials": "AJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Genetics, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Curhan GC",
+                "lastName": "Curhan",
+                "firstName": "Gary C",
+                "initials": "GC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Channing Division of Network Medicine, Department of Medicine, Brigham and Women's Hospital, Boston, Massachusetts, USA; Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Curhan SG",
+                "lastName": "Curhan",
+                "firstName": "Sharon G",
+                "initials": "SG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Channing Division of Network Medicine, Department of Medicine, Brigham and Women's Hospital, Boston, Massachusetts, USA; Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Restrepo D",
+                "lastName": "Restrepo",
+                "firstName": "Diego",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Biophysics, Stony Brook University, Stony Brook, New York, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bubak AN",
+                "lastName": "Bubak",
+                "firstName": "Andrew N",
+                "initials": "AN",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1675-2309"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1675-2309"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4251765,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Ann Neurol",
+              "title": "Annals of neurology",
+              "essn": "1531-8249",
+              "issn": "0364-5134",
+              "nlmid": "7707449",
+              "isoabbreviation": "Ann Neurol"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Objective</h4>Post-herpetic neuralgia (PHN) is a debilitating chronic pain condition persisting beyond 3\u2009months after herpes zoster (HZ), yet the mechanisms driving the transition from acute viral injury to chronic neuropathic pain remain poorly characterized. We tested whether circulating exosomes are sufficient to drive sensory neuron dysfunction independent of direct varicella zoster virus infection.<h4>Methods</h4>Human nociceptive neurons were either directly infected with varicella zoster virus or exposed to exosomes isolated from sera of control individuals, patients with acute HZ, or patients with post-herpetic neuralgia. Neuronal responses were assessed by bulk RNA sequencing (RNA-seq), gene set enrichment analysis, multiplex cytokine and matrix metalloproteinase-9 immunoassays, lactate dehydrogenase cytotoxicity assays, live-cell imaging of neurite dynamics, and mass spectrometry-based proteomic profiling of exosome cargo.<h4>Results</h4>Direct viral infection induced a pro-inflammatory, metabolically active neuronal state with increased interleukin-8 and interleukin-13 secretion and elevated extracellular matrix remodeling pathways. PHN exosomes recapitulated and amplified this phenotype in uninfected neurons, suppressing neurite extension gene networks through predicted inhibition of the RNA-binding protein ELAVL4, functionally impairing neurite outgrowth, and inducing matrix metalloproteinase-9 secretion without cytotoxicity. Proteomic profiling identified complement C3b and HSPA5 enriched on PHN exosomes. Canonical nociceptive ion channels were downregulated whereas substance P was upregulated, indicating a shift toward neuropeptide-mediated signaling.<h4>Interpretation</h4>These findings establish a failure-to-resolve model in which persistent exosome-mediated signaling sustains maladaptive neuronal remodeling after viral clearance, identifying circulating exosome cargo as previously unreported mechanistic contributors to PHN pathogenesis and potential therapeutic targets. ANN NEUROL 2026.",
+          "affiliation": "Department of Neurology, University of Colorado Anschutz School of Medicine, Aurora, Colorado, USA.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/ana.78352"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-14",
+          "dateOfRevision": "2026-09-14",
+          "electronicPublicationDate": "2026-09-14",
+          "firstPublicationDate": "2026-09-14",
+          "firstIndexDate": "2026-09-15",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42792991",
+          "source": "MED",
+          "pmid": "42792991",
+          "pmcid": "PMC13606357",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13606357"
+            ]
+          },
+          "doi": "10.3390/genes17091097",
+          "title": "Multi-Omics Mendelian Randomization Maps Lipid-Related Brain Cell-Type Associations with Kidney Disease.",
+          "authorString": "Deng J, Cao B, Zheng F, Ai S, Wang Y, Wang X.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Deng J",
+                "lastName": "Deng",
+                "firstName": "Jiani",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Dongzhimen Hospital of Beijing University of Chinese Medicine, Beijing 100700, China."
+                    },
+                    {
+                      "affiliation": "School of Traditional Chinese Medicine, Beijing University of Chinese Medicine, Beijing 100029, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cao B",
+                "lastName": "Cao",
+                "firstName": "Boning",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Dongzhimen Hospital of Beijing University of Chinese Medicine, Beijing 100700, China."
+                    },
+                    {
+                      "affiliation": "School of Traditional Chinese Medicine, Beijing University of Chinese Medicine, Beijing 100029, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zheng F",
+                "lastName": "Zheng",
+                "firstName": "Fengjie",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Dongzhimen Hospital of Beijing University of Chinese Medicine, Beijing 100700, China."
+                    },
+                    {
+                      "affiliation": "School of Traditional Chinese Medicine, Beijing University of Chinese Medicine, Beijing 100029, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ai S",
+                "lastName": "Ai",
+                "firstName": "Sinan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Diabetes Department of Integrated Chinese and Western Medicine, China-Japan Friendship Hospital, Beijing 100029, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang Y",
+                "lastName": "Wang",
+                "firstName": "Yaoxian",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Dongzhimen Hospital of Beijing University of Chinese Medicine, Beijing 100700, China."
+                    },
+                    {
+                      "affiliation": "School of Traditional Chinese Medicine, Beijing University of Chinese Medicine, Beijing 100029, China."
+                    },
+                    {
+                      "affiliation": "Nephrology Diagnosis and Treatment Center, The First Affiliated Hospital of Henan University of Chinese Medicine, Zhengzhou 450000, China."
+                    },
+                    {
+                      "affiliation": "Department of Nephropathy, The First Affiliated Hospital of Henan University of Chinese Medicine, Zhengzhou 450000, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang X",
+                "lastName": "Wang",
+                "firstName": "Xu",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Nephrology, China-Japan Friendship Hospital, Beijing 100029, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "17",
+            "journalIssueId": 4270448,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Genes (Basel)",
+              "title": "Genes",
+              "essn": "2073-4425",
+              "issn": "2073-4425",
+              "nlmid": "101551097",
+              "isoabbreviation": "Genes (Basel)"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1097",
+          "abstractText": "<b>Background:</b> Cellular heterogeneity limits causal inference in complex diseases. We applied an established cell-type-stratified Mendelian randomization (csMR) framework, originally developed by Hao et al. (2024), to investigate whether lipid phenotypes affect kidney disease through distinct brain cell populations, extended by a proteome-wide mediation component. <b>Methods:</b> Using Bayesian colocalization (posterior probability of hypothesis 4 [PPH4], \u22650.8) and multidimensional instrumental variable selection, we evaluated cell-type-stratified MR-supported associations of five lipid traits across ten brain cell or tissue strata with kidney disease risk. Instrumental variables were derived from published genome-wide association studies and human brain single-cell expression quantitative trait locus (eQTL) maps. An exploratory proteomic mediation analysis using the Difference Method was performed with UKB-PPP as the discovery resource and deCODE as the external validation resource, with mediation signals interpreted as hypothesis-generating. For the primary csMR analysis, multiple testing was corrected separately within each lipid trait using a Bonferroni threshold of 3.33 \u00d7 10<sup>-4</sup>, corresponding to 150 cell/tissue-by-outcome tests per lipid trait. <b>Results:</b> In csMR analyses, cholesterol-related lipids showed cell-type-stratified associations with kidney disease, most prominently in oligodendrocyte-related analyses (max \u03b2 on the log-odds scale = 1.025). LDL-related associations with broad chronic glomerular disease were most evident in excitatory neuron-related analyses. Dual-cohort proteomic analysis prioritized plasma proteins, including SNAP29 and ICAM4, as candidate protein-associated signals for exploratory mediation analysis. These findings represent genetic colocalization and Mendelian randomization-supported associations, not experimentally established mechanisms, and should be interpreted as hypothesis-generating. <b>Conclusions:</b> This study provides a cell-type-resolved genetic and proteomic association map linking lipid traits, brain cell strata, and kidney disease outcomes, offering hypotheses for future experimental validation.",
+          "affiliation": "Dongzhimen Hospital of Beijing University of Chinese Medicine, Beijing 100700, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "State Administration of Traditional Chinese Medicine of the People's Republic of China",
+                "grantId": "Grant No. 2018, No.12",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Kidney Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genetic Predisposition to Disease"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bayes Theorem"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Single Nucleotide"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Quantitative Trait Loci",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipid Metabolism",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome-Wide Association Study"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mendelian Randomization Analysis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Multiomics"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "lipid metabolism",
+              "Mendelian Randomization",
+              "Single-cell Eqtl",
+              "Bayesian Colocalization",
+              "Brain\u2013Kidney Axis"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Lipids",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/genes17091097"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13606357"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13606357?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gwas",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-26",
+          "dateOfCreation": "2026-09-26",
+          "dateOfRevision": "2026-09-29",
+          "electronicPublicationDate": "2026-09-11",
+          "firstPublicationDate": "2026-09-11",
+          "firstIndexDate": "2026-09-26",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1316526",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-8594804/v1",
+          "title": "Human iPSC models reveal APOE4-induced microglial remodeling and extracellular vesicle dysregulation in AD pathogenesis",
+          "authorString": "Ikezu T, You Y, Nguyen S, Mann S, Vadakattu P, Kanekiyo T, Zhang Z, Ray NB, Tuck T, TCW J, Goate A, Karch C, Ikezu S, Gonzalez-Perez MP, Poon W, Shaffer S, Duong A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ikezu T",
+                "lastName": "Ikezu",
+                "firstName": "Tsuneya",
+                "initials": "T"
+              },
+              {
+                "fullName": "You Y",
+                "lastName": "You",
+                "firstName": "Yang",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0574-7827"
+                }
+              },
+              {
+                "fullName": "Nguyen S",
+                "lastName": "Nguyen",
+                "firstName": "Son",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6563-1685"
+                }
+              },
+              {
+                "fullName": "Mann S",
+                "lastName": "Mann",
+                "firstName": "Sean",
+                "initials": "S"
+              },
+              {
+                "fullName": "Vadakattu P",
+                "lastName": "Vadakattu",
+                "firstName": "Prakruthi",
+                "initials": "P"
+              },
+              {
+                "fullName": "Kanekiyo T",
+                "lastName": "Kanekiyo",
+                "firstName": "Takahisa",
+                "initials": "T"
+              },
+              {
+                "fullName": "Zhang Z",
+                "lastName": "Zhang",
+                "firstName": "Zhengrong",
+                "initials": "Z"
+              },
+              {
+                "fullName": "Ray NB",
+                "lastName": "Ray",
+                "firstName": "Nibedita Basu",
+                "initials": "NB"
+              },
+              {
+                "fullName": "Tuck T",
+                "lastName": "Tuck",
+                "firstName": "Tony",
+                "initials": "T"
+              },
+              {
+                "fullName": "TCW J",
+                "lastName": "TCW",
+                "firstName": "Julia",
+                "initials": "J"
+              },
+              {
+                "fullName": "Goate A",
+                "lastName": "Goate",
+                "firstName": "Alison",
+                "initials": "A"
+              },
+              {
+                "fullName": "Karch C",
+                "lastName": "Karch",
+                "firstName": "Celeste",
+                "initials": "C"
+              },
+              {
+                "fullName": "Ikezu S",
+                "lastName": "Ikezu",
+                "firstName": "Seiko",
+                "initials": "S"
+              },
+              {
+                "fullName": "Gonzalez-Perez MP",
+                "lastName": "Gonzalez-Perez",
+                "firstName": "Maria Paz",
+                "initials": "MP"
+              },
+              {
+                "fullName": "Poon W",
+                "lastName": "Poon",
+                "firstName": "Wayne",
+                "initials": "W"
+              },
+              {
+                "fullName": "Shaffer S",
+                "lastName": "Shaffer",
+                "firstName": "Scott",
+                "initials": "S"
+              },
+              {
+                "fullName": "Duong A",
+                "lastName": "Duong",
+                "firstName": "Angela",
+                "initials": "A"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3979-8596"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6563-1685"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0574-7827"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>  The apolipoprotein E \u03b54 (  <italic>APOE4</italic>  ) allele is the strongest genetic risk factor for late-onset Alzheimer\u2019s disease (AD), yet the mechanistic underpinnings by which it alters human microglial function remain poorly understood. Here, we utilize CRISPR/Cas9-engineered isogenic human induced pluripotent stem cell-derived microglia-like cells (iMGs) expressing  <italic>APOE3</italic>  or  <italic>APOE4</italic>  to systematically interrogate genotype-dependent effects on microglial proteomes and their secreted extracellular vesicles (EVs) under basal and fibrillar amyloid-\u03b2 (fA\u03b2)-challenged conditions. Quantitative proteomics revealed that  <italic>APOE4</italic>  iMGs exhibit downregulated RNA processing, impaired phagocytosis, and exacerbated pro-inflammatory signaling, particularly upon fA\u03b2 exposure. Functionally,  <italic>APOE4</italic>  iMGs demonstrated increased NF-\u03baB activation, enhanced neuronal apoptosis and tau pathology in 2D and 3D co-culture systems. Interestingly,  <italic>APOE4</italic>  iMGs released greater amount of EVs enriched in proteasomal components over  <italic>APOE3</italic>  iMG. Integrated proteomic analyses further highlighted  <italic>APOE4</italic>  -specific selective packaging of EV cargo linked to neuron-glia communication, inflammatory signaling, and proteostasis dysregulation, suggesting a potent, non-cell-autonomous mechanism driving neuronal damage. Consistently, these  <italic>APOE4</italic>  iMGEVs were preferentially internalized by neurons, leading to disrupted neuronal proteostasis, impaired neuronal firing, and increased tau phosphorylation, particularly under pathological stress. Notably, pharmacologic inhibition of NF-\u03baB in  <italic>APOE4</italic>  iMGs reduced EV cargo-loading of proteasomal molecules and mitigated iMGEV-driven neuronal dysfunction and tau pathology. These findings establish a mechanistic link between  <italic>APOE4</italic>  , dysregulated microglial homeostasis, and microglial EV-mediated propagation of proteostatic dysfunction and neurodegeneration, advancing our understanding of how  <italic>APOE4</italic>  contributes to AD pathogenesis.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-8594804/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-11",
+          "firstPublicationDate": "2026-09-10",
+          "firstIndexDate": "2026-09-11",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1316526",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-09-10",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42634871",
+          "source": "MED",
+          "pmid": "42634871",
+          "doi": "10.1242/dmm.052840",
+          "title": "Glial ceramide orchestrates lipid homeostasis and age-dependent motor function.",
+          "authorString": "Garg L, H K, Chandramouli A, D S, Kamat S, Ratnaparkhi A, Ratnaparkhi G.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Garg L",
+                "lastName": "Garg",
+                "firstName": "Lovleen",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3592-0440"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "H K",
+                "lastName": "H",
+                "firstName": "Karthik",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-4831-3297"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chandramouli A",
+                "lastName": "Chandramouli",
+                "firstName": "Aakash",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-8553-1202"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "D S",
+                "lastName": "D",
+                "firstName": "Senthilkumar",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8464-5620"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kamat S",
+                "lastName": "Kamat",
+                "firstName": "Siddhesh",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6132-7574"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ratnaparkhi A",
+                "lastName": "Ratnaparkhi",
+                "firstName": "Anuradha",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6548-6185"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "MACS-Agharkar Research Institute (affiliated to Savitribai Phule Pune University), G.G. Agarkar Road, Pune 411 004, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ratnaparkhi G",
+                "lastName": "Ratnaparkhi",
+                "firstName": "Girish",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7615-3140"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6132-7574"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6548-6185"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7615-3140"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8464-5620"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3592-0440"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-8553-1202"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-4831-3297"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4236876,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Dis Model Mech",
+              "title": "Disease models & mechanisms",
+              "essn": "1754-8411",
+              "issn": "1754-8403",
+              "nlmid": "101483332",
+              "isoabbreviation": "Dis Model Mech"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "dmm.052840",
+          "abstractText": "Glial cells have emerged as equal partners to neurons in the development and maintenance of the nervous system. In this study, we examine the consequences of modulating glial ceramide metabolism on adult motor function. Glial reduction of ER-localised ceramide synthesis, as exemplified by knockdown (KD) of schlank or ifc or lace, leads to age-dependent motor defects, as does KD of ceramide transfer protein (CERT). Motor defects in CERT-null animals can be significantly rescued by glial CERT expression, further highlighting the importance of glial ceramide homeostasis. Expectedly, glial schlank KD and CERT KD lead to lipid modulation in the brain, characterised by decreased ceramide phosphoethanolamine, increased ceramide phosphates and triacylglycerols, as measured by lipid mass spectrometry, and intriguingly, decreased Lipid Droplet (LD) size and density. Further, disruption of CERT's interaction with the ER-tethering protein VAPB also affects LD dynamics. Our research implicates the glial sphingolipid pathway as an important determinant of age-dependent adult motor function, with LDs serving as a sensitive diagnostic readout. As such, our study has implications for a host of human motor neuron diseases with late-onset motor deficits.",
+          "affiliation": "Department of Biology, Indian Institute of Science Education and Research (IISER), Pune-411008, India.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Pratiksha Trust EMSTAR",
+                "grantId": "EMSTAR/2023/SL03",
+                "orderIn": 0
+              },
+              {
+                "agency": "ANRF Govt of India",
+                "grantId": "CRG/2023/004337",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Biotechnology, Ministry of Science and Technology, India",
+                "grantId": "BT/PR42001/BRB/10/1977/2021",
+                "orderIn": 0
+              },
+              {
+                "agency": "ANRF Govt of India",
+                "grantId": "SB/SJF/2021-22/01",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Sphingolipid",
+              "Neurodegeneration",
+              "lipid droplets",
+              "Glia",
+              "Climbing",
+              "Cert"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1242/dmm.052840"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-24",
+          "dateOfRevision": "2026-08-24",
+          "electronicPublicationDate": "2026-08-24",
+          "firstPublicationDate": "2026-08-24",
+          "firstIndexDate": "2026-08-25",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

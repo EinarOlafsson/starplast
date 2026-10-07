@@ -1,0 +1,516 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22phosphoproteome%22+OR+%22acetylome%22+OR+%22ubiquitinome%22+OR+%22glycoproteome%22+OR+%22palmitoylome%22+OR+%22post-translational%22%29+AND+TITLE_ABS%3A%28%22palmitoylation%22%29+AND+TITLE_ABS%3A%22asexual+blood+stage%22+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:00:33.559112+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1,
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"phosphoproteome\" OR \"acetylome\" OR \"ubiquitinome\" OR \"glycoproteome\" OR \"palmitoylome\" OR \"post-translational\") AND TITLE_ABS:(\"palmitoylation\") AND TITLE_ABS:\"asexual blood stage\" sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "26526684",
+          "source": "MED",
+          "pmid": "26526684",
+          "pmcid": "PMC4630622",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4630622"
+            ]
+          },
+          "doi": "10.1038/srep16034",
+          "title": "The Plasmodium palmitoyl-S-acyl-transferase DHHC2 is essential for ookinete morphogenesis and malaria transmission.",
+          "authorString": "Santos JM, Kehrer J, Franke-Fayard B, Frischknecht F, Janse CJ, Mair GR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Santos JM",
+                "lastName": "Santos",
+                "firstName": "Jorge M",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Medicina Molecular, Faculdade de Medicina da Universidade de Lisboa, Edif\u00edcio Egas Moniz, Av. Prof. Egas Moniz, 1649-028 Lisbon, Portugal."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kehrer J",
+                "lastName": "Kehrer",
+                "firstName": "Jessica",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5084-3485"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Parasitology, Department of Infectious Diseases, University of Heidelberg Medical School, Im Neuenheimer Feld 324, 69120 Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Franke-Fayard B",
+                "lastName": "Franke-Fayard",
+                "firstName": "Blandine",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6041-4182"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Leiden Malaria Research Group, Department of Parasitology, Leiden University Medical Center, Albinusdreef 2, 2333 ZA Leiden, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Frischknecht F",
+                "lastName": "Frischknecht",
+                "firstName": "Friedrich",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8332-6668"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Parasitology, Department of Infectious Diseases, University of Heidelberg Medical School, Im Neuenheimer Feld 324, 69120 Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Janse CJ",
+                "lastName": "Janse",
+                "firstName": "Chris J",
+                "initials": "CJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6410-6205"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Leiden Malaria Research Group, Department of Parasitology, Leiden University Medical Center, Albinusdreef 2, 2333 ZA Leiden, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mair GR",
+                "lastName": "Mair",
+                "firstName": "Gunnar R",
+                "initials": "GR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5187-3691"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Medicina Molecular, Faculdade de Medicina da Universidade de Lisboa, Edif\u00edcio Egas Moniz, Av. Prof. Egas Moniz, 1649-028 Lisbon, Portugal."
+                    },
+                    {
+                      "affiliation": "Parasitology, Department of Infectious Diseases, University of Heidelberg Medical School, Im Neuenheimer Feld 324, 69120 Heidelberg, Germany."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5084-3485"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6041-4182"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5187-3691"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6410-6205"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8332-6668"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "5",
+            "journalIssueId": 2460487,
+            "dateOfPublication": "2015 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2015,
+            "journal": {
+              "medlineAbbreviation": "Sci Rep",
+              "title": "Scientific reports",
+              "essn": "2045-2322",
+              "issn": "2045-2322",
+              "nlmid": "101563288",
+              "isoabbreviation": "Sci Rep"
+            },
+            "printPublicationDate": "2015-11-01"
+          },
+          "pubYear": "2015",
+          "pageInfo": "16034",
+          "abstractText": "The post-translational addition of C-16 long chain fatty acids to protein cysteine residues is catalysed by palmitoyl-S-acyl-transferases (PAT) and affects the affinity of a modified protein for membranes and therefore its subcellular localisation. In apicomplexan parasites this reversible protein modification regulates numerous biological processes and specifically affects cell motility, and invasion of host cells by Plasmodium falciparum merozoites and Toxoplasma gondii tachyzoites. Using inhibitor studies we show here that palmitoylation is key to transformation of zygotes into ookinetes during initial mosquito infection with P. berghei. We identify DHHC2 as a unique PAT mediating ookinete formation and morphogenesis. Essential for life cycle progression in asexual blood stage parasites and thus refractory to gene deletion analyses, we used promoter swap (ps) methodology to maintain dhhc2 expression in asexual blood stages but down regulate expression in sexual stage parasites and during post-fertilization development of the zygote. The ps mutant showed normal gamete formation, fertilisation and DNA replication to tetraploid cells, but was characterised by a complete block in post-fertilisation development and ookinete formation. Our report highlights the crucial nature of the DHHC2 palmitoyl-S-acyltransferase for transmission of the malaria parasite to the mosquito vector through its essential role for ookinete morphogenesis.",
+          "affiliation": "Instituto de Medicina Molecular, Faculdade de Medicina da Universidade de Lisboa, Edif\u00edcio Egas Moniz, Av. Prof. Egas Moniz, 1649-028 Lisbon, Portugal.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "European Research Council",
+                "grantId": "281719",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Zygote",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Culicidae",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium berghei",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Acyltransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Palmitates",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "3' Untranslated Regions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Morphogenesis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipoylation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Promoter Regions, Genetic"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "2-bromopalmitate",
+                "registryNumber": "18263-25-7"
+              },
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Palmitates",
+                "registryNumber": "0"
+              },
+              {
+                "name": "3' Untranslated Regions",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Acyltransferases",
+                "registryNumber": "EC 2.3.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/srep16034"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4630622"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4630622?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 42,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2016-09-07",
+          "dateOfCreation": "2015-11-04",
+          "dateOfRevision": "2018-11-13",
+          "electronicPublicationDate": "2015-11-03",
+          "firstPublicationDate": "2015-11-03",
+          "firstIndexDate": "2015-11-04",
+          "fullTextReceivedDate": "2020-07-11",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

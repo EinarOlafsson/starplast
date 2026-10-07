@@ -50,6 +50,7 @@ def test_zero_citation_new_datasets_are_rankable_and_unknown_counts_are_not_zero
     assert ranked[0]["dataset_id"] == "known_zero" and ranked[0]["score"] == 0
     assert ranked[1]["status"] == "metadata_incomplete" and ranked[1]["score"] is None
     assert preferred([unknown], AS_OF) is None
+    assert preferred([zero, unknown], AS_OF) is None
 
 
 def test_age_floor_limits_unstable_first_day_rates():

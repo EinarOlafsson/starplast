@@ -52,3 +52,11 @@ The service and coverage interpretation are documented in its
 
 Current selection audit and promotion gates are tracked in
 [instruction 65](../instructions/open/65_dataset_selection_audit.md).
+
+The [October 7 frozen audit](https://github.com/EinarOlafsson/starplast/blob/nightly/results/dataset_selection_2026_10_07/README.md)
+accounts for all 162 sources and searches all 297 slots. It resolves publication
+metadata for 95 sources and retains explicit gaps for the remaining source roles.
+All literature hits and installed-output diagnostics require biological admission;
+no dataset or runtime default was replaced. First pages by total citations and
+publication date do not guarantee finding the highest annual citation rate;
+truncated searches and source/deposit reviews remain open.

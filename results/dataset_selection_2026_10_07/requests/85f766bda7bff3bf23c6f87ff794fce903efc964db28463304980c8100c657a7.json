@@ -1,0 +1,507 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%22GSE206344%22&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:45:38.157563+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 2,
+    "request": {
+      "queryString": "\"GSE206344\"",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "41761089",
+          "source": "MED",
+          "pmid": "41761089",
+          "pmcid": "PMC13049769",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13049769"
+            ]
+          },
+          "doi": "10.1186/s12864-025-12457-1",
+          "title": "Genome-wide transcriptomic analysis of Toxoplasma gondii reveals stage-specific regulatory programs and metabolic adaptations driving oocyst sporulation.",
+          "authorString": "Magoye E, Schmid MW, Ramakrishnan C, B Hehl A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Magoye E",
+                "lastName": "Magoye",
+                "firstName": "Electine",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8616-7252"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Parasitology, University of Zurich, Winterthurerstrasse 266a, Zurich, 8057, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schmid MW",
+                "lastName": "Schmid",
+                "firstName": "Marc W",
+                "initials": "MW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "MWSchmid GmbH, Glarus, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ramakrishnan C",
+                "lastName": "Ramakrishnan",
+                "firstName": "Chandra",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Parasitology, University of Zurich, Winterthurerstrasse 266a, Zurich, 8057, Switzerland. chandra.ramakrishnan@uzh.ch."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "B Hehl A",
+                "lastName": "B Hehl",
+                "firstName": "Adrian",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Parasitology, University of Zurich, Winterthurerstrasse 266a, Zurich, 8057, Switzerland. adrian.hehl@uzh.ch."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8616-7252"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "27",
+            "journalIssueId": 4118558,
+            "dateOfPublication": "2026 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2026-02-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "345",
+          "abstractText": "The sporulation of Toxoplasma gondii oocysts is a critical developmental transition transforming non-infective environmental stages into highly resilient and infective forms capable of zoonotic transmission. Despite significant advances, the molecular regulation underlying this complex process remains poorly understood. We generated comprehensive RNA-Seq datasets capturing gene expression dynamics at three timepoints during oocyst sporulation, to illuminate essential regulatory mechanisms and metabolic adaptations. Employing stringent variance filtering, unsupervised clustering, and differential expression analyses, we identified transcriptional patterns associated with key developmental transitions, notably the involvement of T. gondii Apetala2 (TgAP2) transcription factors and other DNA-binding proteins. We highlight significant shifts in metabolic pathways essential for oocyst environmental resilience and infectivity, including lipid metabolism, amino acid biosynthesis, and specialized secondary metabolism. Furthermore, we investigated expression profiles of genes associated with structural development of oocyst and sporocyst walls, environmental persistence, and host transmission. Importantly, combining these datasets with prior life cycle datasets covering intermediate and final host stages, we close an important knowledge gap by providing a genome-wide mRNA expression profile spanning the entire T. gondii life cycle. Integration with previous foundational transcriptomic and proteomic work provides refined resolution and identifies novel candidate genes and pathways. Collectively, these findings substantially advance our understanding of T. gondii sporulation in the wider context of the development in the cat intestine, highlighting critical molecular events underpinning parasite transmission and environmental adaptation.",
+          "affiliation": "Institute of Parasitology, University of Zurich, Winterthurerstrasse 266a, Zurich, 8057, Switzerland.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "236164",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "310030",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "320030",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation grants",
+                "grantId": "320030-236164 & 310030_184706",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Oocysts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Adaptation, Physiological",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Sporulation",
+              "Toxoplasma",
+              "Transcriptome",
+              "Pathways",
+              "sporozoite",
+              "Life-cycle",
+              "Rna-seq",
+              "Gene-expression",
+              "Ap2",
+              "Umap-hdbscan"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12864-025-12457-1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13049769"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13049769?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1082445",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-06-28",
+          "dateOfCreation": "2026-02-27",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-02-27",
+          "firstPublicationDate": "2026-02-27",
+          "firstIndexDate": "2026-03-01",
+          "fullTextReceivedDate": "2026-04-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1104109",
+          "source": "PPR",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PPR1104109"
+            ]
+          },
+          "doi": "10.21203/rs.3.rs-7751696/v1",
+          "title": "Genome-wide Transcriptomic Analysis of Toxoplasma gondii Reveals Stage-specific Regulatory Programs and Metabolic Adaptations Driving Oocyst Sporulation",
+          "authorString": "Magoye E, Schmid MU, Ramakrishnan C, Hehl AB.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Magoye E",
+                "lastName": "Magoye",
+                "firstName": "Electine",
+                "initials": "E"
+              },
+              {
+                "fullName": "Schmid MU",
+                "lastName": "Schmid",
+                "firstName": "Marc",
+                "initials": "MU"
+              },
+              {
+                "fullName": "Ramakrishnan C",
+                "lastName": "Ramakrishnan",
+                "firstName": "Chandra",
+                "initials": "C"
+              },
+              {
+                "fullName": "Hehl AB",
+                "lastName": "Hehl",
+                "firstName": "Adrian",
+                "initials": "AB"
+              }
+            ]
+          },
+          "pubYear": "2025",
+          "abstractText": "<title>Abstract</title>  <p>  The sporulation of  <italic>Toxoplasma gondii</italic>  oocysts is a critical developmental transition transforming non-infective environmental stages into highly resilient and infective forms capable of zoonotic transmission. Despite significant advances, the molecular regulation underlying this complex process remains poorly understood. We generated comprehensive RNA-Seq datasets capturing gene expression dynamics at three timepoints during oocyst sporulation, to illuminate essential regulatory mechanisms and metabolic adaptations. Employing stringent variance filtering, unsupervised clustering, and differential expression analyses, we identified transcriptional patterns associated with key developmental transitions, notably the involvement of  <italic>T. gondii</italic>  Apetala2 (TgAP2) transcription factors and other DNA-binding proteins. We highlight significant shifts in metabolic pathways essential for oocyst environmental resilience and infectivity, including lipid metabolism, amino acid biosynthesis, and specialized secondary metabolism. Furthermore, we investigated expression profiles of genes associated with structural development of oocyst and sporocyst walls, environmental persistence, and host transmission. Importantly, combining these datasets with prior life cycle datasets covering intermediate and final host stages, we close an important knowledge gap by providing a genome-wide mRNA expression profile spanning the entire  <italic>T. gondii</italic>  life cycle. Integration with previous foundational transcriptomic and proteomic work provides refined resolution and identifies novel candidate genes and pathways. Collectively, these findings substantially advance our understanding of  <italic>T. gondii</italic>  sporulation in the wider context of the development in the cat intestine, highlighting critical molecular events underpinning parasite transmission and environmental adaptation.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2025
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "310030",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "236164",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "320030",
+                "orderIn": 0
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-7751696/v1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/article/PPR/PPR1104109"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/api/fulltextRepo?pprId=PPR1104109&type=FILE&fileName=EMS209932-pdf.pdf&mimeType=application/pdf"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "41761089",
+                "reference": "BMC genomics. 2026 Feb;27(1):345",
+                "type": "Preprint of",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS209932",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2025-10-19",
+          "firstPublicationDate": "2025-10-17",
+          "firstIndexDate": "2025-10-19",
+          "fullTextReceivedDate": "2025-11-11",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1104109",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2025-10-17",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

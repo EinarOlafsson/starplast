@@ -1,0 +1,3091 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22erythrocyte%22+OR+%22red+blood+cell%22+OR+RBC+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:15.084149+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 729,
+    "nextCursorMark": "AoJwgKPgjZUDKDUyNTMxNTcx",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22erythrocyte%22+OR+%22red+blood+cell%22+OR+RBC+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgKPgjZUDKDUyNTMxNTcx&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"surfaceome\" OR \"cell-surface\" OR \"surface proteome\") AND TITLE_ABS:(\"erythrocyte\" OR \"red blood cell\" OR RBC OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42488351",
+          "source": "MED",
+          "pmid": "42488351",
+          "pmcid": "PMC13391046",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13391046"
+            ]
+          },
+          "doi": "10.3389/fgene.2026.1807347",
+          "title": "Epigenetic regulators are preferentially coordinated with protocadherin gene expression across the human brain: a genome-wide co-expression analysis.",
+          "authorString": "Harbert DH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Harbert DH",
+                "lastName": "Harbert",
+                "firstName": "Drake H",
+                "initials": "DH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Inner Architecture LLC, Canton, OH, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4110724,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Genet",
+              "title": "Frontiers in genetics",
+              "essn": "1664-8021",
+              "issn": "1664-8021",
+              "nlmid": "101560621",
+              "isoabbreviation": "Front Genet"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1807347",
+          "abstractText": "How does the brain build and maintain the precise wiring patterns that distinguish one neuron from another? Clustered protocadherins (PCDHs)-a family of cell-surface molecules that give each neuron a unique identity tag-are central to this process. Their expression is famously controlled by an elaborate locus-specific epigenetic system involving DNA methylation, CTCF binding, and chromatin looping. Whether the activity of the broader epigenetic regulatory machinery is coordinated with protocadherin expression across the human brain has not been systematically tested. Here we show that epigenetic regulators are preferentially co-expressed with protocadherins across multiple human brain regions, suggesting a broader transcriptional coordination than the locus-specific mechanisms previously characterized. Using GTEx v8 RNA-seq data from 2,642 brain samples across 13 regions, we conducted a genome-wide co-expression screen and observed a 6.5-fold enrichment of epigenetic regulators in the top 5% of PCDH-coordinated genes in prefrontal cortex (Fisher's exact p = 2.8 \u00d7 10<sup>-10</sup>). The enrichment replicated independently across additional brain regions, persisted under multiple sensitivity analyses, was preserved after adjustment for cell-type composition, and replicated in an independent brain-bank cohort. The top-ranked epigenetic regulators converge on a defined set of chromatin-remodeling genes implicated in well-characterized neurodevelopmental syndromes. These findings reframe protocadherin biology by extending its epigenetically coordinated context beyond the locus itself to a broader transcriptional program shared with the chromatin-remodeling machinery associated with neurodevelopmental disease. The conceptual advance is consistent with-though does not by itself establish-direct co-regulation, and identifies a specific set of testable mechanistic hypotheses for how disrupted chromatin-remodeling activity in neurodevelopmental disorders may propagate to PCDH-dependent neuronal identity programs in the human brain.",
+          "affiliation": "Inner Architecture LLC, Canton, OH, United States.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Chromatin remodeling",
+              "human brain",
+              "Epigenetic regulation",
+              "Co-expression",
+              "Neurodevelopmental Disorders",
+              "Protocadherin",
+              "Gtex",
+              "Cell-type Deconvolution"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fgene.2026.1807347"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13391046"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13391046?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "go"
+            ]
+          },
+          "dateOfCompletion": "2026-07-23",
+          "dateOfCreation": "2026-07-23",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-07-09",
+          "firstPublicationDate": "2026-07-09",
+          "firstIndexDate": "2026-07-23",
+          "fullTextReceivedDate": "2026-09-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1176511",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-8981554/v1",
+          "title": "Electrophysiology as a Real-time Biomarker for Human Red Blood Cell Monitoring in Extracorporeal Membrane Oxygenation",
+          "authorString": "Eberl BK, Jordan JE, Sullivan JN, Henslee EA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Eberl BK",
+                "lastName": "Eberl",
+                "firstName": "Brandon",
+                "initials": "BK"
+              },
+              {
+                "fullName": "Jordan JE",
+                "lastName": "Jordan",
+                "firstName": "James",
+                "initials": "JE"
+              },
+              {
+                "fullName": "Sullivan JN",
+                "lastName": "Sullivan",
+                "firstName": "Julia",
+                "initials": "JN"
+              },
+              {
+                "fullName": "Henslee EA",
+                "lastName": "Henslee",
+                "firstName": "Erin",
+                "initials": "EA"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>  Blood monitoring in extracorporeal membrane oxygenation (ECMO) is critical to managing the precarious balance between bleeding and thrombosis in ECMO support. Conventional monitoring including plasma free hemoglobin and activated clotting time are limited to once-daily measurements. Considering this limitation, we investigated surface zeta (\u03b6) potential, as a real-time biomarker for monitoring RBCs in ECMO. RBC \u03b6-potential is a negative electrical charge on the cell surface, providing repulsive force to prevent RBC aggregation in circulation. Human RBCs from 7, 14, 21, and 49 days stored blood were circulated through an ECMO circuit for 12 hours. Every 2 hours, \u03b6-potential, RBC concentration, intracellular Ca  <sup>2+</sup>  , and sialic acid were measured. The \u03b6-potential of RBCs decreased with blood circulation after only 8 hours of circulation. The decrease in \u03b6-potential was further amplified by blood storage from just 21 days. Ca  <sup>2+</sup>  and sialic acid were also shown to increase with flow and storage duration. This suggests prolonged blood storage compounds the risk of RBC aggregation. Our results demonstrate \u03b6-potential can detect changes in RBCs in ECMO circuits  <italic>ex vivo</italic>  . The high temporal sensitivity of \u03b6-potential offers real-time detection of changes in RBC physiology to better predict cell aggregation and clotting risk, improving treatment outcomes for patients.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-8981554/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-04-11",
+          "firstPublicationDate": "2026-04-10",
+          "firstIndexDate": "2026-04-11",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1176511",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-04-10",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42213323",
+          "source": "MED",
+          "pmid": "42213323",
+          "doi": "10.1007/978-3-032-24254-9_5",
+          "title": "Is the Association of Granzyme B and the Exported Parasite Hsp70 a Possible Trojan Horse of Severe Malaria?",
+          "authorString": "Dongola TH, Shonhai A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Dongola TH",
+                "lastName": "Dongola",
+                "firstName": "Tendamudzimu Harmfree",
+                "initials": "TH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Microbiology, University of Venda, Thohoyandou, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shonhai A",
+                "lastName": "Shonhai",
+                "firstName": "Addmore",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Microbiology, Faculty of Science, Engineering and Agriculture, University of Venda, Thohoyandou, South Africa. addmore.shonhai@univen.ac.za."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "1507",
+            "journalIssueId": 4203403,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Adv Exp Med Biol",
+              "title": "Advances in experimental medicine and biology",
+              "essn": "2214-8019",
+              "issn": "0065-2598",
+              "nlmid": "0121103",
+              "isoabbreviation": "Adv Exp Med Biol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "55-69",
+          "abstractText": "About 15 to 20% of the total Hsp70 is released to the extracellular space of some tumour cells, where it associates with cholesterol-rich microdomains located on the cell surface. Extracellular Hsp70 is known to recruit natural killer cells, leading to the concomitant release of granzyme B (GrB). This leads to the selective destruction of the tumour cells. A 14-mer TKD motif (KDNNLLGRFELSG) of human Hsp70 (hHsp70) is implicated in activating the NK cells. One of the defining features of Plasmodium falciparum, the most prevalent and lethal agent of malaria, is that it exports one of its Hsp70s, named PfHsp70-x, to the infected human red blood cell (RBC). In addition, hHsp70 is also present in the RBC. It has been reported that the infection of the RBC by the malaria parasite is associated with the migration of Hsp70 to the membrane of the host cell. Interestingly, GrB is elevated in severe malaria (SMA). PfHsp70-x, present on the outer leaflet of the infected RBC membrane, may stimulate NK cells to release GrB. We discuss the possible roles of Hsp70 and GrB in driving the development of SMA, and the prospects of Hsp70-GrB-mediated antimalarial therapy.",
+          "affiliation": "Department of Biochemistry and Microbiology, University of Venda, Thohoyandou, South Africa.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Killer Cells, Natural",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "HSP70 Heat-Shock Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Granzymes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Red blood cell",
+              "Plasmodium falciparum",
+              "granzyme B",
+              "Pfhsp70-x",
+              "Tkd Motif",
+              "Human Hsp70"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "HSP70 Heat-Shock Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Granzymes",
+                "registryNumber": "EC 3.4.21.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/978-3-032-24254-9_5"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-05-29",
+          "dateOfCreation": "2026-05-29",
+          "dateOfRevision": "2026-06-01",
+          "firstPublicationDate": "2026-01-01",
+          "firstIndexDate": "2026-05-31",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41482418",
+          "source": "MED",
+          "pmid": "41482418",
+          "pmcid": "PMC12764190",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12764190"
+            ]
+          },
+          "doi": "10.21873/invivo.14222",
+          "title": "Longitudinal Immune Profiling of T Cell Exhaustion During IL-17A Blockade in a Patient With HLA-B27-negative Spondyloarthritis and Sj\u00f6gren's Syndrome: A Case Report.",
+          "authorString": "Su YS, Lu JW, Ho YJ, Lui SW, Hsieh TY, Jheng WL, Liu FC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Su YS",
+                "lastName": "Su",
+                "firstName": "Yu-Siang",
+                "initials": "YS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Tri-Service General Hospital, National Defense Medical University, Taipei, Taiwan, R.O.C."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lu JW",
+                "lastName": "Lu",
+                "firstName": "Jeng-Wei",
+                "initials": "JW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bioscience and Biotechnology, National Taiwan Ocean University, Keelung, Taiwan, R.O.C."
+                    },
+                    {
+                      "affiliation": "Biotech Research and Innovation Centre, University of Copenhagen, Copenhagen, Denmark."
+                    },
+                    {
+                      "affiliation": "The Finsen Laboratory, Rigshospitalet/National University Hospital, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ho YJ",
+                "lastName": "Ho",
+                "firstName": "Yi-Jung",
+                "initials": "YJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Pharmacy, National Defense Medical University, Taipei, Taiwan, R.O.C."
+                    },
+                    {
+                      "affiliation": "Graduate Institute of Life Sciences, National Defense Medical University, Taipei, Taiwan, R.O.C."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lui SW",
+                "lastName": "Lui",
+                "firstName": "Shan-Wen",
+                "initials": "SW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Linkou Chang-Gung Memorial Hospital, Taoyuan, Taiwan, R.O.C."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hsieh TY",
+                "lastName": "Hsieh",
+                "firstName": "Ting-Yu",
+                "initials": "TY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Taichung Veterans General Hospital, Taichung, Taiwan, R.O.C."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jheng WL",
+                "lastName": "Jheng",
+                "firstName": "Wun-Long",
+                "initials": "WL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cancer Center, Hualien Tzu-Chi Hospital, Hualien, Taiwan, R.O.C."
+                    },
+                    {
+                      "affiliation": "Department of Engineering Medicine, Shizuoka Center for Molecular Intelligence, Hamamatsu, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu FC",
+                "lastName": "Liu",
+                "firstName": "Feng-Cheng",
+                "initials": "FC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Rheumatology/Immunology and Allergy, Department of Internal Medicine, Tri-Service General Hospital, National Defense Medical University, Taipei, Taiwan, R.O.C. lfc10399@yahoo.com.tw."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "40",
+            "journalIssueId": 4082373,
+            "dateOfPublication": "2026 Jan-Feb",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "In Vivo",
+              "title": "In vivo (Athens, Greece)",
+              "essn": "1791-7549",
+              "issn": "0258-851X",
+              "nlmid": "8806809",
+              "isoabbreviation": "In Vivo"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "571-582",
+          "abstractText": "<h4>Background/aim</h4>Coexisting Sj\u00f6gren's syndrome (SS) and human leukocyte antigen-B27 (HLA-B27)-negative ankylosing spondylitis (AS) is rare and therapeutically challenging. In patients with prior Stevens-Johnson syndrome (SJS), non-steroidal anti-inflammatory drugs (NSAIDs) are contraindicated and tumor necrosis factor (TNF) inhibitors may be insufficient. Interleukin-17A (IL-17A) blockade with secukinumab offers an alternative, though its long-term effects on T cell exhaustion and regulation remain unclear. This report examines immune exhaustion and regulatory dynamics during IL-17A inhibition in a complex autoimmune case.<h4>Case report</h4>A 52-year-old man with SJS, SS, and HLA-B27-negative AS switched to secukinumab after inadequate TNF inhibition. Flow cytometry over five years (2020, 2023, 2025) tracked early therapy, steroid tapering, and long-term stability. Initial immune profiling revealed expanded effector T cells [Fas cell surface death receptor (Fas)<sup>+</sup>, programmed death protein 1 (PD-1)<sup>+</sup>, T-cell immunoglobulin and mucin-domain containing-3 (Tim-3)<sup>+</sup>] and reduced regulatory subsets. Over time, as disease activity improved, exhaustion markers declined and regulatory T cell (Treg) populations partially recovered. By 2025, the patient maintained low disease activity with minimal steroid exposure. Laboratory data confirmed remission [C-reactive protein (CRP) 0.10 mg/dl, erythrocyte sedimentation rate (ESR) 2 mm/h], while patient-reported indices [Bath ankylosing spondylitis disease activity index (BASDAI) 4.1, ankylosing spondylitis disease activity score using C-reactive protein (ASDAS-CRP) 2.0] reflected stable low-to-moderate disease activity. Na\u00efve T cells continued to show intermittent PD-1 and killer cell lectin-like receptor G1 (KLRG1) expression, suggesting persistent low-level immune adaptation.<h4>Conclusion</h4>This case shows phased immune rebalancing under long-term IL-17A blockade. Serial monitoring revealed dynamic exhaustion marker changes and partial regulatory recovery linked to clinical improvement, underscoring the value of longitudinal immune profiling for personalized management of complex autoimmune syndromes.",
+          "affiliation": "Department of Internal Medicine, Tri-Service General Hospital, National Defense Medical University, Taipei, Taiwan, R.O.C.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Case Reports"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "T-Lymphocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Spondylitis, Ankylosing",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Sjogren's Syndrome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CO",
+                      "qualifierName": "complications"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DI",
+                      "qualifierName": "diagnosis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Interleukin-17",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "HLA-B27 Antigen",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Monoclonal, Humanized",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Biomarkers"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "T-Cell Exhaustion"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Ankylosing spondylitis",
+              "Treg",
+              "Secukinumab",
+              "Sj\u00f6gren\u2019s Syndrome",
+              "Immune Exhaustion",
+              "Immune Profiling",
+              "Il-17a Inhibition"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "HLA-B27 Antigen",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interleukin-17",
+                "registryNumber": "0"
+              },
+              {
+                "name": "IL17A protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Monoclonal, Humanized",
+                "registryNumber": "0"
+              },
+              {
+                "name": "secukinumab",
+                "registryNumber": "DLG4EML025"
+              },
+              {
+                "name": "Biomarkers",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21873/invivo.14222"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12764190"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12764190?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-01-02",
+          "dateOfCreation": "2026-01-02",
+          "dateOfRevision": "2026-01-06",
+          "firstPublicationDate": "2026-01-01",
+          "firstIndexDate": "2026-01-04",
+          "fullTextReceivedDate": "2026-01-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41248609",
+          "source": "MED",
+          "pmid": "41248609",
+          "pmcid": "PMC12664961",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12664961"
+            ]
+          },
+          "doi": "10.1016/j.psj.2025.106020",
+          "title": "Identifying chicken alloantigens to understand their influence on disease and production traits.",
+          "authorString": "Taylor RL, Fulton JE.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Taylor RL Jr",
+                "lastName": "Taylor",
+                "firstName": "Robert L",
+                "initials": "RL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Agriculture and Food Systems, West Virginia University, Morgantown, WV 26506, United States. Electronic address: bob.taylor@mail.wvu.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fulton JE",
+                "lastName": "Fulton",
+                "firstName": "Janet E",
+                "initials": "JE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Hy-Line International, Dallas Center, IA 50063, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6215-7180"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "104",
+            "journalIssueId": 4073233,
+            "dateOfPublication": "2025 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Poult Sci",
+              "title": "Poultry science",
+              "essn": "1525-3171",
+              "issn": "0032-5791",
+              "nlmid": "0401150",
+              "isoabbreviation": "Poult Sci"
+            },
+            "printPublicationDate": "2025-12-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "106020",
+          "abstractText": "Self-recognition system components including red blood cell antigens and the major histocompatibility complex (MHC) are alloantigens found on multiple cell types. Specific polyclonal antisera reactivity identified fourteen chicken erythrocyte alloantigens (A, B, C, D, E, H, I, J, K, L, M, N, P, R). Multiple associations between alloantigen variation and disease or production traits have been reported. Blood group B, the MHC, was the first system whose genes and function were classified. Recent investigations sought to identify genes and chromosomal locations for other alloantigen systems. Phenotype-pooled DNA from pedigree and non-pedigree chickens having known alloantigen types underwent genome-wide association (GWAS) analyses using data from either 600K or 54K SNP panels. DNA from independent samples was used to confirm candidate gene associations. Genome sequences from elite production and experimental lines with identified alloantigen alleles were examined. Candidate genes within strong GWAS peaks were bioinformatically screened for cell surface expression and co-segregation of non-synonymous SNP with serologically defined haplotypes. Specific genes have now been identified for four alloantigen systems. Linked genes found on chromosome 26 are A = complement component 4 binding protein, membrane (C4BPM) and E = Fc fragment of IgA and IgM receptor (FCAMR). The D system gene (CD99) is on chromosome 1. Alloantigen I, equivalent to the human Rh blood group locus (RHCE), lies on chromosome 23 including deletions covering > 6,000 bp predicted to affect the last seven RHCE gene exons. Candidate regions were found for alloantigens L, H, and M on chromosomes 4, 24, and 26, respectively. Small sample size hindered definitive gene identification. In summary, four alloantigen genes with allele associated variants have been identified. Genes C4BPM, CD99, FCAMR, and RHCE play roles in processes such as complement regulation and immune cell migration. Chromosomal locations have been defined for three other alloantigen systems. Identification of specific genes responsible for the blood system alleles provides tools to study these chicken alloantigens for relationships with disease and production traits.",
+          "affiliation": "School of Agriculture and Food Systems, West Virginia University, Morgantown, WV 26506, United States. Electronic address: bob.taylor@mail.wvu.edu.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Science Foundation",
+                "grantId": "MCB-9631979",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Agriculture",
+                "grantId": "NE2334",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Science Foundation",
+                "grantId": "DCB-8718672",
+                "orderIn": 0
+              },
+              {
+                "agency": "Northern Illinois University",
+                "orderIn": 0
+              },
+              {
+                "agency": "West Virginia University",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Science Foundation",
+                "grantId": "DCB-9020138",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Agriculture",
+                "grantId": "WVA00776",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Biological Sciences, Western Michigan University",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Food and Agriculture",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Chickens",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Poultry Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Avian Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Isoantigens",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Single Nucleotide"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome-Wide Association Study",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "VE",
+                      "qualifierName": "veterinary"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Disease resistance",
+              "Immune response",
+              "Blood Group",
+              "Alloantigen"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Isoantigens",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Avian Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.psj.2025.106020"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12664961"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12664961?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 3,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-12-16",
+          "dateOfCreation": "2025-11-17",
+          "dateOfRevision": "2025-12-24",
+          "electronicPublicationDate": "2025-10-24",
+          "firstPublicationDate": "2025-10-24",
+          "firstIndexDate": "2025-11-18",
+          "fullTextReceivedDate": "2025-12-22",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40700934",
+          "source": "MED",
+          "pmid": "40700934",
+          "pmcid": "PMC12304697",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12304697"
+            ]
+          },
+          "doi": "10.1016/j.redox.2025.103783",
+          "title": "Protective effect of hydroxytyrosol against hyperglycemia-induced phosphatidylserine exposure in human erythrocytes: focus on dysregulation of calcium homeostasis and redox balance.",
+          "authorString": "Notariale R, Moriello C, Alessio N, Del Vecchio V, Mele L, Perrone P, Manna C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Notariale R",
+                "lastName": "Notariale",
+                "firstName": "Rosaria",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical, Surgical, Neurological, Metabolic and Aging Sciences, University of Campania \"Luigi Vanvitelli\", 80138, Naples, Italy. Electronic address: notarialer@gmail.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moriello C",
+                "lastName": "Moriello",
+                "firstName": "Claudia",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9975-4918"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Experimental Medicine, University of Campania \"Luigi Vanvitelli\", 80138, Naples, Italy. Electronic address: claudia.moriello@unicampania.it."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Alessio N",
+                "lastName": "Alessio",
+                "firstName": "Nicola",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Experimental Medicine, University of Campania \"Luigi Vanvitelli\", 80138, Naples, Italy. Electronic address: nicola.alessio@unicampania.it."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Del Vecchio V",
+                "lastName": "Del Vecchio",
+                "firstName": "Vitale",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Life Sciences, Health, and Health Professions, Link Campus University, 00165, Rome, Italy. Electronic address: v.delvecchio@unilink.it."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mele L",
+                "lastName": "Mele",
+                "firstName": "Luigi",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6008-0802"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Health Sciences, University of Basilicata, 85100, Potenza, Italy. Electronic address: luigi.mele@unibas.it."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Perrone P",
+                "lastName": "Perrone",
+                "firstName": "Pasquale",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5627-0267"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Precision Medicine, School of Medicine, University of Campania \"Luigi Vanvitelli\", 80138, Naples, Italy. Electronic address: pasquale.perrone@unicampania.it."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Manna C",
+                "lastName": "Manna",
+                "firstName": "Caterina",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Precision Medicine, School of Medicine, University of Campania \"Luigi Vanvitelli\", 80138, Naples, Italy. Electronic address: caterina.manna@unicampania.it."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9975-4918"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5627-0267"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6008-0802"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "85",
+            "journalIssueId": 4002103,
+            "dateOfPublication": "2025 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Redox Biol",
+              "title": "Redox biology",
+              "essn": "2213-2317",
+              "issn": "2213-2317",
+              "nlmid": "101605639",
+              "isoabbreviation": "Redox Biol"
+            },
+            "printPublicationDate": "2025-09-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "103783",
+          "abstractText": "Diabetes is a widespread chronic disease that poses serious health concerns due to its numerous associated complications, including an increased risk of cardiovascular diseases. Under conditions of prolonged hyperglycemia, erythrocytes (RBC) undergo the breakdown of the natural phospholipid asymmetry, triggered by cell surface exposure of phosphatidylserine (PS) associated with increased prothrombotic activity. The aim of the present study was to provide insights into the potential molecular mechanisms underlying, focusing on two phospholipid translocases, ATP-dependent flippase ATP11C and calcium-dependent scramblase PLSCR1. The possible protective effect exerted by the hydroxytyrosol (HT), a powerful phenolic antioxidant present in olive oil, was also tested. Exposure of intact human RBC to high glucose (25-50\u00a0mM) results in a dose-dependent increase in PS-exposing RBC, which can be prevented by HT at concentrations as low as 5\u00a0\u03bcM. Furthermore, our study reveals that PLSCR1 activity is significantly higher under hyperglycemic conditions. In line with this finding, immunocytochemical analysis indicates increased membrane expression of this enzyme. Both alterations can be prevented by HT pre-treatment. Conversely, no variation in ATP11C is observable. Importantly, intracellular calcium measurement reveals a significant rise, suggesting that dysregulation of calcium homeostasis may be a key mechanism underlying both the change in scramblase activity as well as the HT protective effect observed. In this case too, in fact, HT exhibits a protective effect. Accordingly, when cells are exposed to high glucose in a calcium-free medium no variation is observable. Finally, we report that HT is able to prevent glucose-induced alteration in redox balance by reducing ROS formation and the decline in intracellular glutathione, likely due to its high scavenging potential as well as to the proposed recycling process cycle that could regenerate reduced glutathione from its radical. All together our findings point to RBC as an additional target in the management of the cardiovascular complications associated with diabetes and indicate HT as nutritional/nutraceutical strategy for their prevention in diabetic patients.",
+          "affiliation": "Department of Medical, Surgical, Neurological, Metabolic and Aging Sciences, University of Campania \"Luigi Vanvitelli\", 80138, Naples, Italy. Electronic address: notarialer@gmail.com.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Hyperglycemia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Calcium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Phenylethyl Alcohol",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AA",
+                      "qualifierName": "analogs & derivatives"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Phosphatidylserines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antioxidants",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oxidation-Reduction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Homeostasis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Calcium",
+              "Redox balance",
+              "Hydroxytyrosol",
+              "Hyperglycemia- Phosphatidylserine- Red Blood Cells"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "3,4-dihydroxyphenylethanol",
+                "registryNumber": "10597-60-1"
+              },
+              {
+                "name": "Antioxidants",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Phosphatidylserines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Calcium",
+                "registryNumber": "SY7Q814VUP"
+              },
+              {
+                "name": "Glucose",
+                "registryNumber": "IY9XDZ35W2"
+              },
+              {
+                "name": "Phenylethyl Alcohol",
+                "registryNumber": "ML9LGA7468"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.redox.2025.103783"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12304697"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12304697?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 15,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-08-24",
+          "dateOfCreation": "2025-07-23",
+          "dateOfRevision": "2026-03-20",
+          "electronicPublicationDate": "2025-07-21",
+          "firstPublicationDate": "2025-07-21",
+          "firstIndexDate": "2025-07-24",
+          "fullTextReceivedDate": "2025-11-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40663422",
+          "source": "MED",
+          "pmid": "40663422",
+          "pmcid": "PMC12435834",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12435834"
+            ]
+          },
+          "doi": "10.1172/jci181875",
+          "title": "The GLYT1 inhibitor bitopertin mitigates erythroid PPIX production and liver disease in erythroid protoporphyria.",
+          "authorString": "Ducamp S, Wu M, Putra J, Campagna DR, Xiang Y, Hong V, Heeney MM, Dickey AK, Leaf RK, Fleming MD, MacDonald B, Schmidt PJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ducamp S",
+                "lastName": "Ducamp",
+                "firstName": "Sarah",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu M",
+                "lastName": "Wu",
+                "firstName": "Min",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Disc Medicine, Watertown, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Putra J",
+                "lastName": "Putra",
+                "firstName": "Juan",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Campagna DR",
+                "lastName": "Campagna",
+                "firstName": "Dean R",
+                "initials": "DR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xiang Y",
+                "lastName": "Xiang",
+                "firstName": "Yi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Disc Medicine, Watertown, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hong V",
+                "lastName": "Hong",
+                "firstName": "Vu",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Disc Medicine, Watertown, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Heeney MM",
+                "lastName": "Heeney",
+                "firstName": "Matthew M",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Dana-Farber Boston Children's Cancer and Blood Disorders Center and Department of Pediatrics, Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dickey AK",
+                "lastName": "Dickey",
+                "firstName": "Amy K",
+                "initials": "AK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Pulmonary and Critical Care Medicine, Department of Medicine, and."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Leaf RK",
+                "lastName": "Leaf",
+                "firstName": "Rebecca K",
+                "initials": "RK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Hematology/Oncology, Massachusetts General Hospital and Harvard Medical School Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fleming MD",
+                "lastName": "Fleming",
+                "firstName": "Mark D",
+                "initials": "MD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0948-4024"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "MacDonald B",
+                "lastName": "MacDonald",
+                "firstName": "Brian",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Disc Medicine, Watertown, Massachusetts, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schmidt PJ",
+                "lastName": "Schmidt",
+                "firstName": "Paul J",
+                "initials": "PJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6978-0656"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, Massachusetts, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6978-0656"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0948-4024"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2979-9664"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-4731-0772"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "18",
+            "volume": "135",
+            "journalIssueId": 4014525,
+            "dateOfPublication": "2025 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "J Clin Invest",
+              "title": "The Journal of clinical investigation",
+              "essn": "1558-8238",
+              "issn": "0021-9738",
+              "nlmid": "7802877",
+              "isoabbreviation": "J Clin Invest"
+            },
+            "printPublicationDate": "2025-09-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "e181875",
+          "abstractText": "Erythropoietic protoporphyria (EPP) is a genetic disorder typically resulting from decreased ferrochelatase (FECH) activity, the last enzyme in heme biosynthesis. Patients with X-linked protoporphyria (XLPP) have an overlapping phenotype caused by increased activity of 5-aminolevulinic acid synthase 2 (ALAS2), the first enzyme in erythroid heme synthesis. In both cases, protoporphyrin IX (PPIX) accumulates in erythrocytes and secondarily in plasma and tissues. Patients develop acute phototoxicity reactions upon brief exposure to sunlight. Some also experience chronic liver disease, and a small fraction develop acute cholestatic liver failure. Therapeutic options are limited, and none, save hematopoietic stem cell transplantation, directly targets erythroid PPIX accumulation. Bitopertin is an investigational orally available small-molecule inhibitor of the erythroid cell-surface glycine transporter GLYT1. We established the bitopertin PPIX inhibitory half-maximal effective concentration in a human erythroblast EPP model and confirmed a marked reduction of PPIX in erythroblasts derived from patients with EPP. We demonstrate that bitopertin also reduced erythrocyte and plasma PPIX accumulation in vivo in both EPP and XLPP mouse models. Finally, the reduction in erythroid PPIX ameliorated liver disease in the EPP mouse model. Altogether, these data support the development of bitopertin to treat patients with EPP or XLPP.",
+          "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, Massachusetts, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Disc Medicine",
+                "grantId": "N/A",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Liver Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protoporphyria, Erythropoietic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protoporphyrins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ferrochelatase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "5-Aminolevulinate Synthetase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Glycine Plasma Membrane Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Genetics",
+              "Hematology",
+              "Genetic diseases"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "ALAS2 protein, human",
+                "registryNumber": "EC 2.3.1.37"
+              },
+              {
+                "name": "Protoporphyrins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "5-Aminolevulinate Synthetase",
+                "registryNumber": "EC 2.3.1.37"
+              },
+              {
+                "name": "Ferrochelatase",
+                "registryNumber": "EC 4.99.1.1"
+              },
+              {
+                "name": "Glycine Plasma Membrane Transport Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "protoporphyrin IX",
+                "registryNumber": "C2K325S808"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1172/JCI181875"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12435834"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12435834?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 6,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "refsnp",
+              "omim",
+              "nct"
+            ]
+          },
+          "dateOfCompletion": "2025-09-16",
+          "dateOfCreation": "2025-07-15",
+          "dateOfRevision": "2026-06-25",
+          "electronicPublicationDate": "2025-07-15",
+          "firstPublicationDate": "2025-07-15",
+          "firstIndexDate": "2025-07-15",
+          "fullTextReceivedDate": "2025-11-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40354414",
+          "source": "MED",
+          "pmid": "40354414",
+          "pmcid": "PMC12091884",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12091884"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1013110",
+          "title": "Reversible host cell surface remodelling limits immune recognition and maximizes survival of Plasmodium falciparum gametocytes.",
+          "authorString": "Ngotho P, Dantzler Press K, Peedell M, Muasya W, Omondi BR, Otoboh SE, Gomez J, Coronado L, Seydel KB, Kapulu M, Laufer M, Taylor T, Bousema T, Marti M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ngotho P",
+                "lastName": "Ngotho",
+                "firstName": "Priscilla",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Centre for Integrative Parasitology, University of Glasgow, Glasgow, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Institute of Parasitology, Vetsuisse Faculty, University of Zurich, Zurich, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dantzler Press K",
+                "lastName": "Dantzler Press",
+                "firstName": "Kathleen",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6548-7513"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, Stanford University School of Medicine, Stanford, California, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Peedell M",
+                "lastName": "Peedell",
+                "firstName": "Megan",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Centre for Integrative Parasitology, University of Glasgow, Glasgow, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Institute of Parasitology, Vetsuisse Faculty, University of Zurich, Zurich, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Muasya W",
+                "lastName": "Muasya",
+                "firstName": "William",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Centre for Integrative Parasitology, University of Glasgow, Glasgow, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Omondi BR",
+                "lastName": "Omondi",
+                "firstName": "Brian Roy",
+                "initials": "BR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4611-2721"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Immunology and Infection Research, School of Biological Sciences, University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Otoboh SE",
+                "lastName": "Otoboh",
+                "firstName": "Stanley E",
+                "initials": "SE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Immunology and Infection Research, School of Biological Sciences, University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gomez J",
+                "lastName": "Gomez",
+                "firstName": "Jahiro",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaciones Cient\u00edficas y Servicios de alta Tecnolog\u00eda de Panam\u00e1, Panam\u00e1 City, Panam\u00e1."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coronado L",
+                "lastName": "Coronado",
+                "firstName": "Lorena",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaciones Cient\u00edficas y Servicios de alta Tecnolog\u00eda de Panam\u00e1, Panam\u00e1 City, Panam\u00e1."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Seydel KB",
+                "lastName": "Seydel",
+                "firstName": "Karl B",
+                "initials": "KB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Osteopathic Medical Specialties, College of Osteopathic Medicine, Michigan State University, East Lansing, Michigan, United States of America."
+                    },
+                    {
+                      "affiliation": "Blantyre Malaria Project, Kamuzu University of Health Sciences, Blantyre, Malawi."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kapulu M",
+                "lastName": "Kapulu",
+                "firstName": "Melissa",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0321-7128"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "KEMRI Wellcome Trust Research Programme, Kilifi, Kenya."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Laufer M",
+                "lastName": "Laufer",
+                "firstName": "Miriam",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Vaccine Development and Global Health, University of Maryland School of Medicine Baltimore, Maryland, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Taylor T",
+                "lastName": "Taylor",
+                "firstName": "Terrie",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Osteopathic Medical Specialties, College of Osteopathic Medicine, Michigan State University, East Lansing, Michigan, United States of America."
+                    },
+                    {
+                      "affiliation": "Blantyre Malaria Project, Kamuzu University of Health Sciences, Blantyre, Malawi."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bousema T",
+                "lastName": "Bousema",
+                "firstName": "Teun",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Radboud Institute for Health Sciences, Radboud University Medical Center, Nijmegen, Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marti M",
+                "lastName": "Marti",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1040-9566"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Centre for Integrative Parasitology, University of Glasgow, Glasgow, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Institute of Parasitology, Vetsuisse Faculty, University of Zurich, Zurich, Switzerland."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6548-7513"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0321-7128"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1040-9566"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4611-2721"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "21",
+            "journalIssueId": 3936354,
+            "dateOfPublication": "2025 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2025-05-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "e1013110",
+          "abstractText": "Reducing malaria transmission has been a major pillar of control programmes and is considered crucial for achieving malaria elimination. Gametocytes, the transmissible forms of the P. falciparum parasite, arise during the blood stage of the parasite and develop through 5 morphologically distinct stages. Immature gametocytes (stage I-IV) sequester and develop in the extravascular niche of the bone marrow and possibly spleen. Only mature stage V gametocytes re-enter peripheral circulation to be taken up by mosquitoes for successful onward transmission. We have recently shown that immature, but not mature gametocytes are targets of host immune responses and identified putative target surface antigens. We hypothesize that these antigens play a role in gametocyte sequestration and contribute to acquired transmission-reducing immunity. Here we demonstrate that surface antigen expression, serum reactivity by human IgG, and opsonic phagocytosis by macrophages all show similar dynamics during gametocyte maturation, i.e., peaking in the immature stages and tapering off in mature gametocytes. Moreover, the switch in surface reactivity coincides with reversal in phosphatidylserine (PS) surface exposure, a marker for red blood cell age and clearance. PS is exposed on the surface of a proportion of immature gametocyte-infected RBCs (as well as in late asexual stages) but is removed from the surface in later gametocyte stages (IV-V). Using parasite reverse genetics and drug perturbations, we confirm that parasite protein export into the host cell and phospholipid scramblase activity are required for the observed surface modifications in asexual and sexual P. falciparum stages. Based on these findings we propose that the reversible surface remodelling allows (i) immature gametocyte sequestration in bone marrow followed by (ii) mature gametocyte release into peripheral circulation (and immune evasion due to loss of surface antigens), therefore contributing to mature gametocyte survival in vivo and onward transmission to mosquitoes. Importantly, blocking scramblase activity during gametocyte maturation results in efficient clearance of mature gametocytes, revealing a potential path for transmission blocking interventions. Our studies have important implications for our understanding of parasite biology and form a starting point for novel intervention strategies to simultaneously reduce parasite burden and transmission.",
+          "affiliation": "Wellcome Centre for Integrative Parasitology, University of Glasgow, Glasgow, United Kingdom.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "European Research Council",
+                "grantId": "Bone Malar",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Foundation",
+                "acronym": "MRF_",
+                "grantId": "MR/T016272/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Research Council",
+                "grantId": "864180",
+                "orderIn": 0
+              },
+              {
+                "agency": "Sistema Nacional de Investigaci\u00f3n, Secretar\u00eda Nacional de Ciencia, Tecnolog\u00eda e Innovaci\u00f3n",
+                "grantId": "DDCCT 204-2023",
+                "orderIn": 0
+              },
+              {
+                "agency": "Royal Society",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT",
+                "grantId": "104111",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "U19 AI089683",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "K24 AI114996",
+                "orderIn": 0
+              },
+              {
+                "agency": "Foundation for the National Institutes of Health",
+                "grantId": "U19AI129388",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphatidylserines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunoglobulin G",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phagocytosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Parasite Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Immunoglobulin G",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Phosphatidylserines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1013110"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12091884"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12091884?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "38746342",
+                "reference": "bioRxiv. 2024 Apr 30:2024.04.30.591837. doi: 10.1101/2024.04.30.591837.",
+                "type": "Update of",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 5,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-05-21",
+          "dateOfCreation": "2025-05-12",
+          "dateOfRevision": "2026-09-19",
+          "electronicPublicationDate": "2025-05-12",
+          "firstPublicationDate": "2025-05-12",
+          "firstIndexDate": "2025-05-20",
+          "fullTextReceivedDate": "2025-12-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40260074",
+          "source": "MED",
+          "pmid": "40260074",
+          "pmcid": "PMC12010815",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12010815"
+            ]
+          },
+          "doi": "10.25259/cytojournal_222_2024",
+          "title": "Scavenger receptor class B member 1 promotes lung cancer growth and metastasis through enhanced twist family BHLH transcription factor 1 signaling &lt;i&gt;in vitro&lt;/i&gt; and &lt;i&gt;in vivo&lt;/i&gt;: Exploration of RPPNs as a therapeutic Strategy.",
+          "authorString": "Liu X, Bian H, Shi Y, Du T.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Liu X",
+                "lastName": "Liu",
+                "firstName": "Xin",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Basic Medical Institute, Ningxia Medical University, Yinchuan, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bian H",
+                "lastName": "Bian",
+                "firstName": "Hong",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Thoracic Surgery, Southern University of Science and Technology Hospital, Guangdong, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shi Y",
+                "lastName": "Shi",
+                "firstName": "Yan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Thoracic Surgery, Southern University of Science and Technology Hospital, Guangdong, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Du T",
+                "lastName": "Du",
+                "firstName": "Tongxin",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Thoracic Surgery, Southern University of Science and Technology Hospital, Guangdong, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "22",
+            "journalIssueId": 3902553,
+            "dateOfPublication": "2025 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Cytojournal",
+              "title": "CytoJournal",
+              "essn": "1742-6413",
+              "issn": "0974-5963",
+              "nlmid": "101231642",
+              "isoabbreviation": "Cytojournal"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "23",
+          "abstractText": "<h4>Objective</h4>Lung cancer remains a leading cause of cancer-related mortality worldwide. Although scavenger receptor class B member 1 (SCARB1), a crucial cell surface receptor, plays a vital role in various cancers, its function in lung cancer remains incompletely elucidated. This study aims to investigate the role and molecular mechanisms of SCARB1 in lung cancer progression and develop a novel SCARB1-targeted nanoparticle drug delivery system.<h4>Material and methods</h4>We analyzed SCARB1 expression levels in lung cancer tissues and their correlation with patient prognosis using the Cancer Genome Atlas database. <i>In vitro</i> experiments, including quantitative real-time polymerase chain reaction, Western blot, 5-ethynyl-2'-deoxyuridine, colony formation, and Transwell analyses, were conducted to study the effects of SCARB1 on lung cancer cell proliferation, invasion, and migration. A lung metastasis model was established through tail vein injection to evaluate the role of SCARB1 in promoting lung cancer metastasis <i>in vivo</i>. We also developed red blood cell membrane-coated poly (lactic-co-glycolic acid) nanocarriers loaded with paclitaxel (RPPNs) and assessed their effect on SCARB1 expression and lung cancer progression.<h4>Results</h4>SCARB1 was overexpressed in human lung cancer tissues and significantly associated with poor patient prognosis. <i>In vitro</i> experiments confirmed that silencing SCARB1 inhibited lung cancer cell growth, invasion, and migration. SCARB1 overexpression promoted lung cancer cell proliferation, migration, and epithelial-mesenchymal transition through twist family BHLH transcription factor 1 (Twist1) activation. <i>In vivo</i> experiments further validated the crucial role of SCARB1 in promoting lung cancer metastasis. The developed RPPNs effectively suppressed SCARB1 expression in lung cancer and demonstrated superior inhibitory effects compared with traditional RPPNs. However, SCARB1 overexpression partially antagonized the antimetastatic effects of RPPNs.<h4>Conclusion</h4>This work elucidates, for the 1<sup>st</sup> time, the molecular mechanism by which SCARB1 promotes lung cancer growth and metastasis through the activation of the Twist1 signaling pathway and develops a novel SCARB1-targeted nanoparticle drug delivery system, namely RPPNs. The findings of this work not only deepen our understanding of the molecular mechanisms underlying lung cancer progression but also provide new strategies for lung cancer diagnosis and treatment.",
+          "affiliation": "Basic Medical Institute, Ningxia Medical University, Yinchuan, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Lung cancer",
+              "Nanoparticle Drug Delivery",
+              "Scavenger Receptor Class B Member 1",
+              "Twist Family Bhlh Transcription Factor 1"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.25259/Cytojournal_222_2024"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12010815"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12010815?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 5,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-sa",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2025-04-22",
+          "dateOfRevision": "2025-06-30",
+          "electronicPublicationDate": "2025-03-03",
+          "firstPublicationDate": "2025-03-03",
+          "firstIndexDate": "2025-04-23",
+          "fullTextReceivedDate": "2025-12-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40046178",
+          "source": "MED",
+          "pmid": "40046178",
+          "pmcid": "PMC11879980",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11879980"
+            ]
+          },
+          "doi": "10.3389/fmed.2024.1498627",
+          "title": "Preliminary study on the participation of TLR9 on erythrocyte surface combined with mtDNA in the monitoring of infectious diseases.",
+          "authorString": "Xiao L, Xu H, Liu S, Cheng Z, Kong Y, Tian L.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Xiao L",
+                "lastName": "Xiao",
+                "firstName": "Ling",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Blood Transfusion, Deyang People's Hospital, Deyang, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu H",
+                "lastName": "Xu",
+                "firstName": "Haixia",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Blood Transfusion, Chinese Academy of Medical Sciences and Peking Union Medical College, Chengdu, China."
+                    },
+                    {
+                      "affiliation": "Key Laboratory of Transfusion Adverse Reactions, Chinese Academy of Medical Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu S",
+                "lastName": "Liu",
+                "firstName": "Siwei",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Blood Transfusion, Chinese Academy of Medical Sciences and Peking Union Medical College, Chengdu, China."
+                    },
+                    {
+                      "affiliation": "Key Laboratory of Transfusion Adverse Reactions, Chinese Academy of Medical Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cheng Z",
+                "lastName": "Cheng",
+                "firstName": "Zhanrui",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Blood Transfusion, Chinese Academy of Medical Sciences and Peking Union Medical College, Chengdu, China."
+                    },
+                    {
+                      "affiliation": "Key Laboratory of Transfusion Adverse Reactions, Chinese Academy of Medical Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kong Y",
+                "lastName": "Kong",
+                "firstName": "Yujie",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Laboratory, The First Affiliated Hospital of Chengdu Medical College, Chengdu, China."
+                    },
+                    {
+                      "affiliation": "School of Clinical Medicine, Chengdu Medical College, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian L",
+                "lastName": "Tian",
+                "firstName": "Li",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Blood Transfusion, Chinese Academy of Medical Sciences and Peking Union Medical College, Chengdu, China."
+                    },
+                    {
+                      "affiliation": "Key Laboratory of Transfusion Adverse Reactions, Chinese Academy of Medical Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "11",
+            "journalIssueId": 3703812,
+            "dateOfPublication": "2024 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "Front Med (Lausanne)",
+              "title": "Frontiers in medicine",
+              "essn": "2296-858X",
+              "issn": "2296-858X",
+              "nlmid": "101648047",
+              "isoabbreviation": "Front Med (Lausanne)"
+            },
+            "printPublicationDate": "2024-01-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "1498627",
+          "abstractText": "<h4>Background</h4>TLR9 is typically found within cells and plays a crucial role in identifying pathogenic and self-DNA in chronic inflammation and immune complexes. Recent discoveries indicate its presence on the surface of human red blood cells, where it engages in immune regulation by binding to free mtDNA. The purpose of this study is to explore the role of TLR9 as a pattern recognition receptor combined with mtDNA in the monitoring of infectious diseases.<h4>Methods</h4>TLR9 presence on the surface of red blood cells was assessed using flow cytometry in both healthy individuals and patients with bacterial infections. Subsequently, DNA bound to the red blood cell surface was extracted separately from both groups. The absolute quantification of mtDNA copy numbers within the extracted DNA was conducted using qPCR technology, followed by statistical analysis. Additionally, the correlation between mtDNA copy numbers bound to red blood cell surfaces in bacterial infection patients with varying CRP concentrations was examined using univariate linear regression.<h4>Result</h4>In healthy individuals, TLR9 expression on red blood cell surfaces averaged 8.81%. However, the average expression of TLR9 on red blood cell surfaces in patients with bacterial infection was 5.45%, which was lower than that in healthy people (<i>p</i>\u202f<\u202f0.001). Notably, both healthy individuals and infected patients exhibited mtDNA binding to red blood cell surfaces, with patients demonstrating a higher mtDNA copy number compared to healthy controls (<i>p</i>\u202f<\u202f0.001). Moreover, within the infected group, the copy numbers of mtDNA bound by red blood cells positively correlated with patient CRP concentrations (<i>R</i> <sup>2</sup>\u202f=\u202f0.715, <i>p</i>\u202f<\u202f0.001), indicative of an association between mtDNA copy numbers bound to red blood cell surfaces and infection severity.<h4>Conclusion</h4>The elevation of erythrocyte-bound mtDNA during infection, coupled with its correlation with infection severity, suggests that monitoring the copy numbers of mtDNA bound to red blood cells via TLR9 could serve as a novel indicator for infection surveillance.",
+          "affiliation": "Department of Blood Transfusion, Deyang People's Hospital, Deyang, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Infection",
+              "Mitochondrial DNA",
+              "Red blood cells",
+              "Toll-like Receptor 9",
+              "Monitor Disease"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fmed.2024.1498627"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11879980"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11879980?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2025-03-06",
+          "dateOfRevision": "2025-03-07",
+          "electronicPublicationDate": "2025-02-19",
+          "firstPublicationDate": "2025-02-19",
+          "firstIndexDate": "2025-03-06",
+          "fullTextReceivedDate": "2025-12-02",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

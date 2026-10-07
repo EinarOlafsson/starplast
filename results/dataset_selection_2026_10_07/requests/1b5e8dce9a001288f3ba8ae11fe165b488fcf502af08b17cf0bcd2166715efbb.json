@@ -1,0 +1,3793 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22bone-marrow+macrophage%22+OR+%22bone+marrow-derived+macrophage%22+OR+BMDM+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:43.439159+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 15,
+    "nextCursorMark": "AoJOKDExODAxOTIy",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22bone-marrow+macrophage%22+OR+%22bone+marrow-derived+macrophage%22+OR+BMDM+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&cursorMark=AoJOKDExODAxOTIy&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:(\"surfaceome\" OR \"cell-surface\" OR \"surface proteome\") AND TITLE_ABS:(\"bone-marrow macrophage\" OR \"bone marrow-derived macrophage\" OR BMDM OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "30770053",
+          "source": "MED",
+          "pmid": "30770053",
+          "pmcid": "PMC6396737",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6396737"
+            ]
+          },
+          "doi": "10.1016/j.bja.2018.10.062",
+          "title": "Maresin 1 attenuates neuroinflammation in a mouse model of perioperative neurocognitive disorders.",
+          "authorString": "Yang T, Xu G, Newton PT, Chagin AS, Mkrtchian S, Carlstr\u00f6m M, Zhang XM, Harris RA, Cooter M, Berger M, Maddipati KR, Akassoglou K, Terrando N.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang T",
+                "lastName": "Yang",
+                "firstName": "T",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden; Department of Medicine, Division of Nephrology, Durham, NC, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu G",
+                "lastName": "Xu",
+                "firstName": "G",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Newton PT",
+                "lastName": "Newton",
+                "firstName": "P T",
+                "initials": "PT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2142-1798"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chagin AS",
+                "lastName": "Chagin",
+                "firstName": "A S",
+                "initials": "AS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2696-5850"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden; Institute for Regenerative Medicine, Sechenov First Moscow State Medical University, Moscow, Russian Federation."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mkrtchian S",
+                "lastName": "Mkrtchian",
+                "firstName": "S",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9801-2736"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Carlstr\u00f6m M",
+                "lastName": "Carlstr\u00f6m",
+                "firstName": "M",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9923-8729"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang XM",
+                "lastName": "Zhang",
+                "firstName": "X-M",
+                "initials": "XM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Applied Immunology & Immunotherapy, Center for Molecular Medicine, Department of Clinical Neuroscience, Karolinska Institutet, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Harris RA",
+                "lastName": "Harris",
+                "firstName": "R A",
+                "initials": "RA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4990-509X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Applied Immunology & Immunotherapy, Center for Molecular Medicine, Department of Clinical Neuroscience, Karolinska Institutet, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cooter M",
+                "lastName": "Cooter",
+                "firstName": "M",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Anesthesiology, Duke University Medical Center, Durham, NC, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Berger M",
+                "lastName": "Berger",
+                "firstName": "M",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Cognitive Neuroscience, Center for the Study of Aging & Human Development, Durham, NC, USA; Center for the Study of Aging & Human Development, Durham, NC, USA; Department of Anesthesiology, Duke University Medical Center, Durham, NC, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Maddipati KR",
+                "lastName": "Maddipati",
+                "firstName": "K R",
+                "initials": "KR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology-Bioactive Lipids Research Program, Wayne State University, Detroit, MI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Akassoglou K",
+                "lastName": "Akassoglou",
+                "firstName": "K",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2632-1465"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Gladstone Institutes, San Francisco, CA, USA; Department of Neurology, University of California San Francisco, San Francisco, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Terrando N",
+                "lastName": "Terrando",
+                "firstName": "N",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden; Center for Translational Pain Medicine, Department of Anesthesiology, Duke University Medical Center, Durham, NC, USA; Department of Anesthesiology, Duke University Medical Center, Durham, NC, USA. Electronic address: niccolo.terrando@duke.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9801-2736"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9923-8729"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2632-1465"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2696-5850"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2142-1798"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4990-509X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "122",
+            "journalIssueId": 2783549,
+            "dateOfPublication": "2019 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2019,
+            "journal": {
+              "medlineAbbreviation": "Br J Anaesth",
+              "title": "British journal of anaesthesia",
+              "essn": "1471-6771",
+              "issn": "0007-0912",
+              "nlmid": "0372541",
+              "isoabbreviation": "Br J Anaesth"
+            },
+            "printPublicationDate": "2019-03-01"
+          },
+          "pubYear": "2019",
+          "pageInfo": "350-360",
+          "abstractText": "<h4>Background</h4>Resolution of inflammation is an active and dynamic process after surgery. Maresin 1 (MaR1) is one of a growing number of specialised pro-resolving lipids biosynthesised by macrophages that regulates acute inflammation. We investigated the effects of MaR1 on postoperative neuroinflammation, macrophage activity, and cognitive function in mice.<h4>Methods</h4>Adult male C57BL/6 (n=111) and Ccr2<sup>RFP/+</sup>Cx3cr1<sup>GFP/+</sup> (n=54) mice were treated with MaR1 before undergoing anaesthesia and orthopaedic surgery. Systemic inflammatory changes, bone healing, neuroinflammation, and cognition were assessed at different time points. MaR1 protective effects were also evaluated using bone marrow derived macrophage cultures.<h4>Results</h4>MaR1 exerted potent systemic anti-inflammatory effects without impairing fracture healing. Prophylaxis with MaR1 prevented surgery-induced glial activation and opening of the blood-brain barrier. In Ccr2<sup>RFP/+</sup>Cx3cr1<sup>GFP/+</sup> mice, fewer infiltrating macrophages were detected in the hippocampus after surgery with MaR1 prophylaxis, which resulted in improved memory function. MaR1 treatment also reduced expression of pro-inflammatory cell surface markers and cytokines by in\u00a0vitro cultured macrophages. MaR1 was detectable in the cerebrospinal fluid of older adults before and after surgery.<h4>Conclusions</h4>MaR1 exerts distinct anti-inflammatory and pro-resolving effects through regulation of macrophage infiltration, NF-\u03baB signalling, and cytokine release after surgery. Future studies on the use of pro-resolving lipid mediators may inform novel approaches to treat neuroinflammation and postoperative neurocognitive disorders.",
+          "affiliation": "Department of Physiology and Pharmacology, Stockholm, Sweden; Department of Medicine, Division of Nephrology, Durham, NC, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Institute of Neurological Disorders and Stroke",
+                "grantId": "R35 097976",
+                "orderIn": 0
+              },
+              {
+                "agency": "Loo och Has Ostermans Foundation",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Aging",
+                "grantId": "K76 AG057022",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Society of Anaesthesiology",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Aging",
+                "grantId": "R21AG055877",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Aging",
+                "grantId": "R01AG057525",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Aging",
+                "grantId": "R03 AG050918",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Center for Advancing Translational Sciences Clinical and Translational Science",
+                "grantId": "UL1TR001117",
+                "orderIn": 0
+              },
+              {
+                "agency": "Karolinska Institutet Foundations",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R35 NS097976",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Aging",
+                "grantId": "AG028716",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Aging",
+                "grantId": "P30 AG028716",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCRR NIH HHS",
+                "acronym": "RR",
+                "grantId": "S10 RR027926",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIA NIH HHS",
+                "acronym": "AG",
+                "grantId": "R01 AG057525",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIA NIH HHS",
+                "acronym": "AG",
+                "grantId": "R21 AG055877",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Center for Research Resources",
+                "grantId": "S10RR027926",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Inflammation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Docosahexaenoic Acids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged, 80 and over"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fractures, Bone",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "SU",
+                      "qualifierName": "surgery"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Perioperative Period"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurocognitive Disorders",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Macrophages",
+              "Postoperative complications",
+              "neuroinflammation",
+              "Glia",
+              "Omega 3 Fatty Acids",
+              "Pro-resolving Lipid Mediators",
+              "Neurocognitive Disorders"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Docosahexaenoic Acids",
+                "registryNumber": "25167-62-8"
+              },
+              {
+                "name": "7,14-dihydroxydocosa-4,8,10,12,16,19-hexaenoic acid",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.bja.2018.10.062"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6396737"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6396737?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 106,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "nct"
+            ]
+          },
+          "dateOfCompletion": "2019-04-22",
+          "dateOfCreation": "2019-02-17",
+          "dateOfRevision": "2024-07-14",
+          "electronicPublicationDate": "2018-12-28",
+          "firstPublicationDate": "2018-12-28",
+          "firstIndexDate": "2019-02-17",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23667110",
+          "source": "MED",
+          "pmid": "23667110",
+          "pmcid": "PMC3679202",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3679202"
+            ]
+          },
+          "doi": "10.4049/jimmunol.1202942",
+          "title": "Role of macrophage receptor with collagenous structure in innate immune tolerance.",
+          "authorString": "Jing J, Yang IV, Hui L, Patel JA, Evans CM, Prikeris R, Kobzik L, O'Connor BP, Schwartz DA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Jing J",
+                "lastName": "Jing",
+                "firstName": "Jian",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, University of Colorado School of Medicine, Aurora, CO 80045, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang IV",
+                "lastName": "Yang",
+                "firstName": "Ivana V",
+                "initials": "IV",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1018-489X"
+                }
+              },
+              {
+                "fullName": "Hui L",
+                "lastName": "Hui",
+                "firstName": "Lucy",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4183-2199"
+                }
+              },
+              {
+                "fullName": "Patel JA",
+                "lastName": "Patel",
+                "firstName": "Jay A",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1089-8865"
+                }
+              },
+              {
+                "fullName": "Evans CM",
+                "lastName": "Evans",
+                "firstName": "Christopher M",
+                "initials": "CM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5600-7314"
+                }
+              },
+              {
+                "fullName": "Prikeris R",
+                "lastName": "Prikeris",
+                "firstName": "Rytis",
+                "initials": "R"
+              },
+              {
+                "fullName": "Kobzik L",
+                "lastName": "Kobzik",
+                "firstName": "Lester",
+                "initials": "L"
+              },
+              {
+                "fullName": "O'Connor BP",
+                "lastName": "O'Connor",
+                "firstName": "Brian P",
+                "initials": "BP"
+              },
+              {
+                "fullName": "Schwartz DA",
+                "lastName": "Schwartz",
+                "firstName": "David A",
+                "initials": "DA"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5600-7314"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1018-489X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1089-8865"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4183-2199"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "190",
+            "journalIssueId": 2046918,
+            "dateOfPublication": "2013 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "J Immunol",
+              "title": "Journal of immunology (Baltimore, Md. : 1950)",
+              "essn": "1550-6606",
+              "issn": "0022-1767",
+              "nlmid": "2985117R",
+              "isoabbreviation": "J Immunol"
+            },
+            "printPublicationDate": "2013-06-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "6360-6367",
+          "abstractText": "Macrophages play a key role in host defense against microbes, in part, through phagocytosis. Macrophage receptor with collagenous structure (MARCO) is a scavenger receptor on the cell surface of macrophages that mediates opsonin-independent phagocytosis. The goal of our study is to investigate the role of MARCO in LPS or lipotechoic acid-induced macrophage tolerance. Although it has been established that expression of MARCO and phagocytosis is increased in tolerant macrophages, the transcriptional regulation and biological role of MARCO in tolerant macrophages have not been investigated. In this study, we confirm that tolerized mouse bone marrow-derived macrophages (BMDM) selectively increase expression of MARCO (both transcript and cell surface receptor) and increase phagocytosis. We found that H3K4me3 dynamic modification of a promoter site of MARCO was increased in tolerized BMDM. Blocking methylation by treatment with 5-aza-2'-deoxycytidine resulted in reduced H3K4me3 binding in the promoter of MARCO, decreased expression of MARCO, and impaired phagocytosis in tolerized BMDM. However, 5-aza-2'-deoxycytidine had no effect on the inflammatory component of innate immune tolerance. In aggregate, we found that histone methylation was critical to MARCO expression and phagocytosis in tolerized macrophages, but did not affect the inflammatory component of innate immune tolerance.",
+          "affiliation": "Department of Medicine, University of Colorado School of Medicine, Aurora, CO 80045, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "R01 HL101251",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCRR NIH HHS",
+                "acronym": "RR",
+                "grantId": "S10 RR031832",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "RC2-HL101715",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIEHS NIH HHS",
+                "acronym": "ES",
+                "grantId": "P01 ES018181",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIEHS NIH HHS",
+                "acronym": "ES",
+                "grantId": "P01-ES18181",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "RC2 HL101715",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "R01 HL095393",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "R01-HL095393",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bone Marrow Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Immunologic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytokines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Fluorescence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Blotting, Western"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme-Linked Immunosorbent Assay"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Flow Cytometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Separation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phagocytosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immune Tolerance",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunity, Innate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Real-Time Polymerase Chain Reaction"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Marco protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Immunologic",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cytokines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.4049/jimmunol.1202942"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3679202"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3679202?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.4049/jimmunol.1202942"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 60,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS465075",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2013-08-12",
+          "dateOfCreation": "2013-05-14",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2013-05-10",
+          "firstPublicationDate": "2013-05-10",
+          "firstIndexDate": "2013-05-14",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "24147027",
+          "source": "MED",
+          "pmid": "24147027",
+          "pmcid": "PMC3795683",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3795683"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0077571",
+          "title": "F11R is a novel monocyte prognostic biomarker for malignant glioma.",
+          "authorString": "Pong WW, Walker J, Wylie T, Magrini V, Luo J, Emnett RJ, Choi J, Cooper ML, Griffith M, Griffith OL, Rubin JB, Fuller GN, Piwnica-Worms D, Feng X, Hambardzumyan D, DiPersio JF, Mardis ER, Gutmann DH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Pong WW",
+                "lastName": "Pong",
+                "firstName": "Winnie W",
+                "initials": "WW",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8254-3305"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, Washington University School of Medicine, St. Louis, Missouri, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Walker J",
+                "lastName": "Walker",
+                "firstName": "Jason",
+                "initials": "J"
+              },
+              {
+                "fullName": "Wylie T",
+                "lastName": "Wylie",
+                "firstName": "Todd",
+                "initials": "T"
+              },
+              {
+                "fullName": "Magrini V",
+                "lastName": "Magrini",
+                "firstName": "Vincent",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2019-4872"
+                }
+              },
+              {
+                "fullName": "Luo J",
+                "lastName": "Luo",
+                "firstName": "Jingqin",
+                "initials": "J"
+              },
+              {
+                "fullName": "Emnett RJ",
+                "lastName": "Emnett",
+                "firstName": "Ryan J",
+                "initials": "RJ"
+              },
+              {
+                "fullName": "Choi J",
+                "lastName": "Choi",
+                "firstName": "Jaebok",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5590-087X"
+                }
+              },
+              {
+                "fullName": "Cooper ML",
+                "lastName": "Cooper",
+                "firstName": "Matthew L",
+                "initials": "ML"
+              },
+              {
+                "fullName": "Griffith M",
+                "lastName": "Griffith",
+                "firstName": "Malachi",
+                "initials": "M"
+              },
+              {
+                "fullName": "Griffith OL",
+                "lastName": "Griffith",
+                "firstName": "Obi L",
+                "initials": "OL"
+              },
+              {
+                "fullName": "Rubin JB",
+                "lastName": "Rubin",
+                "firstName": "Joshua B",
+                "initials": "JB"
+              },
+              {
+                "fullName": "Fuller GN",
+                "lastName": "Fuller",
+                "firstName": "Gregory N",
+                "initials": "GN",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9447-2647"
+                }
+              },
+              {
+                "fullName": "Piwnica-Worms D",
+                "lastName": "Piwnica-Worms",
+                "firstName": "David",
+                "initials": "D"
+              },
+              {
+                "fullName": "Feng X",
+                "lastName": "Feng",
+                "firstName": "Xi",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6920-1519"
+                }
+              },
+              {
+                "fullName": "Hambardzumyan D",
+                "lastName": "Hambardzumyan",
+                "firstName": "Dolores",
+                "initials": "D"
+              },
+              {
+                "fullName": "DiPersio JF",
+                "lastName": "DiPersio",
+                "firstName": "John F",
+                "initials": "JF"
+              },
+              {
+                "fullName": "Mardis ER",
+                "lastName": "Mardis",
+                "firstName": "Elaine R",
+                "initials": "ER"
+              },
+              {
+                "fullName": "Gutmann DH",
+                "lastName": "Gutmann",
+                "firstName": "David H",
+                "initials": "DH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3127-5045"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8254-3305"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9447-2647"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0843-4271"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2019-4872"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3127-5045"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5590-087X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6388-446X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6920-1519"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "8",
+            "journalIssueId": 2082438,
+            "dateOfPublication": "2013 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2013-01-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "e77571",
+          "abstractText": "<h4>Objective</h4>Brain tumors (gliomas) contain large populations of infiltrating macrophages and recruited microglia, which in experimental murine glioma models promote tumor formation and progression. Among the barriers to understanding the contributions of these stromal elements to high-grade glioma (glioblastoma; GBM) biology is the relative paucity of tools to characterize infiltrating macrophages and resident microglia. In this study, we leveraged multiple RNA analysis platforms to identify new monocyte markers relevant to GBM patient outcome.<h4>Methods</h4>High-confidence lists of mouse resident microglia- and bone marrow-derived macrophage-specific transcripts were generated using converging RNA-seq and microarray technologies and validated using qRT-PCR and flow cytometry. Expression of select cell surface markers was analyzed in brain-infiltrating macrophages and resident microglia in an induced GBM mouse model, while allogeneic bone marrow transplantation was performed to trace the origins of infiltrating and resident macrophages. Glioma tissue microarrays were examined by immunohistochemistry, and the Gene Expression Omnibus (GEO) database was queried to determine the prognostic value of identified microglia biomarkers in human GBM.<h4>Results</h4>We generated a unique catalog of differentially-expressed bone marrow-derived monocyte and resident microglia transcripts, and demonstrated that brain-infiltrating macrophages acquire F11R expression in GBM and following bone-marrow transplantation. Moreover, mononuclear cell F11R expression positively correlates with human high-grade glioma and additionally serves as a biomarker for GBM patient survival, regardless of GBM molecular subtype.<h4>Significance</h4>These studies establish F11R as a novel monocyte prognostic marker for GBM critical for defining a subpopulation of stromal cells for future potential therapeutic intervention.",
+          "affiliation": "Department of Neurology, Washington University School of Medicine, St. Louis, Missouri, United States of America.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "RC4-NS072916",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "U01 CA160882",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "RC4 NS072916",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "U01 CA141549",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "U01-CA141549",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "P30 CA091842",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "U01-CA160882",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Monocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glioma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MO",
+                      "qualifierName": "mortality"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Adhesion Molecules",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Cell Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Prognosis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cluster Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation, Neoplastic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neoplasm Grading"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Biomarkers"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "F11R protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Cell Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cell Adhesion Molecules",
+                "registryNumber": "0"
+              },
+              {
+                "name": "F11r protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Biomarkers",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0077571"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3795683"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3795683?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 42,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "ARXPR",
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCompletion": "2014-08-05",
+          "dateOfCreation": "2013-10-23",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2013-10-11",
+          "firstPublicationDate": "2013-10-11",
+          "firstIndexDate": "2013-10-23",
+          "fullTextReceivedDate": "2020-07-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "9300701",
+          "source": "MED",
+          "pmid": "9300701",
+          "doi": "10.4049/jimmunol.159.6.2795",
+          "title": "MHC class Ib-restricted cells contribute to antilisterial immunity: evidence for Qa-1b as a key restricting element for Listeria-specific CTLs.",
+          "authorString": "Bouwer HG, Seaman MS, Forman J, Hinrichs DJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bouwer HG",
+                "lastName": "Bouwer",
+                "firstName": "H G",
+                "initials": "HG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Immunology Research, Veterans Affairs Medical Center and Earle A. Chiles Research Institute, Portland, Oregon 97201, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Seaman MS",
+                "lastName": "Seaman",
+                "firstName": "M S",
+                "initials": "MS"
+              },
+              {
+                "fullName": "Forman J",
+                "lastName": "Forman",
+                "firstName": "J",
+                "initials": "J"
+              },
+              {
+                "fullName": "Hinrichs DJ",
+                "lastName": "Hinrichs",
+                "firstName": "D J",
+                "initials": "DJ"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "159",
+            "journalIssueId": 1074696,
+            "dateOfPublication": "1997 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 1997,
+            "journal": {
+              "medlineAbbreviation": "J Immunol",
+              "title": "Journal of immunology (Baltimore, Md. : 1950)",
+              "essn": "1550-6606",
+              "issn": "0022-1767",
+              "nlmid": "2985117R",
+              "isoabbreviation": "J Immunol"
+            },
+            "printPublicationDate": "1997-09-01"
+          },
+          "pubYear": "1997",
+          "pageInfo": "2795-2801",
+          "abstractText": "Subclinical infection of BALB/c mice with the intracellular pathogen Listeria monocytogenes results in the development of MHC class Ia- and Ib-restricted CTLs. L. monocytogenes-infected TAP-/- bone marrow macrophage targets are not lysed by MHC class Ia- or Ib-restricted CTLs, showing a requirement for transport of peptides into the endoplasmic reticulum for development of the MHC class Ib-peptide target. L. monocytogenes-infected B6.Tla(a)-derived bone marrow macrophages (Kb Qa-1a) are not lysed by BALB/c (Kd Qa-1b)-derived antilisterial CTLs, confirming an earlier finding that the Ib-restricting element is T region encoded. We have further determined that Qa-1b is a restricting element for antilisterial CTLs using L. monocytogenes-infected Qa-1b-transformed mouse L cells as well as human-derived HeLa cells as target populations. These L. monocytogenes-infected Qa-1b-transformed cell lines are lysed by BALB/c (Qa-1b)- or C57BL/6 (Qa-1b)-derived antilisterial CTLs, but are not lysed by B6.AKM (Qa-1a)-derived antilisterial CTLs. Using L. monocytogenes-infected targets, we found that MHC class Ia- and Ib-restricted CTLs are evident within 4 days following infection, peak on day 5 following infection, and although Ib-restricted CTLs disappear by day 6 postinfection, la-restricted antilisterial CTL activity can still be detected. These results demonstrate that Qa-1b is a restricting element for antilisterial CTLs, and expression of the MHC class Ib-presented target at the cell surface is TAP dependent. In addition, these results show that following L. monocytogenes infection, MHC class Ib-restricted CTLs are evident in vivo.",
+          "affiliation": "Immunology Research, Veterans Affairs Medical Center and Earle A. Chiles Research Institute, Portland, Oregon 97201, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "P01-AI37818",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI23455",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "T32-CA09082",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "T-Lymphocytes, Cytotoxic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Listeria monocytogenes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histocompatibility Antigens Class I",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cytotoxicity, Immunologic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigen Presentation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Listeriosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Q surface antigens",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histocompatibility Antigens Class I",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "OpenAlex",
+                "url": "https://doi.org/10.4049/jimmunol.159.6.2795"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "www.jimmunol.org",
+                "url": "http://www.jimmunol.org/cgi/content/abstract/159/6/2795"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 39,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1997-10-08",
+          "dateOfCreation": "1997-09-23",
+          "dateOfRevision": "2010-11-18",
+          "firstPublicationDate": "1997-09-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "32793601",
+          "source": "MED",
+          "pmid": "32793601",
+          "pmcid": "PMC7386301",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7386301"
+            ]
+          },
+          "doi": "10.3389/fcell.2020.00661",
+          "title": "Species-Specificity of Transcriptional Regulation and the Response to Lipopolysaccharide in Mammalian Macrophages.",
+          "authorString": "Bush SJ, McCulloch MEB, Lisowski ZM, Muriuki C, Clark EL, Young R, Pridans C, Prendergast JGD, Summers KM, Hume DA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bush SJ",
+                "lastName": "Bush",
+                "firstName": "Stephen J",
+                "initials": "SJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9341-2562"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Nuffield Department of Clinical Medicine, John Radcliffe Hospital, University of Oxford, Oxford, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "McCulloch MEB",
+                "lastName": "McCulloch",
+                "firstName": "Mary E B",
+                "initials": "MEB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Roslin Institute, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lisowski ZM",
+                "lastName": "Lisowski",
+                "firstName": "Zofia M",
+                "initials": "ZM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1323-9593"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Roslin Institute, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Muriuki C",
+                "lastName": "Muriuki",
+                "firstName": "Charity",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Roslin Institute, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Clark EL",
+                "lastName": "Clark",
+                "firstName": "Emily L",
+                "initials": "EL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9550-7407"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Roslin Institute, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Young R",
+                "lastName": "Young",
+                "firstName": "Rachel",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Roslin Institute, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pridans C",
+                "lastName": "Pridans",
+                "firstName": "Clare",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for Inflammation Research, The University of Edinburgh, Edinburgh, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Simons Initiative for the Developing Brain, Centre for Discovery Brain Sciences, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Prendergast JGD",
+                "lastName": "Prendergast",
+                "firstName": "James G D",
+                "initials": "JGD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8916-018X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Roslin Institute, The University of Edinburgh, Edinburgh, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Summers KM",
+                "lastName": "Summers",
+                "firstName": "Kim M",
+                "initials": "KM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7084-4386"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mater Research Institute-University of Queensland, Translational Research Institute, Woolloongabba, QLD, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hume DA",
+                "lastName": "Hume",
+                "firstName": "David A",
+                "initials": "DA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2615-1478"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Mater Research Institute-University of Queensland, Translational Research Institute, Woolloongabba, QLD, Australia."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8916-018X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9341-2562"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1323-9593"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2615-1478"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7084-4386"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9550-7407"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "8",
+            "journalIssueId": 2911890,
+            "dateOfPublication": "2020 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2020,
+            "journal": {
+              "medlineAbbreviation": "Front Cell Dev Biol",
+              "title": "Frontiers in cell and developmental biology",
+              "essn": "2296-634X",
+              "issn": "2296-634X",
+              "nlmid": "101630250",
+              "isoabbreviation": "Front Cell Dev Biol"
+            },
+            "printPublicationDate": "2020-01-01"
+          },
+          "pubYear": "2020",
+          "pageInfo": "661",
+          "abstractText": "Mammalian macrophages differ in their basal gene expression profiles and response to the toll-like receptor 4 (TLR4) agonist, lipopolysaccharide (LPS). In human macrophages, LPS elicits a temporal cascade of transient gene expression including feed forward activators and feedback regulators that limit the response. Here we present a transcriptional network analysis of the response of sheep bone marrow-derived macrophages (BMDM) to LPS based upon RNA-seq at 0, 2, 4, 7, and 24 h post-stimulation. The analysis reveals a conserved transcription factor network with humans, and rapid induction of feedback regulators that constrain the response at every level. The gene expression profiles of sheep BMDM at 0 and 7 h post LPS addition were compared to similar data obtained from goat, cow, water buffalo, horse, pig, mouse and rat BMDM. This comparison was based upon identification of 8,200 genes annotated in all species and detected at >10TPM in at least one sample. Analysis of expression of transcription factors revealed a conserved transcriptional millieu associated with macrophage differentiation and LPS response. The largest co-expression clusters, including genes encoding cell surface receptors, endosome-lysosome components and secretory activity, were also expressed in all species and the combined dataset defines a macrophage functional transcriptome. All of the large animals differed from rodents in lacking inducible expression of genes involved in arginine metabolism and nitric oxide production. Instead, they expressed inducible transporters and enzymes of tryptophan and kynurenine metabolism. BMDM from all species expressed high levels of transcripts encoding transporters and enzymes involved in glutamine metabolism suggesting that glutamine is a major metabolic fuel. We identify and discuss transcripts that were uniquely expressed or regulated in rodents compared to large animals including <i>ACOD1</i>, CXC and CC chemokines, <i>CD163</i>, <i>CLEC4E</i>, <i>CPM</i>, <i>CSF1</i>, <i>CSF2</i>, <i>CTSK</i>, <i>MARCO</i>, <i>MMP9</i>, <i>SLC2A3</i>, <i>SLC7A7</i>, and <i>SUCNR1</i>. Conversely, the data confirm the conserved regulation of multiple transcripts for which there is limited functional data from mouse models and knockouts. The data provide a resource for functional annotation and interpretation of loci involved in susceptibility to infectious and inflammatory disease in humans and large animal species.",
+          "affiliation": "Nuffield Department of Clinical Medicine, John Radcliffe Hospital, University of Oxford, Oxford, United Kingdom.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "grantId": "BB/L001209/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "acronym": "BB_",
+                "grantId": "BBS/E/D/20002174",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MR/K001744/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "grantId": "BB/J004243/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "acronym": "BB_",
+                "grantId": "BB/L004623/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "acronym": "BB_",
+                "grantId": "BBS/E/D/10002070",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "acronym": "BB_",
+                "grantId": "BBS/E/D/10002071",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Species",
+              "Macrophage",
+              "LPS",
+              "Conservation",
+              "Network",
+              "Feedback",
+              "Transcriptome"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.frontiersin.org/articles/10.3389/fcell.2020.00661/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fcell.2020.00661"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7386301"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7386301?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 28,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "ensembl",
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2020-08-15",
+          "dateOfRevision": "2025-05-30",
+          "electronicPublicationDate": "2020-07-21",
+          "firstPublicationDate": "2020-07-21",
+          "firstIndexDate": "2020-08-15",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "8409451",
+          "source": "MED",
+          "pmid": "8409451",
+          "doi": "10.4049/jimmunol.151.9.4973",
+          "title": "Regulation of mouse bone marrow macrophage mannose receptor expression and activation by prostaglandin E and IFN-gamma.",
+          "authorString": "Schreiber S, Perkins SL, Teitelbaum SL, Chappel J, Stahl PD, Blum JS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Schreiber S",
+                "lastName": "Schreiber",
+                "firstName": "S",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Gastroenterology, Washington University School of Medicine, St. Louis, MO 63110."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Perkins SL",
+                "lastName": "Perkins",
+                "firstName": "S L",
+                "initials": "SL"
+              },
+              {
+                "fullName": "Teitelbaum SL",
+                "lastName": "Teitelbaum",
+                "firstName": "S L",
+                "initials": "SL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4054-6679"
+                }
+              },
+              {
+                "fullName": "Chappel J",
+                "lastName": "Chappel",
+                "firstName": "J",
+                "initials": "J"
+              },
+              {
+                "fullName": "Stahl PD",
+                "lastName": "Stahl",
+                "firstName": "P D",
+                "initials": "PD"
+              },
+              {
+                "fullName": "Blum JS",
+                "lastName": "Blum",
+                "firstName": "J S",
+                "initials": "JS"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4054-6679"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "151",
+            "journalIssueId": 711306,
+            "dateOfPublication": "1993 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 1993,
+            "journal": {
+              "medlineAbbreviation": "J Immunol",
+              "title": "Journal of immunology (Baltimore, Md. : 1950)",
+              "essn": "1550-6606",
+              "issn": "0022-1767",
+              "nlmid": "2985117R",
+              "isoabbreviation": "J Immunol"
+            },
+            "printPublicationDate": "1993-11-01"
+          },
+          "pubYear": "1993",
+          "pageInfo": "4973-4981",
+          "abstractText": "The macrophage mannose receptor mediates the clearance of microorganisms and glycoproteins containing terminal mannose oligosaccharides. Cell surface expression of this receptor progresses with macrophage differentiation, and thus may be critical to the scavenger function of tissue and circulating macrophages. Bone marrow macrophages, which were used in this study, differentiate in culture and express functional mannose receptors. The cytokine IFN-gamma triggered activation of these macrophages and down-regulated cell surface expression of the mannose receptor after 48 h. Macrophage activation, as assessed by the generation of superoxide radicals, was inversely correlated with mannose receptor expression. The number of surface receptors was diminished by exposure to IFN-gamma, whereas the binding affinity of the mannose receptor remained unchanged. Treatment with IFN-gamma reduced receptor biosynthesis yet did not alter receptor degradation. Mannose receptor biosynthesis is up-regulated by PG of the E series, and these anti-inflammatory agents reversed the effects of IFN-gamma on receptor expression. Down-regulation of the mannose receptor by IFN-gamma was fully reversible by PGE, indicating that receptor levels are dependent on the functional state of the cell rather than being linked to terminal cell differentiation. The regulation of the receptor by cytokines and anti-inflammatory reagents suggests that the mannose receptor plays a critical role in macrophage scavenger functions and potentially in modulating inflammatory reactions.",
+          "affiliation": "Division of Gastroenterology, Washington University School of Medicine, St. Louis, MO 63110.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIDCR NIH HHS",
+                "acronym": "DE",
+                "grantId": "DE05413",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAMS NIH HHS",
+                "acronym": "AR",
+                "grantId": "AR32788",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI0015",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bone Marrow Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C3H"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Prostaglandins E",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lectins, C-Type"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mannose-Binding Lectins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Cell Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Division"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophage Activation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mannose Receptor"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "mannose receptor",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Prostaglandins E",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Cell Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Lectins, C-Type",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Mannose-Binding Lectins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "OpenAlex",
+                "url": "https://doi.org/10.4049/jimmunol.151.9.4973"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "www.jimmunol.org",
+                "url": "http://www.jimmunol.org/cgi/content/abstract/151/9/4973"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 27,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1993-11-17",
+          "dateOfCreation": "1993-11-01",
+          "dateOfRevision": "2021-12-03",
+          "firstPublicationDate": "1993-11-01",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "2104227",
+          "source": "MED",
+          "pmid": "2104227",
+          "doi": "10.1016/1043-4666(90)90026-p",
+          "title": "Lipopolysaccharide-induced production of cytokines by bone marrow-derived macrophages: dissociation between intracellular interleukin 1 production and interleukin 1 release.",
+          "authorString": "Aznar C, Fitting C, Cavaillon JM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Aznar C",
+                "lastName": "Aznar",
+                "firstName": "C",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 d'immuno-Allergie, Institut Pasteur, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fitting C",
+                "lastName": "Fitting",
+                "firstName": "C",
+                "initials": "C"
+              },
+              {
+                "fullName": "Cavaillon JM",
+                "lastName": "Cavaillon",
+                "firstName": "J M",
+                "initials": "JM"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "2",
+            "journalIssueId": 815478,
+            "dateOfPublication": "1990 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 1990,
+            "journal": {
+              "medlineAbbreviation": "Cytokine",
+              "title": "Cytokine",
+              "essn": "1096-0023",
+              "issn": "1043-4666",
+              "nlmid": "9005353",
+              "isoabbreviation": "Cytokine"
+            },
+            "printPublicationDate": "1990-07-01"
+          },
+          "pubYear": "1990",
+          "pageInfo": "259-265",
+          "abstractText": "We investigated the capacity of mouse bone marrow-derived macrophages (BMDM) to produce interleukin 1 (IL 1), interleukin-6 (IL 6), and tumor necrosis factor (TNF) upon lipopolysaccharide (LPS) stimulation. BMDM were allowed to differentiate either in the presence of conditioned medium (from WEHI-3 or L cells), or in the presence of recombinant cytokines (IL 3, macrophage-colony stimulating factor [M-CSF], or granulocyte/macrophage-colony stimulating factor [GM-CSF]). Cells were maintained in culture up to 3 weeks and tested at different times. Significant spontaneous cytokine production was never observed. BMDM rapidly acquired the capacity to elaborate cytokine upon LPS activation. LPS-triggered BMDM were able to produce IL 1, IL 6, and TNF, throughout the culture period, although 2- to 3-week-old cells lost their ability to release IL 1 while accumulation of intracellular IL 1 remained unchanged. The dissociation between synthesis and release of IL 1 was not correlated with a significant modification of the specific binding of LPS onto the cell surface.",
+          "affiliation": "Unit\u00e9 d'immuno-Allergie, Institut Pasteur, Paris, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bone Marrow Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytoplasm",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipopolysaccharides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tumor Necrosis Factor-alpha",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interleukin-1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interleukin-6",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Time Factors"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "In Vitro Techniques"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Lipopolysaccharides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interleukin-1",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Tumor Necrosis Factor-alpha",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interleukin-6",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/1043-4666(90)90026-p"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 19,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1991-10-22",
+          "dateOfCreation": "1990-07-01",
+          "dateOfRevision": "2019-10-29",
+          "firstPublicationDate": "1990-07-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "19404775",
+          "source": "MED",
+          "pmid": "19404775",
+          "pmcid": "PMC2717319",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2717319"
+            ]
+          },
+          "doi": "10.1007/s11302-009-9162-2",
+          "title": "Basal and inducible expression of the thiol-sensitive ART2.1 ecto-ADP-ribosyltransferase in myeloid and lymphoid leukocytes.",
+          "authorString": "Hong S, Brass A, Seman M, Haag F, Koch-Nolte F, Dubyak GR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hong S",
+                "lastName": "Hong",
+                "firstName": "Shiyuan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physiology and Biophysics, Case Western Reserve University School of Medicine, 10900 Euclid Avenue, Cleveland, OH, 44120, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Brass A",
+                "lastName": "Brass",
+                "firstName": "Anette",
+                "initials": "A"
+              },
+              {
+                "fullName": "Seman M",
+                "lastName": "Seman",
+                "firstName": "Michel",
+                "initials": "M"
+              },
+              {
+                "fullName": "Haag F",
+                "lastName": "Haag",
+                "firstName": "Friedrich",
+                "initials": "F"
+              },
+              {
+                "fullName": "Koch-Nolte F",
+                "lastName": "Koch-Nolte",
+                "firstName": "Friedrich",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1730-6674"
+                }
+              },
+              {
+                "fullName": "Dubyak GR",
+                "lastName": "Dubyak",
+                "firstName": "George R",
+                "initials": "GR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9720-4226"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9720-4226"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1730-6674"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "5",
+            "journalIssueId": 1639634,
+            "dateOfPublication": "2009 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2009,
+            "journal": {
+              "medlineAbbreviation": "Purinergic Signal",
+              "title": "Purinergic signalling",
+              "essn": "1573-9546",
+              "issn": "1573-9538",
+              "nlmid": "101250499",
+              "isoabbreviation": "Purinergic Signal"
+            },
+            "printPublicationDate": "2009-09-01"
+          },
+          "pubYear": "2009",
+          "pageInfo": "369-383",
+          "abstractText": "ADP-ribosylation of cell surface proteins in mammalian cells is a post-translational modification by which ecto-ADP-ribosyltransferases (ARTs) transfer ADP-ribose from extracellular NAD to protein targets. The ART2 locus at murine chromosome 7 encompasses the tandem Art2a and Art2b genes that encode the distinct ART2.1 and ART2.2 proteins. Although both ecto-enzymes share 80% sequence identity, ART2.1 activity is uniquely regulated by an allosteric disulfide bond that is reducible in the presence of extracellular thiols, such as cysteine and glutathione, that accumulate in hypoxic and ischemic tissues. Previous studies have characterized the expression of ART2.1 and ART2.2 in murine T lymphocytes but not in other major classes of lymphoid and myeloid leukocytes. Here, we describe the expression of ART2.1 activity in a wide range of freshly isolated or tissue-cultured murine myeloid and lymphoid leukocytes. Spleen-derived macrophages, dendritic cells (DC), and B cells constitutively express ART2.1 as their predominant ART while spleen T cells express both ART2.1 and the thiol-independent ART2.2 isoform. Although bone-marrow-derived macrophages (BMDM) and dendritic cells (BMDC) constitutively express ART2.1 at low levels, it is markedly up-regulated when these cells are stimulated in vitro with IFNbeta or IFNgamma. ART2.1 expression and activity in splenic B cells is modestly up-regulated during incubation in vitro for 24 h, a condition that promotes B cell apoptosis. This increase in ART2.1 is attenuated by IL-4 (a B cell survival factor), but is not affected by IFNbeta/gamma, suggesting a possible induction of ART2.1 as an ancillary response to B cell apoptosis. In contrast, ART2.1 and ART2.2, which are highly expressed in freshly isolated splenic T cells, are markedly down-regulated when purified T cells are incubated in vitro for 12-24 h. Studies with the BW5147 mouse thymocyte line verified basal expression of ART2.1 and ART2.2, as in primary spleen T cells, and demonstrated that both isoforms can be up-regulated when T cells are maintained in the presence of IFNs. Comparison of the surface proteins which are ADP-ribosylated by ART2.1 in the different leukocyte subtypes indicated both shared and cell-specific proteins as ART2.1 substrates. The LFA-1 integrin, a major target for ART2.2 in T cells, is also ADP-ribosylated by the ART2.1 expressed in macrophages. Thus, ART2.1, in contrast to ART2.2, is expressed in a broad range of myeloid and lymphoid leukocytes. The thiol redox-sensitive nature of this ecto-enzyme suggests an involvement in purinergic signaling that occurs in the combined context of inflammation and hypoxia/ischemia.",
+          "affiliation": "Department of Physiology and Biophysics, Case Western Reserve University School of Medicine, 10900 Euclid Avenue, Cleveland, OH, 44120, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R01 GM036387",
+                "orderIn": 0
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://europepmc.org/articles/pmc2717319?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2717319"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2717319"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2717319"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s11302-009-9162-2"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2717319"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2717319?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s11302-009-9162-2"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 19,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2011-07-14",
+          "dateOfCreation": "2009-05-01",
+          "dateOfRevision": "2021-10-20",
+          "electronicPublicationDate": "2009-04-30",
+          "firstPublicationDate": "2009-04-30",
+          "firstIndexDate": "2009-12-25",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "28802000",
+          "source": "MED",
+          "pmid": "28802000",
+          "doi": "10.1002/jcp.26147",
+          "title": "Pmepa1 induced by RANKL-p38 MAPK pathway has a novel role in osteoclastogenesis.",
+          "authorString": "Funakubo N, Xu X, Kukita T, Nakamura S, Miyamoto H, Kukita A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Funakubo N",
+                "lastName": "Funakubo",
+                "firstName": "Noboru",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine, Department of Pathology and Microbiology, Saga University, Saga, Japan."
+                    },
+                    {
+                      "affiliation": "Faculty of Dentistry, Department of Molecular Cell Biology & Oral Anatomy, Kyushu University, Maidashi, Fukuoka, Japan."
+                    },
+                    {
+                      "affiliation": "Faculty of Dentistry, Oral & Maxillofacial Oncology, Kyushu University, Maidashi, Fukuoka, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu X",
+                "lastName": "Xu",
+                "firstName": "Xianghe",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine, Department of Pathology and Microbiology, Saga University, Saga, Japan."
+                    },
+                    {
+                      "affiliation": "Faculty of Dentistry, Department of Molecular Cell Biology & Oral Anatomy, Kyushu University, Maidashi, Fukuoka, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kukita T",
+                "lastName": "Kukita",
+                "firstName": "Toshio",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Dentistry, Department of Molecular Cell Biology & Oral Anatomy, Kyushu University, Maidashi, Fukuoka, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nakamura S",
+                "lastName": "Nakamura",
+                "firstName": "Seiji",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Dentistry, Oral & Maxillofacial Oncology, Kyushu University, Maidashi, Fukuoka, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Miyamoto H",
+                "lastName": "Miyamoto",
+                "firstName": "Hiroshi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine, Department of Pathology and Microbiology, Saga University, Saga, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kukita A",
+                "lastName": "Kukita",
+                "firstName": "Akiko",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7516-104X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine, Department of Pathology and Microbiology, Saga University, Saga, Japan."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7516-104X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "233",
+            "journalIssueId": 2631821,
+            "dateOfPublication": "2018 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2018,
+            "journal": {
+              "medlineAbbreviation": "J Cell Physiol",
+              "title": "Journal of cellular physiology",
+              "essn": "1097-4652",
+              "issn": "0021-9541",
+              "nlmid": "0050222",
+              "isoabbreviation": "J Cell Physiol"
+            },
+            "printPublicationDate": "2018-04-01"
+          },
+          "pubYear": "2018",
+          "pageInfo": "3105-3118",
+          "abstractText": "Osteoclasts are multinucleated cells formed by fusion of preosteoclasts (POCs) derived from cells of the monocyte/macrophage lineage. We have reported a culture system that supports the formation of POCs from stroma-depleted rat bone marrow cells. Global gene expression analysis of this culture system identified genes highly expressed in POCs. Here, we have analyzed the expression and function of one of these highly expressed genes, prostate transmembrane protein androgen induced 1 (Pmepa1), a target of TGF-\u03b2 and binds Nedd4 ubiquitin ligase, which plays a role in intracellular trafficking. We show here that the expression of Pmepa1 was strongly induced by RANKL in mouse bone marrow macrophage and in the osteoclast precursor cell line RAW-D. The expression of Pmepa1 was increased at 24\u2009hr of culture, but was decreased at 72\u2009hr. Pmepa1 protein was localized to intracellular vesicle membrnane of mononuclear cells, some of which were cathepsin-K positive. RANKL-induced expression of Pmepa1 was significantly reduced by inhibitors of p38 MAPK signaling. Pmepa1 siRNA suppressed the formation of osteoclasts in RAW-D cells, and inhibited the expression of cathepsin K and c-fos but not RANK. In addition, inhibition of Pmepa1 expression reduced the surface expression of RANK in RAW-D cells induced by RANKL. These results demonstrate that Pmepa1 is induced by RANK-p38 MAPK pathway signaling, and upregulates cell surface expression of RANK, suggesting that Pmepa1 plays a role in osteoclastogenesis and osteoclast signaling.",
+          "affiliation": "Faculty of Medicine, Department of Pathology and Microbiology, Saga University, Saga, Japan.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Japan Society for the Promotion of Science",
+                "grantId": "JP5K11046",
+                "orderIn": 0
+              },
+              {
+                "agency": "Japan Society for the Promotion of Science",
+                "grantId": "JP24592806",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bone Marrow Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Subcellular Fractions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Osteoclasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats, Sprague-Dawley"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "p38 Mitogen-Activated Protein Kinases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transforming Growth Factor beta",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Small Interfering",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Differentiation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "MAP Kinase Signaling System",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Binding",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Osteogenesis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RANK Ligand",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interleukin-1beta",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nedd4 Ubiquitin Protein Ligases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "MAPK",
+              "Osteoclast",
+              "Rankl",
+              "Osteoclastogenesis",
+              "Pmepa1"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transforming Growth Factor beta",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Small Interfering",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RANK ligand",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interleukin-1beta",
+                "registryNumber": "0"
+              },
+              {
+                "name": "p38 Mitogen-Activated Protein Kinases",
+                "registryNumber": "EC 2.7.11.24"
+              },
+              {
+                "name": "Nedd4 Ubiquitin Protein Ligases",
+                "registryNumber": "EC 2.3.2.26"
+              },
+              {
+                "name": "Pmepa1 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nedd4 protein, mouse",
+                "registryNumber": "EC 2.3.2.26"
+              },
+              {
+                "name": "Pmepa1 protein, rat",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/jcp.26147"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 16,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2018-12-11",
+          "dateOfCreation": "2017-08-13",
+          "dateOfRevision": "2019-01-07",
+          "electronicPublicationDate": "2017-09-20",
+          "firstPublicationDate": "2017-09-20",
+          "firstIndexDate": "2017-08-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "10614778",
+          "source": "MED",
+          "pmid": "10614778",
+          "doi": "10.1002/jlb.66.6.961",
+          "title": "Surface interleukin-10 inhibits listericidal activity by primary macrophages.",
+          "authorString": "Fleming SD, Leenen PJ, Freed JH, Campbell PA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Fleming SD",
+                "lastName": "Fleming",
+                "firstName": "S D",
+                "initials": "SD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, National Jewish Medical and Research Center, University of Colorado Health Science Center, Denver, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Leenen PJ",
+                "lastName": "Leenen",
+                "firstName": "P J",
+                "initials": "PJ"
+              },
+              {
+                "fullName": "Freed JH",
+                "lastName": "Freed",
+                "firstName": "J H",
+                "initials": "JH"
+              },
+              {
+                "fullName": "Campbell PA",
+                "lastName": "Campbell",
+                "firstName": "P A",
+                "initials": "PA"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "66",
+            "journalIssueId": 987460,
+            "dateOfPublication": "1999 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 1999,
+            "journal": {
+              "medlineAbbreviation": "J Leukoc Biol",
+              "title": "Journal of leukocyte biology",
+              "essn": "1938-3673",
+              "issn": "0741-5400",
+              "nlmid": "8405628",
+              "isoabbreviation": "J Leukoc Biol"
+            },
+            "printPublicationDate": "1999-12-01"
+          },
+          "pubYear": "1999",
+          "pageInfo": "961-967",
+          "abstractText": "Interleukin-10 (IL-10) down-regulates multiple functions of monocytes and macrophages, including the ability of macrophages to kill many intracellular microorganisms. The experiments presented here test the hypothesis that IL-10 expressed on the cell surface inhibits the ability of primary mouse macrophages to kill the facultative, intracellular bacterium Listeria monocytogenes. We show that, in contrast to macrophages from normal mice, both bone marrow-derived macrophages (BMDM) and thioglycollate-elicited macrophages obtained from IL-10-/- mice can kill L. monocytogenes. Treatment with anti-IL-10 monoclonal antibody (mAb) enables BMDM from normal mice and thioglycollate-elicited macrophages from RAG-2-/- mice (which lack T or B cell-derived IL-10) to kill L. monocytogenes, and concurrently down-regulates the expression of surface IL-10. Surface IL-10 on paraformaldehyde-fixed cells can inhibit nitric oxide (NO) production by interferon-gamma (IFN-gamma)-stimulated macrophages from IL-10-/- mice, thus directly showing functional activity of surface IL-10. Taken together, these studies indicate that macrophage surface IL-10 is biologically active and down-regulates macrophage bactericidal activity.",
+          "affiliation": "Department of Medicine, National Jewish Medical and Research Center, University of Colorado Health Science Center, Denver, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI11240",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI38407",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bone Marrow Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages, Peritoneal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred DBA"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Listeria monocytogenes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nitric Oxide",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Thioglycolates",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA-Binding Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interleukin-10",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Monoclonal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Down-Regulation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Thioglycolates",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Monoclonal",
+                "registryNumber": "0"
+              },
+              {
+                "name": "DNA-Binding Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interleukin-10",
+                "registryNumber": "130068-27-8"
+              },
+              {
+                "name": "Rag2 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "V(D)J recombination activating protein 2",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              },
+              {
+                "name": "Nitric Oxide",
+                "registryNumber": "31C4KY9ESH"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "www.jleukbio.org",
+                "url": "http://www.jleukbio.org/cgi/content/abstract/66/6/961"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/jlb.66.6.961"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 14,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2000-01-13",
+          "dateOfCreation": "1999-12-30",
+          "dateOfRevision": "2019-05-16",
+          "firstPublicationDate": "1999-12-01",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

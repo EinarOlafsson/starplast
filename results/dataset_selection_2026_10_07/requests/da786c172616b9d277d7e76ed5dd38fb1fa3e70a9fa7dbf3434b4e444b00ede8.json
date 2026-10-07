@@ -1,0 +1,2980 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:41.372808+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 3592,
+    "nextCursorMark": "AoJwwMGd9aADKDU2NTM0OTU4",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwwMGd9aADKDU2NTM0OTU4&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:(\"proteome\" OR \"proteomics\" OR \"mass spectrometry\") AND TITLE_ABS:(\"brain\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42649352",
+          "source": "MED",
+          "pmid": "42649352",
+          "pmcid": "PMC13518552",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13518552"
+            ]
+          },
+          "doi": "10.1002/glia.70218",
+          "title": "Pathogenic Variants in HEPACAM Alter Protein Localization and Interactome in Astrocytes of the Developing Mouse Cortex.",
+          "authorString": "Lewis RW, Dogan BC, Stanek AL, Evans EB, Coble MG, Spence-Osorio HE, Farizatto KLG, Mordant AL, Mills CA, Herring LE, Baldwin KT.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lewis RW",
+                "lastName": "Lewis",
+                "firstName": "Robert W",
+                "initials": "RW",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-0085-8385"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dogan BC",
+                "lastName": "Dogan",
+                "firstName": "Breana C",
+                "initials": "BC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Stanek AL",
+                "lastName": "Stanek",
+                "firstName": "Amy L",
+                "initials": "AL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Evans EB",
+                "lastName": "Evans",
+                "firstName": "Elliot B",
+                "initials": "EB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-6339-969X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cell Biology and Physiology, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coble MG",
+                "lastName": "Coble",
+                "firstName": "Madelyn G",
+                "initials": "MG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0001-5394-924X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Spence-Osorio HE",
+                "lastName": "Spence-Osorio",
+                "firstName": "Hayli E",
+                "initials": "HE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9565-5856"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Farizatto KLG",
+                "lastName": "Farizatto",
+                "firstName": "Karen L G",
+                "initials": "KLG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mordant AL",
+                "lastName": "Mordant",
+                "firstName": "Angie L",
+                "initials": "AL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Metabolomics and Proteomics Core Facility, Department of Pharmacology, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mills CA",
+                "lastName": "Mills",
+                "firstName": "C Allie",
+                "initials": "CA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Metabolomics and Proteomics Core Facility, Department of Pharmacology, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Herring LE",
+                "lastName": "Herring",
+                "firstName": "Laura E",
+                "initials": "LE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4496-7312"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Metabolomics and Proteomics Core Facility, Department of Pharmacology, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Baldwin KT",
+                "lastName": "Baldwin",
+                "firstName": "Katherine T",
+                "initials": "KT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4423-5712"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    },
+                    {
+                      "affiliation": "Department of Cell Biology and Physiology, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4423-5712"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9565-5856"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4496-7312"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0001-5394-924X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-0085-8385"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-6339-969X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "11",
+            "volume": "74",
+            "journalIssueId": 4249840,
+            "dateOfPublication": "2026 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Glia",
+              "title": "Glia",
+              "essn": "1098-1136",
+              "issn": "0894-1491",
+              "nlmid": "8806785",
+              "isoabbreviation": "Glia"
+            },
+            "printPublicationDate": "2026-11-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e70218",
+          "abstractText": "Megalencephalic leukoencephalopathy with subcortical cysts (MLC) is a rare leukodystrophy characterized by early-onset macrocephaly, white matter edema, seizures, and motor and cognitive decline. Approximately 25% of MLC patients carry HEPACAM pathogenic variants, many of which are dominant missense variants causing remitting MLC Type 2b. HEPACAM encodes hepatic and glial cell adhesion molecule (hepaCAM), also known as GlialCAM, an astrocyte-enriched transmembrane protein with important roles in astrocyte territory establishment, gap junction coupling, branching organization, synaptic function, and development of the gliovascular unit. The molecular mechanisms through which pathogenic variants in HEPACAM alter hepaCAM protein function in\u00a0vivo and facilitate MLC pathogenesis during brain development remain largely unknown. Here, we used new viral tools and proximity-based proteomics to examine how three different dominant pathogenic variants alter hepaCAM subcellular localization and protein interactome in astrocytes of the developing mouse cortex. We found dramatic changes in hepaCAM distribution throughout the astrocyte, which were common to all mutants tested. We also observed significant changes in protein interactome between wild type and mutant hepaCAM, including decreased association with previously described hepaCAM-interacting proteins Connexin 43 and CLC-2. Moreover, we identified the epilepsy-associate potassium channel KCNQ2 as a novel hepaCAM interaction partner and found reduced association between KCNQ2 and pathogenic variants. Collectively, our data provide new insights into hepaCAM protein function in astrocytes during brain development, reveal altered protein dynamics of pathogenic variants, and provide a new resource to explore the molecular underpinnings of MLC pathogenesis.",
+          "affiliation": "Neuroscience Center, University of North Carolina at Chapel Hill, Chapel Hill, North Carolina, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "1S10OD030300",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "DP2 NS136873",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "1S10OD030300",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "DP2NS136873",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "DP2NS136873",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "U24NS124025",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "2P30CA016086-45",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "P30CA016086",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "T32 NS007431",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "T32NS007431",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "P30 CA016086",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "P50HD103573",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "OD",
+                "grantId": "S10 OD030300",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "T32NS007431",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "P30CA016086",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "U24 NS124025",
+                "orderIn": 0
+              },
+              {
+                "agency": "NICHD NIH HHS",
+                "acronym": "HD",
+                "grantId": "P50 HD103573",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "P50HD103573",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "2P30CA016086\u201045",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "U24NS124025",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cerebral Cortex",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Astrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cysts"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Hereditary Central Nervous System Demyelinating Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle Proteins"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Adhesion Molecules, Neuron-Glia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nerve Tissue Proteins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mutation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Development",
+              "Astrocyte",
+              "Proteomics",
+              "Leukodystrophy",
+              "Hepacam"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Nerve Tissue Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cell Cycle Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cell Adhesion Molecules, Neuron-Glia",
+                "registryNumber": "0"
+              },
+              {
+                "name": "HEPACAM protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "GlialCAM protein, mouse",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/glia.70218"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13518552"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13518552?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "40894676",
+                "reference": "bioRxiv. 2025 Aug 18:2025.08.13.670215. doi: 10.1101/2025.08.13.670215.",
+                "type": "Update of",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-08-26",
+          "dateOfCreation": "2026-08-26",
+          "dateOfRevision": "2026-09-25",
+          "firstPublicationDate": "2026-11-01",
+          "firstIndexDate": "2026-08-27",
+          "fullTextReceivedDate": "2026-09-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41968871",
+          "source": "MED",
+          "pmid": "41968871",
+          "pmcid": "PMC13629648",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13629648"
+            ]
+          },
+          "doi": "10.1097/rli.0000000000001280",
+          "title": "EPR-based Assessment of Gadolinium-based Contrast Agent Retention and Gadolinium Transchelation in Inflamed Murine Brain.",
+          "authorString": "Anderhalten L, H\u00f6fer N, Dymnikova D, Hahndorf J, Taupitz M, Traub H, Teutloff C, Infante-Duarte C, Bittl R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Anderhalten L",
+                "lastName": "Anderhalten",
+                "firstName": "Lina",
+                "initials": "L"
+              },
+              {
+                "fullName": "H\u00f6fer N",
+                "lastName": "H\u00f6fer",
+                "firstName": "Nicole",
+                "initials": "N"
+              },
+              {
+                "fullName": "Dymnikova D",
+                "lastName": "Dymnikova",
+                "firstName": "Daria",
+                "initials": "D"
+              },
+              {
+                "fullName": "Hahndorf J",
+                "lastName": "Hahndorf",
+                "firstName": "Julia",
+                "initials": "J"
+              },
+              {
+                "fullName": "Taupitz M",
+                "lastName": "Taupitz",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2994-8263"
+                }
+              },
+              {
+                "fullName": "Traub H",
+                "lastName": "Traub",
+                "firstName": "Heike",
+                "initials": "H"
+              },
+              {
+                "fullName": "Teutloff C",
+                "lastName": "Teutloff",
+                "firstName": "Christian",
+                "initials": "C"
+              },
+              {
+                "fullName": "Infante-Duarte C",
+                "lastName": "Infante-Duarte",
+                "firstName": "Carmen",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3005-351X"
+                }
+              },
+              {
+                "fullName": "Bittl R",
+                "lastName": "Bittl",
+                "firstName": "Robert",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4103-3768"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2994-8263"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3005-351X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4103-3768"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "11",
+            "volume": "61",
+            "journalIssueId": 4276404,
+            "dateOfPublication": "2026 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Invest Radiol",
+              "title": "Investigative radiology",
+              "essn": "1536-0210",
+              "issn": "0020-9996",
+              "nlmid": "0045377",
+              "isoabbreviation": "Invest Radiol"
+            },
+            "printPublicationDate": "2026-11-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "753-765",
+          "abstractText": "<h4>Objectives</h4>In view of the mounting evidence for markedly increased cerebellar Gd retention under neuroinflammatory conditions after repeated linear GBCA administration in vivo , we aimed to discriminate between Gd retained within the GBCA complex and forms dissociated from the complex within the CNS and to characterize the chemical environment of the released Gd\u00b3\u207a. For this purpose, we used electron paramagnetic resonance (EPR) spectroscopy, which enables direct detection of Gd\u00b3\u207a release and evaluation of its molecular surroundings in intact cerebellar tissue from inflamed and noninflamed brain sections exposed to either linear or macrocyclic GBCAs.<h4>Materials and methods</h4>We performed EPR and electron-nuclear double resonance (ENDOR) experiments on sub-mm brain samples taken after administration of linear gadopentetate-dimeglumine and macrocyclic gadobutrol in vivo in a murine multiple sclerosis model and ex vivo in organotypic hippocampal slice cultures under inflammatory conditions. Complementary mass spectrometry (MS) and MRI calibration experiments on Gd-spiked homogenized mouse brain tissue were used to identify potential Gd bindings and assess the relaxation-active fraction of retained Gd.<h4>Results</h4>EPR detected \u00b5M range Gd levels in intact cerebellar biopsies and slices and distinguished between complex-bound and released Gd following linear GBCA administration in vivo . In biopsies, we detected by ENDOR phosphorus-containing molecules in the microenvironment of released Gd. Binding to inorganic ligands was evidenced using MS and MRI calibration experiments in homogenized mouse brain tissue.<h4>Conclusions</h4>EPR and ENDOR proved to be sensitive methods for detecting Gd\u00b3\u207a release and characterizing retained Gd species within intact brain tissue. Our findings demonstrate inflammation-promoted Gd retention, underscore the importance of integrating in vivo and ex vivo analyses to unravel mechanisms of long-term Gd retention, and suggest that conventional MRI may underestimate the true extent of Gd accumulation, especially under neuroinflammatory conditions.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cerebellum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gadolinium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PK",
+                      "qualifierName": "pharmacokinetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gadolinium DTPA",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PK",
+                      "qualifierName": "pharmacokinetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Organometallic Compounds",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PK",
+                      "qualifierName": "pharmacokinetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Contrast Media",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PK",
+                      "qualifierName": "pharmacokinetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Magnetic Resonance Imaging"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Electron Spin Resonance Spectroscopy",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Multiple sclerosis",
+              "Electron paramagnetic resonance",
+              "Magnetic Resonance Imaging",
+              "experimental autoimmune encephalomyelitis",
+              "neuroinflammation",
+              "Organotypic Hippocampal Slice Cultures",
+              "Gadolinium-based Contrast Agents",
+              "Gadolinium Retention",
+              "Phosphate Interaction",
+              "Laser Ablation Inductively Coupled Plasma Mass Spectrometry"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Contrast Media",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Organometallic Compounds",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Gadolinium",
+                "registryNumber": "AU0V1LM3JT"
+              },
+              {
+                "name": "Gadolinium DTPA",
+                "registryNumber": "K2I13DR72L"
+              },
+              {
+                "name": "gadobutrol",
+                "registryNumber": "1BJ477IO2L"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1097/RLI.0000000000001280"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13629648"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13629648?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-10-02",
+          "dateOfCreation": "2026-04-13",
+          "dateOfRevision": "2026-10-03",
+          "electronicPublicationDate": "2026-11-01",
+          "firstPublicationDate": "2026-11-01",
+          "firstIndexDate": "2026-04-13",
+          "fullTextReceivedDate": "2026-10-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1335309",
+          "source": "PPR",
+          "doi": "10.64898/2026.10.05.756840",
+          "title": "Bioreactor cultures of brain endothelial cells produce extracellular vesicles with comparable characteristics as that of batch cultures",
+          "authorString": "Govindaswamy B, Lu C, Achanta N, Chen EY, Rebeles K, Pinky PP, Basudkar V, Parween F, Soundara Manickam D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Govindaswamy B",
+                "lastName": "Govindaswamy",
+                "firstName": "Balaji",
+                "initials": "B"
+              },
+              {
+                "fullName": "Lu C",
+                "lastName": "Lu",
+                "firstName": "Chia-Chen",
+                "initials": "C"
+              },
+              {
+                "fullName": "Achanta N",
+                "lastName": "Achanta",
+                "firstName": "Nikhila",
+                "initials": "N"
+              },
+              {
+                "fullName": "Chen EY",
+                "lastName": "Chen",
+                "firstName": "Edward",
+                "initials": "EY"
+              },
+              {
+                "fullName": "Rebeles K",
+                "lastName": "Rebeles",
+                "firstName": "Kristen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Pinky PP",
+                "lastName": "Pinky",
+                "firstName": "Paromita Paul",
+                "initials": "PP"
+              },
+              {
+                "fullName": "Basudkar V",
+                "lastName": "Basudkar",
+                "firstName": "Vivek",
+                "initials": "V"
+              },
+              {
+                "fullName": "Parween F",
+                "lastName": "Parween",
+                "firstName": "Fauzia",
+                "initials": "F"
+              },
+              {
+                "fullName": "Soundara Manickam D",
+                "lastName": "Soundara Manickam",
+                "firstName": "Devika",
+                "initials": "D"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Our prior works have demonstrated the therapeutic potential extracellular vesicles (EVs) derived from batch cultures of brain endothelial cells (BECs) owing to their ability to transfer mitochondria to injured recipient cells. However, conventional batch/flask cultures limit scalable and reproducible production of EVs. Here, we evaluated a CELLine AD1000 bioreactor as a platform for sustained production of EVs from mouse b.End3 BECs and compared bioreactor-derived (BR) EVs with EVs obtained conventional batch cultures (BT). Large EVs (lEVs) and small (sEVs) were isolated using a sequential centrifugation protocol and were characterized using dynamic light scattering, nanoparticle tracking analysis, microBCA assay, western blotting, proteomics analysis, and their ability to rescue bioenergetics in oxygen-glucose deprived (OGD) BECs. Bioreactor cultures maintained high cell viabilities (~90%) for up to eight weeks and produced approximately three- to four-fold greater EV protein yields than batch cultures. BR EVs showed reproducible particle characteristics consistent with EV subtypes derived from BT cultures. CD63, CD9 and Arf6 were detected in EV fractions, whereas the mitochondrial outer-membrane protein TOMM20 was enriched in lEVs. Proteomic analyses revealed that bioreactor-derived lEVs retained the mitochondrial cargo signature observed in batch-derived lEVs. Both bioreactor and batch EVs restored relative ATP levels in ODG-exposed BECs. These findings suggest that bioreactor BEC cultures are a scalable approach for generating functionally active BEC-EVs for downstream characterization and therapeutic development.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.10.05.756840"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-07",
+          "firstPublicationDate": "2026-10-06",
+          "firstIndexDate": "2026-10-07",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42828701",
+          "source": "MED",
+          "pmid": "42828701",
+          "doi": "10.1007/s12031-026-02607-9",
+          "title": "Collagen Triple Helix Repeat Containing 1 (CTHRC1) in the Nervous System: Expression, Signaling Mechanisms, and Functional Implications.",
+          "authorString": "Lei Y, Luo Y, Li L.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lei Y",
+                "lastName": "Lei",
+                "firstName": "Yingying",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, The Second Clinical Medical College, Ningxia Medical University, Yinchuan, 750000, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Luo Y",
+                "lastName": "Luo",
+                "firstName": "Yuxi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Oncology, National Cancer Center/National Clinical Research Center for Cancer/Cancer Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College, Beijing, 100021, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li L",
+                "lastName": "Li",
+                "firstName": "Ling",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-1861-4646"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, The Second Affiliated Hospital of Ningxia Medical University, Yinchuan First People's Hospital, Yinchuan, 750000, China. 13895074530@163.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0009-0005-1861-4646"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "76",
+            "journalIssueId": 4276897,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Mol Neurosci",
+              "title": "Journal of molecular neuroscience : MN",
+              "essn": "1559-1166",
+              "issn": "0895-8696",
+              "nlmid": "9002991",
+              "isoabbreviation": "J Mol Neurosci"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "148",
+          "abstractText": "Collagen triple helix repeat containing 1 (CTHRC1) is a secreted extracellular matrix (ECM)-associated protein involved in tissue remodeling, fibrosis, and cancer, but its functions in the nervous system remain incompletely defined. Evidence from peripheral nerve, brain tumor, neurodegeneration, and regeneration models suggests that CTHRC1 may exert context-dependent effects across neural and stromal cell populations. In Schwann cells, CTHRC1 regulates proliferation, migration, and the timing of myelination, whereas in glioma it promotes invasive behavior and treatment-resistant phenotypes. Human cortical proteomics, mouse-model studies, systems genetics, and a neuronal cell model associate CTHRC1 with Alzheimer's disease-related phenotypes, although bulk tissue does not identify the cellular source and a small cerebrospinal fluid cohort showed no significant change. Temporally resolved single-cell analysis in zebrafish identified a transient cthrc1a-expressing fibroblast state required for coordinated inflammatory dynamics during regeneration; an equivalent mammalian mechanism has not been established. Evidence connecting CTHRC1 to synaptic regulation, neuroprotection, Parkinson's disease, and cerebrovascular repair is still preliminary. Wnt, TGF-\u03b2/Smad, PI3K/AKT, and MAPK/ERK pathways provide candidate mechanisms, but many were characterized outside normal neural cells. This review critically evaluates the evidence by model and cell type and discusses biomarker and therapeutic prospects, including delivery, specificity, and safety constraints.",
+          "affiliation": "Department of Neurology, The Second Clinical Medical College, Ningxia Medical University, Yinchuan, 750000, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Natural Science Foundation of Ningxia Province",
+                "grantId": "2024AAC03777",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Extracellular Matrix Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Signal Transduction"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Nervous system",
+              "Alzheimer's disease",
+              "Glioma",
+              "Biomarker",
+              "Schwann cells",
+              "Cthrc1"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Extracellular Matrix Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "CTHRC1 protein, human",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s12031-026-02607-9"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-10-03",
+          "dateOfCreation": "2026-10-03",
+          "dateOfRevision": "2026-10-03",
+          "electronicPublicationDate": "2026-10-03",
+          "firstPublicationDate": "2026-10-03",
+          "firstIndexDate": "2026-10-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42830640",
+          "source": "MED",
+          "pmid": "42830640",
+          "pmcid": "PMC13635760",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13635760"
+            ]
+          },
+          "doi": "10.1002/cmdc.70525",
+          "title": "Discrepancy in Reported and Observed Monoacylglycerol Lipase Inhibition of Aryl Formyl Piperidine Containing Potent and Highly Selective Monoacylglycerol Lipase Inhibitor. ",
+          "authorString": "Savinainen JR, Singh PK, Yli-Kauhaluoma J, Patel JZ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Savinainen JR",
+                "lastName": "Savinainen",
+                "firstName": "Juha R",
+                "initials": "JR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1301-9064"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Biomedicine, School of Medicine, Faculty of Health Sciences, University of Eastern Finland, Kuopio, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singh PK",
+                "lastName": "Singh",
+                "firstName": "Praveen Kumar",
+                "initials": "PK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0007-9832-487X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yli-Kauhaluoma J",
+                "lastName": "Yli-Kauhaluoma",
+                "firstName": "Jari",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0370-7653"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Patel JZ",
+                "lastName": "Patel",
+                "firstName": "Jayendra Z",
+                "initials": "JZ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2562-1888"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1301-9064"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2562-1888"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0370-7653"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0007-9832-487X"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "19",
+            "volume": "21",
+            "journalIssueId": 4272668,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "ChemMedChem",
+              "title": "ChemMedChem",
+              "essn": "1860-7187",
+              "issn": "1860-7179",
+              "nlmid": "101259013",
+              "isoabbreviation": "ChemMedChem"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e70525",
+          "abstractText": "Zhi et al. reported compound 36 as a potent reversible inhibitor of human recombinant monoacylglycerol lipase (hrMAGL; IC50\u2009=\u200915\u2009nM) with excellent selectivity over other targets. To develop potential PET tracers for imaging MAGL, we synthesized compound 36 as a reference compound. Surprisingly, we observed a significant discrepancy between the reported potency and our findings in two well-established in vitro assays. Compound 36 exhibited no inhibition of endocannabinoid hydrolysis in HEK293 lysates overexpressing human MAGL in a glycerol-based assay at 1\u2009\u03bcM. In the competitive ABPP assay, it appeared completely inactive inhibiting MAGL in mouse whole-brain proteome even at 100\u2009\u03bcM. In addition, eight structural analogs (2-9) of compound 36 also failed to show any significant MAGL inhibition. Interestingly, when the synthetic substrate 4-nitrophenyl acetate, also used by Zhi et al., was employed, compound 36 inhibited MAGL more effectively than in glycerol-based assay, with an IC50 value of 143\u2009nM, being almost 10-fold less potent than reported. In our reversibility assay, compound 36 exhibited measurable MAGL inhibition only at a concentration of 100\u2009\u03bcM. In summary, this study contradicts the earlier report and therefore, compound 36 should be used with caution as a research tool in studies exploring MAGL inhibition.",
+          "affiliation": "Institute of Biomedicine, School of Medicine, Faculty of Health Sciences, University of Eastern Finland, Kuopio, Finland.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "IM",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "EDUFI funding",
+                "grantId": "TM-18-11003",
+                "orderIn": 0
+              },
+              {
+                "agency": "Academy of Finland",
+                "grantId": "322724",
+                "orderIn": 0
+              },
+              {
+                "agency": "Tampereen Tuberkuloosis\u00e4\u00e4ti\u00f6",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Piperidines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CS",
+                      "qualifierName": "chemical synthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Monoacylglycerol Lipases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Enzyme Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CS",
+                      "qualifierName": "chemical synthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Structure"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Structure-Activity Relationship"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dose-Response Relationship, Drug"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Piperidines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Enzyme Inhibitors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Monoacylglycerol Lipases",
+                "registryNumber": "EC 3.1.1.23"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/cmdc.70525"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13635760"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13635760?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-10-05",
+          "dateOfCreation": "2026-10-05",
+          "dateOfRevision": "2026-10-05",
+          "firstPublicationDate": "2026-10-01",
+          "firstIndexDate": "2026-10-05",
+          "fullTextReceivedDate": "2026-10-06",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42822611",
+          "source": "MED",
+          "pmid": "42822611",
+          "doi": "10.1016/j.jep.2026.122454",
+          "title": "Protocatechualdehyde ameliorates temporal lobe epilepsy via synergistic regulation of HMGB1-TLR4-NF-\u03baB pathway and metabolic reprogramming.",
+          "authorString": "Chen X, Tian R, Zhang S, Wei C, Zhao Z, Wang Y, Zhou D, Hu J, Shen R, Deng N, He X, Bian Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Chen X",
+                "lastName": "Chen",
+                "firstName": "Xufei",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian R",
+                "lastName": "Tian",
+                "firstName": "Ruoshi",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Bioengineering, Zunyi Medical University, Zhuhai, Guangdong 519041, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang S",
+                "lastName": "Zhang",
+                "firstName": "Shan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wei C",
+                "lastName": "Wei",
+                "firstName": "Cuntao",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao Z",
+                "lastName": "Zhao",
+                "firstName": "Zeyuan",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang Y",
+                "lastName": "Wang",
+                "firstName": "Yue",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou D",
+                "lastName": "Zhou",
+                "firstName": "Dandan",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hu J",
+                "lastName": "Hu",
+                "firstName": "Jiaqing",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Bioengineering, Zunyi Medical University, Zhuhai, Guangdong 519041, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shen R",
+                "lastName": "Shen",
+                "firstName": "Rui",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Deng N",
+                "lastName": "Deng",
+                "firstName": "Nan",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instrumental Analysis Center, Xi'an Jiaotong University, Xi'an, Shaanxi 710049, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "He X",
+                "lastName": "He",
+                "firstName": "Xirui",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Bioengineering, Zunyi Medical University, Zhuhai, Guangdong 519041, China. Electronic address: xiruihe6105194@163.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bian Y",
+                "lastName": "Bian",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China. Electronic address: bianyy@nwu.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4276083,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Ethnopharmacol",
+              "title": "Journal of ethnopharmacology",
+              "essn": "1872-7573",
+              "issn": "0378-8741",
+              "nlmid": "7903310",
+              "isoabbreviation": "J Ethnopharmacol"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "122454",
+          "abstractText": "<h4>Ethnopharmacological relevance</h4>Temporal lobe epilepsy (TLE) is the most prevalent subtype of epilepsy, characterized by recurrent spontaneous seizures. Gastrodia elata Blume, a classic traditional Chinese medicinal herb, has long been clinically applied for the intervention of neurological disorders including epilepsy. However, its key bioactive components and definite pharmacological mechanisms against TLE remain poorly clarified.<h4>Aim of the study</h4>This study was designed to screen effective anticonvulsant active ingredients from G. elata Blume, and further explore the therapeutic efficacy and potential molecular mechanisms of protocatechualdehyde against TLE.<h4>Material and methods</h4>Maximal electroshock seizure (MES) and pentylenetetrazole (PTZ)-induced acute seizure models were adopted to screen six phenolic active constituents from G. elata Blume. A lithium-pilocarpine-induced chronic TLE mouse model was established to assess the in vivo antiepileptic efficacy of protocatechualdehyde. Behavioral tests were carried out to monitor seizure manifestations and cognitive alterations. Furthermore, a combined strategy integrating network pharmacology, molecular docking, proteomics, serum metabolomics, and molecular biology experiments was applied to explore the underlying pharmacological mechanisms of protocatechualdehyde against TLE.<h4>Results</h4>Protocatechualdehyde was screened out as the component with the strongest anticonvulsant activity. After 28 days of continuous intraperitoneal injection intervention, different doses of protocatechualdehyde significantly reduced seizure frequency and duration in TLE mice, ameliorated cognitive impairment, and effectively corrected hippocampal disorders in neurotransmitter and amino acid metabolism as well as cerebral energy and glucose metabolism. In addition, protocatechualdehyde inhibited the abnormal activation of microglia and astrocytes in a dose-dependent manner. Mechanically, it blocked HMGB1 nuclear export, and further inhibited the excessive activation of downstream TLR4-NF-\u03baB inflammatory signaling pathway.<h4>Conclusions</h4>Protocatechualdehyde alleviates TLE-induced neuroinflammation and metabolic dysfunction via indirect modulation of the HMGB1-TLR4-NF-\u03baB signaling cascade, accompanied by suppression of glial overactivation and restoration of brain metabolic homeostasis, which is expected to become a promising candidate agent for the treatment of TLE.",
+          "affiliation": "Key Laboratory of Resource Biology and Modern Biotechnology in Western China, College of Life Science, Northwest University, Xi'an, Shaanxi 710069, China.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Temporal lobe epilepsy",
+              "Gastrodia elata blume",
+              "Metabolic Reprogramming",
+              "Multi-omics",
+              "Protocatechualdehyde",
+              "Hmgb1-tlr4-nf-\u03bab Pathway"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jep.2026.122454"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-10-01",
+          "firstPublicationDate": "2026-10-01",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42697958",
+          "source": "MED",
+          "pmid": "42697958",
+          "pmcid": "PMC13633120",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13633120"
+            ]
+          },
+          "doi": "10.1038/s41593-026-02463-1",
+          "title": "Author Correction: Choroid plexus apocrine secretion shapes CSF proteome during mouse brain development.",
+          "authorString": "Courtney Y, Head JP, Dani N, Chechneva OV, Shipley FB, Zhang Y, Holtzman MJ, Sadegh C, Libermann TA, Lehtinen MK.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Courtney Y",
+                "lastName": "Courtney",
+                "firstName": "Ya'el",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4562-500X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, MA, USA."
+                    },
+                    {
+                      "affiliation": "Graduate Program in Neuroscience, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Head JP",
+                "lastName": "Head",
+                "firstName": "Joshua P",
+                "initials": "JP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dani N",
+                "lastName": "Dani",
+                "firstName": "Neil",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, MA, USA."
+                    },
+                    {
+                      "affiliation": "Department of Cell and Developmental Biology, Vanderbilt University, Nashville, TN, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chechneva OV",
+                "lastName": "Chechneva",
+                "firstName": "Olga V",
+                "initials": "OV",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, University of California, Davis, Sacramento, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shipley FB",
+                "lastName": "Shipley",
+                "firstName": "Frederick B",
+                "initials": "FB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, MA, USA."
+                    },
+                    {
+                      "affiliation": "Graduate Program in Biophysics, Harvard University, Cambridge, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yong",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pulmonary and Critical Care Medicine, Department of Medicine, Washington University School of Medicine, St. Louis, MO, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Holtzman MJ",
+                "lastName": "Holtzman",
+                "firstName": "Michael J",
+                "initials": "MJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8750-3716"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pulmonary and Critical Care Medicine, Department of Medicine, Washington University School of Medicine, St. Louis, MO, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sadegh C",
+                "lastName": "Sadegh",
+                "firstName": "Cameron",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2231-9015"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, University of California, Davis, Sacramento, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Libermann TA",
+                "lastName": "Libermann",
+                "firstName": "Towia A",
+                "initials": "TA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Proteomics, Bioinformatics and Systems Biology Center, Beth Israel Deaconess Medical Center and Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lehtinen MK",
+                "lastName": "Lehtinen",
+                "firstName": "Maria K",
+                "initials": "MK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7243-2967"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, MA, USA. maria.lehtinen@childrens.harvard.edu."
+                    },
+                    {
+                      "affiliation": "Graduate Program in Neuroscience, Harvard Medical School, Boston, MA, USA. maria.lehtinen@childrens.harvard.edu."
+                    },
+                    {
+                      "affiliation": "Graduate Program in Biophysics, Harvard University, Cambridge, MA, USA. maria.lehtinen@childrens.harvard.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8750-3716"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4562-500X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7243-2967"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2231-9015"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "29",
+            "journalIssueId": 4277075,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Nat Neurosci",
+              "title": "Nature neuroscience",
+              "essn": "1546-1726",
+              "issn": "1097-6256",
+              "nlmid": "9809671",
+              "isoabbreviation": "Nat Neurosci"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "2623",
+          "affiliation": "Department of Pathology, Boston Children's Hospital and Harvard Medical School, Boston, MA, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Published Erratum",
+              "correction"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41593-026-02463-1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13633120"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13633120?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "40437054",
+                "reference": "Nat Neurosci. 2025 Jul;28(7):1446-1459. doi: 10.1038/s41593-025-01972-9.",
+                "type": "Erratum for",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-05",
+          "dateOfRevision": "2026-10-02",
+          "firstPublicationDate": "2026-10-01",
+          "firstIndexDate": "2026-09-05",
+          "fullTextReceivedDate": "2026-10-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42627292",
+          "source": "MED",
+          "pmid": "42627292",
+          "pmcid": "PMC13496119",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13496119"
+            ]
+          },
+          "doi": "10.1002/glia.70212",
+          "title": "Cell Type-Specific Extracellular Vesicles in Mouse Brain: Proteomic Signatures Highlight Astrocytic GlialCAM Network and GPCR Enrichment.",
+          "authorString": "Lucart-Sanchez AM, Sell\u00e9s-Climent E, Navarro-Calvo J, Pont-Espin\u00f3s G, Gomez-Sanchez JA, Est\u00e9vez R, Valor LM, P\u00e9rez-Gonz\u00e1lez R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lucart-Sanchez AM",
+                "lastName": "Lucart-Sanchez",
+                "firstName": "Alba M",
+                "initials": "AM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1158-8765"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain."
+                    },
+                    {
+                      "affiliation": "Instituto de Neurociencias de Alicante, Universidad Miguel Hern\u00e1ndez-CSIC, San Juan de Alicante, Spain."
+                    },
+                    {
+                      "affiliation": "Centro de Investigaci\u00f3n en Red-Enfermedades Neurodegenerativas (CIBERNED), Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sell\u00e9s-Climent E",
+                "lastName": "Sell\u00e9s-Climent",
+                "firstName": "Edward",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0006-8832-9055"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Navarro-Calvo J",
+                "lastName": "Navarro-Calvo",
+                "firstName": "Jorge",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0359-1825"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pont-Espin\u00f3s G",
+                "lastName": "Pont-Espin\u00f3s",
+                "firstName": "Guillem",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-0585-5101"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Physiology Unit, Department of Physiological Sciences, School of Medicine and Health Sciences, Institute of Neurosciences, University of Barcelona, L'Hospitalet de Llobregat, Spain."
+                    },
+                    {
+                      "affiliation": "Neuroscience Program, Physiology and Pathology of the Functional Relationship Between Glia and Neurons-IDIBELL, L'Hospitalet de Llobregat, Spain."
+                    },
+                    {
+                      "affiliation": "The Spanish Center of Rare Diseases (CIBERER U-731), Barcelona, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gomez-Sanchez JA",
+                "lastName": "Gomez-Sanchez",
+                "firstName": "Jose A",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6746-1800"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain."
+                    },
+                    {
+                      "affiliation": "Instituto de Neurociencias de Alicante, Universidad Miguel Hern\u00e1ndez-CSIC, San Juan de Alicante, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Est\u00e9vez R",
+                "lastName": "Est\u00e9vez",
+                "firstName": "Ra\u00fal",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1579-650X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Physiology Unit, Department of Physiological Sciences, School of Medicine and Health Sciences, Institute of Neurosciences, University of Barcelona, L'Hospitalet de Llobregat, Spain."
+                    },
+                    {
+                      "affiliation": "Neuroscience Program, Physiology and Pathology of the Functional Relationship Between Glia and Neurons-IDIBELL, L'Hospitalet de Llobregat, Spain."
+                    },
+                    {
+                      "affiliation": "The Spanish Center of Rare Diseases (CIBERER U-731), Barcelona, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Valor LM",
+                "lastName": "Valor",
+                "firstName": "Luis M",
+                "initials": "LM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1229-0565"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain."
+                    },
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n, Desarrollo e Innovaci\u00f3n en Biotecnolog\u00eda Sanitaria de Elche (IDiBE), Elche, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "P\u00e9rez-Gonz\u00e1lez R",
+                "lastName": "P\u00e9rez-Gonz\u00e1lez",
+                "firstName": "Roc\u00edo",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0641-2001"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain."
+                    },
+                    {
+                      "affiliation": "Instituto de Neurociencias de Alicante, Universidad Miguel Hern\u00e1ndez-CSIC, San Juan de Alicante, Spain."
+                    },
+                    {
+                      "affiliation": "Centro de Investigaci\u00f3n en Red-Enfermedades Neurodegenerativas (CIBERNED), Madrid, Spain."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0359-1825"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0641-2001"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1158-8765"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1229-0565"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6746-1800"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1579-650X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-0585-5101"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0006-8832-9055"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "74",
+            "journalIssueId": 4238768,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Glia",
+              "title": "Glia",
+              "essn": "1098-1136",
+              "issn": "0894-1491",
+              "nlmid": "8806785",
+              "isoabbreviation": "Glia"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e70212",
+          "abstractText": "Extracellular vesicles (EVs) mediate intercellular communication in the central nervous system (CNS) and are emerging as biomarkers of brain health and disease. However, the molecular composition of cell type-specific brain EVs, particularly astrocyte-derived EVs (ADEVs), remains poorly defined. We performed comparative proteomic analysis of neuronal (NDEVs), microglial (MDEVs), and ADEVs from mouse brain using magnetic immunocapture and LC-MS/MS proteomic profiling. Each EV subtype displayed distinct molecular fingerprints. NDEVs were enriched in synaptic and neurogenesis-related proteins (e.g., APP, SNAP25, GPR158, and BDNF), whereas MDEVs contained immune and phagocytic markers (e.g., TMEM119, CX3CR1, CD11b). Strikingly, the ADEV proteome closely mirrored the recently characterized GlialCAM interactome from leukodystrophy research, encompassing GlialCAM/MLC1 and associated partners involved in ion and water homeostasis (EAAT1/2, AQP4, GJA1), together with GPCRs such as GPRC5B. This overlap suggests that ADEVs encapsulate a molecular scaffold characteristic of astrocytic endfeet, potentially extending their signaling functions to the extracellular space. In conclusion, our study provides a detailed comparative proteomic characterization of brain cell type-specific EVs, revealing that ADEVs contain the GlialCAM/MLC1 network and GPCRs. These findings identify candidate molecular signatures that support the future investigation of ADEVs for biomarker development and provide a proteomic framework for exploring their relationship with astrocytic endfoot biology, blood-brain barrier (BBB)-associated pathways, and neurodegenerative disorders.",
+          "affiliation": "Instituto de Investigaci\u00f3n Sanitaria y Biom\u00e9dica de Alicante (ISABIAL), Alicante, Spain.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Instituto de Salud Carlos III",
+                "grantId": "CP21/00009",
+                "orderIn": 0
+              },
+              {
+                "agency": "Ministerio de Ciencia e Innovaci\u00f3n",
+                "grantId": "PID2024-159674NB-100",
+                "orderIn": 0
+              },
+              {
+                "agency": "Instituto de Salud Carlos III",
+                "grantId": "CP22/00050",
+                "orderIn": 0
+              },
+              {
+                "agency": "FEDER/UE",
+                "orderIn": 0
+              },
+              {
+                "agency": "Instituto de Salud Carlos III",
+                "grantId": "JPND2022-115",
+                "orderIn": 0
+              },
+              {
+                "agency": "University of the East",
+                "orderIn": 0
+              },
+              {
+                "agency": "Ministerio de Ciencia e Innovaci\u00f3n",
+                "grantId": "CNS2022-136169",
+                "orderIn": 0
+              },
+              {
+                "agency": "Instituto de Salud Carlos III",
+                "grantId": "PI23/01568",
+                "orderIn": 0
+              },
+              {
+                "agency": "Ministerio de Ciencia e Innovaci\u00f3n",
+                "grantId": "PID2022-137426OA-I00",
+                "orderIn": 0
+              },
+              {
+                "agency": "Instituto de Salud Carlos III",
+                "grantId": "JPND2022\u2010115",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Astrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, G-Protein-Coupled",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Extracellular Vesicles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Proteomics",
+              "Astrocytes",
+              "Gpcr",
+              "Extracellular Vesicles",
+              "Blood\u2013brain Barrier",
+              "Glialcam"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Receptors, G-Protein-Coupled",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/glia.70212"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13496119"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13496119?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1230206",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-08-21",
+          "dateOfCreation": "2026-08-21",
+          "dateOfRevision": "2026-08-24",
+          "firstPublicationDate": "2026-10-01",
+          "firstIndexDate": "2026-08-22",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42822390",
+          "source": "MED",
+          "pmid": "42822390",
+          "doi": "10.1016/j.redox.2026.104416",
+          "title": "USP18/DDX5 axis ameliorates mitochondrial morphofunctional damage via OPA1 to inhibit neuronal apoptosis after traumatic brain injury.",
+          "authorString": "Zhao Y, Lei P, Li Y, Liu C, Zhang Y, Zeng C, Sun Y, Chen X, Yuan R, Fan H, Cheng S, Zhang Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhao Y",
+                "lastName": "Zhao",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lei P",
+                "lastName": "Lei",
+                "firstName": "Pan",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Y",
+                "lastName": "Li",
+                "firstName": "Yulong",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu C",
+                "lastName": "Liu",
+                "firstName": "Chengxi",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Applied Biology and Chemical Technology, Food Safety and Technology Research Centre and Research Centre for Chinese Medicine Innovation, The Hong Kong Polytechnic University, Hung Hom, Kowloon, Hong Kong Special Administrative Region of China; State Key Laboratory of Chinese Medicine and Molecular Pharmacology (Incubation) and Shenzhen Key Laboratory of Food Biological Safety Control, Hong Kong Polytechnic University Shenzhen Research Institute, Shenzhen, 518057, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yichen",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zeng C",
+                "lastName": "Zeng",
+                "firstName": "Chuan",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun Y",
+                "lastName": "Sun",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Quantitative Synthetic Biology, Shenzhen Institute of Synthetic Biology, Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences, Shenzhen, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen X",
+                "lastName": "Chen",
+                "firstName": "Xinhui",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yuan R",
+                "lastName": "Yuan",
+                "firstName": "Raorao",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fan H",
+                "lastName": "Fan",
+                "firstName": "Hengyi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cheng S",
+                "lastName": "Cheng",
+                "firstName": "Shiqi",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China; Jiangxi Academy of Medical Sciences, No. 461, Bayi Road, Nanchang, China; Key Laboratory of Encephalopathy Research, Nanchang University, China; Nanchang Cranio-Cerebral Trauma Laboratory, Nanchang, Jiangxi, China. Electronic address: ndefy12388@ncu.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "97",
+            "journalIssueId": 4253582,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Redox Biol",
+              "title": "Redox biology",
+              "essn": "2213-2317",
+              "issn": "2213-2317",
+              "nlmid": "101605639",
+              "isoabbreviation": "Redox Biol"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "104416",
+          "abstractText": "<h4>Background</h4>Traumatic brain injury (TBI) is a leading cause of mortality and morbidity and a major contributor to loss of working capacity in young adults. Current therapeutic options for TBI remain limited. This study aimed to assess the potential role and therapeutic value of ubiquitin-specific protease 18 (USP18) in TBI.<h4>Methods</h4>A TBI model was established using the weight-drop model. Neuron-specific Usp18 knockout on the C57BL/6J background was generated by crossbreeding Usp18<sup>f/f</sup> and Thy1-Cre mice. A recombinant adeno-associated virus serotype 9 carrying Usp18 under control of the hSyn promoter was injected into wild-type mice. Mechanical stretch injury-exposed HT22\u202fcells subjected to a well-established stretch injury model were used to simulate TBI in vitro. The underlying molecular mechanism was explored through bulk-RNA sequencing, immunoprecipitation and mass spectrometry (MS) analysis, RNA immunoprecipitation sequencing, and RNA immunoprecipitation assays.<h4>Results</h4>Multi-omics analysis of mouse brain and RNA-seq profiling of human brain tissues indicated that the expression of the deubiquitinating enzyme USP18 was substantially decreased in hippocampal neurons. Neuron-specific overexpression of Usp18 via recombinant adeno-associated virus 9 (AAV9) led to reduced neuronal apoptosis and improved cognitive performance in mice. The RNA-seq analysis revealed that Usp18 overexpression enhanced the homeostasis of mitochondrial dynamics, ameliorated neuronal mitochondrial dysfunction, and suppressed oxidative stress injury. These results were also confirmed in a well-established mechanical stretch injury model in HT22\u202fcells. Moreover, compared with control mice, neuron-specific Usp18 knockout mice displayed more severe mitochondrial morphological disarray and neuronal damage after TBI. RNA sequencing, MS analysis, RNA immunoprecipitation sequencing, and RNA immunoprecipitation assays mechanistically revealed that USP18 directly interacted with DEAD-box helicase 5 (DDX5) and deubiquitinated and stabilized DDX5 at the K470 residue (via K48-linked ubiquitination) to increase the stability of the Opa1 mRNA, thereby impeding mitochondrial morphofunctional defects. Collectively, the results of this study reveal the protective effect of and molecular mechanism regulating USP18 in TBI pathology and reveal a novel neuron-specific USP18-DDX5-OPA1 axis involved in TBI.<h4>Conclusions</h4>We identified a USP18-promoted mechanism that maintains the homeostasis of mitochondrial dynamics through the DDX5-OPA1 axis in a TBI model; this pathway inhibits neuronal apoptosis and improves cognitive function in mice, suggesting that USP18 activation or AAV9-Usp18 delivery represents a potential therapeutic strategy for TBI.",
+          "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Traumatic brain injury",
+              "Neuronal apoptosis",
+              "Mitochondrial Dynamics",
+              "Ubiquitin-specific Protease 18",
+              "Dead-box Helicase 5"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.redox.2026.104416"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-09-29",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1331781",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.24.754011",
+          "title": "ScProteoAgent enables natural-language-driven single-cell proteomics analysis and interpretation",
+          "authorString": "Hu R, Ding K, Wang W, Zhu Z, Chen P, Wang S, Wang Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hu R",
+                "lastName": "Hu",
+                "firstName": "Runwen",
+                "initials": "R"
+              },
+              {
+                "fullName": "Ding K",
+                "lastName": "Ding",
+                "firstName": "Keyan",
+                "initials": "K"
+              },
+              {
+                "fullName": "Wang W",
+                "lastName": "Wang",
+                "firstName": "Wenwen",
+                "initials": "W"
+              },
+              {
+                "fullName": "Zhu Z",
+                "lastName": "Zhu",
+                "firstName": "Zhihui",
+                "initials": "Z"
+              },
+              {
+                "fullName": "Chen P",
+                "lastName": "Chen",
+                "firstName": "Peilin",
+                "initials": "P"
+              },
+              {
+                "fullName": "Wang S",
+                "lastName": "Wang",
+                "firstName": "Shiqi",
+                "initials": "S"
+              },
+              {
+                "fullName": "Wang Y",
+                "lastName": "Wang",
+                "firstName": "Yu",
+                "initials": "Y"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Single-cell proteomics requires computational choices to remain aligned with experimental design as research questions evolve. Here we present ScProteoAgent, which translates natural-language requests into domain-specific calculations and preserves research intent, analysis design, matrix-processing history and statistical outputs as reusable analytical state. Follow-up requests reuse applicable inputs and initiate new calculations when contrasts or experimental units change. We assembled a benchmark comprising 55 tasks and 33 reference conclusions from 11 published studies, combining progressive questions within studies with complementary biological and analytical settings. In a retrospective comparison of 88 archived outputs from eight systems, ScProteoAgent achieved the highest mean score of 93.67 under a common six-dimensional rule-based evaluation. A HeLa migration case connected phenotype composition with proteomic clusters, candidate differences and original-observation support. In liver zonation, a researcher-guided follow-up reused a saved matrix to test mouse-level spatial contrasts and compare full-matrix and observed-only results. Applications in brain development, sample preservation and hematopoiesis illustrated how interpretation depends on processing choices and experimental units. ScProteoAgent connects research questions with statistical results and their analytical context, enabling existing analyses to support more specific biological investigations.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.24.754011"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-10-01",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,3541 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22chemogenomic%22+OR+%22drug+sensitivity%22+OR+%22resistome%22+OR+%22IC50%22+OR+%22compound+screen%22%29+AND+TITLE_ABS%3A%28%22target%22+OR+%22engagement%22+OR+%22thermal%22+OR+%22shift%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:47.639491+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 151,
+    "nextCursorMark": "AoJwwOvltZADKDUwOTQ4MjI4",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22chemogenomic%22+OR+%22drug+sensitivity%22+OR+%22resistome%22+OR+%22IC50%22+OR+%22compound+screen%22%29+AND+TITLE_ABS%3A%28%22target%22+OR+%22engagement%22+OR+%22thermal%22+OR+%22shift%22%29+sort_date%3Ay&cursorMark=AoJwwOvltZADKDUwOTQ4MjI4&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"chemogenomic\" OR \"drug sensitivity\" OR \"resistome\" OR \"IC50\" OR \"compound screen\") AND TITLE_ABS:(\"target\" OR \"engagement\" OR \"thermal\" OR \"shift\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1318416",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.10.747198",
+          "title": "A high-throughput compound screen identifies multiple druggable targets in Plasmodium falciparum transmission stages",
+          "authorString": "Seefeldt L, Gumpp C, Carril O, Eberhardt J, Boltryk S, Passecker A, Thommen BT, Sifoniou K, Scheurer C, Fischli C, Babai DI, Mahmoud AH, Alexander LT, Renner S, Guiguemde WA, Pei L, Gr\u00fcring C, Butendeich H, Siebert D, Straimer J, Tobiasson V, Baumgarten S, Lill MA, Baeschlin D, Rottmann M, Voss TS, Brancucci NMB.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Seefeldt L",
+                "lastName": "Seefeldt",
+                "firstName": "Leonie",
+                "initials": "L"
+              },
+              {
+                "fullName": "Gumpp C",
+                "lastName": "Gumpp",
+                "firstName": "Christin",
+                "initials": "C"
+              },
+              {
+                "fullName": "Carril O",
+                "lastName": "Carril",
+                "firstName": "Olivia",
+                "initials": "O"
+              },
+              {
+                "fullName": "Eberhardt J",
+                "lastName": "Eberhardt",
+                "firstName": "Jerome",
+                "initials": "J"
+              },
+              {
+                "fullName": "Boltryk S",
+                "lastName": "Boltryk",
+                "firstName": "Sylwia",
+                "initials": "S"
+              },
+              {
+                "fullName": "Passecker A",
+                "lastName": "Passecker",
+                "firstName": "Armin",
+                "initials": "A"
+              },
+              {
+                "fullName": "Thommen BT",
+                "lastName": "Thommen",
+                "firstName": "Basil Tino",
+                "initials": "BT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7655-2440"
+                }
+              },
+              {
+                "fullName": "Sifoniou K",
+                "lastName": "Sifoniou",
+                "firstName": "Kleopatra",
+                "initials": "K"
+              },
+              {
+                "fullName": "Scheurer C",
+                "lastName": "Scheurer",
+                "firstName": "Christian",
+                "initials": "C"
+              },
+              {
+                "fullName": "Fischli C",
+                "lastName": "Fischli",
+                "firstName": "Christoph",
+                "initials": "C"
+              },
+              {
+                "fullName": "Babai DI",
+                "lastName": "Babai",
+                "firstName": "Desz\u00f6 Imre",
+                "initials": "DI"
+              },
+              {
+                "fullName": "Mahmoud AH",
+                "lastName": "Mahmoud",
+                "firstName": "Amr Hamed",
+                "initials": "AH"
+              },
+              {
+                "fullName": "Alexander LT",
+                "lastName": "Alexander",
+                "firstName": "Leila Tamara",
+                "initials": "LT"
+              },
+              {
+                "fullName": "Renner S",
+                "lastName": "Renner",
+                "firstName": "Steffen",
+                "initials": "S"
+              },
+              {
+                "fullName": "Guiguemde WA",
+                "lastName": "Guiguemde",
+                "firstName": "Armand",
+                "initials": "WA"
+              },
+              {
+                "fullName": "Pei L",
+                "lastName": "Pei",
+                "firstName": "Luying",
+                "initials": "L"
+              },
+              {
+                "fullName": "Gr\u00fcring C",
+                "lastName": "Gr\u00fcring",
+                "firstName": "Christof",
+                "initials": "C"
+              },
+              {
+                "fullName": "Butendeich H",
+                "lastName": "Butendeich",
+                "firstName": "Heike",
+                "initials": "H"
+              },
+              {
+                "fullName": "Siebert D",
+                "lastName": "Siebert",
+                "firstName": "Daniela",
+                "initials": "D"
+              },
+              {
+                "fullName": "Straimer J",
+                "lastName": "Straimer",
+                "firstName": "Judith",
+                "initials": "J"
+              },
+              {
+                "fullName": "Tobiasson V",
+                "lastName": "Tobiasson",
+                "firstName": "Victor",
+                "initials": "V"
+              },
+              {
+                "fullName": "Baumgarten S",
+                "lastName": "Baumgarten",
+                "firstName": "Sebastian",
+                "initials": "S"
+              },
+              {
+                "fullName": "Lill MA",
+                "lastName": "Lill",
+                "firstName": "Markus Alexander",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Baeschlin D",
+                "lastName": "Baeschlin",
+                "firstName": "Daniel",
+                "initials": "D"
+              },
+              {
+                "fullName": "Rottmann M",
+                "lastName": "Rottmann",
+                "firstName": "Matthias",
+                "initials": "M"
+              },
+              {
+                "fullName": "Voss TS",
+                "lastName": "Voss",
+                "firstName": "Till Steffen",
+                "initials": "TS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1464-4988"
+                }
+              },
+              {
+                "fullName": "Brancucci NMB",
+                "lastName": "Brancucci",
+                "firstName": "Nicolas Michel Beat",
+                "initials": "NMB"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7655-2440"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1464-4988"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>ABSTRACT</h4>  Most antimalarials are ineffective against the sexual transmission stages, known as gametocytes, of the malaria parasite  Plasmodium falciparum. Their low sensitivity to drugs is attributed to limited compound uptake and a poorly understood form of cellular quiescence. Our current understanding of druggable transmission-blocking processes is therefore limited. Based on genetically engineered parasites that facilitate the mass production of synchronous mature gametocytes, we developed a high throughput drug screening platform that allowed us to test more than 50,000 compounds for gametocytocidal effects in one day. By screening a diversity-oriented library, we identified over 40 molecules that kill mature gametocytes in the low nanomolar range. Using resistance selection coupled to whole genome sequencing and drug-target interaction modelling, we followed up on three chemically tractable compounds that are also highly active against asexual parasites and prevent gametocyte transmission to mosquitoes. We show that the compound ONX-0914, a specific inhibitor of the \u03b25i/LMP7 subunit of human immunoproteasomes, targets the parasite proteasomal \u03b25 subunit. In contrast, the compounds CR-1-31-B and brusatol interfere with translation by targeting eukaryotic initiation factor 4A (eIF4A) and the peptidyl transferase center (PTC) of the 80S ribosome, respectively. Interestingly, parasite resistance to brusatol, a broad-spectrum antitumor drug, is linked to the differential modification of specific rRNA bases near the ribosomal A-site, mediated by altered base specificity of a rRNA methyltransferase. In summary, we successfully combined high-throughput compound screening with drug target deconvolution to reveal the targets and mode-of-action for three potent gametocytocidal molecules and discover the mechanism of resistance to the anti-tumorigenic drug brusatol. In addition to critically advancing our understanding of mature gametocyte biology and druggable processes in  P. falciparum transmission stages, our observations made with brusatol-resistant parasites may become relevant for anti-cancer drug research.  <h4>One sentence summary</h4>  We identified three malaria transmission-blocking drug targets by combining high-throughput compound screening with in vitro resistance selection, whole-genome sequencing and drug target deconvolution.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.10.747198"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-14",
+          "firstPublicationDate": "2026-09-13",
+          "firstIndexDate": "2026-09-14",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42709875",
+          "source": "MED",
+          "pmid": "42709875",
+          "pmcid": "PMC13568514",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13568514"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1014068",
+          "title": "Dual plasmepsin IX and X inhibitors are refractory to development of resistance.",
+          "authorString": "Favuzza P, Dans MG, Su W, Thompson JK, Hodder AN, Ngo A, Penington JS, Marapana DS, Dziekan JM, Papenfuss AT, de Lera Ruiz M, Coyle R, Lee MCS, McCauley JA, Lowes K, Olsen DB, Sleebs BE, Cowman AF.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Favuzza P",
+                "lastName": "Favuzza",
+                "firstName": "Paola",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dans MG",
+                "lastName": "Dans",
+                "firstName": "Madeline G",
+                "initials": "MG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Su W",
+                "lastName": "Su",
+                "firstName": "Wenyin",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Thompson JK",
+                "lastName": "Thompson",
+                "firstName": "Jennifer K",
+                "initials": "JK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hodder AN",
+                "lastName": "Hodder",
+                "firstName": "Anthony N",
+                "initials": "AN",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ngo A",
+                "lastName": "Ngo",
+                "firstName": "Anna",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Penington JS",
+                "lastName": "Penington",
+                "firstName": "Jocelyn Sietsma",
+                "initials": "JS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1561-0074"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marapana DS",
+                "lastName": "Marapana",
+                "firstName": "Danushka S",
+                "initials": "DS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dziekan JM",
+                "lastName": "Dziekan",
+                "firstName": "Jerzy M",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Papenfuss AT",
+                "lastName": "Papenfuss",
+                "firstName": "Anthony T",
+                "initials": "AT",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "de Lera Ruiz M",
+                "lastName": "de Lera Ruiz",
+                "firstName": "Manuel",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Merck & Co., Inc., West Point, Pennsylvania, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coyle R",
+                "lastName": "Coyle",
+                "firstName": "Rachael",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Sanger Institute, Wellcome Genome Campus, Hinxton, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Biological Chemistry and Drug Discovery, School of Life Sciences, University of Dundee, Dundee, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lee MCS",
+                "lastName": "Lee",
+                "firstName": "Marcus C S",
+                "initials": "MCS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wellcome Sanger Institute, Wellcome Genome Campus, Hinxton, United Kingdom."
+                    },
+                    {
+                      "affiliation": "Biological Chemistry and Drug Discovery, School of Life Sciences, University of Dundee, Dundee, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "McCauley JA",
+                "lastName": "McCauley",
+                "firstName": "John A",
+                "initials": "JA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Merck & Co., Inc., West Point, Pennsylvania, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lowes K",
+                "lastName": "Lowes",
+                "firstName": "Kym",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Olsen DB",
+                "lastName": "Olsen",
+                "firstName": "David B",
+                "initials": "DB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Merck & Co., Inc., West Point, Pennsylvania, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sleebs BE",
+                "lastName": "Sleebs",
+                "firstName": "Brad E",
+                "initials": "BE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cowman AF",
+                "lastName": "Cowman",
+                "firstName": "Alan F",
+                "initials": "AF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5145-9004"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Victoria, Australia."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5145-9004"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1561-0074"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "22",
+            "journalIssueId": 4252171,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e1014068",
+          "abstractText": "Artemisinin-based combination therapies (ACTs) remain the cornerstone of malaria treatment, but emerging resistance threatens their efficacy. The potential for the development of drug resistance against plasmepsin X (PMX)-selective inhibitors and dual plasmepsin IX/X (PMIX/X) inhibitors was investigated in Plasmodium falciparum. A series of PMX-selective (WM4, WM76, WM92) and PMIX/X dual inhibitors (WM382, WM09, WM42) were characterised for potency against parasite growth and enzyme inhibition. In vitro selection experiments showed that all compounds had a high barrier to resistance, although parasites with reduced sensitivity to PMX\u2011selective inhibitors could still be selected. Resistance mechanisms involved pmx gene amplification and point mutations (D245N, S315P, S359P, I363L) that alter inhibitor binding. Recombinant expression and Michaelis-Menten kinetics demonstrated that these mutations impair drug binding whilst preserving PMX catalytic function. Reverse genetics confirmed that introducing these mutations into the pmx gene resulted in decreased potency of the inhibitors. In this study, resistance to the PMIX/X dual inhibitors evaluated here could not be selected, despite prolonged selection pressure. Antimalarial Resistome Barcoding (AReBar) assays confirmed the absence of pre-existing resistance to either inhibitor class. Critically, PMIX/X dual inhibitors maintained efficacy against parasites with decreased sensitivity to PMX-selective compounds. These findings demonstrate that dual PMIX/X inhibitors present a substantially higher barrier to resistance than PMX-selective inhibitors, informing antimalarial drug development strategies and highlighting dual-target inhibition as a promising approach to mitigate resistance risks.",
+          "affiliation": "The Walter and Eliza Hall Institute of Medical Research, Parkville, Victoria, Australia.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT",
+                "grantId": "109662/Z/15/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Health, State Government of Victoria",
+                "grantId": "Not applicable",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              },
+              {
+                "agency": "Australian Government",
+                "grantId": "Not applicable",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Health and Medical Research Council",
+                "grantId": "1194535",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT",
+                "grantId": "202749/Z/16/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Health and Medical Research Council",
+                "grantId": "1176955",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Drug Resistance",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Aspartic Acid Endopeptidases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "plasmepsin",
+                "registryNumber": "EC 3.4.23.38"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Aspartic Acid Endopeptidases",
+                "registryNumber": "EC 3.4.23.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1014068"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13568514"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13568514?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1220551",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject",
+              "nct",
+              "pdb",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-11",
+          "dateOfCreation": "2026-09-08",
+          "dateOfRevision": "2026-09-14",
+          "electronicPublicationDate": "2026-09-08",
+          "firstPublicationDate": "2026-09-08",
+          "firstIndexDate": "2026-09-09",
+          "fullTextReceivedDate": "2026-09-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1212166",
+          "source": "PPR",
+          "doi": "10.64898/2026.05.01.722187",
+          "title": "Disruption of the AgMOBP1\u2013PfSyn5 interface abolishes malaria transmission",
+          "authorString": "Ramelow J, Niu G, Kostallas L, Lai L, Wang X, Li J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ramelow J",
+                "lastName": "Ramelow",
+                "firstName": "Julian",
+                "initials": "J"
+              },
+              {
+                "fullName": "Niu G",
+                "lastName": "Niu",
+                "firstName": "Guodong",
+                "initials": "G"
+              },
+              {
+                "fullName": "Kostallas L",
+                "lastName": "Kostallas",
+                "firstName": "Luka",
+                "initials": "L"
+              },
+              {
+                "fullName": "Lai L",
+                "lastName": "Lai",
+                "firstName": "Liliana",
+                "initials": "L"
+              },
+              {
+                "fullName": "Wang X",
+                "lastName": "Wang",
+                "firstName": "Xiaohong",
+                "initials": "X"
+              },
+              {
+                "fullName": "Li J",
+                "lastName": "Li",
+                "firstName": "Jun",
+                "initials": "J"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Malaria control remains constrained by an incomplete understanding of the molecular interactions that enable  Plasmodium falciparum transmission within mosquito vectors. Although blood-stage parasite biology has been extensively studied, the mosquito-stage processes required for transmission are less well defined. Here, we characterize a previously unannotated  Anopheles gambiae midgut factor, Midgut Ookinete Binding Protein 1 (AgMOBP1; AGAP008138), and define its role in parasite infection. AgMOBP1 is a membrane-associated protein localized predominantly to the apical surface of midgut epithelial cells, is induced by blood feeding, and appears restricted to anopheline mosquitoes. Functional infection assays showed that exogenous recombinant AgMOBP1 enhanced  Plasmodium infectivity by increasing midgut oocyst burden, whereas anti-AgMOBP1 antibodies significantly reduced infection, establishing AgMOBP1 as a host factor that promotes transmission. Using biochemical interaction assays, we identified the parasite binding partner of AgMOBP1 as the  P. falciparum syntaxin-5\u2013like protein PfSyn5. Disruption of this interaction with anti-PfSyn5 polyclonal antibodies produced exceptionally potent transmission-blocking activity, with complete inhibition at 1 \u00b5g/mL and an estimated IC50 of \u223c3 ng/mL (\u223c20 pM). This potency is approximately one million-fold lower than the total IgG concentration in normal human plasma. Together, these findings identify a critical mosquito\u2013parasite molecular interface required for malaria transmission and establish the AgMOBP1\u2013PfSyn5 axis as a promising target for transmission-blocking vaccines, monoclonal antibodies, and other intervention strategies.  <h4>Significance Statement</h4>  Interrupting malaria transmission requires a deeper mechanistic understanding of how  Plasmodium parasites interact with their mosquito vectors. Here, we define a previously uncharacterized mosquito midgut factor, AgMOBP1, and identify its parasite binding partner, the  Plasmodium falciparum membrane protein PfSyn5. We show that this molecular interaction is required for efficient parasite transmission to  Anopheles mosquitoes. Remarkably, antibodies against PfSyn5 completely blocked transmission at low concentrations, revealing exceptional functional potency. These findings uncover a previously unknown mosquito\u2013parasite invasion pathway and establish the AgMOBP1\u2013PfSyn5 interface as a high-value target for transmission-blocking vaccines, monoclonal antibodies, and next-generation malaria control strategies.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.05.01.722187"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-05-19",
+          "firstPublicationDate": "2026-05-04",
+          "firstIndexDate": "2026-05-19",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1220551",
+          "source": "PPR",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PPR1220551"
+            ]
+          },
+          "doi": "10.64898/2026.03.09.710546",
+          "title": "Dual plasmepsin IX and X inhibitors are refractory to development of resistance",
+          "authorString": "Favuzza P, Dans MG, Su W, Thompson JK, Hodder AN, Ngo A, Penington JS, Marapana DS, Papenfuss T, de Lera Ruiz M, Coyle R, Lee MCS, McCauley JA, Lowes K, Olsen DB, Sleebs BE, Cowman AF.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Favuzza P",
+                "lastName": "Favuzza",
+                "firstName": "Paola",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dans MG",
+                "lastName": "Dans",
+                "firstName": "Madeline",
+                "initials": "MG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Su W",
+                "lastName": "Su",
+                "firstName": "Wenyin",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Thompson JK",
+                "lastName": "Thompson",
+                "firstName": "Jennifer",
+                "initials": "JK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hodder AN",
+                "lastName": "Hodder",
+                "firstName": "Anthony",
+                "initials": "AN",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ngo A",
+                "lastName": "Ngo",
+                "firstName": "Anna",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Penington JS",
+                "lastName": "Penington",
+                "firstName": "Jocelyn Sietsma",
+                "initials": "JS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marapana DS",
+                "lastName": "Marapana",
+                "firstName": "Danushka",
+                "initials": "DS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Papenfuss T",
+                "lastName": "Papenfuss",
+                "firstName": "Tony",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "de Lera Ruiz M",
+                "lastName": "de Lera Ruiz",
+                "firstName": "Manuel",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Merck & Co., Inc., West Point, Pennsylvania, United States of America"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coyle R",
+                "lastName": "Coyle",
+                "firstName": "Rachael",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus, ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lee MCS",
+                "lastName": "Lee",
+                "firstName": "Marcus",
+                "initials": "MCS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus, ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "McCauley JA",
+                "lastName": "McCauley",
+                "firstName": "John",
+                "initials": "JA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Merck & Co., Inc., West Point, Pennsylvania, United States of America"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lowes K",
+                "lastName": "Lowes",
+                "firstName": "Kym",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Olsen DB",
+                "lastName": "Olsen",
+                "firstName": "David",
+                "initials": "DB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Merck & Co., Inc., West Point, Pennsylvania, United States of America"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sleebs BE",
+                "lastName": "Sleebs",
+                "firstName": "Brad",
+                "initials": "BE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cowman AF",
+                "lastName": "Cowman",
+                "firstName": "Alan",
+                "initials": "AF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", , ,"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Artemisinin-based combination therapies (ACTs) remain the cornerstone of malaria treatment, but emerging resistance threatens their efficacy. The potential for the development of drug resistance against plasmepsin X (PMX)-selective inhibitors and dual plasmepsin IX/X (PMIX/X) inhibitors was investigated in  Plasmodium falciparum . A series of PMX-selective (WM4, WM76, WM92) and PMIX/X dual inhibitors (WM382, WM09, WM42) were characterised for potency against parasite growth and enzyme inhibition.  In vitro selection experiments showed that all compounds had a high barrier to resistance, although parasites with reduced sensitivity to PMX-selective inhibitors could still be selected. Resistance mechanisms involved  pmx gene amplification and point mutations (D245N, S315P, S359P, I363L) that alter inhibitor binding. Recombinant expression and Michaelis\u2013Menten kinetics demonstrated that these mutations impair drug binding whilst preserving PMX catalytic function. Reverse genetics confirmed that introducing these mutations into the  pmx gene resulted in decreased potency of the inhibitors. In this study, resistance to the PMIX/X dual inhibitors evaluated here could not be selected, despite prolonged selection pressure. Antimalarial Resistome Barcoding (AReBar) assays confirmed the absence of pre-existing resistance to either inhibitor class. Critically, PMIX/X dual inhibitors maintained efficacy against parasites with decreased sensitivity to PMX-selective compounds. These findings demonstrate that dual PMIX/X inhibitors present a substantially higher barrier to resistance than PMX-selective inhibitors, informing antimalarial drug development strategies and highlighting dual-target inhibition as a promising approach to mitigate resistance risks.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "202749/Z/16/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "109662/Z/15/Z",
+                "orderIn": 0
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.03.09.710546"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/article/PPR/PPR1220551"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/api/fulltextRepo?pprId=PPR1220551&type=FILE&fileName=EMS215388-pdf.pdf&mimeType=application/pdf"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "42709875",
+                "reference": "PLoS pathogens. \n    2026 Sep;22(9):e1014068",
+                "type": "Preprint of",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "N",
+          "citedByCount": 3,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS215388",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject",
+              "nct",
+              "pdb"
+            ]
+          },
+          "dateOfCreation": "2026-05-19",
+          "firstPublicationDate": "2026-03-10",
+          "firstIndexDate": "2026-05-19",
+          "fullTextReceivedDate": "2026-07-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40424284",
+          "source": "MED",
+          "pmid": "40424284",
+          "pmcid": "PMC12111632",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12111632"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0322756",
+          "title": "Expression, purification and preliminary pharmacological characterization of the Plasmodium falciparum membrane-bound pyrophosphatase type 1.",
+          "authorString": "Liu J, Vidilaseris K, Johansson NG, Ribeiro O, Dreano L, Yli-Kauhaluoma J, Xhaard H, Goldman A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Liu J",
+                "lastName": "Liu",
+                "firstName": "Jianing",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0079-4712"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Research Program in Molecular and Integrative Biosciences, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vidilaseris K",
+                "lastName": "Vidilaseris",
+                "firstName": "Keni",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6453-6600"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Research Program in Molecular and Integrative Biosciences, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Johansson NG",
+                "lastName": "Johansson",
+                "firstName": "Niklas G",
+                "initials": "NG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8226-4813"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    },
+                    {
+                      "affiliation": "Department of Chemistry, Faculty of Science, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ribeiro O",
+                "lastName": "Ribeiro",
+                "firstName": "Orquidea",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Research Program in Molecular and Integrative Biosciences, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dreano L",
+                "lastName": "Dreano",
+                "firstName": "Lo\u00efc",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8280-3904"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yli-Kauhaluoma J",
+                "lastName": "Yli-Kauhaluoma",
+                "firstName": "Jari",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0370-7653"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xhaard H",
+                "lastName": "Xhaard",
+                "firstName": "Henri",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Drug Research Program, Division of Pharmaceutical Chemistry and Technology, Faculty of Pharmacy, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Goldman A",
+                "lastName": "Goldman",
+                "firstName": "Adrian",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8032-9700"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Research Program in Molecular and Integrative Biosciences, University of Helsinki, Helsinki, Finland."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8032-9700"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8280-3904"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6453-6600"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8226-4813"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0079-4712"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0370-7653"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "20",
+            "journalIssueId": 3935508,
+            "dateOfPublication": "2025 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "e0322756",
+          "abstractText": "Membrane-bound pyrophosphatases are integral membrane proteins that catalyze the hydrolysis of pyrophosphate into orthophosphate, while simultaneously facilitating the pumping of protons and/or sodium ions. Since mPPases are absent in humans but play a critical role in the life cycle of protist parasite, they represent promising therapeutic targets. We successfully expressed the Plasmodium falciparum type 1 mPPase in the baculovirus/insect cell expression system and purified the protein, yielding 0.3\u2009mg per liter cell culture. Various detergents were tested for solubilization, with the protein remaining active under all selected detergents. n-dodecyl-\u03b2-D-maltoside combined with cholesteryl hemisuccinate provided the highest solubility (88%). Finally, the PfPPase-VP1 was assayed against a set of fourteen antimalarial drugs, along with seven Thermotoga maritima mPPase inhibitors and fourteen compounds of unknown activity against mPPases. Only three compounds, all pyrazolo[1,5-a]pyrimidine-based TmPPase inhibitors, retained micromolar IC50 activity against PfPPase-VP1. The expression and purification of the PfPPase-VP1 will allow to conduct structural studies as well as to develop target-based screens, two steps necessary for the development of inhibitors to combat parasite disease.",
+          "affiliation": "Research Program in Molecular and Integrative Biosciences, University of Helsinki, Helsinki, Finland.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Academy of Finland",
+                "grantId": "310297",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "grantId": "BB/T006048/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "China Scholarship Council",
+                "orderIn": 0
+              },
+              {
+                "agency": "Magnus Ehrnroothin S\u00e4\u00e4ti\u00f6",
+                "orderIn": 0
+              },
+              {
+                "agency": "Academy of Finland",
+                "grantId": "1322609",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Research Council",
+                "grantId": "BB/T006048/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Academy of Finland",
+                "grantId": "1357076",
+                "orderIn": 0
+              },
+              {
+                "agency": "Academy of Finland",
+                "grantId": "308105",
+                "orderIn": 0
+              },
+              {
+                "agency": "Suomen Farmaseuttinen Yhdistys",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swedish Cultural Foundation",
+                "orderIn": 0
+              },
+              {
+                "agency": "Academy of Finland",
+                "grantId": "1355187",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Pyrophosphatases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sf9 Cells"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Enzyme Inhibitors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Pyrophosphatases",
+                "registryNumber": "EC 3.6.1.-"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0322756"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12111632"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12111632?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR997230",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-05-27",
+          "dateOfCreation": "2025-05-27",
+          "dateOfRevision": "2025-05-31",
+          "electronicPublicationDate": "2025-05-27",
+          "firstPublicationDate": "2025-05-27",
+          "firstIndexDate": "2025-05-28",
+          "fullTextReceivedDate": "2025-11-27",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39808111",
+          "source": "MED",
+          "pmid": "39808111",
+          "pmcid": "PMC11828674",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11828674"
+            ]
+          },
+          "doi": "10.1021/acsinfecdis.4c01001",
+          "title": "Stereospecific Resistance to N2-Acyl Tetrahydro-\u03b2-carboline Antimalarials Is Mediated by a PfMDR1 Mutation That Confers Collateral Drug Sensitivity.",
+          "authorString": "Bremers EK, Butler JH, Do Amaral LS, Merino EF, Almolhim H, Zhou B, Baptista RP, Totrov M, Carlier PR, Cassera MB.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bremers EK",
+                "lastName": "Bremers",
+                "firstName": "Emily K",
+                "initials": "EK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9768-0211"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, University of Georgia, Athens, Georgia 30602, United States."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia 30602, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Butler JH",
+                "lastName": "Butler",
+                "firstName": "Joshua H",
+                "initials": "JH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, University of Georgia, Athens, Georgia 30602, United States."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia 30602, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Do Amaral LS",
+                "lastName": "Do Amaral",
+                "firstName": "Leticia S",
+                "initials": "LS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2861-216X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, University of Georgia, Athens, Georgia 30602, United States."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia 30602, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Merino EF",
+                "lastName": "Merino",
+                "firstName": "Emilio F",
+                "initials": "EF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5400-7377"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, University of Georgia, Athens, Georgia 30602, United States."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia 30602, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Almolhim H",
+                "lastName": "Almolhim",
+                "firstName": "Hanan",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemistry, Virginia Tech, Blacksburg, Virginia 24061, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou B",
+                "lastName": "Zhou",
+                "firstName": "Bo",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0001-5603-4221"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmaceutical Sciences, University of Illinois Chicago, Chicago, Illinois 60612, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Baptista RP",
+                "lastName": "Baptista",
+                "firstName": "Rodrigo P",
+                "initials": "RP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, Houston Methodist Research Institute, Houston, Texas 77030, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Totrov M",
+                "lastName": "Totrov",
+                "firstName": "Maxim",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8594-274X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "MolSoft LLC, San Diego, California 92121, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Carlier PR",
+                "lastName": "Carlier",
+                "firstName": "Paul R",
+                "initials": "PR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6683-285X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemistry, Virginia Tech, Blacksburg, Virginia 24061, United States."
+                    },
+                    {
+                      "affiliation": "Department of Pharmaceutical Sciences, University of Illinois Chicago, Chicago, Illinois 60612, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cassera MB",
+                "lastName": "Cassera",
+                "firstName": "Maria Belen",
+                "initials": "MB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6341-3169"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, University of Georgia, Athens, Georgia 30602, United States."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia 30602, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6341-3169"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8594-274X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2861-216X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5400-7377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6683-285X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9768-0211"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0001-5603-4221"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "11",
+            "journalIssueId": 3901955,
+            "dateOfPublication": "2025 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "ACS Infect Dis",
+              "title": "ACS infectious diseases",
+              "essn": "2373-8227",
+              "issn": "2373-8227",
+              "nlmid": "101654580",
+              "isoabbreviation": "ACS Infect Dis"
+            },
+            "printPublicationDate": "2025-02-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "529-542",
+          "abstractText": "Half the world's population is at risk of developing a malaria infection, which is caused by parasites of the genus <i>Plasmodium</i>. Currently, resistance has been identified to all clinically available antimalarials, highlighting an urgent need to develop novel compounds and better understand common mechanisms of resistance. We previously identified a novel tetrahydro-\u03b2-carboline compound, PRC1590, which potently kills the malaria parasite. To better understand its mechanism of action, we selected for and characterized resistance to PRC1590 in <i>Plasmodium falciparum</i>. Through <i>in vitro</i> selection of resistance to PRC1590, we have identified that a single-nucleotide polymorphism on the parasite's multidrug resistance protein 1 (PfMDR1 G293V) mediates resistance to PRC1590. This mutation results in stereospecific resistance and sensitizes parasites to other antimalarials, such as mefloquine, quinine, and MMV019017. Intraerythrocytic asexual stage specificity assays have revealed that PRC1590 is most potent during the trophozoite stage when the parasite forms a single digestive vacuole (DV) and actively digests hemoglobin. Moreover, fluorescence microscopy revealed that PRC1590 disrupts the function of the DV, indicating a potential molecular target associated with this organelle. Our findings mark a significant step in understanding the mechanism of resistance and the mode of action of this emerging class of antimalarials. In addition, our results suggest a potential link between resistance mediated by PfMDR1 and PRC1590's molecular target. This research underscores the pressing need for future research aimed at investigating the intricate relationship between a compound's chemical scaffold, molecular target, and resistance mutations associated with PfMDR1.",
+          "affiliation": "Department of Biochemistry and Molecular Biology, University of Georgia, Athens, Georgia 30602, United States.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "F31 AI18146",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI157445",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI060546",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "F31 AI181461",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "R01 AI157445",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "T32 AI060546",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Carbolines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Drug Resistance",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mutation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Single Nucleotide"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "ATP-Binding Cassette, Sub-Family C Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Drug resistance",
+              "Malaria",
+              "Plasmodium falciparum",
+              "Pfmdr1",
+              "Tetrahydro-\u03b2-carbolines",
+              "Collateral Drug Sensitivity"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Carbolines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Mdr1 protein, Plasmodium falciparum",
+                "registryNumber": "0"
+              },
+              {
+                "name": "ATP-Binding Cassette, Sub-Family C Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1021/acsinfecdis.4c01001"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11828674"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11828674?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 4,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS2052131",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-04-30",
+          "dateOfCreation": "2025-01-14",
+          "dateOfRevision": "2026-09-08",
+          "electronicPublicationDate": "2025-01-14",
+          "firstPublicationDate": "2025-01-14",
+          "firstIndexDate": "2025-01-15",
+          "fullTextReceivedDate": "2025-11-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39585817",
+          "source": "MED",
+          "pmid": "39585817",
+          "pmcid": "PMC11588265",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11588265"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0308969",
+          "title": "Auto QSAR-based active learning docking for hit identification of potential inhibitors of Plasmodium falciparum Hsp90 as antimalarial agents.",
+          "authorString": "Matlhodi T, Makatsela LP, Dongola TH, Simelane MBC, Shonhai A, Gumede NJ, Mokoena F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Matlhodi T",
+                "lastName": "Matlhodi",
+                "firstName": "Thato",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Faculty of Natural and Agricultural Science, North-West University, Mmabatho, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Makatsela LP",
+                "lastName": "Makatsela",
+                "firstName": "Lisema Patrick",
+                "initials": "LP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Faculty of Natural and Agricultural Science, North-West University, Mmabatho, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dongola TH",
+                "lastName": "Dongola",
+                "firstName": "Tendamudzimu Harmfree",
+                "initials": "TH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry & Microbiology, University of Venda, Thohoyandou, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Simelane MBC",
+                "lastName": "Simelane",
+                "firstName": "Mthokozisi Blessing Cedric",
+                "initials": "MBC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Faculty of Science, University of Johannesburg, Johannesburg, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shonhai A",
+                "lastName": "Shonhai",
+                "firstName": "Addmore",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry & Microbiology, University of Venda, Thohoyandou, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gumede NJ",
+                "lastName": "Gumede",
+                "firstName": "Njabulo Joyfull",
+                "initials": "NJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4213-5416"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemical and Physical Sciences, Faculty of Natural Sciences, Walter Sisulu University (WSU), Umthatha, Eastern Cape, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mokoena F",
+                "lastName": "Mokoena",
+                "firstName": "Fortunate",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0864-9157"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Faculty of Natural and Agricultural Science, North-West University, Mmabatho, South Africa."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0864-9157"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4213-5416"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "11",
+            "volume": "19",
+            "journalIssueId": 3845097,
+            "dateOfPublication": "2024 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2024-01-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "e0308969",
+          "abstractText": "Malaria which is mainly caused by Plasmodium falciparum parasite remains a devastating public health concern, necessitating the need to develop new antimalarial agents. P. falciparum heat shock protein 90 (Hsp90), is indispensable for parasite survival and a promising drug target. Inhibitors targeting the ATP-binding pocket of the N-terminal domain have anti-Plasmodium effects. We proposed a de novo active learning (AL) driven method in tandem with docking to predict inhibitors with unique scaffolds and preferential selectivity towards PfHsp90. Reference compounds, predicted to bind PfHsp90 at the ATP-binding pocket and possessing anti-Plasmodium activities, were used to generate 10,000 unique derivatives and to build the Auto-quantitative structures activity relationships (QSAR) models. Glide docking was performed to predict the docking scores of the derivatives and > 15,000 compounds obtained from the ChEMBL database. Re-iterative training and testing of the models was performed until the optimum Kennel-based Partial Least Square (KPLS) regression model with a regression coefficient R2 = 0.75 for the training set and squared correlation prediction Q2 = 0.62 for the test set reached convergence. Rescoring using induced fit docking and molecular dynamics simulations enabled us to prioritize 15 ATP/ADP-like design ideas for purchase. The compounds exerted moderate activity towards P. falciparum NF54 strain with IC50 values of \u2264 6\u03bcM and displayed moderate to weak affinity towards PfHsp90 (KD range: 13.5-19.9\u03bcM) comparable to the reported affinity of ADP. The most potent compound was FTN-T5 (PfN54 IC50:1.44\u03bcM; HepG2/CHO cells SI\u2265 29) which bound to PfHsp90 with moderate affinity (KD:7.7\u03bcM), providing a starting point for optimization efforts. Our work demonstrates the great utility of AL for the rapid identification of novel molecules for drug discovery (i.e., hit identification). The potency of FTN-T5 will be critical for designing species-selective inhibitors towards developing more efficient agents against malaria.",
+          "affiliation": "Department of Biochemistry, Faculty of Natural and Agricultural Science, North-West University, Mmabatho, South Africa.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Gates Foundation",
+                "acronym": "GATES",
+                "grantId": "INV-006960",
+                "orderIn": 0
+              },
+              {
+                "agency": "Bill and Melinda Gates Foundation",
+                "grantId": "INV-006960",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Binding Sites"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Quantitative Structure-Activity Relationship"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "HSP90 Heat-Shock Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Molecular Docking Simulation"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "HSP90 Heat-Shock Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1371/journal.pone.0308969"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1371/journal.pone.0308969"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1371/journal.pone.0308969"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0308969"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11588265"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11588265?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 4,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pdb"
+            ]
+          },
+          "dateOfCompletion": "2024-11-25",
+          "dateOfCreation": "2024-11-25",
+          "dateOfRevision": "2026-08-26",
+          "electronicPublicationDate": "2024-11-25",
+          "firstPublicationDate": "2024-11-25",
+          "firstIndexDate": "2024-11-25",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR902277",
+          "source": "PPR",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PPR902277"
+            ]
+          },
+          "doi": "10.1101/2024.08.27.609875",
+          "title": "A novel chemogenomic screening platform for scalable antimalarial drug target identification",
+          "authorString": "Bower-Lepts C, Rawat M, Keith WC, Girling G, Luth MR, Carolino K, Boroviak K, Coyle R, Schwach F, Smidt C, Bushell E, Moliner-Cubel S, Gomez-Lorenzo MD, Gamo F, Winzeler EA, Billker O, Lee MC, Rayner JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bower-Lepts C",
+                "lastName": "Bower-Lepts",
+                "firstName": "Christopher",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cambridge Institute for Medical Research, , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rawat M",
+                "lastName": "Rawat",
+                "firstName": "Mukul",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    },
+                    {
+                      "affiliation": "Biological Chemistry and Drug Discovery, , , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Keith WC",
+                "lastName": "Keith",
+                "firstName": "William Collins",
+                "initials": "WC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cambridge Institute for Medical Research, , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Girling G",
+                "lastName": "Girling",
+                "firstName": "Gareth",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Luth MR",
+                "lastName": "Luth",
+                "firstName": "Madeline",
+                "initials": "MR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pediatrics, , ,"
+                    },
+                    {
+                      "affiliation": "Skaggs School of Pharmacy and Pharmaceutical Sciences, , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Carolino K",
+                "lastName": "Carolino",
+                "firstName": "Krypton",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pediatrics, , ,"
+                    },
+                    {
+                      "affiliation": "Skaggs School of Pharmacy and Pharmaceutical Sciences, , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boroviak K",
+                "lastName": "Boroviak",
+                "firstName": "Katharina",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coyle R",
+                "lastName": "Coyle",
+                "firstName": "Rachael",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    },
+                    {
+                      "affiliation": "Biological Chemistry and Drug Discovery, , , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schwach F",
+                "lastName": "Schwach",
+                "firstName": "Frank",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Smidt C",
+                "lastName": "Smidt",
+                "firstName": "Cindy",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bushell E",
+                "lastName": "Bushell",
+                "firstName": "Ellen",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Biology, ,"
+                    },
+                    {
+                      "affiliation": "The Laboratory for Molecular Infection Medicine, ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moliner-Cubel S",
+                "lastName": "Moliner-Cubel",
+                "firstName": "Sonia",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Global Health Medicines R&D, GSK, Severo Ochoa, 2, 28760 Tres Cantos, Spain"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gomez-Lorenzo MD",
+                "lastName": "Gomez-Lorenzo",
+                "firstName": "Maria",
+                "initials": "MD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Global Health Medicines R&D, GSK, Severo Ochoa, 2, 28760 Tres Cantos, Spain"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gamo F",
+                "lastName": "Gamo",
+                "firstName": "Francisco-Javier",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Global Health Medicines R&D, GSK, Severo Ochoa, 2, 28760 Tres Cantos, Spain"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Winzeler EA",
+                "lastName": "Winzeler",
+                "firstName": "Elizabeth",
+                "initials": "EA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4049-2113"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pediatrics, , ,"
+                    },
+                    {
+                      "affiliation": "Skaggs School of Pharmacy and Pharmaceutical Sciences, , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Billker O",
+                "lastName": "Billker",
+                "firstName": "Oliver",
+                "initials": "O",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1716-168X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Biology, ,"
+                    },
+                    {
+                      "affiliation": "The Laboratory for Molecular Infection Medicine, ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lee MC",
+                "lastName": "Lee",
+                "firstName": "Marcus C.S.",
+                "initials": "MC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", Wellcome Genome Campus , ,"
+                    },
+                    {
+                      "affiliation": "Biological Chemistry and Drug Discovery, , , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rayner JC",
+                "lastName": "Rayner",
+                "firstName": "Julian",
+                "initials": "JC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cambridge Institute for Medical Research, , ,"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4049-2113"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1716-168X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "pubYear": "2024",
+          "abstractText": "<h4>Summary</h4>  Large-scale chemical-genetic screening, or chemogenomics, can faciliate rapid and scalable drug target identification. To establish a chemogenomic screen for antimalarial drug target identification, we leveraged \u223c600  Plasmodium berghei artificial chromosomes (PbACs) encoding potential drug targets to generate a systematic overexpression library. PbACs were engineered with DNA barcodes, enabling their quantification within mixed pools using next generation sequencing (barcode sequencing or BarSeq). Pooled transfection of PbACs into the highly genetically tractable  Plasmodium knowlesi demonstrated efficient vector uptake and transcription of encoded  P. berghei genes. Parasite pools were exposed to antimalarial candidates, with pilot screens probing for known gene-compound associations identifying their targets with high sensitivity. Screening antimalarial inhibitors with unknown mechanisms of action successfully identified  pi4k as the target for one novel compound, which was subsequently validated using  in vitro evolution in  Plasmodium falciparum parasites. This sensitive and scalable chemogenomics platform therefore represents a valuable early-stage tool for antimalarial target identification.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2024
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "206194/Z/17/Z",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "grantId": "220266/Z/20/Z",
+                "orderIn": 0
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1101/2024.08.27.609875"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1101/2024.08.27.609875"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/article/PPR/PPR902277"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/api/fulltextRepo?pprId=PPR902277&type=FILE&fileName=EMS198369-pdf.pdf&mimeType=application/pdf"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "N",
+          "citedByCount": 3,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS198369",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "alphafold",
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2024-08-30",
+          "firstPublicationDate": "2024-08-27",
+          "firstIndexDate": "2024-08-30",
+          "fullTextReceivedDate": "2024-09-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR898040",
+          "source": "PPR",
+          "doi": "10.20944/preprints202408.1238.v1",
+          "title": "Diversity and Anti-infectious Components of Cultivable Rhizosphere Fungi Derived from Three Species of Astragalus Plants in Northwestern Yunnan, China",
+          "authorString": "Zhou G, Xiong W, Xu W, Dou Z, Liu B, Li X, Du H, Li H, Zhang Y, Jiang B, Wang K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhou G",
+                "lastName": "Zhou",
+                "firstName": "Guo-Jun",
+                "initials": "G"
+              },
+              {
+                "fullName": "Xiong W",
+                "lastName": "Xiong",
+                "firstName": "Wei-Jia",
+                "initials": "W"
+              },
+              {
+                "fullName": "Xu W",
+                "lastName": "Xu",
+                "firstName": "Wei",
+                "initials": "W"
+              },
+              {
+                "fullName": "Dou Z",
+                "lastName": "Dou",
+                "firstName": "Zheng-Rong",
+                "initials": "Z"
+              },
+              {
+                "fullName": "Liu B",
+                "lastName": "Liu",
+                "firstName": "Bo-Chao",
+                "initials": "B"
+              },
+              {
+                "fullName": "Li X",
+                "lastName": "Li",
+                "firstName": "Xue-Li",
+                "initials": "X"
+              },
+              {
+                "fullName": "Du H",
+                "lastName": "Du",
+                "firstName": "Hao",
+                "initials": "H"
+              },
+              {
+                "fullName": "Li H",
+                "lastName": "Li",
+                "firstName": "Hai-Feng",
+                "initials": "H"
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yong-Zeng",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Jiang B",
+                "lastName": "Jiang",
+                "firstName": "Bei",
+                "initials": "B"
+              },
+              {
+                "fullName": "Wang K",
+                "lastName": "Wang",
+                "firstName": "Kai-Ling",
+                "initials": "K"
+              }
+            ]
+          },
+          "pubYear": "2024",
+          "abstractText": "Astragalus plants belong to the legume family and have obvious rhizosphere effect. The northwestern area of Yunnan China is the main distribution region of Astragalus plants with high application value, but low recognition and resource reserves. The aim of this research is to explore the species diversity of cultivable rhizosphere fungi derived from A. acaulis, A. forrestii, and A. ernestii growing in special high-cold environment of northwest Yunnan, and discover anti-infective components from these fungi. A total of 93 fungal strains belonging to 38 species in 18 genera were isolated and identified. Antibacterial and antimalarial screening yielded 10 target strains. Among them, the ethyl acetate crude extract of the fungus Aspergillus calidoustus AA12 from A. acaulis fermentation substance showed a broad antibacterial spectrum and the best antimalarial activity. Further chemical investigation led to the first discovery of seven compounds from the species of A. calidoustus, including a sesterterpine 6-epi-ophiobolin G (1), two sesquiterpenes penicisochroman A (2), pergillin (3) and 7-methyl-2-(1-methylethylethlidene)-furo[3,2-H]isoquinoline-3-one (4), and three polyketides trypacidin (5), 1,2-seco-trypacidin (6) and questin (7). Compound 1 exhibited moderate to strong antibacterial activity against six Gram-positive pathogens with the minimum inhibitory concentration (MIC) ranging from 25 to 6.25 \u03bcg/mL, and prominent inhibitory effect on the biofilm of Streptococcus agalactiae at MIC value of 3.125 \u03bcg/mL. This compound also displayed potent antimalarial activity against Plasmodium falciparum strains 3D7 and chloroquine-resistant Dd2 at the half maximal inhibitory concentration (IC50) values of 3.319 and 4.340 \u00b5mol/L at 72 h, respectively. This study contributed to our understanding of the cultivable rhizosphere fungi Astragalus-derived in special high-cold environment and further increased the library of fungi available for natural anti-infectious products screening.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Preprints.org",
+            "yearOfPublication": 2024
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.20944/preprints202408.1238.v1"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.20944/preprints202408.1238.v1"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "39590656",
+                "reference": "Journal of fungi (Basel, Switzerland). 2024 Oct;10(11):736",
+                "type": "Preprint of",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2024-08-22",
+          "firstPublicationDate": "2024-08-16",
+          "firstIndexDate": "2024-08-22",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR898040",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2024-08-16",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38960013",
+          "source": "MED",
+          "pmid": "38960013",
+          "doi": "10.1016/j.pep.2024.106539",
+          "title": "Expression and biochemical characterization of the putative insulinase enzyme PF11_0189 found in the Plasmodium falciparum genome.",
+          "authorString": "Mahanta PJ, Lhouvum K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Mahanta PJ",
+                "lastName": "Mahanta",
+                "firstName": "Prabhash Jyoti",
+                "initials": "PJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-0596-5861"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biotechnology, National Institute of Technology, Arunachal Pradesh, India. Electronic address: prabhash.mahanta@gmail.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lhouvum K",
+                "lastName": "Lhouvum",
+                "firstName": "Kimjolly",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biotechnology, National Institute of Technology, Arunachal Pradesh, India."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0009-0004-0596-5861"
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "222",
+            "journalIssueId": 3800547,
+            "dateOfPublication": "2024 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "Protein Expr Purif",
+              "title": "Protein expression and purification",
+              "essn": "1096-0279",
+              "issn": "1046-5928",
+              "nlmid": "9101496",
+              "isoabbreviation": "Protein Expr Purif"
+            },
+            "printPublicationDate": "2024-10-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "106539",
+          "abstractText": "PF11_0189 is a putative insulin degrading enzyme present in Plasmodium falciparum genome. The catalytic domain of PF11_0189 is about 27\u00a0kDa. Substrate specificity study shows PF11_0189 acts upon different types of proteins. The substrate specificity is found to be highest when insulin is used as a substrate. Metal dependency study shows highest dependency of PF11_0189 towards zinc metal for its proteolytic activity. Chelation of zinc metal with EDTA shows complete absence of PF11_0189 activity. Peptide inhibitors, P-70 and P-121 from combinatorial peptide library prepared against PF11_0189 show inhibition with an IC50 value of 4.8\u00a0\u03bcM and 7.5\u00a0\u03bcM respectively. A proven natural anti-malarial peptide cyclosporin A shows complete inhibition against PF11_0189 with an IC50 value of 0.75\u00a0\u03bcM suggesting PF11_0189 as a potential target for peptide inhibitors. The study implicates that PF11_0189 is a zinc metalloprotease involved in catalysis of insulin. The study gives a preliminary insight into the mechanism of complications arising from glucose abnormalities during severe malaria.",
+          "affiliation": "Department of Biotechnology, National Institute of Technology, Arunachal Pradesh, India. Electronic address: prabhash.mahanta@gmail.com.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Zinc",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cyclosporine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Insulysin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Recombinant Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cloning, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Substrate Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome, Protozoan"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium falciparum",
+              "Drug target",
+              "Zinc Metalloprotease",
+              "Antimalarial Peptides",
+              "Metal Dependency",
+              "Pf11_0189",
+              "Insulin Degradation"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Recombinant Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Insulysin",
+                "registryNumber": "EC 3.4.24.56"
+              },
+              {
+                "name": "Insulin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Zinc",
+                "registryNumber": "J41CSQ7QDS"
+              },
+              {
+                "name": "Cyclosporine",
+                "registryNumber": "83HN0GTJ6D"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.pep.2024.106539"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2024-07-14",
+          "dateOfCreation": "2024-07-03",
+          "dateOfRevision": "2026-07-31",
+          "electronicPublicationDate": "2024-07-01",
+          "firstPublicationDate": "2024-07-01",
+          "firstIndexDate": "2024-07-04",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

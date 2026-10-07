@@ -1,0 +1,3857 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22RNA-seq%22+OR+%22transcriptome%22+OR+%22transcriptomic%22+OR+%22microarray%22+OR+%22scRNA-seq%22%29+AND+TITLE_ABS%3A%28%22cell-cycle%22+OR+%22timing%22+OR+%22label%22%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:01:09.905259+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 36,
+    "nextCursorMark": "AoJaAigzODI0MzMzMw==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22RNA-seq%22+OR+%22transcriptome%22+OR+%22transcriptomic%22+OR+%22microarray%22+OR+%22scRNA-seq%22%29+AND+TITLE_ABS%3A%28%22cell-cycle%22+OR+%22timing%22+OR+%22label%22%29+sort_cited%3Ay&cursorMark=AoJaAigzODI0MzMzMw%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"RNA-seq\" OR \"transcriptome\" OR \"transcriptomic\" OR \"microarray\" OR \"scRNA-seq\") AND TITLE_ABS:(\"cell-cycle\" OR \"timing\" OR \"label\") sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "20865045",
+          "source": "MED",
+          "pmid": "20865045",
+          "pmcid": "PMC2928733",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2928733"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0012354",
+          "title": "Coordinated progression through two subtranscriptomes underlies the tachyzoite cycle of Toxoplasma gondii.",
+          "authorString": "Behnke MS, Wootton JC, Lehmann MM, Radke JB, Lucas O, Nawas J, Sibley LD, White MW.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Behnke MS",
+                "lastName": "Behnke",
+                "firstName": "Michael S",
+                "initials": "MS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4668-8109"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Veterinary Molecular Biology, Montana State University, Bozeman, Montana, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wootton JC",
+                "lastName": "Wootton",
+                "firstName": "John C",
+                "initials": "JC"
+              },
+              {
+                "fullName": "Lehmann MM",
+                "lastName": "Lehmann",
+                "firstName": "Margaret M",
+                "initials": "MM"
+              },
+              {
+                "fullName": "Radke JB",
+                "lastName": "Radke",
+                "firstName": "Josh B",
+                "initials": "JB"
+              },
+              {
+                "fullName": "Lucas O",
+                "lastName": "Lucas",
+                "firstName": "Olivier",
+                "initials": "O"
+              },
+              {
+                "fullName": "Nawas J",
+                "lastName": "Nawas",
+                "firstName": "Julie",
+                "initials": "J"
+              },
+              {
+                "fullName": "Sibley LD",
+                "lastName": "Sibley",
+                "firstName": "L David",
+                "initials": "LD"
+              },
+              {
+                "fullName": "White MW",
+                "lastName": "White",
+                "firstName": "Michael W",
+                "initials": "MW"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4668-8109"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "5",
+            "journalIssueId": 2468633,
+            "dateOfPublication": "2010 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2010,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "isoabbreviation": "PLoS One",
+              "nlmid": "101285081"
+            },
+            "printPublicationDate": "2010-08-01"
+          },
+          "pubYear": "2010",
+          "pageInfo": "e12354",
+          "abstractText": "<h4>Background</h4>Apicomplexan parasites replicate by varied and unusual processes where the typically eukaryotic expansion of cellular components and chromosome cycle are coordinated with the biosynthesis of parasite-specific structures essential for transmission.<h4>Methodology/principal findings</h4>Here we describe the global cell cycle transcriptome of the tachyzoite stage of Toxoplasma gondii. In dividing tachyzoites, more than a third of the mRNAs exhibit significant cyclical profiles whose timing correlates with biosynthetic events that unfold during daughter parasite formation. These 2,833 mRNAs have a bimodal organization with peak expression occurring in one of two transcriptional waves that are bounded by the transition into S phase and cell cycle exit following cytokinesis. The G1-subtranscriptome is enriched for genes required for basal biosynthetic and metabolic functions, similar to most eukaryotes, while the S/M-subtranscriptome is characterized by the uniquely apicomplexan requirements of parasite maturation, development of specialized organelles, and egress of infectious daughter cells. Two dozen AP2 transcription factors form a series through the tachyzoite cycle with successive sharp peaks of protein expression in the same timeframes as their mRNA patterns, indicating that the mechanisms responsible for the timing of protein delivery might be mediated by AP2 domains with different promoter recognition specificities.<h4>Conclusion/significance</h4>Underlying each of the major events in apicomplexan cell cycles, and many more subordinate actions, are dynamic changes in parasite gene expression. The mechanisms responsible for cyclical gene expression timing are likely crucial to the efficiency of parasite replication and may provide new avenues for interfering with parasite growth.",
+          "affiliation": "Department of Veterinary Molecular Biology, Montana State University, Bozeman, Montana, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, N.I.H., Intramural",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI048390",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI 48390",
+                "orderIn": 0
+              },
+              {
+                "agency": "Intramural NIH HHS",
+                "acronym": "ImNIH",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI034036",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI072739",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI077662",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI077662",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI034036",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI036629",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI059176",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI072739",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fibroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Cycle"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0012354"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2928733"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2928733?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 258,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCompletion": "2011-01-13",
+          "dateOfCreation": "2010-09-25",
+          "dateOfRevision": "2024-11-01",
+          "electronicPublicationDate": "2010-08-26",
+          "firstPublicationDate": "2010-08-26",
+          "firstIndexDate": "2010-10-01",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "15685165",
+          "source": "MED",
+          "pmid": "15685165",
+          "doi": "10.1038/nbt1061",
+          "title": "Biosynthetic labeling of RNA with uracil phosphoribosyltransferase allows cell-specific microarray analysis of mRNA synthesis and decay.",
+          "authorString": "Cleary MD, Meiering CD, Jan E, Guymon R, Boothroyd JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Cleary MD",
+                "lastName": "Cleary",
+                "firstName": "Michael D",
+                "initials": "MD"
+              },
+              {
+                "fullName": "Meiering CD",
+                "lastName": "Meiering",
+                "firstName": "Christopher D",
+                "initials": "CD"
+              },
+              {
+                "fullName": "Jan E",
+                "lastName": "Jan",
+                "firstName": "Eric",
+                "initials": "E"
+              },
+              {
+                "fullName": "Guymon R",
+                "lastName": "Guymon",
+                "firstName": "Rebecca",
+                "initials": "R"
+              },
+              {
+                "fullName": "Boothroyd JC",
+                "lastName": "Boothroyd",
+                "firstName": "John C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9719-745X"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9719-745X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "23",
+            "journalIssueId": 1218396,
+            "dateOfPublication": "2005 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2005,
+            "journal": {
+              "medlineAbbreviation": "Nat Biotechnol",
+              "title": "Nature biotechnology",
+              "essn": "1546-1696",
+              "issn": "1087-0156",
+              "isoabbreviation": "Nat Biotechnol",
+              "nlmid": "9604648"
+            },
+            "printPublicationDate": "2005-02-01"
+          },
+          "pubYear": "2005",
+          "pageInfo": "232-237",
+          "abstractText": "Standard microarrays measure mRNA abundance, not mRNA synthesis, and therefore cannot identify the mechanisms that regulate gene expression. We have developed a method to overcome this limitation by using the salvage enzyme uracil phosphoribosyltransferase (UPRT) from the protozoan Toxoplasma gondii. T. gondii UPRT has been well characterized because of its application in monitoring parasite growth: mammals lack this enzyme activity and thus only the parasite incorporates (3)H-uracil into its nucleic acids. In this study we used RNA labeling by UPRT to determine the roles of mRNA synthesis and decay in the control of gene expression during T. gondii asexual development. We also used this approach to specifically label parasite RNA during a mouse infection and to incorporate thio-substituted uridines into the RNA of human cells engineered to express T. gondii UPRT, indicating that engineered UPRT expression will allow cell-specific analysis of gene expression in organisms other than T. gondii.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Letter",
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "Evaluation Study"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "GM29812",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "GM07276",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "5T32AI07328",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI41014",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "1F32AI056959",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI21423",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pentosyltransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolic Clearance Rate"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Staining and Labeling",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptional Activation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "uracil phosphoribosyltransferase",
+                "registryNumber": "EC 2.4.2.9"
+              },
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Pentosyltransferases",
+                "registryNumber": "EC 2.4.2.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nbt1061"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "15696145",
+                "reference": "Nat Biotechnol. 2005 Feb;23(2):183-4. doi: 10.1038/nbt0205-183",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 163,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "ARXPR",
+              "EMBL"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2005-05-31",
+          "dateOfCreation": "2005-02-03",
+          "dateOfRevision": "2019-12-10",
+          "electronicPublicationDate": "2005-01-30",
+          "firstPublicationDate": "2005-01-30",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "12455982",
+          "source": "MED",
+          "pmid": "12455982",
+          "pmcid": "PMC118016",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC118016"
+            ]
+          },
+          "doi": "10.1128/ec.1.3.329-340.2002",
+          "title": "Toxoplasma gondii asexual development: identification of developmentally regulated genes and distinct patterns of gene expression.",
+          "authorString": "Cleary MD, Singh U, Blader IJ, Brewer JL, Boothroyd JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Cleary MD",
+                "lastName": "Cleary",
+                "firstName": "Michael D",
+                "initials": "MD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University, Stanford, California 94305-5124, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singh U",
+                "lastName": "Singh",
+                "firstName": "Upinder",
+                "initials": "U",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0630-0306"
+                }
+              },
+              {
+                "fullName": "Blader IJ",
+                "lastName": "Blader",
+                "firstName": "Ira J",
+                "initials": "IJ"
+              },
+              {
+                "fullName": "Brewer JL",
+                "lastName": "Brewer",
+                "firstName": "Jeremy L",
+                "initials": "JL"
+              },
+              {
+                "fullName": "Boothroyd JC",
+                "lastName": "Boothroyd",
+                "firstName": "John C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9719-745X"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9719-745X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0630-0306"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "1",
+            "journalIssueId": 1138616,
+            "dateOfPublication": "2002 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2002,
+            "journal": {
+              "medlineAbbreviation": "Eukaryot Cell",
+              "title": "Eukaryotic cell",
+              "essn": "1535-9786",
+              "issn": "1535-9778",
+              "isoabbreviation": "Eukaryot Cell",
+              "nlmid": "101130731"
+            },
+            "printPublicationDate": "2002-06-01"
+          },
+          "pubYear": "2002",
+          "pageInfo": "329-340",
+          "abstractText": "Asexual development in Toxoplasma gondii is a vital aspect of the parasite's life cycle, allowing transmission and avoidance of the host immune response. Differentiation of rapidly dividing tachyzoites into slowly growing, encysted bradyzoites involves significant changes in both physiology and morphology. We generated microarrays of approximately 4,400 Toxoplasma cDNAs, representing a minimum of approximately 600 genes (based on partial sequencing), and used these microarrays to study changes in transcript levels during tachyzoite-to-bradyzoite differentiation. This approach has allowed us to (i) determine expression profiles of previously described developmentally regulated genes, (ii) identify novel developmentally regulated genes, and (iii) identify distinct classes of genes based on the timing and magnitude of changes in transcript levels. Whereas microarray analysis typically involves comparisons of mRNA levels at different time points, we have developed a method to measure relative transcript abundance between genes at a given time point. This method was used to determine transcript levels in parasites prior to differentiation and to further classify bradyzoite-induced genes, thus allowing a more comprehensive view of changes in gene expression than is provided by standard expression profiles. Newly identified developmentally regulated genes include putative surface proteins (a SAG1-related protein, SRS9, and a mucin-domain containing protein), regulatory and metabolic enzymes (methionine aminopeptidase, oligopeptidase, aminotransferase, and glucose-6-phosphate dehydrogenase homologues), and a subset of genes encoding secretory organelle proteins (MIC1, ROP1, ROP2, ROP4, GRA1, GRA5, and GRA8). This analysis permits the first in-depth look at changes in gene expression during development of this complex protozoan parasite.",
+          "affiliation": "Department of Microbiology and Immunology, Stanford University, Stanford, California 94305-5124, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "1F32AI10478-01",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "F32 AI010478",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "K08 AI01453",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI045057",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI45057",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "GM07276",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "T32 GM007276",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzymes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation, Developmental"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Expressed Sequence Tags"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Enzymes",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1128/ec.1.3.329-340.2002"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/EC.1.3.329-340.2002"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC118016"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC118016?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/ec.1.3.329-340.2002"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 128,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "ARXPR",
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2003-01-30",
+          "dateOfCreation": "2002-11-29",
+          "dateOfRevision": "2023-04-28",
+          "firstPublicationDate": "2002-06-01",
+          "firstIndexDate": "2009-12-24",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "24885521",
+          "source": "MED",
+          "pmid": "24885521",
+          "pmcid": "PMC4035076",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4035076"
+            ]
+          },
+          "doi": "10.1186/1471-2164-15-350",
+          "title": "Toxoplasma gondii merozoite gene expression analysis with comparison to the life cycle discloses a unique expression state during enteric development.",
+          "authorString": "Behnke MS, Zhang TP, Dubey JP, Sibley LD.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Behnke MS",
+                "lastName": "Behnke",
+                "firstName": "Michael S",
+                "initials": "MS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4668-8109"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Microbiology, Washington University School of Medicine, 660 S, Euclid Ave,, St Louis, MO 63110, USA. mike_behnke@yahoo.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang TP",
+                "lastName": "Zhang",
+                "firstName": "Tiange P",
+                "initials": "TP"
+              },
+              {
+                "fullName": "Dubey JP",
+                "lastName": "Dubey",
+                "firstName": "Jitender P",
+                "initials": "JP"
+              },
+              {
+                "fullName": "Sibley LD",
+                "lastName": "Sibley",
+                "firstName": "L David",
+                "initials": "LD"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4668-8109"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "15",
+            "journalIssueId": 2473764,
+            "dateOfPublication": "2014 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2014,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "isoabbreviation": "BMC Genomics",
+              "nlmid": "100965258"
+            },
+            "printPublicationDate": "2014-05-01"
+          },
+          "pubYear": "2014",
+          "pageInfo": "350",
+          "abstractText": "<h4>Background</h4>Considerable work has been carried out to understand the biology of tachyzoites and bradyzoites of Toxoplasma gondii in large part due to in vitro culture methods for these stages. However, culturing methods for stages that normally develop in the gut of the definitive felid host, including the merozoite and sexual stages, have not been developed hindering the ability to study a large portion of the parasite's life cycle. Here, we begin to unravel the molecular aspects of enteric stages by providing new data on merozoite stage gene expression.<h4>Results</h4>To profile gene expression differences in enteric stages we harvested merozoites from the intestine of infected cats and hybridized mRNA to the Affymetrix Toxoplasma GeneChip. We analyzed the merozoite data in context of the life cycle by comparing it to previously published data for the oocyst, tachyzoite, and bradyzoite stages. Principal component analysis highlighted the unique profile of merozoites, placing them approximately half-way on a continuum between the tachyzoite/bradyzoite and oocyst samples. Prior studies have shown that antibodies to surface antigen one (SAG1) and many dense granule proteins do not label merozoites: our microarray data confirms that these genes were not expressed at this stage. Also, the expression for many rhoptry and microneme proteins was drastically reduced while the expression for many surface antigens was increased at the merozoite stage. Gene Ontology and KEGG analysis revealed that genes involved in transcription/translation and many metabolic pathways were upregulated at the merozoite stage, highlighting unique growth requirements of this stage. To functionally test these predictions, we demonstrated that an upstream promoter region of a merozoite specific gene was sufficient to control expression in merozoites in vivo.<h4>Conclusions</h4>Merozoites are the first developmental stage in the coccidian cycle that takes place within the gut of the definitive host. The data presented here describe the global gene expression profile of the merozoite stage and the creation of transgenic parasite strains that show stage-specific expression of reporter genes in the cat intestine. These data and reagents will be useful in unlocking how the parasite senses and responds to the felid gut environment to initiate enteric development.",
+          "affiliation": "Department of Molecular Microbiology, Washington University School of Medicine, 660 S, Euclid Ave,, St Louis, MO 63110, USA. mike_behnke@yahoo.com.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI059176",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "P30 DK052574",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI059176",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI036629",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "K22 AI108721",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cluster Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Principal Component Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Merozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Promoter Regions, Genetic"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/1471-2164-15-350"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4035076"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4035076?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 75,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2015-01-16",
+          "dateOfCreation": "2014-06-03",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2014-05-08",
+          "firstPublicationDate": "2014-05-08",
+          "firstIndexDate": "2014-06-04",
+          "fullTextReceivedDate": "2020-07-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "32065584",
+          "source": "MED",
+          "pmid": "32065584",
+          "pmcid": "PMC7180058",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7180058"
+            ]
+          },
+          "doi": "10.7554/elife.54129",
+          "title": "A single-parasite transcriptional atlas of <i>Toxoplasma Gondii</i> reveals novel control of antigen expression.",
+          "authorString": "Xue Y, Theisen TC, Rastogi S, Ferrel A, Quake SR, Boothroyd JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Xue Y",
+                "lastName": "Xue",
+                "firstName": "Yuan",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7846-4273"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bioengineering, Stanford University, Stanford, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Theisen TC",
+                "lastName": "Theisen",
+                "firstName": "Terence C",
+                "initials": "TC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rastogi S",
+                "lastName": "Rastogi",
+                "firstName": "Suchita",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7808-1777"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ferrel A",
+                "lastName": "Ferrel",
+                "firstName": "Abel",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Quake SR",
+                "lastName": "Quake",
+                "firstName": "Stephen R",
+                "initials": "SR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1613-0809"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bioengineering, Stanford University, Stanford, United States."
+                    },
+                    {
+                      "affiliation": "Department of Applied Physics, Stanford University, Stanford, United States."
+                    },
+                    {
+                      "affiliation": "Chan Zuckerberg Biohub, San Francisco, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boothroyd JC",
+                "lastName": "Boothroyd",
+                "firstName": "John C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9719-745X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7808-1777"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9719-745X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1613-0809"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7846-4273"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "9",
+            "journalIssueId": 2907566,
+            "dateOfPublication": "2020 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2020,
+            "journal": {
+              "medlineAbbreviation": "Elife",
+              "title": "eLife",
+              "essn": "2050-084X",
+              "issn": "2050-084X",
+              "isoabbreviation": "Elife",
+              "nlmid": "101579614"
+            },
+            "printPublicationDate": "2020-02-01"
+          },
+          "pubYear": "2020",
+          "pageInfo": "e54129",
+          "abstractText": "<i>Toxoplasma gondii,</i> a protozoan parasite, undergoes a complex and poorly understood developmental process that is critical for establishing a chronic infection in its intermediate hosts. Here, we applied single-cell RNA-sequencing (scRNA-seq) on >5,400 Toxoplasma in both tachyzoite and bradyzoite stages using three widely studied strains to construct a comprehensive atlas of cell-cycle and asexual development, revealing hidden states and transcriptional factors associated with each developmental stage. Analysis of SAG1-related sequence (SRS) antigenic repertoire reveals a highly heterogeneous, sporadic expression pattern unexplained by measurement noise, cell cycle, or asexual development. Furthermore, we identified AP2IX-1 as a transcription factor that controls the switching from the ubiquitous SAG1 to rare surface antigens not previously observed in tachyzoites. In addition, comparative analysis between <i>Toxoplasma</i> and <i>Plasmodium</i> scRNA-seq results reveals concerted expression of gene sets, despite fundamental differences in cell division. Lastly, we built an interactive data-browser for visualization of our atlas resource.",
+          "affiliation": "Department of Bioengineering, Stanford University, Stanford, United States.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "5T32AI007328-30",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI021423",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI007328",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "5T32AI007328-30",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "F30 AI124589",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "grantId": "Gilliams Fellowship for Advanced Study",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "NH",
+                "grantId": "RO1 AI29529",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "F30 AI124589-03",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "RO1 AI21423",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "RO1 AI29529",
+                "orderIn": 0
+              },
+              {
+                "agency": "Chan Zuckerberg Biohub",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI129529",
+                "orderIn": 0
+              },
+              {
+                "agency": "Stanford University",
+                "grantId": "Stanford Interdisciplinary Graduate Bio-X Fellowships",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Analysis, RNA"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigenic Variation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Atlases as Topic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Single-Cell Analysis"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Development",
+              "Cell biology",
+              "Protozoa",
+              "Microbiology",
+              "Infectious disease",
+              "Toxoplasma gondii",
+              "Ap2 Transcription Factor",
+              "Single-cell Rna Sequencing",
+              "Surface Antigen Repertoire"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "SAG1 antigen, Toxoplasma",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.7554/eLife.54129"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7180058"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7180058?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR81149",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 71,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "gen",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2021-04-09",
+          "dateOfCreation": "2020-02-18",
+          "dateOfRevision": "2024-04-25",
+          "electronicPublicationDate": "2020-02-17",
+          "firstPublicationDate": "2020-02-17",
+          "firstIndexDate": "2020-02-18",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "24962434",
+          "source": "MED",
+          "pmid": "24962434",
+          "pmcid": "PMC4092224",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4092224"
+            ]
+          },
+          "doi": "10.1186/1471-2164-15-515",
+          "title": "Gene Set Enrichment Analysis (GSEA) of Toxoplasma gondii expression datasets links cell cycle progression and the bradyzoite developmental program.",
+          "authorString": "Croken MM, Qiu W, White MW, Kim K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Croken MM",
+                "lastName": "Croken",
+                "firstName": "Matthew McKnight",
+                "initials": "MM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5662-9105"
+                }
+              },
+              {
+                "fullName": "Qiu W",
+                "lastName": "Qiu",
+                "firstName": "Weigang",
+                "initials": "W"
+              },
+              {
+                "fullName": "White MW",
+                "lastName": "White",
+                "firstName": "Michael W",
+                "initials": "MW"
+              },
+              {
+                "fullName": "Kim K",
+                "lastName": "Kim",
+                "firstName": "Kami",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3384-152X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Departments of Medicine, Microbiology & Immunology and Pathology, Albert Einstein College of Medicine, 1300 Morris Park Avenue, 10461 Bronx, NY, USA. kami.kim@einstein.yu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5662-9105"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3384-152X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "15",
+            "journalIssueId": 2473850,
+            "dateOfPublication": "2014 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2014,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "isoabbreviation": "BMC Genomics",
+              "nlmid": "100965258"
+            },
+            "printPublicationDate": "2014-06-01"
+          },
+          "pubYear": "2014",
+          "pageInfo": "515",
+          "abstractText": "<h4>Background</h4>Large amounts of microarray expression data have been generated for the Apicomplexan parasite Toxoplasma gondii in an effort to identify genes critical for virulence or developmental transitions. However, researchers' ability to analyze this data is limited by the large number of unannotated genes, including many that appear to be conserved hypothetical proteins restricted to Apicomplexa. Further, differential expression of individual genes is not always informative and often relies on investigators to draw big-picture inferences without the benefit of context. We hypothesized that customization of gene set enrichment analysis (GSEA) to T. gondii would enable us to rigorously test whether groups of genes serving a common biological function are co-regulated during the developmental transition to the latent bradyzoite form.<h4>Results</h4>Using publicly available T. gondii expression microarray data, we created Toxoplasma gene sets related to bradyzoite differentiation, oocyst sporulation, and the cell cycle. We supplemented these with lists of genes derived from community annotation efforts that identified contents of the parasite-specific organelles, rhoptries, micronemes, dense granules, and the apicoplast. Finally, we created gene sets based on metabolic pathways annotated in the KEGG database and Gene Ontology terms associated with gene annotations available at http://www.toxodb.org. These gene sets were used to perform GSEA analysis using two sets of published T. gondii expression data that characterized T. gondii stress response and differentiation to the latent bradyzoite form.<h4>Conclusions</h4>GSEA provides evidence that cell cycle regulation and bradyzoite differentiation are coupled. \u0394gcn5A mutants unable to induce bradyzoite-associated genes in response to alkaline stress have different patterns of cell cycle and bradyzoite gene expression from stressed wild-type parasites. Extracellular tachyzoites resemble a transitional state that differs in gene expression from both replicating intracellular tachyzoites and in vitro bradyzoites by expressing genes that are enriched in bradyzoites as well as genes that are associated with the G1 phase of the cell cycle. The gene sets we have created are readily modified to reflect ongoing research and will aid researchers' ability to use a knowledge-based approach to data analysis facilitating the development of new insights into the intricate biology of Toxoplasma gondii.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "NIH T32 GM007491",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI087625",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "P30 AI051519",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "P30AI051519",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI077662",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01AI077662",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01AI087625",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "RC4 AI092801",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI089885",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01AI089885",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "RC4AI092801",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "T32 GM007491",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Extracellular Space",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Intracellular Space",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Biological Transport"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolic Networks and Pathways"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Stress, Physiological"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Datasets as Topic"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bmcgenomics.biomedcentral.com/counter/pdf/10.1186/1471-2164-15-515"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/1471-2164-15-515"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4092224"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4092224?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 53,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCompletion": "2015-02-20",
+          "dateOfCreation": "2014-06-26",
+          "dateOfRevision": "2026-07-26",
+          "electronicPublicationDate": "2014-06-24",
+          "firstPublicationDate": "2014-06-24",
+          "firstIndexDate": "2014-06-26",
+          "fullTextReceivedDate": "2020-07-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "29615509",
+          "source": "MED",
+          "pmid": "29615509",
+          "pmcid": "PMC5885026",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC5885026"
+            ]
+          },
+          "doi": "10.1128/mbio.02401-17",
+          "title": "MYR1-Dependent Effectors Are the Major Drivers of a Host Cell's Early Response to <i>Toxoplasma</i>, Including Counteracting MYR1-Independent Effects.",
+          "authorString": "Naor A, Panas MW, Marino N, Coffey MJ, Tonkin CJ, Boothroyd JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Naor A",
+                "lastName": "Naor",
+                "firstName": "Adit",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4770-3099"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Panas MW",
+                "lastName": "Panas",
+                "firstName": "Michael W",
+                "initials": "MW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marino N",
+                "lastName": "Marino",
+                "firstName": "Nicole",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coffey MJ",
+                "lastName": "Coffey",
+                "firstName": "Michael J",
+                "initials": "MJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8025-4558"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Infection and Immunity, The Walter and Eliza Hall Institute of Medical Research, Parkville, Melbourne, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tonkin CJ",
+                "lastName": "Tonkin",
+                "firstName": "Christopher J",
+                "initials": "CJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7036-6222"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Infection and Immunity, The Walter and Eliza Hall Institute of Medical Research, Parkville, Melbourne, Victoria, Australia."
+                    },
+                    {
+                      "affiliation": "Department of Medical Biology, The University of Melbourne, Melbourne, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boothroyd JC",
+                "lastName": "Boothroyd",
+                "firstName": "John C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9719-745X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA jboothr@stanford.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9719-745X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7036-6222"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8025-4558"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4770-3099"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "9",
+            "journalIssueId": 2668359,
+            "dateOfPublication": "2018 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2018,
+            "journal": {
+              "medlineAbbreviation": "mBio",
+              "title": "mBio",
+              "essn": "2150-7511",
+              "issn": "2150-7511",
+              "isoabbreviation": "mBio",
+              "nlmid": "101519231"
+            },
+            "printPublicationDate": "2018-04-01"
+          },
+          "pubYear": "2018",
+          "pageInfo": "e02401-17",
+          "abstractText": "The obligate intracellular parasite <i>Toxoplasma gondii</i> controls its host cell from within the parasitophorous vacuole (PV) by using a number of diverse effector proteins, a subset of which require the aspartyl protease 5 enzyme (ASP5) and/or the recently discovered MYR1 protein to cross the PV membrane. To examine the impact these effectors have in the context of the entirety of the host response to <i>Toxoplasma</i>, we used RNA-Seq to analyze the transcriptome expression profiles of human foreskin fibroblasts infected with wild-type RH (RH-WT), RH\u0394<i>myr1</i>, and RH\u0394<i>asp5</i> tachyzoites. Interestingly, the majority of the differentially regulated genes responding to <i>Toxoplasma</i> infection are MYR1 dependent. A subset of MYR1 responses were ASP5 independent, and MYR1 function did not require ASP5 cleavage, suggesting the export of some effectors requires only MYR1. Gene set enrichment analysis of MYR1-dependent host responses suggests an upregulation of E2F transcription factors and the cell cycle and a downregulation related to interferon signaling, among numerous others. Most surprisingly, \"hidden\" responses arising in RH\u0394<i>myr1</i>- but not RH-WT-infected host cells indicate counterbalancing actions of MYR1-dependent and -independent activities. The host genes and gene sets revealed here to be MYR1 dependent provide new insight into the parasite's ability to co-opt host cell functions.<b>IMPORTANCE</b><i>Toxoplasma gondii</i> is unique in its ability to successfully invade and replicate in a broad range of host species and cells within those hosts. The complex interplay of effector proteins exported by <i>Toxoplasma</i> is key to its success in co-opting the host cell to create a favorable replicative niche. Here we show that a majority of the transcriptomic effects in tachyzoite-infected cells depend on the activity of a novel translocation system involving MYR1 and that the effectors delivered by this system are part of an intricate interplay of activators and suppressors. Removal of all MYR1-dependent effectors reveals previously unknown activities that are masked or hidden by the action of these proteins.",
+          "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R37 AI021423",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | National Institutes of Health",
+                "grantId": "AI21423",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | National Institutes of Health",
+                "grantId": "F31-AI120649",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Education and Training | Australian Research Council",
+                "grantId": "FT120100164",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Health | National Health and Medical Research Council",
+                "orderIn": 0
+              },
+              {
+                "agency": "Human Frontier Science Program",
+                "grantId": "LT000404/2014-L",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI129529",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "F31 AI120649",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | National Institutes of Health",
+                "grantId": "AI112962",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI021423",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI112962",
+                "orderIn": 0
+              },
+              {
+                "agency": "David Winston Turner Foundation",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fibroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Virulence Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Analysis, RNA"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Deletion"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Transport"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Pathogen Interactions"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "Effector Functions",
+              "Host Response",
+              "Host-parasite Relationship"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Transport Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Virulence Factors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1128/mbio.02401-17"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/mBio.02401-17"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5885026"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5885026?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 48,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCompletion": "2019-01-11",
+          "dateOfCreation": "2018-04-05",
+          "dateOfRevision": "2024-09-22",
+          "electronicPublicationDate": "2018-04-03",
+          "firstPublicationDate": "2018-04-03",
+          "firstIndexDate": "2018-04-05",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "28942109",
+          "source": "MED",
+          "pmid": "28942109",
+          "pmcid": "PMC5705472",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC5705472"
+            ]
+          },
+          "doi": "10.1016/j.pt.2017.08.006",
+          "title": "Translational Control in the Latency of Apicomplexan Parasites.",
+          "authorString": "Holmes MJ, Augusto LDS, Zhang M, Wek RC, Sullivan WJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Holmes MJ",
+                "lastName": "Holmes",
+                "firstName": "Michael J",
+                "initials": "MJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4562-287X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology and Toxicology, Indiana University School of Medicine, Indianapolis, IN, USA; Department of Biochemistry & Molecular Biology, Indiana University School of Medicine, Indianapolis, IN, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Augusto LDS",
+                "lastName": "Augusto",
+                "firstName": "Leonardo da Silva",
+                "initials": "LDS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology and Toxicology, Indiana University School of Medicine, Indianapolis, IN, USA; Department of Biochemistry & Molecular Biology, Indiana University School of Medicine, Indianapolis, IN, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang M",
+                "lastName": "Zhang",
+                "firstName": "Min",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology and Toxicology, Indiana University School of Medicine, Indianapolis, IN, USA; Department of Biochemistry & Molecular Biology, Indiana University School of Medicine, Indianapolis, IN, USA; Department of Pediatrics, Indiana University School of Medicine, Indianapolis, IN, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wek RC",
+                "lastName": "Wek",
+                "firstName": "Ronald C",
+                "initials": "RC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry & Molecular Biology, Indiana University School of Medicine, Indianapolis, IN, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sullivan WJ Jr",
+                "lastName": "Sullivan",
+                "firstName": "William J",
+                "initials": "WJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology and Toxicology, Indiana University School of Medicine, Indianapolis, IN, USA; Departments of Microbiology and Immunology, Indiana University School of Medicine, Indianapolis, IN, USA. Electronic address: wjsulliv@iu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4562-287X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0430-8216"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "33",
+            "journalIssueId": 2622576,
+            "dateOfPublication": "2017 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2017,
+            "journal": {
+              "medlineAbbreviation": "Trends Parasitol",
+              "title": "Trends in parasitology",
+              "essn": "1471-5007",
+              "issn": "1471-4922",
+              "isoabbreviation": "Trends Parasitol",
+              "nlmid": "100966034"
+            },
+            "printPublicationDate": "2017-12-01"
+          },
+          "pubYear": "2017",
+          "pageInfo": "947-960",
+          "abstractText": "Apicomplexan parasites Toxoplasma gondii and Plasmodium spp. use latent stages to persist in the host, facilitate transmission, and thwart treatment of infected patients. Therefore, it is important to understand the processes driving parasite differentiation to and from quiescent stages. Here, we discuss how a family of protein kinases that phosphorylate the eukaryotic initiation factor-2 (eIF2) function in translational control and drive differentiation. This translational control culminates in reprogramming of the transcriptome to facilitate parasite transition towards latency. We also discuss how eIF2 phosphorylation contributes to the maintenance of latency and provides a crucial role in the timing of reactivation of latent parasites towards proliferative stages.",
+          "affiliation": "Department of Pharmacology and Toxicology, Indiana University School of Medicine, Indianapolis, IN, USA; Department of Biochemistry & Molecular Biology, Indiana University School of Medicine, Indianapolis, IN, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Review",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI124723",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "AI124723",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Apicomplexa",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Eukaryotic Initiation Factor-2",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphorylation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium",
+              "Toxoplasma",
+              "Latency",
+              "translational control",
+              "Eif2"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Eukaryotic Initiation Factor-2",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://europepmc.org/articles/pmc5705472?pdf=render"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.pt.2017.08.006"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5705472"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5705472?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.pt.2017.08.006"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 48,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS901363",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2017-12-26",
+          "dateOfCreation": "2017-09-25",
+          "dateOfRevision": "2018-12-01",
+          "electronicPublicationDate": "2017-09-20",
+          "firstPublicationDate": "2017-09-20",
+          "firstIndexDate": "2017-09-25",
+          "fullTextReceivedDate": "2025-02-05",
+          "embargoDate": "2018-12-01",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "27180572",
+          "source": "MED",
+          "pmid": "27180572",
+          "pmcid": "PMC4870968",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4870968"
+            ]
+          },
+          "doi": "10.3347/kjp.2016.54.2.147",
+          "title": "Exosomes Secreted by Toxoplasma gondii-Infected L6 Cells: Their Effects on Host Cell Proliferation and Cell Cycle Changes.",
+          "authorString": "Kim MJ, Jung BK, Cho J, Song H, Pyo KH, Lee JM, Kim MK, Chai JY.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kim MJ",
+                "lastName": "Kim",
+                "firstName": "Min Jae",
+                "initials": "MJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology and Tropical Medicine, Seoul National University College of Medicine, Seoul 03080, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jung BK",
+                "lastName": "Jung",
+                "firstName": "Bong-Kwang",
+                "initials": "BK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7581-3899"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology and Tropical Medicine, Seoul National University College of Medicine, Seoul 03080, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cho J",
+                "lastName": "Cho",
+                "firstName": "Jaeeun",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology and Tropical Medicine, Seoul National University College of Medicine, Seoul 03080, Korea."
+                    },
+                    {
+                      "affiliation": "Korean Association of Health Promotion, Seoul 07649, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Song H",
+                "lastName": "Song",
+                "firstName": "Hyemi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology and Tropical Medicine, Seoul National University College of Medicine, Seoul 03080, Korea."
+                    },
+                    {
+                      "affiliation": "Korean Association of Health Promotion, Seoul 07649, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pyo KH",
+                "lastName": "Pyo",
+                "firstName": "Kyung-Ho",
+                "initials": "KH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5428-0288"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "JE-UK laboratory of Molecular Cancer Therapeutics, Yonsei Cancer Institute, Yonsei University College of Medicine, Seoul 03722, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lee JM",
+                "lastName": "Lee",
+                "firstName": "Ji Min",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "JE-UK laboratory of Molecular Cancer Therapeutics, Yonsei Cancer Institute, Yonsei University College of Medicine, Seoul 03722, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kim MK",
+                "lastName": "Kim",
+                "firstName": "Min-Kyung",
+                "initials": "MK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Korean Centers for Disease Control and Prevention, Osong 28159, Korea."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chai JY",
+                "lastName": "Chai",
+                "firstName": "Jong-Yil",
+                "initials": "JY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology and Tropical Medicine, Seoul National University College of Medicine, Seoul 03080, Korea."
+                    },
+                    {
+                      "affiliation": "Korean Association of Health Promotion, Seoul 07649, Korea."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5428-0288"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7581-3899"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5489-8608"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "54",
+            "journalIssueId": 2409041,
+            "dateOfPublication": "2016 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Korean J Parasitol",
+              "title": "The Korean journal of parasitology",
+              "essn": "1738-0006",
+              "issn": "0023-4001",
+              "isoabbreviation": "Korean J Parasitol",
+              "nlmid": "9435800"
+            },
+            "printPublicationDate": "2016-04-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "147-154",
+          "abstractText": "Toxoplasma gondii infection induces alteration of the host cell cycle and cell proliferation. These changes are not only seen in directly invaded host cells but also in neighboring cells. We tried to identify whether this alteration can be mediated by exosomes secreted by T. gondii-infected host cells. L6 cells, a rat myoblast cell line, and RH strain of T. gondii were selected for this study. L6 cells were infected with or without T. gondii to isolate exosomes. The cellular growth patterns were identified by cell counting with trypan blue under confocal microscopy, and cell cycle changes were investigated by flow cytometry. L6 cells infected with T. gondii showed decreased proliferation compared to uninfected L6 cells and revealed a tendency to stay at S or G2/M cell phase. The treatment of exosomes isolated from T. gondii-infected cells showed attenuation of cell proliferation and slight enhancement of S phase in L6 cells. The cell cycle alteration was not as obvious as reduction of the cell proliferation by the exosome treatment. These changes were transient and disappeared at 48 hr after the exosome treatment. Microarray analysis and web-based tools indicated that various exosomal miRNAs were crucial for the regulation of target genes related to cell proliferation. Collectively, our study demonstrated that the exosomes originating from T. gondii could change the host cell proliferation and alter the host cell cycle.",
+          "affiliation": "Department of Parasitology and Tropical Medicine, Seoul National University College of Medicine, Seoul 03080, Korea.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "MicroRNAs",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Flow Cytometry"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Proliferation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Exosomes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "S Phase Cell Cycle Checkpoints",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "M Phase Cell Cycle Checkpoints",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Cell cycle",
+              "Proliferation",
+              "Exosome",
+              "Toxoplasma gondii",
+              "L6 Cell"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "MicroRNAs",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3347/kjp.2016.54.2.147"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4870968"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4870968?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 44,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2017-04-07",
+          "dateOfCreation": "2016-05-17",
+          "dateOfRevision": "2022-03-11",
+          "electronicPublicationDate": "2016-04-30",
+          "firstPublicationDate": "2016-04-30",
+          "firstIndexDate": "2016-05-17",
+          "fullTextReceivedDate": "2020-07-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "29788176",
+          "source": "MED",
+          "pmid": "29788176",
+          "pmcid": "PMC6159514",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6159514"
+            ]
+          },
+          "doi": "10.1093/nar/gky373",
+          "title": "Cooperative binding of ApiAP2 transcription factors is crucial for the expression of virulence genes in Toxoplasma gondii.",
+          "authorString": "Lesage KM, Huot L, Mouveaux T, Courjol F, Saliou JM, Gissot M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lesage KM",
+                "lastName": "Lesage",
+                "firstName": "Kevin M",
+                "initials": "KM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Huot L",
+                "lastName": "Huot",
+                "firstName": "Ludovic",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mouveaux T",
+                "lastName": "Mouveaux",
+                "firstName": "Thomas",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Courjol F",
+                "lastName": "Courjol",
+                "firstName": "Flavie",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saliou JM",
+                "lastName": "Saliou",
+                "firstName": "Jean-Michel",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gissot M",
+                "lastName": "Gissot",
+                "firstName": "Mathieu",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0047-8189"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0047-8189"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1559-350X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "46",
+            "journalIssueId": 2704548,
+            "dateOfPublication": "2018 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2018,
+            "journal": {
+              "medlineAbbreviation": "Nucleic Acids Res",
+              "title": "Nucleic acids research",
+              "essn": "1362-4962",
+              "issn": "0305-1048",
+              "isoabbreviation": "Nucleic Acids Res",
+              "nlmid": "0411011"
+            },
+            "printPublicationDate": "2018-07-01"
+          },
+          "pubYear": "2018",
+          "pageInfo": "6057-6068",
+          "abstractText": "Toxoplasma gondii virulence depends on the expression of factors packed into specific organelles such as rhoptry and microneme. Although virulence factor expression is tightly regulated, the molecular mechanisms controlling their regulation remain poorly understood. ApiAP2 are a family of conserved transcription factors (TFs) that play an important role in regulating gene expression in apicomplexan parasites. TgAP2XI-5 is able to bind to transcriptionally active promoters of genes expressed during the S/M phase of the cell cycle, such as virulence genes (rhoptries and micronemes genes). We identified proteins interacting with TgAP2XI-5 including a cell cycle-regulated ApiAP2 TF, TgAP2X-5. Using an inducible knock-down strategy and RNA-seq, we demonstrated that the level of expression of number of virulence factors transcripts is affected by the disruption of TgAP2X-5 expression. While TgAP2X-5 disruption has mild effect on parasite invasion, it leads to the strain avirulence in mice. To better understand the molecular mechanisms at stake, we investigated the binding of TgAP2XI-5 at promoters in the TgAP2X-5 mutant strain in a genome-wide assay. We show that disruption of TgAP2X-5 expression leads to defects in TgAP2XI-5 binding to multiple rhoptry gene promoters. Taken together, these data suggest a cooperative contribution of two ApiAP2 TF in the regulation of virulence genes in T. gondii.",
+          "affiliation": "Univ. Lille, CNRS, Inserm, CHU Lille, Institut Pasteur de Lille, U1019-UMR 8204-CIIL-Centre d'Infection et d'Immunit\u00e9 de Lille, F-59000 Lille, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-13-JSV3-0006-01",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Virulence Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Down-Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Promoter Regions, Genetic"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Virulence Factors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://academic.oup.com/nar/article-pdf/46/12/6057/25844664/gky373.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/nar/gky373"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6159514"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6159514?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 42,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo"
+            ]
+          },
+          "dateOfCompletion": "2019-07-23",
+          "dateOfCreation": "2018-05-23",
+          "dateOfRevision": "2019-07-23",
+          "firstPublicationDate": "2018-07-01",
+          "firstIndexDate": "2018-05-23",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

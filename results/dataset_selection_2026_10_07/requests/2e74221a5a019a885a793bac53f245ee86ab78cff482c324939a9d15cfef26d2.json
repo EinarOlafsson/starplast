@@ -1,0 +1,3019 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22phosphoproteome%22+OR+%22acetylome%22+OR+%22ubiquitinome%22+OR+%22glycoproteome%22+OR+%22palmitoylome%22+OR+%22post-translational%22%29+AND+TITLE_ABS%3A%28%22phosphorylation%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:02:06.476761+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 37,
+    "nextCursorMark": "AoJwgNL/gP0CKDQ0OTczMjY2",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22phosphoproteome%22+OR+%22acetylome%22+OR+%22ubiquitinome%22+OR+%22glycoproteome%22+OR+%22palmitoylome%22+OR+%22post-translational%22%29+AND+TITLE_ABS%3A%28%22phosphorylation%22%29+sort_date%3Ay&cursorMark=AoJwgNL%2FgP0CKDQ0OTczMjY2&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"phosphoproteome\" OR \"acetylome\" OR \"ubiquitinome\" OR \"glycoproteome\" OR \"palmitoylome\" OR \"post-translational\") AND TITLE_ABS:(\"phosphorylation\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "41532258",
+          "source": "MED",
+          "pmid": "41532258",
+          "pmcid": "PMC12800914",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12800914"
+            ]
+          },
+          "doi": "10.1002/vms3.70807",
+          "title": "Is Toxoplasma gondii-secreted Protein With an Altered Thrombospondin Repeat (TgSPATR) a Potential Candidate for Immunisation? An Immunoinformatics-Based Analysis.",
+          "authorString": "Foroutan M, Karimzadeh-Soureshjani E, Ghaffarifar F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Foroutan M",
+                "lastName": "Foroutan",
+                "firstName": "Masoud",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8661-7217"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Basic Medical Sciences, Faculty of Medicine, Abadan University of Medical Sciences, Abadan, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Karimzadeh-Soureshjani E",
+                "lastName": "Karimzadeh-Soureshjani",
+                "firstName": "Elaheh",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3517-5535"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Student Research Committee, Abadan University of Medical Sciences, Abadan, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ghaffarifar F",
+                "lastName": "Ghaffarifar",
+                "firstName": "Fatemeh",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0891-8214"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, Faculty of Medical Sciences, Tarbiat Modares University, Tehran, Iran."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3517-5535"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8661-7217"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0891-8214"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "12",
+            "journalIssueId": 4056319,
+            "dateOfPublication": "2026 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Vet Med Sci",
+              "title": "Veterinary medicine and science",
+              "essn": "2053-1095",
+              "issn": "2053-1095",
+              "nlmid": "101678837",
+              "isoabbreviation": "Vet Med Sci"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e70807",
+          "abstractText": "<h4>Background</h4>Toxoplasmosis is a widespread zoonotic disease that poses risks to pregnant women and immunocompromised individuals. Despite considerable efforts, no licensed vaccines are currently available for humans or animals. Rational vaccine design increasingly relies on immunoinformatics approaches to identify immunodominant epitopes and key immunological features.<h4>Objectives</h4>This study aimed to characterise the Toxoplasma gondii-secreted protein with an altered thrombospondin repeat (TgSPATR) using immunoinformatics tools to evaluate its suitability as a vaccine candidate.<h4>Methods</h4>A comprehensive panel of bioinformatics servers was used to predict allergenicity, solubility, antigenicity, secondary and tertiary structures, post-translational modification (PTM) regions, and B- and T-cell epitopes, followed by in silico immune simulation.<h4>Results</h4>TgSPATR consists of 534 amino acids with an estimated molecular weight of \u223c57\u00a0kDa. The aliphatic index (65.71) and GRAVY score (-0.507) indicate moderate thermostability and an overall hydrophilic nature. Additionally, a total of 120 PTM sites were predicted, including phosphorylation, O- and N-glycosylation, and palmitoylation sites. Secondary structure analysis (GOR IV, SOPMA, and NetSurfP-3.0) revealed a predominance of random coils. Moreover, multiple servers (BcePred, SVMTriP, ABCpred, IEDB, ElliPro, and CTLpred) identified several high-scoring B- and T-cell epitopes capable of binding MHC class I and II molecules. According to SAVES v6.1, 74.1% and 93.8% of the residues of the initial and refined 3D models were located in favoured regions, indicating improved structural quality after refinement. In line with this, the ERRAT score also increased from 89.557 to 95.046. TgSPATR was predicted to be immunogenic and non-allergenic. Finally, virtual immune simulation using the C-ImmSim server showed that TgSPATR can elicit both humoral and cellular immune responses following three injections.<h4>Conclusions</h4>This study provides foundational evidence that TgSPATR possesses key immunogenic properties and may serve as a promising vaccine candidate against acute and chronic toxoplasmosis. Nonetheless, wet-lab experiments are required to validate these computational findings.",
+          "affiliation": "Department of Basic Medical Sciences, Faculty of Medicine, Abadan University of Medical Sciences, Abadan, Iran.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Abadan University of Medical Sciences, Abadan, Iran",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Thrombospondins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Repetitive Sequences, Amino Acid"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunoinformatics"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Vaccine",
+              "Bioinformatics",
+              "Toxoplasma gondii",
+              "In silico",
+              "Secreted Protein With An Altered Thrombospondin Repeat (Spatr)"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Thrombospondins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/vms3.70807"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12800914"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12800914?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-06-26",
+          "dateOfCreation": "2026-01-14",
+          "dateOfRevision": "2026-07-17",
+          "firstPublicationDate": "2026-01-01",
+          "firstIndexDate": "2026-01-14",
+          "fullTextReceivedDate": "2026-01-15",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39901670",
+          "source": "MED",
+          "pmid": "39901670",
+          "doi": "10.2174/0127722708342006250116162454",
+          "title": "Evaluation of &lt;i&gt;Toxoplasma gondii&lt;/i&gt; Perforin-like Proteins (PLPs) to Find the Potential Epitopes for Immunization through &lt;i&gt;in silico&lt;/i&gt; Approach.",
+          "authorString": "Hosseini SA, Safari MH, Siamian D, Majidiani H, Basati G, Asghari A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hosseini SA",
+                "lastName": "Hosseini",
+                "firstName": "Seyyed Amir",
+                "initials": "SA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0006-8993-0141"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Faculty of Veterinary Medicine, University of Tehran, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Safari MH",
+                "lastName": "Safari",
+                "firstName": "Mohamad Hosein",
+                "initials": "MH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-9339-9264"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Faculty of Veterinary Medicine, University of Tehran, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Siamian D",
+                "lastName": "Siamian",
+                "firstName": "Davood",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0000-1682-0095"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, Faculty of Basic Science, Islamic Azad University, Tonekabon Branch, Mazandaran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Majidiani H",
+                "lastName": "Majidiani",
+                "firstName": "Hamidreza",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5568-1366"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Healthy Aging Research Centre, Neyshabur University of Medical Sciences, Neyshabur, Iran."
+                    },
+                    {
+                      "affiliation": "Department of Basic Medical Sciences, Faculty of Medicine, Neyshabur University of Medical Sciences, Neyshabur, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Basati G",
+                "lastName": "Basati",
+                "firstName": "Gholam",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Zoonotic Diseases Research Center, Ilam University of Medical Sciences, Ilam, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Asghari A",
+                "lastName": "Asghari",
+                "firstName": "Ali",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4005-2687"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Social Determinants of Health Research Center, Research Institute for Prevention of Non-Communicable Diseases, Qazvin University of Medical Sciences, Qazvin, Iran."
+                    },
+                    {
+                      "affiliation": "Metabolic Diseases Research Center, Research Institute for Prevention of Non-Communicable Diseases, Qazvin University of Medical Sciences, Qazvin, Iran."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5568-1366"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4005-2687"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0000-1682-0095"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-9339-9264"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0006-8993-0141"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "20",
+            "journalIssueId": 4190676,
+            "dateOfPublication": "2025 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Recent Adv Inflamm Allergy Drug Discov",
+              "title": "Recent advances in inflammation & allergy drug discovery",
+              "essn": "2772-2716",
+              "issn": "2772-2708",
+              "nlmid": "101776469",
+              "isoabbreviation": "Recent Adv Inflamm Allergy Drug Discov"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "180-192",
+          "abstractText": "<h4>Introduction</h4><i>Toxoplasma gondii (T. gondii)</i> is a widespread apicomplexan parasite that affects approximately one-third of the global population, posing particular risks to pregnant women and individuals with weakened immune systems. Despite its significant impact, there is currently no vaccine available for humans.<h4>Objective</h4>This study employs computational methods (<i>in silico</i>) to investigate the physicochemical, antigenic, and structural properties of Perforin-like proteins (PLPs) from <i>T. gondii</i>, as well as to identify immunogenic epitopes within these antigens.<h4>Methods</h4>For this aim, amino acid sequences of TgPLP1 and TgPLP2 were retrieved and submitted to the ProtParam (physicochemical), VaxiJen v2.0 (antigenicity), NetSurfP-6.0 (2D structure), Robetta (3D structure) web servers, along with the IEDB server to decipher the immunogenic epitopes. Subcellular characteristics such as signal peptide, transmembrane domain, post-translational modifications (PTMs), and cellular localization were also predicted.<h4>Results</h4>Both proteins had a high MW of 125.50 and 92.21, respectively, with an alkaline pI, a 30 hours half-life in mammalian reticulocytes, good thermotolerance (high aliphatic index), and hydrophilicity properties (negative GRAVY). They also showed good antigenicity (0.7021 [PLP1] vs 0.5701 [PLP2]), while they were non-allergenic. Both proteins were extracellular with numerous post-translational modification sites (phosphorylation, glycosylation, and acetylation), and a transmembrane domain was only present in TgPLP1, with no signal peptide in both. Furthermore, numerous immunogenic B- and T-cell epitopes were identified within the TgPLPs sequences, suggesting their potential for inclusion in multi-epitope vaccine designs.<h4>Conclusion</h4>Further studies are needed to confirm these findings and assess the efficacy of the proposed vaccine constructs.",
+          "affiliation": "Department of Internal Medicine, Faculty of Veterinary Medicine, University of Tehran, Tehran, Iran.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epitopes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunization"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computer Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Perforin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "Zoonosis",
+              "Toxoplasmosis",
+              "Vaccine design",
+              "Immunoinformatics",
+              "Plps"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "perforin",
+                "registryNumber": "126465-35-8"
+              },
+              {
+                "name": "Epitopes",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.2174/0127722708342006250116162454"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-05-07",
+          "dateOfCreation": "2025-02-04",
+          "dateOfRevision": "2026-05-07",
+          "firstPublicationDate": "2025-01-01",
+          "firstIndexDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38091362",
+          "source": "MED",
+          "pmid": "38091362",
+          "pmcid": "PMC10752510",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10752510"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1011831",
+          "title": "The Toxoplasma protein phosphatase 6 catalytic subunit (TgPP6C) is essential for cell cycle progression and virulence.",
+          "authorString": "Liang QL, Nie LB, Elsheikha HM, Li TT, Sun LX, Zhang ZW, Wang M, Fu BQ, Zhu XQ, Wang JL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Liang QL",
+                "lastName": "Liang",
+                "firstName": "Qin-Li",
+                "initials": "QL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-5944-9762"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nie LB",
+                "lastName": "Nie",
+                "firstName": "Lan-Bi",
+                "initials": "LB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Elsheikha HM",
+                "lastName": "Elsheikha",
+                "firstName": "Hany M",
+                "initials": "HM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Medicine and Health Sciences, School of Veterinary Medicine and Science, University of Nottingham, Loughborough, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li TT",
+                "lastName": "Li",
+                "firstName": "Ting-Ting",
+                "initials": "TT",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    },
+                    {
+                      "affiliation": "Institute of Urban Agriculture, Chinese Academy of Agricultural Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun LX",
+                "lastName": "Sun",
+                "firstName": "Li-Xiu",
+                "initials": "LX",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang ZW",
+                "lastName": "Zhang",
+                "firstName": "Zhi-Wei",
+                "initials": "ZW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang M",
+                "lastName": "Wang",
+                "firstName": "Meng",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    },
+                    {
+                      "affiliation": "Institute of Urban Agriculture, Chinese Academy of Agricultural Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fu BQ",
+                "lastName": "Fu",
+                "firstName": "Bao-Quan",
+                "initials": "BQ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    },
+                    {
+                      "affiliation": "Institute of Urban Agriculture, Chinese Academy of Agricultural Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhu XQ",
+                "lastName": "Zhu",
+                "firstName": "Xing-Quan",
+                "initials": "XQ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2530-4628"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Parasitic Diseases, College of Veterinary Medicine, Shanxi Agricultural University, Taigu, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang JL",
+                "lastName": "Wang",
+                "firstName": "Jin-Lei",
+                "initials": "JL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China."
+                    },
+                    {
+                      "affiliation": "Institute of Urban Agriculture, Chinese Academy of Agricultural Sciences, Chengdu, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2373-9049"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2530-4628"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-5944-9762"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "19",
+            "journalIssueId": 3672183,
+            "dateOfPublication": "2023 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2023-12-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "e1011831",
+          "abstractText": "Protein phosphatases are post-translational regulators of Toxoplasma gondii proliferation, tachyzoite-bradyzoite differentiation and pathogenesis. Here, we identify the putative protein phosphatase 6 (TgPP6) subunits of T. gondii and elucidate their role in the parasite lytic cycle. The putative catalytic subunit TgPP6C and regulatory subunit TgPP6R likely form a complex whereas the predicted structural subunit TgPP6S, with low homology to the human PP6 structural subunit, does not coassemble with TgPP6C and TgPP6R. Functional studies showed that TgPP6C and TgPP6R are essential for parasite growth and replication. The ablation of TgPP6C significantly reduced the synchronous division of the parasite's daughter cells during endodyogeny, resulting in disordered rosettes. Moreover, the six conserved motifs of TgPP6C were required for efficient endodyogeny. Phosphoproteomic analysis revealed that ablation of TgPP6C predominately altered the phosphorylation status of proteins involved in the regulation of the parasite cell cycle. Deletion of TgPP6C significantly attenuated the parasite virulence in mice. Immunization of mice with TgPP6C-deficient type I RH strain induced protective immunity against challenge with a lethal dose of RH or PYS tachyzoites and Pru cysts. Taken together, the results show that TgPP6C contributes to the cell division, replication and pathogenicity in T. gondii.",
+          "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "the Research Funding from Lanzhou Veterinary Research Institute",
+                "grantId": "CAASASTIP-JBGS-20210801",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Fundamental Research Funds of the Chinese Academy of Agricultural Sciences",
+                "grantId": "1610032021017",
+                "orderIn": 0
+              },
+              {
+                "agency": "the National Key Research and Development Program of China",
+                "grantId": "2021YFC2300800, 2021YFC2300802 and 2021YFC2300804",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Natural Science Foundation of Gansu Province, China",
+                "grantId": "23JRRA555",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Shanxi Provincial Agricultural and Rural Research Program",
+                "grantId": "LXXMsxnd202101",
+                "orderIn": 0
+              },
+              {
+                "agency": "the State Key Laboratory of Veterinary Etiological Biology",
+                "grantId": "SKLVEB2020YQRC01",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Parasites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Virulence",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Division"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Catalytic Domain"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Phosphoprotein Phosphatases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "protein phosphatase 6",
+                "registryNumber": "EC 3.1.3.16"
+              },
+              {
+                "name": "Phosphoprotein Phosphatases",
+                "registryNumber": "EC 3.1.3.16"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1011831"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10752510"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10752510?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 11,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2023-12-28",
+          "dateOfCreation": "2023-12-13",
+          "dateOfRevision": "2026-01-08",
+          "electronicPublicationDate": "2023-12-13",
+          "firstPublicationDate": "2023-12-13",
+          "firstIndexDate": "2023-12-22",
+          "fullTextReceivedDate": "2024-01-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38003154",
+          "source": "MED",
+          "pmid": "38003154",
+          "pmcid": "PMC10668779",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10668779"
+            ]
+          },
+          "doi": "10.3390/ani13223537",
+          "title": "iTRAQ-Based Phosphoproteomic Analysis Exposes Molecular Changes in the Small Intestinal Epithelia of Cats after <i>Toxoplasma gondii</i> Infection.",
+          "authorString": "Zhai B, Meng YM, Xie SC, Peng JJ, Liu Y, Qiu Y, Wang L, Zhang J, He JJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhai B",
+                "lastName": "Zhai",
+                "firstName": "Bintao",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6378-2527"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Veterinary Pharmaceutical Development, Lanzhou Institute of Husbandry and Pharma-Ceutical Sciences, Chinese Academy of Agricultural Sciences, Ministry of Agriculture and Rural Affairs, Lanzhou 730050, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Meng YM",
+                "lastName": "Meng",
+                "firstName": "Yu-Meng",
+                "initials": "YM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Xujiaping 1, Lanzhou 730046, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xie SC",
+                "lastName": "Xie",
+                "firstName": "Shi-Chen",
+                "initials": "SC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4512-4632"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Shanxi Agricultural University, Taigu, Jinzhong 030801, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Peng JJ",
+                "lastName": "Peng",
+                "firstName": "Jun-Jie",
+                "initials": "JJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-0252-5939"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Xujiaping 1, Lanzhou 730046, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu Y",
+                "lastName": "Liu",
+                "firstName": "Yang",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2709-0598"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Life Science, Ningxia University, Yinchuan 750021, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qiu Y",
+                "lastName": "Qiu",
+                "firstName": "Yanhua",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Veterinary Pharmaceutical Development, Lanzhou Institute of Husbandry and Pharma-Ceutical Sciences, Chinese Academy of Agricultural Sciences, Ministry of Agriculture and Rural Affairs, Lanzhou 730050, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang L",
+                "lastName": "Wang",
+                "firstName": "Lu",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Shanxi Agricultural University, Taigu, Jinzhong 030801, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang J",
+                "lastName": "Zhang",
+                "firstName": "Jiyu",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Veterinary Pharmaceutical Development, Lanzhou Institute of Husbandry and Pharma-Ceutical Sciences, Chinese Academy of Agricultural Sciences, Ministry of Agriculture and Rural Affairs, Lanzhou 730050, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "He JJ",
+                "lastName": "He",
+                "firstName": "Jun-Jun",
+                "initials": "JJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Veterinary Public Health of Yunnan Province, College of Veterinary Medicine, Yunnan Agricultural University, Kunming 650201, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6378-2527"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2709-0598"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4512-4632"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-0252-5939"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "22",
+            "volume": "13",
+            "journalIssueId": 3668808,
+            "dateOfPublication": "2023 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Animals (Basel)",
+              "title": "Animals : an open access journal from MDPI",
+              "essn": "2076-2615",
+              "issn": "2076-2615",
+              "nlmid": "101635614",
+              "isoabbreviation": "Animals (Basel)"
+            },
+            "printPublicationDate": "2023-11-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "3537",
+          "abstractText": "<i>Toxoplasma gondii</i>, an obligate intracellular parasite, has the ability to invade and proliferate within most nucleated cells. The invasion and destruction of host cells by <i>T. gondii</i> lead to significant changes in the cellular signal transduction network. One important post-translational modification (PTM) of proteins is phosphorylation/dephosphorylation, which plays a crucial role in cell signal transmission. In this study, we aimed to investigate how <i>T. gondii</i> regulates signal transduction in definitive host cells. We employed titanium dioxide (TiO<sub>2</sub>) affinity chromatography to enrich phosphopeptides in the small intestinal epithelia of cats at 10 days post-infection with the <i>T. gondii</i> Prugniuad (Pru) strain and quantified them using iTRAQ technology. A total of 4998 phosphopeptides, 3497 phosphorylation sites, and 1805 phosphoproteins were identified. Among the 705 differentially expressed phosphoproteins (DEPs), 68 were down-regulated and 637 were up-regulated. The bioinformatics analysis revealed that the DE phosphoproteins were involved in various cellular processes, including actin cytoskeleton reorganization, cell necroptosis, and MHC immune processes. Our findings confirm that <i>T. gondii</i> infection leads to extensive changes in the phosphorylation of proteins in the cat intestinal epithelial cells. The results of this study provide a theoretical foundation for understanding the interaction between <i>T. gondii</i> and its definitive host.",
+          "affiliation": "Key Laboratory of Veterinary Pharmaceutical Development, Lanzhou Institute of Husbandry and Pharma-Ceutical Sciences, Chinese Academy of Agricultural Sciences, Ministry of Agriculture and Rural Affairs, Lanzhou 730050, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "International Science and Technology Cooperation Project of Gansu Provincial Key Research and Development Program",
+                "grantId": "1610322023007",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "17JR7WA031",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "23JRRA562",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agricultural Science and Technology Innovation Program (ASTIP)",
+                "grantId": "CAAS-ASTIP-2016-LVRI-03",
+                "orderIn": 0
+              },
+              {
+                "agency": "Central Public-interest Scientific Institution Basal Research Fund",
+                "grantId": "CAAS-ASTIP-2016-LVRI-03",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "1610322023007",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agricultural Science and Technology Innovation Program (ASTIP)",
+                "grantId": "23JRRA562",
+                "orderIn": 0
+              },
+              {
+                "agency": "Central Public-interest Scientific Institution Basal Research Fund",
+                "grantId": "23JRRA562",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agricultural Science and Technology Innovation Program (ASTIP)",
+                "grantId": "17JR7WA031",
+                "orderIn": 0
+              },
+              {
+                "agency": "Youth Science and Technology Fund Program of Gansu province",
+                "grantId": "23JRRA562",
+                "orderIn": 0
+              },
+              {
+                "agency": "Youth Science and Technology Fund Program of Gansu Province",
+                "grantId": "32102701",
+                "orderIn": 0
+              },
+              {
+                "agency": "Youth Science and Technology Fund Program of Gansu Province",
+                "grantId": "CAAS-ASTIP-2016-LVRI-03",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "32102701",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "CAAS-ASTIP-2016-LVRI-03",
+                "orderIn": 0
+              },
+              {
+                "agency": "International Science and Technology Cooperation Project of Gansu Provincial Key Research and Development Program",
+                "grantId": "17JR7WA031",
+                "orderIn": 0
+              },
+              {
+                "agency": "Youth Science and Technology Fund Program of Gansu Province",
+                "grantId": "23JRRA562",
+                "orderIn": 0
+              },
+              {
+                "agency": "Central Public-interest Scientific Institution Basal Research Fund",
+                "grantId": "32102701",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agricultural Science and Technology Innovation Program (ASTIP)",
+                "grantId": "1610322023007",
+                "orderIn": 0
+              },
+              {
+                "agency": "Youth Science and Technology Fund Program of Gansu Province",
+                "grantId": "1610322023007",
+                "orderIn": 0
+              },
+              {
+                "agency": "Youth Science and Technology Fund Program of Gansu Province",
+                "grantId": "17JR7WA031",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agricultural Science and Technology Innovation Program (ASTIP)",
+                "grantId": "32102701",
+                "orderIn": 0
+              },
+              {
+                "agency": "International Science and Technology Cooperation Project of Gansu Provincial Key Research and Development Program",
+                "grantId": "32102701",
+                "orderIn": 0
+              },
+              {
+                "agency": "International Science and Technology Cooperation Project of Gansu Provincial Key Research and Development Program",
+                "grantId": "CAAS-ASTIP-2016-LVRI-03",
+                "orderIn": 0
+              },
+              {
+                "agency": "International Science and Technology Cooperation Project of Gansu Provincial Key Research and Development Program",
+                "grantId": "23JRRA562",
+                "orderIn": 0
+              },
+              {
+                "agency": "Central Public-interest Scientific Institution Basal Research Fund",
+                "grantId": "1610322023007",
+                "orderIn": 0
+              },
+              {
+                "agency": "Central Public-interest Scientific Institution Basal Research Fund",
+                "grantId": "17JR7WA031",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "cat",
+              "Post-translational modification",
+              "Phosphoproteomics"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/ani13223537"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10668779"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10668779?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 3,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2023-11-25",
+          "dateOfRevision": "2023-11-28",
+          "electronicPublicationDate": "2023-11-16",
+          "firstPublicationDate": "2023-11-16",
+          "firstIndexDate": "2023-11-26",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "37821727",
+          "source": "MED",
+          "pmid": "37821727",
+          "doi": "10.1007/s11686-023-00720-y",
+          "title": "Phosphoproteomic Analysis Reveals the Predominating Cellular Processes and the Involved Key Phosphoproteins Essential for the Proliferation of Toxoplasma gondii.",
+          "authorString": "Chen XZ, Bai RX, Qin FY, Peng HJ, Ren JF, Hu L, Li YD, He C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Chen XZ",
+                "lastName": "Chen",
+                "firstName": "Xin-Zhu",
+                "initials": "XZ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bai RX",
+                "lastName": "Bai",
+                "firstName": "Rui-Xue",
+                "initials": "RX",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qin FY",
+                "lastName": "Qin",
+                "firstName": "Fei-Yu",
+                "initials": "FY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Peng HJ",
+                "lastName": "Peng",
+                "firstName": "Hong-Juan",
+                "initials": "HJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, Guangdong Provincial Key Laboratory of Tropical Disease Research, School of Public Health, Southern Medical University, Guangzhou, 510515, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ren JF",
+                "lastName": "Ren",
+                "firstName": "Jin-Feng",
+                "initials": "JF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hu L",
+                "lastName": "Hu",
+                "firstName": "Lang",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li YD",
+                "lastName": "Li",
+                "firstName": "Yu-di",
+                "initials": "YD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "He C",
+                "lastName": "He",
+                "firstName": "Cheng",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China. hechengchoice@163.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "68",
+            "journalIssueId": 3667538,
+            "dateOfPublication": "2023 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Acta Parasitol",
+              "title": "Acta parasitologica",
+              "essn": "1896-1851",
+              "issn": "1230-2821",
+              "nlmid": "9301947",
+              "isoabbreviation": "Acta Parasitol"
+            },
+            "printPublicationDate": "2023-12-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "820-831",
+          "abstractText": "<h4>Purpose</h4>To explore the essential roles of phosphorylation in mediating the proliferation of T. gondii in its cell lytic life.<h4>Methods</h4>We profiled the phosphoproteome data of T. gondii residing in HFF cells for 2\u00a0h and 6\u00a0h, representing the early- and late-stages of proliferation (ESP and LSP) within its first generation of division.<h4>Results</h4>We identified 70 phosphoproteins, among which 8 phosphoproteins were quantified with the phosphorylation level significantly regulated. While only two of the eight phosphoproteins, GRA7 and TGGT1_242070, were significantly down-regulated at the transcriptional level in the group of LSP vs. ESP. Moreover, GO terms correlated with host membrane component were significantly enriched in the category of cellular component, suggesting phosphoprotein played important roles in acquiring essential substance from host cell via manipulating host membrane. Further GO analysis in the categories of molecular function and biological process and pathway analysis revealed that the cellular processes of glucose and lipid metabolism were regulated by T. gondii phosphoproteins such as PMCAA1, LIPIN, Pyk1 and ALD. Additionally, several phosphoproteins were enriched at the central nodes in the protein-protein interaction network, which may have essential roles in T. gondii proliferation including GAP45, MLC1, fructose-1,6-bisphosphate aldolase, GRAs and so on.<h4>Conclusion</h4>This study revealed the main cellular processes and key phosphoproteins crucial for the intracellular proliferation of T. gondii, which would provide clues to explore the roles of phosphorylation in regulating the development of tachyzoites and new insight into the mechanism of T. gondii development in vitro.",
+          "affiliation": "Jiangsu Key Laboratory of Immunity and Metabolism, Department of Pathogen Biology and Immunology, Xuzhou Medical University, Xuzhou, 221004, Jiangsu Province, China.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Natural Science Foundation of Jiangsu Province",
+                "grantId": "BK20190983",
+                "orderIn": 0
+              },
+              {
+                "agency": "Innovative Entrepreneurship Training Program for National College Students",
+                "grantId": "201910313062Y",
+                "orderIn": 0
+              },
+              {
+                "agency": "Research Foundation of Xuzhou Medical University",
+                "grantId": "D2019018",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "82302557",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Biological Phenomena"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Proliferation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphorylation"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Phosphoproteins",
+              "Proliferation",
+              "Toxoplasma gondii",
+              "Cellular Process",
+              "Phosphoproteome Analysis"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Phosphoproteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s11686-023-00720-y"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2023-11-27",
+          "dateOfCreation": "2023-10-11",
+          "dateOfRevision": "2023-11-27",
+          "electronicPublicationDate": "2023-10-11",
+          "firstPublicationDate": "2023-10-11",
+          "firstIndexDate": "2023-10-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "37926470",
+          "source": "MED",
+          "pmid": "37926470",
+          "doi": "10.16250/j.32.1374.2023002",
+          "title": "[Bioinformatics analysis of the RNA binding protein DDX39 of <i>Toxoplasma gondii</i>].",
+          "authorString": "Yang Z, Wang J, Qi Y, Tian X, Mei X, Zhang Z, Wang S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang Z",
+                "lastName": "Yang",
+                "firstName": "Z",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    },
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang J",
+                "lastName": "Wang",
+                "firstName": "J",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    },
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qi Y",
+                "lastName": "Qi",
+                "firstName": "Y",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian X",
+                "lastName": "Tian",
+                "firstName": "X",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    },
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mei X",
+                "lastName": "Mei",
+                "firstName": "X",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    },
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Z",
+                "lastName": "Zhang",
+                "firstName": "Z",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    },
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang S",
+                "lastName": "Wang",
+                "firstName": "S",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China."
+                    },
+                    {
+                      "affiliation": "Xinxiang Key Laboratory of Pathogenic Biology, Xinxiang, Henan 453003, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2916-9147"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "35",
+            "journalIssueId": 3659634,
+            "dateOfPublication": "2023 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Zhongguo Xue Xi Chong Bing Fang Zhi Za Zhi",
+              "title": "Zhongguo xue xi chong bing fang zhi za zhi = Chinese journal of schistosomiasis control",
+              "issn": "1005-6661",
+              "nlmid": "101144973",
+              "isoabbreviation": "Zhongguo Xue Xi Chong Bing Fang Zhi Za Zhi"
+            },
+            "printPublicationDate": "2023-10-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "358-365",
+          "abstractText": "<h4>Objective</h4>To analyze the RNA binding protein of <i>Toxoplasma gondii</i> (TgDDX39) using bioinformatics technology, and to evaluate the immunogenicity of TgDDX39, so as to provide insights into development of toxoplasmosis vaccines.<h4>Methods</h4>The amino acid sequences of TgDDX39 were retrieved from the ToxoDB database, and the physicochemical properties, transmembrane structure domain, signal peptide sites, post-translational modification sites, coils, secondary and tertiary structures, hydrophobicity, and antigenic epitopes of the TgDDX39 protein were predicted using online bioinformatics tools, incluiding ProtParam, TMHMM 2.0, SignalP 5.0, NetPhos 3.1, COILS, SOPMA, Phyre2, ProtScale, ABCpred, SYFPEITHI and DNA-STAR.<h4>Results</h4>TgDDX39 protein was predicted to be an unstable hydrophilic protein with the molecular formula of C<sub>2173</sub>H<sub>3458</sub>N<sub>598</sub>O<sub>661</sub>S<sub>18</sub>, which contained 434 amino acids and had an estimated molecular weight of 49.1 kDa and a theoretical isoelectric point of 5.55. The protein was predicted to have an extremely low possibility of signal peptides, without transmembrane regions, and contain 27 phosphorylation sites. The \u03b2 turn and random coils accounted for 39.63% of the secondary structure of the TgDDX39 protein, and a coiled helix tended to produce in one site. In addition, the TgDDX39 protein contained multiple B and T cell antigenic epitopes.<h4>Conclusions</h4>Bioinformatics analyses predict that TgDDX39 protein has high immunogenicity and contains multiple antigenic epitopes. TgDDX39 protein is a potential candidate antigen for vaccine development.",
+          "affiliation": "Department of Pathogenic Biology, School of Basic Medical Sciences, Xinxiang Medical University, Xinxiang, Henan 453003, China.",
+          "publicationStatus": "ppublish",
+          "language": "chi",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article",
+              "English Abstract"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Key Scientific Research Project of Colleges and Universities in Henan Province",
+                "grantId": "22A310004",
+                "orderIn": 0
+              },
+              {
+                "agency": "Science and Technology Planning Project of Henan Province",
+                "grantId": "232102311142",
+                "orderIn": 0
+              },
+              {
+                "agency": "Xinxiang Medical College Talent Support Program",
+                "grantId": "XYBSKYZZ202179",
+                "orderIn": 0
+              },
+              {
+                "agency": "Innovation and Entrepreneurship Training Program for College Students in Henan Province",
+                "grantId": "202210472055",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Vaccines"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Epitopes, T-Lymphocyte"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computational Biology"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Immunogenicity",
+              "Bioinformatics",
+              "RNA binding protein",
+              "Ddx39",
+              "<I>toxoplasma Gondii</i>"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Vaccines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Epitopes, T-Lymphocyte",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.16250/j.32.1374.2023002"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2023-11-07",
+          "dateOfCreation": "2023-11-05",
+          "dateOfRevision": "2023-11-07",
+          "firstPublicationDate": "2023-10-01",
+          "firstIndexDate": "2023-11-06",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR718191",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-3289129/v1",
+          "title": "Phosphoproteomic analysis reveals the role of A-Raf in regulating the apoptosis of porcine macrophages infected with Toxoplasma gondii",
+          "authorString": "Su D, Zhu S, Xu K, Hou Z, Hao F, Xu F, Zhu Y, Liu D, Xu J, Tao J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Su D",
+                "lastName": "Su",
+                "firstName": "Dingzeyang",
+                "initials": "D"
+              },
+              {
+                "fullName": "Zhu S",
+                "lastName": "Zhu",
+                "firstName": "Shifan",
+                "initials": "S"
+              },
+              {
+                "fullName": "Xu K",
+                "lastName": "Xu",
+                "firstName": "Kangzhi",
+                "initials": "K"
+              },
+              {
+                "fullName": "Hou Z",
+                "lastName": "Hou",
+                "firstName": "Zhaofeng",
+                "initials": "Z"
+              },
+              {
+                "fullName": "Hao F",
+                "lastName": "Hao",
+                "firstName": "Fuxing",
+                "initials": "F"
+              },
+              {
+                "fullName": "Xu F",
+                "lastName": "Xu",
+                "firstName": "Fan",
+                "initials": "F"
+              },
+              {
+                "fullName": "Zhu Y",
+                "lastName": "Zhu",
+                "firstName": "Yuyang",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Liu D",
+                "lastName": "Liu",
+                "firstName": "Dandan",
+                "initials": "D"
+              },
+              {
+                "fullName": "Xu J",
+                "lastName": "Xu",
+                "firstName": "Jinjun",
+                "initials": "J"
+              },
+              {
+                "fullName": "Tao J",
+                "lastName": "Tao",
+                "firstName": "Jianping",
+                "initials": "J"
+              }
+            ]
+          },
+          "pubYear": "2023",
+          "abstractText": "Toxoplasma gondii is an obligate intracellular protozoan of severe threat to humans and livestock. Macrophages are the cell type preferentially infected by T. gondii in vivo. Protein phosphorylation is an important post-translational modification involved in diverse cellular functions. A-Raf is member of the Raf family of serine/threonine protein kinases that is necessary for MAPK activation. Our previous research found that A-Raf knockout could reduce the apoptosis of porcine alveolar macrophages (3D4/21 cells) caused by T. gondii infection. However, limited information is available about the level of protein phosphorylation variations and the roles of A-Raf in macrophages with T. gondii infection. Here, we used IMAC in combination with LC-MS/MS to profile the changes of phosphorylation in 3D4/21 cells and 3D4/21-\u0394Araf cells upon Toxoplasma infection, respectively. A total of 1647 differentially expressed phosphorylated proteins (DEPPs) with 3876 differentially phosphorylated sites (DPSs) were identified in 3D4/21 cells with Toxoplasma infection (p3T group) when comparing 3D4/21 cells without parasite infection (pho3 group), and 959 DEPPs with1540 DPSs when comparing 3D4/21-\u0394Araf cells with parasite infection (p3KT group). In addition, 552 DPSs corresponding to 406 DEPPs with the same phosphorylated sites were obtained in the comparison p3T/pho3 vs. p3T/p3KT, which was identified as the DPSs and DEPPs related with A-Raf. Remarkable functional properties of the DEPPs were discovered by GO analysis, KEGG pathway analysis, and STRING analysis. Of 406 DEPPs related with A-Raf, 40 DEPPs corresponding to 57 DPSs involved in the apoptosis of 3D4/21 cells during Toxoplasma infection. Further analysis showed that the phosphorylation levels of Med1at serine1418, Jun at serine 73, Myc at serine 154, Mcl1 at serine 65, and Bad at serine115 were upregulated in p3T, but downregulated in p3KT, suggesting that A-Raf regulate phosphorylation of these sites to modulate the apoptosis of macrophages induced by Toxoplasma infection. These results revealed distinct responses of macrophages to Toxoplasma infection and the potential roles of A-Raf in fighting against infection via phosphorylation of crucial proteins.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2023
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.researchsquare.com/article/rs-3289129/latest.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-3289129/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2023-09-03",
+          "firstPublicationDate": "2023-09-01",
+          "firstIndexDate": "2023-09-03",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR718191",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2023-09-01",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "37519638",
+          "source": "MED",
+          "pmid": "37519638",
+          "pmcid": "PMC10372672",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10372672"
+            ]
+          },
+          "doi": "10.1016/j.heliyon.2023.e18176",
+          "title": "Bioinformatics-based prediction and screening of immunogenic epitopes of <i>Toxoplasma gondii</i> rhoptry proteins 7, 21 and 22 as candidate vaccine target.",
+          "authorString": "Ayub F, Ahmed H, Sohail T, Shahzad K, Celik F, Wang X, Simsek S, Cao J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ayub F",
+                "lastName": "Ayub",
+                "firstName": "Fariha",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biosciences, COMSATS University Islamabad (CUI), Park Road, Chakh Shahzad, Islamabad, Pakistan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ahmed H",
+                "lastName": "Ahmed",
+                "firstName": "Haroon",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biosciences, COMSATS University Islamabad (CUI), Park Road, Chakh Shahzad, Islamabad, Pakistan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sohail T",
+                "lastName": "Sohail",
+                "firstName": "Tehreem",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2996-9152"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biosciences, COMSATS University Islamabad (CUI), Park Road, Chakh Shahzad, Islamabad, Pakistan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shahzad K",
+                "lastName": "Shahzad",
+                "firstName": "Khuram",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2333-1684"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biosciences, COMSATS University Islamabad (CUI), Park Road, Chakh Shahzad, Islamabad, Pakistan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Celik F",
+                "lastName": "Celik",
+                "firstName": "Figen",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2188-0196"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, Faculty of Veterinary Medicine, Firat University, Elazig, Turkey."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang X",
+                "lastName": "Wang",
+                "firstName": "Xu",
+                "initials": "X",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5193-9697"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Parasitic Diseases, Chinese Center for Disease Control and Prevention (Chinese Center for Tropical Diseases Research), Key Laboratory of Parasite and Vector Biology, National Health Commission of the People's Republic of China, WHO Collaborating Center for Tropical Diseases, Shanghai, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Simsek S",
+                "lastName": "Simsek",
+                "firstName": "Sami",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3567-326X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, Faculty of Veterinary Medicine, Firat University, Elazig, Turkey."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cao J",
+                "lastName": "Cao",
+                "firstName": "Jianping",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1974-0047"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Parasitic Diseases, Chinese Center for Disease Control and Prevention (Chinese Center for Tropical Diseases Research), Key Laboratory of Parasite and Vector Biology, National Health Commission of the People's Republic of China, WHO Collaborating Center for Tropical Diseases, Shanghai, China."
+                    },
+                    {
+                      "affiliation": "The School of Global Health, Chinese Center for Tropical Diseases Research, Shanghai Jiao Tong University School of Medicine, Shanghai, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1974-0047"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2188-0196"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2333-1684"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2996-9152"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3567-326X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5193-9697"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7",
+            "volume": "9",
+            "journalIssueId": 3595818,
+            "dateOfPublication": "2023 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Heliyon",
+              "title": "Heliyon",
+              "essn": "2405-8440",
+              "issn": "2405-8440",
+              "nlmid": "101672560",
+              "isoabbreviation": "Heliyon"
+            },
+            "printPublicationDate": "2023-07-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "e18176",
+          "abstractText": "<h4>Introduction</h4>Toxoplasmosis is a well-known zoonotic disease caused by <i>Toxoplasma gondii</i>. The main causes of the disease range from eating undercooked or contaminated meat and shellfish to cleaning litter trays into which cats that excreted toxoplasma via faeces. This pathogen can live for a very long time, possibly a lifetime, within the bodies of humans and other animals.<h4>Aims and objectives</h4>This study aimed to predict and analyse candidate immunogenic epitopes for vaccine development by evaluating the physio-chemical properties, multiple sequence alignment, secondary and tertiary structures, phosphorylation sites, transmembrane domains, and signal peptides, of <i>T. gondii</i> rhoptry proteins ROP7, ROP21, and ROP22 using bioinformatics tools.<h4>Methods</h4>To find immunogenic epitopes of rhoptry proteins, numerous bioinformatics web servers were used containing multiple sequence alignment, physiochemical properties, antigenicity and allergenicity, post-translational modification sites (PTMs), signal peptides, transmembrane domains, secondary and tertiary structures, and screening of predicted epitopes. We evaluated immunogenic linear B-cell epitopes as candidate proteins for vaccine development.<h4>Results</h4>Nine epitopes were identified for each protein, and analysis of immunogenicity, revealed three candidate epitopes for ROP7, one for ROP21, and four for ROP22. Among all candidate epitopes, ROP22 contained the most immunogenic epitopes with immunogenicity score of 0.50575.<h4>Conclusion</h4>We acquired detailed information on predicted immunogenic epitopes using in-silico methods. The results provide a foundation for further experimental analysis of toxoplasmosis, and potential vaccine development.",
+          "affiliation": "Department of Biosciences, COMSATS University Islamabad (CUI), Park Road, Chakh Shahzad, Islamabad, Pakistan.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "82272369",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "81971969",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Vaccine",
+              "Bioinformatics",
+              "Epitope",
+              "Toxoplasma gondii",
+              "Rop7",
+              "Rhoptry Proteins",
+              "Rop21",
+              "Rop22"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "http://www.cell.com/article/S2405844023053847/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.heliyon.2023.e18176"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10372672"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10372672?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 8,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2023-07-31",
+          "dateOfRevision": "2023-11-06",
+          "electronicPublicationDate": "2023-07-11",
+          "firstPublicationDate": "2023-07-11",
+          "firstIndexDate": "2023-08-01",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "IND608543205",
+          "source": "AGR",
+          "title": "Bioinformatics-based prediction and screening of immunogenic epitopes of Toxoplasma gondii rhoptry proteins 7, 21 and 22 as candidate vaccine target",
+          "authorString": "Ayub F, Ahmed H, Sohail T, S\u0101nval KS, Celik F, Wang X, Simsek S, Cao J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ayub F",
+                "lastName": "Ayub",
+                "firstName": "Fariha",
+                "initials": "F"
+              },
+              {
+                "fullName": "Ahmed H",
+                "lastName": "Ahmed",
+                "firstName": "H",
+                "initials": "H"
+              },
+              {
+                "fullName": "Sohail T",
+                "lastName": "Sohail",
+                "firstName": "Tehreem",
+                "initials": "T"
+              },
+              {
+                "fullName": "S\u0101nval KS",
+                "lastName": "S\u0101nval",
+                "firstName": "K\u0332h\u0332uram Shahz\u0101d",
+                "initials": "KS"
+              },
+              {
+                "fullName": "Celik F",
+                "lastName": "Celik",
+                "firstName": "Figen",
+                "initials": "F"
+              },
+              {
+                "fullName": "Wang X",
+                "lastName": "Wang",
+                "firstName": "Xu",
+                "initials": "X"
+              },
+              {
+                "fullName": "Simsek S",
+                "lastName": "Simsek",
+                "firstName": "Sami",
+                "initials": "S"
+              },
+              {
+                "fullName": "Cao J",
+                "lastName": "Cao",
+                "firstName": "Jianping",
+                "initials": "J"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "7",
+            "volume": "9",
+            "journalIssueId": 4015166,
+            "dateOfPublication": "2023 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2023,
+            "journal": {
+              "title": "Heliyon"
+            },
+            "printPublicationDate": "2023-07-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "Not Available",
+          "abstractText": "Toxoplasmosis is a well-known zoonotic disease caused by Toxoplasma gondii. The main causes of the disease range from eating undercooked or contaminated meat and shellfish to cleaning litter trays into which cats that excreted toxoplasma via faeces. This pathogen can live for a very long time, possibly a lifetime, within the bodies of humans and other animals.\u00a0This study aimed to predict and analyse candidate immunogenic epitopes for vaccine development by evaluating the physio-chemical properties, multiple sequence alignment, secondary and tertiary structures, phosphorylation sites, transmembrane domains, and signal peptides, of T. gondii rhoptry proteins ROP7, ROP21, and ROP22 using bioinformatics tools.\u00a0To find immunogenic epitopes of rhoptry proteins, numerous bioinformatics web servers were used containing multiple sequence alignment, physiochemical properties, antigenicity and allergenicity, post-translational modification sites (PTMs), signal peptides, transmembrane domains, secondary and tertiary structures, and screening of predicted epitopes. We evaluated immunogenic linear B-cell epitopes as candidate proteins for vaccine development.\u00a0Nine epitopes were identified for each protein, and analysis of immunogenicity, revealed three candidate epitopes for ROP7, one for ROP21, and four for ROP22. Among all candidate epitopes, ROP22 contained the most immunogenic epitopes with immunogenicity score of 0.50575.\u00a0We acquired detailed information on predicted immunogenic epitopes using in-silico methods. The results provide a foundation for further experimental analysis of toxoplasmosis, and potential vaccine development.",
+          "language": "eng",
+          "pubModel": "Undetermined",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-09-04",
+          "dateOfCreation": "2025-09-04",
+          "dateOfRevision": "2024-09-10",
+          "firstPublicationDate": "2023-07-01",
+          "firstIndexDate": "2025-09-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "34829991",
+          "source": "MED",
+          "pmid": "34829991",
+          "pmcid": "PMC8624187",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC8624187"
+            ]
+          },
+          "doi": "10.3390/ijms222212110",
+          "title": "Phosphoproteomic Comparison of Four <i>Eimeria tenella</i> Life Cycle Stages.",
+          "authorString": "Ma X, Liu B, Gong Z, Qu Z, Cai J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ma X",
+                "lastName": "Ma",
+                "firstName": "Xueting",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou 730046, China."
+                    },
+                    {
+                      "affiliation": "Jiangsu Co-Innovation Center for Prevention and Control of Important Animal Infectious Diseases and Zoonoses, Yangzhou 225009, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu B",
+                "lastName": "Liu",
+                "firstName": "Baohong",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6029-7462"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou 730046, China."
+                    },
+                    {
+                      "affiliation": "Jiangsu Co-Innovation Center for Prevention and Control of Important Animal Infectious Diseases and Zoonoses, Yangzhou 225009, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gong Z",
+                "lastName": "Gong",
+                "firstName": "Zhenxing",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou 730046, China."
+                    },
+                    {
+                      "affiliation": "Jiangsu Co-Innovation Center for Prevention and Control of Important Animal Infectious Diseases and Zoonoses, Yangzhou 225009, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qu Z",
+                "lastName": "Qu",
+                "firstName": "Zigang",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2903-5659"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou 730046, China."
+                    },
+                    {
+                      "affiliation": "Jiangsu Co-Innovation Center for Prevention and Control of Important Animal Infectious Diseases and Zoonoses, Yangzhou 225009, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cai J",
+                "lastName": "Cai",
+                "firstName": "Jianping",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4468-0218"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou 730046, China."
+                    },
+                    {
+                      "affiliation": "Jiangsu Co-Innovation Center for Prevention and Control of Important Animal Infectious Diseases and Zoonoses, Yangzhou 225009, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2903-5659"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4468-0218"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6029-7462"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "22",
+            "volume": "22",
+            "journalIssueId": 3271771,
+            "dateOfPublication": "2021 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2021,
+            "journal": {
+              "medlineAbbreviation": "Int J Mol Sci",
+              "title": "International journal of molecular sciences",
+              "essn": "1422-0067",
+              "issn": "1422-0067",
+              "nlmid": "101092791",
+              "isoabbreviation": "Int J Mol Sci"
+            },
+            "printPublicationDate": "2021-11-01"
+          },
+          "pubYear": "2021",
+          "pageInfo": "12110",
+          "abstractText": "Protein phosphorylation is an important post-translational modification (PTM) involved in diverse cellular functions. It is the most prevalent PTM in both <i>Toxoplasma gondii</i> and <i>Plasmodium falciparum</i>, but its status in <i>Eimeria tenella</i> has not been reported. Herein, we performed a comprehensive, quantitative phosphoproteomic profile analysis of four stages of the <i>E. tenella</i> life cycle: unsporulated oocysts (USO), partially sporulated (7 h) oocysts (SO7h), sporulated oocysts (SO), and sporozoites (S). A total of 15,247 phosphorylation sites on 9514 phosphopeptides corresponding to 2897 phosphoproteins were identified across the four stages. In addition, 456, 479, and 198 differentially expressed phosphoproteins (DEPPs) were identified in the comparisons SO7h vs. USO, SO vs. SO7h, and S vs. SO, respectively. Gene Ontology (GO) term and Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway enrichment analyses of DEPPs suggested that they were involved in diverse functions. For SO7h vs. USO, DEPPs were mainly involved in cell division, actin cytoskeleton organization, positive regulation of transport, and pyruvate metabolism. For SO vs. SO7h, they were related to the peptide metabolic process, translation, and RNA transport. DEPPs in the S vs. SO comparison were associated with the tricarboxylic acid metabolic process, positive regulation of ATPase activity, and calcium ion binding. Time course sequencing data analysis (TCseq) identified six clusters with similar expression change characteristics related to carbohydrate metabolism, cytoskeleton organization, and calcium ion transport, demonstrating different regulatory profiles across the life cycle of <i>E. tenella</i>. The results revealed significant changes in the abundance of phosphoproteins during <i>E. tenella</i> development. The findings shed light on the key roles of protein phosphorylation and dephosphorylation in the <i>E. tenella</i> life cycle.",
+          "affiliation": "State Key Laboratory of Veterinary Etiological Biology, Key Laboratory of Veterinary Parasitology of Gansu Province, Lanzhou Veterinary Research Institute, Chinese Academy of Agricultural Sciences, Lanzhou 730046, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "the Innovative Special Project of Agricultural Sci-Tech",
+                "grantId": "CAASASTIP-2014-LVRI-09",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Eimeria tenella",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CL",
+                      "qualifierName": "classification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oocysts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CL",
+                      "qualifierName": "classification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Processing, Post-Translational"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Life Cycle Stages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Life cycle",
+              "Eimeria tenella",
+              "Phosphoproteomic",
+              "Differentially Expressed Phosphoproteins (Depps)"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Phosphoproteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.mdpi.com/1422-0067/22/22/12110/pdf?version=1636454794"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/ijms222212110"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8624187"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8624187?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 10,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "PRIDE"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pxd"
+            ]
+          },
+          "dateOfCompletion": "2021-12-16",
+          "dateOfCreation": "2021-11-27",
+          "dateOfRevision": "2021-12-16",
+          "electronicPublicationDate": "2021-11-09",
+          "firstPublicationDate": "2021-11-09",
+          "firstIndexDate": "2021-12-01",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

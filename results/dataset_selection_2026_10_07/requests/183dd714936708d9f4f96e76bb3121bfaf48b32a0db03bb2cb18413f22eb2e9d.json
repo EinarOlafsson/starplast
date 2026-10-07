@@ -1,0 +1,1497 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22transcriptome%22+OR+%22RNA-seq%22+OR+%22expression+atlas%22+OR+%22CAGE%22+OR+%22FANTOM5%22+OR+%22GTEx%22%29+AND+TITLE_ABS%3A%28%22fibroblast%22+OR+fibroblasts+OR+HFF+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:31.191814+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 3494,
+    "nextCursorMark": "AoJwgPbT8qADKDU2NTE3ODI4",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22transcriptome%22+OR+%22RNA-seq%22+OR+%22expression+atlas%22+OR+%22CAGE%22+OR+%22FANTOM5%22+OR+%22GTEx%22%29+AND+TITLE_ABS%3A%28%22fibroblast%22+OR+fibroblasts+OR+HFF+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgPbT8qADKDU2NTE3ODI4&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"transcriptome\" OR \"RNA-seq\" OR \"expression atlas\" OR \"CAGE\" OR \"FANTOM5\" OR \"GTEx\") AND TITLE_ABS:(\"fibroblast\" OR fibroblasts OR HFF OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1334386",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.29.755303",
+          "title": "EndoMT: An R Package Resource for Endothelial-Mesenchymal Transition Gene Set Enrichment Analysis",
+          "authorString": "Best K, Casement J, Lovat PE, Walker L, Armstrong J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Best K",
+                "lastName": "Best",
+                "firstName": "Katie",
+                "initials": "K"
+              },
+              {
+                "fullName": "Casement J",
+                "lastName": "Casement",
+                "firstName": "John",
+                "initials": "J"
+              },
+              {
+                "fullName": "Lovat PE",
+                "lastName": "Lovat",
+                "firstName": "Penny",
+                "initials": "PE"
+              },
+              {
+                "fullName": "Walker L",
+                "lastName": "Walker",
+                "firstName": "Laura",
+                "initials": "L"
+              },
+              {
+                "fullName": "Armstrong J",
+                "lastName": "Armstrong",
+                "firstName": "Jane",
+                "initials": "J"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Introduction: </h4> Endothelial-mesenchymal transition (EndoMT) is a dynamic endothelial cell-state transition increasingly implicated in fibrosis, vascular dysfunction, inflammation and cancer. Despite expansion of EndoMT-focused transcriptomic research, EndoMT representation remains limited to broader epithelial-mesenchymal transition (EMT) frameworks in standard gene set repositories. <h4>Methods:</h4> To address the absence of a general-purpose EndoMT gene set for transcriptomic enrichment analysis, we developed an open EndoMT gene set resource and accompanying R package. A literature-informed EndoMT gene set was curated and directionally assigned to EndoMT UP and EndoMT DOWN signatures according to reported or hypothesised expression during partial EndoMT, defined here as an active transitional state rather than a complete mesenchymal endpoint, to improve capture of EndoMT-associated transcriptional changes across different stages of the process. Genes were annotated by marker subtype and implemented as Gene Matrix Transposed files distributed through the R package, together with exported R objects and gene-level metadata. Benchmarking was performed using bulk RNA-seq data sets GSE118446, comprising seven-day IL-1l\u03b2/TGF-\u03b22-treated human umbilical vein endothelial cells (HUVECs) and human pulmonary arterial endothelial cells, and GSE342578, comprising three-day TGF-\u03b21/2/3-treated HUVECs; single-cell RNA-seq data set GSE237895, comprising seven-day TGF-\u03b21-treated and SNAI1-overexpressing HUVECs; and endothelial cell and cancer-associated fibroblast populations from human metastatic melanoma single-cell RNA-seq data set GSE72056. <h4>Results:</h4> In GSE118446, EndoMT UP was positively enriched and EndoMT DOWN negatively enriched in chronically IL-1\u03b2/TGF-\u03b22-treated endothelial cells, concordant with experimentally validated EndoMT induction, while partial EndoMT-associated enrichment was detected in single ligand-treatment. In contrast, EndoMT UP was negatively enriched following acute TGF-\u03b21/2/3 treatment, suggesting temporal differences between acute TGF-\u03b2 stimulation and chronic EndoMT induction. In GSE237895 mesenchymal-like endothelial cells, EndoMT UP was positively enriched and EndoMT DOWN negatively enriched in both TGF-\u03b21-treated and SNAI1-overexpressing models. EndoMT gene sets also discriminated endothelial and mesenchymal/stromal transcriptional states in GSE72056 metastatic melanoma. Marker subtype and Gene Ontology Biological Process analyses provided additional exploratory resolution of EndoMT-associated components beyond MSigDB Hallmark EMT. <h4>Discussion:</h4> The EndoMT R package provides a dedicated, accessible and interoperable resource for EndoMT-focused transcriptomic enrichment analysis. Benchmarking demonstrates utility for detecting established, partial and divergent EndoMT-associated states, supporting broad applicability across EndoMT biology research.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.29.755303"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-06",
+          "firstPublicationDate": "2026-10-05",
+          "firstIndexDate": "2026-10-06",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1334065",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10699536/v1",
+          "title": "Integrated single-cell transcriptomic analysis reveals KLF6-associated macrophage-alveolar epithelial crosstalk in sepsis-associated acute lung injury",
+          "authorString": "Tan W, Chokkakula S, Huang H.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Tan W",
+                "lastName": "Tan",
+                "firstName": "Wanyue",
+                "initials": "W"
+              },
+              {
+                "fullName": "Chokkakula S",
+                "lastName": "Chokkakula",
+                "firstName": "Santosh",
+                "initials": "S"
+              },
+              {
+                "fullName": "Huang H",
+                "lastName": "Huang",
+                "firstName": "Huanseng",
+                "initials": "H"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>Background  Sepsis-associated acute lung injury (ALI) contributes substantially to sepsis mortality, but the cellular heterogeneity and molecular regulators driving its progression remain incompletely understood. This study integrated multiple public single-cell transcriptomic datasets to characterize pulmonary cellular remodeling and identify key regulators during sepsis-associated ALI. Methods  Mouse lung scRNA-seq datasets (GSE207651, GSE249835, GSE278767; sham and CLP at 12, 24, and 48 h) were integrated with a human PBMC dataset (GSE279452, healthy controls vs. sepsis) and a mouse lung bulk RNA-seq dataset (GSE279484) used for validation. Data were processed in Seurat, with ambient RNA removed via scCDC/DecontX and cell types annotated using CellMarker 2.0. Compositional dynamics were assessed by RO/E ratios, and pathway/M1-M2 activity was scored with decoupleR. Monocyte/macrophage subclusters were characterized using AUCell, GSEApy, and Diffusion Pseudotime analysis. hdWGCNA, pySCENIC, and LIANA were applied to construct co-expression networks, TF regulatory networks, and cell communication maps, respectively; scTenifoldKnk validated candidate TFs in AT2 cells. A CLP mouse model with immunofluorescence staining validated KLF6/CD86 colocalization in vivo. Results  Integrated analysis identified major pulmonary populations\u2014including fibroblasts, endothelial cells, epithelial subtypes, and immune lineages that underwent time-dependent remodeling during CLP, particularly within innate immunity. Monocyte/macrophage populations showed pronounced M1/M2 heterogeneity, with M1 scores peaking early and M2 scores rising progressively toward 48 h. Pseudotime analysis revealed a continuous monocyte-to-M1 transition, and hdWGCNA identified associated co-expression modules (M1-M5, M1-M7, M1-M8), nominating Bhlhe40, Glul, and Klf6 as core candidate regulators. Klf6 showed highly specific regulatory activity in M1 macrophages, which communicated with AT2 and endothelial cells via multiple ligand-receptor axes. In PBMCs, a KLF6-high inflammatory monocyte subset was significantly expanded in sepsis and correlated with inflammation score. In AT2 cells, Fli1 and other TFs showed increased activity at CLP24h, with targets linked to vascular and tissue remodeling. Immunofluorescence confirmed increased KLF6\u207aCD86\u207a cells in CLP-treated lungs. Conclusions  This multi-omic integration delineates the dynamic remodeling of the pulmonary cellular landscape and monocyte/macrophage polarization in sepsis-associated ALI, identifying KLF6 as a key regulator linking macrophage M1 polarization to peripheral inflammatory monocyte activation offering new mechanistic insight and potential therapeutic targets.</p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10699536/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-06",
+          "firstPublicationDate": "2026-10-05",
+          "firstIndexDate": "2026-10-06",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1334065",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-10-05",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42827142",
+          "source": "MED",
+          "pmid": "42827142",
+          "doi": "10.1007/s10142-026-02059-9",
+          "title": "Cell-resolved testing of network-pharmacology candidates in dilated cardiomyopathy: PI3K-AKT-associated transcriptional differences are distributed across cardiac lineages and are not enriched above a genome-wide background.",
+          "authorString": "Qian Y, Tian H, Zhao S, Bian Y, Yu H, Di A, Jia Y, Li S, Sun R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Qian Y",
+                "lastName": "Qian",
+                "firstName": "Yingying",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-1472-1426"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Geriatric Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    },
+                    {
+                      "affiliation": "Department of Traditional Chinese Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tian H",
+                "lastName": "Tian",
+                "firstName": "Haitao",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Geriatric Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao S",
+                "lastName": "Zhao",
+                "firstName": "Shuaihong",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Geriatric Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bian Y",
+                "lastName": "Bian",
+                "firstName": "Yanjiao",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Geriatric Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yu H",
+                "lastName": "Yu",
+                "firstName": "Hongyang",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Traditional Chinese Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Di A",
+                "lastName": "Di",
+                "firstName": "Ang",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Traditional Chinese Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jia Y",
+                "lastName": "Jia",
+                "firstName": "Yingshuang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Traditional Chinese Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li S",
+                "lastName": "Li",
+                "firstName": "Shaodan",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Traditional Chinese Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China. lsd301@126.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun R",
+                "lastName": "Sun",
+                "firstName": "Runquan",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1096-9053"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Traditional Chinese Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China. 17813205895@163.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1096-9053"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0002-1472-1426"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "26",
+            "journalIssueId": 4275710,
+            "dateOfPublication": "2026 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Funct Integr Genomics",
+              "title": "Functional & integrative genomics",
+              "essn": "1438-7948",
+              "issn": "1438-793X",
+              "nlmid": "100939343",
+              "isoabbreviation": "Funct Integr Genomics"
+            },
+            "printPublicationDate": "2026-10-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "280",
+          "abstractText": "Network pharmacology nominates targets but cannot show that they are altered in the relevant cell, distinguishable from a hypothesis-free analysis of the same data, or linked to disease. Taking the candidates nominated for Yangxin Decoction in dilated cardiomyopathy (DCM) and viral myocarditis, we asked how many survive independent functional-genomic testing. Few did. A direct-evidence intersection returned 61 genes, but across four bulk cardiac datasets the set was differentially expressed no more often than the transcriptome-wide background in any human cohort, and AKT1 was significant in none. Donor-pseudobulk single-nucleus RNA sequencing of 52 DCM and 18 control donors showed higher AKT1 (log2 fold change 0.351, adjusted P\u2009=\u20093.32\u2009\u00d7\u200910<sup>-\u20094</sup>), PIK3CA and GSK3B and lower STAT3 in cardiomyocytes; no fold-change threshold was applied, and the AKT1 difference is small. These differences were robust to nucleus depth, sex, age, ventricle and DCM genotype; in an independent single-nucleus DCM cohort AKT1 (0.530) and STAT3 (-\u20090.771) replicated at FDR\u2009<\u20090.05, PIK3CA was directionally consistent, and GSK3B did not replicate. Three further tests constrain the interpretation. A disease \u00d7 cell-type interaction model showed that PIK3CA is altered in most cardiac lineages and significantly more in fibroblasts than in cardiomyocytes, endothelial or immune populations, whereas the AKT1 difference, although significant only in cardiomyocytes, could not be shown to differ from that in most other lineages, so it reflects detection rather than demonstrated restriction. A whole-heart pseudobulk of the same donors still detected AKT1 (adjusted P\u2009=\u20096.8\u2009\u00d7\u200910<sup>-\u20093</sup>), so cellular dilution does not explain the negative bulk-microarray result. Benchmarked against an unbiased genome-wide analysis of the same cardiomyocyte comparison, the nominated 61-gene set was not enriched (46.7% versus a 41.3% background, P\u2009=\u20090.281) and AKT1 ranked 2,182 of 14,586. A prespecified screen found no cis-eQTL instrument for AKT1; a single whole-blood MTOR Wald ratio was not supported by colocalization. These are cell-type-resolved transcriptional differences in dilated cardiomyopathy, not evidence that Yangxin Decoction engages PI3K-AKT signalling and not a validated therapeutic mechanism.",
+          "affiliation": "Department of Geriatric Medicine, The Sixth Medical Center of PLA General Hospital, Beijing, 100048, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Myocytes, Cardiac",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cardiomyopathy, Dilated",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "STAT3 Transcription Factor",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proto-Oncogene Proteins c-akt",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Phosphatidylinositol 3-Kinases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Network Pharmacology"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Dilated cardiomyopathy",
+              "Myocarditis",
+              "Network Pharmacology",
+              "Single-nucleus Rna Sequencing",
+              "Pi3k\u2013akt Signalling",
+              "Donor Pseudobulk"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "STAT3 Transcription Factor",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proto-Oncogene Proteins c-akt",
+                "registryNumber": "EC 2.7.11.1"
+              },
+              {
+                "name": "Phosphatidylinositol 3-Kinases",
+                "registryNumber": "EC 2.7.1.-"
+              },
+              {
+                "name": "AKT1 protein, human",
+                "registryNumber": "EC 2.7.11.1"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s10142-026-02059-9"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1300034",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-10-02",
+          "dateOfCreation": "2026-10-02",
+          "dateOfRevision": "2026-10-02",
+          "electronicPublicationDate": "2026-10-03",
+          "firstPublicationDate": "2026-10-03",
+          "firstIndexDate": "2026-10-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1332482",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.26.754222",
+          "title": "Nuclear acetyl-CoA accumulation drives reversible RBP hyperacetylation and transcriptome-wide splicing shifts in age-equivalent Alzheimer\u2019s disease neurons",
+          "authorString": "Traxler L, Borgogno O, Champion K, Herdy JR, Dzieciatkowska M, Reisz JA, Petrosyan A, Siler C, Anderson CC, Gorostieta-Salas E, Lucciola R, Galasko D, Gage FH, D\u2019Alessandro A, Mertens J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Traxler L",
+                "lastName": "Traxler",
+                "firstName": "Larissa",
+                "initials": "L"
+              },
+              {
+                "fullName": "Borgogno O",
+                "lastName": "Borgogno",
+                "firstName": "Oliver",
+                "initials": "O"
+              },
+              {
+                "fullName": "Champion K",
+                "lastName": "Champion",
+                "firstName": "Kylie",
+                "initials": "K"
+              },
+              {
+                "fullName": "Herdy JR",
+                "lastName": "Herdy",
+                "firstName": "Joseph",
+                "initials": "JR"
+              },
+              {
+                "fullName": "Dzieciatkowska M",
+                "lastName": "Dzieciatkowska",
+                "firstName": "Monika",
+                "initials": "M"
+              },
+              {
+                "fullName": "Reisz JA",
+                "lastName": "Reisz",
+                "firstName": "Julie",
+                "initials": "JA"
+              },
+              {
+                "fullName": "Petrosyan A",
+                "lastName": "Petrosyan",
+                "firstName": "Ayk",
+                "initials": "A"
+              },
+              {
+                "fullName": "Siler C",
+                "lastName": "Siler",
+                "firstName": "Cat",
+                "initials": "C"
+              },
+              {
+                "fullName": "Anderson CC",
+                "lastName": "Anderson",
+                "firstName": "Colin",
+                "initials": "CC"
+              },
+              {
+                "fullName": "Gorostieta-Salas E",
+                "lastName": "Gorostieta-Salas",
+                "firstName": "Elisa",
+                "initials": "E"
+              },
+              {
+                "fullName": "Lucciola R",
+                "lastName": "Lucciola",
+                "firstName": "Raffaella",
+                "initials": "R"
+              },
+              {
+                "fullName": "Galasko D",
+                "lastName": "Galasko",
+                "firstName": "Douglas",
+                "initials": "D"
+              },
+              {
+                "fullName": "Gage FH",
+                "lastName": "Gage",
+                "firstName": "Fred",
+                "initials": "FH"
+              },
+              {
+                "fullName": "D\u2019Alessandro A",
+                "lastName": "D\u2019Alessandro",
+                "firstName": "Angelo",
+                "initials": "A"
+              },
+              {
+                "fullName": "Mertens J",
+                "lastName": "Mertens",
+                "firstName": "Jerome",
+                "initials": "J"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Summary</h4>  Metabolic alterations and dysregulated alternative RNA splicing are central layers of Alzheimer\u2019s disease (AD) pathogenesis, yet whether and to what extent these changes are mechanistically linked in adult human neurons in the aging brain remains unclear. To assess this, we generated induced neurons (iNs) by direct conversion of fibroblasts from sporadic AD patients and age-matched control donors. Fibroblast-derived iNs retaining donor-specific aging signatures have been shown to display several AD-related phenotypes. Metabolomic analysis revealed that AD iNs divert citrate toward ATP-citrate lyase (ACLY)-dependent citrate-to-acetyl-CoA flux, which drives increased nuclear levels of the high-energy metabolite acetyl-CoA. Acetyl-proteomics showed that acetyl-CoA accumulation leads to widespread hyperacetylation of RNA-binding proteins (RBPs) and splice regulators, suggestive of a direct mechanistic link between a metabolic shift and RNA processing. Indeed, single-cell long-read RNA sequencing identifies splicing alterations in AD-relevant transcripts whose isoform usage mirrors changes observed in post-mortem AD cortex samples. Subcellular acetyl-CoA imaging reveals that inhibition of ACLY enzymatic activity selectively reduces nuclear acetyl-CoA levels, and further improves citrate metabolic flux, normalizes RBP acetylation, and re-establishes a normal neuronal splicing landscape in AD iNs. Together, these findings reveal a nuclear acetyl-CoA-RNA processing axis that links age- and disease-related metabolic alterations to alternative splicing dysregulation in AD, and identify neuronal nuclear acetyl-CoA production as a causal and reversible node for restoring metabolic and RNA homeostasis in aging human AD neurons. <h4>Highlights</h4>  Sporadic Alzheimer\u2019s disease (AD) patient-derived directly induced neurons (iNs) shift metabolism toward nuclear acetyl-CoA production via ATP-citrate lyase (ACLY). Elevated nuclear acetyl-CoA causes hyperacetylation of RNA-binding proteins (RBPs). Patient iNs show pathogenic RNA splicing patterns similar to post-mortem AD brains. Inhibition of ACLY normalizes neuronal acetyl-CoA metabolism and restores RNA splicing homeostasis.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.26.754222"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-02",
+          "firstPublicationDate": "2026-10-01",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1332650",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.28.755183",
+          "title": "Mendel, a foundation model of human genetic variation, prioritizes regulatory variants and improves gene expression prediction",
+          "authorString": "Salman A, Feng H, Wei P, Sun R, Wu L, Pan W, Wu C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Salman A",
+                "lastName": "Salman",
+                "firstName": "Arham",
+                "initials": "A"
+              },
+              {
+                "fullName": "Feng H",
+                "lastName": "Feng",
+                "firstName": "Haonan",
+                "initials": "H"
+              },
+              {
+                "fullName": "Wei P",
+                "lastName": "Wei",
+                "firstName": "Peng",
+                "initials": "P"
+              },
+              {
+                "fullName": "Sun R",
+                "lastName": "Sun",
+                "firstName": "Ryan",
+                "initials": "R"
+              },
+              {
+                "fullName": "Wu L",
+                "lastName": "Wu",
+                "firstName": "Lang",
+                "initials": "L"
+              },
+              {
+                "fullName": "Pan W",
+                "lastName": "Pan",
+                "firstName": "Wei",
+                "initials": "W"
+              },
+              {
+                "fullName": "Wu C",
+                "lastName": "Wu",
+                "firstName": "Chong",
+                "initials": "C"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Human genome-wide association studies have identified hundreds of thousands of variant trait associations, but interpreting their mechanistic consequences at allele resolution remains a central bottleneck. DNA foundation models pretrained on genomic sequence corpora learn features predictive of regulatory activity, yet their training objectives are dominated by the conserved background common to all individuals, rather than the sparse variant sites at which human genetic variation is concentrated. Here we introduce Mendel, a DNA foundation model trained from scratch on human whole genome sequences using a variant-centric objective that concentrates supervision on allelic events within reference aligned sequence context. On held-out individuals, Mendel attains 0.984 micro-averaged SNV allele-prediction accuracy, compared with 0.311 for Evo 2. Mendel residual difficulty is selectively enriched at cis-eQTL variants, prioritizes fine-mapped causal variants (AUROC 0.731), where Evo 2 residuals performed near chance, and when converted into a cis-expression prior for modelling, improves prediction relative to an unweighted baseline in all 50 GTEx tissues.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.28.755183"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-02",
+          "firstPublicationDate": "2026-09-30",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1331413",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10975043/v1",
+          "title": "Host-gene expression across human tissues reveals cargo-specific intronic outcomes of L1-mediated retrotransposition",
+          "authorString": "Lee M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lee M",
+                "lastName": "Lee",
+                "firstName": "Min-Gyu",
+                "initials": "M"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>Background  LINE-1 (L1) machinery mobilizes L1, Alu, SVA and cellular mRNAs, but whether these cargoes show similar relationships with host-gene transcription remains unclear. Results  Using the Genotype-Tissue Expression (GTEx) atlas as a reference for gene expression in adult human tissues, we grouped host genes into expression quartiles within each of 51 anatomical tissues. We analysed the same catalogue of inherited intronic insertions across these quartiles. We compared these patterns with those observed for reference-retained, somatic and experimentally recovered insertions. Across tissues, the median ratios of event density in the highest versus lowest expression quartiles (Q4/Q1) were 0.539 for L1, 1.112 for Alu and 2.255 for SVA. The corresponding ratios for inserted-sequence burden were 0.504, 1.127 and 2.452. Adjustment for intronic opportunity, host architecture and native intronic GC reduced L1 event depletion to a borderline association. L1 sequence burden remained depleted, and direct cargo contrasts remained significant. Cargoes also differed in occupancy, multiplicity and orientation. Reference-genome analyses distinguished event persistence from sequence persistence and included processed pseudogenes. Somatic L1 and published recovered L1\u2013Alu maps showed aspects of this divergence without germline transmission. Conclusions  Using host-gene expression as a common reference clarifies how cargoes sharing L1-associated machinery differ in their intronic distributions. Integrating event density, sequence burden and orientation separates differences in insertion abundance from those in retained sequence, revealing population cargo contrasts that measured GC content and host architecture do not fully explain.</p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10975043/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "firstPublicationDate": "2026-09-30",
+          "firstIndexDate": "2026-10-01",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1331413",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-09-30",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42813658",
+          "source": "MED",
+          "pmid": "42813658",
+          "doi": "10.3791/73889",
+          "title": "Identification of Heme Metabolism-Related Biomarkers in Keloids Using Transcriptomic Analysis and Cultured Human Fibroblasts.",
+          "authorString": "Yang Q, Zhang J, Sun X, Wang J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang Q",
+                "lastName": "Yang",
+                "firstName": "Qiuyan",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Dermatology, The Second Affiliated Hospital of Jiaxing University; yangqiuyan725@163.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang J",
+                "lastName": "Zhang",
+                "firstName": "Jianping",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Dermatology, The Second Affiliated Hospital of Jiaxing University."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun X",
+                "lastName": "Sun",
+                "firstName": "Xiaofang",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Dermatology, The Second Affiliated Hospital of Jiaxing University."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang J",
+                "lastName": "Wang",
+                "firstName": "Jing",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Dermatology, The Second Affiliated Hospital of Jiaxing University."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "235",
+            "journalIssueId": 4253273,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Vis Exp",
+              "title": "Journal of visualized experiments : JoVE",
+              "essn": "1940-087X",
+              "issn": "1940-087X",
+              "nlmid": "101313252",
+              "isoabbreviation": "J Vis Exp"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "abstractText": "Keloid is a fibroproliferative disorder with high recurrence and unclear pathogenesis, lacking effective therapeutic targets. Recent evidence suggests metabolic reprogramming, particularly in heme metabolism, may drive fibrosis. This study investigates the role of heme metabolism, focusing on feline leukemia virus subgroup C receptor 1 (FLVCR1), in keloid pathogenesis and explores its diagnostic and therapeutic potential. We analyzed bulk RNA-seq datasets and single-cell RNA-seq data (scRNA-seq). Differential expression, least absolute shrinkage and selection operator (LASSO), and random forest (RF) models identified heme metabolism-related diagnostic biomarkers. Immune infiltration, single-cell mapping, microRNA (miRNA) network construction, and molecular docking with traditional Chinese medicine compounds were performed. Six heme metabolism-related biomarkers were identified, forming a diagnostic nomogram with high accuracy. FLVCR1, enriched in endothelial cells and melanocytes, correlated negatively with T follicular helper cells, suggesting immunometabolic crosstalk. MiRNA regulatory network analysis revealed five miRNAs co-targeting all six biomarkers. Molecular docking identified (+)-gallocatechin as a high-affinity FLVCR1 ligand. These findings suggest an association between FLVCR1-related heme metabolism and immune alterations in keloid pathogenesis. The biomarker panel showed exploratory diagnostic potential, and (+)-gallocatechin was identified as a candidate FLVCR1-interacting compound requiring further validation. This study reframes keloid within the metabo-fibrotic spectrum and proposes metabolic-immune intervention as a novel therapeutic strategy.",
+          "affiliation": "Department of Dermatology, The Second Affiliated Hospital of Jiaxing University; yangqiuyan725@163.com.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Video-Audio Media",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Fibroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Keloid",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Heme",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Virus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "MicroRNAs",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Docking Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Biomarkers",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Receptors, Virus",
+                "registryNumber": "0"
+              },
+              {
+                "name": "MicroRNAs",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Heme",
+                "registryNumber": "42VZT0U6YR"
+              },
+              {
+                "name": "Biomarkers",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3791/73889"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-09-30",
+          "dateOfCreation": "2026-09-30",
+          "dateOfRevision": "2026-09-30",
+          "electronicPublicationDate": "2026-09-29",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-10-01",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1330647",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.23.753551",
+          "title": "Utilizing single-cell data for per-cell type eQTL mapping in the human pancreas",
+          "authorString": "Weidekamp MA, Lorenz K, Elgamal R, HPAP Consortium, Kaestner KH, Gaulton K, Grant SF, Voight BF.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Weidekamp MA",
+                "lastName": "Weidekamp",
+                "firstName": "Mary Ann",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Lorenz K",
+                "lastName": "Lorenz",
+                "firstName": "Kim",
+                "initials": "K"
+              },
+              {
+                "fullName": "Elgamal R",
+                "lastName": "Elgamal",
+                "firstName": "Ruth",
+                "initials": "R"
+              },
+              {
+                "collectiveName": "HPAP Consortium"
+              },
+              {
+                "fullName": "Kaestner KH",
+                "lastName": "Kaestner",
+                "firstName": "Klaus",
+                "initials": "KH"
+              },
+              {
+                "fullName": "Gaulton K",
+                "lastName": "Gaulton",
+                "firstName": "Kyle",
+                "initials": "K"
+              },
+              {
+                "fullName": "Grant SF",
+                "lastName": "Grant",
+                "firstName": "Struan F.A.",
+                "initials": "SF"
+              },
+              {
+                "fullName": "Voight BF",
+                "lastName": "Voight",
+                "firstName": "Benjamin",
+                "initials": "BF"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>ABSTRACT</h4>  <h4>Aims/hypothesis</h4>  The human pancreas is a central organ for metabolic regulation that is comprised of diverse cell types that uniquely contribute to its function. Previous studies have performed expression quantitative trail loci (eQTL) discovery in either whole pancreas or in pancreatic islets, but due to differences between pancreatic cell types, this approach does not reveal cell type-specific effects. In this study, we sought to either implicate the cell type of action for known eQTLs or identify new eQTLs that may have been masked in bulk studies by performing eQTL discovery in individual pancreatic cell types. <h4>Methods</h4>  We clustered 153,018 single-cell RNA sequencing (scRNA-seq) data from 71 pancreatic islet donors from the Human Pancreas Analysis Program (HPAP). We performed eQTL discovery in six pancreatic cell types using this resource directly. We further utilized this single cell resource as a reference to deconvolute bulk pancreatic RNA sequencing data from 305 Genotype Tissue Expression (GTEx) project donors and performed eQTL discovery in four pancreatic cell types. Finally, we performed fine-mapping and co-localization of pancreatic cell type eQTLs with metabolic GWAS to connect our findings to metabolic disease risk. <h4>Results</h4>  From analyzing 71 individuals with single cell profiles, we identified 112 unique eGenes across six pancreatic cell types, 99 of which had been identified previously and 13 unique to this study. From the deconvoluted eQTLs, we identified 3,134 unique eGenes across four pancreatic cell types, 116 of which were unique to our study. Fine-mapping and co-localization of eQTLs with metabolic GWAS yielded key leads that warrant further investigation, such as the association of rs2168101 with  LMO1 expression in alpha cells.  <h4>Conclusions/interpretation</h4>  We identified new signals that were previously not found in bulk pancreatic eQTL studies and potential cell type of action for several signals that were identified previously. Although there are limitations to the power, and therefore, discoverability of this study, it provides insights into how individual pancreatic cells differently contribute to metabolic disease. <h4>RESEARCH IN CONTEXT</h4>  <h4>What is already known about this subject?</h4>  Individual pancreatic cell types have distinct functional roles that differently contribute to metabolic traits and disease risk. Expression quantitative trait loci studies (eQTLs) can help connect variants to changes in gene expression, which when paired with association studies, can implicate genes with roles in metabolic disease. Previous pancreatic eQTL studies have been carried out in whole pancreatic tissue or whole pancreatic islets, but not at individual cell type resolution. <h4>What is the key question?</h4>  By performing eQTL analyses at individual cell type resolution, can we map known eQTLs to putative cell types of action plus uncover new eQTLs that were previously undetected by bulk pancreatic studies? <h4>What are the new findings?</h4>  Across two eQTL discovery experiments, consisting of single cell data directly and deconvoluted bulk expression profiles, we identified 112 and 3,134 genes associated with an eQTL, respectively. Of these results, 13 and 116 of these genes had not previously been associated with pancreatic eQTLs and were therefore unique to our discovery effort. After co-localization with metabolic trait GWAS, we observed novel variant-to-gene connections for future follow up, such as rs2168101 for  LMO1 , an eQTL we identified in alpha cells that co-localized with fasting glucose levels.  <h4>How might this impact clinical practice in the foreseeable future?</h4>  This study provides new insights into the role of individual cells in metabolic traits, informing future studies on the role of the pancreas in conferring disease susceptibility.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.23.753551"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-30",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-09-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1329371",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.25.26364057",
+          "title": "Blood transcriptomic signature associated with hypertension in females across two human cohorts",
+          "authorString": "Yang C, Lu J, Pretorius T, Camargo Tavares L, Marques F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang C",
+                "lastName": "Yang",
+                "firstName": "Chaoran",
+                "initials": "C"
+              },
+              {
+                "fullName": "Lu J",
+                "lastName": "Lu",
+                "firstName": "Jianan",
+                "initials": "J"
+              },
+              {
+                "fullName": "Pretorius T",
+                "lastName": "Pretorius",
+                "firstName": "Tanya",
+                "initials": "T"
+              },
+              {
+                "fullName": "Camargo Tavares L",
+                "lastName": "Camargo Tavares",
+                "firstName": "Leticia",
+                "initials": "L"
+              },
+              {
+                "fullName": "Marques F",
+                "lastName": "Marques",
+                "firstName": "Francine",
+                "initials": "F"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Background</h4>  Hypertension prevalence rises sharply in females after menopause, exceeding that of age-matched males in later life, conferring greater relative cardiovascular disease risk in females than in males. However, the underlying mechanisms remain poorly understood. <h4>Method</h4>  We studied multi-tissue RNA-sequencing data from 193 CVD-free participants aged >55 years in the GTEx database and extended the findings to 1,605 age-matched Framingham Heart Study participants. <h4>Results</h4>  We identified a dominant female hypertension co-expression signature in blood, expressed at lower levels in females with uncontrolled high blood pressure than in males (sex-by-hypertension interaction) in both cohorts. Genes contributing to this signature were enriched for post-transcriptional modification and insulin signalling and regulated by ETS family transcription factors (TFs). Ten ETS TFs showed the same female-specific hypertension association and together explained the signature\u2019s expression. Moreover, in females, but not males, lower blood signature scores were associated with a pro-inflammatory transcriptome in the artery and kidneys. <h4>Conclusions</h4>  Collectively, we identified the ETS-transcriptomic axis as a potential mechanism explaining sex differences in human hypertension. <h4>Graphic Summary</h4>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "medRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.25.26364057"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-29",
+          "firstPublicationDate": "2026-09-28",
+          "firstIndexDate": "2026-09-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1328902",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-9696748/v1",
+          "title": "Distinct transcriptomic patterns in bicuspid aortic valve aortopathy suggest a unique mechanism of ascending aortic aneurysm progression",
+          "authorString": "Glotzbach J, Levy L, Chamberlin J, Steely A, Sharma V, Goodwin M, Kagawa H, Seipp M, Pereira S, Selzman C, Quinlan A, Tristani-Firouzi M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Glotzbach J",
+                "lastName": "Glotzbach",
+                "firstName": "Jason",
+                "initials": "J"
+              },
+              {
+                "fullName": "Levy L",
+                "lastName": "Levy",
+                "firstName": "Lauren",
+                "initials": "L"
+              },
+              {
+                "fullName": "Chamberlin J",
+                "lastName": "Chamberlin",
+                "firstName": "John",
+                "initials": "J"
+              },
+              {
+                "fullName": "Steely A",
+                "lastName": "Steely",
+                "firstName": "Andrea",
+                "initials": "A"
+              },
+              {
+                "fullName": "Sharma V",
+                "lastName": "Sharma",
+                "firstName": "Vikas",
+                "initials": "V"
+              },
+              {
+                "fullName": "Goodwin M",
+                "lastName": "Goodwin",
+                "firstName": "Matthew",
+                "initials": "M"
+              },
+              {
+                "fullName": "Kagawa H",
+                "lastName": "Kagawa",
+                "firstName": "Hiroshi",
+                "initials": "H"
+              },
+              {
+                "fullName": "Seipp M",
+                "lastName": "Seipp",
+                "firstName": "Michael",
+                "initials": "M"
+              },
+              {
+                "fullName": "Pereira S",
+                "lastName": "Pereira",
+                "firstName": "Sara",
+                "initials": "S"
+              },
+              {
+                "fullName": "Selzman C",
+                "lastName": "Selzman",
+                "firstName": "Craig",
+                "initials": "C"
+              },
+              {
+                "fullName": "Quinlan A",
+                "lastName": "Quinlan",
+                "firstName": "Aaron",
+                "initials": "A"
+              },
+              {
+                "fullName": "Tristani-Firouzi M",
+                "lastName": "Tristani-Firouzi",
+                "firstName": "Martin",
+                "initials": "M"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>  <bold>Objective</bold>  : To compare RNA-sequencing-derived transcriptomic profiles of thoracic aortic aneurysm tissue from individuals with bicuspid versus trileaflet aortic valves.  <bold>Methods</bold>  : Human ascending aortic tissue was collected from patients undergoing cardiac surgery at a single institution between January 2021 and December 2022 with bicuspid aortic valves (BAV) and trileaflet aortic valves (TAV) with (-A) and without (-N) thoracic aortic aneurysm. TAV-N tissue was collected from heart transplant donors. The decision to perform ascending aortic replacement was at surgeon discretion following ACC/AHA guidelines. Bulk RNA was extracted from the aortic wall, and Illumina RNA Sequencing performed. Differential gene expression analysis, enrichment analyses, network analysis, and deconvolution single cell30 mapping were performed in R. Cell-type specificity of differentially expressed genes was determined using an established Aorta single cell RNA sequencing matrix.  <bold>Results</bold>  : Tissue samples from 60 patients were included: 4 TAV-N, 16 BAV-N, 28 BAV-A, and 12 TAV-A. Average absolute aortic diameter was 5.1 \u00b1 0.38 cm for BAV-A and 5.3 \u00b1 0.44 cm for TAV-A, as measured on pre-operative CT. Gene ontology analyses of differentially expressed genes revealed enrichment of genes associated with extracellular matrix (ECM) organization, cellular receptor interactions and vascular smooth muscle cell (VSMC) function in BAV-A and BAV-N. In contrast, analysis of TAV-A versus TAV-N showed enrichment in genes associated with immune and inflammatory processes. Cell-type specificity analysis revealed a downregulation of genes associated with ECM components, cell signaling, and ECM remodeling in mesenchymal cells, VSMCs, and matrix fibroblasts specifically in BAV-A versus BAV-N.  <bold>Conclusions</bold>  : The transcriptome changes observed in aneurysmal aortas of BAV and TAV patients are distinct, suggesting mechanistic differences contributing to aneurysm development and progression. The observed differences in gene expression between the non-aneurysmal aortas may signify a predisposition to aneurysm development unique to BAV aortopathy.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-9696748/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-29",
+          "firstPublicationDate": "2026-09-28",
+          "firstIndexDate": "2026-09-29",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1328902",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-09-28",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

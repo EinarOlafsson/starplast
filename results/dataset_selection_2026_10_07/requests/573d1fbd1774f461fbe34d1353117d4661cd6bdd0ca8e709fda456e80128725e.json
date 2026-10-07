@@ -1,0 +1,4074 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22erythrocyte%22+OR+%22red+blood+cell%22+OR+RBC+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:07.216682+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 587,
+    "nextCursorMark": "AoJXECgxMTM2OTk4Ng==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22erythrocyte%22+OR+%22red+blood+cell%22+OR+RBC+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&cursorMark=AoJXECgxMTM2OTk4Ng%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"proteome\" OR \"proteomics\" OR \"mass spectrometry\") AND TITLE_ABS:(\"erythrocyte\" OR \"red blood cell\" OR RBC OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "26481351",
+          "source": "MED",
+          "pmid": "26481351",
+          "pmcid": "PMC4702781",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4702781"
+            ]
+          },
+          "doi": "10.1093/nar/gkv1045",
+          "title": "Expression Atlas update--an integrated database of gene and protein expression in humans, animals and plants.",
+          "authorString": "Petryszak R, Keays M, Tang YA, Fonseca NA, Barrera E, Burdett T, F\u00fcllgrabe A, Fuentes AM, Jupp S, Koskinen S, Mannion O, Huerta L, Megy K, Snow C, Williams E, Barzine M, Hastings E, Weisser H, Wright J, Jaiswal P, Huber W, Choudhary J, Parkinson HE, Brazma A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Petryszak R",
+                "lastName": "Petryszak",
+                "firstName": "Robert",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6333-2182"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK rpetry@ebi.ac.uk.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Keays M",
+                "lastName": "Keays",
+                "firstName": "Maria",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2034-601X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tang YA",
+                "lastName": "Tang",
+                "firstName": "Y Amy",
+                "initials": "YA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0045-1234"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fonseca NA",
+                "lastName": "Fonseca",
+                "firstName": "Nuno A",
+                "initials": "NA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4832-578X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Barrera E",
+                "lastName": "Barrera",
+                "firstName": "Elisabet",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7245-9692"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Burdett T",
+                "lastName": "Burdett",
+                "firstName": "Tony",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2513-5396"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "F\u00fcllgrabe A",
+                "lastName": "F\u00fcllgrabe",
+                "firstName": "Anja",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8674-0039"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fuentes AM",
+                "lastName": "Fuentes",
+                "firstName": "Alfonso Mu\u00f1oz-Pomer",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jupp S",
+                "lastName": "Jupp",
+                "firstName": "Simon",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0643-3144"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Koskinen S",
+                "lastName": "Koskinen",
+                "firstName": "Satu",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0149-2070"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mannion O",
+                "lastName": "Mannion",
+                "firstName": "Oliver",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Huerta L",
+                "lastName": "Huerta",
+                "firstName": "Laura",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8748-599X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Megy K",
+                "lastName": "Megy",
+                "firstName": "Karine",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2826-3879"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Snow C",
+                "lastName": "Snow",
+                "firstName": "Catherine",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1672-3532"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Williams E",
+                "lastName": "Williams",
+                "firstName": "Eleanor",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0851-7990"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Barzine M",
+                "lastName": "Barzine",
+                "firstName": "Mitra",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0860-9510"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hastings E",
+                "lastName": "Hastings",
+                "firstName": "Emma",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9927-8560"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Weisser H",
+                "lastName": "Weisser",
+                "firstName": "Hendrik",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Welcome Trust Sanger Institute, Hinxton, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wright J",
+                "lastName": "Wright",
+                "firstName": "James",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6950-4328"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Welcome Trust Sanger Institute, Hinxton, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jaiswal P",
+                "lastName": "Jaiswal",
+                "firstName": "Pankaj",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Oregon State University, Corvallis, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Huber W",
+                "lastName": "Huber",
+                "firstName": "Wolfgang",
+                "initials": "W",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0474-2218"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Choudhary J",
+                "lastName": "Choudhary",
+                "firstName": "Jyoti",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0881-5477"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Welcome Trust Sanger Institute, Hinxton, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Parkinson HE",
+                "lastName": "Parkinson",
+                "firstName": "Helen E",
+                "initials": "HE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3035-4195"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Brazma A",
+                "lastName": "Brazma",
+                "firstName": "Alvis",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5988-7409"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK.",
+                      "affiliationOrgId": "ror.org/02catss52"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5988-7409"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6333-2182"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6950-4328"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9927-8560"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0474-2218"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0643-3144"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0851-7990"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0860-9510"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1672-3532"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2513-5396"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2826-3879"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4054-6214"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7245-9692"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8674-0039"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8748-599X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0045-1234"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0149-2070"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0881-5477"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2034-601X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3035-4195"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4832-578X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "D1",
+            "volume": "44",
+            "journalIssueId": 2359986,
+            "dateOfPublication": "2016 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Nucleic Acids Res",
+              "title": "Nucleic acids research",
+              "essn": "1362-4962",
+              "issn": "0305-1048",
+              "isoabbreviation": "Nucleic Acids Res",
+              "nlmid": "0411011"
+            },
+            "printPublicationDate": "2016-01-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "D746-52",
+          "abstractText": "Expression Atlas (http://www.ebi.ac.uk/gxa) provides information about gene and protein expression in animal and plant samples of different cell types, organism parts, developmental stages, diseases and other conditions. It consists of selected microarray and RNA-sequencing studies from ArrayExpress, which have been manually curated, annotated with ontology terms, checked for high quality and processed using standardised analysis methods. Since the last update, Atlas has grown seven-fold (1572 studies as of August 2015), and incorporates baseline expression profiles of tissues from Human Protein Atlas, GTEx and FANTOM5, and of cancer cell lines from ENCODE, CCLE and Genentech projects. Plant studies constitute a quarter of Atlas data. For genes of interest, the user can view baseline expression in tissues, and differential expression for biologically meaningful pairwise comparisons-estimated using consistent methodology across all of Atlas. Our first proteomics study in human tissues is now displayed alongside transcriptomics data in the same tissues. Novel analyses and visualisations include: 'enrichment' in each differential comparison of GO terms, Reactome, Plant Reactome pathways and InterPro domains; hierarchical clustering (by baseline expression) of most variable genes and experimental conditions; and, for a given gene-condition, distribution of baseline expression across biological replicates.",
+          "affiliation": "European Molecular Biology Laboratory, European Bioinformatics Institute, EMBL-EBI, Hinxton, UK rpetry@ebi.ac.uk.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "acronym": "BB_",
+                "grantId": "BB/M018458/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHGRI NIH HHS",
+                "acronym": "HG",
+                "grantId": "U54-HG004028",
+                "orderIn": 0
+              },
+              {
+                "agency": "Biotechnology and Biological Sciences Research Council",
+                "acronym": "BB_",
+                "grantId": "BB/G022755/1",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHGRI NIH HHS",
+                "acronym": "HG",
+                "grantId": "U41 HG007234",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "WT098051",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line, Tumor"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plants",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "User-Computer Interface"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Databases, Genetic"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/nar/gkv1045"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4702781"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4702781?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 433,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "arrayexpress",
+              "pxd"
+            ]
+          },
+          "dateOfCompletion": "2016-08-15",
+          "dateOfCreation": "2015-10-21",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2015-10-19",
+          "firstPublicationDate": "2015-10-19",
+          "firstIndexDate": "2015-10-21",
+          "fullTextReceivedDate": "2020-07-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "22529292",
+          "source": "MED",
+          "pmid": "22529292",
+          "pmcid": "PMC3448561",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3448561"
+            ]
+          },
+          "doi": "10.1182/blood-2012-04-422253",
+          "title": "Mutations in the mechanotransduction protein PIEZO1 are associated with hereditary xerocytosis.",
+          "authorString": "Zarychanski R, Schulz VP, Houston BL, Maksimova Y, Houston DS, Smith B, Rinehart J, Gallagher PG.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zarychanski R",
+                "lastName": "Zarychanski",
+                "firstName": "Ryan",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9455-6138"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "CancerCare Manitoba, Department of Hematology and Medical Oncology, Winnipeg, MB."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schulz VP",
+                "lastName": "Schulz",
+                "firstName": "Vincent P",
+                "initials": "VP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6333-4284"
+                }
+              },
+              {
+                "fullName": "Houston BL",
+                "lastName": "Houston",
+                "firstName": "Brett L",
+                "initials": "BL"
+              },
+              {
+                "fullName": "Maksimova Y",
+                "lastName": "Maksimova",
+                "firstName": "Yelena",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Houston DS",
+                "lastName": "Houston",
+                "firstName": "Donald S",
+                "initials": "DS"
+              },
+              {
+                "fullName": "Smith B",
+                "lastName": "Smith",
+                "firstName": "Brian",
+                "initials": "B"
+              },
+              {
+                "fullName": "Rinehart J",
+                "lastName": "Rinehart",
+                "firstName": "Jesse",
+                "initials": "J"
+              },
+              {
+                "fullName": "Gallagher PG",
+                "lastName": "Gallagher",
+                "firstName": "Patrick G",
+                "initials": "PG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5424-0224"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6333-4284"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9455-6138"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5424-0224"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8776-4083"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "recommended_reviews",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "120",
+            "journalIssueId": 1961147,
+            "dateOfPublication": "2012 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2012,
+            "journal": {
+              "medlineAbbreviation": "Blood",
+              "title": "Blood",
+              "essn": "1528-0020",
+              "issn": "0006-4971",
+              "isoabbreviation": "Blood",
+              "nlmid": "7603509"
+            },
+            "printPublicationDate": "2012-08-01"
+          },
+          "pubYear": "2012",
+          "pageInfo": "1908-1915",
+          "abstractText": "Hereditary xerocytosis (HX, MIM 194380) is an autosomal dominant hemolytic anemia characterized by primary erythrocyte dehydration. Copy number analyses, linkage studies, and exome sequencing were used to identify novel mutations affecting PIEZO1, encoded by the FAM38A gene, in 2 multigenerational HX kindreds. Segregation analyses confirmed transmission of the PIEZO1 mutations and cosegregation with the disease phenotype in all affected persons in both kindreds. All patients were heterozygous for FAM38A mutations, except for 3 patients predicted to be homozygous by clinical and physiologic studies who were also homozygous at the DNA level. The FAM38A mutations were both in residues highly conserved across species and within members of the Piezo family of proteins. PIEZO proteins are the recently identified pore-forming subunits of channels that mediate mechanotransduction in mammalian cells. FAM38A transcripts were identified in human erythroid cell mRNA, and discovery proteomics identified PIEZO1 peptides in human erythrocyte membranes. These findings, the first report of mutation in a mammalian mechanosensory transduction channel-associated with genetic disease, suggest that PIEZO proteins play an important role in maintaining erythrocyte volume homeostasis.",
+          "affiliation": "CancerCare Manitoba, Department of Hematology and Medical Oncology, Winnipeg, MB.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "K01 DK089006",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythroid Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hydrops Fetalis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anemia, Hemolytic, Congenital",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genetic Predisposition to Disease",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ion Channels",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reverse Transcriptase Polymerase Chain Reaction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pedigree"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA Mutational Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mechanotransduction, Cellular",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genotype"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mutation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Family Health"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Exome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Ion Channels",
+                "registryNumber": "0"
+              },
+              {
+                "name": "PIEZO1 protein, human",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1182/blood-2012-04-422253"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3448561"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1182/blood-2012-04-422253"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 391,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "OMIM",
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "omim",
+              "uniprot"
+            ]
+          },
+          "dateOfCompletion": "2012-12-07",
+          "dateOfCreation": "2012-04-25",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2012-04-23",
+          "firstPublicationDate": "2012-04-23",
+          "firstIndexDate": "2012-04-25",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "28951525",
+          "source": "MED",
+          "pmid": "28951525",
+          "doi": "10.1136/gutjnl-2017-314968",
+          "title": "A randomised trial of the effect of omega-3 polyunsaturated fatty acid supplements on the human intestinal microbiota.",
+          "authorString": "Watson H, Mitra S, Croden FC, Taylor M, Wood HM, Perry SL, Spencer JA, Quirke P, Toogood GJ, Lawton CL, Dye L, Loadman PM, Hull MA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Watson H",
+                "lastName": "Watson",
+                "firstName": "Henry",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Biomedical and Clinical Sciences, St James's University Hospital, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mitra S",
+                "lastName": "Mitra",
+                "firstName": "Suparna",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Biomedical and Clinical Sciences, Leeds General Infirmary, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Croden FC",
+                "lastName": "Croden",
+                "firstName": "Fiona C",
+                "initials": "FC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Human Appetite Research Unit (Nutrition and Behaviour Research Group), School of Psychology, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Taylor M",
+                "lastName": "Taylor",
+                "firstName": "Morag",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3907-1290"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Cancer and Pathology, St James's University Hospital, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wood HM",
+                "lastName": "Wood",
+                "firstName": "Henry M",
+                "initials": "HM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3009-5904"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Cancer and Pathology, St James's University Hospital, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Perry SL",
+                "lastName": "Perry",
+                "firstName": "Sarah L",
+                "initials": "SL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Biomedical and Clinical Sciences, St James's University Hospital, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Spencer JA",
+                "lastName": "Spencer",
+                "firstName": "Jade A",
+                "initials": "JA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Cancer Therapeutics, University of Bradford, Bradford, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Quirke P",
+                "lastName": "Quirke",
+                "firstName": "Phil",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3597-5444"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Cancer and Pathology, St James's University Hospital, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Toogood GJ",
+                "lastName": "Toogood",
+                "firstName": "Giles J",
+                "initials": "GJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4535-6249"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Hepatobiliary Surgery, St James's University Hospital, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lawton CL",
+                "lastName": "Lawton",
+                "firstName": "Clare L",
+                "initials": "CL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Human Appetite Research Unit (Nutrition and Behaviour Research Group), School of Psychology, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dye L",
+                "lastName": "Dye",
+                "firstName": "Louise",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Human Appetite Research Unit (Nutrition and Behaviour Research Group), School of Psychology, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Loadman PM",
+                "lastName": "Loadman",
+                "firstName": "Paul M",
+                "initials": "PM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4259-8616"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Cancer Therapeutics, University of Bradford, Bradford, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hull MA",
+                "lastName": "Hull",
+                "firstName": "Mark A",
+                "initials": "MA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7414-1576"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Biomedical and Clinical Sciences, St James's University Hospital, University of Leeds, Leeds, UK."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7414-1576"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3597-5444"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3907-1290"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4259-8616"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3009-5904"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4535-6249"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "11",
+            "volume": "67",
+            "journalIssueId": 2736580,
+            "dateOfPublication": "2018 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2018,
+            "journal": {
+              "medlineAbbreviation": "Gut",
+              "title": "Gut",
+              "essn": "1468-3288",
+              "issn": "0017-5749",
+              "isoabbreviation": "Gut",
+              "nlmid": "2985108R"
+            },
+            "printPublicationDate": "2018-11-01"
+          },
+          "pubYear": "2018",
+          "pageInfo": "1974-1983",
+          "abstractText": "<h4>Objective</h4>Omega-3 polyunsaturated fatty acids (PUFAs) have anticolorectal cancer (CRC) activity. The intestinal microbiota has been implicated in colorectal carcinogenesis. Dietary omega-3 PUFAs alter the mouse intestinal microbiome compatible with antineoplastic activity. Therefore, we investigated the effect of omega-3 PUFA supplements on the faecal microbiome in middle-aged, healthy volunteers (n=22).<h4>Design</h4>A randomised, open-label, cross-over trial of 8 weeks' treatment with 4\u2009g mixed eicosapentaenoic acid/docosahexaenoic acid in two formulations (soft-gel capsules and Smartfish drinks), separated by a 12-week 'washout' period. Faecal samples were collected at five time-points for microbiome analysis by 16S ribosomal RNA PCR and Illumina MiSeq sequencing. Red blood cell (RBC) fatty acid analysis was performed by liquid chromatography tandem mass spectrometry.<h4>Results</h4>Both omega-3 PUFA formulations induced similar changes in RBC fatty acid content, except that drinks were associated with a larger, and more prolonged, decrease in omega-6 PUFA arachidonic acid than the capsule intervention (p=0.02). There were no significant changes in \u03b1 or \u03b2 diversity, or phyla composition, associated with omega-3 PUFA supplementation. However, a reversible increased abundance of several genera, including <i>Bifidobacterium</i>, <i>Roseburia</i> and <i>Lactobacillus</i> was observed with one or both omega-3 PUFA interventions. Microbiome changes did not correlate with RBC omega-3 PUFA incorporation or development of omega-3 PUFA-induced diarrhoea. There were no treatment order effects.<h4>Conclusion</h4>Omega-3 PUFA supplementation induces a reversible increase in several short-chain fatty acid-producing bacteria, independently of the method of administration. There is no simple relationship between the intestinal microbiome and systemic omega-3 PUFA exposure.<h4>Trial registration number</h4>ISRCTN18662143.",
+          "affiliation": "Institute of Biomedical and Clinical Sciences, St James's University Hospital, University of Leeds, Leeds, UK.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Randomized Controlled Trial",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MC_G1002465",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G116/146",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Feces",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fatty Acids, Omega-3",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fatty Acids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromatography, Liquid"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cross-Over Studies"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymerase Chain Reaction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dietary Supplements"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Healthy Volunteers"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gastrointestinal Microbiome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Bacteria",
+              "Fatty acid",
+              "Colorectal Cancer",
+              "Omega-3",
+              "Nutritional Supplement"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Fatty Acids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Fatty Acids, Omega-3",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bradscholars.brad.ac.uk/bitstream/10454/13400/2/Gut2017a.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1136/gutjnl-2017-314968"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 355,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2018-11-05",
+          "dateOfCreation": "2017-09-28",
+          "dateOfRevision": "2025-05-30",
+          "electronicPublicationDate": "2017-09-26",
+          "firstPublicationDate": "2017-09-26",
+          "firstIndexDate": "2017-09-27",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23684304",
+          "source": "MED",
+          "pmid": "23684304",
+          "pmcid": "PMC3687518",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3687518"
+            ]
+          },
+          "doi": "10.1016/j.chom.2013.04.009",
+          "title": "Malaria-infected erythrocyte-derived microvesicles mediate cellular communication within the parasite population and with the host immune system.",
+          "authorString": "Mantel PY, Hoang AN, Goldowitz I, Potashnikova D, Hamza B, Vorobjev I, Ghiran I, Toner M, Irimia D, Ivanov AR, Barteneva N, Marti M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Mantel PY",
+                "lastName": "Mantel",
+                "firstName": "Pierre-Yves",
+                "initials": "PY",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9526-9309"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology and Infectious Diseases, Harvard School of Public Health, 665 Huntington Avenue, Boston, MA 02115, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hoang AN",
+                "lastName": "Hoang",
+                "firstName": "Anh N",
+                "initials": "AN",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BioMEMS Resource Center, Massachusetts General Hospital, 114 16(th) Street, Charlestown, MA 02129, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Goldowitz I",
+                "lastName": "Goldowitz",
+                "firstName": "Ilana",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3279-7638"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology and Infectious Diseases, Harvard School of Public Health, 665 Huntington Avenue, Boston, MA 02115, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Potashnikova D",
+                "lastName": "Potashnikova",
+                "firstName": "Daria",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0098-827X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Cellular and Molecular Medicine, Children's Hospital Boston, 200 Longwood Avenue, Boston, MA 02115, USA; Department of Cell Biology and Histology, Moscow State University, Moscow 119991, Russia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hamza B",
+                "lastName": "Hamza",
+                "firstName": "Bashar",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BioMEMS Resource Center, Massachusetts General Hospital, 114 16(th) Street, Charlestown, MA 02129, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vorobjev I",
+                "lastName": "Vorobjev",
+                "firstName": "Ivan",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Cellular and Molecular Medicine, Children's Hospital Boston, 200 Longwood Avenue, Boston, MA 02115, USA; A.N. Belozersky Institute for Physico-Chemical Biology, Moscow State University, Moscow 119991, Russia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ghiran I",
+                "lastName": "Ghiran",
+                "firstName": "Ionita",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Beth Israel Deaconess Medical Center, 3 Blackfan Circle, Boston, MA 02115, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Toner M",
+                "lastName": "Toner",
+                "firstName": "Mehmet",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BioMEMS Resource Center, Massachusetts General Hospital, 114 16(th) Street, Charlestown, MA 02129, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Irimia D",
+                "lastName": "Irimia",
+                "firstName": "Daniel",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7347-2082"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BioMEMS Resource Center, Massachusetts General Hospital, 114 16(th) Street, Charlestown, MA 02129, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ivanov AR",
+                "lastName": "Ivanov",
+                "firstName": "Alexander R",
+                "initials": "AR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Barnett Institute of Chemical and Biological Analysis, Northeastern University, 360 Huntington Avenue, 412 TF, Boston, MA 02115, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Barteneva N",
+                "lastName": "Barteneva",
+                "firstName": "Natasha",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8109-1754"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Cellular and Molecular Medicine, Children's Hospital Boston, 200 Longwood Avenue, Boston, MA 02115, USA; Department of Pediatrics, Harvard Medical School, 200 Longwood Avenue, Boston, MA 02115, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marti M",
+                "lastName": "Marti",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology and Infectious Diseases, Harvard School of Public Health, 665 Huntington Avenue, Boston, MA 02115, USA. Electronic address: mmarti@hsph.harvard.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7347-2082"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9526-9309"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0098-827X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3279-7638"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8109-1754"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "13",
+            "journalIssueId": 2040294,
+            "dateOfPublication": "2013 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2013,
+            "journal": {
+              "medlineAbbreviation": "Cell Host Microbe",
+              "title": "Cell host & microbe",
+              "essn": "1934-6069",
+              "issn": "1931-3128",
+              "isoabbreviation": "Cell Host Microbe",
+              "nlmid": "101302316"
+            },
+            "printPublicationDate": "2013-05-01"
+          },
+          "pubYear": "2013",
+          "pageInfo": "521-534",
+          "abstractText": "Humans and mice infected with different Plasmodium strains are known to produce microvesicles derived from the infected red blood cells (RBCs), denoted RMVs. Studies in mice have shown that RMVs are elevated during infection and have proinflammatory activity. Here we present a detailed characterization of RMV composition and function in the human malaria parasite Plasmodium falciparum. Proteomics profiling revealed the enrichment of multiple host and parasite proteins, in particular of parasite antigens associated with host cell membranes and proteins involved in parasite invasion into RBCs. RMVs are quantitatively released during the asexual parasite cycle prior to parasite egress. RMVs demonstrate potent immunomodulatory properties on human primary macrophages and neutrophils. Additionally, RMVs are internalized by infected red blood cells and stimulate production of transmission stage parasites in a dose-dependent manner. Thus, RMVs mediate cellular communication within the parasite population and with the host innate immune system.",
+          "affiliation": "Department of Immunology and Infectious Diseases, Harvard School of Public Health, 665 Huntington Avenue, Boston, MA 02115, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R01 GM092804",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "R01 HL096795",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIBIB NIH HHS",
+                "acronym": "EB",
+                "grantId": "P41 EB002503",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCRR NIH HHS",
+                "acronym": "RR",
+                "grantId": "UL1 RR025758",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI105328",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neutrophils",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Communication"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Signal Transduction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell-Derived Microparticles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "http://www.cell.com/article/S1931312813001510/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.chom.2013.04.009"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3687518"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3687518?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.chom.2013.04.009"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "23706733",
+                "reference": "Cell. 2013 May 23;153(5):945-7. doi: 10.1016/j.cell.2013.05.013",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "23765082",
+                "reference": "Nat Rev Microbiol. 2013 Jul;11(7):433. doi: 10.1038/nrmicro3063",
+                "type": "Comment in",
+                "orderIn": 2
+              },
+              {
+                "source": "MED",
+                "id": "23823791",
+                "reference": "Nature. 2013 Jul 4;499(7456):38-40. doi: 10.1038/499038a",
+                "type": "Comment in",
+                "orderIn": 3
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 349,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS474536",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2013-11-19",
+          "dateOfCreation": "2013-05-21",
+          "dateOfRevision": "2024-01-04",
+          "firstPublicationDate": "2013-05-01",
+          "firstIndexDate": "2013-05-22",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "16861337",
+          "source": "MED",
+          "pmid": "16861337",
+          "doi": "10.1182/blood-2005-11-007799",
+          "title": "In-depth analysis of the membrane and cytosolic proteome of red blood cells.",
+          "authorString": "Pasini EM, Kirkegaard M, Mortensen P, Lutz HU, Thomas AW, Mann M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Pasini EM",
+                "lastName": "Pasini",
+                "firstName": "Erica M",
+                "initials": "EM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7356-1747"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Proteomics and Signal Transduction, Am Klopferspitz 18, D-82152 Martinsried, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kirkegaard M",
+                "lastName": "Kirkegaard",
+                "firstName": "Morten",
+                "initials": "M"
+              },
+              {
+                "fullName": "Mortensen P",
+                "lastName": "Mortensen",
+                "firstName": "Peter",
+                "initials": "P"
+              },
+              {
+                "fullName": "Lutz HU",
+                "lastName": "Lutz",
+                "firstName": "Hans U",
+                "initials": "HU"
+              },
+              {
+                "fullName": "Thomas AW",
+                "lastName": "Thomas",
+                "firstName": "Alan W",
+                "initials": "AW"
+              },
+              {
+                "fullName": "Mann M",
+                "lastName": "Mann",
+                "firstName": "Matthias",
+                "initials": "M"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7356-1747"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "recommended_reviews"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "108",
+            "journalIssueId": 1337680,
+            "dateOfPublication": "2006 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2006,
+            "journal": {
+              "medlineAbbreviation": "Blood",
+              "title": "Blood",
+              "essn": "1528-0020",
+              "issn": "0006-4971",
+              "isoabbreviation": "Blood",
+              "nlmid": "7603509"
+            },
+            "printPublicationDate": "2006-08-01"
+          },
+          "pubYear": "2006",
+          "pageInfo": "791-801",
+          "abstractText": "In addition to transporting oxygen and carbon dioxide to and from the tissues, a range of other functions are attributed to red blood cells (RBCs) of vertebrates. Diseases compromising RBC performance in any of these functions warrant in-depth study. Furthermore, the human RBC is a vital host cell for the malaria parasite. Much has been learned from classical biochemical approaches about RBC composition and membrane organization. Here, we use mass spectrometry (MS)-based proteomics to characterize the normal RBC protein profile. The aim of this study was to obtain the most complete and informative human RBC proteome possible by combining high-accuracy, high-sensitivity protein identification technology (quadrupole time of flight and Fourier transform MS) with selected biochemical procedures for sample preparation. A total of 340 membrane proteins and 252 soluble proteins were identified, validated, and categorized in terms of subcellular localization, protein family, and function. Splice isoforms of proteins were identified, and polypeptides that migrated with anomalously high or low apparent molecular weights could be grouped into either ubiquitinylated, partially degraded, or ester-linked complexes. Our data reveal unexpected complexity of the RBC proteome, provide a wealth of data on its composition, shed light on several open issues in RBC biology, and form a departure point for comprehensive understanding of RBC functions.",
+          "affiliation": "Department of Proteomics and Signal Transduction, Am Klopferspitz 18, D-82152 Martinsried, Germany.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocyte Membrane",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytosol",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Isoforms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Solubility"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protein Isoforms",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "http://www.bloodjournal.org/content/bloodjournal/108/3/791.full.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1182/blood-2005-11-007799"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 331,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2006-10-05",
+          "dateOfCreation": "2006-07-25",
+          "dateOfRevision": "2022-03-16",
+          "firstPublicationDate": "2006-08-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "27036001",
+          "source": "MED",
+          "pmid": "27036001",
+          "pmcid": "PMC4843419",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4843419"
+            ]
+          },
+          "doi": "10.1073/pnas.1603023113",
+          "title": "Individual variability in human blood metabolites identifies age-related differences.",
+          "authorString": "Chaleckis R, Murakami I, Takada J, Kondoh H, Yanagida M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Chaleckis R",
+                "lastName": "Chaleckis",
+                "firstName": "Romanas",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8042-1005"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "G0 Cell Unit, Okinawa Institute of Science and Technology Graduate University (OIST), Onna-son, Okinawa 904-0495, Japan;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Murakami I",
+                "lastName": "Murakami",
+                "firstName": "Itsuo",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Geriatric Unit, Department of Diabetes, Endocrinology and Nutrition, Graduate School of Medicine, Kyoto University, Sakyo-ku, Kyoto 606-8507, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Takada J",
+                "lastName": "Takada",
+                "firstName": "Junko",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "G0 Cell Unit, Okinawa Institute of Science and Technology Graduate University (OIST), Onna-son, Okinawa 904-0495, Japan;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kondoh H",
+                "lastName": "Kondoh",
+                "firstName": "Hiroshi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Geriatric Unit, Department of Diabetes, Endocrinology and Nutrition, Graduate School of Medicine, Kyoto University, Sakyo-ku, Kyoto 606-8507, Japan myanagid@gmail.com hkondoh@kuhp.kyoto-u.ac.jp."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yanagida M",
+                "lastName": "Yanagida",
+                "firstName": "Mitsuhiro",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "G0 Cell Unit, Okinawa Institute of Science and Technology Graduate University (OIST), Onna-son, Okinawa 904-0495, Japan; myanagid@gmail.com hkondoh@kuhp.kyoto-u.ac.jp."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8042-1005"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "16",
+            "volume": "113",
+            "journalIssueId": 2399966,
+            "dateOfPublication": "2016 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Proc Natl Acad Sci U S A",
+              "title": "Proceedings of the National Academy of Sciences of the United States of America",
+              "essn": "1091-6490",
+              "issn": "0027-8424",
+              "isoabbreviation": "Proc Natl Acad Sci U S A",
+              "nlmid": "7505876"
+            },
+            "printPublicationDate": "2016-04-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "4252-4259",
+          "abstractText": "Metabolites present in human blood document individual physiological states influenced by genetic, epigenetic, and lifestyle factors. Using high-resolution liquid chromatography-mass spectrometry (LC-MS), we performed nontargeted, quantitative metabolomics analysis in blood of 15 young (29 \u00b1 4 y of age) and 15 elderly (81 \u00b1 7 y of age) individuals. Coefficients of variation (CV = SD/mean) were obtained for 126 blood metabolites of all 30 donors. Fifty-five RBC-enriched metabolites, for which metabolomics studies have been scarce, are highlighted here. We found 14 blood compounds that show remarkable age-related increases or decreases; they include 1,5-anhydroglucitol, dimethyl-guanosine, acetyl-carnosine, carnosine, ophthalmic acid, UDP-acetyl-glucosamine,N-acetyl-arginine,N6-acetyl-lysine, pantothenate, citrulline, leucine, isoleucine, NAD(+), and NADP(+) Six of them are RBC-enriched, suggesting that RBC metabolomics is highly valuable for human aging research. Age differences are partly explained by a decrease in antioxidant production or increasing inefficiency of urea metabolism among the elderly. Pearson's coefficients demonstrated that some age-related compounds are correlated, suggesting that aging affects them concomitantly. Although our CV values are mostly consistent with those CVs previously published, we here report previously unidentified CVs of 51 blood compounds. Compounds having moderate to high CV values (0.4-2.5) are often modified. Compounds having low CV values, such as ATP and glutathione, may be related to various diseases because their concentrations are strictly controlled, and changes in them would compromise health. Thus, human blood is a rich source of information about individual metabolic differences.",
+          "affiliation": "G0 Cell Unit, Okinawa Institute of Science and Technology Graduate University (OIST), Onna-son, Okinawa 904-0495, Japan;",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Okinawa Institute of Science and Technology Graduate University",
+                "grantId": "-",
+                "orderIn": 0
+              },
+              {
+                "agency": "Japan Science and Technology Agency",
+                "grantId": "-",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glutathione",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adenosine Triphosphate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antioxidants",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adult"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aged, 80 and over"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Antioxidants",
+              "Red blood cells",
+              "Urea Cycle",
+              "Aging Markers",
+              "Cv Value"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antioxidants",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Adenosine Triphosphate",
+                "registryNumber": "8L70Q75FXE"
+              },
+              {
+                "name": "Glutathione",
+                "registryNumber": "GAN16C9B8O"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.1603023113"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4843419"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4843419?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.1603023113"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "27247401",
+                "reference": "Proc Natl Acad Sci U S A. 2016 Jun 14;113(24):6581-2. doi: 10.1073/pnas.1607589113",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "27303027",
+                "reference": "Proc Natl Acad Sci U S A. 2016 Jun 21;113(25):E3470. doi: 10.1073/pnas.1607062113",
+                "type": "Comment in",
+                "orderIn": 2
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 298,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "metabolights"
+            ]
+          },
+          "dateOfCompletion": "2016-09-02",
+          "dateOfCreation": "2016-04-02",
+          "dateOfRevision": "2018-11-13",
+          "electronicPublicationDate": "2016-03-28",
+          "firstPublicationDate": "2016-03-28",
+          "firstIndexDate": "2016-04-02",
+          "fullTextReceivedDate": "2020-07-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "7938005",
+          "source": "MED",
+          "pmid": "7938005",
+          "pmcid": "PMC45076",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC45076"
+            ]
+          },
+          "doi": "10.1073/pnas.91.22.10635",
+          "title": "Electrospray ionization mass spectroscopic analysis of human erythrocyte plasma membrane phospholipids.",
+          "authorString": "Han X, Gross RW.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Han X",
+                "lastName": "Han",
+                "firstName": "X",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Washington University School of Medicine, St. Louis, MO 63110."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gross RW",
+                "lastName": "Gross",
+                "firstName": "R W",
+                "initials": "RW"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "22",
+            "volume": "91",
+            "journalIssueId": 755387,
+            "dateOfPublication": "1994 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 1994,
+            "journal": {
+              "medlineAbbreviation": "Proc Natl Acad Sci U S A",
+              "title": "Proceedings of the National Academy of Sciences of the United States of America",
+              "essn": "1091-6490",
+              "issn": "0027-8424",
+              "isoabbreviation": "Proc Natl Acad Sci U S A",
+              "nlmid": "7505876"
+            },
+            "printPublicationDate": "1994-10-01"
+          },
+          "pubYear": "1994",
+          "pageInfo": "10635-10639",
+          "abstractText": "Electrospray ionization mass spectrometry (ESI-MS) was utilized for the structural determination and quantitative analysis of individual phospholipid molecular species from subpicomole amounts of human erythrocyte plasma membrane phospholipids. The sensitivity of ESI-MS was 2-3 orders of magnitude greater than that achievable with fast-atom bombardment mass spectrometry (FAB-MS). Phospholipid structure determination and quantitative analysis with ESI-MS can be performed directly from chloroform extracts of biologic samples, obviating the need for prior chromatographic separation of phospholipid classes which has been necessary in FAB-MS phospholipid analyses. Furthermore, ESI-MS is uncomplicated by differential fragmentation of molecular ions and idiosyncratic surface desorption, allowing the quantitation of phospholipids with coefficients of determination (r2) > 0.99 and accuracies > 95%. More than 50 human erythrocyte plasma membrane phospholipid constituents were identified by direct ESI-MS analysis of chloroform extracts of plasma membranes derived from the equivalent of < 1 microliter of whole blood. The major ethanolamine glycerophospholipid subclass in erythrocyte plasma membranes was plasmenylethanolamine that was highly enriched in polyunsaturated fatty acids at the sn-2 position. Collectively, these results demonstrate that ESI-MS of phospholipids is an enabling strategy for the direct structural determination and quantitative analysis of subpicomole amounts of phospholipids from biologic samples.",
+          "affiliation": "Department of Internal Medicine, Washington University School of Medicine, St. Louis, MO 63110.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Research Support, U.S. Gov't, P.H.S.",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "HL35864",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "HL41250",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocyte Membrane",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Lipids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phospholipids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Spectrometry, Mass, Fast Atom Bombardment"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Spectrometry, Mass, Secondary Ion",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sensitivity and Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Phospholipids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Membrane Lipids",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.91.22.10635"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC45076"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC45076?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.91.22.10635"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 292,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1994-11-23",
+          "dateOfCreation": "1994-10-25",
+          "dateOfRevision": "2019-05-01",
+          "firstPublicationDate": "1994-10-01",
+          "firstIndexDate": "2009-12-24",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "17259996",
+          "source": "MED",
+          "pmid": "17259996",
+          "doi": "10.1038/nm1534",
+          "title": "Extracellular carbonic anhydrase mediates hemorrhagic retinal and cerebral vascular permeability through prekallikrein activation.",
+          "authorString": "Gao BB, Clermont A, Rook S, Fonda SJ, Srinivasan VJ, Wojtkowski M, Fujimoto JG, Avery RL, Arrigg PG, Bursell SE, Aiello LP, Feener EP.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Gao BB",
+                "lastName": "Gao",
+                "firstName": "Ben-Bo",
+                "initials": "BB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Research Division, Joslin Diabetes Center, One Joslin Place, Harvard Medical School, Boston, Massachusetts 02215, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Clermont A",
+                "lastName": "Clermont",
+                "firstName": "Allen",
+                "initials": "A"
+              },
+              {
+                "fullName": "Rook S",
+                "lastName": "Rook",
+                "firstName": "Susan",
+                "initials": "S"
+              },
+              {
+                "fullName": "Fonda SJ",
+                "lastName": "Fonda",
+                "firstName": "Stephanie J",
+                "initials": "SJ"
+              },
+              {
+                "fullName": "Srinivasan VJ",
+                "lastName": "Srinivasan",
+                "firstName": "Vivek J",
+                "initials": "VJ"
+              },
+              {
+                "fullName": "Wojtkowski M",
+                "lastName": "Wojtkowski",
+                "firstName": "Maciej",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0599-0878"
+                }
+              },
+              {
+                "fullName": "Fujimoto JG",
+                "lastName": "Fujimoto",
+                "firstName": "James G",
+                "initials": "JG"
+              },
+              {
+                "fullName": "Avery RL",
+                "lastName": "Avery",
+                "firstName": "Robert L",
+                "initials": "RL"
+              },
+              {
+                "fullName": "Arrigg PG",
+                "lastName": "Arrigg",
+                "firstName": "Paul G",
+                "initials": "PG"
+              },
+              {
+                "fullName": "Bursell SE",
+                "lastName": "Bursell",
+                "firstName": "Sven-Erik",
+                "initials": "SE"
+              },
+              {
+                "fullName": "Aiello LP",
+                "lastName": "Aiello",
+                "firstName": "Lloyd Paul",
+                "initials": "LP"
+              },
+              {
+                "fullName": "Feener EP",
+                "lastName": "Feener",
+                "firstName": "Edward P",
+                "initials": "EP"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0599-0878"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "13",
+            "journalIssueId": 1377523,
+            "dateOfPublication": "2007 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2007,
+            "journal": {
+              "medlineAbbreviation": "Nat Med",
+              "title": "Nature medicine",
+              "essn": "1546-170X",
+              "issn": "1078-8956",
+              "isoabbreviation": "Nat Med",
+              "nlmid": "9502015"
+            },
+            "printPublicationDate": "2007-02-01"
+          },
+          "pubYear": "2007",
+          "pageInfo": "181-188",
+          "abstractText": "Excessive retinal vascular permeability contributes to the pathogenesis of proliferative diabetic retinopathy and diabetic macular edema, leading causes of vision loss in working-age adults. Using mass spectroscopy-based proteomics, we detected 117 proteins in human vitreous and elevated levels of extracellular carbonic anhydrase-I (CA-I) in vitreous from individuals with diabetic retinopathy, suggesting that retinal hemorrhage and erythrocyte lysis contribute to the diabetic vitreous proteome. Intravitreous injection of CA-I in rats increased retinal vessel leakage and caused intraretinal edema. CA-I-induced alkalinization of vitreous increased kallikrein activity and its generation of factor XIIa, revealing a new pathway for contact system activation. CA-I-induced retinal edema was decreased by complement 1 inhibitor, neutralizing antibody to prekallikrein and bradykinin receptor antagonism. Subdural infusion of CA-I in rats induced cerebral vascular permeability, suggesting that extracellular CA-I could have broad relevance to neurovascular edema. Inhibition of extracellular CA-I and kallikrein-mediated innate inflammation could provide new therapeutic opportunities for the treatment of hemorrhage-induced retinal and cerebral edema.",
+          "affiliation": "Research Division, Joslin Diabetes Center, One Joslin Place, Harvard Medical School, Boston, Massachusetts 02215, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "DK 36836",
+                "orderIn": 0
+              },
+              {
+                "agency": "NEI NIH HHS",
+                "acronym": "EY",
+                "grantId": "EY014106",
+                "orderIn": 0
+              },
+              {
+                "agency": "NEI NIH HHS",
+                "acronym": "EY",
+                "grantId": "EY011289",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "DK 60165",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vitreous Body",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rats, Sprague-Dawley"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Papilledema",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CI",
+                      "qualifierName": "chemically induced"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Diabetic Retinopathy",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Acetazolamide",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Factor XIIa",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Carbonic Anhydrases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TO",
+                      "qualifierName": "toxicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Eye Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Carbonic Anhydrase Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Blotting, Western"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Statistics, Nonparametric"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Kallikrein-Kinin System",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Capillary Permeability",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Complement C1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bradykinin Receptor Antagonists"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Carbonic Anhydrases",
+                "registryNumber": "EC 4.2.1.1"
+              },
+              {
+                "name": "Eye Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Carbonic Anhydrase Inhibitors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Factor XIIa",
+                "registryNumber": "EC 3.4.21.38"
+              },
+              {
+                "name": "Complement C1",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Acetazolamide",
+                "registryNumber": "O3FX965V0I"
+              },
+              {
+                "name": "Bradykinin Receptor Antagonists",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nm1534"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "17290269",
+                "reference": "Nat Med. 2007 Feb;13(2):131-2. doi: 10.1038/nm0207-131",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 270,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "OMIM"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2007-04-30",
+          "dateOfCreation": "2007-01-30",
+          "dateOfRevision": "2017-11-04",
+          "electronicPublicationDate": "2007-01-28",
+          "firstPublicationDate": "2007-01-28",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "28689405",
+          "source": "MED",
+          "pmid": "28689405",
+          "doi": "10.1021/acs.jproteome.7b00025",
+          "title": "Quantitative Analysis of Human Red Blood Cell Proteome.",
+          "authorString": "Bryk AH, Wi\u015bniewski JR.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bryk AH",
+                "lastName": "Bryk",
+                "firstName": "Agata H",
+                "initials": "AH",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biochemical Proteomics Group, Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry , Am Klopferspitz 18, 82152 Martinsried, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wi\u015bniewski JR",
+                "lastName": "Wi\u015bniewski",
+                "firstName": "Jacek R",
+                "initials": "JR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8452-5095"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biochemical Proteomics Group, Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry , Am Klopferspitz 18, 82152 Martinsried, Germany."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8452-5095"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "16",
+            "journalIssueId": 2583652,
+            "dateOfPublication": "2017 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2017,
+            "journal": {
+              "medlineAbbreviation": "J Proteome Res",
+              "title": "Journal of proteome research",
+              "essn": "1535-3907",
+              "issn": "1535-3893",
+              "isoabbreviation": "J Proteome Res",
+              "nlmid": "101128775"
+            },
+            "printPublicationDate": "2017-08-01"
+          },
+          "pubYear": "2017",
+          "pageInfo": "2752-2761",
+          "abstractText": "Red blood cells (RBCs) are the most abundant cell type in the human body. RBCs and, in particular, their plasma membrane composition have been extensively studied for many years. During the past decade proteomics studies have extended our knowledge on RBC composition; however, these studies did not provide quantitative insights. Here we report a large-scale proteomics investigation of RBCs and their \"white ghost\" membrane fraction. Samples were processed using the multienzyme digestion filter-aided sample preparation (MED-FASP) and analyzed using Q-Exactive mass spectrometer. Protein abundances were computed using the total protein approach (TPA). The validation of the data with stable isotope-labeled peptide-based protein quantification followed. Our in-depth analysis resulted in the identification of 2650 proteins, of which 1890 occurred at more than 100 copies per cell. We quantified 41 membrane transporter proteins spanning an abundance range of five orders of magnitude. Some of these, including the drug transporter ABCA7 and choline transporters SLC44A1 and SLC44A2, have not previously been identified in RBC membranes. Comparison of protein copy numbers assessed by proteomics showed a good correlation with literature data; however, abundances of several proteins were not consistent with the classical references. Because we validated our findings by a targeted analysis using labeled standards, our data suggest that some older reference data from a variety of biochemical approaches are inaccurate. Our study provides the first \"in-depth\" quantitative analysis of the RBC proteome and will promote future studies of erythrocyte structure, functions, and disease.",
+          "affiliation": "Biochemical Proteomics Group, Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry , Am Klopferspitz 18, 82152 Martinsried, Germany.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "orderIn": 0
+              },
+              {
+                "agency": "Max-Planck-Gesellschaft",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutscher Akademischer Austauschdienst",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "ATP-Binding Cassette Transporters",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organic Cation Transport Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Glycoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, CD",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "TPA",
+              "Copy number",
+              "Red blood cell",
+              "erythrocyte",
+              "Fasp",
+              "Membrane Proteomics",
+              "Total Protein Approach",
+              "Med Fasp",
+              "White Ghosts"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "ABCA7 protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Membrane Transport Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Membrane Glycoproteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, CD",
+                "registryNumber": "0"
+              },
+              {
+                "name": "ATP-Binding Cassette Transporters",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Organic Cation Transport Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              },
+              {
+                "name": "SLC44A2 protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "SLC44A1 protein, human",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1021/acs.jproteome.7b00025"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 268,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "PRIDE"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2018-05-16",
+          "dateOfCreation": "2017-07-11",
+          "dateOfRevision": "2022-03-16",
+          "electronicPublicationDate": "2017-07-24",
+          "firstPublicationDate": "2017-07-24",
+          "firstIndexDate": "2017-07-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "8703047",
+          "source": "MED",
+          "pmid": "8703047",
+          "doi": "10.1126/science.273.5279.1199",
+          "title": "Attomole protein characterization by capillary electrophoresis-mass spectrometry.",
+          "authorString": "Valaskovic GA, Kelleher NL, McLafferty FW.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Valaskovic GA",
+                "lastName": "Valaskovic",
+                "firstName": "G A",
+                "initials": "GA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemistry, Baker Laboratory, Cornell University, Ithaca, NY 14853, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kelleher NL",
+                "lastName": "Kelleher",
+                "firstName": "N L",
+                "initials": "NL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8815-3372"
+                }
+              },
+              {
+                "fullName": "McLafferty FW",
+                "lastName": "McLafferty",
+                "firstName": "F W",
+                "initials": "FW"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8815-3372"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5279",
+            "volume": "273",
+            "journalIssueId": 957076,
+            "dateOfPublication": "1996 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 1996,
+            "journal": {
+              "medlineAbbreviation": "Science",
+              "title": "Science (New York, N.Y.)",
+              "essn": "1095-9203",
+              "issn": "0036-8075",
+              "isoabbreviation": "Science",
+              "nlmid": "0404511"
+            },
+            "printPublicationDate": "1996-08-01"
+          },
+          "pubYear": "1996",
+          "pageInfo": "1199-1202",
+          "abstractText": "Electrospray ionization with an ultralow flow rate (</=4 nanoliters per minute) was used to directly couple capillary electrophoresis with tandem mass spectrometry for the analysis and identification of biomolecules in mixtures. A Fourier transform mass spectrometer provided full spectra (>30 kilodaltons) at a resolving power of approximately 60,000 for injections of 0.7 x 10(-18) to 3 x 10(-18) mole of 8- to 29-kilodalton proteins with errors of <1 dalton in molecular mass. Using a crude isolate from human blood, a value of 28,780.6 daltons (calculated, 28,780.4 daltons) was measured for carbonic anhydrase, representing 1 percent by weight of the protein in a single red blood cell. Dissociation of molecular ions from 9 x 10(-18) mole of carbonic anhydrase gave nine sequence-specific fragment ions, more data than required for unique retrieval of this enzyme from the protein database.",
+          "affiliation": "Department of Chemistry, Baker Laboratory, Cornell University, Ithaca, NY 14853, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "08-T2GM07273",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "GM16609",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cattle"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Horses"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytochrome c Group",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Carbonic Anhydrases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ubiquitins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Electrophoresis, Capillary",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Spectroscopy, Fourier Transform Infrared"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sensitivity and Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Weight"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Carbonic Anhydrases",
+                "registryNumber": "EC 4.2.1.1"
+              },
+              {
+                "name": "Cytochrome c Group",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Ubiquitins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1126/science.273.5279.1199"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 263,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1996-09-24",
+          "dateOfCreation": "1996-08-30",
+          "dateOfRevision": "2021-02-18",
+          "firstPublicationDate": "1996-08-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

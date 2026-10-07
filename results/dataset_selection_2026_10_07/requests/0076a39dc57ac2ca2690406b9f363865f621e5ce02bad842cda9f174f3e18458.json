@@ -1,0 +1,322 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22chemogenomic%22+OR+%22drug+sensitivity%22+OR+%22resistome%22+OR+%22IC50%22+OR+%22compound+screen%22%29+AND+TITLE_ABS%3A%28%22resistance-conferring%22+OR+%22mutation%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:01:16.147307+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1,
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"chemogenomic\" OR \"drug sensitivity\" OR \"resistome\" OR \"IC50\" OR \"compound screen\") AND TITLE_ABS:(\"resistance-conferring\" OR \"mutation\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "34710156",
+          "source": "MED",
+          "pmid": "34710156",
+          "pmcid": "PMC8553156",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC8553156"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0259109",
+          "title": "Transcriptional dynamics in the protozoan parasite Sarcocystis neurona and mammalian host cells after treatment with a specific inhibitor of apicomplexan mRNA polyadenylation.",
+          "authorString": "Hunt AG, Howe DK, Brown A, Yeargan M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hunt AG",
+                "lastName": "Hunt",
+                "firstName": "Arthur G",
+                "initials": "AG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0008-4158"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Plant and Soil Sciences, University of Kentucky, Lexington, KY, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Howe DK",
+                "lastName": "Howe",
+                "firstName": "Daniel K",
+                "initials": "DK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3704-136X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Veterinary Science, University of Kentucky, Lexington, KY, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Brown A",
+                "lastName": "Brown",
+                "firstName": "Ashley",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Veterinary Science, University of Kentucky, Lexington, KY, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yeargan M",
+                "lastName": "Yeargan",
+                "firstName": "Michelle",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Veterinary Science, University of Kentucky, Lexington, KY, United States of America."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0008-4158"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3704-136X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "16",
+            "journalIssueId": 3241903,
+            "dateOfPublication": "2021 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2021,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2021-01-01"
+          },
+          "pubYear": "2021",
+          "pageInfo": "e0259109",
+          "abstractText": "In recent years, a class of chemical compounds (benzoxaboroles) that are active against a range of parasites has been shown to target mRNA polyadenylation by inhibiting the activity of CPSF73, the endonucleolytic core of the eukaryotic polyadenylation complex. One particular compound, termed AN3661, is active against several apicomplexan parasites that cause disease in humans. In this study, we report that AN3661 is active against an apicomplexan that causes disease in horses and marine mammals (Sarcocystis neurona), with an approximate IC50 value of 14.99 nM. Consistent with the reported mode of action of AN3661 against other apicomplexans, S. neurona mutants resistant to AN3661 had an alteration in CPSF73 that was identical to a mutation previously documented in AN3661-resistant Toxoplasma gondii and Plasmodium falciparum. AN3661 had a wide-ranging effect on poly(A) site choice in S. neurona, with more than half of all expressed genes showing some alteration in mRNA 3' ends. This was accompanied by changes in the relative expression of more than 25% of S. neurona genes and an overall 5-fold reduction of S. neurona transcripts in infected cells. In contrast, AN3661 had no discernible effect on poly(A) site choice or gene expression in the host cells. These transcriptomic studies indicate that AN3661 is exceedingly specific for the parasite CPSF73 protein, and has the potential to augment other therapies for the control of apicomplexan parasites in domestic animals.",
+          "affiliation": "Department of Plant and Soil Sciences, University of Kentucky, Lexington, KY, United States of America.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "USDA National Institute of Food and Agriculture",
+                "grantId": "Hatch project accession #1012262",
+                "orderIn": 0
+              },
+              {
+                "agency": "Amerman Family Equine Research Fund",
+                "orderIn": 0
+              },
+              {
+                "agency": "USDA National Institute of Food and Agriculture",
+                "grantId": "Hatch project accession #1020849",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sarcocystis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antiprotozoal Agents",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription, Genetic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polyadenylation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mutation"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antiprotozoal Agents",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0259109"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8553156"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8553156?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 6,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject",
+              "gca",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2021-11-29",
+          "dateOfCreation": "2021-10-28",
+          "dateOfRevision": "2021-11-29",
+          "electronicPublicationDate": "2021-10-28",
+          "firstPublicationDate": "2021-10-28",
+          "firstIndexDate": "2021-11-26",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

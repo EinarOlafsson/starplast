@@ -17,9 +17,9 @@ accuracy. Unknown dates/counts/coverage remain unknown, not zero or guessed.
 | Item | Percent done | Time left | Description |
 |---|---:|---|---|
 | [65.01](../done/65_01_dataset_selection_policy.md) | ✅ | 0 h | Implement and test a versioned selection policy |
-| 65.02 | 0% | 4–8 h + lookup | Audit publication identity and citation rates for all 162 registered sources |
-| 65.03 | 0% | 6–12 h + review | Search every current slot for literature challengers and expose comparison gaps |
-| 65.04 | 0% | 8–16 h + compute | Validate superior alternatives, promote eligible replacements and rerun affected checks |
+| [65.02](../done/65_02_publication_identity_audit.md) | ✅ | 0 h | Audit publication identity and citation rates for all 162 registered sources |
+| [65.03](../done/65_03_slot_literature_discovery.md) | ✅ | 0 h | Search every current slot for literature challengers and expose comparison gaps |
+| 65.04 | 0% | 16–32 h + compute | Review biological eligibility and deeper literature; validate/promote replacements and rerun affected checks |
 
 65.02 depends on 65.01; 65.03 depends on 65.01/65.02; 65.04 depends on all three.
 Each completion requires recorded evidence, relevant checks, a commit and nightly
@@ -48,3 +48,28 @@ policy; `docs/dataset_selection.md` documents factors and unknowns. **389 focuse
 checks passed** for policy, docstrings and organism invariants. AGENTS.md and the
 session handoff persist the user rule. Publication metadata and literature search
 are next; no dataset replacements have been made by this policy-only step.
+
+65.02/65.03: the frozen audit covers every source and slot; 95 recorded publication
+identities resolved, 2,032 distinct literature publications retained, six diagnostic
+quantity/context traps triaged, **576 relevant checks passed** (one optional pdoc
+module skipped locally). See `results/dataset_selection_2026_10_07/README.md` and
+the linked completion cards. **No dataset has been certified literature-best or
+promoted**. 231 truncated slot searches, 28 zero-hit views and all source/deposit
+lineage/assay-coverage decisions remain explicit in the review queue.
+
+## Next controlled review batches (65.04)
+
+1. Verify journal/preprint supplementary equivalence for the host rhoptry screen;
+   retain first-publication/version citation lineage and original source provenance.
+2. Review the 2017 quantitative RBC deposit and map its absolute copy numbers;
+   retain the installed 2026 fraction PSMs as a distinct measured quantity.
+3. Verify GTEx v10 release/publication lineage and actual cell-type fields, then
+   FANTOM5 tissue/sample lineage and the host accession-only infection series.
+4. Work through `source_review_queue.csv`, expanding truncated/zero-hit literature
+   searches with accession-aware primary repositories and explicit matched assays.
+5. For each admitted comparable alternative, record common measured coverage,
+   mapping/QC, access, policy factors and a keep/add/replace decision. A replacement
+   gets its own bounded action card and affected leakage/benchmark/release checks.
+
+Popularity alone cannot close these review batches. The audit/search cards are
+complete; the user's overarching best-dataset validation request remains open.

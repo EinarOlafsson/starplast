@@ -1,0 +1,736 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22ChIP-seq%22+OR+%22ATAC-seq%22+OR+%22chromatin%22+OR+%22histone%22+OR+%22Hi-C%22+OR+%22m6A%22+OR+%22splicing%22%29+AND+TITLE_ABS%3A%28%22stability%22+OR+%22half-life%22%29+AND+TITLE_ABS%3A%22asexual+blood+stage%22+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:26.045506+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 2,
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"ChIP-seq\" OR \"ATAC-seq\" OR \"chromatin\" OR \"histone\" OR \"Hi-C\" OR \"m6A\" OR \"splicing\") AND TITLE_ABS:(\"stability\" OR \"half-life\") AND TITLE_ABS:\"asexual blood stage\" sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "33046062",
+          "source": "MED",
+          "pmid": "33046062",
+          "pmcid": "PMC7549214",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7549214"
+            ]
+          },
+          "doi": "10.1186/s12936-020-03421-3",
+          "title": "Discovery of FNDR-20123, a histone deacetylase inhibitor for the treatment of Plasmodium falciparum malaria.",
+          "authorString": "Potluri V, Shandil RK, Gavara R, Sambasivam G, Campo B, Wittlin S, Narayanan S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Potluri V",
+                "lastName": "Potluri",
+                "firstName": "Vijay",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Foundation for Neglected Disease Research, Bengaluru, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shandil RK",
+                "lastName": "Shandil",
+                "firstName": "Radha K",
+                "initials": "RK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Foundation for Neglected Disease Research, Bengaluru, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gavara R",
+                "lastName": "Gavara",
+                "firstName": "R",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anthem Biosciences Private Limited, Bengaluru, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sambasivam G",
+                "lastName": "Sambasivam",
+                "firstName": "Ganesh",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5027-0760"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Anthem Biosciences Private Limited, Bengaluru, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Campo B",
+                "lastName": "Campo",
+                "firstName": "Brice",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Medicines for Malaria Venture, Geneva, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wittlin S",
+                "lastName": "Wittlin",
+                "firstName": "Sergio",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Swiss Tropical and Public Health Institute, Basel, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Narayanan S",
+                "lastName": "Narayanan",
+                "firstName": "Shridhar",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7781-7399"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Foundation for Neglected Disease Research, Bengaluru, India. shridhar.narayanan@fndr.in."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5027-0760"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7781-7399"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "19",
+            "journalIssueId": 3033679,
+            "dateOfPublication": "2020 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2020,
+            "journal": {
+              "medlineAbbreviation": "Malar J",
+              "title": "Malaria journal",
+              "essn": "1475-2875",
+              "issn": "1475-2875",
+              "isoabbreviation": "Malar J",
+              "nlmid": "101139802"
+            },
+            "printPublicationDate": "2020-10-01"
+          },
+          "pubYear": "2020",
+          "pageInfo": "365",
+          "abstractText": "<h4>Background</h4>Emergence of anti-malarial drug resistance and perpetual increase in malaria incidence necessitates the development of novel anti-malarials. Histone deacetylases (HDAC) has been shown to be a promising target for malaria, despite this, there are no HDAC inhibitors in clinical trials for malaria treatment. This can be attributed to the poor pharmacokinetics, bioavailability and selectivity of the HDAC inhibitors.<h4>Methods</h4>A collection of HDAC inhibitors were screened for anti-malarial activity, and the best candidate was profiled in parasite-killing kinetics, growth inhibition of sensitive and multi-drug resistant (MDR) strains and against gametocytes. Absorption, distribution, metabolism and excretion pharmacokinetics (ADME-PK) parameters of FNDR-20123 were determined, and in vivo efficacy was studied in a mouse model for Plasmodium falciparum infection.<h4>Results</h4>A compound library of HDAC inhibitors (180 in number) was screened for anti-malarial activity, of which FNDR-20123 was the most potent candidate. The compound had been shown to inhibit Plasmodium HDAC with IC<sub>50</sub> of 31\u00a0nM and human HDAC with IC<sub>50</sub> of 3\u00a0nM. The IC<sub>50</sub> obtained for P. falciparum in asexual blood-stage assay was 42\u00a0nM. When compared to atovaquone and pyrimethamine, the killing profiles of FNDR-20123 were better than atovaquone and comparable to pyrimethamine. The IC<sub>50</sub> values for the growth inhibition of sensitive and MDR strains were similar, indicating that there is no cross-resistance and a low risk of resistance development. The selected compound was also active against gametocytes, indicating a potential for transmission control: IC<sub>50</sub> values being 190\u00a0nM for male and\u2009>\u20095\u00a0\u00b5M for female gametocytes. FNDR-20123 is a stable candidate in human/mouse/rat liver microsomes (>\u200975% remaining post 2-h incubation), exhibits low plasma protein binding (57% in humans) with no human Ether-\u00e0-go-go-Related Gene (hERG) liability (>\u2009100\u00a0\u00b5M), and does not inhibit any of the cytochrome P450 (CYP) isoforms tested (IC<sub>50</sub>\u2009>\u200925\u00a0\u00b5M). It also shows negligible cytotoxicity to HepG-2 and THP-1 cell lines. The oral pharmacokinetics in rats at 100\u00a0mg/kg body weight shows good exposures (C<sub>max</sub>\u2009=\u20091.1\u00a0\u00b5M) and half-life (T<sub>1/2</sub>\u2009=\u20095.5\u00a0h). Furthermore, a 14-day toxicokinetic study at 100\u00a0mg/kg daily dose did not show any abnormality in body weight or gross organ pathology. FNDR-20123 is also able to reduce parasitaemia significantly in a mouse model for P. falciparum infection when dosed orally and subcutaneously.<h4>Conclusion</h4>FNDR-20123 may be a suitable candidate for the treatment of malaria, which can be further developed.",
+          "affiliation": "Foundation for Neglected Disease Research, Bengaluru, India.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PK",
+                      "qualifierName": "pharmacokinetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histone Deacetylase Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PK",
+                      "qualifierName": "pharmacokinetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Renal Elimination"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Absorption, Physiological"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Intestinal Elimination"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Malaria",
+              "Plasmodium falciparum",
+              "Histone Deacetyl"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histone Deacetylase Inhibitors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12936-020-03421-3"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7549214"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7549214?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 24,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2021-05-11",
+          "dateOfCreation": "2020-10-13",
+          "dateOfRevision": "2021-05-11",
+          "electronicPublicationDate": "2020-10-12",
+          "firstPublicationDate": "2020-10-12",
+          "firstIndexDate": "2020-10-16",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39208744",
+          "source": "MED",
+          "pmid": "39208744",
+          "doi": "10.1016/j.ejmech.2024.116782",
+          "title": "Development of peptoid-based heteroaryl-decorated histone deacetylase (HDAC) inhibitors with dual-stage antiplasmodial activity.",
+          "authorString": "Stopper D, de Carvalho LP, de Souza ML, Kponomaizoun CE, Winzeler EA, Held J, Hansen FK.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Stopper D",
+                "lastName": "Stopper",
+                "firstName": "Daniel",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-0610-7830"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmaceutical and Cell Biological Chemistry, Pharmaceutical Institute, University of Bonn, 53121, Bonn, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "de Carvalho LP",
+                "lastName": "de Carvalho",
+                "firstName": "Lais Pessanha",
+                "initials": "LP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Tropical Medicine, University of T\u00fcbingen, 72074, T\u00fcbingen, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "de Souza ML",
+                "lastName": "de Souza",
+                "firstName": "Mariana Laureano",
+                "initials": "ML",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pediatrics, School of Medicine, University of California, San Diego, La Jolla, CA 92093, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kponomaizoun CE",
+                "lastName": "Kponomaizoun",
+                "firstName": "Cindy-Esther",
+                "initials": "CE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmaceutical and Cell Biological Chemistry, Pharmaceutical Institute, University of Bonn, 53121, Bonn, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Winzeler EA",
+                "lastName": "Winzeler",
+                "firstName": "Elizabeth A",
+                "initials": "EA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4049-2113"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pediatrics, School of Medicine, University of California, San Diego, La Jolla, CA 92093, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Held J",
+                "lastName": "Held",
+                "firstName": "Jana",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7970-1429"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Tropical Medicine, University of T\u00fcbingen, 72074, T\u00fcbingen, Germany; German Center for Infection Research, Partner Site T\u00fcbingen, T\u00fcbingen, Germany; Centre de Recherches M\u00e9dicales de Lambar\u00e9n\u00e9, Lambar\u00e9n\u00e9, Gabon."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hansen FK",
+                "lastName": "Hansen",
+                "firstName": "Finn K",
+                "initials": "FK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9765-5975"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmaceutical and Cell Biological Chemistry, Pharmaceutical Institute, University of Bonn, 53121, Bonn, Germany. Electronic address: finn.hansen@uni-bonn.de."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9765-5975"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3857-5462"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4049-2113"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7970-1429"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-0610-7830"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "277",
+            "journalIssueId": 3826209,
+            "dateOfPublication": "2024 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "Eur J Med Chem",
+              "title": "European journal of medicinal chemistry",
+              "essn": "1768-3254",
+              "issn": "0223-5234",
+              "isoabbreviation": "Eur J Med Chem",
+              "nlmid": "0420510"
+            },
+            "printPublicationDate": "2024-11-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "116782",
+          "abstractText": "Dynamics of epigenetic modifications such as acetylation and deacetylation of histone proteins have been shown to be crucial for the life cycle development and survival of Plasmodium falciparum, the deadliest malaria parasite. In this study, we present a novel series of peptoid-based histone deacetylase (HDAC) inhibitors incorporating nitrogen-containing bicyclic heteroaryl residues as a new generation of antiplasmodial peptoid-based HDAC inhibitors. We synthesized the HDAC inhibitors by an efficient multicomponent protocol based on the Ugi four-component reaction. The subsequent screening of 16 compounds from our mini-library identified 6i as the most promising candidate, demonstrating potent activity against asexual blood-stage parasites (IC<sub>50</sub>Pf3D7\u00a0=\u00a030\u00a0nM; IC<sub>50</sub>PfDd2\u00a0=\u00a098\u00a0nM), low submicromolar activity against liver-stage parasites (IC<sub>50</sub>PbEEF\u00a0=\u00a00.25\u00a0\u03bcM), excellent microsomal stability (t<sub>1/2</sub>\u00a0>\u00a060\u00a0min), and low cytotoxicity to HEK293\u00a0cells (IC<sub>50</sub>\u00a0=\u00a0136\u00a0\u03bcM).",
+          "affiliation": "Department of Pharmaceutical and Cell Biological Chemistry, Pharmaceutical Institute, University of Bonn, 53121, Bonn, Germany.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "HA 7783/1-2",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "HE 7607/1\\u20132",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "7607/1-2",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histone Deacetylases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Peptoids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CS",
+                      "qualifierName": "chemical synthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CS",
+                      "qualifierName": "chemical synthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasitic Sensitivity Tests"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Structure"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Structure-Activity Relationship"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dose-Response Relationship, Drug"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Histone Deacetylase Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CS",
+                      "qualifierName": "chemical synthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Malaria",
+              "Histone deacetylase",
+              "Hdac Inhibitors",
+              "Multicomponent Reaction",
+              "Peptoid"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Peptoids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histone Deacetylase Inhibitors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Histone Deacetylases",
+                "registryNumber": "EC 3.5.1.98"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.ejmech.2024.116782"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 5,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "CHEMBL"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2024-09-05",
+          "dateOfCreation": "2024-08-29",
+          "dateOfRevision": "2024-09-10",
+          "electronicPublicationDate": "2024-08-16",
+          "firstPublicationDate": "2024-08-16",
+          "firstIndexDate": "2024-09-01",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

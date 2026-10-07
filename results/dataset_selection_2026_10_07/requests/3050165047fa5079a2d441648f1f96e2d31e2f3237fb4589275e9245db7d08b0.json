@@ -1,0 +1,4709 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22skeletal+muscle%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:42.362520+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 395,
+    "nextCursorMark": "AoJcCSgzNTk2MDczMg==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22proteome%22+OR+%22proteomics%22+OR+%22mass+spectrometry%22%29+AND+TITLE_ABS%3A%28%22skeletal+muscle%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&cursorMark=AoJcCSgzNTk2MDczMg%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:(\"proteome\" OR \"proteomics\" OR \"mass spectrometry\") AND TITLE_ABS:(\"skeletal muscle\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "12194980",
+          "source": "MED",
+          "pmid": "12194980",
+          "doi": "10.1074/jbc.m206379200",
+          "title": "The myostatin propeptide and the follistatin-related gene are inhibitory binding proteins of myostatin in normal serum.",
+          "authorString": "Hill JJ, Davies MV, Pearson AA, Wang JH, Hewick RM, Wolfman NM, Qiu Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hill JJ",
+                "lastName": "Hill",
+                "firstName": "Jennifer J",
+                "initials": "JJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0031-0706"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Protein Chemistry and Proteomics, Wyeth Research, 87 Cambridge Park Drive, Cambridge, MA 02140, USA. jhill@wyeth.com"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Davies MV",
+                "lastName": "Davies",
+                "firstName": "Monique V",
+                "initials": "MV"
+              },
+              {
+                "fullName": "Pearson AA",
+                "lastName": "Pearson",
+                "firstName": "Adele A",
+                "initials": "AA"
+              },
+              {
+                "fullName": "Wang JH",
+                "lastName": "Wang",
+                "firstName": "Jack H",
+                "initials": "JH"
+              },
+              {
+                "fullName": "Hewick RM",
+                "lastName": "Hewick",
+                "firstName": "Rodney M",
+                "initials": "RM"
+              },
+              {
+                "fullName": "Wolfman NM",
+                "lastName": "Wolfman",
+                "firstName": "Neil M",
+                "initials": "NM"
+              },
+              {
+                "fullName": "Qiu Y",
+                "lastName": "Qiu",
+                "firstName": "Yongchang",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1115-4681"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0031-0706"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1115-4681"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "43",
+            "volume": "277",
+            "journalIssueId": 1128472,
+            "dateOfPublication": "2002 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2002,
+            "journal": {
+              "medlineAbbreviation": "J Biol Chem",
+              "title": "The Journal of biological chemistry",
+              "essn": "1083-351X",
+              "issn": "0021-9258",
+              "nlmid": "2985121R",
+              "isoabbreviation": "J Biol Chem"
+            },
+            "printPublicationDate": "2002-10-01"
+          },
+          "pubYear": "2002",
+          "pageInfo": "40735-40741",
+          "abstractText": "Myostatin, also known as growth and differentiation factor 8, is a member of the transforming growth factor beta superfamily that negatively regulates skeletal muscle mass (1). Recent experiments have shown that myostatin activity is detected in serum by a reporter gene assay only after activation by acid, suggesting that native myostatin circulates as a latent complex (2). We have used a monoclonal myostatin antibody, JA16, to isolate the native myostatin complex from normal mouse and human serum. Analysis by mass spectrometry and Western blot shows that circulating myostatin is bound to at least two major proteins, the myostatin propeptide and the follistatin-related gene (FLRG). The myostatin propeptide is known to bind and inhibit myostatin in vitro (3). Here we show that this interaction is relevant in vivo, with a majority (>70%) of myostatin in serum bound to its propeptide. Studies with recombinant V5-His-tagged FLRG protein confirm a direct interaction between mature myostatin and FLRG. Functional studies show that FLRG inhibits myostatin activity in a reporter gene assay. These experiments suggest that the myostatin propeptide and FLRG are major negative regulators of myostatin in vivo.",
+          "affiliation": "Department of Protein Chemistry and Proteomics, Wyeth Research, 87 Cambridge Park Drive, Cambridge, MA 02140, USA. jhill@wyeth.com",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transforming Growth Factor beta",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AI",
+                      "qualifierName": "antagonists & inhibitors"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Follistatin-Related Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA Primers"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Blotting, Western"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Binding"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genes, Reporter"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Myostatin"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "DNA Primers",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transforming Growth Factor beta",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Follistatin-Related Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "MSTN protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Mstn protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Myostatin",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "http://www.jbc.org/article/S0021925819721814/pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.M206379200"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 347,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2002-12-09",
+          "dateOfCreation": "2002-08-27",
+          "dateOfRevision": "2021-02-06",
+          "electronicPublicationDate": "2002-08-22",
+          "firstPublicationDate": "2002-08-22",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "25616865",
+          "source": "MED",
+          "pmid": "25616865",
+          "pmcid": "PMC4390264",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4390264"
+            ]
+          },
+          "doi": "10.1074/mcp.m114.044222",
+          "title": "Deep proteomics of mouse skeletal muscle enables quantitation of protein isoforms, metabolic pathways, and transcription factors.",
+          "authorString": "Deshmukh AS, Murgia M, Nagaraj N, Treebak JT, Cox J, Mann M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Deshmukh AS",
+                "lastName": "Deshmukh",
+                "firstName": "Atul S",
+                "initials": "AS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2278-1843"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the \u2021Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry, Am Klopferspitz 18, D-82152 Martinsried, Germany;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Murgia M",
+                "lastName": "Murgia",
+                "firstName": "Marta",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6244-3358"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the \u2021Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry, Am Klopferspitz 18, D-82152 Martinsried, Germany; \u00a7Department of Biomedical Sciences, University of Padova, Viale G. Colombo 3, 35121 Padua, Italy;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nagaraj N",
+                "lastName": "Nagaraj",
+                "firstName": "Nagarjuna",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the \u2021Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry, Am Klopferspitz 18, D-82152 Martinsried, Germany;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Treebak JT",
+                "lastName": "Treebak",
+                "firstName": "Jonas T",
+                "initials": "JT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1488-7012"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "\u00b6The Novo Nordisk Foundation Center for Basic Metabolic Research, Section of Integrative Physiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cox J",
+                "lastName": "Cox",
+                "firstName": "J\u00fcrgen",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the \u2021Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry, Am Klopferspitz 18, D-82152 Martinsried, Germany;"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mann M",
+                "lastName": "Mann",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the \u2021Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry, Am Klopferspitz 18, D-82152 Martinsried, Germany; \u2016The Novo Nordisk Foundation Center for Protein Research, Department for proteomics, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark mmann@biochem.mpg.de."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6244-3358"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2278-1843"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1488-7012"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "14",
+            "journalIssueId": 2270626,
+            "dateOfPublication": "2015 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2015,
+            "journal": {
+              "medlineAbbreviation": "Mol Cell Proteomics",
+              "title": "Molecular & cellular proteomics : MCP",
+              "essn": "1535-9484",
+              "issn": "1535-9476",
+              "nlmid": "101125647",
+              "isoabbreviation": "Mol Cell Proteomics"
+            },
+            "printPublicationDate": "2015-04-01"
+          },
+          "pubYear": "2015",
+          "pageInfo": "841-853",
+          "abstractText": "Skeletal muscle constitutes 40% of individual body mass and plays vital roles in locomotion and whole-body metabolism. Proteomics of skeletal muscle is challenging because of highly abundant contractile proteins that interfere with detection of regulatory proteins. Using a state-of-the art MS workflow and a strategy to map identifications from the C2C12 cell line model to tissues, we identified a total of 10,218 proteins, including skeletal muscle specific transcription factors like myod1 and myogenin and circadian clock proteins. We obtain absolute abundances for proteins expressed in a muscle cell line and skeletal muscle, which should serve as a valuable resource. Quantitation of protein isoforms of glucose uptake signaling pathways and in glucose and lipid metabolic pathways provides a detailed metabolic map of the cell line compared with tissue. This revealed unexpectedly complex regulation of AMP-activated protein kinase and insulin signaling in muscle tissue at the level of enzyme isoforms.",
+          "affiliation": "From the \u2021Department of Proteomics and Signal Transduction, Max-Planck-Institute of Biochemistry, Am Klopferspitz 18, D-82152 Martinsried, Germany;",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Novo Nordisk Fonden",
+                "grantId": "NNF15SA0018240",
+                "orderIn": 0
+              },
+              {
+                "agency": "Novo Nordisk Foundation Center for Protein Research",
+                "grantId": "PI Matthias Mann",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle, Skeletal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Isoforms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Metabolic Networks and Pathways"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle Fibers, Skeletal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "AMP-Activated Protein Kinases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protein Isoforms",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              },
+              {
+                "name": "AMP-activated protein kinases",
+                "registryNumber": "EC 2.7.11.31"
+              },
+              {
+                "name": "Insulin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glucose",
+                "registryNumber": "IY9XDZ35W2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/mcp.M114.044222"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4390264"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4390264?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 239,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pxd"
+            ]
+          },
+          "dateOfCompletion": "2015-12-21",
+          "dateOfCreation": "2015-01-25",
+          "dateOfRevision": "2021-02-18",
+          "electronicPublicationDate": "2015-01-22",
+          "firstPublicationDate": "2015-01-22",
+          "firstIndexDate": "2015-01-25",
+          "fullTextReceivedDate": "2020-07-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "33146890",
+          "source": "MED",
+          "pmid": "33146890",
+          "pmcid": "PMC7737765",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7737765"
+            ]
+          },
+          "doi": "10.1002/pro.3987",
+          "title": "The Human Protein Atlas-Spatial localization of the human proteome in health and disease.",
+          "authorString": "Digre A, Lindskog C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Digre A",
+                "lastName": "Digre",
+                "firstName": "Andreas",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology, Genetics and Pathology, Rudbeck Laboratory, Uppsala University, Uppsala, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lindskog C",
+                "lastName": "Lindskog",
+                "firstName": "Cecilia",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5611-1015"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology, Genetics and Pathology, Rudbeck Laboratory, Uppsala University, Uppsala, Sweden."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5611-1015"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "30",
+            "journalIssueId": 3075324,
+            "dateOfPublication": "2021 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2021,
+            "journal": {
+              "medlineAbbreviation": "Protein Sci",
+              "title": "Protein science : a publication of the Protein Society",
+              "essn": "1469-896X",
+              "issn": "0961-8368",
+              "nlmid": "9211750",
+              "isoabbreviation": "Protein Sci"
+            },
+            "printPublicationDate": "2021-01-01"
+          },
+          "pubYear": "2021",
+          "pageInfo": "218-233",
+          "abstractText": "For a complete understanding of a system's processes and each protein's role in health and disease, it is essential to study protein expression with a spatial resolution, as the exact location of proteins at tissue, cellular, or subcellular levels is tightly linked to protein function. The Human Protein Atlas (HPA) project is a large-scale initiative aiming at mapping the entire human proteome using antibody-based proteomics and integration of various other omics technologies. The publicly available knowledge resource www.proteinatlas.org is one of the world's most visited biological databases and has been extensively updated during the last few years. The current version is divided into six main sections, each focusing on particular aspects of the human proteome: (a) the Tissue Atlas showing the distribution of proteins across all major tissues and organs in the human body; (b) the Cell Atlas showing the subcellular localization of proteins in single cells; (c) the Pathology Atlas showing the impact of protein levels on survival of patients with cancer; (d) the Blood Atlas showing the expression profiles of blood cells and actively secreted proteins; (e) the Brain Atlas showing the distribution of proteins in human, mouse, and pig brain; and (f) the Metabolic Atlas showing the involvement of proteins in human metabolism. The HPA constitutes an important resource for further understanding of human biology, and the publicly available datasets hold much promise for integration with other emerging efforts focusing on single cell analyses, both at transcriptomic and proteomic level.",
+          "affiliation": "Department of Immunology, Genetics and Pathology, Rudbeck Laboratory, Uppsala University, Uppsala, Sweden.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Knut och Alice Wallenbergs Stiftelse",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Swine"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Nerve Tissue Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proteome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Databases, Protein"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Cells",
+              "Antibodies",
+              "Proteomics",
+              "Tissues",
+              "Transcriptomics",
+              "Single-cell",
+              "Human Protein Atlas"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Nerve Tissue Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteome",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/pro.3987"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7737765"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7737765?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1002/pro.3987"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 207,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2021-05-04",
+          "dateOfCreation": "2020-11-04",
+          "dateOfRevision": "2026-10-02",
+          "electronicPublicationDate": "2020-11-13",
+          "firstPublicationDate": "2020-11-13",
+          "firstIndexDate": "2020-11-05",
+          "fullTextReceivedDate": "2025-02-03",
+          "embargoDate": "2022-01-01",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "18276596",
+          "source": "MED",
+          "pmid": "18276596",
+          "pmcid": "PMC2442306",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2442306"
+            ]
+          },
+          "doi": "10.1074/jbc.m708839200",
+          "title": "Discovery of TBC1D1 as an insulin-, AICAR-, and contraction-stimulated signaling nexus in mouse skeletal muscle.",
+          "authorString": "Taylor EB, An D, Kramer HF, Yu H, Fujii NL, Roeckl KS, Bowles N, Hirshman MF, Xie J, Feener EP, Goodyear LJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Taylor EB",
+                "lastName": "Taylor",
+                "firstName": "Eric B",
+                "initials": "EB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4549-6567"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Joslin Diabetes Center Section on Metabolism and Proteomics Core and Harvard Medical School, One Joslin Place, Boston, MA 02215, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "An D",
+                "lastName": "An",
+                "firstName": "Ding",
+                "initials": "D"
+              },
+              {
+                "fullName": "Kramer HF",
+                "lastName": "Kramer",
+                "firstName": "Henning F",
+                "initials": "HF"
+              },
+              {
+                "fullName": "Yu H",
+                "lastName": "Yu",
+                "firstName": "Haiyan",
+                "initials": "H"
+              },
+              {
+                "fullName": "Fujii NL",
+                "lastName": "Fujii",
+                "firstName": "Nobuharu L",
+                "initials": "NL"
+              },
+              {
+                "fullName": "Roeckl KS",
+                "lastName": "Roeckl",
+                "firstName": "Katja S C",
+                "initials": "KS"
+              },
+              {
+                "fullName": "Bowles N",
+                "lastName": "Bowles",
+                "firstName": "Nicole",
+                "initials": "N"
+              },
+              {
+                "fullName": "Hirshman MF",
+                "lastName": "Hirshman",
+                "firstName": "Michael F",
+                "initials": "MF"
+              },
+              {
+                "fullName": "Xie J",
+                "lastName": "Xie",
+                "firstName": "Jianxin",
+                "initials": "J"
+              },
+              {
+                "fullName": "Feener EP",
+                "lastName": "Feener",
+                "firstName": "Edward P",
+                "initials": "EP"
+              },
+              {
+                "fullName": "Goodyear LJ",
+                "lastName": "Goodyear",
+                "firstName": "Laurie J",
+                "initials": "LJ"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4549-6567"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "15",
+            "volume": "283",
+            "journalIssueId": 1519620,
+            "dateOfPublication": "2008 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2008,
+            "journal": {
+              "medlineAbbreviation": "J Biol Chem",
+              "title": "The Journal of biological chemistry",
+              "essn": "1083-351X",
+              "issn": "0021-9258",
+              "nlmid": "2985121R",
+              "isoabbreviation": "J Biol Chem"
+            },
+            "printPublicationDate": "2008-04-01"
+          },
+          "pubYear": "2008",
+          "pageInfo": "9787-9796",
+          "abstractText": "The Akt substrate of 160 kDa (AS160) is phosphorylated on Akt substrate (PAS) motifs in response to insulin and contraction in skeletal muscle, regulating glucose uptake. Here we discovered a dissociation between AS160 protein expression and apparent AS160 PAS phosphorylation among soleus, tibialis anterior, and extensor digitorum longus muscles. Immunodepletion of AS160 in tibialis anterior muscle lysates resulted in minimal depletion of the PAS band at 160 kDa, suggesting the presence of an additional PAS immunoreactive protein. By immunoprecipitation and mass spectrometry, we identified this protein as the AS160 paralog TBC1D1, an obesity candidate gene regulating GLUT4 translocation in adipocytes. TBC1D1 expression was severalfold higher in skeletal muscles compared with all other tissues and was the dominant protein detected by the anti-PAS antibody at 160 kDa in tibialis anterior and extensor digitorum longus but not soleus muscles. In vivo stimulation by insulin, contraction, and the AMP-activated protein kinase (AMPK) activator AICAR increased TBC1D1 PAS phosphorylation. Using mass spectrometry on TBC1D1 from mouse skeletal muscle, we identified several novel phosphorylation sites on TBC1D1 and found the majority were consensus or near consensus sites for AMPK. Semiquantitative analysis of spectra suggested that AICAR caused greater overall phosphorylation of TBC1D1 sites compared with insulin. Purified Akt and AMPK phosphorylated TBC1D1 in vitro, and AMPK, but not Akt, reduced TBC1D1 electrophoretic mobility. TBC1D1 is a major PAS immunoreactive protein in skeletal muscle that is phosphorylated in vivo by insulin, AICAR, and contraction. Both Akt and AMPK phosphorylate TBC1D1, but AMPK may be the more robust regulator.",
+          "affiliation": "The Joslin Diabetes Center Section on Metabolism and Proteomics Core and Harvard Medical School, One Joslin Place, Boston, MA 02215, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "DK 36836",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "F32 DK 075851",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "F32 DK075851",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAMS NIH HHS",
+                "acronym": "AR",
+                "grantId": "R01 AR045670",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAMS NIH HHS",
+                "acronym": "AR",
+                "grantId": "AR 42238",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAMS NIH HHS",
+                "acronym": "AR",
+                "grantId": "R01 AR042238",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAMS NIH HHS",
+                "acronym": "AR",
+                "grantId": "AR 45670",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle, Skeletal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adipocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred ICR"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aminoimidazole Carboxamide",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AA",
+                      "qualifierName": "analogs & derivatives"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulin",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cyclic AMP-Dependent Protein Kinases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "GTPase-Activating Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nuclear Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ribonucleotides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hypoglycemic Agents",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organ Specificity",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme Activation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Motifs",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Transport",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphorylation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle Contraction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proto-Oncogene Proteins c-akt",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose Transporter Type 4",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Tbc1d1 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Hypoglycemic Agents",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Muscle Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Aminoimidazole Carboxamide",
+                "registryNumber": "360-97-4"
+              },
+              {
+                "name": "Ribonucleotides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nuclear Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "GTPase-Activating Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glucose Transporter Type 4",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Slc2a4 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Tbc1d4 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cyclic AMP-Dependent Protein Kinases",
+                "registryNumber": "EC 2.7.11.11"
+              },
+              {
+                "name": "Proto-Oncogene Proteins c-akt",
+                "registryNumber": "EC 2.7.11.1"
+              },
+              {
+                "name": "Insulin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "AICA ribonucleotide",
+                "registryNumber": "F0X88YW0YK"
+              },
+              {
+                "name": "Glucose",
+                "registryNumber": "IY9XDZ35W2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "intl.jbc.org",
+                "url": "http://intl.jbc.org/cgi/content/abstract/283/15/9787"
+              },
+              {
+                "availability": "Free after 12 months",
+                "availabilityCode": "F12",
+                "documentStyle": "html",
+                "site": "intl.jbc.org",
+                "url": "http://intl.jbc.org/cgi/content/full/283/15/9787"
+              },
+              {
+                "availability": "Free after 12 months",
+                "availabilityCode": "F12",
+                "documentStyle": "pdf",
+                "site": "intl.jbc.org",
+                "url": "http://intl.jbc.org/cgi/reprint/283/15/9787.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.M708839200"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2442306"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2442306?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.m708839200"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 207,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2008-05-28",
+          "dateOfCreation": "2008-02-16",
+          "dateOfRevision": "2024-03-16",
+          "electronicPublicationDate": "2008-02-13",
+          "firstPublicationDate": "2008-02-13",
+          "firstIndexDate": "2009-12-24",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "27775717",
+          "source": "MED",
+          "pmid": "27775717",
+          "doi": "10.1038/nature20157",
+          "title": "Mechanism of super-assembly of respiratory complexes III and IV.",
+          "authorString": "Cogliati S, Calvo E, Loureiro M, Guaras AM, Nieto-Arellano R, Garcia-Poyatos C, Ezkurdia I, Mercader N, V\u00e1zquez J, Enriquez JA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Cogliati S",
+                "lastName": "Cogliati",
+                "firstName": "Sara",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0374-3489"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Calvo E",
+                "lastName": "Calvo",
+                "firstName": "Enrique",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Loureiro M",
+                "lastName": "Loureiro",
+                "firstName": "Marta",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6912-6109"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Guaras AM",
+                "lastName": "Guaras",
+                "firstName": "Adela M",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nieto-Arellano R",
+                "lastName": "Nieto-Arellano",
+                "firstName": "Rocio",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5581-7454"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Garcia-Poyatos C",
+                "lastName": "Garcia-Poyatos",
+                "firstName": "Carolina",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0918-5403"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    },
+                    {
+                      "affiliation": "Institute of Anatomy, University of Bern, CH-3000 Bern, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ezkurdia I",
+                "lastName": "Ezkurdia",
+                "firstName": "Iakes",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mercader N",
+                "lastName": "Mercader",
+                "firstName": "Nadia",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0905-6399"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    },
+                    {
+                      "affiliation": "Institute of Anatomy, University of Bern, CH-3000 Bern, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "V\u00e1zquez J",
+                "lastName": "V\u00e1zquez",
+                "firstName": "Jes\u00fas",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1461-5092"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Enriquez JA",
+                "lastName": "Enriquez",
+                "firstName": "Jos\u00e9 Antonio",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3671-2961"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain."
+                    },
+                    {
+                      "affiliation": "Departamento de Bioqu\u00edmica y Biolog\u00eda Molecular y Celular, Universidad de Zaragoza, 50009 Zaragoza, Spain."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5581-7454"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0374-3489"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0905-6399"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3671-2961"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6912-6109"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0918-5403"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1461-5092"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7630",
+            "volume": "539",
+            "journalIssueId": 2493136,
+            "dateOfPublication": "2016 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Nature",
+              "title": "Nature",
+              "essn": "1476-4687",
+              "issn": "0028-0836",
+              "nlmid": "0410462",
+              "isoabbreviation": "Nature"
+            },
+            "printPublicationDate": "2016-11-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "579-582",
+          "abstractText": "Respiratory chain complexes can super-assemble into quaternary structures called supercomplexes that optimize cellular metabolism. The interaction between complexes III (CIII) and IV (CIV) is modulated by supercomplex assembly factor 1 (SCAF1, also known as COX7A2L). The discovery of SCAF1 represented strong genetic evidence that supercomplexes exist in vivo. SCAF1 is present as a long isoform (113 amino acids) or a short isoform (111 amino acids) in different mouse strains. Only the long isoform can induce the super-assembly of CIII and CIV, but it is not clear whether SCAF1 is required for the formation of the respirasome (a supercomplex of CI, CIII<sub>2</sub> and CIV). Here we show, by combining deep proteomics and immunodetection analysis, that SCAF1 is always required for the interaction between CIII and CIV and that the respirasome is absent from most tissues of animals containing the short isoform of SCAF1, with the exception of heart and skeletal muscle. We used directed mutagenesis to characterize SCAF1 regions that interact with CIII and CIV and discovered that this interaction requires the correct orientation of a histidine residue at position 73 that is altered in the short isoform of SCAF1, explaining its inability to interact with CIV. Furthermore, we find that the CIV subunit COX7A2 is replaced by SCAF1 in supercomplexes containing CIII and CIV and by COX7A1 in CIV dimers, and that dimers seem to be more stable when they include COX6A2 rather than the COX6A1 isoform.",
+          "affiliation": "Centro Nacional de Investigaciones Cardiovasculares Carlos III, 28029 Madrid, Spain.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Comment",
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Electron Transport Complex IV",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Isoforms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mitochondrial Membranes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Electron Transport Complex IV",
+                "registryNumber": "EC 1.9.3.1"
+              },
+              {
+                "name": "Protein Isoforms",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature20157"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "27654913",
+                "reference": "Nature. 2016 Sep 29;537(7622):644-648. doi: 10.1038/nature19774",
+                "type": "Comment on",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "27654917",
+                "reference": "Nature. 2016 Sep 21;537(7622):639-43. doi: 10.1038/nature19359",
+                "type": "Comment on",
+                "orderIn": 2
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 181,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "OMIM",
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2017-02-06",
+          "dateOfCreation": "2016-11-08",
+          "dateOfRevision": "2018-12-02",
+          "electronicPublicationDate": "2016-10-24",
+          "firstPublicationDate": "2016-10-24",
+          "firstIndexDate": "2016-10-27",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "31353262",
+          "source": "MED",
+          "pmid": "31353262",
+          "pmcid": "PMC6774888",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6774888"
+            ]
+          },
+          "doi": "10.1016/j.cmet.2019.07.001",
+          "title": "12-Lipoxygenase Regulates Cold Adaptation and Glucose Metabolism by Producing the Omega-3 Lipid 12-HEPE from Brown Fat.",
+          "authorString": "Leiria LO, Wang CH, Lynes MD, Yang K, Shamsi F, Sato M, Sugimoto S, Chen EY, Bussberg V, Narain NR, Sansbury BE, Darcy J, Huang TL, Kodani SD, Sakaguchi M, Rocha AL, Schulz TJ, Bartelt A, Hotamisligil GS, Hirshman MF, van Leyen K, Goodyear LJ, Bl\u00fcher M, Cypess AM, Kiebish MA, Spite M, Tseng YH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Leiria LO",
+                "lastName": "Leiria",
+                "firstName": "Luiz Os\u00f3rio",
+                "initials": "LO",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang CH",
+                "lastName": "Wang",
+                "firstName": "Chih-Hao",
+                "initials": "CH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1704-1311"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lynes MD",
+                "lastName": "Lynes",
+                "firstName": "Matthew D",
+                "initials": "MD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0746-0854"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang K",
+                "lastName": "Yang",
+                "firstName": "Kunyan",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5586-5875"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shamsi F",
+                "lastName": "Shamsi",
+                "firstName": "Farnaz",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sato M",
+                "lastName": "Sato",
+                "firstName": "Mari",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sugimoto S",
+                "lastName": "Sugimoto",
+                "firstName": "Satoru",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2691-3399"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen EY",
+                "lastName": "Chen",
+                "firstName": "Emily Y",
+                "initials": "EY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BERG, Framingham, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bussberg V",
+                "lastName": "Bussberg",
+                "firstName": "Valerie",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BERG, Framingham, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Narain NR",
+                "lastName": "Narain",
+                "firstName": "Niven R",
+                "initials": "NR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BERG, Framingham, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sansbury BE",
+                "lastName": "Sansbury",
+                "firstName": "Brian E",
+                "initials": "BE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Experimental Therapeutics and Reperfusion Injury, Department of Anesthesiology, Perioperative, and Pain Medicine, Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Darcy J",
+                "lastName": "Darcy",
+                "firstName": "Justin",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Huang TL",
+                "lastName": "Huang",
+                "firstName": "Tian Lian",
+                "initials": "TL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kodani SD",
+                "lastName": "Kodani",
+                "firstName": "Sean D",
+                "initials": "SD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sakaguchi M",
+                "lastName": "Sakaguchi",
+                "firstName": "Masaji",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rocha AL",
+                "lastName": "Rocha",
+                "firstName": "Andr\u00e9a L",
+                "initials": "AL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9044-980X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Tissue Biology, Institute of Biology, State University of Campinas, Campinas, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Schulz TJ",
+                "lastName": "Schulz",
+                "firstName": "Tim J",
+                "initials": "TJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8413-3972"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA; Department of Adipocyte Development and Nutrition, German Institute of Human Nutrition, Potsdam-Rehbr\u00fccke, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bartelt A",
+                "lastName": "Bartelt",
+                "firstName": "Alexander",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7840-3991"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics and Complex Diseases & Sabri \u00dclker Center, Harvard T.H. Chan School of Public Health, Boston, MA, USA; Institute for Cardiovascular Prevention (IPEK), Ludwig-Maximilians-University, Munich 80336, Germany; German Center for Cardiovascular Research (DZHK), Partner Site Munich Heart Alliance, Munich, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hotamisligil GS",
+                "lastName": "Hotamisligil",
+                "firstName": "G\u00f6khan S",
+                "initials": "GS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics and Complex Diseases & Sabri \u00dclker Center, Harvard T.H. Chan School of Public Health, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hirshman MF",
+                "lastName": "Hirshman",
+                "firstName": "Michael F",
+                "initials": "MF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "van Leyen K",
+                "lastName": "van Leyen",
+                "firstName": "Klaus",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Massachusetts General Hospital, Harvard Medical School, Neuroprotection Research Laboratory, Department of Radiology, Charlestown, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Goodyear LJ",
+                "lastName": "Goodyear",
+                "firstName": "Laurie J",
+                "initials": "LJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bl\u00fcher M",
+                "lastName": "Bl\u00fcher",
+                "firstName": "Matthias",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, University of Leipzig, Leipzig, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cypess AM",
+                "lastName": "Cypess",
+                "firstName": "Aaron M",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institutes of Health, Bethesda, MD, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kiebish MA",
+                "lastName": "Kiebish",
+                "firstName": "Michael A",
+                "initials": "MA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BERG, Framingham, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Spite M",
+                "lastName": "Spite",
+                "firstName": "Matthew",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Experimental Therapeutics and Reperfusion Injury, Department of Anesthesiology, Perioperative, and Pain Medicine, Brigham and Women's Hospital and Harvard Medical School, Boston, MA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tseng YH",
+                "lastName": "Tseng",
+                "firstName": "Yu-Hua",
+                "initials": "YH",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2053-9559"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA; Harvard Stem Cell Institute, Harvard University, Cambridge, MA, USA. Electronic address: yu-hua.tseng@joslin.harvard.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7840-3991"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2691-3399"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5586-5875"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8413-3972"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9044-980X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0746-0854"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1704-1311"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2053-9559"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "30",
+            "journalIssueId": 2866327,
+            "dateOfPublication": "2019 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2019,
+            "journal": {
+              "medlineAbbreviation": "Cell Metab",
+              "title": "Cell metabolism",
+              "essn": "1932-7420",
+              "issn": "1550-4131",
+              "nlmid": "101233170",
+              "isoabbreviation": "Cell Metab"
+            },
+            "printPublicationDate": "2019-10-01"
+          },
+          "pubYear": "2019",
+          "pageInfo": "768-783.e7",
+          "abstractText": "Distinct oxygenases and their oxylipin products have been shown to participate in thermogenesis by mediating physiological adaptations required to sustain body temperature. Since the role of the lipoxygenase (LOX) family in cold adaptation remains elusive, we aimed to investigate whether, and how, LOX activity is required for cold adaptation and to identify LOX-derived lipid mediators that could serve as putative cold mimetics with therapeutic potential to combat diabetes. By utilizing mass-spectrometry-based lipidomics in mice and humans, we demonstrated that cold and \u03b23-adrenergic stimulation could promote the biosynthesis and release of 12-LOX metabolites from brown adipose tissue (BAT). Moreover, 12-LOX ablation in mouse brown adipocytes impaired glucose uptake and metabolism, resulting in blunted adaptation to the cold in\u00a0vivo. The cold-induced 12-LOX product 12-HEPE was found to be a batokine that improves glucose metabolism by promoting glucose uptake into adipocytes and skeletal muscle through activation of an insulin-like intracellular signaling pathway.",
+          "affiliation": "Joslin Diabetes Center, Section on Integrative Physiology and Metabolism, Harvard Medical School, Boston, MA, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "K01DK111714",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "P30 DK036836",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "R01 DK077097",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "R01DK099511",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "R01HL106173",
+                "orderIn": 0
+              },
+              {
+                "agency": "American Diabetes Association",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "P30DK036836",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "R01 HL106173",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "R01DK102898",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "T32 DK007260",
+                "orderIn": 0
+              },
+              {
+                "agency": "American Diabetes Association Research Foundation",
+                "grantId": "1-16-PDF-063",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "F32DK102320",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Army Medical Research Acquisition Activity",
+                "grantId": "W81XWH-17-1-0428",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "BA 4925/1-1",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "F32 DK102320",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "P01GM095467",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "R01DK077097",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "T32DK007260",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Diabetes and Digestive and Kidney Diseases",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Defense",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "R21 NS087165",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "R21NS087165",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "K01 DK111714",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "R01 DK082659",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "2017/02684",
+                "orderIn": 0
+              },
+              {
+                "agency": "NHLBI NIH HHS",
+                "acronym": "HL",
+                "grantId": "F32 HL136044",
+                "orderIn": 0
+              },
+              {
+                "agency": "Israel National Road Safety Authority",
+                "grantId": "HL136044",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "P01 GM095467",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "R01 DK099511",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIDDK NIH HHS",
+                "acronym": "DK",
+                "grantId": "R01 DK102898",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutsches Zentrum f\u00fcr Herz-Kreislaufforschung",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Obesity",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Arachidonate 12-Lipoxygenase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Energy Metabolism",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Thermogenesis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adipose Tissue, Brown",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adipocytes, Brown",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cold-Shock Response",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Fat",
+              "Obesity",
+              "Brown adipose tissue",
+              "Thermogenesis",
+              "Adipocytes",
+              "Eicosapentaenoic acid",
+              "Diabetes",
+              "Lipidomic",
+              "Lipokine",
+              "12-Hepe"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "ALOX12 protein, human",
+                "registryNumber": "EC 1.13.11.31."
+              },
+              {
+                "name": "Arachidonate 12-Lipoxygenase",
+                "registryNumber": "EC 1.13.11.31"
+              },
+              {
+                "name": "Glucose",
+                "registryNumber": "IY9XDZ35W2"
+              },
+              {
+                "name": "Alox12b protein, mouse",
+                "registryNumber": "EC 1.13.11.31"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.cmet.2019.07.001"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6774888"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6774888?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.cmet.2019.07.001"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "41197629",
+                "reference": "Cell Metab. 2025 Nov 4:S1550-4131(25)00479-6. doi: 10.1016/j.cmet.2025.10.019.",
+                "type": "Erratum in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 172,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "CHEBI"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS1534333",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2020-09-03",
+          "dateOfCreation": "2019-07-30",
+          "dateOfRevision": "2025-11-06",
+          "electronicPublicationDate": "2019-07-25",
+          "firstPublicationDate": "2019-07-25",
+          "firstIndexDate": "2019-07-31",
+          "fullTextReceivedDate": "2025-02-03",
+          "embargoDate": "2020-10-01",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "20097752",
+          "source": "MED",
+          "pmid": "20097752",
+          "pmcid": "PMC2843183",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2843183"
+            ]
+          },
+          "doi": "10.1074/jbc.m109.095505",
+          "title": "Molecular identification of carnosine synthase as ATP-grasp domain-containing protein 1 (ATPGD1).",
+          "authorString": "Drozak J, Veiga-da-Cunha M, Vertommen D, Stroobant V, Van Schaftingen E.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Drozak J",
+                "lastName": "Drozak",
+                "firstName": "Jakub",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3601-3845"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Physiological Chemistry, Avenue Hippocrate 75, B-1200 Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Veiga-da-Cunha M",
+                "lastName": "Veiga-da-Cunha",
+                "firstName": "Maria",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2968-7374"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Physiological Chemistry, Avenue Hippocrate 75, B-1200 Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vertommen D",
+                "lastName": "Vertommen",
+                "firstName": "Didier",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7648-8282"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Hormone and Metabolic Research Unit, Avenue Hippocrate 75, B-1200 Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Stroobant V",
+                "lastName": "Stroobant",
+                "firstName": "Vincent",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Ludwig Institute for Cancer Research, de Duve Institute, Universit\u00e9 Catholique de Louvain, Avenue Hippocrate 75, B-1200 Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Van Schaftingen E",
+                "lastName": "Van Schaftingen",
+                "firstName": "Emile",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6199-7647"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Physiological Chemistry, Avenue Hippocrate 75, B-1200 Brussels, Belgium. Electronic address: emile.vanschaftingen@uclouvain.be."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7648-8282"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2968-7374"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3601-3845"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6199-7647"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "13",
+            "volume": "285",
+            "journalIssueId": 1717362,
+            "dateOfPublication": "2010 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2010,
+            "journal": {
+              "medlineAbbreviation": "J Biol Chem",
+              "title": "The Journal of biological chemistry",
+              "essn": "1083-351X",
+              "issn": "0021-9258",
+              "nlmid": "2985121R",
+              "isoabbreviation": "J Biol Chem"
+            },
+            "printPublicationDate": "2010-03-01"
+          },
+          "pubYear": "2010",
+          "pageInfo": "9346-9356",
+          "abstractText": "Carnosine (beta-alanyl-L-histidine) and homocarnosine (gamma-aminobutyryl-L-histidine) are abundant dipeptides in skeletal muscle and brain of most vertebrates and some invertebrates. The formation of both compounds is catalyzed by carnosine synthase, which is thought to convert ATP to AMP and inorganic pyrophosphate, and whose molecular identity is unknown. In the present work, we have purified carnosine synthase from chicken pectoral muscle about 1500-fold until only two major polypeptides of 100 and 90 kDa were present in the preparation. Mass spectrometry analysis of these polypeptides did not yield any meaningful candidate. Carnosine formation catalyzed by the purified enzyme was accompanied by a stoichiometric formation, not of AMP, but of ADP, suggesting that carnosine synthase belongs to the \"ATP-grasp family\" of ligases. A data base mining approach identified ATPGD1 as a likely candidate. As this protein was absent from chicken protein data bases, we reconstituted its sequence from a PCR-amplified cDNA and found it to fit with the 100-kDa polypeptide of the chicken carnosine synthase preparation. Mouse and human ATPGD1 were expressed in HEK293T cells, purified to homogeneity, and shown to catalyze the formation of carnosine, as confirmed by mass spectrometry, and of homocarnosine. Specificity studies carried out on all three enzymes were in agreement with published data. In particular, they acted with 15-25-fold higher catalytic efficiencies on beta-alanine than on gamma-aminobutyrate. The identification of the gene encoding carnosine synthase will help for a better understanding of the biological functions of carnosine and related dipeptides, which still remain largely unknown.",
+          "affiliation": "Laboratory of Physiological Chemistry, Avenue Hippocrate 75, B-1200 Brussels, Belgium.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chickens"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "gamma-Aminobutyric Acid",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Peptide Synthases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Alanine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Peptides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Carnosine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adenosine Monophosphate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adenosine Triphosphate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sequence Homology, Amino Acid"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Substrate Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "carnosine synthetase",
+                "registryNumber": "EC 6.3.2.11"
+              },
+              {
+                "name": "Peptides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "gamma-Aminobutyric Acid",
+                "registryNumber": "56-12-2"
+              },
+              {
+                "name": "Peptide Synthases",
+                "registryNumber": "EC 6.3.2.-"
+              },
+              {
+                "name": "Adenosine Triphosphate",
+                "registryNumber": "8L70Q75FXE"
+              },
+              {
+                "name": "Adenosine Monophosphate",
+                "registryNumber": "415SHH325A"
+              },
+              {
+                "name": "Alanine",
+                "registryNumber": "OF5P57N2ZX"
+              },
+              {
+                "name": "Carnosine",
+                "registryNumber": "8HO6PVN24W"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free after 12 months",
+                "availabilityCode": "F12",
+                "documentStyle": "pdf",
+                "site": "intl.jbc.org",
+                "url": "http://intl.jbc.org/cgi/reprint/285/13/9346.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "intl.jbc.org",
+                "url": "http://intl.jbc.org/cgi/content/abstract/285/13/9346"
+              },
+              {
+                "availability": "Free after 12 months",
+                "availabilityCode": "F12",
+                "documentStyle": "html",
+                "site": "intl.jbc.org",
+                "url": "http://intl.jbc.org/cgi/content/full/285/13/9346"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.M109.095505"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2843183"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2843183?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.m109.095505"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 162,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL",
+              "INTERPRO",
+              "OMIM",
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "refseq"
+            ]
+          },
+          "dateOfCompletion": "2010-04-26",
+          "dateOfCreation": "2010-01-26",
+          "dateOfRevision": "2021-10-20",
+          "electronicPublicationDate": "2010-01-22",
+          "firstPublicationDate": "2010-01-22",
+          "firstIndexDate": "2010-04-27",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "21870882",
+          "source": "MED",
+          "pmid": "21870882",
+          "doi": "10.1021/pr200553c",
+          "title": "Proteome of skeletal muscle lipid droplet reveals association with mitochondria and apolipoprotein a-I.",
+          "authorString": "Zhang H, Wang Y, Li J, Yu J, Pu J, Li L, Zhang H, Zhang S, Peng G, Yang F, Liu P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhang H",
+                "lastName": "Zhang",
+                "firstName": "Huina",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Laboratory of Biomacromolecules, Institute of Biophysics, Chinese Academy of Sciences, Beijing, 100101, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang Y",
+                "lastName": "Wang",
+                "firstName": "Yang",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Li J",
+                "lastName": "Li",
+                "firstName": "Jing",
+                "initials": "J"
+              },
+              {
+                "fullName": "Yu J",
+                "lastName": "Yu",
+                "firstName": "Jinhai",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2992-6785"
+                }
+              },
+              {
+                "fullName": "Pu J",
+                "lastName": "Pu",
+                "firstName": "Jing",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1851-8583"
+                }
+              },
+              {
+                "fullName": "Li L",
+                "lastName": "Li",
+                "firstName": "Linghai",
+                "initials": "L"
+              },
+              {
+                "fullName": "Zhang H",
+                "lastName": "Zhang",
+                "firstName": "Hongchao",
+                "initials": "H"
+              },
+              {
+                "fullName": "Zhang S",
+                "lastName": "Zhang",
+                "firstName": "Shuyan",
+                "initials": "S"
+              },
+              {
+                "fullName": "Peng G",
+                "lastName": "Peng",
+                "firstName": "Gong",
+                "initials": "G"
+              },
+              {
+                "fullName": "Yang F",
+                "lastName": "Yang",
+                "firstName": "Fuquan",
+                "initials": "F"
+              },
+              {
+                "fullName": "Liu P",
+                "lastName": "Liu",
+                "firstName": "Pingsheng",
+                "initials": "P"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8331-1661"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1851-8583"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2992-6785"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "10",
+            "journalIssueId": 1870769,
+            "dateOfPublication": "2011 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2011,
+            "journal": {
+              "medlineAbbreviation": "J Proteome Res",
+              "title": "Journal of proteome research",
+              "essn": "1535-3907",
+              "issn": "1535-3893",
+              "nlmid": "101128775",
+              "isoabbreviation": "J Proteome Res"
+            },
+            "printPublicationDate": "2011-10-01"
+          },
+          "pubYear": "2011",
+          "pageInfo": "4757-4768",
+          "abstractText": "The lipid droplet (LD) is a universal organelle governing the storage and turnover of neutral lipids. Mounting evidence indicates that elevated intramuscular triglyceride (IMTG) in skeletal muscle LDs is closely associated with insulin resistance and Type 2 Diabetes Mellitus (T2DM). Therefore, the identification of the skeletal muscle LD proteome will provide some clues to dissect the mechanism connecting IMTG with T2DM. In the present work, we identified 324 LD-associated proteins in mouse skeletal muscle LDs through mass spectrometry analysis. Besides lipid metabolism and membrane traffic proteins, a remarkable number of mitochondrial proteins were observed in the skeletal muscle LD proteome. Furthermore, imaging by fluorescence microscopy and transmission electronic microscopy (TEM) directly demonstrated that mitochondria closely adhere to LDs in vivo. Moreover, our results revealed for the first time that apolipoprotein A-I (apo A-I), the principal apolipoprotein of high density lipoprotein (HDL) particles, was also localized on skeletal muscle LDs. Further studies verified that apo A-I was expressed endogenously by skeletal muscle cells. In conclusion, we report the protein composition and characterization of skeletal muscle LDs and describe a novel LD-associated protein, apo A-I.",
+          "affiliation": "National Laboratory of Biomacromolecules, Institute of Biophysics, Chinese Academy of Sciences, Beijing, 100101, China.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle, Skeletal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mitochondria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Diabetes Mellitus, Type 2",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insulin Resistance"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipoproteins, HDL",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Apolipoprotein A-I",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Electron, Transmission",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Fluorescence",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Models, Biological"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adolescent"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Lipids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Lipoproteins, HDL",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Apolipoprotein A-I",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1021/pr200553c"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 160,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2011-12-16",
+          "dateOfCreation": "2011-08-30",
+          "dateOfRevision": "2011-10-07",
+          "electronicPublicationDate": "2011-09-15",
+          "firstPublicationDate": "2011-09-15",
+          "firstIndexDate": "2011-08-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "12595574",
+          "source": "MED",
+          "pmid": "12595574",
+          "doi": "10.1210/me.2002-0366",
+          "title": "Regulation of myostatin in vivo by growth and differentiation factor-associated serum protein-1: a novel protein with protease inhibitor and follistatin domains.",
+          "authorString": "Hill JJ, Qiu Y, Hewick RM, Wolfman NM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hill JJ",
+                "lastName": "Hill",
+                "firstName": "Jennifer J",
+                "initials": "JJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0031-0706"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Protein Chemistry and Proteomics, Wyeth Research, 200 Cambridge Park Drive, Cambridge, Massachusetts 02140, USA. jhill@wyeth.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qiu Y",
+                "lastName": "Qiu",
+                "firstName": "Yongchang",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1115-4681"
+                }
+              },
+              {
+                "fullName": "Hewick RM",
+                "lastName": "Hewick",
+                "firstName": "Rodney M",
+                "initials": "RM"
+              },
+              {
+                "fullName": "Wolfman NM",
+                "lastName": "Wolfman",
+                "firstName": "Neil M",
+                "initials": "NM"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0031-0706"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1115-4681"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "17",
+            "journalIssueId": 1120045,
+            "dateOfPublication": "2003 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2003,
+            "journal": {
+              "medlineAbbreviation": "Mol Endocrinol",
+              "title": "Molecular endocrinology (Baltimore, Md.)",
+              "essn": "1944-9917",
+              "issn": "0888-8809",
+              "nlmid": "8801431",
+              "isoabbreviation": "Mol Endocrinol"
+            },
+            "printPublicationDate": "2003-06-01"
+          },
+          "pubYear": "2003",
+          "pageInfo": "1144-1154",
+          "abstractText": "Myostatin, a member of the TGFbeta superfamily, is a potent and specific negative regulator of skeletal muscle mass. In serum, myostatin circulates as part of a latent complex containing myostatin propeptide and/or follistatin-related gene (FLRG). Here, we report the identification of an additional protein associated with endogenous myostatin in normal mouse and human serum, discovered by affinity purification and mass spectrometry. This protein, which we have named growth and differentiation factor-associated serum protein-1 (GASP-1), contains multiple domains associated with protease-inhibitory proteins, including a whey acidic protein domain, a Kazal domain, two Kunitz domains, and a netrin domain. GASP-1 also contains a domain homologous to the 10-cysteine repeat found in follistatin, a protein that binds and inhibits activin, another member of the TGFbeta superfamily. We have cloned mouse GASP-1 and shown that it inhibits the biological activity of mature myostatin, but not activin, in a luciferase reporter gene assay. Surprisingly, recombinant GASP-1 binds directly not only to mature myostatin, but also to the myostatin propeptide. Thus, GASP-1 represents a novel class of inhibitory TGFbeta binding proteins.",
+          "affiliation": "Department of Protein Chemistry and Proteomics, Wyeth Research, 200 Cambridge Park Drive, Cambridge, Massachusetts 02140, USA. jhill@wyeth.com.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transforming Growth Factor beta",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Intracellular Signaling Peptides and Proteins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Carrier Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protease Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Down-Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Structure, Tertiary",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tissue Distribution"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Myostatin"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Carrier Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protease Inhibitors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Intracellular Signaling Peptides and Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transforming Growth Factor beta",
+                "registryNumber": "0"
+              },
+              {
+                "name": "MSTN protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Mstn protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Myostatin",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Gprasp1 protein, mouse",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://academic.oup.com/mend/article-pdf/17/6/1144/8965118/mend1144.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1210/me.2002-0366"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 160,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL",
+              "INTERPRO",
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2003-12-18",
+          "dateOfCreation": "2003-02-22",
+          "dateOfRevision": "2020-12-08",
+          "electronicPublicationDate": "2003-02-20",
+          "firstPublicationDate": "2003-02-20",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "27830716",
+          "source": "MED",
+          "pmid": "27830716",
+          "pmcid": "PMC5103201",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC5103201"
+            ]
+          },
+          "doi": "10.1038/srep36618",
+          "title": "Metabolic alterations by indoxyl sulfate in skeletal muscle induce uremic sarcopenia in chronic kidney disease.",
+          "authorString": "Sato E, Mori T, Mishima E, Suzuki A, Sugawara S, Kurasawa N, Saigusa D, Miura D, Morikawa-Ichinose T, Saito R, Oba-Yabana I, Oe Y, Kisu K, Naganuma E, Koizumi K, Mokudai T, Niwano Y, Kudo T, Suzuki C, Takahashi N, Sato H, Abe T, Niwa T, Ito S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Sato E",
+                "lastName": "Sato",
+                "firstName": "Emiko",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    },
+                    {
+                      "affiliation": "Division of Clinical Pharmacology and Therapeutics, Tohoku University Graduate School of Pharmaceutical Sciences, Sendai, 980-8578, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mori T",
+                "lastName": "Mori",
+                "firstName": "Takefumi",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    },
+                    {
+                      "affiliation": "Division of Integrative Renal Replacement Therapy, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    },
+                    {
+                      "affiliation": "Division of Nephrology and Endocrinology, Tohoku Medical and Pharmaceutical University, Sendai, 981-8512, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mishima E",
+                "lastName": "Mishima",
+                "firstName": "Eikan",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3706-2745"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Suzuki A",
+                "lastName": "Suzuki",
+                "firstName": "Arisa",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sugawara S",
+                "lastName": "Sugawara",
+                "firstName": "Sanae",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kurasawa N",
+                "lastName": "Kurasawa",
+                "firstName": "Naho",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saigusa D",
+                "lastName": "Saigusa",
+                "firstName": "Daisuke",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9484-9870"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Integrative Genomics, Tohoku Medical Megabank Organization, Tohoku University, Sendai, 980-8573, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Miura D",
+                "lastName": "Miura",
+                "firstName": "Daisuke",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Innovation Center for Medical Redox Navigation, Kyushu University, Fukuoka, 812-8582, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Morikawa-Ichinose T",
+                "lastName": "Morikawa-Ichinose",
+                "firstName": "Tomomi",
+                "initials": "T",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2146-6286"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Innovation Center for Medical Redox Navigation, Kyushu University, Fukuoka, 812-8582, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saito R",
+                "lastName": "Saito",
+                "firstName": "Ritsumi",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Integrative Genomics, Tohoku Medical Megabank Organization, Tohoku University, Sendai, 980-8573, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Oba-Yabana I",
+                "lastName": "Oba-Yabana",
+                "firstName": "Ikuko",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    },
+                    {
+                      "affiliation": "Division of Nephrology and Endocrinology, Tohoku Medical and Pharmaceutical University, Sendai, 981-8512, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Oe Y",
+                "lastName": "Oe",
+                "firstName": "Yuji",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kisu K",
+                "lastName": "Kisu",
+                "firstName": "Kiyomi",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Naganuma E",
+                "lastName": "Naganuma",
+                "firstName": "Eri",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Koizumi K",
+                "lastName": "Koizumi",
+                "firstName": "Kenji",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mokudai T",
+                "lastName": "Mokudai",
+                "firstName": "Takayuki",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory for Redox Regulation, Tohoku University Graduate School of Dentistry, Sendai, 980-8575, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Niwano Y",
+                "lastName": "Niwano",
+                "firstName": "Yoshimi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory for Redox Regulation, Tohoku University Graduate School of Dentistry, Sendai, 980-8575, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kudo T",
+                "lastName": "Kudo",
+                "firstName": "Tai",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Primetech Co. Ltd., Tokyo, 112-0002, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Suzuki C",
+                "lastName": "Suzuki",
+                "firstName": "Chitose",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Takahashi N",
+                "lastName": "Takahashi",
+                "firstName": "Nobuyuki",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    },
+                    {
+                      "affiliation": "Division of Clinical Pharmacology and Therapeutics, Tohoku University Graduate School of Pharmaceutical Sciences, Sendai, 980-8578, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sato H",
+                "lastName": "Sato",
+                "firstName": "Hiroshi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    },
+                    {
+                      "affiliation": "Division of Clinical Pharmacology and Therapeutics, Tohoku University Graduate School of Pharmaceutical Sciences, Sendai, 980-8578, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Abe T",
+                "lastName": "Abe",
+                "firstName": "Takaaki",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Niwa T",
+                "lastName": "Niwa",
+                "firstName": "Toshimitsu",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shubun University, Ichinomiya, 491-0938, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ito S",
+                "lastName": "Ito",
+                "firstName": "Sadayoshi",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5092-3626"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9484-9870"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2146-6286"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3706-2745"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5092-3626"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6998-2909"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3289-5681"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "6",
+            "journalIssueId": 2484513,
+            "dateOfPublication": "2016 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "Sci Rep",
+              "title": "Scientific reports",
+              "essn": "2045-2322",
+              "issn": "2045-2322",
+              "nlmid": "101563288",
+              "isoabbreviation": "Sci Rep"
+            },
+            "printPublicationDate": "2016-11-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "36618",
+          "abstractText": "Sarcopenia is associated with increased morbidity and mortality in chronic kidney disease (CKD). Pathogenic mechanism of skeletal muscle loss in CKD, which is defined as uremic sarcopenia, remains unclear. We found that causative pathological mechanism of uremic sarcopenia is metabolic alterations by uremic toxin indoxyl sulfate. Imaging mass spectrometry revealed indoxyl sulfate accumulated in muscle tissue of a mouse model of CKD. Comprehensive metabolomics revealed that indoxyl sulfate induces metabolic alterations such as upregulation of glycolysis, including pentose phosphate pathway acceleration as antioxidative stress response, via nuclear factor (erythroid-2-related factor)-2. The altered metabolic flow to excess antioxidative response resulted in downregulation of TCA cycle and its effected mitochondrial dysfunction and ATP shortage in muscle cells. In clinical research, a significant inverse association between plasma indoxyl sulfate and skeletal muscle mass in CKD patients was observed. Our results indicate that indoxyl sulfate is a pathogenic factor for sarcopenia in CKD.",
+          "affiliation": "Division of Nephrology, Endocrinology and Vascular Medicine, Tohoku University Graduate School of Medicine, Sendai, 980-8574, Japan.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Muscle, Skeletal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Uremia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Indican",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Renal Insufficiency, Chronic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sarcopenia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Indican",
+                "registryNumber": "N187WK1Y1J"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/srep36618"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5103201"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5103201?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 156,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2018-05-03",
+          "dateOfCreation": "2016-11-11",
+          "dateOfRevision": "2018-11-13",
+          "electronicPublicationDate": "2016-11-10",
+          "firstPublicationDate": "2016-11-10",
+          "firstIndexDate": "2016-11-12",
+          "fullTextReceivedDate": "2020-07-09",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

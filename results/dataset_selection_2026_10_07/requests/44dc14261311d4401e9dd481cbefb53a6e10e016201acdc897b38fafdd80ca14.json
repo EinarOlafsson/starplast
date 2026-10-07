@@ -1,0 +1,4141 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22RNA-seq%22+OR+%22transcriptome%22+OR+%22transcriptomic%22+OR+%22microarray%22+OR+%22scRNA-seq%22%29+AND+TITLE_ABS%3A%28%22cell-cycle%22+OR+%22timing%22+OR+%22label%22%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:38.198922+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 42,
+    "nextCursorMark": "AoJXAygzNDM0NzM1Ng==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22RNA-seq%22+OR+%22transcriptome%22+OR+%22transcriptomic%22+OR+%22microarray%22+OR+%22scRNA-seq%22%29+AND+TITLE_ABS%3A%28%22cell-cycle%22+OR+%22timing%22+OR+%22label%22%29+sort_cited%3Ay&cursorMark=AoJXAygzNDM0NzM1Ng%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"RNA-seq\" OR \"transcriptome\" OR \"transcriptomic\" OR \"microarray\" OR \"scRNA-seq\") AND TITLE_ABS:(\"cell-cycle\" OR \"timing\" OR \"label\") sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "12929205",
+          "source": "MED",
+          "pmid": "12929205",
+          "pmcid": "PMC176545",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC176545"
+            ]
+          },
+          "doi": "10.1371/journal.pbio.0000005",
+          "title": "The transcriptome of the intraerythrocytic developmental cycle of Plasmodium falciparum.",
+          "authorString": "Bozdech Z, Llin\u00e1s M, Pulliam BL, Wong ED, Zhu J, DeRisi JL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bozdech Z",
+                "lastName": "Bozdech",
+                "firstName": "Zbynek",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9830-8446"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Biophysics, University of California, San Francisco, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Llin\u00e1s M",
+                "lastName": "Llin\u00e1s",
+                "firstName": "Manuel",
+                "initials": "M"
+              },
+              {
+                "fullName": "Pulliam BL",
+                "lastName": "Pulliam",
+                "firstName": "Brian Lee",
+                "initials": "BL"
+              },
+              {
+                "fullName": "Wong ED",
+                "lastName": "Wong",
+                "firstName": "Edith D",
+                "initials": "ED"
+              },
+              {
+                "fullName": "Zhu J",
+                "lastName": "Zhu",
+                "firstName": "Jingchun",
+                "initials": "J"
+              },
+              {
+                "fullName": "DeRisi JL",
+                "lastName": "DeRisi",
+                "firstName": "Joseph L",
+                "initials": "JL"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9830-8446"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "recommended_reviews"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "1",
+            "journalIssueId": 1197178,
+            "dateOfPublication": "2003 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2003,
+            "journal": {
+              "medlineAbbreviation": "PLoS Biol",
+              "title": "PLoS biology",
+              "essn": "1545-7885",
+              "issn": "1544-9173",
+              "nlmid": "101183755",
+              "isoabbreviation": "PLoS Biol"
+            },
+            "printPublicationDate": "2003-10-01"
+          },
+          "pubYear": "2003",
+          "pageInfo": "E5",
+          "abstractText": "Plasmodium falciparum is the causative agent of the most burdensome form of human malaria, affecting 200-300 million individuals per year worldwide. The recently sequenced genome of P. falciparum revealed over 5,400 genes, of which 60% encode proteins of unknown function. Insights into the biochemical function and regulation of these genes will provide the foundation for future drug and vaccine development efforts toward eradication of this disease. By analyzing the complete asexual intraerythrocytic developmental cycle (IDC) transcriptome of the HB3 strain of P. falciparum, we demonstrate that at least 60% of the genome is transcriptionally active during this stage. Our data demonstrate that this parasite has evolved an extremely specialized mode of transcriptional regulation that produces a continuous cascade of gene expression, beginning with genes corresponding to general cellular processes, such as protein synthesis, and ending with Plasmodium-specific functionalities, such as genes involved in erythrocyte invasion. The data reveal that genes contiguous along the chromosomes are rarely coregulated, while transcription from the plastid genome is highly coregulated and likely polycistronic. Comparative genomic hybridization between HB3 and the reference genome strain (3D7) was used to distinguish between genes not expressed during the IDC and genes not detected because of possible sequence variations. Genomic differences between these strains were found almost exclusively in the highly antigenic subtelomeric regions of chromosomes. The simple cascade of gene regulation that directs the asexual development of P. falciparum is unprecedented in eukaryotic biology. The transcriptome of the IDC resembles a \"just-in-time\" manufacturing process whereby induction of any given gene occurs once per cycle and only at a time when it is required. These data provide to our knowledge the first comprehensive view of the timing of transcription throughout the intraerythrocytic development of P. falciparum and provide a resource for the identification of new chemotherapeutic and vaccine candidates.",
+          "affiliation": "Department of Biochemistry and Biophysics, University of California, San Francisco, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "U01 AI053862",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI53862",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosomes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "UL",
+                      "qualifierName": "ultrastructure"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plastids"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromosome Mapping"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nucleic Acid Hybridization"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcription, Genetic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation, Developmental"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Open Reading Frames"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Time Factors"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Oligonucleotides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://escholarship.org/uc/item/8fm308cs"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pbio.0000005"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC176545"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC176545?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "17593892",
+                "reference": "PLoS Biol. 2005 Dec;3(12):e426. doi: 10.1371/journal.pbio.0030426",
+                "type": "Comment in",
+                "orderIn": 1
+              },
+              {
+                "source": "MED",
+                "id": "36696650",
+                "reference": "PLoS Biol. 2023 Jan 25;21(1):e3001997. doi: 10.1371/journal.pbio.3001997",
+                "type": "Comment in",
+                "orderIn": 2
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1266,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2006-01-26",
+          "dateOfCreation": "2003-08-21",
+          "dateOfRevision": "2023-01-26",
+          "electronicPublicationDate": "2003-08-18",
+          "firstPublicationDate": "2003-08-18",
+          "firstIndexDate": "2009-12-24",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "20160056",
+          "source": "MED",
+          "pmid": "20160056",
+          "pmcid": "PMC2863624",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2863624"
+            ]
+          },
+          "doi": "10.1128/aac.01636-09",
+          "title": "Increased tolerance to artemisinin in Plasmodium falciparum is mediated by a quiescence mechanism.",
+          "authorString": "Witkowski B, Leli\u00e8vre J, Barrag\u00e1n MJ, Laurent V, Su XZ, Berry A, Benoit-Vical F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Witkowski B",
+                "lastName": "Witkowski",
+                "firstName": "Benoit",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8599-6382"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "CNRS, Laboratoire de Chimie de Coordination, UPR8241, Toulouse, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Leli\u00e8vre J",
+                "lastName": "Leli\u00e8vre",
+                "firstName": "Joel",
+                "initials": "J"
+              },
+              {
+                "fullName": "Barrag\u00e1n MJ",
+                "lastName": "Barrag\u00e1n",
+                "firstName": "Mar\u00eda Jos\u00e9 L\u00f3pez",
+                "initials": "MJ"
+              },
+              {
+                "fullName": "Laurent V",
+                "lastName": "Laurent",
+                "firstName": "Victor",
+                "initials": "V"
+              },
+              {
+                "fullName": "Su XZ",
+                "lastName": "Su",
+                "firstName": "Xin-zhuan",
+                "initials": "XZ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3246-3248"
+                }
+              },
+              {
+                "fullName": "Berry A",
+                "lastName": "Berry",
+                "firstName": "Antoine",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6626-7766"
+                }
+              },
+              {
+                "fullName": "Benoit-Vical F",
+                "lastName": "Benoit-Vical",
+                "firstName": "Fran\u00e7oise",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9468-4823"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6626-7766"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8599-6382"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9468-4823"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3246-3248"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "54",
+            "journalIssueId": 1724543,
+            "dateOfPublication": "2010 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2010,
+            "journal": {
+              "medlineAbbreviation": "Antimicrob Agents Chemother",
+              "title": "Antimicrobial agents and chemotherapy",
+              "essn": "1098-6596",
+              "issn": "0066-4804",
+              "nlmid": "0315061",
+              "isoabbreviation": "Antimicrob Agents Chemother"
+            },
+            "printPublicationDate": "2010-05-01"
+          },
+          "pubYear": "2010",
+          "pageInfo": "1872-1877",
+          "abstractText": "Artemisinin (ART)-based combination therapies (ACTs) are the first-line drugs-and often the last treatments-that can effectively cure Plasmodium falciparum infections. Unfortunately, the decreased clinical efficacy of artesunate, one of the major ART derivatives, was recently reported along the Thailand-Cambodia border. Through long-term artemisinin pressure in vitro, we have obtained an ART-tolerant strain that can survive extremely high doses of ART. We showed that drug pressure could induce a subpopulation of ring stages into developmental arrest, which can explain the ART tolerance in P. falciparum. We also observed interesting transcriptomic modifications possibly associated with the acquisition of ART tolerance. These modifications include the overexpression of heat shock and erythrocyte surface proteins and the downexpression of a cell cycle regulator and a DNA biosynthesis protein. This study highlights a new phenomenon in the Plasmodium response to ART that may explain the delayed clearance of parasites after artesunate treatment observed on the Thailand-Cambodia border and that provides important information for achieving a better understanding of the mechanisms of antimalarial resistance.",
+          "affiliation": "CNRS, Laboratoire de Chimie de Coordination, UPR8241, Toulouse, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, N.I.H., Intramural",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Intramural NIH HHS",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Artemisinins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Flow Cytometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasitic Sensitivity Tests"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Inhibitory Concentration 50"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Drug Resistance, Bacterial",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cambodia"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Thailand"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Artesunate"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Artemisinins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "artesunate",
+                "registryNumber": "60W3249T9M"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "intl-aac.asm.org",
+                "url": "http://intl-aac.asm.org/cgi/content/abstract/54/5/1872"
+              },
+              {
+                "availability": "Free after 4 months",
+                "availabilityCode": "F4",
+                "documentStyle": "pdf",
+                "site": "intl-aac.asm.org",
+                "url": "http://intl-aac.asm.org/cgi/reprint/54/5/1872.pdf"
+              },
+              {
+                "availability": "Free after 4 months",
+                "availabilityCode": "F4",
+                "documentStyle": "html",
+                "site": "intl-aac.asm.org",
+                "url": "http://intl-aac.asm.org/cgi/content/full/54/5/1872"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/AAC.01636-09"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2863624"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2863624?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/aac.01636-09"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 264,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "CHEMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2010-07-22",
+          "dateOfCreation": "2010-02-18",
+          "dateOfRevision": "2026-01-28",
+          "electronicPublicationDate": "2010-02-16",
+          "firstPublicationDate": "2010-02-16",
+          "firstIndexDate": "2010-11-04",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "29094698",
+          "source": "MED",
+          "pmid": "29094698",
+          "pmcid": "PMC6055935",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6055935"
+            ]
+          },
+          "doi": "10.1038/nature24280",
+          "title": "Single-cell RNA sequencing reveals a signature of sexual commitment in malaria parasites.",
+          "authorString": "Poran A, N\u00f6tzel C, Aly O, Mencia-Trinchant N, Harris CT, Guzman ML, Hassane DC, Elemento O, Kafsack BFC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Poran A",
+                "lastName": "Poran",
+                "firstName": "Asaf",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Computational Biomedicine, Department of Physiology and Biophysics, Weill Cornell Medicine, New York, New York 10065, USA."
+                    },
+                    {
+                      "affiliation": "Caryl and Israel Englander Institute for Precision Medicine, Weill Cornell Medicine, New York, New York 10065, USA."
+                    },
+                    {
+                      "affiliation": "Physiology, Biophysics and Systems Biology Graduate Program, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "N\u00f6tzel C",
+                "lastName": "N\u00f6tzel",
+                "firstName": "Christopher",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6065-889X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biochemistry, Cell & Molecular Biology Graduate Program, Weill Cornell Medicine, New York, New York 10065, USA."
+                    },
+                    {
+                      "affiliation": "Department of Microbiology & Immunology, Weill Cornell Medicine, New York, New York, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Aly O",
+                "lastName": "Aly",
+                "firstName": "Omar",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Computational Biomedicine, Department of Physiology and Biophysics, Weill Cornell Medicine, New York, New York 10065, USA."
+                    },
+                    {
+                      "affiliation": "Caryl and Israel Englander Institute for Precision Medicine, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mencia-Trinchant N",
+                "lastName": "Mencia-Trinchant",
+                "firstName": "Nuria",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1376-8708"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Hematology & Medical Oncology, Department of Medicine, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Harris CT",
+                "lastName": "Harris",
+                "firstName": "Chantal T",
+                "initials": "CT",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology & Immunology, Weill Cornell Medicine, New York, New York, USA."
+                    },
+                    {
+                      "affiliation": "Immunology and Microbial Pathogenesis Graduate Program, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Guzman ML",
+                "lastName": "Guzman",
+                "firstName": "Monica L",
+                "initials": "ML",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Hematology & Medical Oncology, Department of Medicine, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hassane DC",
+                "lastName": "Hassane",
+                "firstName": "Duane C",
+                "initials": "DC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Computational Biomedicine, Department of Physiology and Biophysics, Weill Cornell Medicine, New York, New York 10065, USA."
+                    },
+                    {
+                      "affiliation": "Division of Hematology & Medical Oncology, Department of Medicine, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Elemento O",
+                "lastName": "Elemento",
+                "firstName": "Olivier",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Computational Biomedicine, Department of Physiology and Biophysics, Weill Cornell Medicine, New York, New York 10065, USA."
+                    },
+                    {
+                      "affiliation": "Caryl and Israel Englander Institute for Precision Medicine, Weill Cornell Medicine, New York, New York 10065, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kafsack BFC",
+                "lastName": "Kafsack",
+                "firstName": "Bj\u00f6rn F C",
+                "initials": "BFC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0089-1096"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology & Immunology, Weill Cornell Medicine, New York, New York, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6065-889X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0089-1096"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1376-8708"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "recommended_reviews",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7678",
+            "volume": "551",
+            "journalIssueId": 2613004,
+            "dateOfPublication": "2017 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2017,
+            "journal": {
+              "medlineAbbreviation": "Nature",
+              "title": "Nature",
+              "essn": "1476-4687",
+              "issn": "0028-0836",
+              "nlmid": "0410462",
+              "isoabbreviation": "Nature"
+            },
+            "printPublicationDate": "2017-11-01"
+          },
+          "pubYear": "2017",
+          "pageInfo": "95-99",
+          "abstractText": "Pathogens have to balance transmission with persistence. For Plasmodium falciparum, the most widespread and virulent malaria parasite, persistence within its human host requires continuous asexual replication within red blood cells, while its mosquito-borne transmission depends on intra-erythrocytic differentiation into non-replicating sexual stages called gametocytes. Commitment to either fate is determined during the preceding cell cycle that begins with invasion by a single, asexually committed merozoite and ends, 48\u2009hours later, with a schizont releasing newly formed merozoites, all committed to either continued asexual replication or differentiation into gametocytes. Sexual commitment requires the transcriptional activation of ap2-g (PF3D7_1222600), the master regulator of sexual development, from an epigenetically silenced state during asexual replication. AP2-G expression during this 'commitment cycle' prepares gene expression in nascent merozoites to initiate sexual development through a hitherto unknown mechanism. To maintain a persistent infection, the expression of ap2-g is limited to a sub-population of parasites (1-30%, depending on genetic background and growth conditions). As sexually committed schizonts comprise only a sub-population and are morphologically indistinguishable from their asexually committed counterparts, defining their characteristic gene expression has been difficult using traditional, bulk transcriptome profiling. Here we use highly parallel, single-cell RNA sequencing of malaria cultures undergoing sexual commitment to determine the transcriptional changes induced by AP2-G within this sub-population. By analysing more than 18,000 single parasite transcriptomes from a conditional AP2-G knockdown line and NF54 wild-type parasites at multiple stages of development, we show that sexually committed, AP2-G<sup>+</sup> mature schizonts specifically upregulate additional regulators of gene expression, including other AP2 transcription factors, histone-modifying enzymes, and regulators of nucleosome positioning. These epigenetic regulators may act to facilitate the expression and/or repression of genes that are necessary for the initiation of gametocyte development in the subsequent cell cycle.",
+          "affiliation": "Institute for Computational Biomedicine, Department of Physiology and Biophysics, Weill Cornell Medicine, New York, New York 10065, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "R01 CA194547",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nucleosomes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Histones",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Sequence Analysis, RNA"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gametogenesis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reproduction, Asexual"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Schizonts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Single-Cell Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Histones",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nucleosomes",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://europepmc.org/articles/pmc6055935?pdf=render"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature24280"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6055935"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6055935?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/nature24280"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 199,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS981626",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2018-04-03",
+          "dateOfCreation": "2017-11-03",
+          "dateOfRevision": "2018-11-13",
+          "electronicPublicationDate": "2017-09-25",
+          "firstPublicationDate": "2017-09-25",
+          "firstIndexDate": "2017-11-03",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "21628511",
+          "source": "MED",
+          "pmid": "21628511",
+          "pmcid": "PMC3186199",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3186199"
+            ]
+          },
+          "doi": "10.1074/mcp.m111.007948",
+          "title": "Sterile protective immunity to malaria is associated with a panel of novel P. falciparum antigens.",
+          "authorString": "Trieu A, Kayala MA, Burk C, Molina DM, Freilich DA, Richie TL, Baldi P, Felgner PL, Doolan DL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Trieu A",
+                "lastName": "Trieu",
+                "firstName": "Angela",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Immunology, Queensland Institute of Medical Research, Brisbane, QLD 4006, Australia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kayala MA",
+                "lastName": "Kayala",
+                "firstName": "Matthew A",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Burk C",
+                "lastName": "Burk",
+                "firstName": "Chad",
+                "initials": "C"
+              },
+              {
+                "fullName": "Molina DM",
+                "lastName": "Molina",
+                "firstName": "Douglas M",
+                "initials": "DM"
+              },
+              {
+                "fullName": "Freilich DA",
+                "lastName": "Freilich",
+                "firstName": "Daniel A",
+                "initials": "DA"
+              },
+              {
+                "fullName": "Richie TL",
+                "lastName": "Richie",
+                "firstName": "Thomas L",
+                "initials": "TL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2946-5456"
+                }
+              },
+              {
+                "fullName": "Baldi P",
+                "lastName": "Baldi",
+                "firstName": "Pierre",
+                "initials": "P"
+              },
+              {
+                "fullName": "Felgner PL",
+                "lastName": "Felgner",
+                "firstName": "Philip L",
+                "initials": "PL"
+              },
+              {
+                "fullName": "Doolan DL",
+                "lastName": "Doolan",
+                "firstName": "Denise L",
+                "initials": "DL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7354-8817"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7354-8817"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2946-5456"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "10",
+            "journalIssueId": 1863218,
+            "dateOfPublication": "2011 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2011,
+            "journal": {
+              "medlineAbbreviation": "Mol Cell Proteomics",
+              "title": "Molecular & cellular proteomics : MCP",
+              "essn": "1535-9484",
+              "issn": "1535-9476",
+              "nlmid": "101125647",
+              "isoabbreviation": "Mol Cell Proteomics"
+            },
+            "printPublicationDate": "2011-09-01"
+          },
+          "pubYear": "2011",
+          "pageInfo": "M111.007948",
+          "abstractText": "The development of an effective malaria vaccine remains a global public health priority. Less than 0.5% of the Plasmodium falciparum genome has been assessed as potential vaccine targets and candidate vaccines have been based almost exclusively on single antigens. It is possible that the failure to develop a malaria vaccine despite decades of effort might be attributed to this historic focus. To advance malaria vaccine development, we have fabricated protein microarrays representing 23% of the entire P. falciparum proteome and have probed these arrays with plasma from subjects with sterile protection or no protection after experimental immunization with radiation attenuated P. falciparum sporozoites. A panel of 19 pre-erythrocytic stage antigens was identified as strongly associated with sporozoite-induced protective immunity; 16 of these antigens were novel and 85% have been independently identified in sporozoite and/or liver stage proteomic or transcriptomic data sets. Reactivity to any individual antigen did not correlate with protection but there was a highly significant difference in the cumulative signal intensity between protected and not protected individuals. Functional annotation indicates that most of these signature proteins are involved in cell cycle/DNA processing and protein synthesis. In addition, 21 novel blood-stage specific antigens were identified. Our data provide the first evidence that sterile protective immunity against malaria is directed against a panel of novel P. falciparum antigens rather than one antigen in isolation. These results have important implications for vaccine development, suggesting that an efficacious malaria vaccine should be multivalent and targeted at a select panel of key antigens, many of which have not been previously characterized.",
+          "affiliation": "Division of Immunology, Queensland Institute of Medical Research, Brisbane, QLD 4006, Australia.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NLM NIH HHS",
+                "acronym": "LM",
+                "grantId": "5T15LM007743",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R43 AI066791",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R43AI066791",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sporozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Escherichia coli"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Recombinant Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vaccines, Attenuated"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Vaccination"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Array Analysis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cloning, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transformation, Bacterial"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmids"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Adaptive Immunity"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Vaccines, Attenuated",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Recombinant Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Malaria Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/mcp.M111.007948"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3186199"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3186199?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/mcp.m111.007948"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 120,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2012-01-30",
+          "dateOfCreation": "2011-06-02",
+          "dateOfRevision": "2021-10-20",
+          "electronicPublicationDate": "2011-05-31",
+          "firstPublicationDate": "2011-05-31",
+          "firstIndexDate": "2011-06-02",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "29985403",
+          "source": "MED",
+          "pmid": "29985403",
+          "pmcid": "PMC6037754",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6037754"
+            ]
+          },
+          "doi": "10.1038/s41467-018-04966-3",
+          "title": "Genome-wide real-time in vivo transcriptional dynamics during Plasmodium falciparum blood-stage development.",
+          "authorString": "Painter HJ, Chung NC, Sebastian A, Albert I, Storey JD, Llin\u00e1s M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Painter HJ",
+                "lastName": "Painter",
+                "firstName": "Heather J",
+                "initials": "HJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, The Pennsylvania State University, University Park, PA, 16802, USA."
+                    },
+                    {
+                      "affiliation": "Huck Center for Malaria Research, The Pennsylvania State University, University Park, PA, 16802, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chung NC",
+                "lastName": "Chung",
+                "firstName": "Neo Christopher",
+                "initials": "NC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6798-8867"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Lewis-Sigler Institute for Integrative Genomics and Department of Molecular Biology, Princeton University, Princeton, NJ, 08544, USA."
+                    },
+                    {
+                      "affiliation": "Institute of Informatics, Faculty of Mathematics, Informatics, and Mechanics, University of Warsaw, 02-097 Warsaw, Poland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sebastian A",
+                "lastName": "Sebastian",
+                "firstName": "Aswathy",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Huck Institutes of the Life Sciences, The Pennsylvania State University, University Park, PA, 16802, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Albert I",
+                "lastName": "Albert",
+                "firstName": "Istvan",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8366-984X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, The Pennsylvania State University, University Park, PA, 16802, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Storey JD",
+                "lastName": "Storey",
+                "firstName": "John D",
+                "initials": "JD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5992-402X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Lewis-Sigler Institute for Integrative Genomics and Department of Molecular Biology, Princeton University, Princeton, NJ, 08544, USA."
+                    },
+                    {
+                      "affiliation": "Center for Statistics and Machine Learning, Princeton University, Princeton, NJ, 08544, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Llin\u00e1s M",
+                "lastName": "Llin\u00e1s",
+                "firstName": "Manuel",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology, The Pennsylvania State University, University Park, PA, 16802, USA. manuel@psu.edu."
+                    },
+                    {
+                      "affiliation": "Huck Center for Malaria Research, The Pennsylvania State University, University Park, PA, 16802, USA. manuel@psu.edu."
+                    },
+                    {
+                      "affiliation": "Department of Chemistry, The Pennsylvania State University, University Park, PA, 16802, USA. manuel@psu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5992-402X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6798-8867"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8366-984X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "9",
+            "journalIssueId": 2702000,
+            "dateOfPublication": "2018 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2018,
+            "journal": {
+              "medlineAbbreviation": "Nat Commun",
+              "title": "Nature communications",
+              "essn": "2041-1723",
+              "issn": "2041-1723",
+              "nlmid": "101528555",
+              "isoabbreviation": "Nat Commun"
+            },
+            "printPublicationDate": "2018-07-01"
+          },
+          "pubYear": "2018",
+          "pageInfo": "2656",
+          "abstractText": "Genome-wide analysis of transcription in the malaria parasite Plasmodium falciparum has revealed robust variation in steady-state mRNA abundance throughout the 48-h intraerythrocytic developmental cycle (IDC), suggesting that this process is highly dynamic and tightly regulated. Here, we utilize rapid 4-thiouracil (4-TU) incorporation via pyrimidine salvage to specifically label, capture, and quantify newly-synthesized RNA transcripts at every hour throughout the IDC. This high-resolution global analysis of the transcriptome captures the timing and rate of transcription for each newly synthesized mRNA in vivo, revealing active transcription throughout all IDC stages. Using a statistical model to predict the mRNA dynamics contributing to the total mRNA abundance at each timepoint, we find varying degrees of transcription and stabilization for each mRNA corresponding to developmental transitions. Finally, our results provide new insight into co-regulation of mRNAs throughout the IDC through regulatory DNA sequence motifs, thereby expanding our understanding of P. falciparum mRNA dynamics.",
+          "affiliation": "Department of Biochemistry and Molecular Biology, The Pennsylvania State University, University Park, PA, 16802, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI133379",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcription, Genetic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genes, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Ontology"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41467-018-04966-3"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6037754"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6037754?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "35292664",
+                "reference": "Nat Commun. 2022 Mar 15;13(1):1497. doi: 10.1038/s41467-022-29067-0",
+                "type": "Erratum in",
+                "orderIn": 1
+              },
+              {
+                "source": "PPR",
+                "id": "PPR18722",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 96,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "geo",
+              "go"
+            ]
+          },
+          "dateOfCompletion": "2018-12-17",
+          "dateOfCreation": "2018-07-10",
+          "dateOfRevision": "2022-03-17",
+          "electronicPublicationDate": "2018-07-09",
+          "firstPublicationDate": "2018-07-09",
+          "firstIndexDate": "2018-07-09",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "15663925",
+          "source": "MED",
+          "pmid": "15663925",
+          "doi": "10.1016/j.jmb.2004.11.045",
+          "title": "PfMyb1, a Plasmodium falciparum transcription factor, is required for intra-erythrocytic growth and controls key genes for cell cycle regulation.",
+          "authorString": "Gissot M, Briquet S, Refour P, Boschet C, Vaquero C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Gissot M",
+                "lastName": "Gissot",
+                "firstName": "Mathieu",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0047-8189"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "INSERM U511, CHU Piti\u00e9-Salp\u00eatri\u00e8re, 91 boulevard de l'H\u00f4pital, 75013 Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Briquet S",
+                "lastName": "Briquet",
+                "firstName": "Sylvie",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6758-4096"
+                }
+              },
+              {
+                "fullName": "Refour P",
+                "lastName": "Refour",
+                "firstName": "Philippe",
+                "initials": "P"
+              },
+              {
+                "fullName": "Boschet C",
+                "lastName": "Boschet",
+                "firstName": "Charlotte",
+                "initials": "C"
+              },
+              {
+                "fullName": "Vaquero C",
+                "lastName": "Vaquero",
+                "firstName": "Catherine",
+                "initials": "C"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6758-4096"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0047-8189"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "full_text",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "346",
+            "journalIssueId": 1216425,
+            "dateOfPublication": "2005 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2005,
+            "journal": {
+              "medlineAbbreviation": "J Mol Biol",
+              "title": "Journal of molecular biology",
+              "essn": "1089-8638",
+              "issn": "0022-2836",
+              "nlmid": "2985088R",
+              "isoabbreviation": "J Mol Biol"
+            },
+            "printPublicationDate": "2005-02-01"
+          },
+          "pubYear": "2005",
+          "pageInfo": "29-42",
+          "abstractText": "During the complex life cycle of Plasmodium falciparum, divided between mosquito and human hosts, the regulation of morphologic changes implies a fine control of transcriptional regulation. Transcriptional control, however, and in particular its molecular actors, transcription factors and regulatory motifs, are as yet poorly described in Plasmodium. In order to decipher the molecular mechanisms implicated in transcriptional regulation, a transcription factor belonging to the tryptophan cluster family was studied. In a previous work, the PfMyb1 protein, contained in nuclear extracts, was shown to have DNA binding activity and to interact specifically with myb regulatory elements. We used long pfmyb1 double-stranded RNA (dsRNA) to interfere with the cognate messenger expression. Parasite cultures treated with pfmyb1 dsRNA exhibited a 40% growth inhibition when compared with either untreated cultures or cultures treated with unrelated dsRNA, and parasite mortality occurred during trophozoite to schizont transition. In addition, the pfmyb1 transcript and protein decreased by as much as 80% in treated trophozoite cultures at the time of their maximum expression. The global effect of this partial loss of transcript and protein was investigated using a thematic DNA microarray encompassing genes involved in signal transduction, cell cycle and transcriptional regulation. SAM software enabled us to identify several genes that were differentially expressed and probably directly or indirectly under the control of PfMyb1. Using chromatin immuno-precipitation, we demonstrated that PfMyb1 binds, within the parasite nuclei, to several promoters and therefore participates directly in the transcriptional regulation of the corresponding genes. This study provides the first evidence of a regulation network involving a Plasmodium transcription factor.",
+          "affiliation": "INSERM U511, CHU Piti\u00e9-Salp\u00eatri\u00e8re, 91 boulevard de l'H\u00f4pital, 75013 Paris, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cyclins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA-Binding Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Double-Stranded",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromatin Immunoprecipitation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Cycle",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genes, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Promoter Regions, Genetic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "PfPK5 protein, Plasmodium falciparum",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "DNA-Binding Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA, Double-Stranded",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cyclins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Myb1 protein, Plasmodium falciparum",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jmb.2004.11.045"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 92,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "UNIPROT"
+            ]
+          },
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2005-03-11",
+          "dateOfCreation": "2005-01-25",
+          "dateOfRevision": "2008-11-21",
+          "electronicPublicationDate": "2004-12-21",
+          "firstPublicationDate": "2004-12-21",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "19376968",
+          "source": "MED",
+          "pmid": "19376968",
+          "pmcid": "PMC2670243",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2670243"
+            ]
+          },
+          "doi": "10.1073/pnas.0811829106",
+          "title": "Statistical estimation of cell-cycle progression and lineage commitment in Plasmodium falciparum reveals a homogeneous pattern of transcription in ex vivo culture.",
+          "authorString": "Lemieux JE, Gomez-Escobar N, Feller A, Carret C, Amambua-Ngwa A, Pinches R, Day F, Kyes SA, Conway DJ, Holmes CC, Newbold CI.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lemieux JE",
+                "lastName": "Lemieux",
+                "firstName": "Jacob E",
+                "initials": "JE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Weatherall Institute of Molecular Medicine, John Radcliffe Hospital, Headington, Oxford, OX3 9DS, United Kingdom."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gomez-Escobar N",
+                "lastName": "Gomez-Escobar",
+                "firstName": "Natalia",
+                "initials": "N"
+              },
+              {
+                "fullName": "Feller A",
+                "lastName": "Feller",
+                "firstName": "Avi",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7319-5468"
+                }
+              },
+              {
+                "fullName": "Carret C",
+                "lastName": "Carret",
+                "firstName": "Celine",
+                "initials": "C"
+              },
+              {
+                "fullName": "Amambua-Ngwa A",
+                "lastName": "Amambua-Ngwa",
+                "firstName": "Alfred",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4478-3601"
+                }
+              },
+              {
+                "fullName": "Pinches R",
+                "lastName": "Pinches",
+                "firstName": "Robert",
+                "initials": "R"
+              },
+              {
+                "fullName": "Day F",
+                "lastName": "Day",
+                "firstName": "Felix",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3789-7651"
+                }
+              },
+              {
+                "fullName": "Kyes SA",
+                "lastName": "Kyes",
+                "firstName": "Sue A",
+                "initials": "SA"
+              },
+              {
+                "fullName": "Conway DJ",
+                "lastName": "Conway",
+                "firstName": "David J",
+                "initials": "DJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8711-3037"
+                }
+              },
+              {
+                "fullName": "Holmes CC",
+                "lastName": "Holmes",
+                "firstName": "Chris C",
+                "initials": "CC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6667-4943"
+                }
+              },
+              {
+                "fullName": "Newbold CI",
+                "lastName": "Newbold",
+                "firstName": "Chris I",
+                "initials": "CI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9274-3789"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7319-5468"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6667-4943"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8711-3037"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9274-3789"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3789-7651"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4478-3601"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "18",
+            "volume": "106",
+            "journalIssueId": 1620398,
+            "dateOfPublication": "2009 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2009,
+            "journal": {
+              "medlineAbbreviation": "Proc Natl Acad Sci U S A",
+              "title": "Proceedings of the National Academy of Sciences of the United States of America",
+              "essn": "1091-6490",
+              "issn": "0027-8424",
+              "nlmid": "7505876",
+              "isoabbreviation": "Proc Natl Acad Sci U S A"
+            },
+            "printPublicationDate": "2009-05-01"
+          },
+          "pubYear": "2009",
+          "pageInfo": "7559-7564",
+          "abstractText": "We have cultured Plasmodium falciparum directly from the blood of infected individuals to examine patterns of mature-stage gene expression in patient isolates. Analysis of the transcriptome of P. falciparum is complicated by the highly periodic nature of gene expression because small variations in the stage of parasite development between samples can lead to an apparent difference in gene expression values. To address this issue, we have developed statistical likelihood-based methods to estimate cell cycle progression and commitment to asexual or sexual development lineages in our samples based on microscopy and gene expression patterns. In cases subsequently matched for temporal development, we find that transcriptional patterns in ex vivo culture display little variation across patients with diverse clinical profiles and closely resemble transcriptional profiles that occur in vitro. These statistical methods, available to the research community, assist in the design and interpretation of P. falciparum expression profiling experiments where it is difficult to separate true differential expression from cell-cycle dependent expression. We reanalyze an existing dataset of in vivo patient expression profiles and conclude that previously observed discrete variation is consistent with the commitment of a varying proportion of the parasite population to the sexual development lineage.",
+          "affiliation": "Weatherall Institute of Molecular Medicine, John Radcliffe Hospital, Headington, Oxford, OX3 9DS, United Kingdom.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MC_UP_A390_1107",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MC_U190081987",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              },
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "G0500115",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Cycle",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free after 6 months",
+                "availabilityCode": "F6",
+                "documentStyle": "html",
+                "site": "www.pnas.org",
+                "url": "http://www.pnas.org/cgi/content/full/106/18/7559"
+              },
+              {
+                "availability": "Free after 6 months",
+                "availabilityCode": "F6",
+                "documentStyle": "abs",
+                "site": "www.pnas.org",
+                "url": "http://www.pnas.org/cgi/content/abstract/106/18/7559"
+              },
+              {
+                "availability": "Free after 6 months",
+                "availabilityCode": "F6",
+                "documentStyle": "pdf",
+                "site": "www.pnas.org",
+                "url": "http://www.pnas.org/cgi/reprint/106/18/7559.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.0811829106"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2670243"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2670243?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.0811829106"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "19570993",
+                "reference": "Proc Natl Acad Sci U S A. 2009 Jul 7;106(27):E70; author reply E71-2. doi: 10.1073/pnas.0904478106.",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 87,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "ARXPR"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "arrayexpress"
+            ]
+          },
+          "dateOfCompletion": "2009-05-29",
+          "dateOfCreation": "2009-04-21",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2009-04-17",
+          "firstPublicationDate": "2009-04-17",
+          "firstIndexDate": "2009-12-23",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "31795940",
+          "source": "MED",
+          "pmid": "31795940",
+          "pmcid": "PMC6889441",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6889441"
+            ]
+          },
+          "doi": "10.1186/s12864-019-6322-9",
+          "title": "Hierarchical transcriptional control regulates Plasmodium falciparum sexual differentiation.",
+          "authorString": "van Biljon R, van Wyk R, Painter HJ, Orchard L, Reader J, Niemand J, Llin\u00e1s M, Birkholtz LM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "van Biljon R",
+                "lastName": "van Biljon",
+                "firstName": "Ri\u00ebtte",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1710-0441"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Genetics and Microbiology, Institute for Sustainable Malaria Control, University of Pretoria, Private Bag x20, Hatfield, 0028, South Africa."
+                    },
+                    {
+                      "affiliation": "Department of Biochemistry & Molecular Biology and the Huck Center for Malaria Research, Pennsylvania State University, University Park, PA, 16802, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "van Wyk R",
+                "lastName": "van Wyk",
+                "firstName": "Roelof",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Genetics and Microbiology, Institute for Sustainable Malaria Control, University of Pretoria, Private Bag x20, Hatfield, 0028, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Painter HJ",
+                "lastName": "Painter",
+                "firstName": "Heather J",
+                "initials": "HJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry & Molecular Biology, the Huck Center for Malaria Research, University Park, PA, 16802, USA."
+                    },
+                    {
+                      "affiliation": "Division of Bacterial, Parasitic, and Allergenic Products, Center for Biologics Evaluation and Review, U.S. Food & Drug Administration, Silver Spring, MD, 20993, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Orchard L",
+                "lastName": "Orchard",
+                "firstName": "Lindsey",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry & Molecular Biology, the Huck Center for Malaria Research, University Park, PA, 16802, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Reader J",
+                "lastName": "Reader",
+                "firstName": "Janette",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9026-0583"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Genetics and Microbiology, Institute for Sustainable Malaria Control, University of Pretoria, Private Bag x20, Hatfield, 0028, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Niemand J",
+                "lastName": "Niemand",
+                "firstName": "Jandeli",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5672-8725"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Genetics and Microbiology, Institute for Sustainable Malaria Control, University of Pretoria, Private Bag x20, Hatfield, 0028, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Llin\u00e1s M",
+                "lastName": "Llin\u00e1s",
+                "firstName": "Manuel",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry & Molecular Biology, the Huck Center for Malaria Research, University Park, PA, 16802, USA."
+                    },
+                    {
+                      "affiliation": "Department of Chemistry, Pennsylvania State University, University Park, PA, 16802, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Birkholtz LM",
+                "lastName": "Birkholtz",
+                "firstName": "Lyn-Marie",
+                "initials": "LM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5888-2905"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry, Genetics and Microbiology, Institute for Sustainable Malaria Control, University of Pretoria, Private Bag x20, Hatfield, 0028, South Africa. lbirkholtz@up.ac.za."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5888-2905"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9026-0583"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1710-0441"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5672-8725"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "20",
+            "journalIssueId": 2887358,
+            "dateOfPublication": "2019 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2019,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2019-12-01"
+          },
+          "pubYear": "2019",
+          "pageInfo": "920",
+          "abstractText": "<h4>Background</h4>Malaria pathogenesis relies on sexual gametocyte forms of the malaria parasite to be transmitted between the infected human and the mosquito host but the molecular mechanisms controlling gametocytogenesis remains poorly understood. Here we provide a high-resolution transcriptome of Plasmodium falciparum as it commits to and develops through gametocytogenesis.<h4>Results</h4>The gametocyte-associated transcriptome is significantly different from that of the asexual parasites, with dynamic gene expression shifts characterizing early, intermediate and late-stage gametocyte development and results in differential timing for sex-specific transcripts. The transcriptional dynamics suggest strict transcriptional control during gametocytogenesis in P. falciparum, which we propose is mediated by putative regulators including epigenetic mechanisms (driving active repression of proliferation-associated processes) and a cascade-like expression of ApiAP2 transcription factors.<h4>Conclusions</h4>The gametocyte transcriptome serves as the blueprint for sexual differentiation and will be a rich resource for future functional studies on this critical stage of Plasmodium development, as the intraerythrocytic transcriptome has been for our understanding of the asexual cycle.",
+          "affiliation": "Department of Biochemistry, Genetics and Microbiology, Institute for Sustainable Malaria Control, University of Pretoria, Private Bag x20, Hatfield, 0028, South Africa.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Seventh Framework Programme",
+                "grantId": "242095",
+                "orderIn": 0
+              },
+              {
+                "agency": "South African National Research Foundation",
+                "grantId": "UID 84627",
+                "orderIn": 0
+              },
+              {
+                "agency": "South African Medical Research Council",
+                "grantId": "NA",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Germ Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcription Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gametogenesis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcription, Genetic"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sex Differentiation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reproduction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Reproduction, Asexual",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Gene expression regulation",
+              "Plasmodium",
+              "Differentiation",
+              "Malaria",
+              "Sexual development",
+              "Transcriptome",
+              "Gametocyte",
+              "Gametocytogenesis"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Transcription Factors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bmcgenomics.biomedcentral.com/track/pdf/10.1186/s12864-019-6322-9"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12864-019-6322-9"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6889441"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6889441?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR78514",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 80,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "go",
+              "interpro",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2020-04-09",
+          "dateOfCreation": "2019-12-05",
+          "dateOfRevision": "2023-10-20",
+          "electronicPublicationDate": "2019-12-03",
+          "firstPublicationDate": "2019-12-03",
+          "firstIndexDate": "2019-12-05",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "17599553",
+          "source": "MED",
+          "pmid": "17599553",
+          "doi": "10.1016/j.molbiopara.2007.05.005",
+          "title": "Genome wide gene amplifications and deletions in Plasmodium falciparum.",
+          "authorString": "Ribacke U, Mok BW, Wirta V, Normark J, Lundeberg J, Kironde F, Egwang TG, Nilsson P, Wahlgren M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ribacke U",
+                "lastName": "Ribacke",
+                "firstName": "Ulf",
+                "initials": "U",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Swedish Institute for Infectious Disease Control, SE-17182 Solna, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mok BW",
+                "lastName": "Mok",
+                "firstName": "Bobo W",
+                "initials": "BW",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3187-2736"
+                }
+              },
+              {
+                "fullName": "Wirta V",
+                "lastName": "Wirta",
+                "firstName": "Valtteri",
+                "initials": "V"
+              },
+              {
+                "fullName": "Normark J",
+                "lastName": "Normark",
+                "firstName": "Johan",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5831-4369"
+                }
+              },
+              {
+                "fullName": "Lundeberg J",
+                "lastName": "Lundeberg",
+                "firstName": "Joakim",
+                "initials": "J"
+              },
+              {
+                "fullName": "Kironde F",
+                "lastName": "Kironde",
+                "firstName": "Fred",
+                "initials": "F"
+              },
+              {
+                "fullName": "Egwang TG",
+                "lastName": "Egwang",
+                "firstName": "Thomas G",
+                "initials": "TG"
+              },
+              {
+                "fullName": "Nilsson P",
+                "lastName": "Nilsson",
+                "firstName": "Peter",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4657-8532"
+                }
+              },
+              {
+                "fullName": "Wahlgren M",
+                "lastName": "Wahlgren",
+                "firstName": "Mats",
+                "initials": "M"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5831-4369"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4657-8532"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5860-0768"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3187-2736"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "155",
+            "journalIssueId": 1449275,
+            "dateOfPublication": "2007 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2007,
+            "journal": {
+              "medlineAbbreviation": "Mol Biochem Parasitol",
+              "title": "Molecular and biochemical parasitology",
+              "essn": "1872-9428",
+              "issn": "0166-6851",
+              "nlmid": "8006324",
+              "isoabbreviation": "Mol Biochem Parasitol"
+            },
+            "printPublicationDate": "2007-09-01"
+          },
+          "pubYear": "2007",
+          "pageInfo": "33-44",
+          "abstractText": "The extent to which duplications and deletions occur in the Plasmodium falciparum genome, outside of the subtelomeres, and their contribution to the virulence of the malaria parasite is not known. Here we show the presence of multiple genome wide copy number polymorphisms (CNPs) covering 82 genes, the most extensive spanning a cumulative size of 110kilobases. CNPs were identified in both laboratory strains and fresh clinical isolates using a 70-mer oligonucleotide microarray in conjunction with fluorescent in situ hybridizations and real-time quantitative PCR. The CNPs were found on all chromosomes except on chromosomes 6 and 8 and involved a total of 50 genes with increased copy numbers and 32 genes with decreased copy numbers relative to the 3D7 parasite. The genes, amplified in up to six copies, encode molecules involved in cell cycle regulation, cell division, drug resistance, erythrocyte invasion, sexual differentiation and unknown functions. These together with previous findings, suggest that the malaria parasite employs gene duplications and deletions as general strategies to enhance its survival and spread. Further analysis of the impact of discovered genetic differences and the underlying mechanisms is likely to generate a better understanding of the biology and the virulence of the malaria parasite.",
+          "affiliation": "Swedish Institute for Infectious Disease Control, SE-17182 Solna, Sweden.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Oligonucleotide Array Sequence Analysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "In Situ Hybridization, Fluorescence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasitic Sensitivity Tests"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymerase Chain Reaction"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Amplification"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Deletion"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genotype"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Dosage"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Polymorphism, Genetic"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genome, Protozoan"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.molbiopara.2007.05.005"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 74,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2007-10-02",
+          "dateOfCreation": "2007-06-30",
+          "dateOfRevision": "2007-07-16",
+          "electronicPublicationDate": "2007-05-18",
+          "firstPublicationDate": "2007-05-18",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "26415947",
+          "source": "MED",
+          "pmid": "26415947",
+          "pmcid": "PMC4587749",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4587749"
+            ]
+          },
+          "doi": "10.1186/s13059-015-0771-5",
+          "title": "The PfAlba1 RNA-binding protein is an important regulator of translational timing in Plasmodium falciparum blood stages.",
+          "authorString": "Vembar SS, Macpherson CR, Sismeiro O, Copp\u00e9e JY, Scherf A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Vembar SS",
+                "lastName": "Vembar",
+                "firstName": "Shruthi Sridhar",
+                "initials": "SS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7497-6378"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 Biologie des Interactions H\u00f4te-Parasite, D\u00e9partement de Parasites et Insectes Vecteurs, Institut Pasteur, Paris, 75015, France. shruthi-sridhar.vembar@pasteur.fr."
+                    },
+                    {
+                      "affiliation": "CNRS, ERL 9195, Paris, 75015, France. shruthi-sridhar.vembar@pasteur.fr."
+                    },
+                    {
+                      "affiliation": "INSERM, UMR 1201, Paris, 75015, France. shruthi-sridhar.vembar@pasteur.fr."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Macpherson CR",
+                "lastName": "Macpherson",
+                "firstName": "Cameron Ross",
+                "initials": "CR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8945-9736"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 Biologie des Interactions H\u00f4te-Parasite, D\u00e9partement de Parasites et Insectes Vecteurs, Institut Pasteur, Paris, 75015, France."
+                    },
+                    {
+                      "affiliation": "CNRS, ERL 9195, Paris, 75015, France."
+                    },
+                    {
+                      "affiliation": "INSERM, UMR 1201, Paris, 75015, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sismeiro O",
+                "lastName": "Sismeiro",
+                "firstName": "Odile",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Plate-forme 2, Transcriptome et Epigenome, Institut Pasteur, Paris, 75015, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Copp\u00e9e JY",
+                "lastName": "Copp\u00e9e",
+                "firstName": "Jean-Yves",
+                "initials": "JY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Plate-forme 2, Transcriptome et Epigenome, Institut Pasteur, Paris, 75015, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Scherf A",
+                "lastName": "Scherf",
+                "firstName": "Artur",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2411-3328"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 Biologie des Interactions H\u00f4te-Parasite, D\u00e9partement de Parasites et Insectes Vecteurs, Institut Pasteur, Paris, 75015, France. artur.scherf@pasteur.fr."
+                    },
+                    {
+                      "affiliation": "CNRS, ERL 9195, Paris, 75015, France. artur.scherf@pasteur.fr."
+                    },
+                    {
+                      "affiliation": "INSERM, UMR 1201, Paris, 75015, France. artur.scherf@pasteur.fr."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7497-6378"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8945-9736"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2411-3328"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "16",
+            "journalIssueId": 2476456,
+            "dateOfPublication": "2015 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2015,
+            "journal": {
+              "medlineAbbreviation": "Genome Biol",
+              "title": "Genome biology",
+              "essn": "1474-760X",
+              "issn": "1474-7596",
+              "nlmid": "100960660",
+              "isoabbreviation": "Genome Biol"
+            },
+            "printPublicationDate": "2015-09-01"
+          },
+          "pubYear": "2015",
+          "pageInfo": "212",
+          "abstractText": "<h4>Background</h4>Transcriptome-wide ribosome occupancy studies have suggested that during the intra-erythrocytic lifecycle of Plasmodium falciparum, select mRNAs are post-transcriptionally regulated. A subset of these encodes parasite virulence factors required for invading host erythrocytes, and are currently being developed as vaccine candidates. However, the molecular mechanisms that govern post-transcriptional regulation are currently unknown.<h4>Results</h4>We explore the previously identified DNA/RNA-binding protein PfAlba1, which localizes to multiple foci in the cytoplasm of P. falciparum trophozoites. We establish that PfAlba1 is essential for asexual proliferation, and subsequently investigate parasites overexpressing epitope-tagged PfAlba1 to identify its RNA targets and effects on mRNA homeostasis and translational regulation. Using deep sequencing of affinity-purified PfAlba1-associated RNAs, we identify 1193 transcripts that directly bind to PfAlba1 in trophozoites. For 105 such transcripts, 43 % of which are uncharacterized and 13 % of which encode erythrocyte invasion components, the steady state levels significantly change at this stage, evidencing a role for PfAlba1 in maintaining mRNA homeostasis. Additionally, we discover that binding of PfAlba1 to four erythrocyte invasion mRNAs, Rap1, RhopH3, CDPK1, and AMA1, is linked to translation repression in trophozoites whereas release of these mRNAs from a PfAlba1 complex in mature stages correlates with protein synthesis.<h4>Conclusions</h4>We show that PfAlba1 binds to a sub-population of asexual stage mRNAs and fine-tunes the timing of translation. This mode of post-transcriptional regulation may be especially important for P. falciparum erythrocyte invasion components that have to be assembled into apical secretory organelles in a highly time-dependent manner towards the end of the parasite's asexual lifecycle.",
+          "affiliation": "Unit\u00e9 Biologie des Interactions H\u00f4te-Parasite, D\u00e9partement de Parasites et Insectes Vecteurs, Institut Pasteur, Paris, 75015, France. shruthi-sridhar.vembar@pasteur.fr.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "European Research Council",
+                "acronym": "ERC_",
+                "grantId": "250320",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-11-LABX0024",
+                "orderIn": 0
+              },
+              {
+                "agency": "Seventh Framework Programme",
+                "grantId": "FP7-MC-IIF-302451",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Research Council",
+                "acronym": "ERC_",
+                "grantId": "PlasmoEscape 250320",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA-Binding Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protein Biosynthesis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Trophozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "High-Throughput Nucleotide Sequencing"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "RNA-Binding Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s13059-015-0771-5"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4587749"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4587749?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "26450574",
+                "reference": "Genome Biol. 2015 Oct 08;16:221. doi: 10.1186/s13059-015-0795-x.",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 55,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject",
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2016-07-06",
+          "dateOfCreation": "2015-09-30",
+          "dateOfRevision": "2025-05-29",
+          "electronicPublicationDate": "2015-09-28",
+          "firstPublicationDate": "2015-09-28",
+          "firstIndexDate": "2015-09-30",
+          "fullTextReceivedDate": "2020-07-11",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

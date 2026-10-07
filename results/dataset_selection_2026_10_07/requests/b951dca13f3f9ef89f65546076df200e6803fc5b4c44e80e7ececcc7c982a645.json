@@ -1,0 +1,279 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Anopheles%22+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22salivary+gland%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:01.872871+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1,
+    "request": {
+      "queryString": "TITLE_ABS:\"Anopheles\" AND TITLE_ABS:(\"surfaceome\" OR \"cell-surface\" OR \"surface proteome\") AND TITLE_ABS:(\"salivary gland\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "16355869",
+          "source": "MED",
+          "pmid": "16355869",
+          "doi": "10.1007/3-211-29981-5_8",
+          "title": "Pathogenesis of Rift Valley fever virus in mosquitoes--tracheal conduits & the basal lamina as an extra-cellular barrier.",
+          "authorString": "Romoser WS, Turell MJ, Lerdthusnee K, Neira M, Dohm D, Ludwig G, Wasieloski L.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Romoser WS",
+                "lastName": "Romoser",
+                "firstName": "W S",
+                "initials": "WS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Tropical Disease Institute, Department of Biomedical Sciences, College of Osteopathic Medicine, Ohio University, Athens, Ohio 45701, USA. romoser@exchange.oucom.ohiou.edu"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Turell MJ",
+                "lastName": "Turell",
+                "firstName": "M J",
+                "initials": "MJ"
+              },
+              {
+                "fullName": "Lerdthusnee K",
+                "lastName": "Lerdthusnee",
+                "firstName": "K",
+                "initials": "K"
+              },
+              {
+                "fullName": "Neira M",
+                "lastName": "Neira",
+                "firstName": "M",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8068-5772"
+                }
+              },
+              {
+                "fullName": "Dohm D",
+                "lastName": "Dohm",
+                "firstName": "D",
+                "initials": "D"
+              },
+              {
+                "fullName": "Ludwig G",
+                "lastName": "Ludwig",
+                "firstName": "G",
+                "initials": "G"
+              },
+              {
+                "fullName": "Wasieloski L",
+                "lastName": "Wasieloski",
+                "firstName": "L",
+                "initials": "L"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8068-5772"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "19",
+            "journalIssueId": 1279369,
+            "dateOfPublication": "2005 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2005,
+            "journal": {
+              "medlineAbbreviation": "Arch Virol Suppl",
+              "title": "Archives of virology. Supplementum",
+              "issn": "0939-1983",
+              "nlmid": "9214275",
+              "isoabbreviation": "Arch Virol Suppl"
+            },
+            "printPublicationDate": "2005-01-01"
+          },
+          "pubYear": "2005",
+          "pageInfo": "89-100",
+          "abstractText": "Knowledge of the fate of an arbovirus in a mosquito is fundamental to understanding the mosquito's competence to transmit the virus. When a competent mosquito ingests viremic vertebrate blood, virus infects midgut epithelial cells and replicates, then disseminates to other tissues, including salivary glands and/or ovaries. The virus is then transmitted to the next vertebrate host horizontally via bite and/or vertically to the mosquito's offspring. Not all mosquitoes that ingest virus become infected or, if infected, transmit virus. Several \"barriers\" to arbovirus passage, and ultimately transmission, have been identified in incompetent or partially competent mosquitoes, including, among others, gut escape barriers and salivary gland infection barriers. The extra-cellular basal lamina around the midgut epithelium and the basal lamina that surrounds the salivary glands may act as such barriers. Midgut basal lamina pore sizes are significantly smaller than arboviruses and ultrastructural evidence suggests that midgut tracheae and tracheoles may provide a means for viruses to circumvent this barrier. Further, immunocytochemical evidence indicates the existence of a salivary gland infection barrier in Anopheles stephensi. The basal lamina may prevent access to mosquito cell surface virus receptors and help explain why anopheline mosquitoes are relatively incompetent arbovirus transmitters when compared to culicines.",
+          "affiliation": "Tropical Disease Institute, Department of Biomedical Sciences, College of Osteopathic Medicine, Ohio University, Athens, Ohio 45701, USA. romoser@exchange.oucom.ohiou.edu",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Research Support, U.S. Gov't, Non-P.H.S.",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "VI",
+                      "qualifierName": "virology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Trachea",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "VI",
+                      "qualifierName": "virology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Basement Membrane",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "VI",
+                      "qualifierName": "virology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "VI",
+                      "qualifierName": "virology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Culex",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "VI",
+                      "qualifierName": "virology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rift Valley fever virus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Rift Valley Fever",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/3-211-29981-5_8"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 40,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2006-02-07",
+          "dateOfCreation": "2005-12-17",
+          "dateOfRevision": "2022-04-08",
+          "firstPublicationDate": "2005-01-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

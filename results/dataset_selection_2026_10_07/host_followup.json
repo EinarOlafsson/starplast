@@ -1,0 +1,55 @@
+{
+  "publication_factors": [
+    {
+      "pmid": "42791346",
+      "doi": "10.1038/s44318-026-00911-z",
+      "title": "Clustering of host N-glycans by the microneme MIC1/4/6 complex licenses Toxoplasma rhoptry discharge.",
+      "publication_date": "2026-09-25",
+      "citations": 0,
+      "citations_per_year": 0.0,
+      "provider": "Europe PMC",
+      "as_of": "2026-10-07",
+      "admission": "pending"
+    },
+    {
+      "pmid": "41654503",
+      "doi": "10.1038/s41597-026-06792-5",
+      "title": "Comprehensive Human Red Blood Cell Membrane and Cytoplasmic Proteome Analyses.",
+      "publication_date": "2026-02-07",
+      "citations": 3,
+      "citations_per_year": 4.52779958677686,
+      "provider": "Europe PMC",
+      "as_of": "2026-10-07",
+      "admission": "pending"
+    },
+    {
+      "pmid": "28689405",
+      "doi": "10.1021/acs.jproteome.7b00025",
+      "title": "Quantitative Analysis of Human Red Blood Cell Proteome.",
+      "publication_date": "2017-07-24",
+      "citations": 268,
+      "citations_per_year": 29.115107079119575,
+      "provider": "Europe PMC",
+      "as_of": "2026-10-07",
+      "admission": "pending"
+    }
+  ],
+  "decisions": [
+    {
+      "source": "host_k562_rhoptry_screen",
+      "decision": "publication_version_review_pending",
+      "reason": "A September 2026 journal paper matches the preprint authors, question and headline screen. Supplementary-table equivalence and first-publication/version citation lineage are not verified; retain the preprint measurements and provenance."
+    },
+    {
+      "source": "host_erythrocyte_proteome",
+      "decision": "retain_fraction_data; quantitative_complement_review_pending",
+      "reason": "The 2017 study has higher annual citation rate and reports 2,650 proteins, absolute copy numbers and validation with labeled standards. The installed 2026 study reports 5,264 proteins and fraction-specific PSM counts. These quantities are not interchangeable; broad protein counts lack a common assay denominator. Admit and validate a separately labeled quantitative source before comparing defaults."
+    },
+    {
+      "source": "host_gtex_transcriptome",
+      "decision": "release_lineage_review_pending",
+      "reason": "The registry associates v10 data with the 2020 GTEx atlas publication. Preserve release identity and check the originating-publication association; citation rate of the atlas alone does not verify the v10 cell-type columns."
+    }
+  ],
+  "promotions": 0
+}

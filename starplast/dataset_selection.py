@@ -147,6 +147,13 @@ def rank_candidates(candidates, as_of: str, policy: SelectionPolicy | None = Non
 
 
 def preferred(candidates, as_of: str, policy: SelectionPolicy | None = None) -> str | None:
-    """Return the best admitted complete candidate, or None when ranking is unsupported."""
+    """Return a winner only when every admitted alternative has comparable metadata.
+
+    An admitted source with unknown citations or coverage could outrank a fully
+    described source. Report that gap instead of treating it as a loser.
+    Pending and rejected sources remain outside the admitted comparison.
+    """
     rows = rank_candidates(candidates, as_of, policy)
+    if any(r["admission"] == "accepted" and r["status"] != "ranked" for r in rows):
+        return None
     return rows[0]["dataset_id"] if rows and rows[0]["status"] == "ranked" else None

@@ -1,0 +1,1487 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22transcriptome%22+OR+%22RNA-seq%22+OR+%22expression+atlas%22+OR+%22CAGE%22+OR+%22FANTOM5%22+OR+%22GTEx%22%29+AND+TITLE_ABS%3A%28%22neuron%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:35.606030+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 2245,
+    "nextCursorMark": "AoJwgLGa46ADKDU2NDcwNzc0",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%28%22transcriptome%22+OR+%22RNA-seq%22+OR+%22expression+atlas%22+OR+%22CAGE%22+OR+%22FANTOM5%22+OR+%22GTEx%22%29+AND+TITLE_ABS%3A%28%22neuron%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgLGa46ADKDU2NDcwNzc0&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:(\"transcriptome\" OR \"RNA-seq\" OR \"expression atlas\" OR \"CAGE\" OR \"FANTOM5\" OR \"GTEx\") AND TITLE_ABS:(\"neuron\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1332650",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.28.755183",
+          "title": "Mendel, a foundation model of human genetic variation, prioritizes regulatory variants and improves gene expression prediction",
+          "authorString": "Salman A, Feng H, Wei P, Sun R, Wu L, Pan W, Wu C.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Salman A",
+                "lastName": "Salman",
+                "firstName": "Arham",
+                "initials": "A"
+              },
+              {
+                "fullName": "Feng H",
+                "lastName": "Feng",
+                "firstName": "Haonan",
+                "initials": "H"
+              },
+              {
+                "fullName": "Wei P",
+                "lastName": "Wei",
+                "firstName": "Peng",
+                "initials": "P"
+              },
+              {
+                "fullName": "Sun R",
+                "lastName": "Sun",
+                "firstName": "Ryan",
+                "initials": "R"
+              },
+              {
+                "fullName": "Wu L",
+                "lastName": "Wu",
+                "firstName": "Lang",
+                "initials": "L"
+              },
+              {
+                "fullName": "Pan W",
+                "lastName": "Pan",
+                "firstName": "Wei",
+                "initials": "W"
+              },
+              {
+                "fullName": "Wu C",
+                "lastName": "Wu",
+                "firstName": "Chong",
+                "initials": "C"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Human genome-wide association studies have identified hundreds of thousands of variant trait associations, but interpreting their mechanistic consequences at allele resolution remains a central bottleneck. DNA foundation models pretrained on genomic sequence corpora learn features predictive of regulatory activity, yet their training objectives are dominated by the conserved background common to all individuals, rather than the sparse variant sites at which human genetic variation is concentrated. Here we introduce Mendel, a DNA foundation model trained from scratch on human whole genome sequences using a variant-centric objective that concentrates supervision on allelic events within reference aligned sequence context. On held-out individuals, Mendel attains 0.984 micro-averaged SNV allele-prediction accuracy, compared with 0.311 for Evo 2. Mendel residual difficulty is selectively enriched at cis-eQTL variants, prioritizes fine-mapped causal variants (AUROC 0.731), where Evo 2 residuals performed near chance, and when converted into a cis-expression prior for modelling, improves prediction relative to an unweighted baseline in all 50 GTEx tissues.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.28.755183"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-02",
+          "firstPublicationDate": "2026-09-30",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1331413",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10975043/v1",
+          "title": "Host-gene expression across human tissues reveals cargo-specific intronic outcomes of L1-mediated retrotransposition",
+          "authorString": "Lee M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Lee M",
+                "lastName": "Lee",
+                "firstName": "Min-Gyu",
+                "initials": "M"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>Background  LINE-1 (L1) machinery mobilizes L1, Alu, SVA and cellular mRNAs, but whether these cargoes show similar relationships with host-gene transcription remains unclear. Results  Using the Genotype-Tissue Expression (GTEx) atlas as a reference for gene expression in adult human tissues, we grouped host genes into expression quartiles within each of 51 anatomical tissues. We analysed the same catalogue of inherited intronic insertions across these quartiles. We compared these patterns with those observed for reference-retained, somatic and experimentally recovered insertions. Across tissues, the median ratios of event density in the highest versus lowest expression quartiles (Q4/Q1) were 0.539 for L1, 1.112 for Alu and 2.255 for SVA. The corresponding ratios for inserted-sequence burden were 0.504, 1.127 and 2.452. Adjustment for intronic opportunity, host architecture and native intronic GC reduced L1 event depletion to a borderline association. L1 sequence burden remained depleted, and direct cargo contrasts remained significant. Cargoes also differed in occupancy, multiplicity and orientation. Reference-genome analyses distinguished event persistence from sequence persistence and included processed pseudogenes. Somatic L1 and published recovered L1\u2013Alu maps showed aspects of this divergence without germline transmission. Conclusions  Using host-gene expression as a common reference clarifies how cargoes sharing L1-associated machinery differ in their intronic distributions. Integrating event density, sequence burden and orientation separates differences in insertion abundance from those in retained sequence, revealing population cargo contrasts that measured GC content and host architecture do not fully explain.</p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10975043/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "firstPublicationDate": "2026-09-30",
+          "firstIndexDate": "2026-10-01",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1331413",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-09-30",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42822390",
+          "source": "MED",
+          "pmid": "42822390",
+          "doi": "10.1016/j.redox.2026.104416",
+          "title": "USP18/DDX5 axis ameliorates mitochondrial morphofunctional damage via OPA1 to inhibit neuronal apoptosis after traumatic brain injury.",
+          "authorString": "Zhao Y, Lei P, Li Y, Liu C, Zhang Y, Zeng C, Sun Y, Chen X, Yuan R, Fan H, Cheng S, Zhang Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhao Y",
+                "lastName": "Zhao",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lei P",
+                "lastName": "Lei",
+                "firstName": "Pan",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Y",
+                "lastName": "Li",
+                "firstName": "Yulong",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu C",
+                "lastName": "Liu",
+                "firstName": "Chengxi",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Applied Biology and Chemical Technology, Food Safety and Technology Research Centre and Research Centre for Chinese Medicine Innovation, The Hong Kong Polytechnic University, Hung Hom, Kowloon, Hong Kong Special Administrative Region of China; State Key Laboratory of Chinese Medicine and Molecular Pharmacology (Incubation) and Shenzhen Key Laboratory of Food Biological Safety Control, Hong Kong Polytechnic University Shenzhen Research Institute, Shenzhen, 518057, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yichen",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zeng C",
+                "lastName": "Zeng",
+                "firstName": "Chuan",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sun Y",
+                "lastName": "Sun",
+                "firstName": "Yangyang",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Quantitative Synthetic Biology, Shenzhen Institute of Synthetic Biology, Shenzhen Institutes of Advanced Technology, Chinese Academy of Sciences, Shenzhen, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen X",
+                "lastName": "Chen",
+                "firstName": "Xinhui",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yuan R",
+                "lastName": "Yuan",
+                "firstName": "Raorao",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fan H",
+                "lastName": "Fan",
+                "firstName": "Hengyi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cheng S",
+                "lastName": "Cheng",
+                "firstName": "Shiqi",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang Y",
+                "lastName": "Zhang",
+                "firstName": "Yan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China; Jiangxi Academy of Medical Sciences, No. 461, Bayi Road, Nanchang, China; Key Laboratory of Encephalopathy Research, Nanchang University, China; Nanchang Cranio-Cerebral Trauma Laboratory, Nanchang, Jiangxi, China. Electronic address: ndefy12388@ncu.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "97",
+            "journalIssueId": 4253582,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Redox Biol",
+              "title": "Redox biology",
+              "essn": "2213-2317",
+              "issn": "2213-2317",
+              "isoabbreviation": "Redox Biol",
+              "nlmid": "101605639"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "104416",
+          "abstractText": "<h4>Background</h4>Traumatic brain injury (TBI) is a leading cause of mortality and morbidity and a major contributor to loss of working capacity in young adults. Current therapeutic options for TBI remain limited. This study aimed to assess the potential role and therapeutic value of ubiquitin-specific protease 18 (USP18) in TBI.<h4>Methods</h4>A TBI model was established using the weight-drop model. Neuron-specific Usp18 knockout on the C57BL/6J background was generated by crossbreeding Usp18<sup>f/f</sup> and Thy1-Cre mice. A recombinant adeno-associated virus serotype 9 carrying Usp18 under control of the hSyn promoter was injected into wild-type mice. Mechanical stretch injury-exposed HT22\u202fcells subjected to a well-established stretch injury model were used to simulate TBI in vitro. The underlying molecular mechanism was explored through bulk-RNA sequencing, immunoprecipitation and mass spectrometry (MS) analysis, RNA immunoprecipitation sequencing, and RNA immunoprecipitation assays.<h4>Results</h4>Multi-omics analysis of mouse brain and RNA-seq profiling of human brain tissues indicated that the expression of the deubiquitinating enzyme USP18 was substantially decreased in hippocampal neurons. Neuron-specific overexpression of Usp18 via recombinant adeno-associated virus 9 (AAV9) led to reduced neuronal apoptosis and improved cognitive performance in mice. The RNA-seq analysis revealed that Usp18 overexpression enhanced the homeostasis of mitochondrial dynamics, ameliorated neuronal mitochondrial dysfunction, and suppressed oxidative stress injury. These results were also confirmed in a well-established mechanical stretch injury model in HT22\u202fcells. Moreover, compared with control mice, neuron-specific Usp18 knockout mice displayed more severe mitochondrial morphological disarray and neuronal damage after TBI. RNA sequencing, MS analysis, RNA immunoprecipitation sequencing, and RNA immunoprecipitation assays mechanistically revealed that USP18 directly interacted with DEAD-box helicase 5 (DDX5) and deubiquitinated and stabilized DDX5 at the K470 residue (via K48-linked ubiquitination) to increase the stability of the Opa1 mRNA, thereby impeding mitochondrial morphofunctional defects. Collectively, the results of this study reveal the protective effect of and molecular mechanism regulating USP18 in TBI pathology and reveal a novel neuron-specific USP18-DDX5-OPA1 axis involved in TBI.<h4>Conclusions</h4>We identified a USP18-promoted mechanism that maintains the homeostasis of mitochondrial dynamics through the DDX5-OPA1 axis in a TBI model; this pathway inhibits neuronal apoptosis and improves cognitive function in mice, suggesting that USP18 activation or AAV9-Usp18 delivery represents a potential therapeutic strategy for TBI.",
+          "affiliation": "The Second Affiliated Hospital, Jiangxi Medical College, Nanchang University, Nanchang, Jiangxi, 330006, China.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Traumatic brain injury",
+              "Neuronal apoptosis",
+              "Mitochondrial Dynamics",
+              "Ubiquitin-specific Protease 18",
+              "Dead-box Helicase 5"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.redox.2026.104416"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-09-29",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-10-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1330647",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.23.753551",
+          "title": "Utilizing single-cell data for per-cell type eQTL mapping in the human pancreas",
+          "authorString": "Weidekamp MA, Lorenz K, Elgamal R, HPAP Consortium, Kaestner KH, Gaulton K, Grant SF, Voight BF.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Weidekamp MA",
+                "lastName": "Weidekamp",
+                "firstName": "Mary Ann",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Lorenz K",
+                "lastName": "Lorenz",
+                "firstName": "Kim",
+                "initials": "K"
+              },
+              {
+                "fullName": "Elgamal R",
+                "lastName": "Elgamal",
+                "firstName": "Ruth",
+                "initials": "R"
+              },
+              {
+                "collectiveName": "HPAP Consortium"
+              },
+              {
+                "fullName": "Kaestner KH",
+                "lastName": "Kaestner",
+                "firstName": "Klaus",
+                "initials": "KH"
+              },
+              {
+                "fullName": "Gaulton K",
+                "lastName": "Gaulton",
+                "firstName": "Kyle",
+                "initials": "K"
+              },
+              {
+                "fullName": "Grant SF",
+                "lastName": "Grant",
+                "firstName": "Struan F.A.",
+                "initials": "SF"
+              },
+              {
+                "fullName": "Voight BF",
+                "lastName": "Voight",
+                "firstName": "Benjamin",
+                "initials": "BF"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>ABSTRACT</h4>  <h4>Aims/hypothesis</h4>  The human pancreas is a central organ for metabolic regulation that is comprised of diverse cell types that uniquely contribute to its function. Previous studies have performed expression quantitative trail loci (eQTL) discovery in either whole pancreas or in pancreatic islets, but due to differences between pancreatic cell types, this approach does not reveal cell type-specific effects. In this study, we sought to either implicate the cell type of action for known eQTLs or identify new eQTLs that may have been masked in bulk studies by performing eQTL discovery in individual pancreatic cell types. <h4>Methods</h4>  We clustered 153,018 single-cell RNA sequencing (scRNA-seq) data from 71 pancreatic islet donors from the Human Pancreas Analysis Program (HPAP). We performed eQTL discovery in six pancreatic cell types using this resource directly. We further utilized this single cell resource as a reference to deconvolute bulk pancreatic RNA sequencing data from 305 Genotype Tissue Expression (GTEx) project donors and performed eQTL discovery in four pancreatic cell types. Finally, we performed fine-mapping and co-localization of pancreatic cell type eQTLs with metabolic GWAS to connect our findings to metabolic disease risk. <h4>Results</h4>  From analyzing 71 individuals with single cell profiles, we identified 112 unique eGenes across six pancreatic cell types, 99 of which had been identified previously and 13 unique to this study. From the deconvoluted eQTLs, we identified 3,134 unique eGenes across four pancreatic cell types, 116 of which were unique to our study. Fine-mapping and co-localization of eQTLs with metabolic GWAS yielded key leads that warrant further investigation, such as the association of rs2168101 with  LMO1 expression in alpha cells.  <h4>Conclusions/interpretation</h4>  We identified new signals that were previously not found in bulk pancreatic eQTL studies and potential cell type of action for several signals that were identified previously. Although there are limitations to the power, and therefore, discoverability of this study, it provides insights into how individual pancreatic cells differently contribute to metabolic disease. <h4>RESEARCH IN CONTEXT</h4>  <h4>What is already known about this subject?</h4>  Individual pancreatic cell types have distinct functional roles that differently contribute to metabolic traits and disease risk. Expression quantitative trait loci studies (eQTLs) can help connect variants to changes in gene expression, which when paired with association studies, can implicate genes with roles in metabolic disease. Previous pancreatic eQTL studies have been carried out in whole pancreatic tissue or whole pancreatic islets, but not at individual cell type resolution. <h4>What is the key question?</h4>  By performing eQTL analyses at individual cell type resolution, can we map known eQTLs to putative cell types of action plus uncover new eQTLs that were previously undetected by bulk pancreatic studies? <h4>What are the new findings?</h4>  Across two eQTL discovery experiments, consisting of single cell data directly and deconvoluted bulk expression profiles, we identified 112 and 3,134 genes associated with an eQTL, respectively. Of these results, 13 and 116 of these genes had not previously been associated with pancreatic eQTLs and were therefore unique to our discovery effort. After co-localization with metabolic trait GWAS, we observed novel variant-to-gene connections for future follow up, such as rs2168101 for  LMO1 , an eQTL we identified in alpha cells that co-localized with fasting glucose levels.  <h4>How might this impact clinical practice in the foreseeable future?</h4>  This study provides new insights into the role of individual cells in metabolic traits, informing future studies on the role of the pancreas in conferring disease susceptibility.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.23.753551"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-30",
+          "firstPublicationDate": "2026-09-29",
+          "firstIndexDate": "2026-09-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1329371",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.25.26364057",
+          "title": "Blood transcriptomic signature associated with hypertension in females across two human cohorts",
+          "authorString": "Yang C, Lu J, Pretorius T, Camargo Tavares L, Marques F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Yang C",
+                "lastName": "Yang",
+                "firstName": "Chaoran",
+                "initials": "C"
+              },
+              {
+                "fullName": "Lu J",
+                "lastName": "Lu",
+                "firstName": "Jianan",
+                "initials": "J"
+              },
+              {
+                "fullName": "Pretorius T",
+                "lastName": "Pretorius",
+                "firstName": "Tanya",
+                "initials": "T"
+              },
+              {
+                "fullName": "Camargo Tavares L",
+                "lastName": "Camargo Tavares",
+                "firstName": "Leticia",
+                "initials": "L"
+              },
+              {
+                "fullName": "Marques F",
+                "lastName": "Marques",
+                "firstName": "Francine",
+                "initials": "F"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Background</h4>  Hypertension prevalence rises sharply in females after menopause, exceeding that of age-matched males in later life, conferring greater relative cardiovascular disease risk in females than in males. However, the underlying mechanisms remain poorly understood. <h4>Method</h4>  We studied multi-tissue RNA-sequencing data from 193 CVD-free participants aged >55 years in the GTEx database and extended the findings to 1,605 age-matched Framingham Heart Study participants. <h4>Results</h4>  We identified a dominant female hypertension co-expression signature in blood, expressed at lower levels in females with uncontrolled high blood pressure than in males (sex-by-hypertension interaction) in both cohorts. Genes contributing to this signature were enriched for post-transcriptional modification and insulin signalling and regulated by ETS family transcription factors (TFs). Ten ETS TFs showed the same female-specific hypertension association and together explained the signature\u2019s expression. Moreover, in females, but not males, lower blood signature scores were associated with a pro-inflammatory transcriptome in the artery and kidneys. <h4>Conclusions</h4>  Collectively, we identified the ETS-transcriptomic axis as a potential mechanism explaining sex differences in human hypertension. <h4>Graphic Summary</h4>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "medRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.25.26364057"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-29",
+          "firstPublicationDate": "2026-09-28",
+          "firstIndexDate": "2026-09-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42801944",
+          "source": "MED",
+          "pmid": "42801944",
+          "doi": "10.1016/j.expneurol.2026.116040",
+          "title": "Divergent and shared alterations of Notch signalling in human epilepsy and glioblastoma.",
+          "authorString": "Meshkinkhood N, Ebrahimi S, Alipour F, Noorbakhsh F, Ghadipasha M, Gharehdaghi J, Meuth SG, Speckmann EJ, Stummer W, Gorji A, Khaleghi Ghadiri M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Meshkinkhood N",
+                "lastName": "Meshkinkhood",
+                "firstName": "NoorMohammad",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shefa Neuroscience Research Center, Khatam Alanbia Hospital, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ebrahimi S",
+                "lastName": "Ebrahimi",
+                "firstName": "Safieh",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shefa Neuroscience Research Center, Khatam Alanbia Hospital, Tehran, Iran; Department of Clinical Biochemistry, Mashhad University of Medical Sciences, Mashhad, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Alipour F",
+                "lastName": "Alipour",
+                "firstName": "Fatemeh",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shefa Neuroscience Research Center, Khatam Alanbia Hospital, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Noorbakhsh F",
+                "lastName": "Noorbakhsh",
+                "firstName": "Farshid",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shefa Neuroscience Research Center, Khatam Alanbia Hospital, Tehran, Iran; Department of Immunology, School of Medicine, Tehran University of Medical Sciences, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ghadipasha M",
+                "lastName": "Ghadipasha",
+                "firstName": "Masoud",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Legal Medicine Research Center, Legal Medicine Organization, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gharehdaghi J",
+                "lastName": "Gharehdaghi",
+                "firstName": "Jaber",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Legal Medicine Research Center, Legal Medicine Organization, Tehran, Iran."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Meuth SG",
+                "lastName": "Meuth",
+                "firstName": "Sven G",
+                "initials": "SG",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurology, University of M\u00fcnster, M\u00fcnster, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Speckmann EJ",
+                "lastName": "Speckmann",
+                "firstName": "Erwin-Josef",
+                "initials": "EJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Epilepsy Research Center, University of M\u00fcnster, M\u00fcnster, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Stummer W",
+                "lastName": "Stummer",
+                "firstName": "Walter",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, University of M\u00fcnster, M\u00fcnster, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gorji A",
+                "lastName": "Gorji",
+                "firstName": "Ali",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Epilepsy Research Center, University of M\u00fcnster, M\u00fcnster, Germany; Department of Neurosurgery, University of M\u00fcnster, M\u00fcnster, Germany; Neuroscience Research center, Mashhad University of Medical Sciences, Mashhad, Iran. Electronic address: gorjial@uni-muenster.de."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Khaleghi Ghadiri M",
+                "lastName": "Khaleghi Ghadiri",
+                "firstName": "Maryam",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, University of M\u00fcnster, M\u00fcnster, Germany. Electronic address: Maryam.KhaleghiGhadiri@ukmuenster.de."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "407",
+            "journalIssueId": 4257985,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Exp Neurol",
+              "title": "Experimental neurology",
+              "essn": "1090-2430",
+              "issn": "0014-4886",
+              "isoabbreviation": "Exp Neurol",
+              "nlmid": "0370712"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "116040",
+          "abstractText": "Epilepsy and glioblastoma (GBM) share pathological features including neuroinflammation, glial activation, and disrupted cellular homeostasis; however, their systems-level molecular organization remains poorly understood. This study investigated context-dependent alterations in Notch signalling, innate immune pathways, and oxidative stress responses across human control, epileptic, and GBM brain tissues. Differential expression, correlation, and co-expression network analyses were performed using qRT-PCR data, complemented by independent GTEx and GEO transcriptomic datasets. NOTCH1 expression was increased in both epilepsy and GBM, whereas NOTCH2 was elevated specifically in GBM. GFAP and IBA1 expression increased in epilepsy, while only IBA1 remained elevated in GBM. KI67 expression was markedly increased in GBM and modestly elevated in epilepsy, while NEUN expression was reduced in GBM. KEAP1, NRF2, JAG1, NLE1, and TLR4 showed no significant differences among groups, whereas TLR3 was selectively upregulated in GBM. Despite limited differential expression of oxidative stress-related transcripts, correlation analyses revealed substantial differences in gene-gene co-expression patterns. Epilepsy showed stronger co-expression relationships among Notch, immune, and glial markers, whereas GBM exhibited greater integration of Notch, oxidative stress, and inflammatory genes. Independent GTEx and GEO datasets broadly reproduced these major disease-associated co-expression patterns. These findings suggest distinct disease-associated co-expression patterns involving Notch signalling and inflammatory, glial, and oxidative stress pathways in epilepsy and GBM that may not be evident from differential expression alone.",
+          "affiliation": "Shefa Neuroscience Research Center, Khatam Alanbia Hospital, Tehran, Iran.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Oxidative stress",
+              "Microglia",
+              "Tumour Microenvironment",
+              "Neuroimmune Signalling"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.expneurol.2026.116040"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-27",
+          "dateOfRevision": "2026-10-03",
+          "electronicPublicationDate": "2026-09-27",
+          "firstPublicationDate": "2026-09-27",
+          "firstIndexDate": "2026-09-28",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42784577",
+          "source": "MED",
+          "pmid": "42784577",
+          "pmcid": "PMC13606954",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13606954"
+            ]
+          },
+          "doi": "10.1371/journal.pcbi.1014655",
+          "title": "Glycan reachability analysis: A bottleneck-aware framework for inferring tissue-specific glycan biosynthetic potential from transcriptomics.",
+          "authorString": "Matsui Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Matsui Y",
+                "lastName": "Matsui",
+                "firstName": "Yusuke",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3977-4313"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biomedical and Health Informatics Unit, Department of Integrated Health Sciences, Nagoya University Graduate School of Medicine, Nagoya, Aichi, Japan."
+                    },
+                    {
+                      "affiliation": "Institute for Glyco-core Research (iGCORE), Nagoya University, Nagoya, Aichi, Japan."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3977-4313"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "22",
+            "journalIssueId": 4252172,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "PLoS Comput Biol",
+              "title": "PLoS computational biology",
+              "essn": "1553-7358",
+              "issn": "1553-734X",
+              "isoabbreviation": "PLoS Comput Biol",
+              "nlmid": "101238922"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e1014655",
+          "abstractText": "Glycan biosynthesis requires the coordinated expression of glycosyltransferases, modifying enzymes, and nucleotide-sugar synthesis and transport machinery. Existing computational tools predict glycan structures from gene expression using binary thresholds, losing quantitative information about relative biosynthetic capacity across tissues. Here we present glycan biosynthetic reachability analysis, which integrates expression-based Z-scores across curated pathway steps using AND/OR logic and minimum aggregation to produce continuous, tissue-comparable scores and an explicit expression-limiting step. Applied to 17,382 GTEx v8 RNA-seq samples across 54 human tissue types, reachability resolved quantitative differences hidden by presence/absence calls; for example, pancreas was 96% binary-positive for the sLeX pathway but had low median reachability (Z=-1.86). Bottleneck stability was evaluated across all 19 multi-step metrics. In independent HEK293 knockout glycomics, the minimum score contained information beyond a within-knockout permutation null but did not outperform naive mean aggregation or binary topology. Nested leave-one-knockout-out selection favored a relaxed low quantile (q\u2009=\u20090.2) rather than validating the strict minimum. Within-GTEx associations between reachability and signaling-response transcripts are reported only as transcriptomic coherence because predictors and readouts share the same RNA-seq source. The mouse tissue-glycome comparison remained null. Reachability is therefore a hypothesis-generating rank of transcriptomic potential, not a measure of enzymatic activity or glycan abundance.",
+          "affiliation": "Biomedical and Health Informatics Unit, Department of Integrated Health Sciences, Nagoya University Graduate School of Medicine, Nagoya, Aichi, Japan.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycosyltransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Polysaccharides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computational Biology",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organ Specificity",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "HEK293 Cells"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Polysaccharides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glycosyltransferases",
+                "registryNumber": "EC 2.4.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pcbi.1014655"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13606954"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13606954?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR1217489",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-09-24",
+          "dateOfCreation": "2026-09-24",
+          "dateOfRevision": "2026-09-28",
+          "electronicPublicationDate": "2026-09-24",
+          "firstPublicationDate": "2026-09-24",
+          "firstIndexDate": "2026-09-25",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1327350",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.21.753254",
+          "title": "Age-Related Remodeling of Cross-Tissue Transcriptional Coordination in the Human Motor System",
+          "authorString": "Nie H, Sakuma K.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Nie H",
+                "lastName": "Nie",
+                "firstName": "Huan",
+                "initials": "H"
+              },
+              {
+                "fullName": "Sakuma K",
+                "lastName": "Sakuma",
+                "firstName": "Kunihiro",
+                "initials": "K"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "How aging is coordinated across the anatomically distinct tissues that collectively constitute the human motor system remains unclear. Here, we integrated data from the Genotype-Tissue Expression (GTEx) project and Gene Expression Omnibus (GEO), comprising 7,145 samples from 15 human tissues spanning three functional levels of motor control, signal transmission, and peripheral execution, and reconstructed age-related transcriptional trajectories using generalized additive models. Most age-related genes were shared across multiple tissues, yet their direction of regulation, effect magnitude, and temporal trajectories showed marked tissue specificity. Despite the clear central-to-peripheral functional organization of the motor system, transcriptional aging did not follow a stable temporal sequence or spatial gradient along this functional chain. Instead, cross-tissue transcriptional synchrony progressively increased from early to mid-adulthood, reached a relatively high level around midlife, and subsequently declined in later life, a pattern supported at both the gene and pathway levels. This late-life loss of coordination was selective, prominently involving the peripheral nerve-skeletal muscle axis and multiple tissue connections involving the striatum. Our analyses indicate that transcriptional aging of the human motor system is characterized by tissue-specific responses built upon a broadly shared molecular basis of aging, together with age-dependent reorganization of cross-tissue coordination and selective late-life decoupling.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.21.753254"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-25",
+          "firstPublicationDate": "2026-09-24",
+          "firstIndexDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1325940",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10879351/v1",
+          "title": "Integrative SMR and multi-model machine learning characterize FCER1A- and INSIG1-associated phenotypes in arterial aging-related disease",
+          "authorString": "Jiang S, Xiao D, Chen Y, Kuang Y, Chen X, Li Z, Zhang C, Li J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Jiang S",
+                "lastName": "Jiang",
+                "firstName": "Shengping",
+                "initials": "S"
+              },
+              {
+                "fullName": "Xiao D",
+                "lastName": "Xiao",
+                "firstName": "Dongmei",
+                "initials": "D"
+              },
+              {
+                "fullName": "Chen Y",
+                "lastName": "Chen",
+                "firstName": "Yue",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Kuang Y",
+                "lastName": "Kuang",
+                "firstName": "Yu",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Chen X",
+                "lastName": "Chen",
+                "firstName": "Xian-gan",
+                "initials": "X"
+              },
+              {
+                "fullName": "Li Z",
+                "lastName": "Li",
+                "firstName": "Zhenyu",
+                "initials": "Z"
+              },
+              {
+                "fullName": "Zhang C",
+                "lastName": "Zhang",
+                "firstName": "Chengliang",
+                "initials": "C"
+              },
+              {
+                "fullName": "Li J",
+                "lastName": "Li",
+                "firstName": "Jing",
+                "initials": "J"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>  <bold>Background and aims</bold>  : Global population aging has made age-related cardiovascular disease an urgent public health challenge, and inflammation is closely associated with arterial aging. This study aimed to identify inflammation-related molecular features associated with arterial aging-related disease using an integrative analytical framework.  <bold>Methods</bold>  : We integrated summary-data-based Mendelian randomization (SMR), machine learning, single-cell RNA sequencing, and weighted gene co-expression network analysis. SMR used FinnGen coronary artery disease GWAS and GTEx v8 whole-blood eQTL data. Models were evaluated in GEO transcriptomic datasets; single-cell and macrophage-state analyses resolved cell-type expression patterns. Expression was assessed in serially passaged human umbilical vein endothelial cells and naturally aged C57BL/6J mice. Drug-response prediction, docking, and molecular dynamics simulations prioritized candidate compounds and assessed modeled interactions.  <bold>Results</bold>  : FCER1A and INSIG1 were preferentially expressed in macrophage populations and varied across connected macrophage states and inferred trajectories in diseased vessels. Their expression was also increased during serial-passage-associated endothelial senescence and in aged mouse arterial tissue. Computational analyses prioritized dihydrorotenone and entospletinib and supported plausible modeled interactions with the corresponding protein structures.  <bold>Conclusions</bold>  : The integrative analysis prioritized FCER1A and INSIG1 as molecular features associated with arterial aging-related disease and provided cell-type localization and experimental expression evidence. These results set the stage for follow-up mechanistic and pharmacological investigations to dissect causal relationships and explore their therapeutic relevance.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10879351/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-24",
+          "firstPublicationDate": "2026-09-23",
+          "firstIndexDate": "2026-09-24",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1325940",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-09-23",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42771094",
+          "source": "MED",
+          "pmid": "42771094",
+          "doi": "10.1007/s10522-026-10512-2",
+          "title": "Tissue-specific aging clocks map structured aging-modulatory drug-score patterns across 49 human tissue and cell-line categories.",
+          "authorString": "Zhang D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhang D",
+                "lastName": "Zhang",
+                "firstName": "Dongdong",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wuwei Center for Disease Control and Prevention, Wuwei, Gansu, China. mcmojiepan@gmail.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "27",
+            "journalIssueId": 4252061,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Biogerontology",
+              "title": "Biogerontology",
+              "essn": "1573-6768",
+              "issn": "1389-5729",
+              "isoabbreviation": "Biogerontology",
+              "nlmid": "100930043"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "163",
+          "abstractText": "Aging clocks are typically trained on pooled multi-tissue data, implicitly assuming that aging is uniform across organs. Here we challenge this assumption by constructing 49 transcriptomic clocks across 47 tissue types and 2 cell-line categories from GTEx v8 (948 unique donors contributing to the retained clock categories) using donor-grouped cross-validation. Clocks achieved a median Pearson r of 0.543 (best: artery aorta, r = 0.855). We identified 10,253 unique clock genes, of which 69.2% appeared in only one tissue; however, null simulation confirmed that this low overlap is the expected consequence of sparse elastic-net selection rather than biological tissue-specificity. We then projected 3,926 LINCS L1000 compound-name entries onto each clock to build a drug \u00d7 category age-reversal matrix. At a permissive threshold (|score|>\u20091.0), 94.2% of drugs showed mixed score directions (positive in some categories and negative in others). This permissive mixed-direction proportion was descriptive and did not itself exceed shuffled expectations. Under a more stringent exploratory criterion requiring |score|>\u20092.0 in at least three categories in each direction, 2.8% of compound entries showed pronounced bidirectional divergence, compared with approximately 0.1% under the shuffled null. Compound rankings remained stable when analysis was restricted to the 34 clocks with r \u2265 0.5 (Spearman \u03c1 = 0.897 versus the full analysis). A Jaccard-based enrichment statistic yielded highly concordant compound rankings (median per-category Spearman \u03c1 = 0.961), indicating that results were not artifacts of the enrichment method. After Benjamini-Hochberg FDR correction across all 192,374 drug-category pairs, only 0.79% reached FDR < 0.05, indicating that individual drug-category calls require caution. Rapamycin showed net pro-aging transcriptional signatures in our system; we explicitly emphasize that transcriptome-based scores and organismal lifespan are distinct endpoints. DepMap CRISPR analysis was repeated after GTEx-based standardization across 13 matched categories, although individual gene-level results were limited. Four statistical robustness tests confirmed model stability. These findings describe category-associated drug-score patterns and provide a tissue-aware resource for generating hypotheses about drug responses, while cautioning against over-interpretation of individual drug-category predictions without experimental validation.",
+          "affiliation": "Wuwei Center for Disease Control and Prevention, Wuwei, Gansu, China. mcmojiepan@gmail.com.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organ Specificity"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Biological Clocks",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Tissue-specific",
+              "Drug Repurposing",
+              "Gtex",
+              "Aging Clock",
+              "Lincs L1000",
+              "Drug Heterogeneity"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s10522-026-10512-2"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-09-22",
+          "dateOfCreation": "2026-09-22",
+          "dateOfRevision": "2026-09-22",
+          "electronicPublicationDate": "2026-09-22",
+          "firstPublicationDate": "2026-09-22",
+          "firstIndexDate": "2026-09-23",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,3224 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Anopheles%22+AND+TITLE_ABS%3A%28%22transcriptome%22+OR+%22RNA-seq%22+OR+%22expression+atlas%22+OR+%22CAGE%22+OR+%22FANTOM5%22+OR+%22GTEx%22%29+AND+TITLE_ABS%3A%28%22salivary+gland%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:59:03.767036+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 30,
+    "nextCursorMark": "AoJwgKqzhfwCKDQ0NTU2MTMw",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Anopheles%22+AND+TITLE_ABS%3A%28%22transcriptome%22+OR+%22RNA-seq%22+OR+%22expression+atlas%22+OR+%22CAGE%22+OR+%22FANTOM5%22+OR+%22GTEx%22%29+AND+TITLE_ABS%3A%28%22salivary+gland%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgKqzhfwCKDQ0NTU2MTMw&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Anopheles\" AND TITLE_ABS:(\"transcriptome\" OR \"RNA-seq\" OR \"expression atlas\" OR \"CAGE\" OR \"FANTOM5\" OR \"GTEx\") AND TITLE_ABS:(\"salivary gland\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "40164831",
+          "source": "MED",
+          "pmid": "40164831",
+          "pmcid": "PMC11964930",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11964930"
+            ]
+          },
+          "doi": "10.1038/s41564-025-01949-1",
+          "title": "Parasite and vector circadian clocks mediate efficient malaria transmission.",
+          "authorString": "Bento I, Parrington BA, Pascual R, Goldberg AS, Wang E, Liu H, Borrmann H, Zelle M, Coburn N, Takahashi JS, Elias JE, Mota MM, Rijo-Ferreira F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bento I",
+                "lastName": "Bento",
+                "firstName": "In\u00eas",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1049-1443"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Gulbenkian Institute for Molecular Medicine, Lisbon, Portugal."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Parrington BA",
+                "lastName": "Parrington",
+                "firstName": "Brianna A",
+                "initials": "BA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8516-7875"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pascual R",
+                "lastName": "Pascual",
+                "firstName": "Rushlenne",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Goldberg AS",
+                "lastName": "Goldberg",
+                "firstName": "Alexander S",
+                "initials": "AS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0003-4982-9661"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang E",
+                "lastName": "Wang",
+                "firstName": "Eileen",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Chan Zuckerberg Biohub - San Francisco, San Francisco, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu H",
+                "lastName": "Liu",
+                "firstName": "Hani",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Borrmann H",
+                "lastName": "Borrmann",
+                "firstName": "Helene",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7269-7925"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zelle M",
+                "lastName": "Zelle",
+                "firstName": "Mira",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0003-5209-6905"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coburn N",
+                "lastName": "Coburn",
+                "firstName": "Nicholas",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0006-5144-8907"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Takahashi JS",
+                "lastName": "Takahashi",
+                "firstName": "Joseph S",
+                "initials": "JS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0384-8878"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neuroscience, Peter O'Donnell Jr. Brain Institute, University of Texas Southwestern Medical Center Dallas, Dallas, TX, USA."
+                    },
+                    {
+                      "affiliation": "Howard Hughes Medical Institute, University of Texas Southwestern Medical Center Dallas, Dallas, TX, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Elias JE",
+                "lastName": "Elias",
+                "firstName": "Joshua E",
+                "initials": "JE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8063-3259"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Chan Zuckerberg Biohub - San Francisco, San Francisco, CA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mota MM",
+                "lastName": "Mota",
+                "firstName": "Maria M",
+                "initials": "MM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2858-1041"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Gulbenkian Institute for Molecular Medicine, Lisbon, Portugal."
+                    },
+                    {
+                      "affiliation": "Faculdade de Medicina da Universidade de Lisboa, Lisbon, Portugal."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rijo-Ferreira F",
+                "lastName": "Rijo-Ferreira",
+                "firstName": "Filipa",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4003-020X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Berkeley Public Health, Molecular and Cell Biology Department, University of California Berkeley, Berkeley, CA, USA. filipaferreira@berkeley.edu."
+                    },
+                    {
+                      "affiliation": "Chan Zuckerberg Biohub - San Francisco, San Francisco, CA, USA. filipaferreira@berkeley.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7269-7925"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1049-1443"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2858-1041"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4003-020X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8063-3259"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8516-7875"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0384-8878"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0003-4982-9661"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0003-5209-6905"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0006-5144-8907"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "10",
+            "journalIssueId": 3923317,
+            "dateOfPublication": "2025 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Nat Microbiol",
+              "title": "Nature microbiology",
+              "essn": "2058-5276",
+              "issn": "2058-5276",
+              "nlmid": "101674869",
+              "isoabbreviation": "Nat Microbiol"
+            },
+            "printPublicationDate": "2025-04-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "882-896",
+          "abstractText": "Malaria transmission begins when Anopheles mosquitos deposit saliva and Plasmodium parasites during a bloodmeal. As Anopheles mosquitos are nocturnal, we investigated whether their salivary glands are under circadian control, anticipating bloodmeals and modulating parasite biology for host encounters. Here we show that approximately half of the mosquito salivary gland transcriptome, particularly genes essential for efficient bloodmeals such as anti-blood clotting factors, exhibits circadian expression. Furthermore, measuring haemoglobin levels, we demonstrate that mosquitos prefer to feed and ingest more blood at nighttime. Notably, we show a substantial subset of the salivary-gland-resident parasite transcriptome cycling throughout the day, indicating that this stage is not transcriptionally quiescent. Among the sporozoite genes undergoing rhythmic expression are those involved in parasite motility, potentially modulating the ability to initiate infection at different times of day. Our findings suggest a circadian tripartite relationship between the vector, parasite and mammalian host that together modulates malaria transmission.",
+          "affiliation": "Gulbenkian Institute for Molecular Medicine, Lisbon, Portugal.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "U.S. Department of Health & Human Services | NIH | National Institute of General Medical Sciences (NIGMS)",
+                "grantId": "1K99GM132557",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "K99 GM132557",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Molecular Biology Organization",
+                "grantId": "ALTF-84-2023",
+                "orderIn": 0
+              },
+              {
+                "agency": "\"la Caixa\" Foundation (Caixa Foundation)",
+                "grantId": "HR17-00264-PoEMM",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute (HHMI)",
+                "grantId": "emerging pathogens initiative",
+                "orderIn": 0
+              },
+              {
+                "agency": "Kinship Foundation",
+                "grantId": "searle scholars",
+                "orderIn": 0
+              },
+              {
+                "agency": "&quot;la Caixa&quot; Foundation",
+                "grantId": "HR17-00264-PoEMM",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R00 GM132557",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "grantId": "emerging pathogens initiative",
+                "orderIn": 0
+              },
+              {
+                "agency": "L\u00d3r\u00e9al-UNESCO",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health &amp; Human Services | NIH | National Institute of General Medical Sciences",
+                "grantId": "1K99GM132557",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Molecular Biology Organization (EMBO)",
+                "grantId": "ALTF-84-2023",
+                "orderIn": 0
+              },
+              {
+                "agency": "University of California Global Health Institute",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sporozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Circadian Rhythm"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Circadian Clocks",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mosquito Vectors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41564-025-01949-1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11964930"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11964930?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 9,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-05-15",
+          "dateOfCreation": "2025-03-31",
+          "dateOfRevision": "2026-03-06",
+          "electronicPublicationDate": "2025-03-31",
+          "firstPublicationDate": "2025-03-31",
+          "firstIndexDate": "2025-04-02",
+          "fullTextReceivedDate": "2025-11-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR853186",
+          "source": "PPR",
+          "doi": "10.1101/2024.05.14.594221",
+          "title": "Circadian rhythms mediate malaria transmission potential",
+          "authorString": "Bento I, Parrington B, Pascual R, Goldberg AS, Wang E, Liu H, Zelle M, Takahashi JS, Elias JE, Mota MM, Rijo-Ferreira F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bento I",
+                "lastName": "Bento",
+                "firstName": "In\u00eas",
+                "initials": "I"
+              },
+              {
+                "fullName": "Parrington B",
+                "lastName": "Parrington",
+                "firstName": "Brianna",
+                "initials": "B"
+              },
+              {
+                "fullName": "Pascual R",
+                "lastName": "Pascual",
+                "firstName": "Rushlenne",
+                "initials": "R"
+              },
+              {
+                "fullName": "Goldberg AS",
+                "lastName": "Goldberg",
+                "firstName": "Alexander",
+                "initials": "AS"
+              },
+              {
+                "fullName": "Wang E",
+                "lastName": "Wang",
+                "firstName": "Eileen",
+                "initials": "E"
+              },
+              {
+                "fullName": "Liu H",
+                "lastName": "Liu",
+                "firstName": "Hani",
+                "initials": "H"
+              },
+              {
+                "fullName": "Zelle M",
+                "lastName": "Zelle",
+                "firstName": "Mira",
+                "initials": "M"
+              },
+              {
+                "fullName": "Takahashi JS",
+                "lastName": "Takahashi",
+                "firstName": "Joseph",
+                "initials": "JS"
+              },
+              {
+                "fullName": "Elias JE",
+                "lastName": "Elias",
+                "firstName": "Joshua",
+                "initials": "JE"
+              },
+              {
+                "fullName": "Mota MM",
+                "lastName": "Mota",
+                "firstName": "Maria",
+                "initials": "MM"
+              },
+              {
+                "fullName": "Rijo-Ferreira F",
+                "lastName": "Rijo-Ferreira",
+                "firstName": "Filipa",
+                "initials": "F"
+              }
+            ]
+          },
+          "pubYear": "2024",
+          "abstractText": "Malaria transmission begins when infected female  Anopheles mosquitos deposit  Plasmodium parasites into the mammalian host\u2019s skin during a bloodmeal. The salivary gland-resident sporozoite parasites migrate to the bloodstream, subsequently invading and replicating within hepatocytes. As  Anopheles mosquitos are more active at night, with a 24-hour rhythm, we investigated whether their salivary glands are under circadian control, anticipating bloodmeals and modulating sporozoite biology for host encounters. Here we show that approximately half of the mosquito salivary gland transcriptome, particularly genes essential for efficient bloodmeals such as anti-blood clotting factors, exhibits circadian rhythmic expression. Furthermore, we demonstrate that mosquitoes prefer to feed during nighttime, with the amount of blood ingested varying cyclically throughout the day. Notably, we show a substantial subset of the sporozoite transcriptome cycling throughout the day. These include genes involved in parasite motility, potentially modulating the ability to initiate infection at different times of day. Thus, although sporozoites are typically considered quiescent, our results demonstrate their transcriptional activity, revealing robust daily rhythms of gene expression. Our findings suggest a circadian evolutionary relationship between the vector, parasite and mammalian host that together modulate malaria transmission.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2024
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1101/2024.05.14.594221"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2024-05-17",
+          "firstPublicationDate": "2024-05-14",
+          "firstIndexDate": "2024-05-17",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38582836",
+          "source": "MED",
+          "pmid": "38582836",
+          "pmcid": "PMC10998338",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10998338"
+            ]
+          },
+          "doi": "10.1186/s12864-024-10261-x",
+          "title": "Transcriptomic analysis of Anopheles gambiae from Benin reveals overexpression of salivary and cuticular proteins associated with cross-resistance to pyrethroids and organophosphates.",
+          "authorString": "Saizonou H, Impoinvil LM, Derilus D, Omoke D, Okeyo S, Dada N, Corredor C, Mulder N, Lenhart A, Ochomo E, Djogb\u00e9nou LS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Saizonou H",
+                "lastName": "Saizonou",
+                "firstName": "Helga",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0780-8657"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Tropical Infectious Diseases Research Centre (TIDRC), University of Abomey-Calavi (UAC), Abomey-Calavi, Benin. daniellamodukpe@gmail.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Impoinvil LM",
+                "lastName": "Impoinvil",
+                "firstName": "Lucy Mackenzie",
+                "initials": "LM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, GA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Derilus D",
+                "lastName": "Derilus",
+                "firstName": "Dieunel",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, GA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Omoke D",
+                "lastName": "Omoke",
+                "firstName": "Diana",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Okeyo S",
+                "lastName": "Okeyo",
+                "firstName": "Stephen",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2842-713X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dada N",
+                "lastName": "Dada",
+                "firstName": "Nsa",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5276-2328"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Tropical Infectious Diseases Research Centre (TIDRC), University of Abomey-Calavi (UAC), Abomey-Calavi, Benin."
+                    },
+                    {
+                      "affiliation": "School of Life Sciences, Arizona State University, Tempe, AZ, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Corredor C",
+                "lastName": "Corredor",
+                "firstName": "Claudia",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, GA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mulder N",
+                "lastName": "Mulder",
+                "firstName": "Nicola",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Human, Heredity, and Health in Africa H3ABionet network, Cape Town, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lenhart A",
+                "lastName": "Lenhart",
+                "firstName": "Audrey",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, GA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ochomo E",
+                "lastName": "Ochomo",
+                "firstName": "Eric",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya."
+                    },
+                    {
+                      "affiliation": "Department of Vector Biology, Liverpool School of Tropical Medicine, Liverpool, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Djogb\u00e9nou LS",
+                "lastName": "Djogb\u00e9nou",
+                "firstName": "Luc S",
+                "initials": "LS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7381-6321"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Tropical Infectious Diseases Research Centre (TIDRC), University of Abomey-Calavi (UAC), Abomey-Calavi, Benin. ldjogbenou22002@yahoo.fr."
+                    },
+                    {
+                      "affiliation": "Regional Institute of Public Health (IRSP), Ouidah, Benin. ldjogbenou22002@yahoo.fr."
+                    },
+                    {
+                      "affiliation": "Department of Vector Biology, Liverpool School of Tropical Medicine, Liverpool, UK. ldjogbenou22002@yahoo.fr."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0780-8657"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5276-2328"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7381-6321"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2842-713X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "25",
+            "journalIssueId": 3747281,
+            "dateOfPublication": "2024 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2024-04-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "348",
+          "abstractText": "<h4>Background</h4>Insecticide resistance (IR) is one of the major threats to malaria vector control programs in endemic countries. However, the mechanisms underlying IR are poorly understood. Thus, investigating gene expression patterns related to IR can offer important insights into the molecular basis of IR in mosquitoes. In this study, RNA-Seq was used to characterize gene expression in Anopheles gambiae surviving exposure to pyrethroids (deltamethrin, alphacypermethrin) and an organophosphate (pirimiphos-methyl).<h4>Results</h4>Larvae of An. gambiae s.s. collected from Bassila and Djougou in Benin were reared to adulthood and phenotyped for IR using a modified CDC intensity bottle bioassay. The results showed that mosquitoes from Djougou were more resistant to pyrethroids (5X deltamethrin: 51.7% mortality; 2X alphacypermethrin: 47.4%) than Bassila (1X deltamethrin: 70.7%; 1X alphacypermethrin: 77.7%), while the latter were more resistant to pirimiphos-methyl (1.5X: 48.3% in Bassila and 1X: 21.5% in Djougou). RNA-seq was then conducted on resistant mosquitoes, non-exposed mosquitoes from the same locations and the laboratory-susceptible An. gambiae s.s. Kisumu strain. The results showed overexpression of detoxification genes, including cytochrome P450s (CYP12F2, CYP12F3, CYP4H15, CYP4H17, CYP6Z3, CYP9K1, CYP4G16, and CYP4D17), carboxylesterase genes (COEJHE5E, COE22933) and glutathione S-transferases (GSTE2 and GSTMS3) in all three resistant mosquito groups analyzed. Genes encoding cuticular proteins (CPR130, CPR10, CPR15, CPR16, CPR127, CPAP3-C, CPAP3-B, and CPR76) were also overexpressed in all the resistant groups, indicating their potential role in cross resistance in An. gambiae. Salivary gland protein genes related to 'salivary cysteine-rich peptide' and 'salivary secreted mucin 3' were also over-expressed and shared across all resistant groups.<h4>Conclusion</h4>Our results suggest that in addition to metabolic enzymes, cuticular and salivary gland proteins could play an important role in cross-resistance to multiple classes of insecticides in Benin. These genes warrant further investigation to validate their functional role in An. gambiae resistance to insecticides.",
+          "affiliation": "Tropical Infectious Diseases Research Centre (TIDRC), University of Abomey-Calavi (UAC), Abomey-Calavi, Benin. daniellamodukpe@gmail.com.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Pyrethrins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Nitriles"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Insecticides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insecticide Resistance",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Benin"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organophosphates",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mosquito Vectors"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Insecticide resistance",
+              "Differential gene expression",
+              "Rna-seq",
+              "Vector Surveillance",
+              "An. Gambiae"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Nitriles",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Insecticides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Pyrethrins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Organophosphates",
+                "registryNumber": "0"
+              },
+              {
+                "name": "cypermethrin",
+                "registryNumber": "1TR49121NP"
+              },
+              {
+                "name": "decamethrin",
+                "registryNumber": "2JTS8R821G"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bmcgenomics.biomedcentral.com/counter/pdf/10.1186/s12864-024-10261-x"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12864-024-10261-x"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10998338"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10998338?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR737226",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 11,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gca",
+              "go",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2024-04-08",
+          "dateOfCreation": "2024-04-06",
+          "dateOfRevision": "2024-04-09",
+          "electronicPublicationDate": "2024-04-06",
+          "firstPublicationDate": "2024-04-06",
+          "firstIndexDate": "2024-04-07",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38532318",
+          "source": "MED",
+          "pmid": "38532318",
+          "pmcid": "PMC10967204",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10967204"
+            ]
+          },
+          "doi": "10.1186/s12864-024-10182-9",
+          "title": "Whole transcriptomic analysis reveals overexpression of salivary gland and cuticular proteins genes in insecticide-resistant Anopheles arabiensis from Western Kenya.",
+          "authorString": "Omoke D, Impoinvil LM, Derilus D, Okeyo S, Saizonou H, Mulder N, Dada N, Lenhart A, Djogb\u00e9nou L, Ochomo E.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Omoke D",
+                "lastName": "Omoke",
+                "firstName": "Diana",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya. dianaomoke@gmail.com."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Impoinvil LM",
+                "lastName": "Impoinvil",
+                "firstName": "Lucy Mackenzie",
+                "initials": "LM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Derilus D",
+                "lastName": "Derilus",
+                "firstName": "Dieunel",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Okeyo S",
+                "lastName": "Okeyo",
+                "firstName": "Stephen",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2842-713X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saizonou H",
+                "lastName": "Saizonou",
+                "firstName": "Helga",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0780-8657"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "University of Abomey Calavi (UAC), Abomey Calavi, Benin."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mulder N",
+                "lastName": "Mulder",
+                "firstName": "Nicola",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4905-0941"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "University of Cape Town ZA, Cape Town, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dada N",
+                "lastName": "Dada",
+                "firstName": "Nsa",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5276-2328"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Life Sciences, Arizona State University, Tempe, AZ, USA."
+                    },
+                    {
+                      "affiliation": "Tropical Infectious Disease Research Center, University of Abomey- Calavi, Abomey Calavi, Benin."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lenhart A",
+                "lastName": "Lenhart",
+                "firstName": "Audrey",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Djogb\u00e9nou L",
+                "lastName": "Djogb\u00e9nou",
+                "firstName": "Luc",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7381-6321"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Entomology Branch, Division of Parasitic Diseases and Malaria, Centers for Disease Control and Prevention, Atlanta, USA."
+                    },
+                    {
+                      "affiliation": "Tropical Infectious Disease Research Center, University of Abomey- Calavi, Abomey Calavi, Benin."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ochomo E",
+                "lastName": "Ochomo",
+                "firstName": "Eric",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya. ericochomo@yahoo.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0780-8657"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5276-2328"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7381-6321"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2842-713X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4905-0941"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "25",
+            "journalIssueId": 3732655,
+            "dateOfPublication": "2024 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2024-03-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "313",
+          "abstractText": "<h4>Background</h4>Effective vector control is key to malaria prevention. However, this is now compromised by increased insecticide resistance due to continued reliance on insecticide-based control interventions. In Kenya, we have observed heterogenous resistance to pyrethroids and organophosphates in Anopheles arabiensis which is one of the most widespread malaria vectors in the country. We investigated the gene expression profiles of insecticide resistant An. arabiensis populations from Migori and Siaya counties in Western Kenya using RNA-Sequencing. Centers for Disease Control and Prevention (CDC) bottle assays were conducted using deltamethrin (DELTA), alphacypermethrin (ACYP) and pirimiphos-methyl (PMM) to determine the resistance status in both sites.<h4>Results</h4>Mosquitoes from Migori had average mortalities of 91%, 92% and 58% while those from Siaya had 85%, 86%, and 30% when exposed to DELTA, ACYP and PMM, respectively. RNA-Seq analysis was done on pools of mosquitoes which survived exposure ('resistant'), mosquitoes that were not exposed, and the insecticide-susceptible An. arabiensis Dongola strain. Gene expression profiles of resistant mosquitoes from both Migori and Siaya showed an overexpression mainly of salivary gland proteins belonging to both the short and long form D7 genes, and cuticular proteins (including CPR9, CPR10, CPR15, CPR16). Additionally, the overexpression of detoxification genes including cytochrome P450s (CYP9M1, CYP325H1, CYP4C27, CYP9L1 and CYP307A1), 2 carboxylesterases and a glutathione-S-transferase (GSTE4) were also shared between DELTA, ACYP, and PMM survivors, pointing to potential contribution to cross resistance to both pyrethroid and organophosphate insecticides.<h4>Conclusion</h4>This study provides novel insights into the molecular basis of insecticide resistance in An. arabiensis in Western Kenya and suggests that salivary gland proteins and cuticular proteins are associated with resistance to multiple classes of insecticides.",
+          "affiliation": "Kenya Medical Research Institute (KEMRI), Centre for Global Health Research (CGHR), Kisumu, Kenya. dianaomoke@gmail.com.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Pyrethrins"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Organothiophosphorus Compounds"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glutathione Transferase"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Insecticides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insecticide Resistance",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Kenya"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Proteins and Peptides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mosquito Vectors"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Malaria",
+              "Insecticide resistance",
+              "Rna-seq",
+              "Anopheles Arabiensis",
+              "Whole Transcriptomic Sequencing"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "pirimiphos methyl",
+                "registryNumber": "29232-93-7"
+              },
+              {
+                "name": "Insecticides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Organothiophosphorus Compounds",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glutathione Transferase",
+                "registryNumber": "EC 2.5.1.18"
+              },
+              {
+                "name": "Pyrethrins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Salivary Proteins and Peptides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "cypermethrin",
+                "registryNumber": "1TR49121NP"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bmcgenomics.biomedcentral.com/counter/pdf/10.1186/s12864-024-10182-9"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12864-024-10182-9"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10967204"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10967204?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR731344",
+                "type": "Preprint in",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 11,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gca",
+              "go"
+            ]
+          },
+          "dateOfCompletion": "2024-03-28",
+          "dateOfCreation": "2024-03-27",
+          "dateOfRevision": "2024-03-29",
+          "electronicPublicationDate": "2024-03-27",
+          "firstPublicationDate": "2024-03-27",
+          "firstIndexDate": "2024-03-27",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR737226",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-3408547/v1",
+          "title": "Transcriptomic analysis of Anopheles gambiae from Benin reveals overexpression of salivary and cuticular proteins associated with cross-resistance to pyrethroids and organophosphates",
+          "authorString": "Saizonou H, Impoinvil LM, Derilus D, Omoke D, Okeyo S, Dada N, Mulder N, Lenhart A, Ochomo E, Djogbenou LS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Saizonou H",
+                "lastName": "Saizonou",
+                "firstName": "Helga",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0780-8657"
+                }
+              },
+              {
+                "fullName": "Impoinvil LM",
+                "lastName": "Impoinvil",
+                "firstName": "Lucy Mackenzie",
+                "initials": "LM"
+              },
+              {
+                "fullName": "Derilus D",
+                "lastName": "Derilus",
+                "firstName": "Dieunel",
+                "initials": "D"
+              },
+              {
+                "fullName": "Omoke D",
+                "lastName": "Omoke",
+                "firstName": "Diana",
+                "initials": "D"
+              },
+              {
+                "fullName": "Okeyo S",
+                "lastName": "Okeyo",
+                "firstName": "Stephen",
+                "initials": "S"
+              },
+              {
+                "fullName": "Dada N",
+                "lastName": "Dada",
+                "firstName": "Nsa",
+                "initials": "N"
+              },
+              {
+                "fullName": "Mulder N",
+                "lastName": "Mulder",
+                "firstName": "Nicola",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4905-0941"
+                }
+              },
+              {
+                "fullName": "Lenhart A",
+                "lastName": "Lenhart",
+                "firstName": "Audrey",
+                "initials": "A"
+              },
+              {
+                "fullName": "Ochomo E",
+                "lastName": "Ochomo",
+                "firstName": "Eric",
+                "initials": "E"
+              },
+              {
+                "fullName": "Djogbenou LS",
+                "lastName": "Djogbenou",
+                "firstName": "Luc",
+                "initials": "LS"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0780-8657"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4905-0941"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "pubYear": "2023",
+          "abstractText": "<title>Abstract</title>  <p>Background  Insecticide resistance (IR) is one of the major threats to malaria vector control programs in endemic countries. However, the mechanisms underlying insecticide resistance are poorly understood. Thus, investigating gene expression patterns related to IR can offer important insights into the molecular basis of IR in mosquitoes. In this study, RNA-Seq was used to characterize gene expression in <italic>Anopheles gambiae</italic> surviving exposure to pyrethroids (deltamethrin, alphacypermethrin) and an organophosphate (pirimiphos-methyl). Results  Larvae of <italic>An. gambiae s.s</italic>. collected from Bassila and Djougou in Benin were reared to adulthood and phenotyped for IR using a modified CDC intensity bottle bioassay. The results showed that mosquitoes from Djougou were more resistant to pyrethroids (5X deltamethrin: 51.7% mortality; 2X alphacypermethrin: 47.4%) than Bassila (1X deltamethrin: 70.7%; 1X alphacypermethrin: 77.7%), while the latter were more resistant to pirimiphos-methyl (1.5X: 48.3% in Bassila and 1X: 21.5% in Djougou). RNA-seq was then conducted on resistant mosquitoes, non-exposed mosquitoes from the same locations, and laboratory-susceptible <italic>An. gambiae</italic> s.s. Kisumu strain. The results showed overexpression of detoxification genes, including cytochrome P450s (CYP12F2, CYP12F3, CYP4H15, CYP4H17, CYP6Z3, CYP9K1, CYP4G16, and CYP4D17), carboxylesterase genes (COEJHE5E, COE22933) and glutathione S-transferases (GSTE2 and GSTMS3) in all three resistant mosquito groups analyzed. Genes encoding cuticular proteins (CPR130, CPR10, CPR15, CPR16, CPR127, CPAP3-C, CPAP3-B, and CPR76) were also overexpressed in all the resistant groups, indicating their potential role in cross resistance in <italic>An. gambiae</italic>. Salivary gland protein genes related to \u2018salivary cysteine-rich peptide\u2019 and \u2018salivary secreted mucin 3\u2019 were also over-expressed and shared across all resistant groups. Conclusion  Our results suggest that in addition to metabolic enzymes, cuticular and salivary gland proteins could play an important role in cross-resistance to multiple classes of insecticides in Benin. These genes warrant further investigation to validate their functional role in <italic>An. gambiae</italic> resistance to insecticides.</p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2023
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.researchsquare.com/article/rs-3408547/latest.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-3408547/v1"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "38582836",
+                "reference": "BMC genomics. 2024 Apr;25(1):348",
+                "type": "Preprint of",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2023-10-07",
+          "firstPublicationDate": "2023-10-05",
+          "firstIndexDate": "2023-10-07",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR737226",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2023-10-05",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR731344",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-3384660/v1",
+          "title": "Whole transcriptomic analysis reveals overexpression of salivary gland and cuticular proteins genes in insecticide-resistant Anopheles arabiensis from Western Kenya.",
+          "authorString": "Omoke D, Impoinvil L, Derilus D, Okeyo S, Saizonou H, Mulder N, Dada N, Lenhart A, Djogb\u00e9nou L, Ochomo E.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Omoke D",
+                "lastName": "Omoke",
+                "firstName": "Diana",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6350-5714"
+                }
+              },
+              {
+                "fullName": "Impoinvil L",
+                "lastName": "Impoinvil",
+                "firstName": "Lucy",
+                "initials": "L"
+              },
+              {
+                "fullName": "Derilus D",
+                "lastName": "Derilus",
+                "firstName": "Dieunel",
+                "initials": "D"
+              },
+              {
+                "fullName": "Okeyo S",
+                "lastName": "Okeyo",
+                "firstName": "Stephen",
+                "initials": "S"
+              },
+              {
+                "fullName": "Saizonou H",
+                "lastName": "Saizonou",
+                "firstName": "Helga",
+                "initials": "H"
+              },
+              {
+                "fullName": "Mulder N",
+                "lastName": "Mulder",
+                "firstName": "Nicola",
+                "initials": "N"
+              },
+              {
+                "fullName": "Dada N",
+                "lastName": "Dada",
+                "firstName": "Nsa",
+                "initials": "N"
+              },
+              {
+                "fullName": "Lenhart A",
+                "lastName": "Lenhart",
+                "firstName": "Audrey",
+                "initials": "A"
+              },
+              {
+                "fullName": "Djogb\u00e9nou L",
+                "lastName": "Djogb\u00e9nou",
+                "firstName": "Luc",
+                "initials": "L"
+              },
+              {
+                "fullName": "Ochomo E",
+                "lastName": "Ochomo",
+                "firstName": "Eric",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4042-4970"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4042-4970"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6350-5714"
+              }
+            ]
+          },
+          "pubYear": "2023",
+          "abstractText": "<title>Abstract</title><p>Background Effective vector control is key to malaria prevention. However, this is now compromised by increased insecticide resistance due to continued reliance on insecticide-based control interventions. In Kenya, we have observed heterogenous resistance to pyrethroids and organophosphates in<italic>Anopheles arabiensis</italic>which is one of the most widespread malaria vectors in the country. We investigated the gene expression profiles of insecticide resistant<italic>An. arabiensis</italic>populations from Migori and Siaya counties in Western Kenya using RNA-Sequencing. CDC bottle assays were conducted using deltamethrin (DELTA), alphacypermethrin (ACYP) and pirimiphos-methyl (PMM) to determine the resistance status in both sites. Results Mosquitoes from Migori had average mortalities of 91%, 92% and 58% while those from Siaya had 85%, 86%, and 30% when exposed to DELTA, ACYP and PMM, respectively. RNA-Seq analysis was done on pools of mosquitoes which survived exposure (\u2018resistant\u2019), mosquitoes that were not exposed, and the insecticide-susceptible<italic>An. arabiensis</italic>Dongola strain. Gene expression profiles of resistant mosquitoes from both Migori and Siaya showed an overexpression mainly of salivary gland proteins belonging to both the short and long form D7 genes, and cuticular proteins (including CPR9, CPR10, CPR15, CPR16). Additionally, the overexpression of detoxification genes including cytochrome P450s (CYP9M1, CYP325H1, CYP4C27, CYP9L1 and CYP307A1), 2 carboxylesterases and a glutathione-s-transferase (GSTE4) were also shared between DELTA, ACYP, and PMM survivors, pointing to potential contribution to cross resistance to both pyrethroid and organophosphate insecticides. Conclusion This study provides novel insights into the molecular basis of insecticide resistance in<italic>An. arabiensis</italic>in Western Kenya and suggests that salivary gland proteins and cuticular proteins are associated with resistance to multiple classes of insecticides.</p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2023
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.researchsquare.com/article/rs-3384660/latest.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-3384660/v1"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "38532318",
+                "reference": "BMC genomics. \n    2024 Mar;25(1):313",
+                "type": "Preprint of",
+                "note": "Link created based on a title-first author match",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2023-09-28",
+          "firstPublicationDate": "2023-09-26",
+          "firstIndexDate": "2023-09-28",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR731344",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2023-09-26",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "35993325",
+          "source": "MED",
+          "pmid": "35993325",
+          "pmcid": "PMC10081056",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC10081056"
+            ]
+          },
+          "doi": "10.1080/20477724.2022.2108647",
+          "title": "An <i>ex vivo</i> system for investigation of <i>Plasmodium berghei</i> invasion of the salivary gland of <i>Anopheles stephensi</i> mosquitoes.",
+          "authorString": "Hussien MI, Soliman BA, Tewfick MK, O'Brochta DA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hussien MI",
+                "lastName": "Hussien",
+                "firstName": "Mai I",
+                "initials": "MI",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Insect Transformation Facility, Institute for Bioscience and Biotechnology Research, University of Maryland-College Park, Rockville, MD, USA."
+                    },
+                    {
+                      "affiliation": "Department of Zoology, Faculty of Science, Suez University, Suez, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Soliman BA",
+                "lastName": "Soliman",
+                "firstName": "Belal A",
+                "initials": "BA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-1112-3425"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Zoology, Faculty of Science, Suez University, Suez, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tewfick MK",
+                "lastName": "Tewfick",
+                "firstName": "Maha K",
+                "initials": "MK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Zoology, Faculty of Science, Suez University, Suez, Egypt."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "O'Brochta DA",
+                "lastName": "O'Brochta",
+                "firstName": "David A",
+                "initials": "DA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Insect Transformation Facility, Institute for Bioscience and Biotechnology Research, University of Maryland-College Park, Rockville, MD, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0009-0004-1112-3425"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0008-7270-7538"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "117",
+            "journalIssueId": 3539563,
+            "dateOfPublication": "2023 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2023,
+            "journal": {
+              "medlineAbbreviation": "Pathog Glob Health",
+              "title": "Pathogens and global health",
+              "essn": "2047-7732",
+              "issn": "2047-7724",
+              "nlmid": "101583421",
+              "isoabbreviation": "Pathog Glob Health"
+            },
+            "printPublicationDate": "2023-05-01"
+          },
+          "pubYear": "2023",
+          "pageInfo": "308-314",
+          "abstractText": "<i>Plasmodium</i> sporozoites associated with the midgut and in the hemolymph of mosquitoes differ from sporozoites in the secretory cavities and ducts of the insects' salivary glands in their transcriptome, proteome, motility, and infectivity. Using an <i>ex vivo Anopheles stephensi</i> salivary gland culture system incorporating simple microfluidics and transgenic <i>Plasmodium berghei</i> with the fluorescent protein gene <i>mCherry</i> under the transcriptional control of the <i>Pbuis4</i> promoter whose expression served as a proxy for parasite maturation, we observed rapid parasite maturation in the absence of salivary gland invasion. While <i>in vivo Pbuis4::mCherry</i> expression was only detectable in sporozoites within the salivary glands (mature parasites) as expected, the simple exposure of <i>P. berghei</i> sporozoites to dissected salivary glands led to rapid parasite maturation as indicated by mCherry expression. These results suggest that previous efforts to develop <i>ex vivo</i> and <i>in vitro</i> systems for investigating sporozoite interactions with mosquito salivary glands have likely been unsuccessful in part because the maturation of sporozoites leads to a loss in the ability to invade salivary glands.",
+          "affiliation": "Insect Transformation Facility, Institute for Bioscience and Biotechnology Research, University of Maryland-College Park, Rockville, MD, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Ministry of Scientific Research, Egypt",
+                "grantId": "Js-3623",
+                "orderIn": 0
+              },
+              {
+                "agency": "University of Maryland Foundation",
+                "grantId": "805618-1",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Salivary Glands"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anopheles"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium berghei",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sporozoites"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Mosquito",
+              "Anopheles stephensi",
+              "sporozoite",
+              "Plasmodium Berghei",
+              "Ex Vivo Invasion",
+              "Midgut Sporozoites",
+              "Salivary Gland Sporozoites"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/10081056"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1080/20477724.2022.2108647"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10081056"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC10081056?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1080/20477724.2022.2108647"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2023-04-10",
+          "dateOfCreation": "2022-08-22",
+          "dateOfRevision": "2023-08-21",
+          "electronicPublicationDate": "2022-08-20",
+          "firstPublicationDate": "2022-08-20",
+          "firstIndexDate": "2022-08-23",
+          "fullTextReceivedDate": "2023-08-23",
+          "embargoDate": "2023-08-20",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "34903168",
+          "source": "MED",
+          "pmid": "34903168",
+          "pmcid": "PMC8667434",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC8667434"
+            ]
+          },
+          "doi": "10.1186/s12864-021-08205-w",
+          "title": "Transcriptomic analysis of resistance and short-term induction response to pyrethroids, in Anopheles coluzzii legs.",
+          "authorString": "Kefi M, Charamis J, Balabanidou V, Ioannidis P, Ranson H, Ingham VA, Vontas J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kefi M",
+                "lastName": "Kefi",
+                "firstName": "M",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0006-5205-7449"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, University of Crete, Vassilika Vouton, 71409, Heraklion, Greece."
+                    },
+                    {
+                      "affiliation": "Institute of Molecular Biology and Biotechnology, Foundation for Research and Technology-Hellas, 73100, Heraklion, Greece."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Charamis J",
+                "lastName": "Charamis",
+                "firstName": "J",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biology, University of Crete, Vassilika Vouton, 71409, Heraklion, Greece."
+                    },
+                    {
+                      "affiliation": "Institute of Molecular Biology and Biotechnology, Foundation for Research and Technology-Hellas, 73100, Heraklion, Greece."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Balabanidou V",
+                "lastName": "Balabanidou",
+                "firstName": "V",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Molecular Biology and Biotechnology, Foundation for Research and Technology-Hellas, 73100, Heraklion, Greece."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ioannidis P",
+                "lastName": "Ioannidis",
+                "firstName": "P",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Molecular Biology and Biotechnology, Foundation for Research and Technology-Hellas, 73100, Heraklion, Greece."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ranson H",
+                "lastName": "Ranson",
+                "firstName": "H",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2332-8247"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Vector Biology, Liverpool School of Tropical Medicine, Pembroke Place, Liverpool, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ingham VA",
+                "lastName": "Ingham",
+                "firstName": "V A",
+                "initials": "VA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5708-4741"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Vector Biology, Liverpool School of Tropical Medicine, Pembroke Place, Liverpool, UK."
+                    },
+                    {
+                      "affiliation": "Parasitology Unit, Universit\u00e4tsklinikum Heidelberg, Im Neuenheimer Feld 324, 69120, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vontas J",
+                "lastName": "Vontas",
+                "firstName": "J",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8704-2574"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Molecular Biology and Biotechnology, Foundation for Research and Technology-Hellas, 73100, Heraklion, Greece. vontas@imbb.forth.gr."
+                    },
+                    {
+                      "affiliation": "Pesticide Science Laboratory, Department of Crop Science, Agricultural University of Athens, 11855, Athens, Greece. vontas@imbb.forth.gr."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5708-4741"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8704-2574"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2332-8247"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0006-5205-7449"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "22",
+            "journalIssueId": 3274270,
+            "dateOfPublication": "2021 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2021,
+            "journal": {
+              "medlineAbbreviation": "BMC Genomics",
+              "title": "BMC genomics",
+              "essn": "1471-2164",
+              "issn": "1471-2164",
+              "nlmid": "100965258",
+              "isoabbreviation": "BMC Genomics"
+            },
+            "printPublicationDate": "2021-12-01"
+          },
+          "pubYear": "2021",
+          "pageInfo": "891",
+          "abstractText": "<h4>Background</h4>Insecticide-treated bed nets and indoor residual spraying comprise the major control measures against Anopheles gambiae sl, the dominant vector in sub-Saharan Africa. The primary site of contact with insecticide is through the mosquitoes' legs, which represents the first barrier insecticides have to bypass to reach their neuronal targets. Proteomic changes and leg cuticle modifications have been associated with insecticide resistance that may reduce the rate of penetration of insecticides. Here, we performed a multiple transcriptomic analyses focusing on An. coluzzii legs.<h4>Results</h4>Firstly, leg-specific enrichment analysis identified 359 genes including the pyrethroid-binder SAP2 and 2 other chemosensory proteins, along with 4 ABCG transporters previously shown to be leg enriched. Enrichment of\u00a0gene families included those involved in detecting chemical stimuli, including gustatory and ionotropic receptors and genes implicated in hydrocarbon-synthesis. Subsequently, we compared transcript expression in the legs of a highly resistant strain (VK7-HR) to both a strain with very similar genetic background which has reverted to susceptibility after several generations without insecticide pressure (VK7-LR) and a lab susceptible population\u00a0(NG). Two hundred thirty-two differentially expressed genes (73 up-regulated and 159 down-regulated) were identified in the resistant strain when compared to the two susceptible counterparts, indicating an over-expression of phase I detoxification enzymes and cuticular proteins, with decrease in hormone-related metabolic processes in legs from the insecticide resistant population. Finally, we analysed the short-term effect of pyrethroid exposure on An. coluzzii legs, comparing legs of 1\u2009h-deltamethrin-exposed An. coluzzii (VK7-IN) to those of unexposed mosquitoes (VK7-HR) and identified 348 up-regulated genes including those encoding for GPCRs, ABC transporters, odorant-binding proteins and members of the divergent salivary gland protein family.<h4>Conclusions</h4>The data on An. coluzzii leg-specific transcriptome provides valuable insights into the first line of defense in pyrethroid resistant and short-term deltamethrin-exposed mosquitoes. Our results suggest that xenobiotic detoxification is likely occurring in legs, while the enrichment of sensory proteins, ABCG transporters and cuticular genes is also evident. Constitutive resistance is primarily associated with elevated levels of detoxification and cuticular genes, while short-term insecticide-induced tolerance is linked with overexpression of transporters, GPCRs and GPCR-related genes, sensory/binding and salivary gland proteins.",
+          "affiliation": "Department of Biology, University of Crete, Vassilika Vouton, 71409, Heraklion, Greece.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Medical Research Council",
+                "acronym": "MRC_",
+                "grantId": "MR/R024839/1",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Leg"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Pyrethrins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TO",
+                      "qualifierName": "toxicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Insecticides",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Insecticide Resistance",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mosquito Vectors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Deltamethrin",
+              "Legs",
+              "Transcriptomics",
+              "Anopheles Coluzzii",
+              "Constitutive Insecticide Resistance",
+              "Short-term Induction"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Insecticides",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Pyrethrins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://bmcgenomics.biomedcentral.com/counter/pdf/10.1186/s12864-021-08205-w"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12864-021-08205-w"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8667434"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8667434?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR398140",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 32,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "go"
+            ]
+          },
+          "dateOfCompletion": "2021-12-16",
+          "dateOfCreation": "2021-12-14",
+          "dateOfRevision": "2025-05-30",
+          "electronicPublicationDate": "2021-12-13",
+          "firstPublicationDate": "2021-12-13",
+          "firstIndexDate": "2021-12-24",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "34799605",
+          "source": "MED",
+          "pmid": "34799605",
+          "pmcid": "PMC8604914",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC8604914"
+            ]
+          },
+          "doi": "10.1038/s41598-021-01842-x",
+          "title": "Transcriptome profiles of Anopheles gambiae harboring natural low-level Plasmodium infection reveal adaptive advantages for the mosquito.",
+          "authorString": "Carr AL, Rinker DC, Dong Y, Dimopoulos G, Zwiebel LJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Carr AL",
+                "lastName": "Carr",
+                "firstName": "Ann L",
+                "initials": "AL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, Vanderbilt University, Nashville, TN, 37235, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rinker DC",
+                "lastName": "Rinker",
+                "firstName": "David C",
+                "initials": "DC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemistry, Vanderbilt University, Nashville, TN, 37235, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dong Y",
+                "lastName": "Dong",
+                "firstName": "Yuemei",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7902-2899"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "W. Harry Feinstone Department of Molecular Microbiology and Immunology, Bloomberg School of Public Health, Johns Hopkins University, Baltimore, MD, 21205, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dimopoulos G",
+                "lastName": "Dimopoulos",
+                "firstName": "George",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "W. Harry Feinstone Department of Molecular Microbiology and Immunology, Bloomberg School of Public Health, Johns Hopkins University, Baltimore, MD, 21205, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zwiebel LJ",
+                "lastName": "Zwiebel",
+                "firstName": "Laurence J",
+                "initials": "LJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, Vanderbilt University, Nashville, TN, 37235, USA. l.zwiebel@vanderbilt.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7902-2899"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "11",
+            "journalIssueId": 3263304,
+            "dateOfPublication": "2021 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2021,
+            "journal": {
+              "medlineAbbreviation": "Sci Rep",
+              "title": "Scientific reports",
+              "essn": "2045-2322",
+              "issn": "2045-2322",
+              "nlmid": "101563288",
+              "isoabbreviation": "Sci Rep"
+            },
+            "printPublicationDate": "2021-11-01"
+          },
+          "pubYear": "2021",
+          "pageInfo": "22578",
+          "abstractText": "Anopheline mosquitoes are the sole vectors for the Plasmodium pathogens responsible for malaria, which is among the oldest and most devastating of human diseases. The continuing global impact of malaria reflects the evolutionary success of a complex vector-pathogen relationship that accordingly has been the long-term focus of both debate and study. An open question in the biology of malaria transmission is the impact of naturally occurring low-level Plasmodium infections of the vector on the mosquito's health and longevity as well as critical behaviors such as host-preference/seeking. To begin to answer this, we have completed a comparative RNAseq-based transcriptome profile study examining the effect of biologically salient, salivary gland transmission-stage Plasmodium infection on the molecular physiology of Anopheles gambiae s.s. head, sensory appendages, and salivary glands. When compared with their uninfected counterparts, Plasmodium infected mosquitoes exhibit increased transcript abundance of genes associated with olfactory acuity as well as a range of synergistic processes that align with increased fitness based on both anti-aging and reproductive advantages. Taken together, these data argue against the long-held paradigm that malaria infection is pathogenic for anophelines and, instead suggests there are biological and evolutionary advantages for the mosquito that drive the preservation of its high vectorial capacity.",
+          "affiliation": "Department of Biological Sciences, Vanderbilt University, Nashville, TN, 37235, USA.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R56 AI127693",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI056402",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI122743",
+                "orderIn": 0
+              },
+              {
+                "agency": "Bloomberg Philanthropies",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI127693",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "AI122743",
+                "orderIn": 0
+              },
+              {
+                "agency": "Vanderbilt University",
+                "grantId": "Endowment",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R03 AI164095",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Anopheles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Odorant",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Smell",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Evolution, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genetic Fitness"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Odorants"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mosquito Vectors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA-Seq"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Receptors, Odorant",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41598-021-01842-x"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8604914"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC8604914?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR377851",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 15,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2022-02-04",
+          "dateOfCreation": "2021-11-20",
+          "dateOfRevision": "2024-06-18",
+          "electronicPublicationDate": "2021-11-19",
+          "firstPublicationDate": "2021-11-19",
+          "firstIndexDate": "2021-11-30",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR398140",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-904452/v1",
+          "title": "Transcriptomic analysis of resistance and short-term induction response to pyrethroids, in Anopheles coluzzii legs",
+          "authorString": "Kefi M, Charamis J, Balabanidou V, Ioannidis P, Ranson H, Ingham VA, Vontas J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kefi M",
+                "lastName": "Kefi",
+                "firstName": "Mary",
+                "initials": "M"
+              },
+              {
+                "fullName": "Charamis J",
+                "lastName": "Charamis",
+                "firstName": "Jason",
+                "initials": "J"
+              },
+              {
+                "fullName": "Balabanidou V",
+                "lastName": "Balabanidou",
+                "firstName": "Vasileia",
+                "initials": "V"
+              },
+              {
+                "fullName": "Ioannidis P",
+                "lastName": "Ioannidis",
+                "firstName": "Panagiotis",
+                "initials": "P"
+              },
+              {
+                "fullName": "Ranson H",
+                "lastName": "Ranson",
+                "firstName": "Hilary",
+                "initials": "H"
+              },
+              {
+                "fullName": "Ingham VA",
+                "lastName": "Ingham",
+                "firstName": "Victoria",
+                "initials": "VA"
+              },
+              {
+                "fullName": "Vontas J",
+                "lastName": "Vontas",
+                "firstName": "John",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8704-2574"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8704-2574"
+              }
+            ]
+          },
+          "pubYear": "2021",
+          "abstractText": "<h4>Background: </h4> Insecticide-treated bed nets and indoor residual spraying comprise the major control measures against Anopheles gambiae sl, the dominant vector in sub-Saharan Africa. The primary site of contact with insecticide is through the mosquitoes\u2019 legs, which represents the first barrier insecticides have to bypass to reach their neuronal targets. Proteomic changes and leg cuticle modifications have been associated with insecticide resistance that may reduce the rate of penetration of insecticides. Here, we performed a multiple transcriptomic analyses focusing on An. coluzzii legs. ResultsFirstly, leg-specific enrichment analysis identified 359 genes including the pyrethroid-binder SAP2 and 2 other chemosensory proteins, along with 4 ABCG transporters previously shown to be leg enriched. Enrichment gene families included those involved in detecting chemical stimuli including gustatory and ionotropic receptors and genes implicated in hydrocarbon-synthesis. Subsequently, we compared transcript expression in the legs of a highly resistant strain (VK7-HR) to both a strain with very similar genetic background which has reverted to susceptibility after several generations without insecticide pressure (VK7-LR) and a lab susceptible population. 232 differentially expressed genes (73 up-regulated and 159 down-regulated) were identified in the resistant strain when compared to the two susceptible counterparts, indicating an over-expression of phase I detoxification enzymes and cuticular proteins, with decrease in hormone-related metabolic processes in legs from the insecticide resistant population. Finally, we analysed the short-term effect of pyrethroid exposure on An. coluzzii legs, comparing 1hour-deltamethrin-exposed (VK7-IN) to unexposed (VK7-HR) leg transcriptomes and identified 348 up-regulated genes including those encoding for GPCRs, ABC transporters, odorant-binding proteins and members of the divergent salivary gland protein family. ConclusionsThe data on An. coluzzii leg-specific transcriptome provides valuable insights into the first line of defense in pyrethroid resistant and short-term deltamethrin-exposed mosquitoes. Our results suggest that xenobiotic detoxification is likely occurring in legs, while the enrichment of sensory proteins, ABCG transporters and cuticular genes is also evident. Constitutive resistance is primarily associated with elevated levels of detoxification and cuticular genes, while short-term insecticide-induced tolerance is linked with overexpression of transporters, GPCRs and GPCR-related genes, sensory/binding and salivary gland proteins.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2021
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.researchsquare.com/article/rs-904452/latest.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-904452/v1"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "34903168",
+                "reference": "BMC genomics. 2021 Dec;22(1):891",
+                "type": "Preprint of",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10001
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2021-09-23",
+          "firstPublicationDate": "2021-09-22",
+          "firstIndexDate": "2021-09-23",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR398140",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2021-09-22",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

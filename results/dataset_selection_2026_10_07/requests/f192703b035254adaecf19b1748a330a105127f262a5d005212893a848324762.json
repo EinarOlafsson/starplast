@@ -1,0 +1,3854 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22metabolome%22+OR+%22metabolomic%22+OR+%22lipidome%22+OR+%22lipidomic%22+OR+%22flux%22%29+AND+TITLE_ABS%3A%28%22lipid%22+OR+%22composition%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:00:25.190640+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 31,
+    "nextCursorMark": "AoJwwJi3ipQDKDUyMTUwMTMz",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22metabolome%22+OR+%22metabolomic%22+OR+%22lipidome%22+OR+%22lipidomic%22+OR+%22flux%22%29+AND+TITLE_ABS%3A%28%22lipid%22+OR+%22composition%22%29+sort_date%3Ay&cursorMark=AoJwwJi3ipQDKDUyMTUwMTMz&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"metabolome\" OR \"metabolomic\" OR \"lipidome\" OR \"lipidomic\" OR \"flux\") AND TITLE_ABS:(\"lipid\" OR \"composition\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42381081",
+          "source": "MED",
+          "pmid": "42381081",
+          "pmcid": "PMC13621629",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13621629"
+            ]
+          },
+          "doi": "10.1186/s13059-026-04180-1",
+          "title": "Integrated lipidomic and transcriptomic profiling of the host response in human malaria.",
+          "authorString": "Abdrabou W, Bolatbay D, Soulama I, Nikulkova M, Dieng MM, Zorigt S, Alshaikh M, Serm\u00e9 SS, Sombi\u00e9 S, Henry NB, Kargougou D, Coulibaly SA, Manikandan V, Diawara A, Carlton JM, Idaghdour Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Abdrabou W",
+                "lastName": "Abdrabou",
+                "firstName": "Wael",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Health Sciences, Abu Dhabi University, Abu Dhabi, UAE."
+                    },
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bolatbay D",
+                "lastName": "Bolatbay",
+                "firstName": "Dariga",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Soulama I",
+                "lastName": "Soulama",
+                "firstName": "Issiaka",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    },
+                    {
+                      "affiliation": "Institut de Recherche en Sciences de La Sant\u00e9, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nikulkova M",
+                "lastName": "Nikulkova",
+                "firstName": "Maria",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Genomics and Systems Biology, Department of Biology, New York University, New York, NY, 10003, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dieng MM",
+                "lastName": "Dieng",
+                "firstName": "Mame Massar",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zorigt S",
+                "lastName": "Zorigt",
+                "firstName": "Saruul",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Alshaikh M",
+                "lastName": "Alshaikh",
+                "firstName": "Manar",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Serm\u00e9 SS",
+                "lastName": "Serm\u00e9",
+                "firstName": "Samuel Sindi\u00e9",
+                "initials": "SS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sombi\u00e9 S",
+                "lastName": "Sombi\u00e9",
+                "firstName": "Salif",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Henry NB",
+                "lastName": "Henry",
+                "firstName": "Noelie Bere",
+                "initials": "NB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kargougou D",
+                "lastName": "Kargougou",
+                "firstName": "D\u00e9sir\u00e9",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coulibaly SA",
+                "lastName": "Coulibaly",
+                "firstName": "Sam Aboubacar",
+                "initials": "SA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Manikandan V",
+                "lastName": "Manikandan",
+                "firstName": "Vinu",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Diawara A",
+                "lastName": "Diawara",
+                "firstName": "A\u00efssatou",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Carlton JM",
+                "lastName": "Carlton",
+                "firstName": "Jane M",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Genomics and Systems Biology, Department of Biology, New York University, New York, NY, 10003, USA."
+                    },
+                    {
+                      "affiliation": "Department of Molecular Microbiology & Immunology, Johns Hopkins Malaria Research Institute, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD, 21231, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Idaghdour Y",
+                "lastName": "Idaghdour",
+                "firstName": "Youssef",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE. youssef.idaghdour@nyu.edu."
+                    },
+                    {
+                      "affiliation": "Center for Genomics and Systems Biology, New York University Abu Dhabi, Abu Dhabi, UAE. youssef.idaghdour@nyu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "27",
+            "journalIssueId": 4206141,
+            "dateOfPublication": "2026 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Genome Biol",
+              "title": "Genome biology",
+              "essn": "1474-760X",
+              "issn": "1474-7596",
+              "nlmid": "100960660",
+              "isoabbreviation": "Genome Biol"
+            },
+            "printPublicationDate": "2026-06-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "299",
+          "abstractText": "<h4>Background</h4>Identifying the mechanisms of host-parasite interactions in vivo in malaria is essential for the development of antimalarial strategies tailored to clinically and physiologically relevant contexts.<h4>Results</h4>We analyzed 396 paired global serum lipidomes from pediatric patients sampled before and during blood-stage malaria infection in Burkina Faso, spanning three ethnic groups (Gouin, Mossi, and Fulani). Consistent infection-induced remodeling of the host lipidome was identified across populations, including depletion of 47 host-derived lipid species that correlated with parasitemia. Notably, we observed that Plasmodium falciparum selectively scavenges linoleic acid-containing phospholipids to support its proliferation and validated this with parasite culture assays. This integrative multi-omics analysis combining lipidomic profiles with host-parasite transcriptomes further identified a Plasmodium falciparum transcriptional program associated with lipid turnover in vivo.<h4>Conclusions</h4>These results provide a high-resolution profile of lipidomic perturbations in children with malaria\u00a0and demonstrate how integrated clinical phenotyping, cross-ethnic population sampling, and multi-omics can reveal key host-parasite interactions and clinically relevant metabolic changes within the human host.",
+          "affiliation": "College of Health Sciences, Abu Dhabi University, Abu Dhabi, UAE.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "New York University Abu Dhabi",
+                "grantId": "ADHPG AD105 and ADHPG-RE105",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phospholipids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child, Preschool"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Burkina Faso"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipid Metabolism"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Parasite Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipidomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Multiomics"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Phospholipids",
+              "Malaria",
+              "Linoleic acid",
+              "Metabolomics",
+              "Ethnicity",
+              "Host-parasite Interactions",
+              "High Resolution Lipidomics"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Phospholipids",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s13059-026-04180-1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13621629"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13621629?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-29",
+          "dateOfCreation": "2026-07-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-06-30",
+          "firstPublicationDate": "2026-06-30",
+          "firstIndexDate": "2026-07-02",
+          "fullTextReceivedDate": "2026-09-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42203171",
+          "source": "MED",
+          "pmid": "42203171",
+          "pmcid": "PMC13330675",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13330675"
+            ]
+          },
+          "doi": "10.1016/j.jbc.2026.113188",
+          "title": "A prokaryotic-like cardiolipin synthase is essential to maintain mitochondrial function, lipid homeostasis, and survival of the blood stage malaria parasite Plasmodium falciparum.",
+          "authorString": "Islam MM, Anwar MO, Yamaryo-Bott\u00e9 Y, Rath PP, Abbas M, Thakur V, Rathore S, Bott\u00e9 CY, Mohmmed A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Islam MM",
+                "lastName": "Islam",
+                "firstName": "Md Muzahidul",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Anwar MO",
+                "lastName": "Anwar",
+                "firstName": "Md Omair",
+                "initials": "MO",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yamaryo-Bott\u00e9 Y",
+                "lastName": "Yamaryo-Bott\u00e9",
+                "firstName": "Yoshiki",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "ApicoLipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rath PP",
+                "lastName": "Rath",
+                "firstName": "Pragyan P",
+                "initials": "PP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1207-9735"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Abbas M",
+                "lastName": "Abbas",
+                "firstName": "Madiha",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-6254-2953"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Thakur V",
+                "lastName": "Thakur",
+                "firstName": "Vandana",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rathore S",
+                "lastName": "Rathore",
+                "firstName": "Sumit",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2807-053X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "All India Institute of Medical Sciences, New Delhi, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bott\u00e9 CY",
+                "lastName": "Bott\u00e9",
+                "firstName": "Cyrille Y",
+                "initials": "CY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "ApicoLipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France. Electronic address: cyrille.botte@univ-grenoble-alpes.fr."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mohmmed A",
+                "lastName": "Mohmmed",
+                "firstName": "Asif",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0239-1979"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India. Electronic address: amohd@icgeb.res.in."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0239-1979"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1207-9735"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2807-053X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-6254-2953"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "7",
+            "volume": "302",
+            "journalIssueId": 4224128,
+            "dateOfPublication": "2026 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Biol Chem",
+              "title": "The Journal of biological chemistry",
+              "essn": "1083-351X",
+              "issn": "0021-9258",
+              "nlmid": "2985121R",
+              "isoabbreviation": "J Biol Chem"
+            },
+            "printPublicationDate": "2026-07-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "113188",
+          "abstractText": "Mitochondrion is essential for the propagation of the malaria parasites in the human host. The structure, biogenesis, and function of mitochondria depend on the synthesis of a key mitochondrial membrane-specific phospholipid, cardiolipin (CL), which is typically synthesized by cardiolipin synthase (CLS). Unlike most eukaryotic cell models, the synthesis of CL in the malaria parasite remains unresolved. Here, we show that Plasmodium falciparum harbors a prokaryotic-like CLS (PfCLS), which is functional in the parasite mitochondrion. Inducible knockdown of PfCLS disrupts parasite development and kills the parasites. Ablation of PfCLS and a reduction in levels of CL affect the assembly of mitochondrial respiratory super-complexes. In addition, PfCLS-iKD parasites exhibited hypersensitivity to antimalarial drugs targeting the mETC, such as Atovaquone. Lipidomic analyses revealed loss of CL content and widespread perturbations in phospholipid homeostasis in the parasites. Quantitative metabolomics shows disruption of the TCA cycle and amino acid levels. Overall, these results ascertain that PfCLS is essential for asexual blood stages of the parasite, playing a critical role at the juncture of mitochondrial membrane biogenesis, mitochondrial function, and phospholipid synthesis/homeostasis in the parasite.",
+          "affiliation": "International Centre for Genetic Engineering and Biotechnology, New Delhi, India.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Science and Engineering Research Board",
+                "orderIn": 0
+              },
+              {
+                "agency": "R\u00e9gion Auvergne-Rh\u00f4ne-Alpes",
+                "grantId": "-40/104/2023-MED-DBT",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-23-CE15-0009-01",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Science and Technology, Ministry of Science and Technology, India",
+                "orderIn": 0
+              },
+              {
+                "agency": "Indo-French Centre for the Promotion of Advanced Research",
+                "orderIn": 0
+              },
+              {
+                "agency": "International Centre for Genetic Engineering and Biotechnology",
+                "orderIn": 0
+              },
+              {
+                "agency": "Council of Scientific and Industrial Research, India",
+                "grantId": "/PR19127/BIC/101/1047/2016",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "PlasmohostANR-25-CE11-3606",
+                "orderIn": 0
+              },
+              {
+                "agency": "Office of Biotechnology, Iowa State University",
+                "orderIn": 0
+              },
+              {
+                "agency": "Council of Scientific and Industrial Research, India",
+                "grantId": "6003-1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-21-CE44-0010",
+                "orderIn": 0
+              },
+              {
+                "agency": "Council of Scientific and Industrial Research, India",
+                "grantId": "HRD-16016/10/2023-AFS-DBT",
+                "orderIn": 0
+              },
+              {
+                "agency": "Centre National de la Recherche Scientifique",
+                "orderIn": 0
+              },
+              {
+                "agency": "Fondation pour la Recherche M\u00e9dicale",
+                "grantId": "ANR-11-LABX-0024",
+                "orderIn": 0
+              },
+              {
+                "agency": "Fondation pour la Recherche M\u00e9dicale",
+                "grantId": "FRM EQU202103012700",
+                "orderIn": 0
+              },
+              {
+                "agency": "Universit\u00e9 Grenoble Alpes",
+                "orderIn": 0
+              },
+              {
+                "agency": "Department of Biotechnology, Ministry of Science and Technology, India",
+                "grantId": "/2022/002655",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mitochondria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transferases (Other Substituted Phosphate Groups)",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cardiolipins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Homeostasis"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipid Metabolism"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium",
+              "Malaria",
+              "Cardiolipin",
+              "Organelle Homeostasis",
+              "Membrane Biogenesis",
+              "Mitochondrial Etc"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "cardiolipin synthetase",
+                "registryNumber": "EC 2.7.8.-"
+              },
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cardiolipins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Transferases (Other Substituted Phosphate Groups)",
+                "registryNumber": "EC 2.7.8.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jbc.2026.113188"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13330675"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13330675?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-07-20",
+          "dateOfCreation": "2026-05-27",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-05-26",
+          "firstPublicationDate": "2026-05-26",
+          "firstIndexDate": "2026-05-28",
+          "fullTextReceivedDate": "2026-08-28",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1230046",
+          "source": "PPR",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PPR1230046"
+            ]
+          },
+          "doi": "10.64898/2025.12.23.696167",
+          "title": "Plasmodium falciparum aquaglyceroporin (PfAQP) orchestrates glycerol-dependent lipid metabolism, membrane biogenesis, metabolomic flux, parasite growth and stress adaptation",
+          "authorString": "Narwal M, Islam MM, Abbas M, Yamaryo-Bott\u00e9 Y, Malhotra P, Fatima Z, Bott\u00e9 CY, Mohmmed A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Narwal M",
+                "lastName": "Narwal",
+                "firstName": "Monika",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Islam MM",
+                "lastName": "Islam",
+                "firstName": "Md Muzahidul",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Abbas M",
+                "lastName": "Abbas",
+                "firstName": "Madiha",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-6254-2953"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yamaryo-Bott\u00e9 Y",
+                "lastName": "Yamaryo-Bott\u00e9",
+                "firstName": "Yoshiki",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", UMR5309, , , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Malhotra P",
+                "lastName": "Malhotra",
+                "firstName": "Pawan",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fatima Z",
+                "lastName": "Fatima",
+                "firstName": "Zeeshan",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Amity Institute of Biotechnology, , -"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bott\u00e9 CY",
+                "lastName": "Bott\u00e9",
+                "firstName": "Cyrille",
+                "initials": "CY",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", UMR5309, , , ,"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mohmmed A",
+                "lastName": "Mohmmed",
+                "firstName": "Asif",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0239-1979"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": ", ,"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0239-1979"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-6254-2953"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "pubYear": "2025",
+          "abstractText": "Aquaglyceroporins (AQPs) are integral membrane channel proteins that facilitate transport of water and other solutes such as glycerol, thereby playing vital roles in cellular homeostasis. Here, we functionally characterized  Plasmodium falciparum aquaglyceroporin (  Pf AQP) through localization, inducible knockdown, and comprehensive metabolomic analyses revealing its key role in lipid homeostasis and metabolomic flux.  Pf AQP localizes to the parasite plasma membrane and food vacuole membrane, at critical interfaces for nutrient and metabolite exchange. A  glm S-ribozyme mediated inducible knock-down of  Pf AQP severely impairs parasite development from trophozoite to schizont, leading to marked suppression in parasite growth. Ultra-Expansion Microscopy (UExM) analyses show profound defects in membrane biogenesis, along with disruption in cytokinesis under  Pf AQP knock-down conditions. Detailed lipidomic analyses suggests that  Pf AQP disruption cause altered lipid homeostasis, characterized by reduced membrane phospholipid biosynthesis, impaired lipid scavenging, and accumulation of storage lipids. Metabolomic analyses further indicate metabolic dysregulation characterized by reduction in amino acid levels and dysregulated mitochondrial metabolism, including impaired tricarboxylic acid (TCA) cycle. Strikingly,  Pf AQP expression gets transiently upregulated under nutrient starvation condition, and its ablation drastically compromise parasite recovery, highlighting its role in adaptive responses. Overall, these results establish  Pf AQP as a critical regulator of glycerol-dependent metabolic pathways, orchestrating membrane biogenesis, energy metabolism, and stress resilience\u2014functions indispensable for parasite growth and survival.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2025
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2025.12.23.696167"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/article/PPR/PPR1230046"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/api/fulltextRepo?pprId=PPR1230046&type=FILE&fileName=EMS214627-pdf.pdf&mimeType=application/pdf"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS214627",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "pfam",
+              "doi"
+            ]
+          },
+          "dateOfCreation": "2026-05-19",
+          "firstPublicationDate": "2025-12-26",
+          "firstIndexDate": "2026-05-19",
+          "fullTextReceivedDate": "2026-06-21",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41363101",
+          "source": "MED",
+          "pmid": "41363101",
+          "doi": "10.1021/acs.jproteome.5c00742",
+          "title": "Exploratory Serum Metabolomic Profiling of Asymptomatic Malaria Children Infected with &lt;i&gt;Plasmodium falciparum&lt;/i&gt; in Tanzania.",
+          "authorString": "Zinga MM, Kassim Mohamed M, Ojo D, Mohamed Abdoul-Latif F, Mkassy FI, Wilfred D, Marwa KJ, Cacciatore S.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zinga MM",
+                "lastName": "Zinga",
+                "firstName": "Maria Mgella",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Bioinformatics Unit, International Center for Genetic Engineering and Biotechnology, Cape Town 7925, South Africa."
+                    },
+                    {
+                      "affiliation": "Department of Medical Parasitology and Entomology, Catholic University of Health and Allied Sciences, Mwanza 1464, Tanzania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kassim Mohamed M",
+                "lastName": "Kassim Mohamed",
+                "firstName": "Moussa",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-9053-0330"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Bioinformatics Unit, International Center for Genetic Engineering and Biotechnology, Cape Town 7925, South Africa."
+                    },
+                    {
+                      "affiliation": "Department of Integrative Biomedical Sciences, Institute of Infectious Disease & Molecular Medicine (IDM), University of Cape Town, Cape Town 7925, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ojo D",
+                "lastName": "Ojo",
+                "firstName": "Dupe",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Bioinformatics Unit, International Center for Genetic Engineering and Biotechnology, Cape Town 7925, South Africa."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mohamed Abdoul-Latif F",
+                "lastName": "Mohamed Abdoul-Latif",
+                "firstName": "Fatouma",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Medicinal Research Institute, Centre d'Etudes et de Recherche de Djibouti, IRM-CERD, Route de l'A\u00e9roport, Haramous B.P. 486, Djibouti City 77101, Djibouti."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mkassy FI",
+                "lastName": "Mkassy",
+                "firstName": "Farida Iddy",
+                "initials": "FI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0000-9589-3830"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of epidemiology and biostatistics, Catholic University of Health and Allied Sciences, Mwanza 1464, Tanzania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wilfred D",
+                "lastName": "Wilfred",
+                "firstName": "Diana",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology and Entomology, Catholic University of Health and Allied Sciences, Mwanza 1464, Tanzania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marwa KJ",
+                "lastName": "Marwa",
+                "firstName": "Karol Julius",
+                "initials": "KJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, Catholic University of Health and Allied Sciences, Mwanza 1464, Tanzania."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cacciatore S",
+                "lastName": "Cacciatore",
+                "firstName": "Stefano",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7052-7156"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Bioinformatics Unit, International Center for Genetic Engineering and Biotechnology, Cape Town 7925, South Africa."
+                    },
+                    {
+                      "affiliation": "Department of Integrative Biomedical Sciences, Institute of Infectious Disease & Molecular Medicine (IDM), University of Cape Town, Cape Town 7925, South Africa."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7052-7156"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0000-9589-3830"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0002-9053-0330"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "25",
+            "journalIssueId": 4081231,
+            "dateOfPublication": "2026 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Proteome Res",
+              "title": "Journal of proteome research",
+              "essn": "1535-3907",
+              "issn": "1535-3893",
+              "nlmid": "101128775",
+              "isoabbreviation": "J Proteome Res"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "395-404",
+          "abstractText": "Asymptomatic <i>Plasmodium falciparum</i> infections are prevalent in malaria-endemic regions, yet their metabolic consequences remain poorly understood. In this exploratory study, we investigated the serum metabolomic profiles of 48 asymptomatic school-aged children from a high-transmission area in Tanzania (27 malaria-positive, 21 malaria-negative), using proton nuclear magnetic resonance (<sup>1</sup>H NMR) spectroscopy and multivariate statistical analyses. Participants were matched by age, sex, and place of residence to control for confounding factors. Group-level comparisons revealed only modest and heterogeneous metabolic alterations in malaria-positive children, including lower concentrations of lactate, pyruvate, branched-chain amino acids, and threonine. However, KODAMA algorithm identified a metabolically distinct subgroup (18.5%) within the malaria-positive cohort. This subgroup displayed specific shifts in amino acid and lipid metabolism, such as reduced phenylalanine and alanine and increased glycerophospholipids, resembling profiles seen in symptomatic malaria, suggesting that a subset of asymptomatic individuals may exhibit biologically meaningful responses. In contrast, urinary tract infections (UTIs), detected in a subset of children, were associated with more consistent and malaria-independent metabolic signatures, particularly involving mannose and carbohydrate metabolism. These findings highlight the complexity of host responses to asymptomatic infections and emphasize the importance of accounting for coinfections and intragroup variability when interpreting metabolomic data in endemic settings.",
+          "affiliation": "Bioinformatics Unit, International Center for Genetic Engineering and Biotechnology, Cape Town 7925, South Africa.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "International Centre for Genetic Engineering and Biotechnology",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tanzania",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EP",
+                      "qualifierName": "epidemiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Metabolomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Metabolome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Asymptomatic Infections"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium falciparum",
+              "Children",
+              "Metabolomics",
+              "Tanzania",
+              "Nmr Spectroscopy",
+              "Asymptomatic Malaria",
+              "Lake Victoria Region"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1021/acs.jproteome.5c00742"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-01-02",
+          "dateOfCreation": "2025-12-09",
+          "dateOfRevision": "2026-07-18",
+          "electronicPublicationDate": "2025-12-09",
+          "firstPublicationDate": "2025-12-09",
+          "firstIndexDate": "2025-12-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41022187",
+          "source": "MED",
+          "pmid": "41022187",
+          "doi": "10.1016/j.jep.2025.120661",
+          "title": "Antiplasmodial metabolites from Baccharoides anthelmintica seeds: In vitro and in silico profiling.",
+          "authorString": "Rajpoot VS, Karthikeyan C, Subash P, Rao KS.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Rajpoot VS",
+                "lastName": "Rajpoot",
+                "firstName": "Vivek Singh",
+                "initials": "VS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9542-8824"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacy, Indira Gandhi National Tribal University, Amarkantak, Anuppur District, 484887, Madhya Pradesh, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Karthikeyan C",
+                "lastName": "Karthikeyan",
+                "firstName": "Chandrabose",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9074-9554"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacy, Indira Gandhi National Tribal University, Amarkantak, Anuppur District, 484887, Madhya Pradesh, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Subash P",
+                "lastName": "Subash",
+                "firstName": "Paranthaman",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacognosy, Sri Shanmugha College of Pharmacy, Sankari, Salem District, 637304, Tamil Nadu, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rao KS",
+                "lastName": "Rao",
+                "firstName": "Kareti Srinivasa",
+                "initials": "KS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8359-7380"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacy, Indira Gandhi National Tribal University, Amarkantak, Anuppur District, 484887, Madhya Pradesh, India. Electronic address: ksrao108@gmail.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8359-7380"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9542-8824"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9074-9554"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "Pt A",
+            "volume": "355",
+            "journalIssueId": 4039725,
+            "dateOfPublication": "2026 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Ethnopharmacol",
+              "title": "Journal of ethnopharmacology",
+              "essn": "1872-7573",
+              "issn": "0378-8741",
+              "nlmid": "7903310",
+              "isoabbreviation": "J Ethnopharmacol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "120661",
+          "abstractText": "<h4>Ethnopharmacological relevance</h4>Baccharoides anthelmintica (L.) Moench has traditionally been used in ethnomedicine as a general body tonic and for the treatment of malaria and other parasitic infections. Ethnobotanical evidence supporting its antimalarial use has motivated further scientific investigations into its phytochemical composition. However, the specific bioactive constituents responsible for these effects remain poorly characterized. Metabolomic profiling, combined with in vitro and in silico approaches, offers a comprehensive strategy for exploring phytochemical diversity, identifying active compounds, and validating their antimalarial potential. This integrative approach bridges the gap between traditional knowledge and modern drug discovery.<h4>Aim of the study</h4>The purposes of this study were i) to identify the phytochemical composition via metabolomic analysis, ii) to evaluate the in vitro antiplasmodial activity of seed extracts and iii) to perform in silico molecular docking and molecular dynamics simulations to identify and validate potential antimalarial compounds that target key Plasmodium falciparum enzymes.<h4>Methods</h4>The seeds of B. anthelmintica were subjected to Soxhlet extraction using n-hexane, chloroform, and methanol. The antiplasmodial activity of the extracts was evaluated in vitro against P. falciparum strains Pf-K1 (chloroquine-resistant) and Pf-3D7 (chloroquine-sensitive), and cytotoxicity was assessed using VERO cells. Metabolomic profiling was performed using Gas Chromatography-Mass Spectrometry (GC-MS) and Liquid Chromatography-Mass Spectrometry (LC-MS) to identify phytochemical constituents. The identified compounds were further screened by molecular docking against key P. falciparum targets. The top hits were assessed for pharmacokinetics and TargetNet was employed to assess drug-likeness and AdmetSAR was utilized for ADMET predictions. Molecular dynamics (MD) simulations were conducted to validate the stability of the ligand-target complexes.<h4>Results</h4>Among the extracts, the chloroform fraction exhibited the most potent antiplasmodial activity with IC<sub>50</sub> values of 1.7\u00a0\u03bcg/mL (Pf-K1) and 6.2\u00a0\u03bcg/mL (Pf-3D7), along with low cytotoxicity (CC<sub>50</sub>: 17.0\u00a0\u03bcg/mL) against VERO cells. Metabolomic profiling identified a total of 159 unique phytoconstituents, comprising 131 volatile and thermally stable compounds from GC-MS and 28 non-volatile, polar, and thermally labile compounds from LC-MS analyses. In silico screening, identified compound 4,5-dihydro-4,4-undecamethylene-2-phenyl-1,3-oxazin-6-one as a promising lead, exhibiting a strong binding affinity for P. falciparum. G23 complied with Lipinski's rule of five, showed favorable ADMET characteristics, and maintained stable interactions throughout the MD simulation trajectory.<h4>Conclusion</h4>The findings of this study suggest that B. anthelmintica seeds may contain bioactive phytoconstituents with antiplasmodial potential. Among the identified compounds, G23 (4,5-dihydro-4,4-undecamethylene-2-phenyl-1,3-oxazin-6-one) showed promising in silico affinity for key P. falciparum targets and stable binding in molecular dynamics simulations, supporting its potential as a lead candidate for further antimalarial drug development. The antiplasmodial activity of the crude extract provides a stronger basis for these in vitro findings, and the traditional use of B. anthelmintica.",
+          "affiliation": "Department of Pharmacy, Indira Gandhi National Tribal University, Amarkantak, Anuppur District, 484887, Madhya Pradesh, India.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vero Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Seeds",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plant Extracts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Dynamics Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Docking Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chlorocebus aethiops"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Lactate dehydrogenase",
+              "Antiplasmodial Activity",
+              "Md Simulations",
+              "Falcipain-2",
+              "Dihydrofolate Reductase-thymidylate Synthase",
+              "Baccharoides Anthelmintica"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Plant Extracts",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jep.2025.120661"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-11-01",
+          "dateOfCreation": "2025-09-29",
+          "dateOfRevision": "2025-11-01",
+          "electronicPublicationDate": "2025-09-27",
+          "firstPublicationDate": "2025-09-27",
+          "firstIndexDate": "2025-10-01",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40844983",
+          "source": "MED",
+          "pmid": "40844983",
+          "pmcid": "PMC12373170",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC12373170"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0330682",
+          "title": "Comparison of the composition and antiplasmodial activity of Artemisia annua teas using an untargeted metabolomic approach.",
+          "authorString": "Aubouy A, Olatound\u00e9 Amoussa AM, Lagnika L, Fabre N, Vitrai A, Claparols C, Houz\u00e9 S, Sarrasin V, Chapeland-Leclerc F, Ruprich-Robert G, Bourgeade-Delmas S, Yedomonhan H, Dumondin C, Jullian V.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Aubouy A",
+                "lastName": "Aubouy",
+                "firstName": "Agn\u00e8s",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2265-4972"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Olatound\u00e9 Amoussa AM",
+                "lastName": "Olatound\u00e9 Amoussa",
+                "firstName": "Abdou Madjid",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    },
+                    {
+                      "affiliation": "Laboratoire de Biochimie et Substances Naturelles Bioactives (LBSNB), Facult\u00e9 des Sciences et Techniques (FAST), Universit\u00e9 d'Abomey Calavi, B\u00e9nin."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lagnika L",
+                "lastName": "Lagnika",
+                "firstName": "Latifou",
+                "initials": "L",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratoire de Biochimie et Substances Naturelles Bioactives (LBSNB), Facult\u00e9 des Sciences et Techniques (FAST), Universit\u00e9 d'Abomey Calavi, B\u00e9nin."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fabre N",
+                "lastName": "Fabre",
+                "firstName": "Nicolas",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5896-5700"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vitrai A",
+                "lastName": "Vitrai",
+                "firstName": "Adrien",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0008-2256-4866"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Claparols C",
+                "lastName": "Claparols",
+                "firstName": "Catherine",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institut de Chimie de Toulouse, ICT UAR, Universit\u00e9 Paul Sabatier-Toulouse III, Toulouse, France."
+                    },
+                    {
+                      "affiliation": "LCC-CNRS, Universit\u00e9 de Toulouse, CNRS, Toulouse, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Houz\u00e9 S",
+                "lastName": "Houz\u00e9",
+                "firstName": "Sandrine",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Universit\u00e9 Paris Cit\u00e9, IRD, MERIT, Paris, France."
+                    },
+                    {
+                      "affiliation": "CNR du Paludisme, AP-HP, H\u00f4pital Bichat, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sarrasin V",
+                "lastName": "Sarrasin",
+                "firstName": "V\u00e9ronique",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Universit\u00e9 Paris Cit\u00e9, IRD, MERIT, Paris, France."
+                    },
+                    {
+                      "affiliation": "CNR du Paludisme, AP-HP, H\u00f4pital Bichat, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chapeland-Leclerc F",
+                "lastName": "Chapeland-Leclerc",
+                "firstName": "Florence",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6672-5501"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 8038 CiTCoM, CNRS, Universit\u00e9 de Paris Cit\u00e9, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ruprich-Robert G",
+                "lastName": "Ruprich-Robert",
+                "firstName": "Gwena\u00ebl",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3679-428X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 8038 CiTCoM, CNRS, Universit\u00e9 de Paris Cit\u00e9, Paris, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bourgeade-Delmas S",
+                "lastName": "Bourgeade-Delmas",
+                "firstName": "Sandra",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yedomonhan H",
+                "lastName": "Yedomonhan",
+                "firstName": "Hounnankpon",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratoire de Botanique et d'Ecologie des plantes, Facult\u00e9 des Sciences et Techniques (FAST), Universit\u00e9 d'Abomey Calavi, B\u00e9nin."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dumondin C",
+                "lastName": "Dumondin",
+                "firstName": "Charlotte",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jullian V",
+                "lastName": "Jullian",
+                "firstName": "Val\u00e9rie",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1675-9105"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5896-5700"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1675-9105"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6672-5501"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2265-4972"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3679-428X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0008-2256-4866"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "20",
+            "journalIssueId": 3987016,
+            "dateOfPublication": "2025 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "e0330682",
+          "abstractText": "The use of teas made from locally cultivated Artemisia annua to fight malaria in remote areas where access to care is difficult is a matter of debate. This study aimed at document differences in the composition of A. annua teas cultivated in Benin to be sold as antimalarial teas, and in France, and their impact on antiplasmodial activity. A. annua teas were prepared with plants from one location in south France and from ten different plantations in Benin. Artemisinin was quantified in herbal teas with a liquid chromatography system coupled to mass spectrometry and multiple reaction monitoring detection methods. The herbal teas were tested against chloroquine-sensitive 3D7 strain of Plasmodium falciparum using isotopic microtest to determine IC50 values and calculate the concentration of artemisinin corresponding to the IC50 of the teas [ART(tea)_IC50]. Chemical profiles were determined by liquid chromatography coupled to high resolution mass spectrometry and a metabolomic analysis was performed to annotate compounds statistically linked to the antiplasmodial properties of the teas. Artemisinin content varied between 0.3\u2009mg/L for tea with plants from France to 15.7\u2009mg/L for teas made with plants from Benin with differences between locations. Artemisinin content was decreasing after a one-year storage of the plant for 3 localities in Benin with loss of 33%, 48% and 24% (P\u2009<\u20090.05). Artemisinin concentrations and antiplasmodial activity of teas were positively correlated although the comparison of ART(tea)_IC50s to IC50 of pure artemisinin suggested that other compounds present in the tea were involved in the activity, either enhancing or limiting it. Unknown alkaloids in A. annua teas correlated to antiplasmodial activity were also detected. These findings suggest that A. annua teas deserve further studies to identify other metabolites of interest and determine their role in antiplasmodial activity in relation to other molecules, particularly artemisinin.",
+          "affiliation": "UMR 152 PharmaDev, Universit\u00e9 Paul Sabatier-Toulouse 3, IRD, Universit\u00e9 de Toulouse, Toulouse France.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Artemisia annua",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Artemisinins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plant Extracts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromatography, Liquid"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "France"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Metabolomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Teas, Herbal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Plant Extracts",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Artemisinins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Teas, Herbal",
+                "registryNumber": "0"
+              },
+              {
+                "name": "artemisinin",
+                "registryNumber": "9RMU91N5K2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0330682"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12373170"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC12373170?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-08-22",
+          "dateOfCreation": "2025-08-22",
+          "dateOfRevision": "2025-08-27",
+          "electronicPublicationDate": "2025-08-22",
+          "firstPublicationDate": "2025-08-22",
+          "firstIndexDate": "2025-08-24",
+          "fullTextReceivedDate": "2025-12-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1047841",
+          "source": "PPR",
+          "doi": "10.1101/2025.07.06.663375",
+          "title": "Taurine is a Natural Host Cytoadhesion Inhibitor in Asymptomatic Malaria Cases",
+          "authorString": "Diffendall G, Millot P, Chen P, Fogang B, Dorin-Semblat D, Aprahamian F, Durand S, Gamain B, Claessens A, Scherf A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Diffendall G",
+                "lastName": "Diffendall",
+                "firstName": "Gretchen",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0783-517X"
+                }
+              },
+              {
+                "fullName": "Millot P",
+                "lastName": "Millot",
+                "firstName": "Perine",
+                "initials": "P"
+              },
+              {
+                "fullName": "Chen P",
+                "lastName": "Chen",
+                "firstName": "Patty",
+                "initials": "P"
+              },
+              {
+                "fullName": "Fogang B",
+                "lastName": "Fogang",
+                "firstName": "Balotin",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8162-4573"
+                }
+              },
+              {
+                "fullName": "Dorin-Semblat D",
+                "lastName": "Dorin-Semblat",
+                "firstName": "Dominique",
+                "initials": "D"
+              },
+              {
+                "fullName": "Aprahamian F",
+                "lastName": "Aprahamian",
+                "firstName": "Fanny",
+                "initials": "F"
+              },
+              {
+                "fullName": "Durand S",
+                "lastName": "Durand",
+                "firstName": "Sylv\u00e8re",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8255-2145"
+                }
+              },
+              {
+                "fullName": "Gamain B",
+                "lastName": "Gamain",
+                "firstName": "Beno\u00eet",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4277-0914"
+                }
+              },
+              {
+                "fullName": "Claessens A",
+                "lastName": "Claessens",
+                "firstName": "Antoine",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2411-3328"
+                }
+              },
+              {
+                "fullName": "Scherf A",
+                "lastName": "Scherf",
+                "firstName": "Artur",
+                "initials": "A"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0783-517X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4277-0914"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8162-4573"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8255-2145"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2411-3328"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "pubYear": "2025",
+          "abstractText": "The prolonged dry season in malaria-endemic regions of sub-Saharan Africa can be divided into periods of high and low transmission. The majority of symptomatic malaria cases are restricted to the short high transmission period that follows the rainy season. Shortly after, persistent asymptomatic malaria cases are more prevalent throughout the prolonged low transmission period. It is still unclear whether host metabolic alterations play a role in asymptomatic infections during seasonal malaria. In this study, we analyzed the blood plasma metabolome (n=199) of individuals in The Gambia, West Africa, capturing data from both high and low malaria transmission periods. Plasma samples from individuals (n=16) were collected monthly throughout the low transmission season, enabling a longitudinal analysis of metabolic alternations over six months. Our findings reveal that significant changes in host plasma metabolite composition are associated with seasonality and malaria pathogenicity. Notably, we observed elevated levels of taurine in asymptomatic malaria infections, especially during periods of low transmission.  In vitro , this naturally occurring host molecule inhibits the cytoadhesion of malaria-infected red blood cells (iRBCs), which is key to malaria disease severity and mortality. Exogenous taurine can significantly reduce or reverse binding of iRBCs to the common adhesion receptor CD36 and the endothelial protein C receptor (EPCR), the later being associated with cerebral malaria. This study uncovers a mechanism by which elevated taurine plasma levels in asymptomatic infections could reduce cytoadhesion and lead to increased splenic clearance, thereby strengthening host resistance to symptomatic infections. In the absence of health strategies targeting dry season parasite reservoirs, our findings highlight taurine as a potential prophylactic or therapeutic agent to reduce symptomatic malaria in sub-Saharan Africa.  <h4>One Sentence Summary</h4>  Metabolomics uncovers taurine as a natural host inhibitor of  Plasmodium falciparum cytoadhesion in asymptomatic malaria carriers, offering new insights for disease control.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2025
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1101/2025.07.06.663375"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2025-07-13",
+          "firstPublicationDate": "2025-07-08",
+          "firstIndexDate": "2025-07-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39880906",
+          "source": "MED",
+          "pmid": "39880906",
+          "pmcid": "PMC11779973",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11779973"
+            ]
+          },
+          "doi": "10.1038/s42003-025-07564-4",
+          "title": "Pivotal roles of Plasmodium falciparum lysophospholipid acyltransferase 1 in cell cycle progression and cytostome internalization.",
+          "authorString": "Fukumoto J, Yoshida M, Tokuoka SM, H Hayakawa ES, Miyazaki S, Sakura T, Inaoka DK, Kita K, Usukura J, Shindou H, Tokumasu F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Fukumoto J",
+                "lastName": "Fukumoto",
+                "firstName": "Junpei",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-1408-8712"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cellular Architecture Studies, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan. fukumoto.jumpei.fk@ehime-u.ac.jp."
+                    },
+                    {
+                      "affiliation": "Research Fellow of Japan Society for the Promotion of Science, Nagasaki, Japan. fukumoto.jumpei.fk@ehime-u.ac.jp."
+                    },
+                    {
+                      "affiliation": "Division of Malaria Research, Proteo-Science Center, Ehime University, Ehime, Japan. fukumoto.jumpei.fk@ehime-u.ac.jp."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yoshida M",
+                "lastName": "Yoshida",
+                "firstName": "Minako",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cellular Architecture Studies, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "Department of Molecular Infection Dynamics, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tokuoka SM",
+                "lastName": "Tokuoka",
+                "firstName": "Suzumi M",
+                "initials": "SM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0000-3600-3236"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Lipidomics, Graduate School of Medicine, University of Tokyo, Tokyo, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "H Hayakawa ES",
+                "lastName": "H Hayakawa",
+                "firstName": "Eri Saki",
+                "initials": "ES",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Medical Zoology, Department of Infection and Immunity, Jichi Medical University, Tochigi, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Miyazaki S",
+                "lastName": "Miyazaki",
+                "firstName": "Shinya",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9765-9757"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cellular Architecture Studies, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "Department of Protozoology, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "School of Tropical Medicine and Global Health, Nagasaki University, Nagasaki, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sakura T",
+                "lastName": "Sakura",
+                "firstName": "Takaya",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Infection Dynamics, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "School of Tropical Medicine and Global Health, Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "Department of Infection Biochemistry, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Inaoka DK",
+                "lastName": "Inaoka",
+                "firstName": "Daniel Ken",
+                "initials": "DK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9791-927X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Molecular Infection Dynamics, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "School of Tropical Medicine and Global Health, Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "Department of Infection Biochemistry, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kita K",
+                "lastName": "Kita",
+                "firstName": "Kiyoshi",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "School of Tropical Medicine and Global Health, Nagasaki University, Nagasaki, Japan."
+                    },
+                    {
+                      "affiliation": "Department of Infection Biochemistry, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Usukura J",
+                "lastName": "Usukura",
+                "firstName": "Jiro",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2286-5403"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Materials and Systems for Sustainability, Nagoya University, Aichi, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shindou H",
+                "lastName": "Shindou",
+                "firstName": "Hideo",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Lipid Life Science, National Center for Global Health and Medicine, Tokyo, Japan."
+                    },
+                    {
+                      "affiliation": "Department of Medical Lipid Science, Graduate School of Medicine, The University of Tokyo, Tokyo, Japan."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tokumasu F",
+                "lastName": "Tokumasu",
+                "firstName": "Fuyuki",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2790-1071"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Cellular Architecture Studies, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan. ftokumasu@gunma-u.ac.jp."
+                    },
+                    {
+                      "affiliation": "School of Tropical Medicine and Global Health, Nagasaki University, Nagasaki, Japan. ftokumasu@gunma-u.ac.jp."
+                    },
+                    {
+                      "affiliation": "Department of Laboratory Sciences, Graduate School of Health Sciences, Gunma University, Gunma, Japan. ftokumasu@gunma-u.ac.jp."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5067-2161"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9765-9757"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9791-927X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2286-5403"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2790-1071"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0000-3600-3236"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0002-1408-8712"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "8",
+            "journalIssueId": 3878782,
+            "dateOfPublication": "2025 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Commun Biol",
+              "title": "Communications biology",
+              "essn": "2399-3642",
+              "issn": "2399-3642",
+              "nlmid": "101719179",
+              "isoabbreviation": "Commun Biol"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "142",
+          "abstractText": "The rapid intraerythrocytic replication of Plasmodium falciparum, a deadly species of malaria parasite, requires a quick but constant supply of phospholipids to support marked cell membrane expansion. In the malarial parasite, many enzymes functioning in phospholipid synthesis pathway have not been identified or characterized. Here, we identify P. falciparum lysophospholipid acyltransferase 1 (PfLPLAT1) and show that PfLPLAT1 is vital for asexual parasite cell cycle progression and cytostome internalization. Deficiency in PfLPLAT1 results in decreased parasitemia and prevents transition to the schizont stage. Parasites lacking PfLPLAT1 also exhibit distinctive omega-shaped vacuoles, indicating disrupted cytostome function. Transcriptomic analyses suggest that this deficiency impacts DNA replication and cell cycle regulation. Mass spectrometry-based enzyme assay and lipidomic analysis demonstrate that recombinant PfLPLAT1 exhibits lysophospholipid acyltransferase activity with a preference for unsaturated fatty acids as its acyl donors and lysophosphatidic acids as an acceptor, with its conditional knockout leading to abnormal lipid composition and marked morphological and developmental changes including stage arrest. These findings highlight PfLPLAT1 as a potential target for antimalarial therapy, particularly due to its unique role and divergence from human orthologs.",
+          "affiliation": "Department of Cellular Architecture Studies, Division of Shionogi Global Infectious Diseases Division, Institute of Tropical Medicine (NEKKEN), Nagasaki University, Nagasaki, Japan. fukumoto.jumpei.fk@ehime-u.ac.jp.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Acyltransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "1-Acylglycerophosphocholine O-Acyltransferase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Cycle"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "2-acylglycerophosphate acyltransferase",
+                "registryNumber": "EC 2.3.1.52"
+              },
+              {
+                "name": "1-Acylglycerophosphocholine O-Acyltransferase",
+                "registryNumber": "EC 2.3.1.23"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Acyltransferases",
+                "registryNumber": "EC 2.3.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1038/s42003-025-07564-4"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s42003-025-07564-4"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11779973"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11779973?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "refseq",
+              "uniprot"
+            ]
+          },
+          "dateOfCompletion": "2025-05-04",
+          "dateOfCreation": "2025-01-29",
+          "dateOfRevision": "2025-05-24",
+          "electronicPublicationDate": "2025-01-29",
+          "firstPublicationDate": "2025-01-29",
+          "firstIndexDate": "2025-01-30",
+          "fullTextReceivedDate": "2025-11-27",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39765035",
+          "source": "MED",
+          "pmid": "39765035",
+          "doi": "10.1016/j.phymed.2025.156361",
+          "title": "Metabolite profiling of Artemisia afra and Artemisia annua extracts reveals divergent effects on Plasmodium falciparum.",
+          "authorString": "Mamede L, Rangel GW, Shinyuy LM, Boussif N, Herent MF, Govaerts B, Jansen O, Ledoux A, De Tullio P, Quetin-Leclercq J, Llin\u00e1s M, Fr\u00e9d\u00e9rich M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Mamede L",
+                "lastName": "Mamede",
+                "firstName": "Lucia",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8206-8102"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium; Pharmacognosy research group, Louvain Drug Research Institute (LDRI), Universit\u00e9 catholique de Louvain (UCLouvain), Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rangel GW",
+                "lastName": "Rangel",
+                "firstName": "Gabriel W",
+                "initials": "GW",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8208-2817"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology and Huck Center for Malaria Research (CMaR), The Pennsylvania State University, University Park, PA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shinyuy LM",
+                "lastName": "Shinyuy",
+                "firstName": "Lahngong Methodius",
+                "initials": "LM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium; Laboratory of Pharmacochemical and Natural Pharmaceutical Substances, Doctoral Training Unit in Health Sciences, Faculty of Medicine and Pharmaceutical Sciences, University of Douala, Douala P.O. Box 2701, Cameroon."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boussif N",
+                "lastName": "Boussif",
+                "firstName": "Na\u00efma",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Herent MF",
+                "lastName": "Herent",
+                "firstName": "Marie-France",
+                "initials": "MF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pharmacognosy research group, Louvain Drug Research Institute (LDRI), Universit\u00e9 catholique de Louvain (UCLouvain), Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Govaerts B",
+                "lastName": "Govaerts",
+                "firstName": "Bernadette",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Statistical Methodology and Computing Service (SMCS/LIDAM), UCLouvain, Louvain-la-Neuve, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jansen O",
+                "lastName": "Jansen",
+                "firstName": "Olivia",
+                "initials": "O",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ledoux A",
+                "lastName": "Ledoux",
+                "firstName": "Allison",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "De Tullio P",
+                "lastName": "De Tullio",
+                "firstName": "Pascal",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Clinical Metabolomics Group (CliMe), Center for Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, Li\u00e8ge, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Quetin-Leclercq J",
+                "lastName": "Quetin-Leclercq",
+                "firstName": "Jo\u00eblle",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Pharmacognosy research group, Louvain Drug Research Institute (LDRI), Universit\u00e9 catholique de Louvain (UCLouvain), Brussels, Belgium."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Llin\u00e1s M",
+                "lastName": "Llin\u00e1s",
+                "firstName": "Manuel",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Molecular Biology and Huck Center for Malaria Research (CMaR), The Pennsylvania State University, University Park, PA, USA; Department of Chemistry, The Pennsylvania State University, University Park, PA, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fr\u00e9d\u00e9rich M",
+                "lastName": "Fr\u00e9d\u00e9rich",
+                "firstName": "Michel",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium. Electronic address: M.Frederich@uliege.be."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8206-8102"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8208-2817"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0003-7851-559X"
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "136",
+            "journalIssueId": 3880540,
+            "dateOfPublication": "2025 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Phytomedicine",
+              "title": "Phytomedicine : international journal of phytotherapy and phytopharmacology",
+              "essn": "1618-095X",
+              "issn": "0944-7113",
+              "nlmid": "9438794",
+              "isoabbreviation": "Phytomedicine"
+            },
+            "printPublicationDate": "2025-01-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "156361",
+          "abstractText": "<h4>Background</h4>Artemisia spp. have been used for millennia in traditional medicine to treat a variety of ailments, including malaria. Extracts of Artemisia afra and A. annua remain widely used throughout Africa for healthcare purposes, notably to prevent and/or treat malaria. However, the modes of action of these plant extracts remain unclear, with contradictory reports regarding the presence and role of artemisinin in both plants.<h4>Purpose</h4>The aim of this study was to identify differences in the antimalarial mode of action of A. afra and A. annua by measuring their phenolic profiles and comparing their effect on parasite metabolism in vitro.<h4>Methods</h4>In this work, we analyzed the phenolic profile of A. afra and A. annua extracts through high-performance liquid chromatography (HPLC), detected and quantified artemisinin through HPLC and mass spectrometry (MS), and performed comparative HPLC-MS metabolomic analysis on in vitro-cultured Plasmodium falciparum trophozoites to elucidate the potential modes of action of these plant extracts.<h4>Results</h4>A. afra contained only trace amounts of artemisinin and elicited a different parasite metabolic response compared to A. annua, which contained significantly more artemisinin and correlated closely with the parasite response profile elicited by purified artemisinin. A. annua impacted parasite glutathione metabolism in agreement with the established redox activity of artemisinin, while A. afra had an effect on lipid precursors.<h4>Conclusions</h4>This study reveals that A. afra and A. annua have divergent effects on Plasmodium falciparum metabolism and provides support for ongoing efforts exploring the use of A. afra for the treatment of malaria.",
+          "affiliation": "Laboratory of Pharmacognosy, Center of Interdisciplinary Research on Medicines (CIRM), University of Li\u00e8ge, CIRM Laboratoire de Pharmacognosie CHU B36 Av Hopital 1, Liege B36 4000, Belgium; Pharmacognosy research group, Louvain Drug Research Institute (LDRI), Universit\u00e9 catholique de Louvain (UCLouvain), Brussels, Belgium.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Artemisia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Artemisia annua",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Artemisinins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phenols",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plant Extracts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antimalarials",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chromatography, High Pressure Liquid"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Trophozoites",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Malaria",
+              "Artemisia annua",
+              "Metabolomics",
+              "Metabolite Profiling",
+              "Artemisia Afra",
+              "Plasmodium Spp."
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Phenols",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Plant Extracts",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antimalarials",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Artemisinins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "artemisinin",
+                "registryNumber": "9RMU91N5K2"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "http://hdl.handle.net/2078.1/296873"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.phymed.2025.156361"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-04-29",
+          "dateOfCreation": "2025-01-07",
+          "dateOfRevision": "2025-05-20",
+          "electronicPublicationDate": "2025-01-01",
+          "firstPublicationDate": "2025-01-01",
+          "firstIndexDate": "2025-01-15",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39742977",
+          "source": "MED",
+          "pmid": "39742977",
+          "doi": "10.1016/j.jinf.2024.106396",
+          "title": "The impact of interethnic lipidomic variation in falciparum malaria.",
+          "authorString": "Abdrabou W, Zorigt S, Soulama I, Bolatbay D, Dieng MM, Jurkovic J, Serm\u00e9 SS, Sombi\u00e9 S, Henry NB, Kargougou D, Coulibaly SA, Diawara A, Idaghdour Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Abdrabou W",
+                "lastName": "Abdrabou",
+                "firstName": "Wael",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zorigt S",
+                "lastName": "Zorigt",
+                "firstName": "Saruul",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Soulama I",
+                "lastName": "Soulama",
+                "firstName": "Issiaka",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche et de Formation sur le Paludisme, Ouagadougou, Burkina Faso; Institut de Recherche en Sciences de la Sant\u00e9, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bolatbay D",
+                "lastName": "Bolatbay",
+                "firstName": "Dariga",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dieng MM",
+                "lastName": "Dieng",
+                "firstName": "Mame Massar",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Jurkovic J",
+                "lastName": "Jurkovic",
+                "firstName": "Jakub",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Serm\u00e9 SS",
+                "lastName": "Serm\u00e9",
+                "firstName": "Samuel Sindi\u00e9",
+                "initials": "SS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche et de Formation sur le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sombi\u00e9 S",
+                "lastName": "Sombi\u00e9",
+                "firstName": "Salif",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche et de Formation sur le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Henry NB",
+                "lastName": "Henry",
+                "firstName": "No\u00eblie B\u00e9r\u00e9",
+                "initials": "NB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche et de Formation sur le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kargougou D",
+                "lastName": "Kargougou",
+                "firstName": "D\u00e9sir\u00e9",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche et de Formation sur le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coulibaly SA",
+                "lastName": "Coulibaly",
+                "firstName": "Sam Aboubacar",
+                "initials": "SA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche et de Formation sur le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Diawara A",
+                "lastName": "Diawara",
+                "firstName": "A\u00efssatou",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0002-1989-6030"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Idaghdour Y",
+                "lastName": "Idaghdour",
+                "firstName": "Youssef",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE; Center for Genomics and Systems Biology, New York University Abu Dhabi, Abu Dhabi, UAE. Electronic address: youssef.idaghdour@nyu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0009-0002-1989-6030"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-2386-1190"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "90",
+            "journalIssueId": 3902274,
+            "dateOfPublication": "2025 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "J Infect",
+              "title": "The Journal of infection",
+              "essn": "1532-2742",
+              "issn": "0163-4453",
+              "nlmid": "7908424",
+              "isoabbreviation": "J Infect"
+            },
+            "printPublicationDate": "2025-02-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "106396",
+          "abstractText": "<h4>Background</h4>Shifts in dietary patterns during lifestyle transitions are integral components of the dynamic interactions between humans and their environments. Investigating the link between dietary diversity, the composition of the human lipidome and infection is key to understanding the interplay between diet and susceptibility to pathogens.<h4>Methods</h4>Here we address this question by performing a comparative study of two ethnic groups with divergent dietary patterns: Fulani, who are nomad pastoralists with a dairy-centric diet, and Mossi, who are farmers with a plant-based diet. We generate 196 paired global lipidomes (927 lipid molecules) from both groups before and during natural Plasmodium falciparum infection.<h4>Results</h4>Our analysis revealed 211 significantly differentially abundant lipid molecules between the two ethnic groups in both infection states. We show that ethnicity has a greater impact on the lipidome of these children than do P. falciparum infection and report inter-ethnic differences that impact pathogenesis. We highlight elevated levels of pentadecanoic acid (C15:0)-containing phospholipids in Fulani and experimentally demonstrate the suppressive effects of lysophosphatidylcholine LysoPC (15:0) on P. falciparum gametocyte production.<h4>Conclusion</h4>These findings link the Fulani's dairy-centric diet and lower P. falciparum gametocyte densities reported in this group and underscore the intricate links between dietary lipids and the host response to infection.",
+          "affiliation": "Program in Biology, Division of Science, New York University Abu Dhabi, Abu Dhabi, UAE.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "New York University Abu Dhabi",
+                "grantId": "ADHPG AD105",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EH",
+                      "qualifierName": "ethnology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipids"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Diet"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Burkina Faso",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EH",
+                      "qualifierName": "ethnology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipidomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ethnicity"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "West African People"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Metabolism",
+              "Malaria",
+              "Diet",
+              "Plasmodium falciparum",
+              "Pentadecanoic Acid",
+              "Ethnicity",
+              "Lipidomics",
+              "Host-parasite Interactions",
+              "Fulani",
+              "Mossi"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Lipids",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Unpaywall",
+                "url": "https://orbi.uliege.be/handle/2268/330506"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jinf.2024.106396"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2025-02-15",
+          "dateOfCreation": "2025-01-01",
+          "dateOfRevision": "2025-05-27",
+          "electronicPublicationDate": "2024-12-30",
+          "firstPublicationDate": "2024-12-30",
+          "firstIndexDate": "2025-01-02",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

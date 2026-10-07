@@ -1,0 +1,2834 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:44.572390+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1032,
+    "nextCursorMark": "AoJwgJivzJ0DKDU1NTYzNzY1",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%28%22surfaceome%22+OR+%22cell-surface%22+OR+%22surface+proteome%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_date%3Ay&cursorMark=AoJwgJivzJ0DKDU1NTYzNzY1&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:(\"surfaceome\" OR \"cell-surface\" OR \"surface proteome\") AND TITLE_ABS:(\"brain\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1333002",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.27.754749",
+          "title": "Low-Density Lipoprotein Cholesterol and Cerebral Pericyte Dysfunction in Acute Ischemic Stroke: Clinical and Experimental Evidence",
+          "authorString": "Wang F, Quan W, Wu G, Yang J, Wang X, Cao Q, Hao W, Wang E, Furihata T, Xu W, Li D, Ke S, Liu Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Wang F",
+                "lastName": "Wang",
+                "firstName": "Feng",
+                "initials": "F"
+              },
+              {
+                "fullName": "Quan W",
+                "lastName": "Quan",
+                "firstName": "Wenqiang",
+                "initials": "W"
+              },
+              {
+                "fullName": "Wu G",
+                "lastName": "Wu",
+                "firstName": "Gang",
+                "initials": "G"
+              },
+              {
+                "fullName": "Yang J",
+                "lastName": "Yang",
+                "firstName": "Jing",
+                "initials": "J"
+              },
+              {
+                "fullName": "Wang X",
+                "lastName": "Wang",
+                "firstName": "Xu",
+                "initials": "X"
+              },
+              {
+                "fullName": "Cao Q",
+                "lastName": "Cao",
+                "firstName": "Qian",
+                "initials": "Q"
+              },
+              {
+                "fullName": "Hao W",
+                "lastName": "Hao",
+                "firstName": "Wenlin",
+                "initials": "W"
+              },
+              {
+                "fullName": "Wang E",
+                "lastName": "Wang",
+                "firstName": "En",
+                "initials": "E"
+              },
+              {
+                "fullName": "Furihata T",
+                "lastName": "Furihata",
+                "firstName": "Tomomi",
+                "initials": "T"
+              },
+              {
+                "fullName": "Xu W",
+                "lastName": "Xu",
+                "firstName": "Weihai",
+                "initials": "W"
+              },
+              {
+                "fullName": "Li D",
+                "lastName": "Li",
+                "firstName": "Dong",
+                "initials": "D"
+              },
+              {
+                "fullName": "Ke S",
+                "lastName": "Ke",
+                "firstName": "Shaofa",
+                "initials": "S"
+              },
+              {
+                "fullName": "Liu Y",
+                "lastName": "Liu",
+                "firstName": "Yang",
+                "initials": "Y"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Background: </h4> Low-density lipoprotein cholesterol (LDL-C) is an established risk factor for atherosclerotic cerebrovascular disease, but its effects on the cerebral microcirculation are poorly defined. We investigated whether LDL-C is associated with pericyte dysfunction in acute ischemic stroke (AIS) and explored underlying mechanisms. <h4>Methods:</h4> Serum soluble platelet-derived growth factor receptor-\u03b2 (sPDGFR\u03b2) was measured in two independent AIS cohorts (n=97 and n=86). Cerebral pericyte transcriptional responses to LDL-C were analyzed by single-cell RNA sequencing in Apoe-knockout mice fed control or high-fat diet (n=4 [male/female: 2/2]/group), and cultured human brain pericytes were exposed to purified human LDL cholesterol with or without N-acetyl-L-cysteine. <h4>Results:</h4> Higher serum sPDGFR\u03b2 was associated with greater neurological deficit and circulating neurofilament light chain. LDL-C positively correlated with sPDGFR\u03b2 in both clinical cohorts. High-fat diet induced coordinated suppression of type-I interferon pathways, and a positive shift in reactive oxygen species-related transcriptional programs in mouse pericytes; exploratory sex-by-diet analyses suggested larger transcriptional responses in females. In cultured human pericytes, LDL-C induced oxidative-stress, lipid-handling, and ferroptosis-associated transcriptional programs while suppressing type-I interferon signaling. Cross-species enrichment analysis showed that LDL-C-induced and -repressed signatures in cultured pericytes aligned with the sex-by-diet interaction in Apoe-knockout mice. LDL-C also reduced cell-surface PDGFR\u03b2 and increased sPDGFR\u03b2 release in cultured pericytes, which were significantly attenuated by N-acetyl-L-cysteine, whereas LDH activity increased numerically but not significantly. <h4>Conclusions:</h4> Clinical and experimental findings support an LDL-pericyte axis linking atherogenic lipid stress to cerebral microvascular dysfunction, with possible sex-dependent modulation of oxidative stress and type-I interferon signaling as potential mechanisms.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.27.754749"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "N",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-10-03",
+          "firstPublicationDate": "2026-10-02",
+          "firstIndexDate": "2026-10-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1328155",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.24.754190",
+          "title": "Fructose Dendrimer-Based Poly Ionic Complexes for Glut5-Specific Intracellular Drug Delivery in Murine Brain",
+          "authorString": "Woods P, Aldhahri G, Hanchar E, Dhulekar S, Ramos ER, Pi\u00f1eiro A, Vincent J, O\u2019Shea T.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Woods P",
+                "lastName": "Woods",
+                "firstName": "P.S.",
+                "initials": "P"
+              },
+              {
+                "fullName": "Aldhahri G",
+                "lastName": "Aldhahri",
+                "initials": "G"
+              },
+              {
+                "fullName": "Hanchar E",
+                "lastName": "Hanchar",
+                "initials": "E"
+              },
+              {
+                "fullName": "Dhulekar S",
+                "lastName": "Dhulekar",
+                "initials": "S"
+              },
+              {
+                "fullName": "Ramos ER",
+                "lastName": "Ramos",
+                "firstName": "Espinoza",
+                "initials": "ER"
+              },
+              {
+                "fullName": "Pi\u00f1eiro A",
+                "lastName": "Pi\u00f1eiro",
+                "initials": "A"
+              },
+              {
+                "fullName": "Vincent J",
+                "lastName": "Vincent",
+                "firstName": "J.P",
+                "initials": "J"
+              },
+              {
+                "fullName": "O\u2019Shea T",
+                "lastName": "O\u2019Shea",
+                "firstName": "T.M.",
+                "initials": "T"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Glial cells play essential roles in maintaining neural tissue homeostasis and limiting the spread of injury-induced neuroinflammation, yet their dysfunction can also exacerbate neurodegenerative, neuroimmune, and neurodevelopmental disorders. Therapeutic targeting of specific glial cell populations would open up new treatment possibilities, but currently available viral and non-viral delivery vehicles are limited by carrier toxicity as well as poor delivery efficiency and specificity. To work towards new glia-targeted, non-viral delivery vehicles, we performed an  in silico analysis on neural cell specific RNA-Seq datasets in mice to identify surface molecules differentially enriched on neurons, astrocytes, and microglia. We identified  Slc2a5 (Glut5) as a microglia-enriched transporter and validated its microglia specific expression in healthy murine neural tissue using RNA in situ hybridization. By employing a sequential thiol-ene and enzymatic catalyzed reaction scheme, we synthesized polyelectrolytic dendrimers with multivalent presentation of fructose, the natural ligand for Glut5, and formulated nano-sized polyionic complexes (PICs) loaded with protein or nucleic acid cargo by mixing oppositely charged dendrimers. Fructose functionalized PICs lacking cationic surface charge enabled fructose-dependent intracellular protein delivery to Glut5-expressing human breast cancer cells (MCF-7) and mouse fibroblasts, while restricting uptake by Glut5-negative mouse astrocytes, confirming transporter-dependent selectivity  in vitro . Fructose functionalized PICs resulted in minimal neuroinflammation when injected into mouse striatum at 1 mg/ml but elicited concentration-dependent neural tissue toxicity at higher doses. Fructose-PICs failed to achieve microglia specific intracellular delivery of functional proteins when injected into healthy neural tissue but aided in directing protein delivery to microglia and astrocytes at ischemic stroke lesions. Together, our findings demonstrate proof-of-principle for using in silico RNA-seq screening workflows to identify cell specific surfaceome targets and incorporating that insight into a modular biomaterial platform for targeted drug delivery.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.24.754190"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-26",
+          "firstPublicationDate": "2026-09-25",
+          "firstIndexDate": "2026-09-26",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42573261",
+          "source": "MED",
+          "pmid": "42573261",
+          "pmcid": "PMC13599487",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13599487"
+            ]
+          },
+          "doi": "10.1128/aem.01267-26",
+          "title": "The truncated major pilin subunit SBP2' contributes to &lt;i&gt;Streptococcus suis&lt;/i&gt; meningitis by interacting with host plasminogen.",
+          "authorString": "Guo G, Li P, Zhou Y, Li Q, Yu Y, An J, Zhang W.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Guo G",
+                "lastName": "Guo",
+                "firstName": "Genglin",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6186-9373"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Drexel University College of Medicine, Philadelphia, Pennsylvania, USA."
+                    },
+                    {
+                      "affiliation": "Jiaodong Innovation Center, Shandong Institute of Sericulture, Shandong Academy of Agricultural Sciences, Yantai, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li P",
+                "lastName": "Li",
+                "firstName": "Pei",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, China."
+                    },
+                    {
+                      "affiliation": "The Sanya Institute of Nanjing Agricultural University, Sanya, China."
+                    },
+                    {
+                      "affiliation": "College of Life Sciences and Food Engineering, Hebei University of Engineering, Handan, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou Y",
+                "lastName": "Zhou",
+                "firstName": "Yu",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, China."
+                    },
+                    {
+                      "affiliation": "The Sanya Institute of Nanjing Agricultural University, Sanya, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Q",
+                "lastName": "Li",
+                "firstName": "Quan",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Yangzhou University, Yangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yu Y",
+                "lastName": "Yu",
+                "firstName": "Yanfei",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-3523-4774"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, China."
+                    },
+                    {
+                      "affiliation": "Key Laboratory of Veterinary Biological Engineering and Technology, Institute of Veterinary Medicine, Jiangsu Academy of Agricultural Sciences, Ministry of Agriculture and Rural Affairs, Nanjing, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "An J",
+                "lastName": "An",
+                "firstName": "Jiahui",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2646-9005"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology, Immunology and Inflammation, Center for Inflammation and Lung Research, Temple University Lewis Katz School of Medicine, Philadelphia, Pennsylvania, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang W",
+                "lastName": "Zhang",
+                "firstName": "Wei",
+                "initials": "W",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3575-6225"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Veterinary Medicine, Nanjing Agricultural University, Nanjing, China."
+                    },
+                    {
+                      "affiliation": "The Sanya Institute of Nanjing Agricultural University, Sanya, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6186-9373"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2646-9005"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3575-6225"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-3523-4774"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "92",
+            "journalIssueId": 4269849,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Appl Environ Microbiol",
+              "title": "Applied and environmental microbiology",
+              "essn": "1098-5336",
+              "issn": "0099-2240",
+              "nlmid": "7605801",
+              "isoabbreviation": "Appl Environ Microbiol"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0126726",
+          "abstractText": "Meningitis is one of the most striking manifestations of <i>Streptococcus suis</i> infection. Although multiple virulence-associated factors have been identified, the mechanisms underlying meningitis development remain incompletely understood. In <i>S. suis</i>, a <i>srtBCD</i> pilus gene cluster has been identified; our previous study suggested its association with bacterial virulence. In this study, we investigated the role of the <i>srtBCD</i> cluster in <i>S. suis</i> pathogenesis and confirmed that SBP2' was specifically localized on the bacterial surface and was found to be essential for full virulence in a murine infection model, whereas deletion of other minor subunits had minimal impact. Using brain microvascular endothelial cells (BMECs), microglia, and a BALB/c mouse model, we examined how SBP2' promotes the development of <i>S. suis</i> meningitis. Our results show that SBP2' enhances bacterial colonization of BMECs and recruits host plasminogen, facilitating extracellular matrix (ECM) degradation, and thereby promoting bacterial invasion. In addition, SBP2' enables <i>S. suis</i> to evade microglial phagocytosis and improves its intracellular survival. Importantly, a monoclonal antibody targeting SBP2' conferred significant immunoprotection in mice. Together, these findings identify SBP2' as an important virulence factor and plasminogen-binding receptor that facilitates <i>S. suis</i> traversal of the blood-brain barrier.IMPORTANCE<i>Streptococcus suis</i> is an important zoonotic bacterial pathogen that could lead to severe damage in the central nervous system, but the mechanism underlying the breakthrough of the blood-brain barrier is still unclear. Pili are commonly considered virulence factors and subunit vaccine candidates, but no pilus structure could be observed on the surface of <i>S. suis</i> serotype 2. In this study, we found that the <i>srtBCD</i> pilus cluster, which was considered a pseudogene because of the truncation of the major pilus subunit, could be expressed, and the truncated major pilus subunit could be detected on the cell surface and be involved in the pathogenesis of <i>S. suis</i> serotype 2. Notably, monoclonal antibodies targeting SBP2' provide immunoprotection in mice, reducing bacterial loads and brain damage. These findings identify SBP2' as a key virulence factor and therapeutic target, offering insights into <i>S. suis</i> meningitis mechanisms.",
+          "affiliation": "Department of Microbiology and Immunology, Drexel University College of Medicine, Philadelphia, Pennsylvania, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Programs of National Natural Science Foundation of China",
+                "grantId": "32402898",
+                "orderIn": 0
+              },
+              {
+                "agency": "Research and Development of Artificial Intelligence Diagnosis and Ecological Prevention Technologies for Major Bacterial Diseases in Large-Scale Pig Farms in Xinjiang",
+                "grantId": "2026LQ03001",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Endothelial Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Streptococcus suis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Meningitis, Bacterial",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Streptococcal Infections",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MI",
+                      "qualifierName": "microbiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasminogen",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Fimbriae Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Virulence Factors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Virulence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Monoclonal antibody",
+              "Virulence",
+              "Plasminogen",
+              "Streptococcus suis",
+              "Meningitis",
+              "Pili",
+              "Sbp2\u2019"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Plasminogen",
+                "registryNumber": "9001-91-6"
+              },
+              {
+                "name": "Fimbriae Proteins",
+                "registryNumber": "147680-16-8"
+              },
+              {
+                "name": "Virulence Factors",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/aem.01267-26"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13599487"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13599487?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "hpa",
+              "pdb",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-23",
+          "dateOfCreation": "2026-08-10",
+          "dateOfRevision": "2026-09-25",
+          "electronicPublicationDate": "2026-08-10",
+          "firstPublicationDate": "2026-08-10",
+          "firstIndexDate": "2026-08-13",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42566443",
+          "source": "MED",
+          "pmid": "42566443",
+          "pmcid": "PMC13450771",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13450771"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0355841",
+          "title": "A Transgenic mouse tolerant to syngeneic cancer cells expressing truncated human epidermal growth factor receptor.",
+          "authorString": "Barberi T, Khuroo R, Friedman AD.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Barberi T",
+                "lastName": "Barberi",
+                "firstName": "Theresa",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Pediatric Oncology, Johns Hopkins University School of Medicine, Baltimore, Maryland, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Khuroo R",
+                "lastName": "Khuroo",
+                "firstName": "Rahila",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Pediatric Oncology, Johns Hopkins University School of Medicine, Baltimore, Maryland, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Friedman AD",
+                "lastName": "Friedman",
+                "firstName": "Alan D",
+                "initials": "AD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5615-7061"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Pediatric Oncology, Johns Hopkins University School of Medicine, Baltimore, Maryland, United States of America."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5615-7061"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "related_data",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "8",
+            "volume": "21",
+            "journalIssueId": 4237532,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0355841",
+          "abstractText": "Epidermal Growth Factor Receptor (EGFR) is often present on the cell surface of a wide variety human malignancies, including non-small-cell lung cancer (NSCLC), glioblastoma (GBM), pancreatic ductal carcinoma (PDC), and castration-resistant prostate cancer (CRPC). Efforts to optimize immunotherapies targeting EGFR are limited by murine intolerance of human EGFR. To overcome this obstacle, we developed C57BL/6 mice in which a truncated variant of human EGFR (hEGFRt), lacking the ligand binding domain and cytoplasmic domain, is expressed from the CAG regulatory elements comprised of the CMV enhancer, \u03b2-actin promoter, and \u03b2-globin poly-adenylation signals. Cetuximab, a high-affinity, clinically available anti-human EGFR antibody, retains affinity for hEGFRt. The hEGFRt cDNA in the CAG-hEGFRt transgene is flanked by loxP sites to enable its excision thereby reducing interaction of hEGFRt-directed immunotherapies with normal tissues. The CAG-hEGFRt(f/f) transgene is abundantly expressed in hematopoietic lymphoid and myeloid cells, with low-level expression evident also in non-hematopoietic liver, lung, kidney, and brain. Mx1-Cre-mediated transgene excision in adult mice reduces hEGFRt\u2009~\u20095-fold in blood mononuclear cells. CAG-hEGFRt(f/f) adult mice are tolerant of syngeneic NSCLC, GBM, prostate, and PDC lines expressing hEGFRt. These mice retain hEGFRt tolerance after transgene deletion. CAG-hEGFRt(f/f) mice provide a new and important tool for the development of immunotherapies targeting hEGFR.",
+          "affiliation": "Division of Pediatric Oncology, Johns Hopkins University School of Medicine, Baltimore, Maryland, United States of America.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "P30 CA006973",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Line, Tumor"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Transgenic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Neoplasms",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "ErbB Receptors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cetuximab"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "cetuximab",
+                "registryNumber": "PQX0D8J21J"
+              },
+              {
+                "name": "ErbB Receptors",
+                "registryNumber": "EC 2.7.10.1"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0355841"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13450771"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13450771?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-08-07",
+          "dateOfCreation": "2026-08-07",
+          "dateOfRevision": "2026-08-26",
+          "electronicPublicationDate": "2026-08-07",
+          "firstPublicationDate": "2026-08-07",
+          "firstIndexDate": "2026-08-09",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1293243",
+          "source": "PPR",
+          "doi": "10.64898/2026.07.31.741838",
+          "title": "The TREM2 targeting small molecule Sob-AM2 improves cognition independent of A\u03b2 plaque alteration in 5xFAD mice",
+          "authorString": "Kuhnau L, Jimenez GA, Hack W, Varada S, Gladen-Kolarsky N, Kim S, Klein F, Banerji T, Quinn JF, Scanlan TS, Gray NE.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kuhnau L",
+                "lastName": "Kuhnau",
+                "firstName": "Lucas",
+                "initials": "L"
+              },
+              {
+                "fullName": "Jimenez GA",
+                "lastName": "Jimenez",
+                "firstName": "Gisselle",
+                "initials": "GA"
+              },
+              {
+                "fullName": "Hack W",
+                "lastName": "Hack",
+                "firstName": "Wyatt",
+                "initials": "W"
+              },
+              {
+                "fullName": "Varada S",
+                "lastName": "Varada",
+                "firstName": "Samantha",
+                "initials": "S"
+              },
+              {
+                "fullName": "Gladen-Kolarsky N",
+                "lastName": "Gladen-Kolarsky",
+                "firstName": "Noah",
+                "initials": "N"
+              },
+              {
+                "fullName": "Kim S",
+                "lastName": "Kim",
+                "firstName": "Sunwoo",
+                "initials": "S"
+              },
+              {
+                "fullName": "Klein F",
+                "lastName": "Klein",
+                "firstName": "Finch",
+                "initials": "F"
+              },
+              {
+                "fullName": "Banerji T",
+                "lastName": "Banerji",
+                "firstName": "Tapasree",
+                "initials": "T"
+              },
+              {
+                "fullName": "Quinn JF",
+                "lastName": "Quinn",
+                "firstName": "Joseph",
+                "initials": "JF"
+              },
+              {
+                "fullName": "Scanlan TS",
+                "lastName": "Scanlan",
+                "firstName": "Thomas",
+                "initials": "TS"
+              },
+              {
+                "fullName": "Gray NE",
+                "lastName": "Gray",
+                "firstName": "Nora",
+                "initials": "NE"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>Background</h4>  Inflammation is an early event that substantially influences Alzheimer\u2019s disease (AD) pathogenesis, making it a compelling target for therapeutic intervention. Sob-AM2 is a brain-penetrating thyromimetic drug capable of inducing the expression of microglial cell surface receptor TREM2, which mediates the switch from pro-inflammatory to a more restorative microglial state. <h4>Objective</h4>  Evaluate the effects of Sob-AM2 on cognition, AD pathology and microglial activity in the 5xFAD mouse model of amyloid-beta (A\u03b2) accumulation. <h4>Methods</h4>  Seven-month-old 5xFAD mice and their wild-type littermates were administered Sob-AM2 subcutaneously three times per week for 12 weeks. In the last two weeks of treatment mice underwent behavioral tests to assess cognition and monitor for off-target mobility effects. At the end of treatment, brain tissue was harvested for gene and protein expression analyses. <h4>Results</h4>  Sob-AM2 treatment increased TREM2 expression in the brains of 5xFAD mice. This was accompanied by an improvement in both spatial and associative memory as well as an increase in the expression of synaptic genes synaptophysin and PSD-95. No significant changes were detected in A\u03b2 plaque burden or the expression of microglial activation marker Iba1 in Sob-AM2 treated animals, however, the expression of the phagocytic marker CD68 was significantly increased in the hippocampus, but not the cortex, in Sob-AM2 treated 5xFAD mice. <h4>Conclusion</h4>  These results suggest that the cognitive-enhancing effects of Sob-AM2 are not the result of reduced overall plaque burden. Future work is needed to further investigate the neuroprotective mechanism of Sob-AM2 and how it may be affecting microglial phenotypes.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.07.31.741838"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-07",
+          "firstPublicationDate": "2026-08-05",
+          "firstIndexDate": "2026-08-07",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42364894",
+          "source": "MED",
+          "pmid": "42364894",
+          "doi": "10.1016/j.ejphar.2026.179094",
+          "title": "Diammonium glycyrrhizinate attenuates neuroinflammation after intracerebral hemorrhage by suppressing VCAM-1 expression via the PI3K-Akt pathway.",
+          "authorString": "Feng M, Zhang K, Wang F, Wu H, Qin Q.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Feng M",
+                "lastName": "Feng",
+                "firstName": "Mengzhao",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, The First Affiliated Hospital of Zhengzhou University, Zhengzhou City, Henan Province, 450000, China; State Key Laboratory of Biomedical Imaging Science and System, Institute of Biomedicine and Biotechnology, Shenzhen Institute of Advanced Technology, Chinese Academy of Sciences, Shenzhen, Guangdong Province, 518055, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang K",
+                "lastName": "Zhang",
+                "firstName": "Kaiyuan",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, The First Affiliated Hospital of Zhengzhou University, Zhengzhou City, Henan Province, 450000, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang F",
+                "lastName": "Wang",
+                "firstName": "Fang",
+                "initials": "F",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, The First Affiliated Hospital of Zhengzhou University, Zhengzhou City, Henan Province, 450000, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu H",
+                "lastName": "Wu",
+                "firstName": "Han",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory of Biomedical Imaging Science and System, Institute of Biomedicine and Biotechnology, Shenzhen Institute of Advanced Technology, Chinese Academy of Sciences, Shenzhen, Guangdong Province, 518055, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Qin Q",
+                "lastName": "Qin",
+                "firstName": "Qi",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Neurosurgery, The First Affiliated Hospital of Zhengzhou University, Zhengzhou City, Henan Province, 450000, China. Electronic address: qinqi0068@163.com."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "1030",
+            "journalIssueId": 4225482,
+            "dateOfPublication": "2026 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Eur J Pharmacol",
+              "title": "European journal of pharmacology",
+              "essn": "1879-0712",
+              "issn": "0014-2999",
+              "nlmid": "1254354",
+              "isoabbreviation": "Eur J Pharmacol"
+            },
+            "printPublicationDate": "2026-07-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "179094",
+          "abstractText": "Intracerebral hemorrhage (ICH) is a devastating stroke subtype with limited therapeutic options, and excessive neuroinflammation plays a critical role in secondary brain injury following ICH. Here, we investigated whether diammonium glycyrrhizinate (DG), a clinically approved anti-inflammatory agent, confers neuroprotection in a mouse model of ICH and explored the underlying mechanisms. Adult male C57BL/6J mice subjected to collagenase-induced ICH were treated with DG or vehicle, and we assessed neurological function, brain water content, hematoma volume, and blood-brain barrier (BBB) integrity at 3 days post-ICH. DG treatment significantly reduced brain edema, hematoma volume, and BBB leakage while improving neurological outcomes. RNA sequencing revealed that DG downregulated 94 genes, with enrichment in cell surface receptor activity pathways, and identified Vascular cell adhesion molecule-1 (VCAM-1) as a key downstream target. VCAM-1 upregulation in brain microvascular endothelial cells after ICH was markedly suppressed by DG, accompanied by reduced neutrophil infiltration, attenuated microglial M1 polarization, and decreased production of pro-inflammatory cytokines (IL-1\u03b2, IL-6, TNF-\u03b1), matrix metalloproteinase-9, oxidative stress markers, and apoptotic factors. Mechanistically, DG activated the PI3K-Akt signaling pathway, and this activation was associated with suppression of VCAM-1 expression and subsequent attenuation of neuroinflammation. These findings demonstrate that DG attenuates neuroinflammation and secondary brain injury after ICH by activating the PI3K-Akt pathway to suppress VCAM-1 expression, thereby limiting peripheral immune cell infiltration and modulating microglial polarization. The PI3K-Akt/VCAM-1 axis represents a promising therapeutic target, and DG may serve as a potential candidate for ICH management.",
+          "affiliation": "Department of Neurosurgery, The First Affiliated Hospital of Zhengzhou University, Zhengzhou City, Henan Province, 450000, China; State Key Laboratory of Biomedical Imaging Science and System, Institute of Biomedicine and Biotechnology, Shenzhen Institute of Advanced Technology, Chinese Academy of Sciences, Shenzhen, Guangdong Province, 518055, China.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Natural Science Foundation of China",
+                "grantId": "82503692",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Blood-Brain Barrier",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain Edema"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cerebral Hemorrhage",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CO",
+                      "qualifierName": "complications"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Glycyrrhizic Acid",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Vascular Cell Adhesion Molecule-1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Neuroprotective Agents",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anti-Inflammatory Agents",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TU",
+                      "qualifierName": "therapeutic use"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytokines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proto-Oncogene Proteins c-akt",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Phosphatidylinositol 3-Kinases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Neuroinflammatory Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DT",
+                      "qualifierName": "drug therapy"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ET",
+                      "qualifierName": "etiology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "VCAM-1",
+              "Intracerebral hemorrhage",
+              "Blood-Brain Barrier",
+              "Diammonium glycyrrhizinate",
+              "neuroinflammation",
+              "Secondary Brain Injury"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Anti-Inflammatory Agents",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cytokines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Vascular Cell Adhesion Molecule-1",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Neuroprotective Agents",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proto-Oncogene Proteins c-akt",
+                "registryNumber": "EC 2.7.11.1"
+              },
+              {
+                "name": "Phosphatidylinositol 3-Kinases",
+                "registryNumber": "EC 2.7.1.-"
+              },
+              {
+                "name": "Glycyrrhizic Acid",
+                "registryNumber": "6FO62043WK"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.ejphar.2026.179094"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-08-11",
+          "dateOfCreation": "2026-06-27",
+          "dateOfRevision": "2026-08-11",
+          "electronicPublicationDate": "2026-06-27",
+          "firstPublicationDate": "2026-06-27",
+          "firstIndexDate": "2026-07-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42325836",
+          "source": "MED",
+          "pmid": "42325836",
+          "pmcid": "PMC13275298",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13275298"
+            ]
+          },
+          "doi": "10.1093/lifemeta/loag012",
+          "title": "CLPTM1L modulates membrane lipid rafts to promote tumor EGFR signaling.",
+          "authorString": "Pang D, Yang X, Li X, Xue Z, Hou X, Xiao K, Yang Y, Wang G, Zhao TJ, Bi J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Pang D",
+                "lastName": "Pang",
+                "firstName": "Dejian",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang X",
+                "lastName": "Yang",
+                "firstName": "Xuan",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li X",
+                "lastName": "Li",
+                "firstName": "Xinyao",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xue Z",
+                "lastName": "Xue",
+                "firstName": "Zixuan",
+                "initials": "Z",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hou X",
+                "lastName": "Hou",
+                "firstName": "Xincan",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xiao K",
+                "lastName": "Xiao",
+                "firstName": "Kemu",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yang Y",
+                "lastName": "Yang",
+                "firstName": "Yun",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang G",
+                "lastName": "Wang",
+                "firstName": "Guanlin",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao TJ",
+                "lastName": "Zhao",
+                "firstName": "Tong-Jin",
+                "initials": "TJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6861-3071"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    },
+                    {
+                      "affiliation": "State Key Laboratory of Metabolic Dysregulation & Prevention and Treatment of Esophageal Cancer, Innovation Center of Basic Research for Metabolic-Associated Fatty Liver Disease, Ministry of Education of China, Tianjian Laboratory of Advanced Biomedical Sciences, Academy of Medical Sciences, Zhengzhou University, Zhengzhou, Henan 450001, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bi J",
+                "lastName": "Bi",
+                "firstName": "Junfeng",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8141-2864"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6861-3071"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8141-2864"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "5",
+            "journalIssueId": 4208702,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Life Metab",
+              "title": "Life metabolism",
+              "essn": "2755-0230",
+              "issn": "2755-0230",
+              "nlmid": "9918471185006676",
+              "isoabbreviation": "Life Metab"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "loag012",
+          "abstractText": "The plasma membrane dynamically organizes into specialized lipid domains to sustain cell proliferative signaling, yet the regu-latory mechanisms driving this process, especially during tumor progression, remain poorly understood. Here, we uncover cleft lip and palate transmembrane protein 1-like protein (CLPTM1L), an endoplasmic reticulum-localized lipid scramblase, as a critical regulator of membrane raft formation and the epidermal growth factor receptor (EGFR)-mediated proliferative signaling in cancer. High <i>CLPTM1L</i> expression was significantly associated with poor patient survival in glioblastoma (GBM), the most aggressive brain cancer. Depletion of <i>CLPTM1L</i> disrupts cellular lipid homeostasis and results in a substantial loss of membrane raft components, including glycosphingolipids and glycosylphosphatidylinositol (GPI)-anchored proteins. The cell-surface level of EGFR, which colocalizes with raft marker GM1, is markedly reduced upon <i>CLPTM1L</i> loss. We show that CLPTM1L-mediated raft remodeling promotes EGFR signaling and drives cell proliferation in both cancer and non-cancer cells. In GBM mouse models, <i>CLPTM1L</i> depletion inhibits EGFR signaling and profoundly impairs orthotopic tumor growth. Our work establishes CLPTM1L as a key regulator of membrane raft domain formation and highlights its critical role in cancer proliferative signaling.",
+          "affiliation": "Shanghai Key Laboratory of Metabolic Remodeling and Health, Institute of Metabolism and Integrative Biology, Fudan University, Shanghai 200438, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Glioblastoma",
+              "lipid rafts",
+              "Clptm1l",
+              "Gpi-anchored Proteins",
+              "Rtk Signaling",
+              "Membrane Lipid Remodeling"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/lifemeta/loag012"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13275298"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13275298?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 1,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "hpa"
+            ]
+          },
+          "dateOfCompletion": "2026-06-22",
+          "dateOfCreation": "2026-06-22",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-05-20",
+          "firstPublicationDate": "2026-05-20",
+          "firstIndexDate": "2026-06-23",
+          "fullTextReceivedDate": "2026-06-26",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42081929",
+          "source": "MED",
+          "pmid": "42081929",
+          "pmcid": "PMC13267882",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13267882"
+            ]
+          },
+          "doi": "10.1016/j.brainres.2026.150364",
+          "title": "uPAR exhibits age- and region-dependent expression in the brains of mice with Alzheimer's disease-like pathology.",
+          "authorString": "Sarko LE, Klaus E, Bondarenko V, Secker C, Mnuk MS, Marino KM, Shippy DC, Ulland TK, Saha K, Emborg ME, Metzger JM.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Sarko LE",
+                "lastName": "Sarko",
+                "firstName": "Lauren E",
+                "initials": "LE",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cellular and Molecular Pathology Graduate Program, University of Wisconsin-Madison, Madison, WI, USA; Wisconsin Institute for Discovery, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Klaus E",
+                "lastName": "Klaus",
+                "firstName": "Ella",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wisconsin National Primate Research Center, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bondarenko V",
+                "lastName": "Bondarenko",
+                "firstName": "Viktoriya",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wisconsin National Primate Research Center, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Secker C",
+                "lastName": "Secker",
+                "firstName": "Callista",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wisconsin National Primate Research Center, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Mnuk MS",
+                "lastName": "Mnuk",
+                "firstName": "Mackenzie S",
+                "initials": "MS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wisconsin Institute for Discovery, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marino KM",
+                "lastName": "Marino",
+                "firstName": "Kaitlyn M",
+                "initials": "KM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology and Laboratory Medicine, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shippy DC",
+                "lastName": "Shippy",
+                "firstName": "Daniel C",
+                "initials": "DC",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology and Laboratory Medicine, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ulland TK",
+                "lastName": "Ulland",
+                "firstName": "Tyler K",
+                "initials": "TK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology and Laboratory Medicine, University of Wisconsin-Madison, Madison, WI, USA; Wisconsin Alzheimer's Disease Research Center, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Saha K",
+                "lastName": "Saha",
+                "firstName": "Krishanu",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2837-0858"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wisconsin Institute for Discovery, University of Wisconsin-Madison, Madison, WI, USA; Department of Pathology and Laboratory Medicine, University of Wisconsin-Madison, Madison, WI, USA; Department of Biomedical Engineering, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Emborg ME",
+                "lastName": "Emborg",
+                "firstName": "Marina E",
+                "initials": "ME",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Cellular and Molecular Pathology Graduate Program, University of Wisconsin-Madison, Madison, WI, USA; Wisconsin National Primate Research Center, University of Wisconsin-Madison, Madison, WI, USA; Department of Medical Physics, University of Wisconsin-Madison, Madison, WI, USA. Electronic address: emborg@primate.wisc.edu."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Metzger JM",
+                "lastName": "Metzger",
+                "firstName": "Jeanette M",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wisconsin National Primate Research Center, University of Wisconsin-Madison, Madison, WI, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2837-0858"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "1886",
+            "journalIssueId": 4208206,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Brain Res",
+              "title": "Brain research",
+              "essn": "1872-6240",
+              "issn": "0006-8993",
+              "nlmid": "0045503",
+              "isoabbreviation": "Brain Res"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "150364",
+          "abstractText": "The urokinase-type plasminogen activator receptor (uPAR) is a GPI-anchored cell surface protein that regulates leukocyte adhesion, migration, and activation, thereby contributing to inflammation and tissue remodeling. However, its role in Alzheimer's disease (AD), particularly in relation to glial dysfunction, remains poorly defined. Here, we investigated the temporal and spatial regulation of uPAR expression across AD mouse models with intact or deficient adaptive immunity. Using immunohistochemistry, we assessed uPAR expression in Rag2/Il2rg<sup>-</sup><sup>/-</sup> (Rag), Rag2/Il2rg<sup>-</sup><sup>/-</sup>-5xFAD (Rag-5xFAD), C57BL/6 (WT), and 5xFAD mice across multiple brain regions. uPAR expression increased with age and was significantly elevated in 5xFAD mice, with robust upregulation evident by 6\u00a0months irrespective of immune status. Immunofluorescence revealed that uPAR localized predominantly to Iba1<sup>+</sup> microglia clustered around A\u03b2 plaques, with limited neuronal expression. Bulk RNA sequencing of Rag-5xFAD brain tissue demonstrated enrichment of disease-associated microglia (DAM) and senescence-related transcriptional programs. These findings indicate that uPAR marks a subset of plaque-associated glial cells undergoing functional and transcriptional remodeling in AD, independent of peripheral adaptive immune signaling. Collectively, our results identify uPAR as a marker of dysfunctional, DAM-like microglia and implicate it in senescence-associated neuroinflammatory pathways. This work provides a framework for future studies targeting uPAR-expressing glial populations as a potential therapeutic strategy in AD.",
+          "affiliation": "Cellular and Molecular Pathology Graduate Program, University of Wisconsin-Madison, Madison, WI, USA; Wisconsin Institute for Discovery, University of Wisconsin-Madison, Madison, WI, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "P51OD011106",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "T32 GM135119",
+                "orderIn": 0
+              },
+              {
+                "agency": "University of Wisconsin-Madison",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIH HHS",
+                "acronym": "OD",
+                "grantId": "P51 OD011106",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "T32GM135119",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "grantId": "AAG9758 233 349500 4",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wisconsin Alumni Research Foundation Inc",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Health and Human Services",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Transgenic"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Alzheimer Disease",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA-Binding Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Age Factors"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Aging",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, Urokinase Plasminogen Activator",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plaque, Amyloid",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Brain",
+              "Mouse",
+              "Senescence",
+              "Neurodegeneration",
+              "uPAR",
+              "5Xfad",
+              "Alzheimer\u2019sdisease (Ad)"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "DNA-Binding Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Urokinase Plasminogen Activator",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.brainres.2026.150364"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13267882"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13267882?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS2175204",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "refsnp"
+            ]
+          },
+          "dateOfCompletion": "2026-06-05",
+          "dateOfCreation": "2026-05-04",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-05-02",
+          "firstPublicationDate": "2026-05-02",
+          "firstIndexDate": "2026-05-13",
+          "fullTextReceivedDate": "2026-06-26",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42018412",
+          "source": "MED",
+          "pmid": "42018412",
+          "doi": "10.1073/pnas.2527832123",
+          "title": "Self-cleavage-dependent and -independent functions of &lt;i&gt;Adgrg1/Gpr56&lt;/i&gt; in mice.",
+          "authorString": "Kwarcinski FE, Bernadyn TF, Teuber JP, Nascimento M, Bergin I, Shen T, Gandhi R, Lu X, Brody MJ, Holinstat M, Tall GG.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Kwarcinski FE",
+                "lastName": "Kwarcinski",
+                "firstName": "Frank E",
+                "initials": "FE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0007-2100-6785"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bernadyn TF",
+                "lastName": "Bernadyn",
+                "firstName": "Tyler F",
+                "initials": "TF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Teuber JP",
+                "lastName": "Teuber",
+                "firstName": "James P",
+                "initials": "JP",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5340-3290"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nascimento M",
+                "lastName": "Nascimento",
+                "firstName": "Mariane",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-3743-907X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bergin I",
+                "lastName": "Bergin",
+                "firstName": "Ingrid",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5436-4633"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit for Laboratory Medicine Pathology Core, University of Michigan, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shen T",
+                "lastName": "Shen",
+                "firstName": "Tingzhen",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gandhi R",
+                "lastName": "Gandhi",
+                "firstName": "Riya",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lu X",
+                "lastName": "Lu",
+                "firstName": "Xinyi",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Brody MJ",
+                "lastName": "Brody",
+                "firstName": "Matthew J",
+                "initials": "MJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    },
+                    {
+                      "affiliation": "Division of Cardiovascular Medicine, Department of Internal Medicine, University of Michigan, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Holinstat M",
+                "lastName": "Holinstat",
+                "firstName": "Michael",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5100-1933"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tall GG",
+                "lastName": "Tall",
+                "firstName": "Gregory G",
+                "initials": "GG",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6540-4896"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5100-1933"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5340-3290"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5436-4633"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6540-4896"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0007-2100-6785"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-3743-907X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "17",
+            "volume": "123",
+            "journalIssueId": 4178516,
+            "dateOfPublication": "2026 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Proc Natl Acad Sci U S A",
+              "title": "Proceedings of the National Academy of Sciences of the United States of America",
+              "essn": "1091-6490",
+              "issn": "0027-8424",
+              "nlmid": "7505876",
+              "isoabbreviation": "Proc Natl Acad Sci U S A"
+            },
+            "printPublicationDate": "2026-04-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e2527832123",
+          "abstractText": "Adhesion G protein-coupled receptors (AGPCRs) regulate essential physiological processes through interactions between their ectodomains and adjacent cell surface proteins or extracellular matrix components (ECM). AGPCRs distinctively arrive at the plasma membrane as self-cleaved holoreceptors with noncovalently associated N-terminal (NTF) and C-terminal fragments (CTF). Canonical AGPCR signaling proceeds in three sequential steps; NTF adhesive domains bind to ligands, extracellular shear force mediates NTF and CTF dissociation, a tethered peptide agonist (TA) is exposed and binds to the CTF orthosteric site to stabilize the active state receptor. Depending on the cellular context, both autoproteolysis-deficient and perhaps, a few cleavage-capable AGPCRs may be activated without NTF dissociation or the action of the TA. To discriminate the functional consequences of these signaling modes in vivo, we created a cleavage-deficient, <i>Gpr56</i> H381S knock-in mouse and investigated five distinct defective phenotypes of <i>Gpr56</i> knockout mice. One prominent phenotype, brain malformation that parallels human bilateral frontoparietal polymicrogyria (BFPP) disease, is characterized by dysplasia of the cortex and cerebellum and neuron heterotopia. Brain histology analyses confirmed that <i>Gpr56</i> H381S mice had comparable cerebellar structural irregularities as <i>Gpr56</i> knockout mice, indicating that TA agonism is indispensable for proper cerebellar lobule formation and neuronal migration. TA-dependent signaling was also required for male mouse fertility, but not for adult cardiomyocyte homeostatic functions, platelet-dependent hemostasis, or axon myelination in the central nervous system. These findings indicate that GPR56 has multiple modes of activation and that these signaling outcomes are likely driven by NTF interactions with specific ligands including collagen and transglutaminase-2.",
+          "affiliation": "Department of Pharmacology, University of Michigan School of Medicine, Ann Arbor, MI 48109.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "HHS | NIH | National Institute of General Medical Sciences (NIGMS)",
+                "grantId": "GM149539",
+                "orderIn": 0
+              },
+              {
+                "agency": "HHS | NIH | National Institute of General Medical Sciences",
+                "grantId": "GM149539",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R35 GM149539",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, G-Protein-Coupled",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Platelet",
+              "Cardiac development",
+              "Brain Development",
+              "Myelination",
+              "Adhesion Gpcrs"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Receptors, G-Protein-Coupled",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Adgrg1 protein, mouse",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.2527832123"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-07-15",
+          "dateOfCreation": "2026-04-22",
+          "dateOfRevision": "2026-07-15",
+          "electronicPublicationDate": "2026-04-22",
+          "firstPublicationDate": "2026-04-22",
+          "firstIndexDate": "2026-04-23",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1214508",
+          "source": "PPR",
+          "doi": "10.64898/2026.04.14.717551",
+          "title": "The exocyst is an insulin-sensitive regulator of amyloid precursor protein trafficking and amyloid-beta generation in neurons",
+          "authorString": "Balaan C, Patwardhan GY, Sachs RK, Kumasaka H, Sadagopan S, Aou S, Lee AJ, Nelson LT, Hew BE, Owens JB, Polgar N, Ortega MA, Nichols RA, Fogelgren B.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Balaan C",
+                "lastName": "Balaan",
+                "firstName": "Chantell",
+                "initials": "C"
+              },
+              {
+                "fullName": "Patwardhan GY",
+                "lastName": "Patwardhan",
+                "firstName": "Geetika",
+                "initials": "GY"
+              },
+              {
+                "fullName": "Sachs RK",
+                "lastName": "Sachs",
+                "firstName": "Rachel",
+                "initials": "RK"
+              },
+              {
+                "fullName": "Kumasaka H",
+                "lastName": "Kumasaka",
+                "firstName": "Hanna",
+                "initials": "H"
+              },
+              {
+                "fullName": "Sadagopan S",
+                "lastName": "Sadagopan",
+                "firstName": "Swasthita",
+                "initials": "S"
+              },
+              {
+                "fullName": "Aou S",
+                "lastName": "Aou",
+                "firstName": "Shion",
+                "initials": "S"
+              },
+              {
+                "fullName": "Lee AJ",
+                "lastName": "Lee",
+                "firstName": "Amanda",
+                "initials": "AJ"
+              },
+              {
+                "fullName": "Nelson LT",
+                "lastName": "Nelson",
+                "firstName": "Luke",
+                "initials": "LT"
+              },
+              {
+                "fullName": "Hew BE",
+                "lastName": "Hew",
+                "firstName": "Brian",
+                "initials": "BE"
+              },
+              {
+                "fullName": "Owens JB",
+                "lastName": "Owens",
+                "firstName": "Jesse",
+                "initials": "JB"
+              },
+              {
+                "fullName": "Polgar N",
+                "lastName": "Polgar",
+                "firstName": "Noemi",
+                "initials": "N"
+              },
+              {
+                "fullName": "Ortega MA",
+                "lastName": "Ortega",
+                "firstName": "Michael",
+                "initials": "MA"
+              },
+              {
+                "fullName": "Nichols RA",
+                "lastName": "Nichols",
+                "firstName": "Robert",
+                "initials": "RA"
+              },
+              {
+                "fullName": "Fogelgren B",
+                "lastName": "Fogelgren",
+                "firstName": "Ben",
+                "initials": "B"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<h4>SUMMARY</h4>  Intracellular trafficking of amyloid precursor protein (APP) critically influences amyloidogenic processing, yet the mechanisms regulating this pathway remain incompletely defined. The exocyst is a highly conserved, insulin-responsive, eight-protein Rab effector complex that directs intracellular transport vesicle targeting and docking. We identified APP in a proteomics screen of neuronal cell surface proteins altered after chemical inhibition of exocyst activity. In SH-SY5Y cells expressing a mutant APP that enhances amyloidogenic processing, RNAi-mediated silencing of exocyst subunits significantly decreased sAPP and A\u03b2 secretion, leading to significant intracellular APP accumulation. We found high-resolution co-localization of APP with exocyst subunits in soma and neurites of differentiated human SH-SY5Y neurons and mouse primary hippocampal neurons, and live-cell TIRF microscopy identified highly coordinated movement between fluorescently-tagged exocyst and APP proteins. These interactions were confirmed in these cells and in mouse brain histological sections by proximity ligation assays (PLAs) demonstrating close (<40nm) APP-EXOC5 association. To examine if exocyst activity in neurons is regulated by insulin, as it is in adipocytes and muscle, we generated a SH-SY5Y cell line with pHluorin-tagged GLUT4. Inhibition of the exocyst prevented exocytosis of GLUT4 to the plasma membrane in response to insulin. Additionally, using PLAs in mouse primary hippocampal neurons and SH-SY5Y neurons, we found that GLUT4-EXOC5 associations were increased by insulin signaling, but APP-EXOC5 associations were markedly reduced, indicating insulin-dependent retargeting of the exocyst complex away from APP+ vesicles towards GLUT+ vesicles. All together, these data identify the exocyst as a novel insulin-regulated mediator of neuronal APP trafficking and A\u03b2 secretion. <h4>In Brief</h4>  We show that the insulin-responsive exocyst regulates amyloidogenic processing of APP in neurons and that insulin signaling shifts the exocyst away from APP trafficking to promote the translocation of GLUT4-containing vesicles to the plasma membrane of neurons.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.04.14.717551"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-05-19",
+          "firstPublicationDate": "2026-04-17",
+          "firstIndexDate": "2026-05-19",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

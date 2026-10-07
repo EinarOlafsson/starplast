@@ -1,0 +1,3697 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:58:37.410920+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 324,
+    "nextCursorMark": "AoJfBigxNjAzOTU0Ng==",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22mouse%22+OR+TITLE_ABS%3A%22Mus+musculus%22%29+AND+TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22brain%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&cursorMark=AoJfBigxNjAzOTU0Ng%3D%3D&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "(TITLE_ABS:\"mouse\" OR TITLE_ABS:\"Mus musculus\") AND TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"infection\" OR \"host response\" OR \"transcriptome\") AND TITLE_ABS:(\"brain\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "19197351",
+          "source": "MED",
+          "pmid": "19197351",
+          "pmcid": "PMC2629126",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2629126"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1000288",
+          "title": "Disruption of the Toxoplasma gondii parasitophorous vacuole by IFNgamma-inducible immunity-related GTPases (IRG proteins) triggers necrotic cell death.",
+          "authorString": "Zhao YO, Khaminets A, Hunn JP, Howard JC.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhao YO",
+                "lastName": "Zhao",
+                "firstName": "Yang O",
+                "initials": "YO",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute for Genetics, University of Cologne, Cologne, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Khaminets A",
+                "lastName": "Khaminets",
+                "firstName": "Aliaksandr",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9143-8312"
+                }
+              },
+              {
+                "fullName": "Hunn JP",
+                "lastName": "Hunn",
+                "firstName": "Julia P",
+                "initials": "JP"
+              },
+              {
+                "fullName": "Howard JC",
+                "lastName": "Howard",
+                "firstName": "Jonathan C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2756-5143"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9143-8312"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2756-5143"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "5",
+            "journalIssueId": 1596420,
+            "dateOfPublication": "2009 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2009,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2009-02-01"
+          },
+          "pubYear": "2009",
+          "pageInfo": "e1000288",
+          "abstractText": "Toxoplasma gondii is a natural intracellular protozoal pathogen of mice and other small mammals. After infection, the parasite replicates freely in many cell types (tachyzoite stage) before undergoing a phase transition and encysting in brain and muscle (bradyzoite stage). In the mouse, early immune resistance to the tachyzoite stage is mediated by the family of interferon-inducible immunity-related GTPases (IRG proteins), but little is known of the nature of this resistance. We reported earlier that IRG proteins accumulate on intracellular vacuoles containing the pathogen, and that the vacuolar membrane subsequently ruptures. In this report, live-cell imaging microscopy has been used to follow this process and its consequences in real time. We show that the rupture of the vacuole is inevitably followed by death of the intracellular parasite, shown by its permeability to cytosolic protein markers. Death of the parasite is followed by the death of the infected cell. The death of the cell has features of pyronecrosis, including membrane permeabilisation and release of the inflammatory protein, HMGB1, but caspase-1 cleavage is not detected. This sequence of events occurs on a large scale only following infection of IFNgamma-induced cells with an avirulent strain of T. gondii, and is reduced by expression of a dominant negative mutant IRG protein. Cells infected by virulent strains rarely undergo necrosis. We did not find autophagy to play any role in the key steps leading to the death of the parasite. We conclude that IRG proteins resist infection by avirulent T. gondii by a novel mechanism involving disruption of the vacuolar membrane, which in turn ultimately leads to the necrotic death of the infected cell.",
+          "affiliation": "Institute for Genetics, University of Cologne, Cologne, Germany.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Vacuoles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fibroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Necrosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "GTP Phosphohydrolases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Fluorescence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Phase-Contrast"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Autophagy",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "GTP Phosphohydrolases",
+                "registryNumber": "EC 3.6.1.-"
+              },
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1000288"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2629126"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2629126?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 187,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2009-08-10",
+          "dateOfCreation": "2009-02-07",
+          "dateOfRevision": "2023-08-15",
+          "electronicPublicationDate": "2009-02-06",
+          "firstPublicationDate": "2009-02-06",
+          "firstIndexDate": "2009-12-23",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "26895155",
+          "source": "MED",
+          "pmid": "26895155",
+          "pmcid": "PMC4760770",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4760770"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1005447",
+          "title": "Neurons are the Primary Target Cell for the Brain-Tropic Intracellular Parasite Toxoplasma gondii.",
+          "authorString": "Cabral CM, Tuladhar S, Dietrich HK, Nguyen E, MacDonald WR, Trivedi T, Devineni A, Koshy AA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Cabral CM",
+                "lastName": "Cabral",
+                "firstName": "Carla M",
+                "initials": "CM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8378-3538"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tuladhar S",
+                "lastName": "Tuladhar",
+                "firstName": "Shraddha",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunobiology, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dietrich HK",
+                "lastName": "Dietrich",
+                "firstName": "Hans K",
+                "initials": "HK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nguyen E",
+                "lastName": "Nguyen",
+                "firstName": "Elizabeth",
+                "initials": "E",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "MacDonald WR",
+                "lastName": "MacDonald",
+                "firstName": "Wes R",
+                "initials": "WR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Undergraduate Biology Research Program, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Trivedi T",
+                "lastName": "Trivedi",
+                "firstName": "Tapasya",
+                "initials": "T",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Devineni A",
+                "lastName": "Devineni",
+                "firstName": "Asha",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Koshy AA",
+                "lastName": "Koshy",
+                "firstName": "Anita A",
+                "initials": "AA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8705-3233"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America."
+                    },
+                    {
+                      "affiliation": "Department of Immunobiology, University of Arizona, Tucson, Arizona, United States of America."
+                    },
+                    {
+                      "affiliation": "Department of Neurology, University of Arizona, Tucson, Arizona, United States of America."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8378-3538"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8705-3233"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "12",
+            "journalIssueId": 2368697,
+            "dateOfPublication": "2016 Feb",
+            "monthOfPublication": 2,
+            "yearOfPublication": 2016,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2016-02-01"
+          },
+          "pubYear": "2016",
+          "pageInfo": "e1005447",
+          "abstractText": "Toxoplasma gondii, a common brain-tropic parasite, is capable of infecting most nucleated cells, including astrocytes and neurons, in vitro. Yet, in vivo, Toxoplasma is primarily found in neurons. In vitro data showing that interferon-\u03b3-stimulated astrocytes, but not neurons, clear intracellular parasites suggest that neurons alone are persistently infected in vivo because they lack the ability to clear intracellular parasites. Here we test this theory by using a novel Toxoplasma-mouse model capable of marking and tracking host cells that directly interact with parasites, even if the interaction is transient. Remarkably, we find that Toxoplasma shows a strong predilection for interacting with neurons throughout CNS infection. This predilection remains in the setting of IFN-\u03b3 depletion; infection with parasites resistant to the major mechanism by which murine astrocytes clear parasites; or when directly injecting parasites into the brain. These findings, in combination with prior work, strongly suggest that neurons are not incidentally infected, but rather they are Toxoplasma's primary in vivo target.",
+          "affiliation": "BIO5 Institute, University of Arizona, Tucson, Arizona, United States of America.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "NS65116",
+                "orderIn": 0
+              },
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "grantId": "52003749",
+                "orderIn": 0
+              },
+              {
+                "agency": "NINDS NIH HHS",
+                "acronym": "NS",
+                "grantId": "K08 NS065116",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Astrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Intracellular Space",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Interferon-gamma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Interferon-gamma",
+                "registryNumber": "82115-62-6"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1005447"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4760770"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4760770?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 170,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2016-07-26",
+          "dateOfCreation": "2016-02-20",
+          "dateOfRevision": "2019-02-02",
+          "electronicPublicationDate": "2016-02-19",
+          "firstPublicationDate": "2016-02-19",
+          "firstIndexDate": "2016-02-20",
+          "fullTextReceivedDate": "2020-07-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "18947414",
+          "source": "MED",
+          "pmid": "18947414",
+          "pmcid": "PMC2588578",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC2588578"
+            ]
+          },
+          "doi": "10.1186/1742-2094-5-48",
+          "title": "Neurological and behavioral abnormalities, ventricular dilatation, altered cellular functions, inflammation, and neuronal injury in brains of mice due to common, persistent, parasitic infection.",
+          "authorString": "Hermes G, Ajioka JW, Kelly KA, Mui E, Roberts F, Kasza K, Mayr T, Kirisits MJ, Wollmann R, Ferguson DJ, Roberts CW, Hwang JH, Trendler T, Kennan RP, Suzuki Y, Reardon C, Hickey WF, Chen L, McLeod R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hermes G",
+                "lastName": "Hermes",
+                "firstName": "Gretchen",
+                "initials": "G",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Ophthalmology, University of Chicago, Chicago, IL, USA. hermespin@aol.com"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ajioka JW",
+                "lastName": "Ajioka",
+                "firstName": "James W",
+                "initials": "JW"
+              },
+              {
+                "fullName": "Kelly KA",
+                "lastName": "Kelly",
+                "firstName": "Krystyna A",
+                "initials": "KA"
+              },
+              {
+                "fullName": "Mui E",
+                "lastName": "Mui",
+                "firstName": "Ernest",
+                "initials": "E"
+              },
+              {
+                "fullName": "Roberts F",
+                "lastName": "Roberts",
+                "firstName": "Fiona",
+                "initials": "F"
+              },
+              {
+                "fullName": "Kasza K",
+                "lastName": "Kasza",
+                "firstName": "Kristen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Mayr T",
+                "lastName": "Mayr",
+                "firstName": "Thomas",
+                "initials": "T"
+              },
+              {
+                "fullName": "Kirisits MJ",
+                "lastName": "Kirisits",
+                "firstName": "Michael J",
+                "initials": "MJ"
+              },
+              {
+                "fullName": "Wollmann R",
+                "lastName": "Wollmann",
+                "firstName": "Robert",
+                "initials": "R"
+              },
+              {
+                "fullName": "Ferguson DJ",
+                "lastName": "Ferguson",
+                "firstName": "David J P",
+                "initials": "DJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5045-819X"
+                }
+              },
+              {
+                "fullName": "Roberts CW",
+                "lastName": "Roberts",
+                "firstName": "Craig W",
+                "initials": "CW"
+              },
+              {
+                "fullName": "Hwang JH",
+                "lastName": "Hwang",
+                "firstName": "Jong-Hee",
+                "initials": "JH"
+              },
+              {
+                "fullName": "Trendler T",
+                "lastName": "Trendler",
+                "firstName": "Toria",
+                "initials": "T"
+              },
+              {
+                "fullName": "Kennan RP",
+                "lastName": "Kennan",
+                "firstName": "Richard P",
+                "initials": "RP"
+              },
+              {
+                "fullName": "Suzuki Y",
+                "lastName": "Suzuki",
+                "firstName": "Yasuhiro",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Reardon C",
+                "lastName": "Reardon",
+                "firstName": "Catherine",
+                "initials": "C"
+              },
+              {
+                "fullName": "Hickey WF",
+                "lastName": "Hickey",
+                "firstName": "William F",
+                "initials": "WF"
+              },
+              {
+                "fullName": "Chen L",
+                "lastName": "Chen",
+                "firstName": "Lieping",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6825-3069"
+                }
+              },
+              {
+                "fullName": "McLeod R",
+                "lastName": "McLeod",
+                "firstName": "Rima",
+                "initials": "R"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5045-819X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0653-835X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6825-3069"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "5",
+            "journalIssueId": 2466627,
+            "dateOfPublication": "2008 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2008,
+            "journal": {
+              "medlineAbbreviation": "J Neuroinflammation",
+              "title": "Journal of neuroinflammation",
+              "essn": "1742-2094",
+              "issn": "1742-2094",
+              "nlmid": "101222974",
+              "isoabbreviation": "J Neuroinflammation"
+            },
+            "printPublicationDate": "2008-10-01"
+          },
+          "pubYear": "2008",
+          "pageInfo": "48",
+          "abstractText": "<h4>Background</h4>Worldwide, approximately two billion people are chronically infected with Toxoplasma gondii with largely unknown consequences.<h4>Methods</h4>To better understand long-term effects and pathogenesis of this common, persistent brain infection, mice were infected at a time in human years equivalent to early to mid adulthood and studied 5-12 months later. Appearance, behavior, neurologic function and brain MRIs were studied. Additional analyses of pathogenesis included: correlation of brain weight and neurologic findings; histopathology focusing on brain regions; full genome microarrays; immunohistochemistry characterizing inflammatory cells; determination of presence of tachyzoites and bradyzoites; electron microscopy; and study of markers of inflammation in serum. Histopathology in genetically resistant mice and cytokine and NRAMP knockout mice, effects of inoculation of isolated parasites, and treatment with sulfadiazine or alphaPD1 ligand were studied.<h4>Results</h4>Twelve months after infection, a time equivalent to middle to early elderly ages, mice had behavioral and neurological deficits, and brain MRIs showed mild to moderate ventricular dilatation. Lower brain weight correlated with greater magnitude of neurologic abnormalities and inflammation. Full genome microarrays of brains reflected inflammation causing neuronal damage (Gfap), effects on host cell protein processing (ubiquitin ligase), synapse remodeling (Complement 1q), and also increased expression of PD-1L (a ligand that allows persistent LCMV brain infection) and CD 36 (a fatty acid translocase and oxidized LDL receptor that mediates innate immune response to beta amyloid which is associated with pro-inflammation in Alzheimer's disease). Immunostaining detected no inflammation around intra-neuronal cysts, practically no free tachyzoites, and only rare bradyzoites. Nonetheless, there were perivascular, leptomeningeal inflammatory cells, particularly contiguous to the aqueduct of Sylvius and hippocampus, CD4+ and CD8+ T cells, and activated microglia in perivascular areas and brain parenchyma. Genetically resistant, chronically infected mice had substantially less inflammation.<h4>Conclusion</h4>In outbred mice, chronic, adult acquired T. gondii infection causes neurologic and behavioral abnormalities secondary to inflammation and loss of brain parenchyma. Perivascular inflammation is prominent particularly contiguous to the aqueduct of Sylvius and hippocampus. Even resistant mice have perivascular inflammation. This mouse model of chronic T. gondii infection raises questions of whether persistence of this parasite in brain can cause inflammation or neurodegeneration in genetically susceptible hosts.",
+          "affiliation": "Department of Ophthalmology, University of Chicago, Chicago, IL, USA. hermespin@aol.com",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "PHS HHS",
+                "grantId": "R01 073576",
+                "orderIn": 0
+              },
+              {
+                "agency": "PHS HHS",
+                "grantId": "R01 16945",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              },
+              {
+                "agency": "PHS HHS",
+                "grantId": "R01 027530",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI007090",
+                "orderIn": 0
+              },
+              {
+                "agency": "PHS HHS",
+                "grantId": "R01 047730",
+                "orderIn": 0
+              },
+              {
+                "agency": "PHS HHS",
+                "grantId": "R01 43228",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIMH NIH HHS",
+                "acronym": "MH",
+                "grantId": "R25 MH071584",
+                "orderIn": 0
+              },
+              {
+                "agency": "PHS HHS",
+                "grantId": "U01 77887",
+                "orderIn": 0
+              },
+              {
+                "agency": "PHS HHS",
+                "grantId": "R01 071319",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "5T32AI07090",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lateral Ventricles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microglia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Neurons",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "CD4-Positive T-Lymphocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "CD8-Positive T-Lymphocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Cerebral",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Encephalitis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Atrophy",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chronic Disease"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nerve Degeneration",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nerve Tissue Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Magnetic Resonance Imaging"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Behavior, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Age Factors"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Biomarkers",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Nerve Tissue Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Biomarkers",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/1742-2094-5-48"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2588578"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC2588578?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 159,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "go",
+              "refseq"
+            ]
+          },
+          "dateOfCompletion": "2009-01-08",
+          "dateOfCreation": "2008-10-25",
+          "dateOfRevision": "2021-11-24",
+          "electronicPublicationDate": "2008-10-23",
+          "firstPublicationDate": "2008-10-23",
+          "firstIndexDate": "2010-09-23",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "22194951",
+          "source": "MED",
+          "pmid": "22194951",
+          "pmcid": "PMC3237564",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3237564"
+            ]
+          },
+          "doi": "10.1371/journal.pone.0028925",
+          "title": "The distribution of Toxoplasma gondii cysts in the brain of a mouse with latent toxoplasmosis: implications for the behavioral manipulation hypothesis.",
+          "authorString": "Berenreiterov\u00e1 M, Flegr J, Kub\u011bna AA, N\u011bmec P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Berenreiterov\u00e1 M",
+                "lastName": "Berenreiterov\u00e1",
+                "firstName": "Miroslava",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Biology Section, Faculty of Science, Charles University in Prague, Praha, Czech Republic."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Flegr J",
+                "lastName": "Flegr",
+                "firstName": "Jaroslav",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0822-0126"
+                }
+              },
+              {
+                "fullName": "Kub\u011bna AA",
+                "lastName": "Kub\u011bna",
+                "firstName": "Ale\u0161 A",
+                "initials": "AA"
+              },
+              {
+                "fullName": "N\u011bmec P",
+                "lastName": "N\u011bmec",
+                "firstName": "Pavel",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0277-0239"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0822-0126"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0277-0239"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "6",
+            "journalIssueId": 1885771,
+            "dateOfPublication": "2011 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2011,
+            "journal": {
+              "medlineAbbreviation": "PLoS One",
+              "title": "PloS one",
+              "essn": "1932-6203",
+              "issn": "1932-6203",
+              "nlmid": "101285081",
+              "isoabbreviation": "PLoS One"
+            },
+            "printPublicationDate": "2011-01-01"
+          },
+          "pubYear": "2011",
+          "pageInfo": "e28925",
+          "abstractText": "<h4>Background</h4>The highly prevalent parasite Toxoplasma gondii reportedly manipulates rodent behavior to enhance the likelihood of transmission to its definitive cat host. The proximate mechanisms underlying this adaptive manipulation remain largely unclear, though a growing body of evidence suggests that the parasite-entrained dysregulation of dopamine metabolism plays a central role. Paradoxically, the distribution of the parasite in the brain has received only scant attention.<h4>Methodology/principal findings</h4>The distributions of T. gondii cysts and histopathological lesions in the brains of CD1 mice with latent toxoplasmosis were analyzed using standard histological techniques. Mice were infected per orally with 10 tissue cysts of the avirulent HIF strain of T. gondii at six months of age and examined 18 weeks later. The cysts were distributed throughout the brain and selective tropism of the parasite toward a particular functional system was not observed. Importantly, the cysts were not preferentially associated with the dopaminergic system and absent from the hypothalamic defensive system. The striking interindividual differences in the total parasite load and cyst distribution indicate a probabilistic nature of brain infestation. Still, some brain regions were consistently more infected than others. These included the olfactory bulb, the entorhinal, somatosensory, motor and orbital, frontal association and visual cortices, and, importantly, the hippocampus and the amygdala. By contrast, a consistently low incidence of tissue cysts was recorded in the cerebellum, the pontine nuclei, the caudate putamen and virtually all compact masses of myelinated axons. Numerous perivascular and leptomeningeal infiltrations of inflammatory cells were observed, but they were not associated with intracellular cysts.<h4>Conclusion/significance</h4>The observed pattern of T. gondii distribution stems from uneven brain colonization during acute infection and explains numerous behavioral abnormalities observed in the chronically infected rodents. Thus, the parasite can effectively change behavioral phenotype of infected hosts despite the absence of well targeted tropism.",
+          "affiliation": "Biology Section, Faculty of Science, Charles University in Prague, Praha, Czech Republic.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chronic Disease"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Body Weight",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dopamine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Behavior Control"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Count"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Behavior, Animal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Size"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organ Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tropism",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Models, Biological"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Dopamine",
+                "registryNumber": "VTD58H1Z2X"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0028925&type=printable"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pone.0028925"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3237564"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3237564?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 153,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2012-08-27",
+          "dateOfCreation": "2011-12-24",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2011-12-14",
+          "firstPublicationDate": "2011-12-14",
+          "firstIndexDate": "2012-01-02",
+          "fullTextReceivedDate": "2025-02-02",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "23236276",
+          "source": "MED",
+          "pmid": "23236276",
+          "pmcid": "PMC3516538",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3516538"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1003051",
+          "title": "GABAergic signaling is linked to a hypermigratory phenotype in dendritic cells infected by Toxoplasma gondii.",
+          "authorString": "Fuks JM, Arrighi RB, Weidner JM, Kumar Mendu S, Jin Z, Wallin RP, Rethi B, Birnir B, Barragan A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Fuks JM",
+                "lastName": "Fuks",
+                "firstName": "Jonas M",
+                "initials": "JM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4719-0097"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Infectious Medicine, Department of Medicine, Karolinska Institutet, Karolinska University Hospital Huddinge, Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Arrighi RB",
+                "lastName": "Arrighi",
+                "firstName": "Romanico B G",
+                "initials": "RB"
+              },
+              {
+                "fullName": "Weidner JM",
+                "lastName": "Weidner",
+                "firstName": "Jessica M",
+                "initials": "JM"
+              },
+              {
+                "fullName": "Kumar Mendu S",
+                "lastName": "Kumar Mendu",
+                "firstName": "Suresh",
+                "initials": "S"
+              },
+              {
+                "fullName": "Jin Z",
+                "lastName": "Jin",
+                "firstName": "Zhe",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4717-1558"
+                }
+              },
+              {
+                "fullName": "Wallin RP",
+                "lastName": "Wallin",
+                "firstName": "Robert P A",
+                "initials": "RP"
+              },
+              {
+                "fullName": "Rethi B",
+                "lastName": "Rethi",
+                "firstName": "Bence",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8220-5015"
+                }
+              },
+              {
+                "fullName": "Birnir B",
+                "lastName": "Birnir",
+                "firstName": "Bryndis",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1763-0266"
+                }
+              },
+              {
+                "fullName": "Barragan A",
+                "lastName": "Barragan",
+                "firstName": "Antonio",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7746-9964"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7746-9964"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8220-5015"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1763-0266"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4717-1558"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4719-0097"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "12",
+            "volume": "8",
+            "journalIssueId": 2009114,
+            "dateOfPublication": "2012 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2012,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2012-01-01"
+          },
+          "pubYear": "2012",
+          "pageInfo": "e1003051",
+          "abstractText": "During acute infection in human and animal hosts, the obligate intracellular protozoan Toxoplasma gondii infects a variety of cell types, including leukocytes. Poised to respond to invading pathogens, dendritic cells (DC) may also be exploited by T. gondii for spread in the infected host. Here, we report that human and mouse myeloid DC possess functional \u03b3-aminobutyric acid (GABA) receptors and the machinery for GABA biosynthesis and secretion. Shortly after T. gondii infection (genotypes I, II and III), DC responded with enhanced GABA secretion in vitro. We demonstrate that GABA activates GABA(A) receptor-mediated currents in T. gondii-infected DC, which exhibit a hypermigratory phenotype. Inhibition of GABA synthesis, transportation or GABA(A) receptor blockade in T. gondii-infected DC resulted in impaired transmigration capacity, motility and chemotactic response to CCL19 in vitro. Moreover, exogenous GABA or supernatant from infected DC restored the migration of infected DC in vitro. In a mouse model of toxoplasmosis, adoptive transfer of infected DC pre-treated with GABAergic inhibitors reduced parasite dissemination and parasite loads in target organs, e.g. the central nervous system. Altogether, we provide evidence that GABAergic signaling modulates the migratory properties of DC and that T. gondii likely makes use of this pathway for dissemination. The findings unveil that GABA, the principal inhibitory neurotransmitter in the brain, has activation functions in the immune system that may be hijacked by intracellular pathogens.",
+          "affiliation": "Center for Infectious Medicine, Department of Medicine, Karolinska Institutet, Karolinska University Hospital Huddinge, Stockholm, Sweden.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dendritic Cells",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "gamma-Aminobutyric Acid",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, GABA-A",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cell Movement",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Chemokine CCL19",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "gamma-Aminobutyric Acid",
+                "registryNumber": "56-12-2"
+              },
+              {
+                "name": "Receptors, GABA-A",
+                "registryNumber": "0"
+              },
+              {
+                "name": "CCL19 protein, human",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Ccl19 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Chemokine CCL19",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://journals.plos.org/plospathogens/article/file?id=10.1371/journal.ppat.1003051&type=printable"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1003051"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3516538"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3516538?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 137,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2013-05-23",
+          "dateOfCreation": "2012-12-14",
+          "dateOfRevision": "2021-10-21",
+          "electronicPublicationDate": "2012-12-06",
+          "firstPublicationDate": "2012-12-06",
+          "firstIndexDate": "2012-12-19",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "16882355",
+          "source": "MED",
+          "pmid": "16882355",
+          "doi": "10.1017/s0031182006000886",
+          "title": "The role of dopamine in Toxoplasma-induced behavioural alterations in mice: an ethological and ethopharmacological study.",
+          "authorString": "Skallov\u00e1 A, Kodym P, Frynta D, Flegr J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Skallov\u00e1 A",
+                "lastName": "Skallov\u00e1",
+                "firstName": "A",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Parasitology, Faculty of Science, Charles University, Vinicn\u00e1 7, Prague 128 44, Czech Republic."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kodym P",
+                "lastName": "Kodym",
+                "firstName": "P",
+                "initials": "P"
+              },
+              {
+                "fullName": "Frynta D",
+                "lastName": "Frynta",
+                "firstName": "D",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1375-7972"
+                }
+              },
+              {
+                "fullName": "Flegr J",
+                "lastName": "Flegr",
+                "firstName": "J",
+                "initials": "J"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1375-7972"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1436-5142"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "Pt 5",
+            "volume": "133",
+            "journalIssueId": 1357531,
+            "dateOfPublication": "2006 Nov",
+            "monthOfPublication": 11,
+            "yearOfPublication": 2006,
+            "journal": {
+              "medlineAbbreviation": "Parasitology",
+              "title": "Parasitology",
+              "essn": "1469-8161",
+              "issn": "0031-1820",
+              "nlmid": "0401121",
+              "isoabbreviation": "Parasitology"
+            },
+            "printPublicationDate": "2006-11-01"
+          },
+          "pubYear": "2006",
+          "pageInfo": "525-535",
+          "abstractText": "Toxoplasma gondii, a cosmopolitan protozoan parasite, is known to induce behavioural alterations in rodents and may exert an effect on human personality and behaviour. The mechanism of parasite-induced alterations in host behaviour has not been described, but it was hypothesized that development of Toxoplasma tissue cysts in the brain could affect the dopaminergic neuromodulatory system. In this study, we tested the effect of latent Toxoplasma infection on mouse behaviour associated with activity of the dopaminergic system, i.e. locomotion in a novel environment and exploration test. Additionally, we examined the behavioural response of Toxoplasma-infected mice to a selective dopamine uptake inhibitor, GBR 12909. In both genders, Toxoplasma infection decreased locomotion in the open field. Infected females displayed an increased level of exploration in the holeboard test. GBR 12909 induced suppression in holeboard-exploration in the infected males, but had an opposite effect on the controls. These results suggest an association between Toxoplasma gondii infection and changes in the dopaminergic neuromodulatory system.",
+          "affiliation": "Department of Parasitology, Faculty of Science, Charles University, Vinicn\u00e1 7, Prague 128 44, Czech Republic.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PP",
+                      "qualifierName": "physiopathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dopamine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Piperazines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Dopamine Uptake Inhibitors",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AD",
+                      "qualifierName": "administration & dosage"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Injections, Intraperitoneal"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Breeding"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Behavior, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Exploratory Behavior"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Locomotion"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Piperazines",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Dopamine Uptake Inhibitors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Dopamine",
+                "registryNumber": "VTD58H1Z2X"
+              },
+              {
+                "name": "vanoxerine",
+                "registryNumber": "90X28IKH43"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1017/S0031182006000886"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 129,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2007-01-18",
+          "dateOfCreation": "2006-08-03",
+          "dateOfRevision": "2021-11-24",
+          "electronicPublicationDate": "2006-08-02",
+          "firstPublicationDate": "2006-08-02",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "7558130",
+          "source": "MED",
+          "pmid": "7558130",
+          "title": "Definitive identification of a gene that confers resistance against Toxoplasma cyst burden and encephalitis.",
+          "authorString": "Brown CR, Hunter CA, Estes RG, Beckmann E, Forman J, David C, Remington JS, McLeod R.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Brown CR",
+                "lastName": "Brown",
+                "firstName": "C R",
+                "initials": "CR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, Michael Reese Hospital and Medical Center, Chicago, IL 60616, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hunter CA",
+                "lastName": "Hunter",
+                "firstName": "C A",
+                "initials": "CA"
+              },
+              {
+                "fullName": "Estes RG",
+                "lastName": "Estes",
+                "firstName": "R G",
+                "initials": "RG"
+              },
+              {
+                "fullName": "Beckmann E",
+                "lastName": "Beckmann",
+                "firstName": "E",
+                "initials": "E"
+              },
+              {
+                "fullName": "Forman J",
+                "lastName": "Forman",
+                "firstName": "J",
+                "initials": "J"
+              },
+              {
+                "fullName": "David C",
+                "lastName": "David",
+                "firstName": "C",
+                "initials": "C"
+              },
+              {
+                "fullName": "Remington JS",
+                "lastName": "Remington",
+                "firstName": "J S",
+                "initials": "JS"
+              },
+              {
+                "fullName": "McLeod R",
+                "lastName": "McLeod",
+                "firstName": "R",
+                "initials": "R"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "85",
+            "journalIssueId": 1192721,
+            "dateOfPublication": "1995 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 1995,
+            "journal": {
+              "medlineAbbreviation": "Immunology",
+              "title": "Immunology",
+              "essn": "1365-2567",
+              "issn": "0019-2805",
+              "nlmid": "0374672",
+              "isoabbreviation": "Immunology"
+            },
+            "printPublicationDate": "1995-07-01"
+          },
+          "pubYear": "1995",
+          "pageInfo": "419-428",
+          "abstractText": "Control of resistance to cyst burden following per-oral infection with Toxoplasma gondii has been mapped previously to a region of mouse chromosome 17 of approximately 140 kb. This region is contiguous with and contains the class I gene, Ld. Resistance to development of toxoplasmic encephalitis has also been reported to be controlled by genes in this region of H-2. TNF-alpha, D and L genes, as well as unidentified genes, are also in this region. The work described here was performed to identify definitively the gene(s) in this 140 kb region that confers resistance to cysts and encephalitis. The study demonstrates that relative resistance to T. gondii organisms and cyst burden in brain, and toxoplasmic encephalitis, 30 days following per-oral T. gondii infection is correlated absolutely with the presence of the Ld gene in inbred, recombinant, mutant and C3H.Ld transgenic mice. Mice with the Ld gene had lower cyst burdens and less encephalitis than those without the Ld gene. Specifically, 30 days after infection mice with the Ld gene had minimal perivascular inflammation and meningeal inflammation and very few Toxoplasma cysts or organisms in immunoperoxidase-stained preparations of their brains. Mice without the Ld gene had a similar pattern of inflammation, but in addition they had collections of inflammatory cells in the brain parenchyma. Free tachyzoites were found within these foci of inflammation and cysts were present in these areas as well as in contiguous areas without inflammatory cells. There were CD4+ and CD8+ T lymphocytes in the areas of inflammation and throughout the brain parenchyma. Mice that were resistant to cysts and encephalitis had little detectable brain cytokine mRNA expression, while mice that were susceptible had elevated levels of mRNA for a wide range of cytokines, consistent with their greater amounts of inflammation. The present work definitively demonstrates that a Ld-restricted response decreases the number of organisms and cysts within the brain and thereby limits toxoplasmic encephalitis and levels of interferon-gamma (IFN-gamma), tumour necrosis factor-alpha (TNF-alpha), interleukin-2 (IL-2), IL-6, IL-10, transforming growth factor-beta (TGF-beta), IL-1 alpha, IL1 beta and macrophage inhibiting protein (MIP) mRNA in the brain 30 days after per-oral infection.",
+          "affiliation": "Department of Medicine, Michael Reese Hospital and Medical Center, Chicago, IL 60616, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI16945",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI13111",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI14764",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred Strains"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IP",
+                      "qualifierName": "isolation & purification"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Cerebral",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Encephalitis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Messenger",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "H-2 Antigens",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytokines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Species Specificity"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunity, Innate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "RNA, Messenger",
+                "registryNumber": "0"
+              },
+              {
+                "name": "H-2 Antigens",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Cytokines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 126,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1995-11-06",
+          "dateOfCreation": "1995-07-01",
+          "dateOfRevision": "2022-11-27",
+          "firstPublicationDate": "1995-07-01",
+          "firstIndexDate": "2009-12-24",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "8636849",
+          "source": "MED",
+          "pmid": "8636849",
+          "doi": "10.2307/3284082",
+          "title": "Infectivity of low numbers of Toxoplasma gondii oocysts to pigs.",
+          "authorString": "Dubey JP, Lunney JK, Shen SK, Kwok OC, Ashford DA, Thulliez P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Dubey JP",
+                "lastName": "Dubey",
+                "firstName": "J P",
+                "initials": "JP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "U.S. Department of Agriculture, Agricultural Research Service, Livestock and Poultry Sciences Institute, Beltsville, Maryland 20705-2350, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lunney JK",
+                "lastName": "Lunney",
+                "firstName": "J K",
+                "initials": "JK"
+              },
+              {
+                "fullName": "Shen SK",
+                "lastName": "Shen",
+                "firstName": "S K",
+                "initials": "SK"
+              },
+              {
+                "fullName": "Kwok OC",
+                "lastName": "Kwok",
+                "firstName": "O C",
+                "initials": "OC"
+              },
+              {
+                "fullName": "Ashford DA",
+                "lastName": "Ashford",
+                "firstName": "D A",
+                "initials": "DA"
+              },
+              {
+                "fullName": "Thulliez P",
+                "lastName": "Thulliez",
+                "firstName": "P",
+                "initials": "P"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "82",
+            "journalIssueId": 934201,
+            "dateOfPublication": "1996 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 1996,
+            "journal": {
+              "medlineAbbreviation": "J Parasitol",
+              "title": "The Journal of parasitology",
+              "essn": "1937-2345",
+              "issn": "0022-3395",
+              "nlmid": "7803124",
+              "isoabbreviation": "J Parasitol"
+            },
+            "printPublicationDate": "1996-06-01"
+          },
+          "pubYear": "1996",
+          "pageInfo": "438-443",
+          "abstractText": "To define the infectiousness of the VEG strain of Toxoplasma gondii, 42 pigs were fed doses estimated at 10, 1, or < 1 mouse infective oocysts. They were killed 38-99 days after inoculation and 50 g of tissues from their tongue, heart, and brain were individually homogenized in acidic pepsin solution and bioassayed in mice. Pools of brain, heart, tongue, and skeletal muscle (total 500 g) were bioassayed in cats. Toxoplasma gondii was isolated by bioassays in mice and in cats from 13 of 14 pigs fed 10 oocysts, 13 of 14 pigs fed 1 oocyst, and 4 of 14 pigs fed \"less than\" 1 oocyst, indicating high infectivity of VEG strain of T. gondii to pigs. All infected pigs developed modified agglutination test antibodies (> 1:50). Control pigs (n = 6) remained seronegative (< 1:20) and T. gondii was not isolated from their tissues. Toxoplasma gondii was isolated from tongues of 27 (93%), brains of 21 (72%), and hearts of 13 (45%) of 29 experimentally infected pigs by bioassay in mice. The number of T. gondii-positive mice after inoculation of tongue, brain, and heart from infected pigs was 240 (80%), 84 (28%), and 36 (12%) of 300 mice inoculated with each organ, respectively. Thus, the VEG strain of T. gondii was localized more often and in higher numbers in the tongue than in the brain and the heart of pigs. The apparent muscle localization after infection with the low dose of the VEG strain of T. gondii agrees with other studies in livestock that suggest T. gondii is more neurotropic in mice than in livestock.",
+          "affiliation": "U.S. Department of Agriculture, Agricultural Research Service, Livestock and Poultry Sciences Institute, Beltsville, Maryland 20705-2350, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Tongue",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Heart",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Swine"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cats"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Swine Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.2307/3284082"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 126,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "1996-07-10",
+          "dateOfCreation": "1996-06-01",
+          "dateOfRevision": "2024-01-09",
+          "firstPublicationDate": "1996-06-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "31940479",
+          "source": "MED",
+          "pmid": "31940479",
+          "pmcid": "PMC6963786",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC6963786"
+            ]
+          },
+          "doi": "10.1016/j.celrep.2019.12.019",
+          "title": "Neuroinflammation-Associated Aspecific Manipulation of Mouse Predator Fear by Toxoplasma gondii.",
+          "authorString": "Boillat M, Hammoudi PM, Dogga SK, Pag\u00e8s S, Goubran M, Rodriguez I, Soldati-Favre D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Boillat M",
+                "lastName": "Boillat",
+                "firstName": "Madlaina",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics and Evolution, Faculty of Sciences, University of Geneva, 1211 Geneva, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hammoudi PM",
+                "lastName": "Hammoudi",
+                "firstName": "Pierre-Mehdi",
+                "initials": "PM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8511-356X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Molecular Medicine, Faculty of Medicine-University of Geneva CMU, 1 rue Michel-Servet 1211 Geneva 4, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dogga SK",
+                "lastName": "Dogga",
+                "firstName": "Sunil Kumar",
+                "initials": "SK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9158-9612"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Molecular Medicine, Faculty of Medicine-University of Geneva CMU, 1 rue Michel-Servet 1211 Geneva 4, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pag\u00e8s S",
+                "lastName": "Pag\u00e8s",
+                "firstName": "St\u00e9phane",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0618-777X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Wyss Center for Bio- and Neuroengineering, Geneva, Switzerland; Department of Basic Neurosciences, University of Geneva, Geneva, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Goubran M",
+                "lastName": "Goubran",
+                "firstName": "Maged",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5880-0818"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Hurvitz Brain Sciences Program, Sunnybrook Research Institute, University of Toronto, Toronto, ON, Canada."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rodriguez I",
+                "lastName": "Rodriguez",
+                "firstName": "Ivan",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6468-0565"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Genetics and Evolution, Faculty of Sciences, University of Geneva, 1211 Geneva, Switzerland. Electronic address: ivan.rodriguez@unige.ch."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Soldati-Favre D",
+                "lastName": "Soldati-Favre",
+                "firstName": "Dominique",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4156-2109"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Molecular Medicine, Faculty of Medicine-University of Geneva CMU, 1 rue Michel-Servet 1211 Geneva 4, Switzerland. Electronic address: dominique.soldati-favre@unige.ch."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5880-0818"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9158-9612"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6468-0565"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8511-356X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0618-777X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4156-2109"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "recommended_reviews"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "30",
+            "journalIssueId": 2902332,
+            "dateOfPublication": "2020 Jan",
+            "monthOfPublication": 1,
+            "yearOfPublication": 2020,
+            "journal": {
+              "medlineAbbreviation": "Cell Rep",
+              "title": "Cell reports",
+              "essn": "2211-1247",
+              "issn": "2211-1247",
+              "nlmid": "101573691",
+              "isoabbreviation": "Cell Rep"
+            },
+            "printPublicationDate": "2020-01-01"
+          },
+          "pubYear": "2020",
+          "pageInfo": "320-334.e6",
+          "abstractText": "In rodents, the decrease of felid aversion induced by\u00a0Toxoplasma gondii, a phenomenon termed fatal attraction, is interpreted as an adaptive manipulation by the neurotropic protozoan parasite. With the aim of understanding how the parasite induces such specific behavioral modifications, we performed a multiparametric analysis of T.\u00a0gondii-induced changes on\u00a0host behavior, physiology, and brain transcriptome as well as parasite cyst load and distribution. Using a set of complementary behavioral tests, we provide strong evidence that T.\u00a0gondii lowers general anxiety in infected mice, increases explorative behaviors, and surprisingly alters predator aversion without selectivity toward felids. Furthermore, we show a positive correlation between the severity of the behavioral alterations and the cyst load, which indirectly reflects the level of inflammation during brain colonization. Taken together, these findings refute the myth of a selective loss of cat fear in T.\u00a0gondii-infected mice and point toward widespread immune-related alterations of behaviors.",
+          "affiliation": "Department of Genetics and Evolution, Faculty of Sciences, University of Geneva, 1211 Geneva, Switzerland.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "160702",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "orderIn": 0
+              },
+              {
+                "agency": "European Research Council",
+                "acronym": "ERC_",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "189153",
+                "orderIn": 0
+              },
+              {
+                "agency": "Swiss National Science Foundation",
+                "grantId": "310030",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "TM",
+                      "qualifierName": "transmission"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Behavior, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Exploratory Behavior",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fear",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PX",
+                      "qualifierName": "psychology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "cat",
+              "Chronic infection",
+              "parasites",
+              "Host-pathogen Interaction",
+              "Innate Behavior",
+              "Predator Avoidance",
+              "Apicomplexa",
+              "Light-sheet Microscopy",
+              "Effector Molecules"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.celrep.2019.12.019"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC6963786"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 113,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2021-02-12",
+          "dateOfCreation": "2020-01-16",
+          "dateOfRevision": "2023-11-13",
+          "firstPublicationDate": "2020-01-01",
+          "firstIndexDate": "2020-01-17",
+          "fullTextReceivedDate": "2025-02-04",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "15888086",
+          "source": "MED",
+          "pmid": "15888086",
+          "doi": "10.1111/j.1462-5822.2005.00517.x",
+          "title": "Dissemination of Toxoplasma gondii to immunoprivileged organs and role of Toll/interleukin-1 receptor signalling for host resistance assessed by in vivo bioluminescence imaging.",
+          "authorString": "Hitziger N, Dellacasa I, Albiger B, Barragan A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hitziger N",
+                "lastName": "Hitziger",
+                "firstName": "Niclas",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Infectious Medicine, Department of Medicine, Karolinska Institutet, 141 86 Stockholm, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dellacasa I",
+                "lastName": "Dellacasa",
+                "firstName": "Isabel",
+                "initials": "I"
+              },
+              {
+                "fullName": "Albiger B",
+                "lastName": "Albiger",
+                "firstName": "Barbara",
+                "initials": "B"
+              },
+              {
+                "fullName": "Barragan A",
+                "lastName": "Barragan",
+                "firstName": "Antonio",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7746-9964"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7746-9964"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "7",
+            "journalIssueId": 1230787,
+            "dateOfPublication": "2005 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2005,
+            "journal": {
+              "medlineAbbreviation": "Cell Microbiol",
+              "title": "Cellular microbiology",
+              "essn": "1462-5822",
+              "issn": "1462-5814",
+              "nlmid": "100883691",
+              "isoabbreviation": "Cell Microbiol"
+            },
+            "printPublicationDate": "2005-06-01"
+          },
+          "pubYear": "2005",
+          "pageInfo": "837-848",
+          "abstractText": "Toxoplasma gondii infection can lead to life-threatening systemic disease in the immunocompromised individual and in the developing fetus. Despite intensive investigation in animal models of toxoplasmosis, the processes leading to systemic dissemination remain poorly characterized. In the present study, in vivo bioluminescence imaging (BLI) was applied to the Toxoplasma mouse model to study the dynamics of infection in real time. Photon emission analyses revealed rapid dissemination of parasites in the organism and dissemination to immunoprivileged organs (brain, eyes and testes). Spatio-temporal analysis by BLI in individual mice showed that the virulent RH strain (type I) and the non-virulent ME49/PTG strain (type II) disseminate widely, but the virulent RH strain (type I) exhibits a more dramatic expansion of parasite biomass. Assessment by BLI of the Toll/interleukin-1 receptor (TIR) signalling pathway in host resistance to T. gondii revealed that signal transduction to the adaptor protein MyD88 is probably mediated by Toll-like receptor(s) rather than by IL-1R or IL-18R signalling. However, TLR1(-/-), TLR2(-/-), TLR4(-/-), TLR6(-/-) and TLR9(-/-) animals did not exhibit increased susceptibility to infection. These results suggest that intricate mechanisms regulate TIR-mediated responses during Toxoplasma infection.",
+          "affiliation": "Center for Infectious Medicine, Department of Medicine, Karolinska Institutet, 141 86 Stockholm, Sweden.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred BALB C"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Caspase 1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adaptor Proteins, Signal Transducing"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Glycoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Cell Surface",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Immunologic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Receptors, Interleukin-1",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Differentiation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Luminescent Measurements"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toll-Like Receptors"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toll-Like Receptor 1"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toll-Like Receptor 2"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toll-Like Receptor 4"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Myeloid Differentiation Factor 88"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immunity, Innate"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Toll-like receptors",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Cell Surface",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Membrane Glycoproteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Immunologic",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Differentiation",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Interleukin-1",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Caspase 1",
+                "registryNumber": "EC 3.4.22.36"
+              },
+              {
+                "name": "Adaptor Proteins, Signal Transducing",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Toll-Like Receptor 2",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Toll-Like Receptor 4",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Myeloid differentiation factor 88",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Myd88 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Toll-Like Receptor 1",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1111/j.1462-5822.2005.00517.x"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1111/j.1462-5822.2005.00517.x"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 111,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2005-08-02",
+          "dateOfCreation": "2005-05-13",
+          "dateOfRevision": "2008-11-21",
+          "firstPublicationDate": "2005-06-01",
+          "firstIndexDate": "2008-12-23",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

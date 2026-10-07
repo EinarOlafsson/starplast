@@ -1,0 +1,3381 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22host+response%22+OR+%22host+transcriptome%22+OR+%22effector%22+OR+%22host-pathogen%22%29+AND+TITLE_ABS%3A%28%22host%22+OR+%22interaction%22+OR+%22degree%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:00:00.886439+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 267,
+    "nextCursorMark": "AoJwgKKi650DKDU1NTI5MTY0",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22host+response%22+OR+%22host+transcriptome%22+OR+%22effector%22+OR+%22host-pathogen%22%29+AND+TITLE_ABS%3A%28%22host%22+OR+%22interaction%22+OR+%22degree%22%29+sort_date%3Ay&cursorMark=AoJwgKKi650DKDU1NTI5MTY0&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"host response\" OR \"host transcriptome\" OR \"effector\" OR \"host-pathogen\") AND TITLE_ABS:(\"host\" OR \"interaction\" OR \"degree\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1318232",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.10.750675",
+          "title": "Characterization of Host Cell Cytosol-filled Vesicles in the Human Malaria Parasite  <i>Plasmodium falciparum</i>",
+          "authorString": "Ro\u00dfmann A, Dr\u00f6ge J, Wang H, Duda C, Zhen J, Sabitzki R, H\u00f6hn K, Farias GB, Guillen-Samander A, Gilberger T, Ho C, Spielmann T.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Ro\u00dfmann A",
+                "lastName": "Ro\u00dfmann",
+                "firstName": "Anna-Lena",
+                "initials": "A"
+              },
+              {
+                "fullName": "Dr\u00f6ge J",
+                "lastName": "Dr\u00f6ge",
+                "firstName": "Jana",
+                "initials": "J"
+              },
+              {
+                "fullName": "Wang H",
+                "lastName": "Wang",
+                "firstName": "Hanyu",
+                "initials": "H"
+              },
+              {
+                "fullName": "Duda C",
+                "lastName": "Duda",
+                "firstName": "Charlotte",
+                "initials": "C"
+              },
+              {
+                "fullName": "Zhen J",
+                "lastName": "Zhen",
+                "firstName": "James",
+                "initials": "J"
+              },
+              {
+                "fullName": "Sabitzki R",
+                "lastName": "Sabitzki",
+                "firstName": "Ricarda",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7422-1381"
+                }
+              },
+              {
+                "fullName": "H\u00f6hn K",
+                "lastName": "H\u00f6hn",
+                "firstName": "Katharina",
+                "initials": "K"
+              },
+              {
+                "fullName": "Farias GB",
+                "lastName": "Farias",
+                "firstName": "Guilherme",
+                "initials": "GB"
+              },
+              {
+                "fullName": "Guillen-Samander A",
+                "lastName": "Guillen-Samander",
+                "firstName": "Andres",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6882-3850"
+                }
+              },
+              {
+                "fullName": "Gilberger T",
+                "lastName": "Gilberger",
+                "firstName": "Tim-Wolf",
+                "initials": "T"
+              },
+              {
+                "fullName": "Ho C",
+                "lastName": "Ho",
+                "firstName": "Chi-Minh",
+                "initials": "C"
+              },
+              {
+                "fullName": "Spielmann T",
+                "lastName": "Spielmann",
+                "firstName": "Tobias",
+                "initials": "T"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7422-1381"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6882-3850"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Endocytosis of host cell cytosol is a key process in malaria blood stages. The endocytosed material consists mostly of haemoglobin (Hb) and is transported to the parasite\u2019s digestive vacuole (DV), where it is degraded. However, the endosomal transport pathway of the parasite is not well defined. A number of proteins are known that \u2013 when inactivated \u2013 lead to the appearance of Hb-filled vesicles (HbVs) in the parasite cytoplasm and prevent Hb from arriving in the DV, indicating they play a role in endosomal transport. However, despite the prominence of these HbVs, their morphology, molecular composition, and relationship to the endosomal transport pathway remain poorly understood. Here we carried out a morphological and surface proteome study of HbVs. CryoET showed HbVs are coatless, double membraned vesicles with a very narrow inter-membrane space devoid of larger protein densities. HbV surface proteomes generated by BioIDs most prominently detected DV proteases. Halo-based tracking of one of these DV protease confirmed it as a bona fide HbV cargo. The BioID also identified a number of vesicle trafficking proteins, including PfTBC8 and Rab11 proteins. Functional analysis of PfTBC8 showed its importance for the transport of Hb to the DV. This was due to a novel phenotype characterized by accumulation of diverse Hb-filled structures in the parasite cytosol and gradual decline of DV protease trafficking. PfTBC8 DiQ-BioID detected Rab11a and PfTBC8 inactivation altered Rab11a localization, suggesting it may be a Rab11a effector and that the new endosomal transport phenotype may result from a recycling defect. Together with the detection of VPS35 in the BioID and evidence from the CryoET of a disrupted inner HbV membrane in a proportion of vesicles, these findings support a model in which HbVs undergo maturation prior to fusion with the DV. Overall, our findings define morphological and molecular features of HbVs, identify protein cargo transported through this pathway, and reveal a previously unrecognized Rab-regulatory component required for endosomal trafficking in blood-stage  P. falciparum parasites.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.10.750675"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by-nc",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-13",
+          "firstPublicationDate": "2026-09-11",
+          "firstIndexDate": "2026-09-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42695679",
+          "source": "MED",
+          "pmid": "42695679",
+          "doi": "10.1128/msystems.00554-26",
+          "title": "Non-genetic red blood cell variability can modulate hemoglobin consumption by intracellular &lt;i&gt;Plasmodium falciparum&lt;/i&gt;.",
+          "authorString": "Perko JR, Singh A, Lopez SI, Estrada A, Singh S, Moser JM, Haupfear K, Klarmann GJ, Tuson SJ, Ho VB, Luckhart S, Vasdekis AE.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Perko JR",
+                "lastName": "Perko",
+                "firstName": "Joseph R",
+                "initials": "JR",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physics, University of Idaho, Moscow, Idaho, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singh A",
+                "lastName": "Singh",
+                "firstName": "Abhyudai",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Electrical and Computer Engineering, University of Delaware, Newark, Delaware, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lopez SI",
+                "lastName": "Lopez",
+                "firstName": "Secilia I",
+                "initials": "SI",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, University of Idaho, Moscow, Idaho, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Estrada A",
+                "lastName": "Estrada",
+                "firstName": "Armando",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "4D Bio\u00b3 Center for Biotechnology, Department of Radiology and Bioengineering, Uniformed Services University of the Health Sciences, Bethesda, Maryland, USA."
+                    },
+                    {
+                      "affiliation": "The Geneva Foundation, Tacoma, Washington, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singh S",
+                "lastName": "Singh",
+                "firstName": "Shweta",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "4D Bio\u00b3 Center for Biotechnology, Department of Radiology and Bioengineering, Uniformed Services University of the Health Sciences, Bethesda, Maryland, USA."
+                    },
+                    {
+                      "affiliation": "The Geneva Foundation, Tacoma, Washington, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moser JM",
+                "lastName": "Moser",
+                "firstName": "Janice M",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Sciperio, Inc., Orlando, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Haupfear K",
+                "lastName": "Haupfear",
+                "firstName": "Kelly",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Sciperio, Inc., Orlando, Florida, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Klarmann GJ",
+                "lastName": "Klarmann",
+                "firstName": "George J",
+                "initials": "GJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "4D Bio\u00b3 Center for Biotechnology, Department of Radiology and Bioengineering, Uniformed Services University of the Health Sciences, Bethesda, Maryland, USA."
+                    },
+                    {
+                      "affiliation": "The Geneva Foundation, Tacoma, Washington, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tuson SJ",
+                "lastName": "Tuson",
+                "firstName": "Sabrina J",
+                "initials": "SJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physics, University of Idaho, Moscow, Idaho, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ho VB",
+                "lastName": "Ho",
+                "firstName": "Vincent B",
+                "initials": "VB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "4D Bio\u00b3 Center for Biotechnology, Department of Radiology and Bioengineering, Uniformed Services University of the Health Sciences, Bethesda, Maryland, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Luckhart S",
+                "lastName": "Luckhart",
+                "firstName": "Shirley",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5047-4683"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biological Sciences, University of Idaho, Moscow, Idaho, USA."
+                    },
+                    {
+                      "affiliation": "Department of Entomology, Plant Pathology and Nematology, University of Idaho, Moscow, Idaho, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vasdekis AE",
+                "lastName": "Vasdekis",
+                "firstName": "Andreas E",
+                "initials": "AE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4315-1047"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Physics, University of Idaho, Moscow, Idaho, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5047-4683"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4315-1047"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4251864,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "mSystems",
+              "title": "mSystems",
+              "essn": "2379-5077",
+              "issn": "2379-5077",
+              "nlmid": "101680636",
+              "isoabbreviation": "mSystems"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0055426",
+          "abstractText": "Natural, non-genetic variation among host cells can shape infection outcomes, yet its role in intracellular parasite dynamics remains poorly understood. Here, we show that variability in hemoglobin (Hb) content among individual red blood cells (RBCs) modulates nutrient consumption by <i>Plasmodium falciparum</i>, the most lethal malaria parasite. Using label-free quantitative-phase imaging (QPI), we measured cytosolic Hb in thousands of uninfected and infected RBCs across the 48-h asexual cycle. Hb content varied widely among uninfected cells, and after invasion, infected cells mirrored and amplified this distribution: variability increased from 17% in uninfected RBCs to >100% in schizonts. A minimal predator-prey model accurately reproduced the observed spread in parasite Hb consumption, showing that host variability alone can generate much of the diversity in parasite feeding rates traditionally attributed to parasite factors. These findings provide the first evidence that host phenotypic noise drives variation in Hb consumption among genetically identical parasites. Incorporating host-to-host variability into within-host models could improve predictions of parasite growth, refine the activation kinetics of Hb-dependent antimalarials, and reveal analogous principles in other intracellular infections where host variability and host-parasite crosstalk can shape pathogen outcomes. This systems-level perspective emphasizes the need to account for host heterogeneity in both experimental design and therapeutic strategies.IMPORTANCECell-to-cell phenotypic variability is a fundamental feature of living systems, yet its impact on host-pathogen interactions has been largely overlooked. Here, we show that natural, non-genetic variation in red blood cell hemoglobin strongly shapes how <i>Plasmodium falciparum</i>-the most lethal malaria parasite-consumes Hb inside host cells. Using quantitative imaging and a mathematical model, we demonstrate that host variability alone can explain much of the observed differences in parasite feeding rates. This perspective reframes parasite Hb consumption as an emergent property of host-parasite interactions. More broadly, it highlights how natural variability among host cells can influence the course of intracellular infections, with potential implications for predicting pathogen growth and optimizing drug treatment strategies.",
+          "affiliation": "Department of Physics, University of Idaho, Moscow, Idaho, USA.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI165481",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institutes of Health",
+                "orderIn": 0
+              },
+              {
+                "agency": "U.S. Department of Energy",
+                "grantId": "DE-SC0022282",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI170506",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Science Foundation",
+                "grantId": "2041523",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Red blood cells",
+              "Plasmodium falciparum",
+              "Phenotypic Variability",
+              "Cellular Noise",
+              "Non-genetic Variation"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/msystems.00554-26"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-04",
+          "dateOfRevision": "2026-09-28",
+          "electronicPublicationDate": "2026-09-04",
+          "firstPublicationDate": "2026-09-04",
+          "firstIndexDate": "2026-09-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1297408",
+          "source": "PPR",
+          "doi": "10.64898/2026.08.12.744381",
+          "title": "Intrinsic protein disorder reveals divergent signaling architectures and lifestyle adaptation in  <i>Entamoeba</i>  species",
+          "authorString": "Noorai RE, Wilson S, Temesvari LA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Noorai RE",
+                "lastName": "Noorai",
+                "firstName": "Rooksana",
+                "initials": "RE",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9992-5198"
+                }
+              },
+              {
+                "fullName": "Wilson S",
+                "lastName": "Wilson",
+                "firstName": "Stevin",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9662-5501"
+                }
+              },
+              {
+                "fullName": "Temesvari LA",
+                "lastName": "Temesvari",
+                "firstName": "Lesly",
+                "initials": "LA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4154-8158"
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4154-8158"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9662-5501"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9992-5198"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Intrinsic protein disorder plays a central role in cellular regulation and host-pathogen interactions, yet its proteome-wide distribution and functional organization in amoebozoan parasites remain poorly understood. Here, we present the first comparative analysis of intrinsic disorder across the proteomes of  Entamoeba histolytica , which causes amoebic dysentery, and two related species,  E. dispar , and  E. invadens . For comparison, we analyzed intrinsic protein disorder in two phylogenetically distant parasites,  Plasmodium falciparum and  Trypanosoma brucei . Overall,  Entamoeba species exhibited significantly lower levels of intrinsic disorder than  P. falciparum and  T. brucei . Despite this, all organisms displayed a conserved functional trend in which increasing disorder was associated with a shift from metabolic and catalytic processes toward gene expression-related functions. However, notable organism-specific differences emerged.  P. falciparum showed persistent enrichment of gene expression functions across all disorder levels, while  T. brucei maintained metabolic, redox, and transport processes throughout the disorder spectrum. In contrast,  Entamoeba species uniquely retained GTPase- and phosphorylation-associated signaling across all levels of disorder, with the strongest enrichment observed in the pathogenic species,  E. histolytica and  E. invadens . This pattern likely reflects a reliance on rapid environmental sensing, cytoskeletal remodeling, and vesicle trafficking, necessary for successful infection. Consistent with this, there was reduced enrichment of G-protein signaling in the non-pathogenic commensal,  E. dispar , especially in highly disordered proteins. Secretome analysis further revealed that, unlike  P. falciparum ,  E. histolytica possesses a more structurally ordered secretome, suggesting selection for stable catalytic proteins in the host intestinal environment. Finally, no consistent relationship was identified between intrinsic disorder and vaccine efficacy for several key antigenic targets. Together, these findings demonstrate that intrinsic disorder is differentially deployed across parasites, and utilization of disordered proteins has diverged in accordance with each organism\u2019s lifecycle and host interaction strategy. These findings highlight the role of intrinsic disorder in shaping parasitism.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.08.12.744381"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-13",
+          "firstPublicationDate": "2026-08-12",
+          "firstIndexDate": "2026-08-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42390622",
+          "source": "MED",
+          "pmid": "42390622",
+          "pmcid": "PMC13612704",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13612704"
+            ]
+          },
+          "doi": "10.1007/s00436-026-08717-y",
+          "title": "G6PD deficiency and the exportome of plasmodium falciparum FCB-2: A comparative analysis utilizing one-dimensional blue-native electrophoresis and timstof mass spectrometry.",
+          "authorString": "De la Rosa Cogollo I, Hern\u00e1ez ML, Clemente LF, Marrugo-Padilla A, Rodr\u00edguez-Cavallo E, M\u00e9ndez-Cuadro D.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "De la Rosa Cogollo I",
+                "lastName": "De la Rosa Cogollo",
+                "firstName": "Isaac",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0001-6978-1824"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Exact and Natural Sciences, Campus of San Pablo. Analytical Chemistry and Biomedicine Group, University of Cartagena, Cartagena de Indias, Colombia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hern\u00e1ez ML",
+                "lastName": "Hern\u00e1ez",
+                "firstName": "Mar\u00eda Luisa",
+                "initials": "ML",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7292-1288"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Proteomics Unit, Faculty of Pharmacy, Complutense University of Madrid (UCM), Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Clemente LF",
+                "lastName": "Clemente",
+                "firstName": "Luis Felipe",
+                "initials": "LF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Proteomics Unit, Faculty of Pharmacy, Complutense University of Madrid (UCM), Madrid, Spain."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Marrugo-Padilla A",
+                "lastName": "Marrugo-Padilla",
+                "firstName": "Albeiro",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1843-4782"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Pharmaceutical Sciences, Analytical Chemistry and Biomedicine Group, Cartagena de Indias, University of Cartagena, Cartagena de Indias, Colombia."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rodr\u00edguez-Cavallo E",
+                "lastName": "Rodr\u00edguez-Cavallo",
+                "firstName": "Erika",
+                "initials": "E",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5113-4725"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Pharmaceutical Sciences, Analytical Chemistry and Biomedicine Group, Cartagena de Indias, University of Cartagena, Cartagena de Indias, Colombia. erodrigezc1@unicaratgena.edu.co."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "M\u00e9ndez-Cuadro D",
+                "lastName": "M\u00e9ndez-Cuadro",
+                "firstName": "Dar\u00edo",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Faculty of Exact and Natural Sciences, Campus of San Pablo. Analytical Chemistry and Biomedicine Group, University of Cartagena, Cartagena de Indias, Colombia. dmendezc@unicartagena.edu.co."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7292-1288"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5113-4725"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1843-4782"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0001-6978-1824"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "125",
+            "journalIssueId": 4230698,
+            "dateOfPublication": "2026 Jul",
+            "monthOfPublication": 7,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Parasitol Res",
+              "title": "Parasitology research",
+              "essn": "1432-1955",
+              "issn": "0932-0113",
+              "nlmid": "8703571",
+              "isoabbreviation": "Parasitol Res"
+            },
+            "printPublicationDate": "2026-07-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "113",
+          "abstractText": "Plasmodium falciparum, the etiological agent of severe malaria in humans, remodels the surface of infected erythrocytes to evade host immune defenses and ensure its survival. During its intraerythrocytic development, P. falciparum modifies the composition of protein complexes within the host cell membrane and cytoskeleton by exporting parasitic proteins to the surface of the infected erythrocyte. However, there is limited understanding of its behavior in cells harboring protective polymorphisms against severe malaria, such as those associated with glucose-6-phosphate dehydrogenase (G6PD) deficiency, where reduced adhesion and early phagocytosis have been observed due to oxidative damage to the surface proteins of parasitized erythrocytes. Nonetheless, the impact of G6PD deficiency on the exportome proteins of P. falciparum in infected erythrocytes remains to be elucidated. In this in vitro study, we conducted a comparative analysis of the P. falciparum FCB-2 exportome in G6PD-deficient versus normal human red blood cells. Two membrane protein conglomerates were isolated at the ring, trophozoite, and schizont stages using Blue-Native electrophoresis, followed by in-gel digestion and LC-MS-tims-TOF analysis. The analysis revealed a significant decrease in the number of P. falciparum proteins identified in all asexual stages for both protein conglomerates on the surface of infected G6PD-deficient erythrocytes. A decrease in the number of effector, adhesion, trafficking, and signaling proteins that reinforce the protective mechanisms previously described was observed. These findings provide new insights into the pathways for understanding the molecular events that support G6PD's protective mechanisms against malaria.",
+          "affiliation": "Faculty of Exact and Natural Sciences, Campus of San Pablo. Analytical Chemistry and Biomedicine Group, University of Cartagena, Cartagena de Indias, Colombia.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "University of Cartagena",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Glucosephosphate Dehydrogenase Deficiency"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucosephosphate Dehydrogenase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Membrane Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mass Spectrometry"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "G6PD deficiency",
+              "Blue-native",
+              "Plasmodium Falciparum Exportome",
+              "Lc-ms-tims-tof"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glucosephosphate Dehydrogenase",
+                "registryNumber": "EC 1.1.1.49"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1007/s00436-026-08717-y"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13612704"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13612704?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "uniprot",
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-25",
+          "dateOfCreation": "2026-07-02",
+          "dateOfRevision": "2026-09-27",
+          "electronicPublicationDate": "2026-07-02",
+          "firstPublicationDate": "2026-07-02",
+          "firstIndexDate": "2026-07-03",
+          "fullTextReceivedDate": "2026-09-26",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42381081",
+          "source": "MED",
+          "pmid": "42381081",
+          "pmcid": "PMC13621629",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13621629"
+            ]
+          },
+          "doi": "10.1186/s13059-026-04180-1",
+          "title": "Integrated lipidomic and transcriptomic profiling of the host response in human malaria.",
+          "authorString": "Abdrabou W, Bolatbay D, Soulama I, Nikulkova M, Dieng MM, Zorigt S, Alshaikh M, Serm\u00e9 SS, Sombi\u00e9 S, Henry NB, Kargougou D, Coulibaly SA, Manikandan V, Diawara A, Carlton JM, Idaghdour Y.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Abdrabou W",
+                "lastName": "Abdrabou",
+                "firstName": "Wael",
+                "initials": "W",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "College of Health Sciences, Abu Dhabi University, Abu Dhabi, UAE."
+                    },
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bolatbay D",
+                "lastName": "Bolatbay",
+                "firstName": "Dariga",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Soulama I",
+                "lastName": "Soulama",
+                "firstName": "Issiaka",
+                "initials": "I",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    },
+                    {
+                      "affiliation": "Institut de Recherche en Sciences de La Sant\u00e9, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nikulkova M",
+                "lastName": "Nikulkova",
+                "firstName": "Maria",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Genomics and Systems Biology, Department of Biology, New York University, New York, NY, 10003, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dieng MM",
+                "lastName": "Dieng",
+                "firstName": "Mame Massar",
+                "initials": "MM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zorigt S",
+                "lastName": "Zorigt",
+                "firstName": "Saruul",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Alshaikh M",
+                "lastName": "Alshaikh",
+                "firstName": "Manar",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Serm\u00e9 SS",
+                "lastName": "Serm\u00e9",
+                "firstName": "Samuel Sindi\u00e9",
+                "initials": "SS",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sombi\u00e9 S",
+                "lastName": "Sombi\u00e9",
+                "firstName": "Salif",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Henry NB",
+                "lastName": "Henry",
+                "firstName": "Noelie Bere",
+                "initials": "NB",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kargougou D",
+                "lastName": "Kargougou",
+                "firstName": "D\u00e9sir\u00e9",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Coulibaly SA",
+                "lastName": "Coulibaly",
+                "firstName": "Sam Aboubacar",
+                "initials": "SA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre National de Recherche Et de Formation Sur Le Paludisme, Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Manikandan V",
+                "lastName": "Manikandan",
+                "firstName": "Vinu",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Diawara A",
+                "lastName": "Diawara",
+                "firstName": "A\u00efssatou",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Carlton JM",
+                "lastName": "Carlton",
+                "firstName": "Jane M",
+                "initials": "JM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Genomics and Systems Biology, Department of Biology, New York University, New York, NY, 10003, USA."
+                    },
+                    {
+                      "affiliation": "Department of Molecular Microbiology & Immunology, Johns Hopkins Malaria Research Institute, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD, 21231, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Idaghdour Y",
+                "lastName": "Idaghdour",
+                "firstName": "Youssef",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Program in Biology, Division of Science and Mathematics, New York University Abu Dhabi, Abu Dhabi, UAE. youssef.idaghdour@nyu.edu."
+                    },
+                    {
+                      "affiliation": "Center for Genomics and Systems Biology, New York University Abu Dhabi, Abu Dhabi, UAE. youssef.idaghdour@nyu.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "27",
+            "journalIssueId": 4206141,
+            "dateOfPublication": "2026 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Genome Biol",
+              "title": "Genome biology",
+              "essn": "1474-760X",
+              "issn": "1474-7596",
+              "nlmid": "100960660",
+              "isoabbreviation": "Genome Biol"
+            },
+            "printPublicationDate": "2026-06-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "299",
+          "abstractText": "<h4>Background</h4>Identifying the mechanisms of host-parasite interactions in vivo in malaria is essential for the development of antimalarial strategies tailored to clinically and physiologically relevant contexts.<h4>Results</h4>We analyzed 396 paired global serum lipidomes from pediatric patients sampled before and during blood-stage malaria infection in Burkina Faso, spanning three ethnic groups (Gouin, Mossi, and Fulani). Consistent infection-induced remodeling of the host lipidome was identified across populations, including depletion of 47 host-derived lipid species that correlated with parasitemia. Notably, we observed that Plasmodium falciparum selectively scavenges linoleic acid-containing phospholipids to support its proliferation and validated this with parasite culture assays. This integrative multi-omics analysis combining lipidomic profiles with host-parasite transcriptomes further identified a Plasmodium falciparum transcriptional program associated with lipid turnover in vivo.<h4>Conclusions</h4>These results provide a high-resolution profile of lipidomic perturbations in children with malaria\u00a0and demonstrate how integrated clinical phenotyping, cross-ethnic population sampling, and multi-omics can reveal key host-parasite interactions and clinically relevant metabolic changes within the human host.",
+          "affiliation": "College of Health Sciences, Abu Dhabi University, Abu Dhabi, UAE.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "New York University Abu Dhabi",
+                "grantId": "ADHPG AD105 and ADHPG-RE105",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phospholipids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Gene Expression Profiling"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child, Preschool"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Burkina Faso"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipid Metabolism"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Parasite Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Transcriptome"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipidomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Multiomics"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Phospholipids",
+              "Malaria",
+              "Linoleic acid",
+              "Metabolomics",
+              "Ethnicity",
+              "Host-parasite Interactions",
+              "High Resolution Lipidomics"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Phospholipids",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s13059-026-04180-1"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13621629"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13621629?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-29",
+          "dateOfCreation": "2026-07-01",
+          "dateOfRevision": "2026-10-01",
+          "electronicPublicationDate": "2026-06-30",
+          "firstPublicationDate": "2026-06-30",
+          "firstIndexDate": "2026-07-02",
+          "fullTextReceivedDate": "2026-09-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42276531",
+          "source": "MED",
+          "pmid": "42276531",
+          "doi": "10.1016/j.micpath.2026.108627",
+          "title": "Advancing protozoan vaccine research: A review of promising candidates and emerging technologies.",
+          "authorString": "Subudhi M, Suresh A, Singh S, Ramesh S, Sharma P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Subudhi M",
+                "lastName": "Subudhi",
+                "firstName": "Madhusmita",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Animal Biotechnology, Hyderabad, 500032, India; Graduate Studies, Regional Centre for Biotechnology (RCB), Faridabad, 121001, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Suresh A",
+                "lastName": "Suresh",
+                "firstName": "Akash",
+                "initials": "A",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Animal Biotechnology, Hyderabad, 500032, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Singh S",
+                "lastName": "Singh",
+                "firstName": "Sakshi",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Animal Biotechnology, Hyderabad, 500032, India; Graduate Studies, Regional Centre for Biotechnology (RCB), Faridabad, 121001, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ramesh S",
+                "lastName": "Ramesh",
+                "firstName": "Srimathi",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Animal Biotechnology, Hyderabad, 500032, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sharma P",
+                "lastName": "Sharma",
+                "firstName": "Paresh",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5340-2036"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "National Institute of Animal Biotechnology, Hyderabad, 500032, India. Electronic address: paresh@niab.org.in."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5340-2036"
+              }
+            ]
+          },
+          "journalInfo": {
+            "volume": "218",
+            "journalIssueId": 4231431,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Microb Pathog",
+              "title": "Microbial pathogenesis",
+              "essn": "1096-1208",
+              "issn": "0882-4010",
+              "nlmid": "8606191",
+              "isoabbreviation": "Microb Pathog"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "108627",
+          "abstractText": "Protozoan parasites, a diverse group of unicellular eukaryotic organisms, represent a significant challenge to global human and animal health, particularly in regions with constrained healthcare resources. These pathogens are etiological agents of most severe and often fatal diseases, collectively accounting for millions of infections and deaths annually. Despite the profound impact on public health, vaccine development for protozoan diseases has been markedly slower than the advancements in combating other infectious agents. However, recent strides in understanding parasite biology and host-pathogen interactions, coupled with advancements in immunological research, have provided renewed prospects for effective vaccine design. This systematic review critically examines the progress in vaccine development targeting six major protozoan pathogens: Plasmodium falciparum, Toxoplasma gondii, Leishmania donovani, Trypanosoma cruzi, Theileria annulata, Theileria parva, and Babesia bovis. This literature explores potential antigenic targets and emerging vaccine delivery technologies. This comprehensive review of the existing literature aims to delineate key gaps, prioritize research directions, and facilitate the translation of scientific insights into effective strategies. Furthermore, this review contributes to the expanding knowledge repository, serving as a foundational resource for advancing protozoan vaccine research and development.",
+          "affiliation": "National Institute of Animal Biotechnology, Hyderabad, 500032, India; Graduate Studies, Regional Centre for Biotechnology (RCB), Faridabad, 121001, India.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Systematic Review",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Department of Biotechnology, Ministry of Science and Technology, India",
+                "grantId": "BT /PR59928/ BSA /33/643/2025",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Babesia bovis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Theileria annulata",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Theileria parva",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Leishmania donovani",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Trypanosoma cruzi",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Infections",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PC",
+                      "qualifierName": "prevention & control"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Vaccines",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Vaccine Development"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium falciparum",
+              "Vaccine",
+              "Toxoplasma gondii",
+              "Trypanosoma Cruzi",
+              "Leishmania Donovani",
+              "Protozoan Parasites",
+              "Neglected Tropical Diseases",
+              "Theileria Annulata",
+              "Babesia Bovis",
+              "Theileria Parva"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Vaccines",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.micpath.2026.108627"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-07-18",
+          "dateOfCreation": "2026-06-11",
+          "dateOfRevision": "2026-08-03",
+          "electronicPublicationDate": "2026-06-11",
+          "firstPublicationDate": "2026-06-11",
+          "firstIndexDate": "2026-06-12",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42262128",
+          "source": "MED",
+          "pmid": "42262128",
+          "doi": "10.1093/infdis/jiag296",
+          "title": "Fc-fucosylation of Plasmodium falciparum-specific IgG varies with antigen and immunization.",
+          "authorString": "Partey FD, Dos Santos MI, Seidu Z, Tiono AB, Thomson-Luque R, Wuhrer M, Larsen MD, Vidarsson G, Kurtis J, Blackman MJ, Lanzer M, Theisen M, Ofori MF, Hviid L, Lopez-Perez M.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Partey FD",
+                "lastName": "Partey",
+                "firstName": "Frederica Dedo",
+                "initials": "FD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    },
+                    {
+                      "affiliation": "Department of Immunology, Noguchi Memorial Institute for Medical Research, College of Health Sciences, University of Ghana, Accra, Ghana."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dos Santos MI",
+                "lastName": "Dos Santos",
+                "firstName": "Maria Ines",
+                "initials": "MI",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5826-6782"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    },
+                    {
+                      "affiliation": "Department of Parasitology, Institute of Biomedical Sciences, University of S\u00e3o Paulo, S\u00e3o Paulo, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Seidu Z",
+                "lastName": "Seidu",
+                "firstName": "Zakaria",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8017-2491"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    },
+                    {
+                      "affiliation": "Department of Immunology, Noguchi Memorial Institute for Medical Research, College of Health Sciences, University of Ghana, Accra, Ghana."
+                    },
+                    {
+                      "affiliation": "West African Centre for Cell Biology of Infectious Pathogens, Department of Biochemistry, Cell and Molecular Biology, University of Ghana, Accra, Ghana."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tiono AB",
+                "lastName": "Tiono",
+                "firstName": "Alfred B",
+                "initials": "AB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-5104-3946"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Groupe de Recherche Action en Sant\u00e9 (GRAS), Ouagadougou, Burkina Faso."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Thomson-Luque R",
+                "lastName": "Thomson-Luque",
+                "firstName": "Richard",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8378-9497"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Infectious Diseases, Parasitology, Heidelberg University, Medical Faculty, University Hospital Heidelberg, Heidelberg, Germany."
+                    },
+                    {
+                      "affiliation": "Sumaya-Biotech GmbH & Co. KG, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wuhrer M",
+                "lastName": "Wuhrer",
+                "firstName": "Manfred",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0814-4995"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Proteomics and Metabolomics, Leiden University Medical Center, Leiden, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Larsen MD",
+                "lastName": "Larsen",
+                "firstName": "Mads Delbo",
+                "initials": "MD",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1985-5901"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Immunoglobulin Research Laboratory, Sanquin Research, Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Department of Biomolecular Mass Spectrometry and Proteomics, Utrecht Institute for Pharmaceutical Sciences and Bijvoet Center for Biomolecular Research, Utrecht University, Utrecht, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Vidarsson G",
+                "lastName": "Vidarsson",
+                "firstName": "Gestur",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5621-003X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Immunoglobulin Research Laboratory, Sanquin Research, Amsterdam, The Netherlands."
+                    },
+                    {
+                      "affiliation": "Department of Biomolecular Mass Spectrometry and Proteomics, Utrecht Institute for Pharmaceutical Sciences and Bijvoet Center for Biomolecular Research, Utrecht University, Utrecht, The Netherlands."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kurtis J",
+                "lastName": "Kurtis",
+                "firstName": "Jonathan",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1032-9558"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathology and Laboratory Medicine, Brown University Medical School, Providence, RI, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Blackman MJ",
+                "lastName": "Blackman",
+                "firstName": "Michael J",
+                "initials": "MJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Malaria Biochemistry Laboratory, The Francis Crick Institute, London, UK."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lanzer M",
+                "lastName": "Lanzer",
+                "firstName": "Michael",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Infectious Diseases, Parasitology, Heidelberg University, Medical Faculty, University Hospital Heidelberg, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Theisen M",
+                "lastName": "Theisen",
+                "firstName": "Michael",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4412-1392"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    },
+                    {
+                      "affiliation": "Department for Congenital Disorders, Statens Serum Institut (SSI), Copenhagen, Denmark."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ofori MF",
+                "lastName": "Ofori",
+                "firstName": "Michael F",
+                "initials": "MF",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Immunology, Noguchi Memorial Institute for Medical Research, College of Health Sciences, University of Ghana, Accra, Ghana."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hviid L",
+                "lastName": "Hviid",
+                "firstName": "Lars",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-1698-4927"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    },
+                    {
+                      "affiliation": "Department of Infectious Diseases, Rigshospitalet, Copenhagen, Denmark."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lopez-Perez M",
+                "lastName": "Lopez-Perez",
+                "firstName": "Mary",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9876-0248"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5621-003X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5826-6782"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8017-2491"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8378-9497"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0814-4995"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1698-4927"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-1985-5901"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-5104-3946"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9876-0248"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1032-9558"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4412-1392"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4203850,
+            "dateOfPublication": "2026 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "J Infect Dis",
+              "title": "The Journal of infectious diseases",
+              "essn": "1537-6613",
+              "issn": "0022-1899",
+              "nlmid": "0413675",
+              "isoabbreviation": "J Infect Dis"
+            },
+            "printPublicationDate": "2026-06-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "jiag296",
+          "abstractText": "<h4>Background</h4>IgG-mediated effector functions are modulated by the antibody Fc-region glycan composition, and the absence of core fucose is a strong modifier of NK cell-mediated antibody-dependent cellular cytotoxicity (ADCC). Most plasma IgG is fully Fc-fucosylated, but antigens displayed on host-derived membranes can selectively induce Fc-afucosylated IgG. These antigens include alloantigens, enveloped virus surface proteins, and PfEMP1, a malaria parasite protein expressed on the surface of Plasmodium falciparum-infected erythrocytes (IEs).<h4>Methods</h4>We determined levels and Fc-fucosylation of IgG specific for several P. falciparum antigens in plasma from children naturally exposed to P. falciparum and from vaccinated adults.<h4>Results</h4>IgG specific for PfEMP1 (known to be exposed on the IE surface) and PfGARP, a putative IE surface antigen, were markedly Fc-afucosylated, whereas IgG specific for antigens on parasite membranes (merozoites, gametocytes/gametes, and sporozoites) were fully Fc-fucosylated in most of the children naturally exposed to P. falciparum studied here. Immunization of adults with recombinant proteins (MSP1, Pfs230, and CSP) also consistently induced fully Fc-fucosylated IgG. Children with Fc-afucosylated PfGARP-specific IgG had reduced risk of carrying P. falciparum parasites, independent of levels of PfGARP-specific IgG.<h4>Conclusions</h4>These results reinforce the hypothesis that Fc-afucosylation of antigen-specific IgG requires exposure of the antigen on a host membrane (context) and is a function of antigen exposure. Host-specific factors appear to play a minor role in this context.",
+          "affiliation": "Centre for translational Medicine and Parasitology, Department of Immunology and Microbiology, Faculty of Health and Medical Sciences, University of Copenhagen, Copenhagen, Denmark.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Africa Research Excellence Fund",
+                "orderIn": 0
+              },
+              {
+                "agency": "Danish International Development Agency-Danida",
+                "orderIn": 0
+              },
+              {
+                "agency": "S\u00e3o Paulo Research Foundation",
+                "grantId": "2024/05344-4",
+                "orderIn": 0
+              },
+              {
+                "agency": "European & Developing Countries Clinical Trials Partnership (EDCTP)",
+                "orderIn": 0
+              },
+              {
+                "agency": "AREF",
+                "grantId": "AREF-325-PART-F-C0929",
+                "orderIn": 0
+              },
+              {
+                "agency": "SumayaVac-1",
+                "grantId": "SUM-101",
+                "orderIn": 0
+              },
+              {
+                "agency": "Independent Research Fund Denmark- DFF",
+                "grantId": "0134-00123B",
+                "orderIn": 0
+              },
+              {
+                "agency": "DANIDA-sponsored Building Stronger Universities initiative",
+                "grantId": "BSU3-UG",
+                "orderIn": 0
+              },
+              {
+                "agency": "Sumaya Biotech GmbH &amp; Co",
+                "orderIn": 0
+              },
+              {
+                "agency": "European & Developing Countries Clinical Trials Partnership (EDCTP)",
+                "grantId": "RIA2018SV-2311",
+                "orderIn": 0
+              },
+              {
+                "agency": "Landsteiner Foundation for Blood Transfusion Research",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Vaccines",
+              "Malaria",
+              "Plasmodium falciparum",
+              "Naturally Acquired Immunity",
+              "Fc-fucosylation"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/infdis/jiag296"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-06-09",
+          "dateOfRevision": "2026-06-09",
+          "electronicPublicationDate": "2026-06-09",
+          "firstPublicationDate": "2026-06-09",
+          "firstIndexDate": "2026-06-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42260590",
+          "source": "MED",
+          "pmid": "42260590",
+          "pmcid": "PMC13471375",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13471375"
+            ]
+          },
+          "doi": "10.1186/s12936-026-05980-3",
+          "title": "Beyond the mouse: organoids, spheroids, and organs-on-chips as the (inevitable) future of malaria research?",
+          "authorString": "Dormoi J, Amalvict R, Pradines B.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Dormoi J",
+                "lastName": "Dormoi",
+                "firstName": "J\u00e9r\u00f4me",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 Parasitologie et Entomologie, D\u00e9partement Risques Vectoriels, Institut de Recherche Biom\u00e9dicale des Arm\u00e9es, Marseille, France. jerome.dormoi@hotmail.fr."
+                    },
+                    {
+                      "affiliation": "Aix-Marseille Univ, SSA, AP-HM, RITMES, Marseille, France. jerome.dormoi@hotmail.fr."
+                    },
+                    {
+                      "affiliation": "IHU M\u00e9diterran\u00e9e Infection, Marseille, France. jerome.dormoi@hotmail.fr."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Amalvict R",
+                "lastName": "Amalvict",
+                "firstName": "R\u00e9my",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 Parasitologie et Entomologie, D\u00e9partement Risques Vectoriels, Institut de Recherche Biom\u00e9dicale des Arm\u00e9es, Marseille, France."
+                    },
+                    {
+                      "affiliation": "Aix-Marseille Univ, SSA, AP-HM, RITMES, Marseille, France."
+                    },
+                    {
+                      "affiliation": "IHU M\u00e9diterran\u00e9e Infection, Marseille, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pradines B",
+                "lastName": "Pradines",
+                "firstName": "Bruno",
+                "initials": "B",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Unit\u00e9 Parasitologie et Entomologie, D\u00e9partement Risques Vectoriels, Institut de Recherche Biom\u00e9dicale des Arm\u00e9es, Marseille, France."
+                    },
+                    {
+                      "affiliation": "Aix-Marseille Univ, SSA, AP-HM, RITMES, Marseille, France."
+                    },
+                    {
+                      "affiliation": "IHU M\u00e9diterran\u00e9e Infection, Marseille, France."
+                    },
+                    {
+                      "affiliation": "Centre National de r\u00e9f\u00e9rence du paludisme, Marseille, France."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "25",
+            "journalIssueId": 4213835,
+            "dateOfPublication": "2026 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Malar J",
+              "title": "Malaria journal",
+              "essn": "1475-2875",
+              "issn": "1475-2875",
+              "nlmid": "101139802",
+              "isoabbreviation": "Malar J"
+            },
+            "printPublicationDate": "2026-06-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "295",
+          "abstractText": "Malaria remains a major global health threat, causing substantial clinical and socioeconomic burdens in endemic regions. Despite important advances in control strategies, progress is increasingly challenged by antimalarial drug resistance, widespread insecticide resistance, diagnostic escape, and adaptive changes in vector behavior. In this context, robust experimental models are essential to improve understanding of parasite biology, host-pathogen interactions, and therapeutic responses. Murine malaria models remain central to preclinical research because they are accessible, genetically tractable, cost-effective, and well suited to controlled studies of immunity, pathophysiology, transmission, and drug efficacy. Continuous refinement of these models through parasite and host genetic engineering, including transgenic parasites and modified or humanized mouse strains, has further expanded their experimental value. However, murine models do not fully reproduce human malaria. Key interspecies differences in parasite biology, antigenic variation, cytoadherence, tissue tropism, placental structure, blood-brain barrier interactions, and disease kinetics limit direct translation, particularly for severe, cerebral, placental, and relapsing malaria caused by Plasmodium falciparum and Plasmodium vivax. These limitations underscore the need for complementary human-relevant platforms. Micro physiological systems are emerging as a critical addition to the malaria research toolbox. Spheroids offer scalable three-dimensional models for medium-throughput studies; organoids reproduce essential structural and functional features of human tissues such as the liver, brain, placenta, and vasculature; and organ-on-chip systems incorporate flow, shear stress, and multicellular interfaces to better model sequestration, endothelial activation, barrier dysfunction, liver-stage infection, and drug responses. Rather than replacing murine models, these technologies complement them by bridging the gap between reductionist in-vitro assays and human disease biology, while supporting the principles of replacement, reduction, and refinement. This narrative review examines the current landscape of murine malaria models, their major contributions and translational limitations, and the growing importance of micro physiological systems, with their limitations, in next-generation malaria research.",
+          "affiliation": "Unit\u00e9 Parasitologie et Entomologie, D\u00e9partement Risques Vectoriels, Institut de Recherche Biom\u00e9dicale des Arm\u00e9es, Marseille, France. jerome.dormoi@hotmail.fr.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Directorate General of Armament (DGA) and the French Armed Forces the Biomedical Research Institute",
+                "grantId": "project NBC-5-2511 (S/O3).",
+                "orderIn": 0
+              },
+              {
+                "agency": "Directorate General of Armament (DGA) and the French Armed Forces the Biomedical Research Institute (IRBA)",
+                "grantId": "project NBC-5-2511 (S/O3).",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Organoids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Biomedical Research",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "TD",
+                      "qualifierName": "trends"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microphysiological Systems"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium",
+              "Malaria",
+              "Mouse",
+              "Organoids",
+              "Spheroids",
+              "Organs-on-chips (Oocs)",
+              "Micro-Physiological System"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1186/s12936-026-05980-3"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13471375"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13471375?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-08-13",
+          "dateOfCreation": "2026-06-09",
+          "dateOfRevision": "2026-08-15",
+          "electronicPublicationDate": "2026-06-08",
+          "firstPublicationDate": "2026-06-08",
+          "firstIndexDate": "2026-06-09",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "41967018",
+          "source": "MED",
+          "pmid": "41967018",
+          "doi": "10.1093/trstmh/trag034",
+          "title": "Differential IgG responses to PfHRP2 across the malaria severity\u00a0spectrum.",
+          "authorString": "Bhandari S, Krishna S, Verma AK, Ranjha R, Gupta H, Bharti PK.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bhandari S",
+                "lastName": "Bhandari",
+                "firstName": "Sneha",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Vector Borne Diseases, ICMR-National Institute of Research in Tribal Health, Nagpur Road, Garha, Jabalpur 482003 Madhya Pradesh, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Krishna S",
+                "lastName": "Krishna",
+                "firstName": "Sri",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Vector Borne Diseases, ICMR-National Institute of Research in Tribal Health, Nagpur Road, Garha, Jabalpur 482003 Madhya Pradesh, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Verma AK",
+                "lastName": "Verma",
+                "firstName": "Anil K",
+                "initials": "AK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Division of Vector Borne Diseases, ICMR-National Institute of Research in Tribal Health, Nagpur Road, Garha, Jabalpur 482003 Madhya Pradesh, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ranjha R",
+                "lastName": "Ranjha",
+                "firstName": "Ritesh",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Epidemiology Department, ICMR- National Institute of Malaria Research (ICMR-NIMR), Dwarka, New Delhi 110077, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gupta H",
+                "lastName": "Gupta",
+                "firstName": "Himanshu",
+                "initials": "H",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1391-8358"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biotechnology, Institute of Applied Sciences & Humanities, GLA University, Mathura 281406, Uttar Pradesh, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bharti PK",
+                "lastName": "Bharti",
+                "firstName": "Praveen K",
+                "initials": "PK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2548-4884"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Molecular Epidemiology Department, ICMR- National Institute of Malaria Research (ICMR-NIMR), Dwarka, New Delhi 110077, India."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1391-8358"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2548-4884"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "6",
+            "volume": "120",
+            "journalIssueId": 4212073,
+            "dateOfPublication": "2026 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Trans R Soc Trop Med Hyg",
+              "title": "Transactions of the Royal Society of Tropical Medicine and Hygiene",
+              "essn": "1878-3503",
+              "issn": "0035-9203",
+              "nlmid": "7506129",
+              "isoabbreviation": "Trans R Soc Trop Med Hyg"
+            },
+            "printPublicationDate": "2026-06-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "705-710",
+          "abstractText": "<h4>Background</h4>Severe malaria represent a leading cause of mortality in Plasmodium falciparum infections. Sequestered parasites release PfHRP2, which increases at schizont rupture. Thus, this study explored Pfhrp2 gene copy number variation and immune (IgG) response in mild (MM), severe (SM) and cerebral malaria (CM) cases.<h4>Methods</h4>A total of 240 samples were collected and analysed further. Pfhrp2 gene copy numbers and IgG responses against the PfHRP2 peptide were assessed using real-time qPCR and ELISA-based assays, respectively.<h4>Results</h4>Parasitaemia was significantly higher in MM cases compared with SM (P = .0009), and parasitaemia progressively increased from CM to SNCM to MM cases (P < .05). Pfhrp2 copy numbers were similar across all groups. However, IgG responses against the PfHRP2 peptide were notably higher in SM, CM and SNCM compared with MM cases( P < .0001). Positive correlations were observed between IgG response and age, as well as var P5 peptide (P < .01).<h4>Conclusions</h4>The absence of significant variation in Pfhrp2 gene copy numbers across severity groups indicates that it is not a reliable biomarker for disease severity. Conversely, the IgG response to PfHRP2 appears to be more critical, underscoring the importance of host -pathogen interactions in determining disease outcomes.",
+          "affiliation": "Division of Vector Borne Diseases, ICMR-National Institute of Research in Tribal Health, Nagpur Road, Garha, Jabalpur 482003 Madhya Pradesh, India.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Indian Council of Medical Research",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Parasitemia",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Cerebral",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria, Falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Immunoglobulin G",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antibodies, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BL",
+                      "qualifierName": "blood"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Antigens, Protozoan",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Enzyme-Linked Immunosorbent Assay"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Severity of Illness Index"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Dosage"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adolescent"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adult"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Middle Aged"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child, Preschool"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Male"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Young Adult"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Plasmodium",
+              "Malaria",
+              "Cerebral malaria",
+              "Gene copy number",
+              "Igg Response",
+              "Pfhrp2"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Immunoglobulin G",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antibodies, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Antigens, Protozoan",
+                "registryNumber": "0"
+              },
+              {
+                "name": "HRP-2 antigen, Plasmodium falciparum",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1093/trstmh/trag034"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2026-06-13",
+          "dateOfCreation": "2026-04-12",
+          "dateOfRevision": "2026-09-01",
+          "firstPublicationDate": "2026-06-01",
+          "firstIndexDate": "2026-04-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42123558",
+          "source": "MED",
+          "pmid": "42123558",
+          "pmcid": "PMC13163363",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13163363"
+            ]
+          },
+          "doi": "10.3390/ijms27093977",
+          "title": "From Epigenetic Regulation to Protein Degradation: Emerging Strategies for Anti-Infective Drug Discovery.",
+          "authorString": "Bonjorno AF, Boreski D, Rodriguez Gini AL, Souza Tada da Cunha P, Moura JA, Chin CM, Benito Scarim C, Dos Santos JL.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Bonjorno AF",
+                "lastName": "Bonjorno",
+                "firstName": "Andressa Francielli",
+                "initials": "AF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8666-008X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boreski D",
+                "lastName": "Boreski",
+                "firstName": "Diogo",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9323-4735"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rodriguez Gini AL",
+                "lastName": "Rodriguez Gini",
+                "firstName": "Ana Lu\u00edsa",
+                "initials": "AL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2643-810X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Souza Tada da Cunha P",
+                "lastName": "Souza Tada da Cunha",
+                "firstName": "Pamela",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3019-5393"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Moura JA",
+                "lastName": "Moura",
+                "firstName": "Jhonnathan Alves",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0009-3696-1085"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), Institute of Chemistry, Araraquara 14800-060, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chin CM",
+                "lastName": "Chin",
+                "firstName": "Chung Man",
+                "initials": "CM",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4141-0455"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    },
+                    {
+                      "affiliation": "Advanced Research Center in Medicine (CEPAM), School of Medicine, Union of the Colleges of the Great Lakes (UNILAGO), S\u00e3o Jos\u00e9 do Rio Preto 15030-070, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Benito Scarim C",
+                "lastName": "Benito Scarim",
+                "firstName": "Cau\u00ea",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2540-6395"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dos Santos JL",
+                "lastName": "Dos Santos",
+                "firstName": "Jean Leandro",
+                "initials": "JL",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2460-2829"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil."
+                    },
+                    {
+                      "affiliation": "S\u00e3o Paulo State University (UNESP), Institute of Chemistry, Araraquara 14800-060, Brazil."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9323-4735"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2460-2829"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2540-6395"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3019-5393"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8666-008X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2643-810X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4141-0455"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0009-3696-1085"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "27",
+            "journalIssueId": 4186912,
+            "dateOfPublication": "2026 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Int J Mol Sci",
+              "title": "International journal of molecular sciences",
+              "essn": "1422-0067",
+              "issn": "1422-0067",
+              "nlmid": "101092791",
+              "isoabbreviation": "Int J Mol Sci"
+            },
+            "printPublicationDate": "2026-04-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "3977",
+          "abstractText": "Infectious diseases remain a major global health challenge, driven by antimicrobial resistance, pathogen persistence, and the limited integration of mechanistically innovative therapeutic approaches. Emerging evidence indicates that epigenetic regulation is fundamental to host-pathogen interactions, influencing transcriptional programmes associated with virulence, immune evasion, stress adaptation, and phenotypic plasticity. In organisms such as bacteria, parasites, and intracellular pathogens, including <i>Mycobacterium tuberculosis</i> and <i>Plasmodium falciparum</i>, chromatin-associated regulators and DNA-modifying enzymes have been identified as dosage-sensitive determinants of infection outcomes. Traditional strategies focus primarily on occupancy-driven enzymatic inhibition. In contrast, targeted protein degradation (TPD) introduces an event-driven pharmacological paradigm in which transient ligand engagement triggers sustained depletion of regulatory proteins. Platforms such as proteolysis-targeting chimeras (PROTACs) and BacPROTACs exemplify the ability to exploit host and pathogen proteolytic systems, thereby expanding the druggable proteome beyond conventional small-molecule targets. This review examines the relationship between epigenetic regulation and pathogen survival, highlights recent advances in degradation technologies, and discusses conceptual and translational challenges in implementing TPD in antimicrobial and antiparasitic drug discovery.",
+          "affiliation": "S\u00e3o Paulo State University (UNESP), School of Pharmaceutical Sciences, Araraquara 14800-903, Brazil.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Coordena\u00e7\u00e3o de Aperfeicoamento de Pessoal de N\u00edvel Superior",
+                "grantId": "001",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "2025/03878-4",
+                "orderIn": 0
+              },
+              {
+                "agency": "Coordena\u00e7\u00e3o de Aperfeicoamento de Pessoal de N\u00edvel Superior",
+                "grantId": "88887.103208/2025-00",
+                "orderIn": 0
+              },
+              {
+                "agency": "Coordena\u00e7\u00e3o de Aperfeicoamento de Pessoal de N\u00edvel Superior",
+                "grantId": "88887.940588/2024-00",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "2024/18020-2",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Council for Scientific and Technological Development",
+                "grantId": "302433/2023-6",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Council for Scientific and Technological Development",
+                "grantId": "401319/2025-3",
+                "orderIn": 0
+              },
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "2024/03928-9",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Anti-Infective Agents",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Epigenesis, Genetic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Pathogen Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Drug Discovery",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Proteolysis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Proteolysis Targeting Chimera"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Directed Therapy"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Host\u2013pathogen",
+              "Protac",
+              "Autac",
+              "Attec",
+              "Lytac",
+              "Bacprotac"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Anti-Infective Agents",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Proteolysis Targeting Chimera",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/ijms27093977"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13163363"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13163363?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-07-16",
+          "dateOfCreation": "2026-05-13",
+          "dateOfRevision": "2026-08-13",
+          "electronicPublicationDate": "2026-04-29",
+          "firstPublicationDate": "2026-04-29",
+          "firstIndexDate": "2026-05-15",
+          "fullTextReceivedDate": "2026-05-20",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

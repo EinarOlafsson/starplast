@@ -1,0 +1,4257 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22metabolome%22+OR+%22metabolomic%22+OR+%22lipidome%22+OR+%22lipidomic%22+OR+%22flux%22%29+AND+TITLE_ABS%3A%28%22enzyme%22+OR+%22classification%22%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:01:53.666195+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 19,
+    "nextCursorMark": "AoJFKDUyNTM5MDAw",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22metabolome%22+OR+%22metabolomic%22+OR+%22lipidome%22+OR+%22lipidomic%22+OR+%22flux%22%29+AND+TITLE_ABS%3A%28%22enzyme%22+OR+%22classification%22%29+sort_cited%3Ay&cursorMark=AoJFKDUyNTM5MDAw&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"metabolome\" OR \"metabolomic\" OR \"lipidome\" OR \"lipidomic\" OR \"flux\") AND TITLE_ABS:(\"enzyme\" OR \"classification\") sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "26001086",
+          "source": "MED",
+          "pmid": "26001086",
+          "pmcid": "PMC4441489",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4441489"
+            ]
+          },
+          "doi": "10.1371/journal.pcbi.1004261",
+          "title": "Metabolic Needs and Capabilities of Toxoplasma gondii through Combined Computational and Experimental Analysis.",
+          "authorString": "Tymoshenko S, Oppenheim RD, Agren R, Nielsen J, Soldati-Favre D, Hatzimanikatis V.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Tymoshenko S",
+                "lastName": "Tymoshenko",
+                "firstName": "Stepan",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7364-7054"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Laboratory of Computational Systems Biotechnology, \u00c9cole Polytechnique F\u00e9d\u00e9rale de Lausanne, EPFL, Lausanne, Switzerland; Department of Microbiology and Molecular Medicine, Faculty of Medicine, University of Geneva, CMU, Geneva, Switzerland; Swiss Institute of Bioinformatics, Quartier Sorge, Batiment Genopode, Lausanne, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Oppenheim RD",
+                "lastName": "Oppenheim",
+                "firstName": "Rebecca D",
+                "initials": "RD",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Molecular Medicine, Faculty of Medicine, University of Geneva, CMU, Geneva, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Agren R",
+                "lastName": "Agren",
+                "firstName": "Rasmus",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemical and Biological Engineering, Chalmers University of Technology, Gothenburg, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Nielsen J",
+                "lastName": "Nielsen",
+                "firstName": "Jens",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9955-6003"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Chemical and Biological Engineering, Chalmers University of Technology, Gothenburg, Sweden."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Soldati-Favre D",
+                "lastName": "Soldati-Favre",
+                "firstName": "Dominique",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4156-2109"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Molecular Medicine, Faculty of Medicine, University of Geneva, CMU, Geneva, Switzerland."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Hatzimanikatis V",
+                "lastName": "Hatzimanikatis",
+                "firstName": "Vassily",
+                "initials": "V",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6432-4694"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Molecular Medicine, Faculty of Medicine, University of Geneva, CMU, Geneva, Switzerland; Swiss Institute of Bioinformatics, Quartier Sorge, Batiment Genopode, Lausanne, Switzerland."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6432-4694"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7364-7054"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9955-6003"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4156-2109"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "recommended_reviews",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "5",
+            "volume": "11",
+            "journalIssueId": 2278575,
+            "dateOfPublication": "2015 May",
+            "monthOfPublication": 5,
+            "yearOfPublication": 2015,
+            "journal": {
+              "medlineAbbreviation": "PLoS Comput Biol",
+              "title": "PLoS computational biology",
+              "essn": "1553-7358",
+              "issn": "1553-734X",
+              "nlmid": "101238922",
+              "isoabbreviation": "PLoS Comput Biol"
+            },
+            "printPublicationDate": "2015-05-01"
+          },
+          "pubYear": "2015",
+          "pageInfo": "e1004261",
+          "abstractText": "Toxoplasma gondii is a human pathogen prevalent worldwide that poses a challenging and unmet need for novel treatment of toxoplasmosis. Using a semi-automated reconstruction algorithm, we reconstructed a genome-scale metabolic model, ToxoNet1. The reconstruction process and flux-balance analysis of the model offer a systematic overview of the metabolic capabilities of this parasite. Using ToxoNet1 we have identified significant gaps in the current knowledge of Toxoplasma metabolic pathways and have clarified its minimal nutritional requirements for replication. By probing the model via metabolic tasks, we have further defined sets of alternative precursors necessary for parasite growth. Within a human host cell environment, ToxoNet1 predicts a minimal set of 53 enzyme-coding genes and 76 reactions to be essential for parasite replication. Double-gene-essentiality analysis identified 20 pairs of genes for which simultaneous deletion is deleterious. To validate several predictions of ToxoNet1 we have performed experimental analyses of cytosolic acetyl-CoA biosynthesis. ATP-citrate lyase and acetyl-CoA synthase were localised and their corresponding genes disrupted, establishing that each of these enzymes is dispensable for the growth of T. gondii, however together they make a synthetic lethal pair.",
+          "affiliation": "Laboratory of Computational Systems Biotechnology, \u00c9cole Polytechnique F\u00e9d\u00e9rale de Lausanne, EPFL, Lausanne, Switzerland; Department of Microbiology and Molecular Medicine, Faculty of Medicine, University of Geneva, CMU, Geneva, Switzerland; Swiss Institute of Bioinformatics, Quartier Sorge, Batiment Genopode, Lausanne, Switzerland.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Howard Hughes Medical Institute",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Acetyl Coenzyme A",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "DNA",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "AN",
+                      "qualifierName": "analysis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cloning, Molecular"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computational Biology",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Deletion"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phenotype"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Open Reading Frames"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Algorithms"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Automation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computer Simulation"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolic Networks and Pathways"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "DNA",
+                "registryNumber": "9007-49-2"
+              },
+              {
+                "name": "Acetyl Coenzyme A",
+                "registryNumber": "72-89-9"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.pcbi.1004261"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4441489"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4441489?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 84,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2016-02-22",
+          "dateOfCreation": "2015-05-23",
+          "dateOfRevision": "2023-11-11",
+          "electronicPublicationDate": "2015-05-22",
+          "firstPublicationDate": "2015-05-22",
+          "firstIndexDate": "2015-05-23",
+          "fullTextReceivedDate": "2020-07-10",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "32255806",
+          "source": "MED",
+          "pmid": "32255806",
+          "pmcid": "PMC7164669",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC7164669"
+            ]
+          },
+          "doi": "10.1371/journal.ppat.1008432",
+          "title": "Dual metabolomic profiling uncovers Toxoplasma manipulation of the host metabolome and the discovery of a novel parasite metabolic capability.",
+          "authorString": "Olson WJ, Martorelli Di Genova B, Gallego-Lopez G, Dawson AR, Stevenson D, Amador-Noguez D, Knoll LJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Olson WJ",
+                "lastName": "Olson",
+                "firstName": "William J",
+                "initials": "WJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Microbiology and Immunology, University of Wisconsin-Madison, Madison, WI."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Martorelli Di Genova B",
+                "lastName": "Martorelli Di Genova",
+                "firstName": "Bruno",
+                "initials": "B",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9983-1856"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Microbiology and Immunology, University of Wisconsin-Madison, Madison, WI."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gallego-Lopez G",
+                "lastName": "Gallego-Lopez",
+                "firstName": "Gina",
+                "initials": "G",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-7872-5595"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Microbiology and Immunology, University of Wisconsin-Madison, Madison, WI."
+                    },
+                    {
+                      "affiliation": "Morgridge Institute for Research, Madison, WI, United States of America."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dawson AR",
+                "lastName": "Dawson",
+                "firstName": "Anthony R",
+                "initials": "AR",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4938-2578"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Microbiology and Immunology, University of Wisconsin-Madison, Madison, WI."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Stevenson D",
+                "lastName": "Stevenson",
+                "firstName": "David",
+                "initials": "D",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bacteriology, University of Wisconsin-Madison, Madison, WI."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Amador-Noguez D",
+                "lastName": "Amador-Noguez",
+                "firstName": "Daniel",
+                "initials": "D",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3568-3070"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Bacteriology, University of Wisconsin-Madison, Madison, WI."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Knoll LJ",
+                "lastName": "Knoll",
+                "firstName": "Laura J",
+                "initials": "LJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9362-8088"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medical Microbiology and Immunology, University of Wisconsin-Madison, Madison, WI."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-7872-5595"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9983-1856"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3568-3070"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4938-2578"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9362-8088"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "16",
+            "journalIssueId": 2930554,
+            "dateOfPublication": "2020 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2020,
+            "journal": {
+              "medlineAbbreviation": "PLoS Pathog",
+              "title": "PLoS pathogens",
+              "essn": "1553-7374",
+              "issn": "1553-7366",
+              "nlmid": "101238921",
+              "isoabbreviation": "PLoS Pathog"
+            },
+            "printPublicationDate": "2020-04-01"
+          },
+          "pubYear": "2020",
+          "pageInfo": "e1008432",
+          "abstractText": "The obligate intracellular parasite Toxoplasma gondii is auxotrophic for several key metabolites and must scavenge these from the host. It is unclear how T. gondii manipulates host metabolism to support its overall growth rate and non-essential metabolites. To investigate this question, we measured changes in the joint host-parasite metabolome over a time course of infection. Host and parasite transcriptomes were simultaneously generated to determine potential changes in expression of metabolic enzymes. T. gondii infection changed metabolite abundance in multiple metabolic pathways, including the tricarboxylic acid cycle, the pentose phosphate pathway, glycolysis, amino acid synthesis, and nucleotide metabolism. Our analysis indicated that changes in some pathways, such as the tricarboxylic acid cycle, were mirrored by changes in parasite transcription, while changes in others, like the pentose phosphate pathway, were paired with changes in both the host and parasite transcriptomes. Further experiments led to the discovery of a T. gondii enzyme, sedoheptulose bisphosphatase, which funnels carbon from glycolysis into the pentose phosphate pathway through an energetically driven dephosphorylation reaction. This additional route for ribose synthesis appears to resolve the conflict between the T. gondii tricarboxylic acid cycle and pentose phosphate pathway, which are both NADP+ dependent. Sedoheptulose bisphosphatase represents a novel step in T. gondii central carbon metabolism that allows T. gondii to energetically-drive ribose synthesis without using NADP+.",
+          "affiliation": "Department of Medical Microbiology and Immunology, University of Wisconsin-Madison, Madison, WI.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "R21AI114277",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI114277",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI078985",
+                "orderIn": 0
+              },
+              {
+                "agency": "National Institute of Allergy and Infectious Diseases",
+                "grantId": "T32AI55397",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI144016",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI055397",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "NADP",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ribose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Citric Acid Cycle"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycolysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pentose Phosphate Pathway"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolomics"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolome"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Amino Acids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "NADP",
+                "registryNumber": "53-59-8"
+              },
+              {
+                "name": "Ribose",
+                "registryNumber": "681HV46001"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://journals.plos.org/plospathogens/article/file?id=10.1371/journal.ppat.1008432&type=printable"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1371/journal.ppat.1008432"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7164669"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC7164669?pdf=render"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "PPR",
+                "id": "PPR61204",
+                "type": "Preprint in",
+                "note": "CrossRef Pre-print loader",
+                "orderIn": 10002
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 52,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "bioproject",
+              "metabolights",
+              "uniprot"
+            ]
+          },
+          "dateOfCompletion": "2020-07-27",
+          "dateOfCreation": "2020-04-08",
+          "dateOfRevision": "2020-11-10",
+          "electronicPublicationDate": "2020-04-07",
+          "firstPublicationDate": "2020-04-07",
+          "firstIndexDate": "2020-04-08",
+          "fullTextReceivedDate": "2025-02-03",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "28726641",
+          "source": "MED",
+          "pmid": "28726641",
+          "pmcid": "PMC5602384",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC5602384"
+            ]
+          },
+          "doi": "10.1074/jbc.m117.802702",
+          "title": "A plant/fungal-type phosphoenolpyruvate carboxykinase located in the parasite mitochondrion ensures glucose-independent survival of <i>Toxoplasma gondii</i>.",
+          "authorString": "Nitzsche R, G\u00fcnay-Esiyok \u00d6, Tischer M, Zagoriy V, Gupta N.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Nitzsche R",
+                "lastName": "Nitzsche",
+                "firstName": "Richard",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the Department of Molecular Parasitology, Humboldt University, 10115 Berlin, Germany and."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "G\u00fcnay-Esiyok \u00d6",
+                "lastName": "G\u00fcnay-Esiyok",
+                "firstName": "\u00d6zlem",
+                "initials": "\u00d6",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1245-9030"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the Department of Molecular Parasitology, Humboldt University, 10115 Berlin, Germany and."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tischer M",
+                "lastName": "Tischer",
+                "firstName": "Maximilian",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the Department of Molecular Parasitology, Humboldt University, 10115 Berlin, Germany and."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zagoriy V",
+                "lastName": "Zagoriy",
+                "firstName": "Vyacheslav",
+                "initials": "V",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "metaSysX GmbH, 14476 Potsdam-Golm, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gupta N",
+                "lastName": "Gupta",
+                "firstName": "Nishith",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1452-5126"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "From the Department of Molecular Parasitology, Humboldt University, 10115 Berlin, Germany and Gupta.Nishith@staff.hu-berlin.de."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1245-9030"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1452-5126"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "37",
+            "volume": "292",
+            "journalIssueId": 2598137,
+            "dateOfPublication": "2017 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2017,
+            "journal": {
+              "medlineAbbreviation": "J Biol Chem",
+              "title": "The Journal of biological chemistry",
+              "essn": "1083-351X",
+              "issn": "0021-9258",
+              "nlmid": "2985121R",
+              "isoabbreviation": "J Biol Chem"
+            },
+            "printPublicationDate": "2017-09-01"
+          },
+          "pubYear": "2017",
+          "pageInfo": "15225-15239",
+          "abstractText": "<i>Toxoplasma gondii</i> is considered to be one of the most successful intracellular pathogens, because it can reproduce in varied nutritional milieus, encountered in diverse host cell types of essentially any warm-blooded organism. Our earlier work demonstrated that the acute (tachyzoite) stage of <i>T. gondii</i> depends on cooperativity of glucose and glutamine catabolism to meet biosynthetic demands. Either of these two nutrients can sustain the parasite survival; however, what determines the metabolic plasticity has not yet been resolved. Here, we reveal two discrete phosphoenolpyruvate carboxykinase (PEPCK) enzymes in the parasite, one of which resides in the <u>m</u>i<u>t</u>ochondrion (<i>Tg</i>PEPCK<sub>mt</sub>), whereas the other protein is <u>n</u>ot <u>e</u>xpressed in <u>t</u>achyzoites (<i>Tg</i>PEPCK<sub>net</sub>). Parasites with an intact glycolysis can tolerate genetic deletions of <i>Tg</i>PEPCK<sub>mt</sub> as well as of <i>Tg</i>PEPCK<sub>net</sub>, indicating their nonessential roles for tachyzoite survival. <i>Tg</i>PEPCK<sub>net</sub> can also be ablated in a glycolysis-deficient mutant, while <i>Tg</i>PEPCK<sub>mt</sub> is refractory to deletion. Consistent with this, the lytic cycle of a conditional mutant of <i>Tg</i>PEPCK<sub>mt</sub> in the glycolysis-impaired strain was aborted upon induced repression of the mitochondrial isoform, demonstrating its essential role for the glucose-independent survival of parasites. Isotope-resolved metabolomics of the conditional mutant revealed defective flux of glutamine-derived carbon into RNA-bound ribose sugar as well as metabolites associated with gluconeogenesis, entailing a critical nodal role of PEPCK<sub>mt</sub> in linking catabolism of glucose and glutamine with anabolic pathways. Our data also suggest a homeostatic function of<i>Tg</i>PEPCK<sub>mt</sub> in cohesive operation of glycolysis and the tricarboxylic acid cycle in a normal glucose-replete milieu. Conversely, we found that the otherwise integrative enzyme pyruvate carboxylase (<i>Tg</i>PyC) is dispensable not only in glycolysis-competent but also in glycolysis-deficient tachyzoites despite a mitochondrial localization. Last but not least, the observed physiology of <i>T. gondii</i> tachyzoites appears to phenocopy cancer cells, which holds promise for developing common therapeutics against both threats.",
+          "affiliation": "From the Department of Molecular Parasitology, Humboldt University, 10115 Berlin, Germany and.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Comparative Study",
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "GU1100/4-1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "GU1100/8-1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "GU1100/3-1",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mitochondria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GD",
+                      "qualifierName": "growth & development"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Isoenzymes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pyruvate Carboxylase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphoenolpyruvate Carboxykinase (ATP)",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glucose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ribose",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glutamine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Recombinant Fusion Proteins"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Fluorescence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Deletion"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Citric Acid Cycle"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gluconeogenesis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycolysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Homeostasis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mutation"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Models, Biological"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microbial Viability"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolomics",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "gluconeogenesis",
+              "Toxoplasma gondii",
+              "glycolysis",
+              "Cancer Metabolism",
+              "Phosphoenolpyruvate Carboxykinase",
+              "Parasite Metabolism",
+              "Intracellular Parasitism",
+              "Pyruvate Carboxylase (Pc)",
+              "Tricarboxylic Acid Cycle (Tca Cycle) (Krebs Cycle)",
+              "Glutamine Catabolism"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Isoenzymes",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Pyruvate Carboxylase",
+                "registryNumber": "EC 6.4.1.1"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Phosphoenolpyruvate Carboxykinase (ATP)",
+                "registryNumber": "EC 4.1.1.49"
+              },
+              {
+                "name": "Recombinant Fusion Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Glucose",
+                "registryNumber": "IY9XDZ35W2"
+              },
+              {
+                "name": "Glutamine",
+                "registryNumber": "0RH81L854J"
+              },
+              {
+                "name": "Ribose",
+                "registryNumber": "681HV46001"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.M117.802702"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5602384"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC5602384?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1074/jbc.m117.802702"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 36,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2017-09-27",
+          "dateOfCreation": "2017-07-21",
+          "dateOfRevision": "2021-02-05",
+          "electronicPublicationDate": "2017-07-18",
+          "firstPublicationDate": "2017-07-18",
+          "firstIndexDate": "2017-07-20",
+          "fullTextReceivedDate": "2025-02-03",
+          "embargoDate": "2018-09-15",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "26106078",
+          "source": "MED",
+          "pmid": "26106078",
+          "pmcid": "PMC4479703",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4479703"
+            ]
+          },
+          "doi": "10.1128/mbio.00462-15",
+          "title": "siRNA Screening Identifies the Host Hexokinase 2 (HK2) Gene as an Important Hypoxia-Inducible Transcription Factor 1 (HIF-1) Target Gene in Toxoplasma gondii-Infected Cells.",
+          "authorString": "Menendez MT, Teygong C, Wade K, Florimond C, Blader IJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Menendez MT",
+                "lastName": "Menendez",
+                "firstName": "Matthew T",
+                "initials": "MT"
+              },
+              {
+                "fullName": "Teygong C",
+                "lastName": "Teygong",
+                "firstName": "Crystal",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wade K",
+                "lastName": "Wade",
+                "firstName": "Kristin",
+                "initials": "K",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, University of Oklahoma Health Sciences Center, Oklahoma City, Oklahoma, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Florimond C",
+                "lastName": "Florimond",
+                "firstName": "Celia",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4638-7453"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology, SUNY at Buffalo School of Medicine, Buffalo, New York, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Blader IJ",
+                "lastName": "Blader",
+                "firstName": "Ira J",
+                "initials": "IJ",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "iblader@buffalo.edu."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4638-7453"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "6",
+            "journalIssueId": 2476035,
+            "dateOfPublication": "2015 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2015,
+            "journal": {
+              "medlineAbbreviation": "mBio",
+              "title": "mBio",
+              "essn": "2150-7511",
+              "issn": "2150-7511",
+              "nlmid": "101519231",
+              "isoabbreviation": "mBio"
+            },
+            "printPublicationDate": "2015-06-01"
+          },
+          "pubYear": "2015",
+          "pageInfo": "e00462",
+          "abstractText": "<h4>Unlabelled</h4>Although it is established that oxygen availability regulates cellular metabolism and growth, little is known regarding how intracellular pathogens use host factors to grow at physiological oxygen levels. Therefore, large-scale human small interfering RNA screening was performed to identify host genes important for growth of the intracellular protozoan parasite Toxoplasma gondii at tissue oxygen tensions. Among the genes identified by this screen, we focused on the hexokinase 2 (HK2) gene because its expression is regulated by hypoxia-inducible transcription factor 1 (HIF-1), which is important for Toxoplasma growth. Toxoplasma increases host HK2 transcript and protein levels in a HIF-1-dependent manner. In addition, parasite growth at 3% oxygen is restored in HIF-1-deficient cells transfected with HK2 expression plasmids. Both HIF-1 activation and HK2 expression were accompanied by increases in host glycolytic flux, suggesting that enhanced HK2 expression in parasite-infected cells is functionally significant. Parasite dependence on host HK2 and HIF-1 expression is not restricted to transformed cell lines, as both are required for parasite growth in nontransformed C2C12 myoblasts and HK2 is upregulated in vivo following infection. While HK2 is normally associated with the cytoplasmic face of the outer mitochondrial membrane at physiological O2 levels, HK2 relocalizes to the host cytoplasm following infection, a process that is required for parasite growth at 3% oxygen. Taken together, our findings show that HIF-1-dependent expression and relocalization of HK2 represent a novel mechanism by which Toxoplasma establishes its replicative niche at tissue oxygen tensions.<h4>Importance</h4>Little is known regarding how the host cell contributes to the survival of the intracellular parasite Toxoplasma gondii at oxygen levels that mimic those found in tissues. Our previous work showed that Toxoplasma activates the expression of an oxygen-regulated transcription factor that is required for growth. Here, we report that Toxoplasma regulates the abundance and activity of a key host metabolic enzyme, hexokinase 2, by activating HIF-1 and by promoting dissociation of hexokinase 2 from the mitochondrial membrane. Collectively, our data reveal HIF-1/hexokinase 2 as a novel target for an intracellular pathogen that acts by reprograming the host cell's metabolism to create an environment conducive for parasite replication at physiological oxygen levels.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI069986",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI069986",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI087485",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI087485",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Monocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hela Cells"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Inbred C57BL"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasmosis, Animal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hexokinase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RNA, Small Interfering",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Gene Expression Regulation",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycolysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Hypoxia-Inducible Factor 1, alpha Subunit",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Pathogen Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Genetic Testing"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Metabolic Flux Analysis"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Hexokinase",
+                "registryNumber": "EC 2.7.1.1"
+              },
+              {
+                "name": "RNA, Small Interfering",
+                "registryNumber": "0"
+              },
+              {
+                "name": "hypoxia-inducible factor 1, alpha subunit",
+                "registryNumber": "0"
+              },
+              {
+                "name": "HIF1A protein, human",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/mBio.00462-15"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4479703"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4479703?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 31,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-sa",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2016-03-22",
+          "dateOfCreation": "2015-06-25",
+          "dateOfRevision": "2022-04-09",
+          "electronicPublicationDate": "2015-06-23",
+          "firstPublicationDate": "2015-06-23",
+          "firstIndexDate": "2015-06-25",
+          "fullTextReceivedDate": "2020-07-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "21831041",
+          "source": "MED",
+          "pmid": "21831041",
+          "pmcid": "PMC4874478",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC4874478"
+            ]
+          },
+          "doi": "10.1042/bj20110641",
+          "title": "Overexpression of a cytosolic pyrophosphatase (TgPPase) reveals a regulatory role of PP(i) in glycolysis for Toxoplasma gondii.",
+          "authorString": "Pace DA, Fang J, Cintron R, Docampo MD, Moreno SN.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Pace DA",
+                "lastName": "Pace",
+                "firstName": "Douglas A",
+                "initials": "DA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, GA 30602, USA. dapace@uga.edu"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Fang J",
+                "lastName": "Fang",
+                "firstName": "Jianmin",
+                "initials": "J"
+              },
+              {
+                "fullName": "Cintron R",
+                "lastName": "Cintron",
+                "firstName": "Roxana",
+                "initials": "R",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0765-1186"
+                }
+              },
+              {
+                "fullName": "Docampo MD",
+                "lastName": "Docampo",
+                "firstName": "Melissa D",
+                "initials": "MD"
+              },
+              {
+                "fullName": "Moreno SN",
+                "lastName": "Moreno",
+                "firstName": "Silvia N J",
+                "initials": "SN"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0765-1186"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data",
+              "related_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "2",
+            "volume": "440",
+            "journalIssueId": 1880252,
+            "dateOfPublication": "2011 Dec",
+            "monthOfPublication": 12,
+            "yearOfPublication": 2011,
+            "journal": {
+              "medlineAbbreviation": "Biochem J",
+              "title": "The Biochemical journal",
+              "essn": "1470-8728",
+              "issn": "0264-6021",
+              "nlmid": "2984726R",
+              "isoabbreviation": "Biochem J"
+            },
+            "printPublicationDate": "2011-12-01"
+          },
+          "pubYear": "2011",
+          "pageInfo": "229-240",
+          "abstractText": "PP(i) is a critical element of cellular metabolism as both an energy donor and as an allosteric regulator of several metabolic pathways. The apicomplexan parasite Toxoplasma gondii uses PP(i) in place of ATP as an energy donor in at least two reactions: the glycolytic PP(i)-dependent PFK (phosphofructokinase) and V-H(+)-PPase [vacuolar H(+)-translocating PPase (pyrophosphatase)]. In the present study, we report the cloning, expression and characterization of cytosolic TgPPase (T. gondii soluble PPase). Amino acid sequence alignment and phylogenetic analysis indicates that the gene encodes a family I soluble PPase. Overexpression of the enzyme in extracellular tachyzoites led to a 6-fold decrease in the cytosolic concentration of PP(i) relative to wild-type strain RH tachyzoites. Unexpectedly, this subsequent reduction in PP(i) was associated with a higher glycolytic flux in the overexpressing mutants, as evidenced by higher rates of proton and lactate extrusion. In addition to elevated glycolytic flux, TgPPase-overexpressing tachyzoites also possessed higher ATP concentrations relative to wild-type RH parasites. These results implicate PP(i) as having a significant regulatory role in glycolysis and, potentially, other downstream processes that regulate growth and cell division.",
+          "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, GA 30602, USA. dapace@uga.edu",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI-079625",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI068647",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI-60546",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI079625",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "3R01AI068647-04S1",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "T32 AI060546",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Organelles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cytosol",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Diphosphates",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Inorganic Pyrophosphatase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BI",
+                      "qualifierName": "biosynthesis"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Phosphotransferases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Base Sequence"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycolysis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Molecular Sequence Data"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "pyrophosphate-fructose 6-phosphate 1-phosphotransferase",
+                "registryNumber": "EC 2.7.1.90"
+              },
+              {
+                "name": "Diphosphates",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Inorganic Pyrophosphatase",
+                "registryNumber": "EC 3.6.1.1"
+              },
+              {
+                "name": "Phosphotransferases",
+                "registryNumber": "EC 2.7.-"
+              },
+              {
+                "name": "diphosphoric acid",
+                "registryNumber": "4E862E7GRQ"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1042/BJ20110641"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4874478"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC4874478?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1042/bj20110641"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 19,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "Y",
+          "dbCrossReferenceList": {
+            "dbName": [
+              "EMBL"
+            ]
+          },
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "Y",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "Y",
+          "manuscriptId": "NIHMS730412",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen",
+              "ensembl",
+              "uniprot"
+            ]
+          },
+          "dateOfCompletion": "2012-01-05",
+          "dateOfCreation": "2011-08-12",
+          "dateOfRevision": "2024-06-10",
+          "firstPublicationDate": "2011-12-01",
+          "firstIndexDate": "2011-08-12",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "11361042",
+          "source": "MED",
+          "pmid": "11361042",
+          "doi": "10.1177/153537020122600311",
+          "title": "Identification and role of thiols in Toxoplasma gondii egress.",
+          "authorString": "Stommel EW, Cho E, Steide JA, Seguin R, Barchowsky A, Schwartzman JD, Kasper LH.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Stommel EW",
+                "lastName": "Stommel",
+                "firstName": "E W",
+                "initials": "EW",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Medicine, Dartmouth Medical School, Lebanon, New Hampshire 03756, USA. Elijah.W.Stommel@Hitchcock.org"
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cho E",
+                "lastName": "Cho",
+                "firstName": "E",
+                "initials": "E"
+              },
+              {
+                "fullName": "Steide JA",
+                "lastName": "Steide",
+                "firstName": "J A",
+                "initials": "JA"
+              },
+              {
+                "fullName": "Seguin R",
+                "lastName": "Seguin",
+                "firstName": "R",
+                "initials": "R"
+              },
+              {
+                "fullName": "Barchowsky A",
+                "lastName": "Barchowsky",
+                "firstName": "A",
+                "initials": "A"
+              },
+              {
+                "fullName": "Schwartzman JD",
+                "lastName": "Schwartzman",
+                "firstName": "J D",
+                "initials": "JD"
+              },
+              {
+                "fullName": "Kasper LH",
+                "lastName": "Kasper",
+                "firstName": "L H",
+                "initials": "LH"
+              }
+            ]
+          },
+          "journalInfo": {
+            "issue": "3",
+            "volume": "226",
+            "journalIssueId": 975219,
+            "dateOfPublication": "2001 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2001,
+            "journal": {
+              "medlineAbbreviation": "Exp Biol Med (Maywood)",
+              "title": "Experimental biology and medicine (Maywood, N.J.)",
+              "essn": "1535-3699",
+              "issn": "1535-3702",
+              "nlmid": "100973463",
+              "isoabbreviation": "Exp Biol Med (Maywood)"
+            },
+            "printPublicationDate": "2001-03-01"
+          },
+          "pubYear": "2001",
+          "pageInfo": "229-236",
+          "abstractText": "The nucleoside triphosphate hydrolase of Toxoplasma gondii is a potent apyrase that is secreted into the parasitophorous vacuole where it appears to be essentially inactive in an oxidized form. Recent evidence shows that nucleoside triphosphate hydrolase can be activated by dithiothreitol in vivo. On reduction of the enzyme, there is a rapid depletion of host cell ATP. Previous results also demonstrate a dithiothreitol induced egress of parasites from the host cell with a concurrent Ca2+ flux, postulated to be a consequence of the release of ATP-dependent Ca2+ stores within the tubulovesicular network of the parasitophorous vacuole. Reduction of the nucleoside triphosphate hydrolase appears crucial for its activation; however, the exact mechanism of reduction/activation has not been determined. Using a variety of techniques, we show here that glutathione promoters activate a Ca2+ flux and decrease ATP levels in infected human fibroblasts. We further show the in vitro activation of nucleoside triphosphate hydrolase by endogenous reducing agents, one of which we postulate might be secreted into the PV by T. gondii. Our findings suggest that the reduction of the parasite nucleoside triphosphate hydrolase, and ultimately parasite egress, is under the control of the parasites themselves.",
+          "affiliation": "Department of Medicine, Dartmouth Medical School, Lebanon, New Hampshire 03756, USA. Elijah.W.Stommel@Hitchcock.org",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, U.S. Gov't, P.H.S.",
+              "Research Support, Non-U.S. Gov't",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI30000",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "AI19613",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "CA 23108",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Cells, Cultured"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fibroblasts",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CY",
+                      "qualifierName": "cytology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "DE",
+                      "qualifierName": "drug effects"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Calcium",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Sulfhydryl Compounds",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Acid Anhydride Hydrolases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nucleoside-Triphosphatase"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Acetylcysteine",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PD",
+                      "qualifierName": "pharmacology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Adenosine Triphosphate",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Microscopy, Confocal",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "MT",
+                      "qualifierName": "methods"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fluorescent Antibody Technique, Indirect"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Coloring Agents",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Bridged Bicyclo Compounds, Heterocyclic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "bimanes",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Sulfhydryl Compounds",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nucleoside-Triphosphatase",
+                "registryNumber": "EC 3.6.1.15"
+              },
+              {
+                "name": "Coloring Agents",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Acid Anhydride Hydrolases",
+                "registryNumber": "EC 3.6.-"
+              },
+              {
+                "name": "Calcium",
+                "registryNumber": "SY7Q814VUP"
+              },
+              {
+                "name": "Adenosine Triphosphate",
+                "registryNumber": "8L70Q75FXE"
+              },
+              {
+                "name": "Acetylcysteine",
+                "registryNumber": "WYQ7N0BPYC"
+              },
+              {
+                "name": "Bridged Bicyclo Compounds, Heterocyclic",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free after 12 months",
+                "availabilityCode": "F12",
+                "documentStyle": "html",
+                "site": "www.ebmonline.org",
+                "url": "http://www.ebmonline.org/cgi/content/full/226/3/229"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "abs",
+                "site": "www.ebmonline.org",
+                "url": "http://www.ebmonline.org/cgi/content/abstract/226/3/229"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1177/153537020122600311"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 14,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2001-06-21",
+          "dateOfCreation": "2001-05-22",
+          "dateOfRevision": "2019-06-07",
+          "firstPublicationDate": "2001-03-01",
+          "firstIndexDate": "2008-01-29",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38589375",
+          "source": "MED",
+          "pmid": "38589375",
+          "pmcid": "PMC11001932",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11001932"
+            ]
+          },
+          "doi": "10.1038/s41467-024-47097-8",
+          "title": "Metabolic plasticity, essentiality and therapeutic potential of ribose-5-phosphate synthesis in Toxoplasma gondii.",
+          "authorString": "Guo X, Ji N, Guo Q, Wang M, Du H, Pan J, Xiao L, Gupta N, Feng Y, Xia N.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Guo X",
+                "lastName": "Guo",
+                "firstName": "Xuefang",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ji N",
+                "lastName": "Ji",
+                "firstName": "Nuo",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Guo Q",
+                "lastName": "Guo",
+                "firstName": "Qinghong",
+                "initials": "Q",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang M",
+                "lastName": "Wang",
+                "firstName": "Mengting",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Du H",
+                "lastName": "Du",
+                "firstName": "Huiyu",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pan J",
+                "lastName": "Pan",
+                "firstName": "Jiajia",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xiao L",
+                "lastName": "Xiao",
+                "firstName": "Lihua",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8532-2727"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gupta N",
+                "lastName": "Gupta",
+                "firstName": "Nishith",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1452-5126"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Intracellular Parasite Education and Research Labs (iPEARL), Department of Biological Sciences, Birla Institute of Technology and Science, Pilani (BITS-P), Hyderabad, India. Gupta.Nishith@hyderabad.bits-pilani.ac.in."
+                    },
+                    {
+                      "affiliation": "Department of Molecular Parasitology, Faculty of Life Sciences, Humboldt University, Berlin, Germany. Gupta.Nishith@hyderabad.bits-pilani.ac.in."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Feng Y",
+                "lastName": "Feng",
+                "firstName": "Yaoyu",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8380-1246"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China. yyfeng@scau.edu.cn."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China. yyfeng@scau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xia N",
+                "lastName": "Xia",
+                "firstName": "Ningbo",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6090-7400"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China. ningboxia@scau.edu.cn."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China. ningboxia@scau.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8532-2727"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6090-7400"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8380-1246"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1452-5126"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "15",
+            "journalIssueId": 3748636,
+            "dateOfPublication": "2024 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "Nat Commun",
+              "title": "Nature communications",
+              "essn": "2041-1723",
+              "issn": "2041-1723",
+              "nlmid": "101528555",
+              "isoabbreviation": "Nat Commun"
+            },
+            "printPublicationDate": "2024-04-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "2999",
+          "abstractText": "Ribose-5-phosphate (R5P) is a precursor for nucleic acid biogenesis; however, the importance and homeostasis of R5P in the intracellular parasite Toxoplasma gondii remain enigmatic. Here, we show that the cytoplasmic sedoheptulose-1,7-bisphosphatase (SBPase) is dispensable. Still, its co-deletion with transaldolase (TAL) impairs the double mutant's growth and increases <sup>13</sup>C-glucose-derived flux into pentose sugars via the transketolase (TKT) enzyme. Deletion of the latter protein affects the parasite's fitness but is not lethal and is correlated with an increased carbon flux via the oxidative pentose phosphate pathway. Further, loss of TKT leads to a decline in <sup>13</sup>C incorporation into glycolysis and the TCA cycle, resulting in a decrease in ATP levels and the inability of phosphoribosyl-pyrophosphate synthetase (PRPS) to convert R5P into\u00a05'-phosphoribosyl-pyrophosphate\u00a0and thereby contribute to the\u00a0production of\u00a0AMP and IMP. Likewise, PRPS is essential for the lytic cycle. Not least, we show that RuPE-mediated metabolic compensation is imperative for the survival of the \u0394sbpase\u0394tal strain. In conclusion, we demonstrate that multiple routes can flexibly supply R5P to enable parasite growth and identify catalysis by\u00a0TKT and PRPS as critical enzymatic steps. Our work provides novel biological and therapeutic insights into the network design principles of intracellular parasitism in a clinically-relevant pathogen.",
+          "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              },
+              {
+                "agency": "DBT/Wellcome Trust India Alliance",
+                "acronym": "WTDBT_",
+                "grantId": "IA/S/19/1/504263",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Diphosphates",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Ribosemonophosphates",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Glycolysis"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pentose Phosphate Pathway"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Diphosphates",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Ribosemonophosphates",
+                "registryNumber": "0"
+              },
+              {
+                "name": "ribose-5-phosphate",
+                "registryNumber": "4B2428FLTO"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s41467-024-47097-8"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11001932"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11001932?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 11,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2024-04-10",
+          "dateOfCreation": "2024-04-08",
+          "dateOfRevision": "2025-05-30",
+          "electronicPublicationDate": "2024-04-08",
+          "firstPublicationDate": "2024-04-08",
+          "firstIndexDate": "2024-04-10",
+          "fullTextReceivedDate": "2024-04-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "39306040",
+          "source": "MED",
+          "pmid": "39306040",
+          "pmcid": "PMC11526091",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11526091"
+            ]
+          },
+          "doi": "10.1016/j.jlr.2024.100645",
+          "title": "Toxoplasma acyl-CoA synthetase TgACS3 is crucial to channel host fatty acids in lipid droplets and for parasite propagation.",
+          "authorString": "Dass S, Shunmugam S, Charital S, Duley S, Arnold CS, Katris NJ, Cavaill\u00e8s P, Cesbron-Delauw MF, Yamaryo-Bott\u00e9 Y, Bott\u00e9 CY.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Dass S",
+                "lastName": "Dass",
+                "firstName": "Sheena",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shunmugam S",
+                "lastName": "Shunmugam",
+                "firstName": "Serena",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Charital S",
+                "lastName": "Charital",
+                "firstName": "Sarah",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Duley S",
+                "lastName": "Duley",
+                "firstName": "Samuel",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3419-8057"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Arnold CS",
+                "lastName": "Arnold",
+                "firstName": "Christophe-S\u00e9bastien",
+                "initials": "CS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2392-5837"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Katris NJ",
+                "lastName": "Katris",
+                "firstName": "Nicholas J",
+                "initials": "NJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7419-3410"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cavaill\u00e8s P",
+                "lastName": "Cavaill\u00e8s",
+                "firstName": "Pierre",
+                "initials": "P",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Cesbron-Delauw MF",
+                "lastName": "Cesbron-Delauw",
+                "firstName": "Marie-France",
+                "initials": "MF",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-4018-9306"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yamaryo-Bott\u00e9 Y",
+                "lastName": "Yamaryo-Bott\u00e9",
+                "firstName": "Yoshiki",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9349-4411"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France. Electronic address: yoshiki.botte-yamaryo@univ-grenoble-alpes.fr."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bott\u00e9 CY",
+                "lastName": "Bott\u00e9",
+                "firstName": "Cyrille Y",
+                "initials": "CY",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2245-536X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France. Electronic address: cyrille.botte@univ-grenoble-alpes.fr."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2245-536X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2392-5837"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3419-8057"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7419-3410"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9349-4411"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-4018-9306"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "10",
+            "volume": "65",
+            "journalIssueId": 3845944,
+            "dateOfPublication": "2024 Oct",
+            "monthOfPublication": 10,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "J Lipid Res",
+              "title": "Journal of lipid research",
+              "essn": "1539-7262",
+              "issn": "0022-2275",
+              "nlmid": "0376606",
+              "isoabbreviation": "J Lipid Res"
+            },
+            "printPublicationDate": "2024-10-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "100645",
+          "abstractText": "Apicomplexa comprise important pathogenic parasitic protists that heavily depend on lipid acquisition to survive within their human host cells. Lipid synthesis relies on the incorporation of an essential combination of fatty acids (FAs) either generated by a metabolically adaptable de novo synthesis in the parasite or by scavenging from the host cell. The incorporation of FAs into membrane lipids depends on their obligate metabolic activation by specific enzyme groups, acyl-CoA synthetases (ACSs). Each ACS has its own specificity, so it can fulfill specific metabolic functions. Whilst such functionalities have been well studied in other eukaryotic models, their roles and importance in Apicomplexa are currently very limited, especially for Toxoplasma gondii. Here, we report the identification of seven putative ACSs encoded by the genome of T.\u00a0gondii (TgACS), which localize to different sub-cellular compartments of the parasite, suggesting exclusive functions. We show that the perinuclear/cytoplasmic TgACS3 regulates the replication and growth of Toxoplasma tachyzoites. Conditional disruption of TgACS3 shows that the enzyme is required for parasite propagation and survival, especially under high host nutrient content. Lipidomic analysis of parasites lacking TgACS3 reveals its role in the activation of host-derived FAs that are used for i) parasite membrane phospholipid and ii) storage triacylglycerol (TAG) syntheses, allowing proper membrane biogenesis of parasite progenies. Altogether, our results reveal the role of TgACS3 as the bulk FA activator for membrane biogenesis allowing intracellular division and survival in T.\u00a0gondii tachyzoites, further pointing to the importance of ACS and FA metabolism for the parasite.",
+          "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, Universit\u00e9 Grenoble Alpes, INSERM U1209, Grenoble, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Fondation pour la Recherche M\u00e9dicale",
+                "grantId": "FRM EQU202103012700",
+                "orderIn": 0
+              },
+              {
+                "agency": "CEFIPRA",
+                "orderIn": 0
+              },
+              {
+                "agency": "University Grenoble Alpes",
+                "orderIn": 0
+              },
+              {
+                "agency": "R\u00e9gion Auvergne-Rh\u00f4ne-Alpes",
+                "grantId": "6003-1",
+                "orderIn": 0
+              },
+              {
+                "agency": "Fondation pour la Recherche M\u00e9dicale",
+                "grantId": "ANR-11-LABX-0024",
+                "orderIn": 0
+              },
+              {
+                "agency": "CNRS",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-21-CE44-0010",
+                "orderIn": 0
+              },
+              {
+                "agency": "INSERM",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-23-CE15-0009-01",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "EN",
+                      "qualifierName": "enzymology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Coenzyme A Ligases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Fatty Acids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Lipid Droplets",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "lipid metabolism",
+              "Membrane Biogenesis",
+              "Acyl-coa Synthetase",
+              "Apicomplexa",
+              "Fatty Acid Activation",
+              "Lipidomic",
+              "Host-parasite Metabolic Interactions",
+              "Lipid-fatty Acid Fluxes"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Fatty Acids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Coenzyme A Ligases",
+                "registryNumber": "EC 6.2.1.-"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1016/j.jlr.2024.100645"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1016/j.jlr.2024.100645"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11526091"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11526091?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 8,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCompletion": "2024-11-04",
+          "dateOfCreation": "2024-09-21",
+          "dateOfRevision": "2026-06-02",
+          "electronicPublicationDate": "2024-09-19",
+          "firstPublicationDate": "2024-09-19",
+          "firstIndexDate": "2024-09-22",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "38501871",
+          "source": "MED",
+          "pmid": "38501871",
+          "pmcid": "PMC11005404",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11005404"
+            ]
+          },
+          "doi": "10.1128/mbio.00427-24",
+          "title": "The acyl-CoA synthetase &lt;i&gt;Tg&lt;/i&gt;ACS1 allows neutral lipid metabolism and extracellular motility in &lt;i&gt;Toxoplasma gondii&lt;/i&gt; through relocation via its peroxisomal targeting sequence (PTS) under low nutrient conditions.",
+          "authorString": "Charital S, Shunmugam S, Dass S, Alazzi AM, Arnold C-S, Katris NJ, Duley S, Quansah NA, Pierrel F, Govin J, Yamaryo-Bott\u00e9 Y, Bott\u00e9 CY.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Charital S",
+                "lastName": "Charital",
+                "firstName": "Sarah",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Shunmugam S",
+                "lastName": "Shunmugam",
+                "firstName": "Serena",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6179-3292"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Dass S",
+                "lastName": "Dass",
+                "firstName": "Sheena",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Alazzi AM",
+                "lastName": "Alazzi",
+                "firstName": "Anna Maria",
+                "initials": "AM",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Team Govin, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Arnold C-S",
+                "lastName": "Arnold",
+                "firstName": "Christophe-S\u00e9bastien",
+                "initials": "C-S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Katris NJ",
+                "lastName": "Katris",
+                "firstName": "Nicholas J",
+                "initials": "NJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7419-3410"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Duley S",
+                "lastName": "Duley",
+                "firstName": "Samuel",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3419-8057"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Quansah NA",
+                "lastName": "Quansah",
+                "firstName": "Nyamekye A",
+                "initials": "NA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8896-1612"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Pierrel F",
+                "lastName": "Pierrel",
+                "firstName": "Fabien",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2083-3002"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Universit\u00e9 Grenoble Alpes, CNRS, Grenoble INP, TIMC-IMAG, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Govin J",
+                "lastName": "Govin",
+                "firstName": "J\u00e9r\u00f4me",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5511-6965"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Team Govin, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Yamaryo-Bott\u00e9 Y",
+                "lastName": "Yamaryo-Bott\u00e9",
+                "firstName": "Yoshiki",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9349-4411"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Bott\u00e9 CY",
+                "lastName": "Bott\u00e9",
+                "firstName": "Cyrille Y",
+                "initials": "CY",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2245-536X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5511-6965"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6179-3292"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8896-1612"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2245-536X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3419-8057"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7419-3410"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9349-4411"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2083-3002"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "4",
+            "volume": "15",
+            "journalIssueId": 3753941,
+            "dateOfPublication": "2024 Apr",
+            "monthOfPublication": 4,
+            "yearOfPublication": 2024,
+            "journal": {
+              "medlineAbbreviation": "mBio",
+              "title": "mBio",
+              "essn": "2150-7511",
+              "issn": "2150-7511",
+              "nlmid": "101519231",
+              "isoabbreviation": "mBio"
+            },
+            "printPublicationDate": "2024-04-01"
+          },
+          "pubYear": "2024",
+          "pageInfo": "e0042724",
+          "abstractText": "Apicomplexa parasites cause major diseases such as toxoplasmosis and malaria that have major health and economic burdens. These unicellular pathogens are obligate intracellular parasites that heavily depend on lipid metabolism for the survival within their hosts. Their lipid synthesis relies on an essential combination of fatty acids (FAs) obtained from both <i>de novo</i> synthesis and scavenging from the host. The constant flux of scavenged FA needs to be channeled toward parasite lipid storage, and these FA storages are timely mobilized during parasite division. In eukaryotes, the utilization of FA relies on their obligate metabolic activation mediated by acyl-co-enzyme A (CoA) synthases (ACSs), which catalyze the thioesterification of FA to a CoA. Besides the essential functions of FA for parasite survival, the presence and roles of ACS are yet to be determined in Apicomplexa. Here, we identified <i>Tg</i>ACS1 as a <i>Toxoplasma gondii</i> cytosolic ACS that is involved in FA mobilization in the parasite specifically during low host nutrient conditions, especially in extracellular stages where it adopts a different localization. Heterologous complementation of yeast ACS mutants confirmed <i>Tg</i>ACS1 as being an Acyl-CoA synthetase of the bubble gum family that is most likely involved in \u03b2-oxidation processes. We further demonstrate that <i>Tg</i>ACS1 is critical for gliding motility of extracellular parasite facing low nutrient conditions, by relocating to peroxisomal-like area.IMPORTANCE<i>Toxoplasma gondii</i>, causing human toxoplasmosis, is an Apicomplexa parasite and model within this phylum that hosts major infectious agents, such as <i>Plasmodium</i> spp., responsible for malaria. The diseases caused by apicomplexans are responsible for major social and economic burdens affecting hundreds of millions of people, like toxoplasmosis chronically present in about one-third of the world's population. Lack of efficient vaccines, rapid emergence of resistance to existing treatments, and toxic side effects of current treatments all argue for the urgent need to develop new therapeutic tools to combat these diseases. Understanding the key metabolic pathways sustaining host-intracellular parasite interactions is pivotal to develop new efficient ways to kill these parasites. Current consensus supports parasite lipid synthesis and trafficking as pertinent target for novel treatments. Many processes of this essential lipid metabolism in the parasite are not fully understood. The capacity for the parasites to sense and metabolically adapt to the host physiological conditions has only recently been unraveled. Our results clearly indicate the role of acyl-co-enzyme A (CoA) synthetases for the essential metabolic activation of fatty acid (FA) used to maintain parasite propagation and survival. The significance of our research is (i) the identification of seven of these enzymes that localize at different cellular areas in <i>T. gondii</i> parasites; (ii) using lipidomic approaches, we show that <i>Tg</i>ACS1 mobilizes FA under low host nutrient content; (iii) yeast complementation showed that acyl-CoA synthase 1 (ACS1) is an ACS that is likely involved in peroxisomal \u03b2-oxidation; (iv) the importance of the peroxisomal targeting sequence for correct localization of <i>Tg</i>ACS1 to a peroxisomal-like compartment in extracellular parasites; and lastly, (v) that <i>Tg</i>ACS1 has a crucial role in energy production and extracellular parasite motility.",
+          "affiliation": "Apicolipid Team, Institute for Advanced Biosciences, CNRS UMR5309, INSERM U1209, Universit\u00e9 Grenoble Alpes, Grenoble, France.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ANR-23-CE15-0009-01",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche (ANR)",
+                "grantId": "ANR-23-CE15-0009-01",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "ApicoLipiAdapt grant ANR-21-CE44-0010",
+                "orderIn": 0
+              },
+              {
+                "agency": "Centre National de la Recherche Scientifique",
+                "grantId": "LIA-IRP CNRS Program Apicolipid project",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche (ANR)",
+                "grantId": "ApicoLipiAdapt grant ANR-21-CE44-0010",
+                "orderIn": 0
+              },
+              {
+                "agency": "Universite Grenoble Alpes",
+                "grantId": "IDEX ISP Apicolipid",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche",
+                "grantId": "Laboratoire d&apos;Excellence Parafrap France grant ANR-11-LABX-0024",
+                "orderIn": 0
+              },
+              {
+                "agency": "Agence Nationale de la Recherche (ANR)",
+                "grantId": "Laboratoire d'Excellence Parafrap France grant ANR-11-LABX-0024",
+                "orderIn": 0
+              },
+              {
+                "agency": "Region Auvergne Rhone-Alpes",
+                "grantId": "Grant IRICE Project GEMELI",
+                "orderIn": 0
+              },
+              {
+                "agency": "Fondation pour la Recherche M\u00e9dicale",
+                "grantId": "FRM EQU202103012700",
+                "orderIn": 0
+              },
+              {
+                "agency": "Fondation pour la Recherche M\u00e9dicale (FRM)",
+                "grantId": "FRM EQU202103012700",
+                "orderIn": 0
+              },
+              {
+                "agency": "Centre National de la Recherche Scientifique (CNRS)",
+                "grantId": "LIA-IRP CNRS Program Apicolipid project",
+                "orderIn": 0
+              },
+              {
+                "agency": "CEFIPRA",
+                "grantId": "Project 6003-1",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Saccharomyces cerevisiae",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Malaria"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Fatty Acids",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Lipid Metabolism"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Nutrients"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Lipid",
+              "Fatty acid",
+              "Toxoplasma gondii",
+              "motility",
+              "Fatty acid metabolism",
+              "Lipidomics",
+              "Acylcoa Synthetase"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Fatty Acids",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Nutrients",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "doi",
+                "site": "Unpaywall",
+                "url": "https://doi.org/10.1128/mbio.00427-24"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/mbio.00427-24"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11005404"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11005404?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 8,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "uniprot"
+            ]
+          },
+          "dateOfCompletion": "2024-04-11",
+          "dateOfCreation": "2024-03-19",
+          "dateOfRevision": "2026-06-02",
+          "electronicPublicationDate": "2024-03-19",
+          "firstPublicationDate": "2024-03-19",
+          "firstIndexDate": "2024-03-20",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "40050648",
+          "source": "MED",
+          "pmid": "40050648",
+          "pmcid": "PMC11885449",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC11885449"
+            ]
+          },
+          "doi": "10.1038/s42003-025-07823-4",
+          "title": "Metabolic crosstalk between the mitochondrion and the nucleus is essential for Toxoplasma gondii infection.",
+          "authorString": "Zhang H, Ji N, Su S, Zhao M, Du H, Sahoo LK, Wu Y, Feng Y, Gupta N, Xiao L, Xia N.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Zhang H",
+                "lastName": "Zhang",
+                "firstName": "Hongxi",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Ji N",
+                "lastName": "Ji",
+                "firstName": "Nuo",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Su S",
+                "lastName": "Su",
+                "firstName": "Shuxin",
+                "initials": "S",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Frontiers Science Center for Synthetic Biology and Key Laboratory of Systems Bioengineering (Ministry of Education), School of Chemical Engineering and Technology, Tianjin University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhao M",
+                "lastName": "Zhao",
+                "firstName": "Meng",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Du H",
+                "lastName": "Du",
+                "firstName": "Huiyu",
+                "initials": "H",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Sahoo LK",
+                "lastName": "Sahoo",
+                "firstName": "Lakesh Kumar",
+                "initials": "LK",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Intracellular Parasite Education And Research Labs (iPEARL), Department of Biological Sciences, Birla Institute of Technology and Science, Pilani (BITS Pilani), Hyderabad, India."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wu Y",
+                "lastName": "Wu",
+                "firstName": "Yi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Frontiers Science Center for Synthetic Biology and Key Laboratory of Systems Bioengineering (Ministry of Education), School of Chemical Engineering and Technology, Tianjin University, Tianjin, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Feng Y",
+                "lastName": "Feng",
+                "firstName": "Yaoyu",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8380-1246"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gupta N",
+                "lastName": "Gupta",
+                "firstName": "Nishith",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-1452-5126"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Intracellular Parasite Education And Research Labs (iPEARL), Department of Biological Sciences, Birla Institute of Technology and Science, Pilani (BITS Pilani), Hyderabad, India. Gupta.Nishith@hyderabad.bits-pilani.ac.in."
+                    },
+                    {
+                      "affiliation": "Department of Molecular Parasitology, Institute of Biology, Faculty of Life Sciences, Humboldt University, Berlin, Germany. Gupta.Nishith@hyderabad.bits-pilani.ac.in."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xiao L",
+                "lastName": "Xiao",
+                "firstName": "Lihua",
+                "initials": "L",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8532-2727"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China. lxiao@scau.edu.cn."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China. lxiao@scau.edu.cn."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xia N",
+                "lastName": "Xia",
+                "firstName": "Ningbo",
+                "initials": "N",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-6090-7400"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China. ningboxia@scau.edu.cn."
+                    },
+                    {
+                      "affiliation": "Guangdong Laboratory for Lingnan Modern Agriculture, Center for Emerging and Zoonotic Diseases, College of Veterinary Medicine, South China Agricultural University, Guangzhou, China. ningboxia@scau.edu.cn."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8532-2727"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-6090-7400"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8380-1246"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-1452-5126"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "1",
+            "volume": "8",
+            "journalIssueId": 3906908,
+            "dateOfPublication": "2025 Mar",
+            "monthOfPublication": 3,
+            "yearOfPublication": 2025,
+            "journal": {
+              "medlineAbbreviation": "Commun Biol",
+              "title": "Communications biology",
+              "essn": "2399-3642",
+              "issn": "2399-3642",
+              "nlmid": "101719179",
+              "isoabbreviation": "Commun Biol"
+            },
+            "printPublicationDate": "2025-03-01"
+          },
+          "pubYear": "2025",
+          "pageInfo": "384",
+          "abstractText": "Toxoplasma gondii, an intracellular pathogenic protist with a remarkable ability to infect a wide range of host cells, displays an equally exceptional design of its carbon metabolism. There are, however, critical gaps in our understanding of the metabolic network in T. gondii. We characterized the mito-nuclear metabolism and organelle coupling during its acute infection (lytic cycle). The major enzymes of the TCA cycle, i.e., citrate synthase (CS1), succinyl-CoA synthase alpha subunit (SCS\u03b1), succinate dehydrogenase (SDHA) and FAD malate dehydrogenase (MDH-FAD) located in the parasite mitochondrion support its asexual reproduction but are not needed for its survival. The SCS\u03b1 and SDHA mutants are nearly avirulent in a mouse model, and they can protect the host against a lethal challenge infection. Genetic deletion of MDH-FAD dysregulated glucose-derived carbon flux, leading to a collapse of the mitochondrial membrane potential. The parasite also harbors a cytosolic isoform of MDH and a nuclear malic enzyme (ME) contributing to malate oxidation; however, only the latter is essential for the lytic cycle. Expression of ME in the nucleus is crucial for the parasite development. Besides, conditional knockdown of ME impairs the histone acetylation and disrupts the expression of several genes in tachyzoites. Our work discloses novel network design features of T. gondii and highlights the therapeutic and vaccination potential of the parasite metabolism.",
+          "affiliation": "State Key Laboratory for Animal Disease Control and Prevention, South China Agricultural University, Guangzhou, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "DBT/Wellcome Trust India Alliance",
+                "acronym": "WTDBT_",
+                "grantId": "IA/S/19/1/504263",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Nucleus",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Mitochondria",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PY",
+                      "qualifierName": "pathogenicity"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malate Dehydrogenase",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Citric Acid Cycle"
+              }
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Malate Dehydrogenase",
+                "registryNumber": "EC 1.1.1.37"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1038/s42003-025-07823-4"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11885449"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC11885449?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 5,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "license": "cc by-nc-nd",
+          "authMan": "Y",
+          "epmcAuthMan": "Y",
+          "nihAuthMan": "N",
+          "manuscriptId": "EMS203646",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2025-05-11",
+          "dateOfCreation": "2025-03-06",
+          "dateOfRevision": "2025-05-30",
+          "electronicPublicationDate": "2025-03-07",
+          "firstPublicationDate": "2025-03-07",
+          "firstIndexDate": "2025-03-07",
+          "fullTextReceivedDate": "2025-12-02",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

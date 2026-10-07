@@ -1,0 +1,2302 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22host+response%22+OR+%22host+transcriptome%22+OR+%22effector%22+OR+%22host-pathogen%22%29+AND+TITLE_ABS%3A%28%22host%22+OR+%22interaction%22+OR+%22degree%22%29+sort_date%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T19:01:27.258633+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 511,
+    "nextCursorMark": "AoJwgMSU2J8DKDU2MTQwNDg3",
+    "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22Toxoplasma+gondii%22+AND+TITLE_ABS%3A%28%22host+response%22+OR+%22host+transcriptome%22+OR+%22effector%22+OR+%22host-pathogen%22%29+AND+TITLE_ABS%3A%28%22host%22+OR+%22interaction%22+OR+%22degree%22%29+sort_date%3Ay&cursorMark=AoJwgMSU2J8DKDU2MTQwNDg3&resultType=core&pageSize=10&format=json",
+    "request": {
+      "queryString": "TITLE_ABS:\"Toxoplasma gondii\" AND TITLE_ABS:(\"host response\" OR \"host transcriptome\" OR \"effector\" OR \"host-pathogen\") AND TITLE_ABS:(\"host\" OR \"interaction\" OR \"degree\") sort_date:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "42782808",
+          "source": "MED",
+          "pmid": "42782808",
+          "pmcid": "PMC13605782",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13605782"
+            ]
+          },
+          "doi": "10.3390/cells15181708",
+          "title": "Hijacking Host Communication: The Central Role of Extracellular Vesicles in Infectious Disease Pathogenesis.",
+          "authorString": "Santos P, Almeida F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Santos P",
+                "lastName": "Santos",
+                "firstName": "Patrick",
+                "initials": "P",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5722-023X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Internal Medicine, Ribeir\u00e3o Preto Medical School, University of S\u00e3o Paulo, Ribeir\u00e3o Preto\u00a014048-900, SP, Brazil."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Almeida F",
+                "lastName": "Almeida",
+                "firstName": "Fausto",
+                "initials": "F",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3782-3698"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Biochemistry and Immunology, Ribeir\u00e3o Preto Medical School, University of S\u00e3o Paulo, Ribeir\u00e3o Preto 14048-900, SP, Brazil."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5722-023X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3782-3698"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "18",
+            "volume": "15",
+            "journalIssueId": 4270279,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Cells",
+              "title": "Cells",
+              "essn": "2073-4409",
+              "issn": "2073-4409",
+              "nlmid": "101600052",
+              "isoabbreviation": "Cells"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1708",
+          "abstractText": "Extracellular vesicles (EVs) have emerged as fundamental mediators of intercellular communication during infectious diseases, acting as vehicles for proteins, lipids, and nucleic acids that profoundly influence host-pathogen interactions. In recent years, accumulating evidence has revealed that pathogens from distinct biological kingdoms, including protozoan parasites, viruses, and bacteria, either release their own EVs or exploit host-derived EVs to manipulate immune responses, promote infection, and sustain chronic disease. This review provides a comprehensive and integrative overview of the roles of EVs in infectious diseases, with particular emphasis on immune modulation, immune evasion, pathogenesis, and translational applications. We summarize current knowledge on EV-mediated communication in infections caused by major protozoan parasites (<i>Trypanosoma cruzi</i>, <i>Plasmodium</i> spp., <i>Toxoplasma gondii</i>, and <i>Leishmania</i> spp.), highlighting how parasite- and host-derived EVs regulate inflammatory responses, facilitate intracellular survival, and shape disease outcomes. We further examine viral infections, including HIV, HPV, HCV, and airborne respiratory viruses such as SARS-CoV-2, where EVs contribute to viral persistence, immune dysfunction, oncogenesis, and long-term sequelae. In addition, we discuss bacterial infections, focusing on <i>Mycobacterium tuberculosis</i>, <i>Streptococcus pneumoniae</i>, and <i>Helicobacter pylori</i>, illustrating how EVs can function both as vectors of virulence factors and as components of host defense mechanisms. Finally, we explore the emerging translational potential of EVs as non-invasive biomarkers for disease diagnosis and prognosis, as well as their application as therapeutic and vaccine platforms. By integrating findings across diverse pathogens, this review highlights extracellular vesicles as widely implicated and dynamic contributors of infectious disease biology and underscores their relevance as targets and tools for next-generation diagnostic and therapeutic strategies.",
+          "affiliation": "Department of Internal Medicine, Ribeir\u00e3o Preto Medical School, University of S\u00e3o Paulo, Ribeir\u00e3o Preto\u00a014048-900, SP, Brazil.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "review-article",
+              "Review",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Funda\u00e7\u00e3o de Amparo \u00e0 Pesquisa do Estado de S\u00e3o Paulo",
+                "grantId": "2021/06794-5",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Communicable Diseases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Communication"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Host-Pathogen Interactions",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Immune Evasion"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Extracellular Vesicles",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Intercellular communication",
+              "Biomarkers",
+              "virulence factors",
+              "Chronic infection",
+              "Immune Evasion"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/cells15181708"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13605782"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13605782?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-24",
+          "dateOfCreation": "2026-09-24",
+          "dateOfRevision": "2026-09-26",
+          "electronicPublicationDate": "2026-09-20",
+          "firstPublicationDate": "2026-09-20",
+          "firstIndexDate": "2026-09-25",
+          "fullTextReceivedDate": "2026-09-25",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1320008",
+          "source": "PPR",
+          "doi": "10.64898/2026.09.12.751112",
+          "title": "<i>Toxoplasma gondii</i>  GRA66 prevents premature egress driven by the host phospholipase RARRES3, independently of RNF213",
+          "authorString": "de Moraes de Siqueira C, Martinez-Beltran S, Johnston EA, Coers J, Saeij JPJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "de Moraes de Siqueira C",
+                "lastName": "de Moraes de Siqueira",
+                "firstName": "Caroline",
+                "initials": "C"
+              },
+              {
+                "fullName": "Martinez-Beltran S",
+                "lastName": "Martinez-Beltran",
+                "firstName": "Stephanie",
+                "initials": "S"
+              },
+              {
+                "fullName": "Johnston EA",
+                "lastName": "Johnston",
+                "firstName": "Emma",
+                "initials": "EA"
+              },
+              {
+                "fullName": "Coers J",
+                "lastName": "Coers",
+                "firstName": "J\u00f6rn",
+                "initials": "J"
+              },
+              {
+                "fullName": "Saeij JPJ",
+                "lastName": "Saeij",
+                "firstName": "Jeroen",
+                "initials": "JPJ"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Toxoplasma gondii replicates inside a host-derived parasitophorous vacuole (PV), and interferon-gamma (IFN\u03b3) induces host restriction factors that target this compartment. Previous CRISPR screens identified the dense granule protein GRA66 and the GRA57/GRA70/GRA71 complex as required for parasite fitness in IFN\u03b3-stimulated human cells, but the host pathways they oppose were unknown. Here, we show that GRA66, a PV membrane (PVM)-associated protein predicted to be an N-acylphosphatidylethanolamine (NAPE)-hydrolyzing phospholipase D, is required to prevent premature egress driven by the host phospholipase and acyltransferase RARRES3. Loss of GRA66 caused premature parasite egress, host cell death, and impaired replication in human cells. These phenotypes persisted in cells lacking RNF213, the E3 ubiquitin ligase that dominates IFN\u03b3-dependent  Toxoplasma restriction in human cells, and  \u0394gra66 vacuoles recruited less RNF213 and ubiquitin than wild type, indicating an RNF213-independent mechanism rather than an exaggerated RNF213 response. Complementation with a catalytic-site mutant of the GRA66 zinc-binding motif failed to restore any of these phenotypes, indicating a requirement for its predicted enzymatic activity. Deleting RARRES3 rescued the premature egress of \u0394  gra66 and catalytic-mutant parasites but not of  \u0394gra70 parasites, whereas the replication defect persisted, revealing a second, RARRES3-independent consequence of GRA66 loss. RARRES3 was recruited to the PVM and intravacuolar network after IFN\u03b3 stimulation, and structural modeling supported assignment of GRA66 to the NAPE-phospholipase D family with an intact di-zinc active site. These findings define a lipid-centered, RNF213-independent arm of human cell-autonomous immunity and identify the parasite effector required to withstand it.  <h4>Importance</h4>  Toxoplasma gondii infects a large fraction of the world\u2019s population and persists for life inside host cells, sheltered within a compartment called a vacuole. The immune signal interferon gamma normally holds the parasite in check, but how human cells attack this vacuole, and how the parasite resists, is only partly understood because humans lack the main anti-vacuolar defenses mice use. Here, we show that human cells recruit a lipid-remodeling enzyme, RARRES3, to this vacuole, and that RARRES3 drives the parasite to exit prematurely, triggering host cell death. The parasite counters with a lipid-modifying enzyme of its own, GRA66, which is required to prevent that premature exit. This host defense works independently of the pathway thought to dominate human control of  Toxoplasma . Our findings identify lipid remodeling of the pathogen-containing vacuole as a distinct arm of human cell-intrinsic immunity, and the parasite enzyme that counteracts it as a potential drug target.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.09.12.751112"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-09-16",
+          "firstPublicationDate": "2026-09-15",
+          "firstIndexDate": "2026-09-16",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42663465",
+          "source": "MED",
+          "pmid": "42663465",
+          "doi": "10.1128/mbio.01652-26",
+          "title": "A suite of eight &lt;i&gt;Toxoplasma gondii&lt;/i&gt; effectors cooperates to activate the non-canonical NF-\u03baB pathway.",
+          "authorString": "Berg K, Panas MW, Kurup SP, Boothroyd JC, Rosenberg A.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Berg K",
+                "lastName": "Berg",
+                "firstName": "Kenna",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0007-4814-2015"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Infectious Diseases, University of Georgia, Athens, Georgia, USA."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Panas MW",
+                "lastName": "Panas",
+                "firstName": "Michael W",
+                "initials": "MW",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2973-736X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Kurup SP",
+                "lastName": "Kurup",
+                "firstName": "Samarchith P",
+                "initials": "SP",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia, USA."
+                    },
+                    {
+                      "affiliation": "Department of Cellular Biology, University of Georgia, Athens, Georgia, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boothroyd JC",
+                "lastName": "Boothroyd",
+                "firstName": "John C",
+                "initials": "JC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9719-745X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Stanford University School of Medicine, Stanford, California, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Rosenberg A",
+                "lastName": "Rosenberg",
+                "firstName": "Alex",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9672-1360"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Infectious Diseases, University of Georgia, Athens, Georgia, USA."
+                    },
+                    {
+                      "affiliation": "Center for Tropical and Emerging Global Diseases, University of Georgia, Athens, Georgia, USA."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9672-1360"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9719-745X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2973-736X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0007-4814-2015"
+              }
+            ]
+          },
+          "journalInfo": {
+            "journalIssueId": 4237303,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "mBio",
+              "title": "mBio",
+              "essn": "2150-7511",
+              "issn": "2150-7511",
+              "nlmid": "101519231",
+              "isoabbreviation": "mBio"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0165226",
+          "abstractText": "As a master of host-cell reprogramming, <i>Toxoplasma gondii</i> (<i>T. gondii</i>) tachyzoites manipulate diverse signaling networks to establish a niche permissive for long-term infection. While the parasite's subversion of canonical NF-\u03baB signaling (p65/p50) is well established, how infection impacts the non-canonical NF-\u03baB pathway has been largely unexplored. Here, we report that <i>T. gondii</i> infection induces nuclear accumulation of the non-canonical NF-\u03baB subunits RelB and p52 in both human and murine fibroblasts. This response is conserved across both type I and type II parasite genetic backgrounds. We demonstrate that this reprogramming is dependent on the MYR1-mediated export of dense granule effectors. Mechanistically, <i>T. gondii</i> infection drives the depletion of the negative regulator TRAF3, leading to the stabilization of NF-\u03baB-inducing kinase (NIK), phosphorylation of p100, and its subsequent processing into p52. Utilizing a panel of combinatorial knockout parasites, we reveal that no single effector is responsible for this phenotype. Instead, a suite of eight MYR1-dependent effectors, IST, NSM, HCE1/TEEGR, GRA16, GRA18, GRA24, GRA28, and GRA84, functions through a collaborative, additive network to drive most of the non-canonical response. These findings highlight a distributed regulatory strategy used by the parasite to overcome host transcriptional robustness and shape host signaling.<h4>Importance</h4><i>Toxoplasma gondii</i> infects nearly one-third of the global population and establishes infection by extensively rewiring host immune signaling. While decades of work have focused on how the parasite modulates canonical NF-\u03baB activity, whether it also engages the alternative, non-canonical arm of this pathway has remained unclear. Here, we show that <i>T. gondii</i> tachyzoites activate non-canonical NF-\u03baB signaling, driving nuclear accumulation of RelB/p52 through MYR1-dependent effector export. Unexpectedly, no single effector is responsible. Instead, eight secreted proteins act cooperatively to enable NIK stabilization and engage the non-canonical NF-\u03baB cascade, revealing a networked mode of immune control. This discovery highlights a regulatory logic evolved by the parasite to overcome host transcriptional robustness. Together, these findings identify non-canonical NF-\u03baB activation as a new axis of host-parasite interaction and expand our understanding of how <i>T. gondii</i> reprograms central immune signaling circuits through multi-effector networks.",
+          "affiliation": "Department of Infectious Diseases, University of Georgia, Athens, Georgia, USA.",
+          "publicationStatus": "aheadofprint",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Journal Article"
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "p52",
+              "Traf3",
+              "Relb",
+              "Non-canonical Nf-\u03bab",
+              "Myr Translocon",
+              "Nik Stabilization",
+              "Dense Granule Effectors"
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/mbio.01652-26"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "41959509",
+                "reference": "bioRxiv. 2026 Mar 12:2026.03.12.711255. doi: 10.64898/2026.03.12.711255.",
+                "type": "Update of",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-28",
+          "dateOfRevision": "2026-09-01",
+          "electronicPublicationDate": "2026-08-28",
+          "firstPublicationDate": "2026-08-28",
+          "firstIndexDate": "2026-08-30",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42737894",
+          "source": "MED",
+          "pmid": "42737894",
+          "pmcid": "PMC13565675",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13565675"
+            ]
+          },
+          "doi": "10.3390/biology15171461",
+          "title": "Integrated Proteomic Profiling Reveals Dynamic Remodeling of the Intestinal Proteome in &lt;i&gt;Toxoplasma gondii&lt;/i&gt;-Infected C57BL/6J Mice.",
+          "authorString": "Li ZL, Zhang YX, Wang PL, Liu C, Chen N, Zou FC, Zhu XQ, Li Z.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Li ZL",
+                "lastName": "Li",
+                "firstName": "Zhi-Lin",
+                "initials": "ZL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Medicinal Chemistry for Natural Resource, Ministry of Education, Yunnan Key Laboratory of Research and Development for Natural Products, School of Pharmacy, Yunnan University, Kunming 650500, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang YX",
+                "lastName": "Zhang",
+                "firstName": "Yu-Xin",
+                "initials": "YX",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Key Laboratory of Medicinal Chemistry for Natural Resource, Ministry of Education, Yunnan Key Laboratory of Research and Development for Natural Products, School of Pharmacy, Yunnan University, Kunming 650500, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wang PL",
+                "lastName": "Wang",
+                "firstName": "Pei-Lin",
+                "initials": "PL",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Animal Research and Resource Center, School of Life Sciences, Yunnan University, Kunming 650201, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu C",
+                "lastName": "Liu",
+                "firstName": "Chen",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Animal Research and Resource Center, School of Life Sciences, Yunnan University, Kunming 650201, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen N",
+                "lastName": "Chen",
+                "firstName": "Nan",
+                "initials": "N",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Animal Research and Resource Center, School of Life Sciences, Yunnan University, Kunming 650201, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zou FC",
+                "lastName": "Zou",
+                "firstName": "Feng-Cai",
+                "initials": "FC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9613-3734"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Yunnan Key Laboratory of Veterinary Etiological Biology, College of Veterinary Medicine, Yunnan Agricultural University, Kunming 650201, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhu XQ",
+                "lastName": "Zhu",
+                "firstName": "Xing-Quan",
+                "initials": "XQ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2530-4628"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "The Yunnan Key Laboratory of Veterinary Etiological Biology, College of Veterinary Medicine, Yunnan Agricultural University, Kunming 650201, China."
+                    },
+                    {
+                      "affiliation": "Shanxi Key Laboratory of Animal Disease Research, College of Veterinary Medicine, Shanxi Agricultural University, Jinzhong 030801, China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Li Z",
+                "lastName": "Li",
+                "firstName": "Zhao",
+                "initials": "Z",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0004-7848-0152"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Animal Research and Resource Center, School of Life Sciences, Yunnan University, Kunming 650201, China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9613-3734"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2530-4628"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0004-7848-0152"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "17",
+            "volume": "15",
+            "journalIssueId": 4261600,
+            "dateOfPublication": "2026 Aug",
+            "monthOfPublication": 8,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Biology (Basel)",
+              "title": "Biology",
+              "essn": "2079-7737",
+              "issn": "2079-7737",
+              "nlmid": "101587988",
+              "isoabbreviation": "Biology (Basel)"
+            },
+            "printPublicationDate": "2026-08-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1461",
+          "abstractText": "The intestinal mucosa is the primary site of <i>Toxoplasma gondii</i> (<i>T. gondii</i>) infection and interaction with the host. While the intestinal responses have been characterized through transcriptomic and histopathological studies, a comprehensive, system-wide analysis of the functional proteome remodeling by acute <i>T. gondii</i> infection is required to elucidate the underlying mechanisms. This study presents a temporal, quantitative proteomic profiling of <i>T. gondii</i>-infected C57BL/6J mouse intestine to define the protein-centric host response. Global analysis reveals profound reprogramming, characterized by upregulated acute-phase reactants and interferon-stimulated effectors and downregulated epithelial barrier and digestive function proteins. Systems-level bioinformatics analysis uncovers a coordinated host strategy of cellular resource reallocation, evidenced by the simultaneous and specific amplification of ribosome biogenesis and proteasomal degradation pathways. Subsequent protein-protein interaction network analysis substantiates this strategic investment in core protein homeostasis infrastructure, identifying the ribosome biogenesis machinery as the topological core of the response interactome. These findings support a model of defense-priority resource reallocation. That is, the host redirects cellular resources to optimize its biosynthetic and catabolic capacity, facilitating a high-output immune response at the potential expense of tissue homeostasis. This work provides an integrated proteomic atlas of the intestinal immunopathology mechanisms during toxoplasmosis and establishes a foundation for future host-directed therapeutic exploration.",
+          "affiliation": "Key Laboratory of Medicinal Chemistry for Natural Resource, Ministry of Education, Yunnan Key Laboratory of Research and Development for Natural Products, School of Pharmacy, Yunnan University, Kunming 650500, China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "the Yunnan Key Laboratory of Veterinary Etiological Biology",
+                "grantId": "202449CE340019",
+                "orderIn": 0
+              },
+              {
+                "agency": "Yunnan Fundamental Research Projects",
+                "grantId": "202501AT070242",
+                "orderIn": 0
+              },
+              {
+                "agency": "Yunnan Fundamental Research Projects",
+                "grantId": "202501CF070064",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Open Research Fund of Yunnan Provincial Key Laboratory of Cross-Border Infectious Disease Control & Drug Innovation",
+                "grantId": "2025KJ03",
+                "orderIn": 0
+              },
+              {
+                "agency": "Yunnan Fundamental Research Projects",
+                "grantId": "202401AT070440",
+                "orderIn": 0
+              },
+              {
+                "agency": "the Funding for Undergraduate University-Reserve-Research (URR) Cultivation Program, School of Life Sciences, Yunnan University, the NSFC-Yunnan Joint Fund",
+                "grantId": "U2202201",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "Ribosome Biogenesis",
+              "Host\u2013pathogen Interaction",
+              "Resource Reallocation",
+              "Intestinal Proteome"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3390/biology15171461"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13565675"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13565675?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "go"
+            ]
+          },
+          "dateOfCompletion": "2026-09-15",
+          "dateOfCreation": "2026-09-15",
+          "dateOfRevision": "2026-09-16",
+          "electronicPublicationDate": "2026-08-27",
+          "firstPublicationDate": "2026-08-27",
+          "firstIndexDate": "2026-09-15",
+          "fullTextReceivedDate": "2026-09-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1306687",
+          "source": "PPR",
+          "doi": "10.21203/rs.3.rs-10755545/v1",
+          "title": "The live attenuated DGAT1-knockout whole-cell Toxoplasma vaccine confers protective immunity against acute and chronic toxoplasmosis",
+          "authorString": "Coppens I, Khan S, Flores-Garcia Y, Sakai J, Akkoyunlu M, Romano J, Ehrenman K, Pszenny V, Grigg M, Manuguri K, Zhao Y, Wang D, Zavala F.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Coppens I",
+                "lastName": "Coppens",
+                "firstName": "Isabelle",
+                "initials": "I",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-5549-2362"
+                }
+              },
+              {
+                "fullName": "Khan S",
+                "lastName": "Khan",
+                "firstName": "Shahbaz",
+                "initials": "S"
+              },
+              {
+                "fullName": "Flores-Garcia Y",
+                "lastName": "Flores-Garcia",
+                "firstName": "Yevel",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Sakai J",
+                "lastName": "Sakai",
+                "firstName": "Jiro",
+                "initials": "J"
+              },
+              {
+                "fullName": "Akkoyunlu M",
+                "lastName": "Akkoyunlu",
+                "firstName": "Mustafa",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9958-4031"
+                }
+              },
+              {
+                "fullName": "Romano J",
+                "lastName": "Romano",
+                "firstName": "Julia",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8956-7377"
+                }
+              },
+              {
+                "fullName": "Ehrenman K",
+                "lastName": "Ehrenman",
+                "firstName": "Karen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Pszenny V",
+                "lastName": "Pszenny",
+                "firstName": "Viviana",
+                "initials": "V"
+              },
+              {
+                "fullName": "Grigg M",
+                "lastName": "Grigg",
+                "firstName": "Michael",
+                "initials": "M"
+              },
+              {
+                "fullName": "Manuguri K",
+                "lastName": "Manuguri",
+                "firstName": "Krishna",
+                "initials": "K"
+              },
+              {
+                "fullName": "Zhao Y",
+                "lastName": "Zhao",
+                "firstName": "Yue",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Wang D",
+                "lastName": "Wang",
+                "firstName": "Duanpei",
+                "initials": "D"
+              },
+              {
+                "fullName": "Zavala F",
+                "lastName": "Zavala",
+                "firstName": "Fidel",
+                "initials": "F"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-5549-2362"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8956-7377"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9958-4031"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "<title>Abstract</title>  <p>  The intravacuolar parasite  <italic>Toxoplasma gondii</italic>  scavenges fatty acids from host mammalian cells and stores excess in lipid droplets. To investigate the physiological relevance of neutral lipid storage in  <italic>Toxoplasma</italic>  , we generated a mutant lacking  <italic>DGAT1</italic>  , an ER-localized enzyme that synthesizes triacylglycerols, from the virulent type I RH strain of  <italic>T. gondii</italic>  . Compared to WT, RH \u2206DGAT1 parasites grow poorly in mammalian cells, form few LD, suffer from lipotoxicity, and do not cause disease or lethality in immunocompetent and immunodeficient mice. Importantly, mice immunized with RH \u2206DGAT1 parasites mount strong, long-term immune responses involving both cellular and humoral components, with higher levels of  <italic>T</italic>  .  <italic>gondii</italic>  -specific IgG antibodies, effector memory T cells, and both pro-inflammatory and anti-inflammatory cytokines, indicating a mixed Th1/Th2 response with Th1 predominance. This immunity provides complete, long-lasting protection (up to 6 months) against rechallenge from homologous type I (acute infection) and heterologous cyst-forming type II (chronic infection)  <italic>T</italic>  .  <italic>gondii</italic>  strains. Additional analyses reveal that IFN-\u03b3, CD8  <sup>+</sup>  T cells, as well as B cells are crucial for defending against type I  <italic>T</italic>  .  <italic>gondii</italic>  in immunized mice. Overall, our live-attenuated RH \u2206DGAT1 strain is a promising vaccine candidate and a model for studying immune responses that control  <italic>T</italic>  .  <italic>gondii</italic>  infections.  </p>",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "Research Square",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.21203/rs.3.rs-10755545/v1"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "N",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-28",
+          "firstPublicationDate": "2026-08-27",
+          "firstIndexDate": "2026-08-30",
+          "versionList": {
+            "version": [
+              {
+                "id": "PPR1306687",
+                "source": "PPR",
+                "versionNumber": 1,
+                "firstPublishDate": "2026-08-27",
+                "pubTypeList": {
+                  "pubType": [
+                    "preprint"
+                  ]
+                },
+                "hasEvaluations": "N"
+              }
+            ]
+          },
+          "versionNumber": 1,
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42718992",
+          "source": "MED",
+          "pmid": "42718992",
+          "pmcid": "PMC13553749",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13553749"
+            ]
+          },
+          "doi": "10.3389/fmicb.2026.1854938",
+          "title": "Endogenous Amphiregulin promotes muscle repair and function through expansion of fibro-adipogenic progenitors during chronic &lt;i&gt;Toxoplasma gondii&lt;/i&gt; infection in mice.",
+          "authorString": "Shihab R, Alfaro-Chacon A, Humby M, Buerger C, Wohlfert EA.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Shihab R",
+                "lastName": "Shihab",
+                "firstName": "Ronzon",
+                "initials": "R",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Jacobs School of Medicine and Biomedical Sciences, State University of New York at Buffalo, Buffalo, NY, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Alfaro-Chacon A",
+                "lastName": "Alfaro-Chacon",
+                "firstName": "Andrea",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-8784-756X"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Jacobs School of Medicine and Biomedical Sciences, State University of New York at Buffalo, Buffalo, NY, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Humby M",
+                "lastName": "Humby",
+                "firstName": "Monica",
+                "initials": "M",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Jacobs School of Medicine and Biomedical Sciences, State University of New York at Buffalo, Buffalo, NY, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Buerger C",
+                "lastName": "Buerger",
+                "firstName": "Caleb",
+                "initials": "C",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Jacobs School of Medicine and Biomedical Sciences, State University of New York at Buffalo, Buffalo, NY, United States."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Wohlfert EA",
+                "lastName": "Wohlfert",
+                "firstName": "Elizabeth A",
+                "initials": "EA",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Microbiology and Immunology, Jacobs School of Medicine and Biomedical Sciences, State University of New York at Buffalo, Buffalo, NY, United States."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-8784-756X"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "17",
+            "journalIssueId": 4112147,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Microbiol",
+              "title": "Frontiers in microbiology",
+              "essn": "1664-302X",
+              "issn": "1664-302X",
+              "nlmid": "101548977",
+              "isoabbreviation": "Front Microbiol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1854938",
+          "abstractText": "Skeletal muscle regeneration relies on coordinated interactions between immune cells and resident stem cell populations. While most studies have focused on sterile injury, the impact of infections on muscle repair remains less understood. <i>Toxoplasma gondii</i>, a widespread parasite that establishes chronic infection in skeletal muscle and also the central nervous system, induces myositis, fibrosis, and loss of muscle function. In mice, a natural intermediate host, chronic infection sustains a robust Th1 response dominated by IFN\u03b3-producing CD4<sup>+</sup> and CD8<sup>+</sup> T cells. Regulatory T cells (Tregs), which normally promote resolution of inflammation, instead adopt a pathogenic phenotype, increasing inflammation and impairing repair. Amphiregulin (Areg), a ligand of the epidermal growth factor receptor, has been implicated in tissue repair by enhancing Treg function, promoting macrophage polarization, and supporting mesenchymal differentiation. While exogenous Areg improves muscle function during chronic <i>T. gondii</i> infection, the role of endogenous Areg remains unknown. Here, we used Areg-deficient mice to investigate its contribution to muscle repair during chronic infection. We show that Areg deficiency impaired Areg deficiency impaired fibro-adipogenic progenitor (FAP) expansion, reduced IFN\u03b3-producing CD8<sup>+</sup> T cells, and diminished the frequency of Tbet<sup>+</sup> Tregs. Additionally, following CTX injury, Areg-deficient mice, particularly females, exhibited impaired regeneration characterized by smaller, more heterogeneous myofibers, and increased damaged area. These findings reveal a critical role for endogenous Areg in timely FAP expansion, proper effector and regulatory T cell polarization, and efficient muscle regeneration in the setting of chronic <i>T. gondii</i> infection.",
+          "affiliation": "Department of Microbiology and Immunology, Jacobs School of Medicine and Biomedical Sciences, State University of New York at Buffalo, Buffalo, NY, United States.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "P30 CA016056",
+                "orderIn": 0
+              },
+              {
+                "agency": "NCI NIH HHS",
+                "acronym": "CA",
+                "grantId": "R50 CA211108",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI162756",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI128284",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIGMS NIH HHS",
+                "acronym": "GM",
+                "grantId": "R21 GM135853",
+                "orderIn": 0
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Pathology",
+              "Immune response",
+              "Inflammation",
+              "Toxoplasma gondii",
+              "Amphiregulin",
+              "Fibro- Adipogenic Progenitor"
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fmicb.2026.1854938"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13553749"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13553749?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-09-10",
+          "dateOfCreation": "2026-09-10",
+          "dateOfRevision": "2026-09-12",
+          "electronicPublicationDate": "2026-08-26",
+          "firstPublicationDate": "2026-08-26",
+          "firstIndexDate": "2026-09-11",
+          "fullTextReceivedDate": "2026-09-13",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1300593",
+          "source": "PPR",
+          "doi": "10.64898/2026.08.16.745102",
+          "title": "The live attenuated  <i>DGAT1</i>  -knockout whole-cell  <i>Toxoplasma</i>  vaccine confers protective immunity against acute and chronic toxoplasmosis",
+          "authorString": "Khan SM, Flores-Garcia Y, Sakai J, Akkoyunlu M, Romano JD, Ehrenman K, Pszenny V, Grigg ME, Manuguri KS, Zhao Y, Wang D, Zavala F, Coppens I.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Khan SM",
+                "lastName": "Khan",
+                "firstName": "Shahbaz",
+                "initials": "SM"
+              },
+              {
+                "fullName": "Flores-Garcia Y",
+                "lastName": "Flores-Garcia",
+                "firstName": "Yevel",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Sakai J",
+                "lastName": "Sakai",
+                "firstName": "Jiro",
+                "initials": "J"
+              },
+              {
+                "fullName": "Akkoyunlu M",
+                "lastName": "Akkoyunlu",
+                "firstName": "Mustafa",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9958-4031"
+                }
+              },
+              {
+                "fullName": "Romano JD",
+                "lastName": "Romano",
+                "firstName": "Julia",
+                "initials": "JD"
+              },
+              {
+                "fullName": "Ehrenman K",
+                "lastName": "Ehrenman",
+                "firstName": "Karen",
+                "initials": "K"
+              },
+              {
+                "fullName": "Pszenny V",
+                "lastName": "Pszenny",
+                "firstName": "Viviana",
+                "initials": "V"
+              },
+              {
+                "fullName": "Grigg ME",
+                "lastName": "Grigg",
+                "firstName": "Michael",
+                "initials": "ME"
+              },
+              {
+                "fullName": "Manuguri KS",
+                "lastName": "Manuguri",
+                "firstName": "Krishna",
+                "initials": "KS"
+              },
+              {
+                "fullName": "Zhao Y",
+                "lastName": "Zhao",
+                "firstName": "Yue",
+                "initials": "Y"
+              },
+              {
+                "fullName": "Wang D",
+                "lastName": "Wang",
+                "firstName": "Duanpei",
+                "initials": "D"
+              },
+              {
+                "fullName": "Zavala F",
+                "lastName": "Zavala",
+                "firstName": "Fidel",
+                "initials": "F"
+              },
+              {
+                "fullName": "Coppens I",
+                "lastName": "Coppens",
+                "firstName": "Isabelle",
+                "initials": "I"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9958-4031"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "The intravacuolar parasite  Toxoplasma gondii scavenges fatty acids from host mammalian cells and stores excess in lipid droplets. To investigate the physiological relevance of neutral lipid storage in  Toxoplasma , we generated a mutant lacking  DGAT1 , an ER-localized enzyme that synthesizes triacylglycerols, from the virulent type I RH strain of  T. gondii . Compared to WT, RH \u0394DGAT1 parasites grow poorly in mammalian cells, form few LD, suffer from lipotoxicity, and do not cause disease or lethality in immunocompetent or immunodeficient mice. Importantly, mice immunized with RH \u0394DGAT1 parasites mount strong, long-term immune responses involving both cellular and humoral components, with higher levels of  T .  gondii -specific IgG antibodies, effector memory T cells, and both pro-inflammatory and anti-inflammatory cytokines, indicating a mixed Th1/Th2 response with Th1 predominance. This immunity provides complete, long-lasting protection (up to 6 months) against rechallenge from homologous type I (acute infection) and heterologous cyst-forming type II (chronic infection)  T .  gondii strains. Additional analyses reveal that IFN-\u03b3, CD8  + T cells, as well as B cells are crucial for defending against type I  T .  gondii in immunized mice. Overall, our live-attenuated RH \u0394DGAT1 strain is a promising vaccine candidate and a model for studying immune responses that control  T .  gondii infections.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID",
+                "grantId": "R01AI138714",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID",
+                "grantId": "R01AI166921",
+                "orderIn": 0
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.08.16.745102"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-19",
+          "firstPublicationDate": "2026-08-17",
+          "firstIndexDate": "2026-08-19",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR1298754",
+          "source": "PPR",
+          "doi": "10.64898/2026.08.09.743782",
+          "title": "SecretTarget: A pipeline for identifying host-interacting effector candidates through secondary localization features",
+          "authorString": "Julian AT, Barnes AB, Pombert J, Xiang J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Julian AT",
+                "lastName": "Julian",
+                "firstName": "Alexander Thomas",
+                "initials": "AT",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6268-5007"
+                }
+              },
+              {
+                "fullName": "Barnes AB",
+                "lastName": "Barnes",
+                "firstName": "Alyssa Britney",
+                "initials": "AB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0009-0005-9363-7258"
+                }
+              },
+              {
+                "fullName": "Pombert J",
+                "lastName": "Pombert",
+                "firstName": "Jean-Fran\u00e7ois",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3449-8375"
+                }
+              },
+              {
+                "fullName": "Xiang J",
+                "lastName": "Xiang",
+                "firstName": "Jialing",
+                "initials": "J"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6268-5007"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3449-8375"
+              },
+              {
+                "type": "ORCID",
+                "value": "0009-0005-9363-7258"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Intracellular parasites cause over 226 million disability-adjusted life years (DALY) globally each year. Current treatment methods fall short of desirable impact due to adverse effects and growing resistance, shifting focus to parasitic effectors for future therapeutic development. Unfortunately, the divergent nature of parasitic proteins has impeded  in silico discovery of \u2013 and functional inference for \u2013 parasitic effectors. Here, we present SecretTarget, a pipeline designed to identify host-interacting effector candidates through secondary localization features. By truncating signal peptides from predicted extracellular proteins (\u0394SP), we unmask potential underlying localization features that dictate subcellular trafficking within the host. Applying our pipeline to a set of  Toxoplasma gondii secreted effectors with known localizations and interactions, we propose a novel host ER-parasite interaction critical for parasite survival, recapitulate published localizations, and provide meaningful biological insights aligning with recent host-parasite interaction discoveries.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.08.09.743782"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-08-15",
+          "firstPublicationDate": "2026-08-14",
+          "firstIndexDate": "2026-08-15",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42554470",
+          "source": "MED",
+          "pmid": "42554470",
+          "pmcid": "PMC13532356",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13532356"
+            ]
+          },
+          "doi": "10.1128/spectrum.00724-26",
+          "title": "Short linear motifs-underexplored players driving &lt;i&gt;Toxoplasma gondii&lt;/i&gt; infection.",
+          "authorString": "Alvarado Valverde J, Lapouge K, Boergel A, Remans K, Luck K, Gibson TJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Alvarado Valverde J",
+                "lastName": "Alvarado Valverde",
+                "firstName": "Jes\u00fas",
+                "initials": "J",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0752-1151"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Structural and Computational Biology Unit, European Molecular Biology Laboratory, Heidelberg, Germany."
+                    },
+                    {
+                      "affiliation": "Faculty of Biosciences, Collaboration for a joint PhD degree between EMBL and Heidelberg University, Heidelberg, Germany."
+                    },
+                    {
+                      "affiliation": "Institute of Molecular Biology (IMB) gGmbH, Mainz, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lapouge K",
+                "lastName": "Lapouge",
+                "firstName": "Karine",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0620-9553"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Protein Expression and Purification Core Facility, European Molecular Biology Laboratory, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Boergel A",
+                "lastName": "Boergel",
+                "firstName": "Arne",
+                "initials": "A",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0323-6989"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Protein Expression and Purification Core Facility, European Molecular Biology Laboratory, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Remans K",
+                "lastName": "Remans",
+                "firstName": "Kim",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-4394-7953"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Protein Expression and Purification Core Facility, European Molecular Biology Laboratory, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Luck K",
+                "lastName": "Luck",
+                "firstName": "Katja",
+                "initials": "K",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-2336-9225"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Institute of Molecular Biology (IMB) gGmbH, Mainz, Germany."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Gibson TJ",
+                "lastName": "Gibson",
+                "firstName": "Toby J",
+                "initials": "TJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0657-5166"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Structural and Computational Biology Unit, European Molecular Biology Laboratory, Heidelberg, Germany."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0323-6989"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-4394-7953"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0620-9553"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0657-5166"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0752-1151"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-2336-9225"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "issue": "9",
+            "volume": "14",
+            "journalIssueId": 4253067,
+            "dateOfPublication": "2026 Sep",
+            "monthOfPublication": 9,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Microbiol Spectr",
+              "title": "Microbiology spectrum",
+              "essn": "2165-0497",
+              "issn": "2165-0497",
+              "nlmid": "101634614",
+              "isoabbreviation": "Microbiol Spectr"
+            },
+            "printPublicationDate": "2026-09-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "e0072426",
+          "abstractText": "Pathogens infect hosts by interacting with host proteins and exploiting their functions to their advantage. Short linear motifs, small functional regions within intrinsically disordered protein regions, are common mediators of host-pathogen protein interactions. While motifs have been more extensively studied in viruses and bacteria, the extent to which eukaryotic unicellular parasites use motifs during infection remains poorly explored. <i>Toxoplasma gondii</i> is a widespread intracellular apicomplexan parasite capable of infecting all warm-blooded animals and invading any of their nucleated cells. <i>Toxoplasma</i>'s secreted proteins are key in interacting with host proteins during infection, making them potential sources for motifs. To study the role of motifs in <i>Toxoplasma gondii</i> infection, we curated 19 known motif instances in <i>Toxoplasma</i> proteins from the scientific literature. To identify more motifs in <i>Toxoplasma-</i>secreted proteins, we developed a computational pipeline that predicts and annotates putative motif matches with structural and functional features. Using this approach, we identified 24,097 motif matches within 295 proteins from secretory organelles. We highlight strategies to further prioritize likely functional motif matches by focusing on integrin motifs, degrons, TRAF6-binding motifs, and 42 confirmed secreted proteins. We subjected peptides containing four predicted TRAF6-binding motifs to experimental validation, supporting the predicted motifs in the <i>Toxoplasma</i> proteins RON10 and GRA15. Our motif predictions provide a valuable resource for generating hypotheses and designing experiments to study infection mechanisms. The characterization of motifs in <i>Toxoplasma</i> will be key to understanding the molecular principles underlying its broad host range and more comprehensive apicomplexan infection strategies.IMPORTANCE<i>Toxoplasma gondii</i> is a widely distributed intracellular parasite that achieves successful infection by interacting with different host cell proteins. Short linear motifs are small functional modules found in unstructured protein regions and recognized by folded protein domains. Given that unstructured protein regions are a common feature of <i>Toxoplasma</i>'s proteins, we hypothesize that motifs play important roles during its infection cycle. Here, we highlight the role of motifs during the <i>Toxoplasma</i> host cell invasion cycle through a curated set of motif examples. Through a computational pipeline, we predict thousands of motifs in secreted proteins, outline strategies for working with these predictions, and finally experimentally test peptides containing a motif involved in the innate immune response, successfully supporting the potential binding of two motifs. Our work provides a resource for further motif testing in <i>Toxoplasma</i> proteins, aiming at understanding the molecular mechanisms of the organism's infection strategies and its broad host range.",
+          "affiliation": "Structural and Computational Biology Unit, European Molecular Biology Laboratory, Heidelberg, Germany.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "Deutsche Forschungsgemeinschaft",
+                "grantId": "449991970",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protozoan Proteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "CH",
+                      "qualifierName": "chemistry"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Computational Biology"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Amino Acid Motifs"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Protein Binding"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Parasite Interactions"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Host-Pathogen Interactions"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Toxoplasma gondii",
+              "Host-pathogen interactions",
+              "protein-protein interactions",
+              "Short Linear Motifs"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Protozoan Proteins",
+                "registryNumber": "0"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1128/spectrum.00724-26"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13532356"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13532356?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "uniprot",
+              "interpro"
+            ]
+          },
+          "dateOfCompletion": "2026-09-02",
+          "dateOfCreation": "2026-08-05",
+          "dateOfRevision": "2026-09-11",
+          "electronicPublicationDate": "2026-08-05",
+          "firstPublicationDate": "2026-08-05",
+          "firstIndexDate": "2026-08-05",
+          "fullTextReceivedDate": "2026-09-11",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "42597536",
+          "source": "MED",
+          "pmid": "42597536",
+          "pmcid": "PMC13468792",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC13468792"
+            ]
+          },
+          "doi": "10.3389/fcimb.2026.1897580",
+          "title": "Trem2 negatively regulates the MTOR-PKC\u03b1 axis to protect against &lt;i&gt;Toxoplasma gondii&lt;/i&gt;-induced adverse pregnancy outcomes.",
+          "authorString": "Geng X, Lu Y, Zhou X, Xu X, Liu Y, Zhang J, Chen J.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Geng X",
+                "lastName": "Geng",
+                "firstName": "Xiaoyu",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Lu Y",
+                "lastName": "Lu",
+                "firstName": "Yangchenxi",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhou X",
+                "lastName": "Zhou",
+                "firstName": "Xinyi",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Xu X",
+                "lastName": "Xu",
+                "firstName": "Xiaoyao",
+                "initials": "X",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Liu Y",
+                "lastName": "Liu",
+                "firstName": "Yahan",
+                "initials": "Y",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Zhang J",
+                "lastName": "Zhang",
+                "firstName": "Junfang",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Eye Institute, Affiliated Hospital of Nantong University, Medical School of Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Chen J",
+                "lastName": "Chen",
+                "firstName": "Jinling",
+                "initials": "J",
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China."
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "supporting_data"
+            ]
+          },
+          "journalInfo": {
+            "volume": "16",
+            "journalIssueId": 4112174,
+            "dateOfPublication": "2026 ",
+            "monthOfPublication": 0,
+            "yearOfPublication": 2026,
+            "journal": {
+              "medlineAbbreviation": "Front Cell Infect Microbiol",
+              "title": "Frontiers in cellular and infection microbiology",
+              "essn": "2235-2988",
+              "issn": "2235-2988",
+              "nlmid": "101585359",
+              "isoabbreviation": "Front Cell Infect Microbiol"
+            },
+            "printPublicationDate": "2026-01-01"
+          },
+          "pubYear": "2026",
+          "pageInfo": "1897580",
+          "abstractText": "<h4>Background</h4>Triggering receptor expressed on myeloid cells 2 (Trem2) deficiency aggravated adverse pregnancy outcomes caused by <i>Toxoplasma gondii</i> (<i>T. gondii</i>) infection during pregnancy; however, the precise molecular mechanisms involved remain to be fully elucidated.<h4>Methods</h4>Molecular docking, co-immunoprecipitation, and alanine scanning mutagenesis were employed to identify the interaction between Trem2 and mammalian target of rapamycin (MTOR). <i>In vivo</i> experiments utilized a <i>T. gondii</i>-infected pregnant mouse model with wild-type and <i>Trem2</i>-knockout mice, while <i>in vitro</i> studies were performed using Raw264.7 macrophages and bone marrow-derived macrophages (BMDMs) with <i>T. gondii</i> antigen stimulation, <i>Trem2</i> overexpression, and siRNA-mediated <i>MTOR</i> knockdown.<h4>Results</h4>A direct high-affinity interaction between Trem2 and MTOR was identified, with GLN-198, ARG-195, and LYS-199 as critical binding residues. <i>T. gondii</i> infection significantly downregulated Trem2 expression while upregulating MTOR and its downstream effector protein kinase C alpha (PKC\u03b1). <i>Trem2</i> deficiency exacerbated MTOR-PKC\u03b1 hyperactivation upon infection and aggravated placental hemorrhage, necrosis, and fetal growth restriction. Conversely, <i>Trem2</i> overexpression suppressed MTOR and PKC\u03b1 expression, and <i>MTOR</i> knockdown confirmed that PKC\u03b1 acts downstream of MTOR.<h4>Conclusion</h4>Trem2 negatively regulates the MTOR-PKC\u03b1 axis through direct interaction, and <i>T. gondii</i> infection downregulates Trem2 to relieve this inhibition, leading to MTOR-PKC\u03b1 hyperactivation and adverse pregnancy complications.",
+          "affiliation": "Department of Pathogen Biology, School of Medicine, Nantong University, Nantong,\u00a0China.",
+          "publicationStatus": "epublish",
+          "language": "eng",
+          "pubModel": "Electronic-eCollection",
+          "pubTypeList": {
+            "pubType": [
+              "research-article",
+              "Journal Article"
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Macrophages",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice, Knockout"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Mice"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasma",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "IM",
+                      "qualifierName": "immunology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Toxoplasmosis",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Disease Models, Animal"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Membrane Glycoproteins",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Receptors, Immunologic",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pregnancy Outcome"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Signal Transduction"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Pregnancy"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Female"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Protein Kinase C-alpha",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "TOR Serine-Threonine Kinases",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "ME",
+                      "qualifierName": "metabolism"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "RAW 264.7 Cells"
+              }
+            ]
+          },
+          "keywordList": {
+            "keyword": [
+              "Adverse pregnancy outcomes",
+              "Toxoplasma gondii",
+              "Mtor",
+              "Pkc\u03b1",
+              "Trem2"
+            ]
+          },
+          "chemicalList": {
+            "chemical": [
+              {
+                "name": "Membrane Glycoproteins",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Receptors, Immunologic",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Trem2 protein, mouse",
+                "registryNumber": "0"
+              },
+              {
+                "name": "Protein Kinase C-alpha",
+                "registryNumber": "EC 2.7.11.13"
+              },
+              {
+                "name": "mTOR protein, mouse",
+                "registryNumber": "EC 2.7.1.1"
+              },
+              {
+                "name": "TOR Serine-Threonine Kinases",
+                "registryNumber": "EC 2.7.11.1"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.3389/fcimb.2026.1897580"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13468792"
+              },
+              {
+                "availability": "Open access",
+                "availabilityCode": "OA",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC13468792?pdf=render"
+              }
+            ]
+          },
+          "isOpenAccess": "Y",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "N",
+          "hasData": "Y",
+          "license": "cc by",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "doi"
+            ]
+          },
+          "dateOfCompletion": "2026-08-14",
+          "dateOfCreation": "2026-08-14",
+          "dateOfRevision": "2026-08-15",
+          "electronicPublicationDate": "2026-07-30",
+          "firstPublicationDate": "2026-07-30",
+          "firstIndexDate": "2026-08-16",
+          "fullTextReceivedDate": "2026-09-09",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

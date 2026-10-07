@@ -1,0 +1,200 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI%3A%2210.64898%2F2026.07.08.737057%22&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:45:45.320172+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 1,
+    "request": {
+      "queryString": "DOI:\"10.64898/2026.07.08.737057\"",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "PPR1275982",
+          "source": "PPR",
+          "doi": "10.64898/2026.07.08.737057",
+          "title": "A pooled image-based CRISPR screen identifies EAF1 as a  <i>T. gondii</i>  modulator of ESCRT subversion",
+          "authorString": "Olafsson EB, Arnold C, Kellermeier JA, Rimple PA, Kaur H, Wang Y, Sexton JZ, Sv\u00e4rd S, Carruthers VB, O\u2019Meara MJ.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Olafsson EB",
+                "lastName": "Olafsson",
+                "firstName": "Einar",
+                "initials": "EB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3388-061X"
+                }
+              },
+              {
+                "fullName": "Arnold C",
+                "lastName": "Arnold",
+                "firstName": "Christophe-Sebastien",
+                "initials": "C",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-2392-5837"
+                }
+              },
+              {
+                "fullName": "Kellermeier JA",
+                "lastName": "Kellermeier",
+                "firstName": "Jacob",
+                "initials": "JA",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9211-7406"
+                }
+              },
+              {
+                "fullName": "Rimple PA",
+                "lastName": "Rimple",
+                "firstName": "Patrick",
+                "initials": "PA"
+              },
+              {
+                "fullName": "Kaur H",
+                "lastName": "Kaur",
+                "firstName": "Hargobinder",
+                "initials": "H"
+              },
+              {
+                "fullName": "Wang Y",
+                "lastName": "Wang",
+                "firstName": "Yifan",
+                "initials": "Y",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9451-0041"
+                }
+              },
+              {
+                "fullName": "Sexton JZ",
+                "lastName": "Sexton",
+                "firstName": "Jonathan",
+                "initials": "JZ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-9244-5888"
+                }
+              },
+              {
+                "fullName": "Sv\u00e4rd S",
+                "lastName": "Sv\u00e4rd",
+                "firstName": "Staffan",
+                "initials": "S",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7392-1746"
+                }
+              },
+              {
+                "fullName": "Carruthers VB",
+                "lastName": "Carruthers",
+                "firstName": "Vern",
+                "initials": "VB",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-6859-8895"
+                }
+              },
+              {
+                "fullName": "O\u2019Meara MJ",
+                "lastName": "O\u2019Meara",
+                "firstName": "Matthew",
+                "initials": "MJ"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-6859-8895"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9211-7406"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9451-0041"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-2392-5837"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3128-5331"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3388-061X"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7392-1746"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-9244-5888"
+              }
+            ]
+          },
+          "pubYear": "2026",
+          "abstractText": "Intracellular pathogens remodel host cells by redirecting cellular machinery to the host-pathogen interface. The protozoan parasite  Toxoplasma gondii co-opts host ESCRT proteins at the parasitophorous vacuole membrane (PVM), where they support budding of host-derived vesicles into the vacuole. Yet the parasite effectors that direct this process remain largely unknown. Here we developed spaCR (  s patial  p henotype  a nalysis of  CR ISPR-Cas9 screens), a pooled image-based screening framework that combines deep-learning classification of single-cell spatial phenotypes with well-level barcode genotyping and regression-based deconvolution of gene effects. Screening  T. gondii secretory proteins recovered the known TSG101 recruiter GRA14 and identified an uncharacterized effector, ESCRT-association factor 1 (EAF1), that promoted TSG101 recruitment to the PVM. Targeted deletion confirmed its role across Type I and II lineages, and IP-MS recovered ESCRT-I and ESCRT-III components, including TSG101. Together, these findings identify EAF1 as an ESCRT-associated parasite effector and establish spaCR as a general framework for linking CRISPR perturbations to spatial phenotypes.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2026
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.64898/2026.07.08.737057"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 0,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "N",
+          "hasData": "N",
+          "license": "cc by-nc-nd",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2026-07-09",
+          "firstPublicationDate": "2026-07-09",
+          "firstIndexDate": "2026-07-09",
+          "hasEvaluations": "N"
+        }
+      ]
+    }
+  }
+}

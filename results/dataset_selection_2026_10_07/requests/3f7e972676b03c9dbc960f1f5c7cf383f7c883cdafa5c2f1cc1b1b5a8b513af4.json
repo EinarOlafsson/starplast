@@ -1,0 +1,556 @@
+{
+  "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28TITLE_ABS%3A%22human%22+OR+TITLE_ABS%3A%22Homo+sapiens%22%29+AND+TITLE_ABS%3A%22Plasmodium+falciparum%22+AND+TITLE_ABS%3A%28%22infection%22+OR+%22host+response%22+OR+%22transcriptome%22%29+AND+TITLE_ABS%3A%28%22dermis%22+OR+%22tissue+atlas%22+OR+FANTOM5+OR+GTEx%29+sort_cited%3Ay&format=json&resultType=core&pageSize=10",
+  "retrieved_utc": "2026-10-07T18:57:58.847570+00:00",
+  "status": "ok",
+  "error": "",
+  "response": {
+    "version": "6.9",
+    "hitCount": 2,
+    "request": {
+      "queryString": "(TITLE_ABS:\"human\" OR TITLE_ABS:\"Homo sapiens\") AND TITLE_ABS:\"Plasmodium falciparum\" AND TITLE_ABS:(\"infection\" OR \"host response\" OR \"transcriptome\") AND TITLE_ABS:(\"dermis\" OR \"tissue atlas\" OR FANTOM5 OR GTEx) sort_cited:y",
+      "resultType": "core",
+      "cursorMark": "*",
+      "pageSize": 10,
+      "sort": "",
+      "synonym": false
+    },
+    "resultList": {
+      "result": [
+        {
+          "id": "22619321",
+          "source": "MED",
+          "pmid": "22619321",
+          "pmcid": "PMC3387091",
+          "fullTextIdList": {
+            "fullTextId": [
+              "PMC3387091"
+            ]
+          },
+          "doi": "10.1073/pnas.1120534109",
+          "title": "A restricted subset of var genes mediates adherence of Plasmodium falciparum-infected erythrocytes to brain endothelial cells.",
+          "authorString": "Avril M, Tripathi AK, Brazier AJ, Andisi C, Janes JH, Soma VL, Sullivan DJ, Bull PC, Stins MF, Smith JD.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Avril M",
+                "lastName": "Avril",
+                "firstName": "Marion",
+                "initials": "M",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-3569-2049"
+                },
+                "authorAffiliationDetailsList": {
+                  "authorAffiliation": [
+                    {
+                      "affiliation": "Seattle Biomedical Research Institute, Seattle, WA 98109-5219, USA."
+                    }
+                  ]
+                }
+              },
+              {
+                "fullName": "Tripathi AK",
+                "lastName": "Tripathi",
+                "firstName": "Abhai K",
+                "initials": "AK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0001-9848-0142"
+                }
+              },
+              {
+                "fullName": "Brazier AJ",
+                "lastName": "Brazier",
+                "firstName": "Andrew J",
+                "initials": "AJ"
+              },
+              {
+                "fullName": "Andisi C",
+                "lastName": "Andisi",
+                "firstName": "Cheryl",
+                "initials": "C"
+              },
+              {
+                "fullName": "Janes JH",
+                "lastName": "Janes",
+                "firstName": "Joel H",
+                "initials": "JH"
+              },
+              {
+                "fullName": "Soma VL",
+                "lastName": "Soma",
+                "firstName": "Vijaya L",
+                "initials": "VL"
+              },
+              {
+                "fullName": "Sullivan DJ Jr",
+                "lastName": "Sullivan",
+                "firstName": "David J",
+                "initials": "DJ",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0003-0319-0578"
+                }
+              },
+              {
+                "fullName": "Bull PC",
+                "lastName": "Bull",
+                "firstName": "Peter C",
+                "initials": "PC",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-7674-6752"
+                }
+              },
+              {
+                "fullName": "Stins MF",
+                "lastName": "Stins",
+                "firstName": "Monique F",
+                "initials": "MF"
+              },
+              {
+                "fullName": "Smith JD",
+                "lastName": "Smith",
+                "firstName": "Joseph D",
+                "initials": "JD"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0001-9848-0142"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-3569-2049"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-7674-6752"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0319-0578"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0003-0545-9665"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "supporting_data",
+              "wikipedia"
+            ]
+          },
+          "journalInfo": {
+            "issue": "26",
+            "volume": "109",
+            "journalIssueId": 1943939,
+            "dateOfPublication": "2012 Jun",
+            "monthOfPublication": 6,
+            "yearOfPublication": 2012,
+            "journal": {
+              "medlineAbbreviation": "Proc Natl Acad Sci U S A",
+              "title": "Proceedings of the National Academy of Sciences of the United States of America",
+              "essn": "1091-6490",
+              "issn": "0027-8424",
+              "nlmid": "7505876",
+              "isoabbreviation": "Proc Natl Acad Sci U S A"
+            },
+            "printPublicationDate": "2012-06-01"
+          },
+          "pubYear": "2012",
+          "pageInfo": "E1782-90",
+          "abstractText": "Cerebral malaria (CM) is a deadly complication of Plasmodium falciparum infection, but specific interactions involved in cerebral homing of infected erythrocytes (IEs) are poorly understood. In this study, P. falciparum-IEs were characterized for binding to primary human brain microvascular endothelial cells (HBMECs). Before selection, CD36 or ICAM-1-binding parasites exhibited punctate binding to a subpopulation of HBMECs and binding was CD36 dependent. Panning of IEs on HBMECs led to a more dispersed binding phenotype and the selection of three var genes, including two that encode the tandem domain cassette 8 (DC8) and were non-CD36 binders. Multiple domains in the DC8 cassette bound to brain endothelium and the cysteine-rich interdomain region 1 inhibited binding of P. falciparum-IEs by 50%, highlighting a key role for the DC8 cassette in cerebral binding. It is mysterious how deadly binding variants are maintained in the parasite population. Clonal parasite lines expressing the two brain-adherent DC8-var genes did not bind to any of the known microvascular receptors, indicating unique receptors are involved in cerebral binding. They could also adhere to brain, lung, dermis, and heart endothelial cells, suggesting cerebral binding variants may have alternative sequestration sites. Furthermore, young African children with CM or nonsevere control cases had antibodies to HBMEC-selected parasites, indicating they had been exposed to related variants during childhood infections. This analysis shows that specific P. falciparum erythrocyte membrane protein 1 types are linked to cerebral binding and suggests a potential mechanism by which individuals may build up immunity to severe disease, in the absence of CM.",
+          "affiliation": "Seattle Biomedical Research Institute, Seattle, WA 98109-5219, USA.",
+          "publicationStatus": "ppublish",
+          "language": "eng",
+          "pubModel": "Print-Electronic",
+          "pubTypeList": {
+            "pubType": [
+              "Research Support, Non-U.S. Gov't",
+              "research-article",
+              "Journal Article",
+              "Research Support, N.I.H., Extramural"
+            ]
+          },
+          "grantsList": {
+            "grant": [
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI047953",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "084535",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R21 AI076798",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "077092",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "orderIn": 0
+              },
+              {
+                "agency": "NIAID NIH HHS",
+                "acronym": "AI",
+                "grantId": "R01 AI47953",
+                "orderIn": 0
+              },
+              {
+                "agency": "Wellcome Trust",
+                "acronym": "WT_",
+                "grantId": "084538",
+                "orderIn": 0
+              }
+            ]
+          },
+          "meshHeadingList": {
+            "meshHeading": [
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Endothelium, Vascular",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Brain",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "BS",
+                      "qualifierName": "blood supply"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Erythrocytes",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Animals"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Humans"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Plasmodium falciparum",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "GE",
+                      "qualifierName": "genetics"
+                    },
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PH",
+                      "qualifierName": "physiology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Malaria, Cerebral",
+                "meshQualifierList": {
+                  "meshQualifier": [
+                    {
+                      "majorTopic_YN": "Y",
+                      "abbreviation": "PS",
+                      "qualifierName": "parasitology"
+                    },
+                    {
+                      "majorTopic_YN": "N",
+                      "abbreviation": "PA",
+                      "qualifierName": "pathology"
+                    }
+                  ]
+                }
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Cell Adhesion"
+              },
+              {
+                "majorTopic_YN": "Y",
+                "descriptorName": "Genes, Protozoan"
+              },
+              {
+                "majorTopic_YN": "N",
+                "descriptorName": "Child, Preschool"
+              }
+            ]
+          },
+          "subsetList": {
+            "subset": [
+              {
+                "code": "IM",
+                "name": "Index Medicus"
+              }
+            ]
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.pnas.org/content/pnas/109/26/E1782.full.pdf"
+              },
+              {
+                "availability": "Subscription required",
+                "availabilityCode": "S",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.1120534109"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "html",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3387091"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Europe_PMC",
+                "url": "https://europepmc.org/articles/PMC3387091?pdf=render"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1073/pnas.1120534109"
+              }
+            ]
+          },
+          "commentCorrectionList": {
+            "commentCorrection": [
+              {
+                "source": "MED",
+                "id": "22679282",
+                "reference": "Proc Natl Acad Sci U S A. 2012 Jun 26;109(26):10130-1. doi: 10.1073/pnas.1207174109",
+                "type": "Comment in",
+                "orderIn": 1
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "Y",
+          "inPMC": "Y",
+          "citedByCount": 157,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "Y",
+          "hasBook": "N",
+          "hasSuppl": "Y",
+          "hasLabsLinks": "Y",
+          "hasData": "Y",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "Y",
+          "tmAccessionTypeList": {
+            "accessionType": [
+              "gen"
+            ]
+          },
+          "dateOfCompletion": "2012-09-18",
+          "dateOfCreation": "2012-05-24",
+          "dateOfRevision": "2024-06-29",
+          "electronicPublicationDate": "2012-05-22",
+          "firstPublicationDate": "2012-05-22",
+          "firstIndexDate": "2012-05-24",
+          "fullTextReceivedDate": "2025-02-05",
+          "hasEvaluations": "N"
+        },
+        {
+          "id": "PPR87423",
+          "source": "PPR",
+          "doi": "10.1101/716878",
+          "title": "Quantitative intravital imaging of  <i>Plasmodium falciparum</i>  sporozoites: A novel platform to test malaria intervention strategies",
+          "authorString": "Hopp CS, Kanatani S, Archer NK, Miller RJ, Liu H, Chiou K, Miller LS, Sinnis P.",
+          "authorList": {
+            "author": [
+              {
+                "fullName": "Hopp CS",
+                "lastName": "Hopp",
+                "firstName": "Christine",
+                "initials": "CS",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-0528-9531"
+                }
+              },
+              {
+                "fullName": "Kanatani S",
+                "lastName": "Kanatani",
+                "firstName": "Sachie",
+                "initials": "S"
+              },
+              {
+                "fullName": "Archer NK",
+                "lastName": "Archer",
+                "firstName": "Nathan",
+                "initials": "NK",
+                "authorId": {
+                  "type": "ORCID",
+                  "value": "0000-0002-8212-8985"
+                }
+              },
+              {
+                "fullName": "Miller RJ",
+                "lastName": "Miller",
+                "firstName": "Robert",
+                "initials": "RJ"
+              },
+              {
+                "fullName": "Liu H",
+                "lastName": "Liu",
+                "firstName": "Haiyun",
+                "initials": "H"
+              },
+              {
+                "fullName": "Chiou K",
+                "lastName": "Chiou",
+                "firstName": "Kevin",
+                "initials": "K"
+              },
+              {
+                "fullName": "Miller LS",
+                "lastName": "Miller",
+                "firstName": "Lloyd",
+                "initials": "LS"
+              },
+              {
+                "fullName": "Sinnis P",
+                "lastName": "Sinnis",
+                "firstName": "Photini",
+                "initials": "P"
+              }
+            ]
+          },
+          "authorIdList": {
+            "authorId": [
+              {
+                "type": "ORCID",
+                "value": "0000-0002-0528-9531"
+              },
+              {
+                "type": "ORCID",
+                "value": "0000-0002-8212-8985"
+              }
+            ]
+          },
+          "dataLinksTagsList": {
+            "dataLinkstag": [
+              "altmetrics",
+              "recommended_reviews"
+            ]
+          },
+          "pubYear": "2019",
+          "abstractText": "Malaria infection starts with the injection of motile  Plasmodium sporozoites into the host\u2019s skin during a mosquito bite. Previous studies using the rodent malaria model indicate that the dermal inoculation site may be where sporozoites are most vulnerable to antibodies, yet, functional  in vivo assays with human malaria parasites are lacking. Here, we present the first characterization of  P. falciparum sporozoites in the skin, comparing their motility to two rodent malaria species and investigating whether the environment of its natural host influences  P. falciparum sporozoite motility using a human skin xenograft model. The combined data suggest that in contrast to the liver and blood stages, the skin is not a species-specific barrier for  Plasmodium . We observe that  P. falciparum sporozoites inoculated into mouse skin move with similar speed, displacement and duration, and enter blood vessels in similar numbers as the rodent parasites. Thus, interventions targeting  P. falciparum sporozoite migration can be tested in the murine dermis. Importantly, to streamline quantification of sporozoite motility, we developed a toolbox allowing for automated detection and tracking of sporozoites in intravital microscopy videos. This establishes a platform to test vaccine candidates, immunization protocols, monoclonal antibodies and drug candidates for their impact on human malaria sporozoites  in vivo . Screening of intervention strategies for  in vivo efficacy against  Pf sporozoites using this new platform will have the potential to validate targets prior to expensive clinical trials.",
+          "pubTypeList": {
+            "pubType": [
+              "Preprint"
+            ]
+          },
+          "bookOrReportDetails": {
+            "publisher": "bioRxiv",
+            "yearOfPublication": 2019
+          },
+          "fullTextUrlList": {
+            "fullTextUrl": [
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "pdf",
+                "site": "Unpaywall",
+                "url": "https://www.biorxiv.org/content/biorxiv/early/2019/07/30/716878.full.pdf"
+              },
+              {
+                "availability": "Free",
+                "availabilityCode": "F",
+                "documentStyle": "doi",
+                "site": "DOI",
+                "url": "https://doi.org/10.1101/716878"
+              }
+            ]
+          },
+          "isOpenAccess": "N",
+          "inEPMC": "N",
+          "inPMC": "N",
+          "citedByCount": 2,
+          "hasReferences": "Y",
+          "hasTextMinedTerms": "Y",
+          "hasDbCrossReferences": "N",
+          "hasPDF": "N",
+          "hasBook": "N",
+          "hasSuppl": "N",
+          "hasLabsLinks": "Y",
+          "hasData": "N",
+          "authMan": "N",
+          "epmcAuthMan": "N",
+          "nihAuthMan": "N",
+          "hasTMAccessionNumbers": "N",
+          "dateOfCreation": "2019-08-01",
+          "firstPublicationDate": "2019-07-30",
+          "firstIndexDate": "2019-08-01",
+          "hasEvaluations": "Y"
+        }
+      ]
+    }
+  }
+}
