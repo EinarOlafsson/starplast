@@ -6,7 +6,8 @@ long-standing design decisions, `instructions/` is the task ledger (`instruction
 `CHANGELOG.md` lists every change by release.
 
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
-branch `nightly`. `main` is the release branch; it is at 0.54.0 and identical to nightly.
+branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7
+literature-verifier audit; runtime code and shipped claims remain at the released baseline.
 
 ---
 
@@ -15,7 +16,7 @@ branch `nightly`. `main` is the release branch; it is at 0.54.0 and identical to
 | | |
 |---|---|
 | Version | **0.54.0** on PyPI (2026-10-05), verified: wheel + sdist on PyPI, GitHub release with both |
-| Branches | `nightly` == `main` == `1249c55`; nothing unreleased |
+| Branches | Runtime/data baseline `1249c55`; nightly adds the updated handoff and October 7 literature-verifier audit |
 | Tables | *T. gondii* `nodes.parquet` 8,140 genes; *P. falciparum* `pf_nodes.parquet` 5,720; host proteins 36,579 (Hs 20,989 + Mm 15,590) |
 | Strategies | 39 in 9 families, each with method, techniques, scorecard task, calibration grade, card, explainer and worked examples |
 | Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`); Tg 30 reliable / 8 weak / 1 untestable; Pf 26 / 2 tuned / 9 weak / 2 untestable |
@@ -149,6 +150,7 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 | `starplast/discoveries_panel.py` | The Discoveries tab |
 | `starplast/track_record.py` | **Track record** (0.52-0.53): `evaluate`, `evaluate_sets`, `my_list`, `alone`, `summary`, `labels`, `default_target`, `gene_html`/`class_html`/`target_html`/`list_html`, `record_phrase`, `beats_baseline`, `_baselines` |
 | `scripts/build_track_record.py`, `scripts/build_claims.py` | Rebuild the shipped record (`--workers 4`, ~1 h, ~1 GB/worker) and then the claims (minutes). Claims read the record: rebuild in that order. |
+| `scripts/audit_claim_verifiers.py` | Audit corrected literature verifiers against the shipped recipes without promoting claims; executed measurements and decisions in `results/claim_verifiers_2026_10_07/` |
 | `scripts/notebook_track_record.py`, `scripts/notebook_claims.py` | Write the executed notebooks `notebooks/track_record_2026_10_03.ipynb`, `notebooks/claims_2026_10_04.ipynb` |
 | `starplast/strategies.py` | Strategy/TestResult/Context framework, bans (`banned`, `banned_layers`), `knn_vote`, `propagate` |
 | `starplast/strategy_catalog.py`, `strategy_graph.py`, `strategy_learning.py` | Strategies 01-32, 33-34, 35-39 |
@@ -174,8 +176,11 @@ genome-wide.
 ### A. Claims (instruction 63) -- the current thread
 1. **Wider independent coverage.** Only 6-22% of unlabelled Tg genes are reached by any independent
    check (physical partners, shared fold). Find or build more verifiers and measure each one's
-   shared-mistake ratio; candidates: orthology transfer from Pf (cross-species), literature layers
-   (excluded from inference, so possibly independent), the Lourido density screen, newer LOPIT.
+   shared-mistake ratio; next candidates: orthology transfer from Pf (cross-species), the Lourido
+   density screen, newer LOPIT. **Literature audit completed October 7:** no Tg candidate passes
+   both independence and calibration; one Pf phenotype candidate passes the pooled screen but
+   adds only two in-range claims, with one agreement and one disagreement. No promotion. Read
+   `results/claim_verifiers_2026_10_07/README.md`; do not assume excluded literature is independent.
 2. **Step 3: frozen claims tested prospectively.** Freeze claims with version and hash; when a dataset
    is added, score the frozen claims against it automatically and show the result. The strongest test.
 3. **Genes outside the tested range** (42% of unlabelled Tg genes on compartment, mostly genes LOPIT

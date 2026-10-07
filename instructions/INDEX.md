@@ -67,7 +67,7 @@ One file per task. This index is the status table; the files carry the reasoning
 
 | # | Task |
 |---|---|
-| 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; next: frozen claims scored by new data, wider verifier coverage, genes outside the tested range |
+| 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; October 7 literature audit complete (no Tg candidate passes, Pf candidate adds only two claims; no promotion). Next: orthology/experimental verifier coverage, frozen prospective tests, genes outside the tested range |
 | 62 | [The hold-out track record](open/62_holdout_track_record.md) — shipped 0.52.0-0.53.0 for 12 labels; left: pooled record vs scorecard check, the questions page |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |
 | 41 | Fill as many slots as possible: Toxoplasma, Plasmodium, and host |

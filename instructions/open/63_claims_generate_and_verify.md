@@ -83,3 +83,32 @@ clicking to its evidence and the generator's record for that class.
 * Certainty learned on held-out genes is for genes LIKE them; unlabelled genes are often understudied.
   Report calibration separately for the understudied stratum (`stratum_focus` already defines it).
 * Never show an uncalibrated number as a certainty.
+
+## 2026-10-07: literature verifier audit completed; wider coverage remains open
+
+`scripts/audit_claim_verifiers.py` measures abstract and full-text label propagation, corrected
+for attention, with raw-count controls. The executed audit and review, exact input hashes,
+92,354 held-out rows and 234,730 unknown-gene calls are in
+[`results/claim_verifiers_2026_10_07`](../../results/claim_verifiers_2026_10_07/README.md).
+All 48 combinations across 12 labels were recorded: 42 measured, six lacking a graph.
+
+No Toxoplasma candidate passed both independence and calibration. Compartment, LOPIT,
+topology and cell-cycle candidates fail independence; full-text screen candidates pass that
+numerical gate but fail calibration (error 0.064–0.100, limit 0.05). Do not promote them on
+agreement alone or repeat this experiment assuming literature evidence must be independent.
+
+The Plasmodium transferred-phenotype abstract candidate passes the exploratory screen
+(shared-mistake upper bound 1.331, combined calibration error 0.0243; 600 confident calls at
+87% precision), but adds only two previously untested in-range claims, one agreement and one
+disagreement. Retain it for a future pilot; performance on the newly reached stratum and
+possible source-paper reuse still need measurement. Pf export reaches no unknown genes.
+No published claims or recipes were changed, and the wider-coverage task remains open.
+
+The audit refuses banned graphs instead of substituting other evidence, requires matching
+gene identities/truth/folds/seeds, and keeps outside-range coverage separate. Eligibility also
+requires at least 30 confident held-out calls, precision >=0.8 and some additional in-range
+reach. All **415** focused audit/claims/track-record/registry/docstring tests passed, including
+23 new audit checks. A final console-reporting error in the first attempt was fixed and
+regression-tested; the full final audit completed successfully with stable input hashes.
+
+Next: orthology or independent experimental verifiers; frozen prospective claims remain open.
