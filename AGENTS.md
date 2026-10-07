@@ -1,5 +1,12 @@
 # Repository workflow
 
+- Read `NEXT_SESSION.md` and `instructions/open/64_information_space_and_inference_atlas.md`
+  before selecting work. Instruction 64 is the current plan for browsing published organism/host
+  evidence, precomputed gene/class/label inferences, tested meta-inference and ground-truth
+  scorecards at every level. Reuse completed work from the earlier instructions.
+- Keep the instruction-64 action cards and full progress table current. Each time an item is
+  completed, replace its percentage with a green tick and show the user the entire table again.
+  Completion requires the card's acceptance evidence, relevant checks, commit and nightly push.
 - Make changes on `nightly`. Keep `main` as the release branch.
 - As each coherent change is finished and its relevant checks pass, commit and
   push it to `nightly`. For the current 0.43.0 work, keep development on `nightly`

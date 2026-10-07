@@ -5,9 +5,19 @@ the code map, and **what is left to do, in priority order (section 4)**. `HANDOF
 long-standing design decisions, `instructions/` is the task ledger (`instructions/INDEX.md`), and
 `CHANGELOG.md` lists every change by release.
 
+**Current direction (user, 2026-10-07):** explore published datasets for selected organisms and
+their hosts; start from a gene, class, localization or label and inspect every applicable strategy,
+precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
+must make accuracy, capacity and the underlying test evidence accessible at every level.
+The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
+40 bounded action cards with dependencies and acceptance tests. Implementation is 0%; start at 64.01.
+**Reporting:** whenever an action completes, replace its percentage with a green tick and repost
+the entire 40-item progress table. Keep the stored tracker and completion evidence current.
+
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
 branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7
-literature-verifier audit; runtime code and shipped claims remain at the released baseline.
+literature-verifier audit and the instruction-64 action plan; runtime code and shipped claims
+remain at the released baseline.
 
 ---
 
@@ -16,7 +26,7 @@ literature-verifier audit; runtime code and shipped claims remain at the release
 | | |
 |---|---|
 | Version | **0.54.0** on PyPI (2026-10-05), verified: wheel + sdist on PyPI, GitHub release with both |
-| Branches | Runtime/data baseline `1249c55`; nightly adds the updated handoff and October 7 literature-verifier audit |
+| Branches | Runtime/data baseline `1249c55`; nightly adds the handoff, October 7 literature audit and instruction-64 action plan |
 | Tables | *T. gondii* `nodes.parquet` 8,140 genes; *P. falciparum* `pf_nodes.parquet` 5,720; host proteins 36,579 (Hs 20,989 + Mm 15,590) |
 | Strategies | 39 in 9 families, each with method, techniques, scorecard task, calibration grade, card, explainer and worked examples |
 | Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`); Tg 30 reliable / 8 weak / 1 untestable; Pf 26 / 2 tuned / 9 weak / 2 untestable |
@@ -165,15 +175,23 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 
 ---
 
-## 4. What is left to do, in priority order
+## 4. Current execution plan
 
-Each item names its instruction file, which holds the detail. The user's standing preference:
-**quality before quantity, then build from there**; information condensed first, always a click deeper;
-leakage quantified, never guessed. The goal stated 2026-10-04: generate new knowledge, test it by means
-independent of the inference, and -- once that is reliable and quantified -- apply what is proven
-genome-wide.
+Follow [instruction 64](instructions/open/64_information_space_and_inference_atlas.md) and its
+linked action cards. It covers both clarified goals: evidence-space exploration and a gene/class/label
+inference atlas, backed by appropriate ground-truth tests, reusable precomputation, dependence-aware
+meta-analysis and scorecards at every level. Start at 64.01; respect each card's dependencies.
 
-### A. Claims (instruction 63) -- the current thread
+The user's standing preferences still apply: **quality before quantity**, compact information with
+click-through detail, and measured leakage. The full progress table lives in instruction 64 and is
+reposted after each item completes, using a green tick in place of its percentage.
+
+### Supporting backlog from earlier instructions
+
+The list below preserves previous work and scientific gaps. Its numbering is historical; the
+implementation order and bounded acceptance conditions now come from instruction 64.
+
+### A. Claims (instruction 63)
 1. **Wider independent coverage.** Only 6-22% of unlabelled Tg genes are reached by any independent
    check (physical partners, shared fold). Find or build more verifiers and measure each one's
    shared-mistake ratio; next candidates: orthology transfer from Pf (cross-species), the Lourido

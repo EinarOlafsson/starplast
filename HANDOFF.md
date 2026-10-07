@@ -1,6 +1,6 @@
 # starplast — point a session here
 
-> **Resuming work? Read [`NEXT_SESSION.md`](NEXT_SESSION.md) first**: current state (0.46.0), working rules, and the prioritised plan. This file holds the design decisions behind it.
+> **Resuming work? Read [`NEXT_SESSION.md`](NEXT_SESSION.md) first**: current state, working rules and the current execution plan. The user's October 7 goals and 40 controlled action items are in [instruction 64](instructions/open/64_information_space_and_inference_atlas.md). This file holds the long-standing design decisions.
 
 A 3D knowledge-map browser for *Toxoplasma gondii* (v0/v1), built to be the front end for the information
 map. **Everything a fresh session needs is in this file.** Created 2026-08-10.
