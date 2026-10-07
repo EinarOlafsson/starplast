@@ -19,6 +19,15 @@ including 16 scoped refusals. Evidence and gaps are in
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire 40-item progress table. Keep the stored tracker and completion evidence current.
 
+**New user priority (2026-10-07):** [instruction 65](instructions/open/65_dataset_selection_audit.md)
+audits all dataset choices against literature alternatives. For comparable admitted datasets,
+prefer citations per year since first publication, with modest recency and comprehensiveness
+bonuses. Use `starplast/dataset_selection.py`, retain the factors and provider/snapshot, and
+do not guess missing metadata or promote unsuitable popular papers. Host storage is present
+(7 Hs/3 Mm sources, 20,989/15,590 protein rows; 12/50 host slot views filled), while independent
+host gene spaces/inference packs remain pending under 64.21/64.22/64.28/64.29. Instruction 65
+adds four bounded audit/promotion rows to the progress report.
+
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
 branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7
 literature-verifier audit, the instruction-64 action plan, the entity/query contract and inventory;

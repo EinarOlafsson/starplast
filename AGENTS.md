@@ -1,5 +1,16 @@
 # Repository workflow
 
+- Dataset selection rule (user, 2026-10-07): when multiple biologically suitable datasets
+  answer the same information slot, use citation rate per year since first publication as
+  the main preference, with a slight recency preference and a comprehensiveness preference.
+  Apply the versioned policy in `starplast/dataset_selection.py` and retain its factors,
+  publication identity, citation provider/retrieval date and coverage denominator. See
+  `instructions/open/65_dataset_selection_audit.md`. Compare matching organism/host, stage,
+  assay, quantity and units; check data quality, mapping and access before admission.
+  Missing bibliometrics stay unknown; highly cited reviews or unsuitable datasets do not win.
+  Additions/replacements require a recorded comparison or explicit unresolved gap, and
+  affected data/strategy validation. Keep complementary and context-specific evidence.
+
 - Read `NEXT_SESSION.md` and `instructions/open/64_information_space_and_inference_atlas.md`
   before selecting work. Instruction 64 is the current plan for browsing published organism/host
   evidence, precomputed gene/class/label inferences, tested meta-inference and ground-truth

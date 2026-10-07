@@ -83,6 +83,14 @@ publication. Remote availability is not probed. The offline builder
 records source declarations, installed tables, retained refusals, input hashes,
 JSON/Parquet exports and an executed reconciliation notebook.
 
+## Choose among comparable datasets
+
+For competing dataset choices, use `starplast.dataset_selection.DatasetCandidate`,
+`rank_candidates()` and `preferred()` with a frozen `SelectionPolicy`. The
+[selection rule](dataset_selection.md) documents citation-rate normalization,
+bounded recency/comprehensiveness bonuses and biological admission requirements.
+Unknown bibliometrics or assay coverage cannot become an automatic winner.
+
 ## Build a feature matrix and embedding
 
 ```python
