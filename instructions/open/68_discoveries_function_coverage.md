@@ -162,3 +162,14 @@ snapshots and diagnostics stay immutable. FN-EC-02 stopped with an observed runt
 content-access restriction; it remains unfinished and was not retried. Ordinary
 software tasks continued. Independent activity truth and full functional mechanism
 coverage remain open; total completion remains 18/51.
+
+Prepared-target evidence is executed in
+`results/functional_profile_targets_2026_10_08_v3/pilot.ipynb`. The fixed Toxoplasma
+complete-Pfam target retains 8,140 genes, 4,310 eligible profiles, 3,830 unknown
+states, 2,279 distinct profiles and 5,952 memberships. Split roles contain
+2,381/635/659/635 genes; 333 test profiles lack training support and remain in
+the cohort. These are source/split capacity counts, not inference accuracy or
+independent biological truth. Exact raw-cell, normalized-target and protected-group
+replay is retained with separate source and semantic identities. Earlier failed
+serialization attempts remain immutable diagnostics. No model was selected or fit;
+68.02 remains 30% and independent truth/source admission remain open.

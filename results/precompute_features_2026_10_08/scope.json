@@ -1,0 +1,508 @@
+{
+  "source_artifact_identity": "349317afd8f24b860d94ae1e11280a6130bf451700b02b9d2145fab85fc99162",
+  "source_spec_identity": "d21e3c23a548206d9c8af8bfeec863f43d09c45435b9b7e44c176e4ce86c3e9e",
+  "organism": "Tg",
+  "target": "ec_major_classes",
+  "split_identity": "09f254d49f8f73497a056d41da66fdb711adb60e15cb30740117e699097feb0d",
+  "ordered_entities": 1226,
+  "training_entities": 679,
+  "historical_input_columns": 349,
+  "permitted_input_columns": 349,
+  "deliberate_extra_exclusions": [],
+  "added_exclusion_columns": [
+    "attention_depth",
+    "domain_count",
+    "edge:coexpression",
+    "edge:domain",
+    "edge:orthogroup",
+    "gene_id",
+    "lit_tier",
+    "n_domains",
+    "n_papers_focal",
+    "n_papers_incidental",
+    "n_papers_substantive",
+    "n_pfam",
+    "product",
+    "sequence"
+  ],
+  "added_exclusion_layers": [
+    "comention",
+    "comention_ft",
+    "domain",
+    "orthogroup",
+    "structural_hole",
+    "unwritten_interaction"
+  ],
+  "exclusion_policy": "functional-source-closure-v1",
+  "exclusion_identity": "9f4b344c50ea21de1bc03d0bc90a53853299fdd2db5816c5f8cc31f1ef1105bd",
+  "historical_exclusion_identity": "82028aef12f770d797bc30ade274c81ecdbea7346aad3214442074760c1fe28d",
+  "numeric_source_sha256": "14bdb4e61a60508725c65bc652b793d7b7e7db0dabf4de4e872ddd1b0db5dd52",
+  "raw_installed_nodes_sha256": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+  "plan_identity": "8d6cce1ac4d35aa6877e9a57a71a4e56f8723db3546b39efa4f237d0a2ee24f5",
+  "job_fingerprints": {
+    "numeric_operator": "4670a4a348df8d4076a5406dd2db39bdf8ba4a211ace72cc05e5d3faa87670fa",
+    "operator_reference": "7eab7da93b4e659c6ecc4dbd4d09d4694b19afc2e731fc86868a48fe1e6447ab"
+  },
+  "budget": {
+    "max_jobs": 2,
+    "max_seconds": 120,
+    "max_storage_bytes": 33554432,
+    "max_package_bytes": 33554432,
+    "memory_limit_bytes": 419430400
+  },
+  "feature_limits": {
+    "max_rows": 1226,
+    "max_columns": 400,
+    "max_cells": 490400,
+    "max_input_bytes": 12582912
+  },
+  "snapshots": [
+    {
+      "dependency": {
+        "kind": "table",
+        "name": "permitted_numeric_inputs",
+        "sha256": "14bdb4e61a60508725c65bc652b793d7b7e7db0dabf4de4e872ddd1b0db5dd52"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/numeric_source.json"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "numeric_feature_builder",
+        "sha256": "f14dcc18f6c2c01962a890605d76f5326c4375c10d6ab82945cd4a43d27529b6"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/starplast/precompute_features.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "numeric_guard_strategies",
+        "sha256": "b9d2f461991d83479e9d6e1f91c6591f8bbb68438affddfe8116b07aa04cb236"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategies.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "numeric_guard_splits",
+        "sha256": "6898360c7f5acfa3aa97e4004d20db19ee7a4bea224a85c2a537c2e729b7d23f"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/starplast/splits.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "numeric_guard_artifacts",
+        "sha256": "405ca2f936d1c6e9110bea9db99cd03cf23dd0f544a83ce39ea80d599bdcbfed"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/starplast/artifacts.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "numeric_guard_precompute_jobs",
+        "sha256": "b8ec05d4d6653011b2656854f7371b50b1eacebbe6e4ef05a568f43a9cb534a9"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/starplast/precompute_jobs.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:freeze_precompute_features",
+        "sha256": "1110d6ff81e1665ad4963d9ca10a50911de1470ce68309bba918b66f734d82b2"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/freeze_precompute_features.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:notebook_runner",
+        "sha256": "e319e5a584ad4ce60be32d22818f6f987d9969e743b01acdcb40ea4b173b9e34"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/notebook_runner.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:precompute_features",
+        "sha256": "f14dcc18f6c2c01962a890605d76f5326c4375c10d6ab82945cd4a43d27529b6"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/precompute_features.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:precompute_jobs",
+        "sha256": "b8ec05d4d6653011b2656854f7371b50b1eacebbe6e4ef05a568f43a9cb534a9"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/precompute_jobs.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:functional_exclusions",
+        "sha256": "48285f2a56f53810f4732c0d68731d6587effcab95d01bf5eaff48c6ccaf2e9c"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/functional_exclusions.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:artifacts",
+        "sha256": "405ca2f936d1c6e9110bea9db99cd03cf23dd0f544a83ce39ea80d599bdcbfed"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/artifacts.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:splits",
+        "sha256": "6898360c7f5acfa3aa97e4004d20db19ee7a4bea224a85c2a537c2e729b7d23f"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/splits.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:strategies",
+        "sha256": "b9d2f461991d83479e9d6e1f91c6591f8bbb68438affddfe8116b07aa04cb236"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/strategies.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:search",
+        "sha256": "54d7fc6dbaa401a2c7883ddc8440461940e3045f99a44117d2e4aead363cf6ba"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/search.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:datasets",
+        "sha256": "eb017aad057bcbd3f43b159d6536a33502c4ac4d5a46e51a25ac2afc6320ff20"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/datasets.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:slots",
+        "sha256": "93052e9172e6fdcefaa5c7fccb26527e3cd7ef66ebe2e077a7a92d1736ebb194"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/slots.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:discovery_labels",
+        "sha256": "d3dd2314f073d961440163cc8768c73bce52ffa83deb0a1f4b4d9f22f984d6de"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/discovery_labels.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:functional_domains",
+        "sha256": "2b00094323356cf3603ed0172a9a8d8c39e449e4f2f2bdc2caf7d8db37d6cab4"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/functional_domains.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:capabilities",
+        "sha256": "6659d9c0cf4eab8d1b932d06a50c0c0818b6903efb279c04835464d61934d723"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/capabilities.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:query",
+        "sha256": "b0f9ad5d26004f509a69d5b0240e6f484b8628cf22fcc3bed8f8fd3eaf761b56"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/query.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:organisms",
+        "sha256": "55d184dd251287644514a6b5b01fc35c68a48038fed18865970ba35b78fde9c9"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/organisms.py"
+    },
+    {
+      "dependency": {
+        "kind": "code",
+        "name": "pilot:paths",
+        "sha256": "8ccdea45e07ff09634cdab7847caeed10837d59ef93fc9872380023d3d6d6ec7"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/precompute_features_2026_10_08/code/paths.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:truth.parquet",
+        "sha256": "4b4a845a8ecdebbb7cde9b86836378a638a42641e169c2c24440589612e1f2dc"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/truth.parquet"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:registry.json",
+        "sha256": "89d81f0ad25df8acf96bd900cc8eb69a2a701e049c2f5236be80fc00d6cc2fea"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/registry.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:universe.json",
+        "sha256": "fc8eba37c013b73e3291d5a2690e18135ef2435419c5eb2f1e26a0acdde07ed7"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/universe.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:summary.json",
+        "sha256": "504fb10123c3df716955ed603739b1c0757e895ad4bceae99f75b688c84df028"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/summary.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:split.json",
+        "sha256": "a04a2431ece8ef8dee6832bf62d47b162a7cd2b578b6f9e209bae520e118b92b"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/split.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/class_scores.json",
+        "sha256": "51f69136f4e27ab81d9e2f65a47de0c0a8387587bcd888782bc0f7d4f05043f5"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/class_scores.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/model_state.json",
+        "sha256": "965aae440ee81f2656222a2a67f30812fc2cdf707866aa1234f1fe34a3624f1a"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/model_state.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/major_class_cards.json",
+        "sha256": "190ebf9db15595b54929e194888c087823edb92c0dd0bac4e527c2261e61e653"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/major_class_cards.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/profile_class_cards.json",
+        "sha256": "4dd0be55c69387c64711052811bee873612452db39c6677988aef46ca45e008a"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/profile_class_cards.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/rows.json",
+        "sha256": "ad545c97003e2e0f82ce7990cc4e7d4784fe46ccb04a43d5d7ce640b80580d3d"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/rows.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/row_columns.json",
+        "sha256": "39fba28b8b887dcf9a75256e688c330f76ecaf661fde0715038677e4f6c338c2"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/row_columns.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/card.json",
+        "sha256": "fff817a0cb62c1e3544f744d35658f4b3e701c1960a19a368b02e6a5456c4648"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/card.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/manifest.json",
+        "sha256": "adb8260cece4b136a75207d75326d41fe76e2988628edd455beba3ef8e430908"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/manifest.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:held_out/baseline_cards.json",
+        "sha256": "ac9b9bb6fd66b327386f6f3716223878541c3f16c0380e591350ded02a9a18b4"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/held_out/baseline_cards.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/splits.py",
+        "sha256": "6898360c7f5acfa3aa97e4004d20db19ee7a4bea224a85c2a537c2e729b7d23f"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/splits.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/record_scorecards.py",
+        "sha256": "e32f3d572d78dbae89a963e487175e367e3a84df6509c9d4fb229c02a7c04f67"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/record_scorecards.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/strategies.py",
+        "sha256": "b9d2f461991d83479e9d6e1f91c6591f8bbb68438affddfe8116b07aa04cb236"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/strategies.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/slots.py",
+        "sha256": "93052e9172e6fdcefaa5c7fccb26527e3cd7ef66ebe2e077a7a92d1736ebb194"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/slots.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/label_records.py",
+        "sha256": "05870874f9ec301d27392c8404037bb077b61e1f96bb7c019893f8ad0168edaf"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/label_records.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/search.py",
+        "sha256": "54d7fc6dbaa401a2c7883ddc8440461940e3045f99a44117d2e4aead363cf6ba"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/search.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/embedding.py",
+        "sha256": "cc1af4aef37b8ce1d9baf1c7b95e7bc45b055b386e7e9ea3860d633086aa1d97"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/embedding.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/scorecard.py",
+        "sha256": "c29d6311f3e24cbb7dad92878fd9afb96c0598c0fe8f15251da08eb0af0cef20"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/scorecard.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/artifacts.py",
+        "sha256": "405ca2f936d1c6e9110bea9db99cd03cf23dd0f544a83ce39ea80d599bdcbfed"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/artifacts.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/capabilities.py",
+        "sha256": "6659d9c0cf4eab8d1b932d06a50c0c0818b6903efb279c04835464d61934d723"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/capabilities.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/baselines.py",
+        "sha256": "c135471fe8fc96cd443cdd90bf8058733502728588704e31a0c4099306be5307"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/baselines.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/freeze_functional_ec_pilot.py",
+        "sha256": "7eaee80c3561ba78f1b594dffdafadc15ac9f14d34d42339c5443f2dd14290cc"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/freeze_functional_ec_pilot.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/datasets.py",
+        "sha256": "eb017aad057bcbd3f43b159d6536a33502c4ac4d5a46e51a25ac2afc6320ff20"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/datasets.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/functional_ontology.py",
+        "sha256": "04442b4c061e2ad35ceff108a96e26e18119908f271bcf0af17431d3a891966d"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/functional_ontology.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:code/discovery_labels.py",
+        "sha256": "d3dd2314f073d961440163cc8768c73bce52ffa83deb0a1f4b4d9f22f984d6de"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/code/discovery_labels.py"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "v4:manifest.json",
+        "sha256": "83e6584c7ac0de7bfa425f713c14cfd522703e4f5b9a68d71c8a9376058a77b8"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v4/manifest.json"
+    },
+    {
+      "dependency": {
+        "kind": "source",
+        "name": "installed_nodes",
+        "sha256": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c"
+      },
+      "path": "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/nodes.parquet"
+    }
+  ],
+  "phase": "intermediate_numeric_features",
+  "inference_outputs": false,
+  "biological_admission": false,
+  "biological_accuracy": null,
+  "calibrated_confidence": null,
+  "deployment": "unavailable",
+  "runtime_versions": "numeric-operator-pilot-v1;python=3.12.13;numpy=2.4.6;pandas=3.0.5",
+  "preparation_seconds": 2.729647733969614,
+  "preparation_process_peak_rss_bytes": 306900992,
+  "measurement_scope": "Runner RSS at checkpoints and executed-process lifetime peak; not isolated per-job peak",
+  "limitations": [
+    "Train-fit ranks and numeric operator only; no classifier, graph, fitting of biological inference or acquisition",
+    "Historical source annotation evidence remains unresolved; this software parity does not establish biological accuracy",
+    "External MemoryMax=400M required; 64.25 remains incomplete"
+  ]
+}

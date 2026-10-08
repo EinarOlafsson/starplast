@@ -1,0 +1,139 @@
+<!doctype html><meta charset="utf-8"><div class="scorecard"><h3>Identical pure host</h3><p><b>Performance</b> · Recorded evaluation</p><p>Tg · synthetic software target · holdout_search</p><p>Truth grade: synthetic_control</p><table><tr><th>Result quality / coverage</th><th>Value</th><th>Population</th></tr><tr><td><a href="scorecard:metric/weighted_f1_clusters">Weighted F1</a></td><td>0.833333</td><td></td></tr><tr><td><a href="scorecard:metric/weighted_precision_clusters">Weighted precision</a></td><td>1</td><td></td></tr><tr><td><a href="scorecard:metric/weighted_recall_clusters">Weighted recall</a></td><td>0.75</td><td></td></tr><tr><td><a href="scorecard:metric/ari">Adjusted Rand index (ARI)</a></td><td>0.571429</td><td></td></tr><tr><td><a href="scorecard:metric/nmi">Normalised mutual information (NMI)</a></td><td>0.8</td><td></td></tr><tr><td><a href="scorecard:metric/homogeneity">Homogeneity</a></td><td>1</td><td></td></tr><tr><td><a href="scorecard:metric/completeness">Completeness</a></td><td>0.666667</td><td></td></tr><tr><td><a href="scorecard:metric/noise_share">Unclustered share</a></td><td>0.25</td><td></td></tr></table><p><a href="scorecard:detail/sizes">Sample sizes</a>: eligible: 4; answered: 3; abstained: 1; correct: Unavailable / not supplied; wrong: Unavailable / not supplied</p><p><a href="scorecard:detail/uncertainty">Uncertainty</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/baseline">Matched baseline</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/freshness">Freshness</a>: {<br>  &quot;fixture_source_identity&quot;: &quot;57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089&quot;<br>}</p><p><a href="scorecard:expand">Full test record and definitions</a></p><p><a href="scorecard:detail/source">Ground-truth source and interpretation</a> · <a href="scorecard:detail/split">Split and fitted populations</a> · <a href="scorecard:detail/controls">Controls</a> · <a href="scorecard:detail/failures">Failure examples</a> · <a href="scorecard:detail/rows">Row-level outcomes</a> · <a href="scorecard:detail/gaps">Limitations and gaps</a> · <a href="scorecard:detail/identity">Evaluation identity</a> · <a href="scorecard:detail/parameters">Evaluation parameters</a> · <a href="scorecard:detail/task_details">Task-specific test record</a></p><h4>Evaluation scope</h4><pre>{
+  &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+  &quot;organism&quot;: &quot;Tg&quot;,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;seed&quot;: &quot;3&quot;,
+  &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+  &quot;strategy&quot;: &quot;holdout_search&quot;,
+  &quot;target&quot;: &quot;synthetic software target&quot;,
+  &quot;unit&quot;: &quot;gene&quot;
+}</pre><h3>Ground-truth source and interpretation</h3><pre>{
+  &quot;context&quot;: &quot;Software presentation only&quot;,
+  &quot;grade&quot;: &quot;synthetic_control&quot;,
+  &quot;lineage&quot;: &quot;Hand-authored records; no fit or biological source&quot;,
+  &quot;name&quot;: &quot;Authored synthetic clusters fixture&quot;,
+  &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+  &quot;sha256&quot;: &quot;57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089&quot;,
+  &quot;version&quot;: &quot;Unavailable / not supplied&quot;
+}</pre><h3>Split and fitted populations</h3><pre>{
+  &quot;fit_population&quot;: null,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;reason&quot;: &quot;No fitting in this software fixture&quot;
+}</pre><h3>Sample sizes</h3><pre>{
+  &quot;abstained&quot;: 1,
+  &quot;answered&quot;: 3,
+  &quot;correct&quot;: null,
+  &quot;eligible&quot;: 4,
+  &quot;unique_biological_entities&quot;: 4,
+  &quot;wrong&quot;: null
+}</pre><h3>Matched baseline</h3><pre>Unavailable / not supplied</pre><h3>Uncertainty</h3><pre>Unavailable / not supplied</pre><h3>Controls</h3><pre>{
+  &quot;card&quot;: {
+    &quot;cohort_identity&quot;: &quot;3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500&quot;,
+    &quot;counts&quot;: {
+      &quot;abstained&quot;: 0,
+      &quot;answered&quot;: 4,
+      &quot;correct&quot;: null,
+      &quot;eligible&quot;: 4,
+      &quot;unique_biological_entities&quot;: 4,
+      &quot;wrong&quot;: null
+    },
+    &quot;evaluation_parameters&quot;: {
+      &quot;chosen_clusters&quot;: {
+        &quot;A&quot;: 0,
+        &quot;B&quot;: 1
+      }
+    },
+    &quot;extra&quot;: {
+      &quot;correct_wrong_interpretation&quot;: &quot;Unavailable: geometry is not a categorical caller&quot;,
+      &quot;placed&quot;: 4,
+      &quot;unplaced&quot;: 0
+    },
+    &quot;metric_status&quot;: {
+      &quot;ari&quot;: &quot;available&quot;,
+      &quot;completeness&quot;: &quot;available&quot;,
+      &quot;homogeneity&quot;: &quot;available&quot;,
+      &quot;nmi&quot;: &quot;available&quot;,
+      &quot;noise_share&quot;: &quot;available&quot;,
+      &quot;weighted_f1_clusters&quot;: &quot;available&quot;,
+      &quot;weighted_precision_clusters&quot;: &quot;available&quot;,
+      &quot;weighted_recall_clusters&quot;: &quot;available&quot;
+    },
+    &quot;metrics&quot;: {
+      &quot;ari&quot;: 0.0,
+      &quot;completeness&quot;: 1.0,
+      &quot;homogeneity&quot;: 0.0,
+      &quot;nmi&quot;: 0.0,
+      &quot;noise_share&quot;: 0.0,
+      &quot;weighted_f1_clusters&quot;: 0.3333333333333333,
+      &quot;weighted_precision_clusters&quot;: 0.25,
+      &quot;weighted_recall_clusters&quot;: 0.5
+    },
+    &quot;parameter_identity&quot;: &quot;09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b&quot;,
+    &quot;records_identity&quot;: &quot;fb8784450e35f1b30fc1b7556dbb0a8dbb5bde3fc32a9b9dcd9afc6bac584578&quot;,
+    &quot;scope&quot;: {
+      &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+      &quot;gaps&quot;: [
+        &quot;Synthetic software behavior does not admit biological performance&quot;
+      ],
+      &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+      &quot;organism&quot;: &quot;Tg&quot;,
+      &quot;partition&quot;: &quot;software_test&quot;,
+      &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+      &quot;seed&quot;: 3,
+      &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+      &quot;strategy&quot;: &quot;holdout_search&quot;,
+      &quot;target&quot;: &quot;synthetic software target&quot;,
+      &quot;task&quot;: &quot;cluster recovery&quot;,
+      &quot;truth_grade&quot;: &quot;synthetic_control&quot;,
+      &quot;unit&quot;: &quot;gene&quot;
+    },
+    &quot;scope_identity&quot;: &quot;d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3&quot;,
+    &quot;small_sample&quot;: true
+  },
+  &quot;interpretation&quot;: &quot;Explicit authored software control; not biological chance&quot;
+}</pre><h3>Failure examples</h3><pre>Unavailable / not supplied</pre><h3>Row-level outcomes</h3><pre>[
+  {
+    &quot;cluster&quot;: 0,
+    &quot;entity&quot;: &quot;g1&quot;,
+    &quot;prediction&quot;: &quot;A&quot;,
+    &quot;truth&quot;: &quot;A&quot;
+  },
+  {
+    &quot;cluster&quot;: 0,
+    &quot;entity&quot;: &quot;g2&quot;,
+    &quot;prediction&quot;: null,
+    &quot;truth&quot;: &quot;A&quot;
+  },
+  {
+    &quot;cluster&quot;: 1,
+    &quot;entity&quot;: &quot;g3&quot;,
+    &quot;prediction&quot;: &quot;A&quot;,
+    &quot;truth&quot;: &quot;B&quot;
+  },
+  {
+    &quot;cluster&quot;: -1,
+    &quot;entity&quot;: &quot;g4&quot;,
+    &quot;prediction&quot;: &quot;B&quot;,
+    &quot;truth&quot;: &quot;B&quot;
+  }
+]</pre><h3>Freshness</h3><pre>{
+  &quot;fixture_source_identity&quot;: &quot;57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089&quot;
+}</pre><h3>Limitations and gaps</h3><pre>[
+  &quot;Synthetic software behavior does not admit biological performance&quot;
+]</pre><h3>Evaluation identity</h3><pre>{
+  &quot;cohort_identity&quot;: &quot;3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500&quot;,
+  &quot;parameter_identity&quot;: &quot;09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b&quot;,
+  &quot;records_identity&quot;: &quot;72e7dae64c375fc6eb771efd1026c98887c0979cee211a8fbbd21638a0c07f90&quot;,
+  &quot;scope_identity&quot;: &quot;d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3&quot;
+}</pre><h3>Evaluation parameters</h3><pre>{
+  &quot;chosen_clusters&quot;: {
+    &quot;A&quot;: 0,
+    &quot;B&quot;: 1
+  }
+}</pre><h3>Task-specific test record</h3><pre>{
+  &quot;correct_wrong_interpretation&quot;: &quot;Unavailable: geometry is not a categorical caller&quot;,
+  &quot;placed&quot;: 3,
+  &quot;unplaced&quot;: 1
+}</pre><h3>Weighted F1</h3><p>For each label, F1 of its hidden genes against the ONE cluster chosen for it on visible genes; averaged with labels weighted by their hidden genes. A label with no cluster scores 0.</p><p>Range: 0 to 1</p><p>Chance: set by permuting hidden labels over the same clusters (the verdict&#x27;s null)</p><p>Whether a label that nobody showed the clustering falls out as a cluster, scored on genes the choice never saw.</p><h3>Weighted precision</h3><p>For each label, the share of hidden genes in its chosen cluster that carry it; label-size weighted.</p><p>Range: 0 to 1</p><p>Chance: about the label&#x27;s share</p><p>How pure the chosen clusters are.</p><h3>Weighted recall</h3><p>For each label, the share of its hidden genes that landed in its chosen cluster; label-size weighted.</p><p>Range: 0 to 1</p><p>Chance: about the cluster&#x27;s share of the genes</p><p>How completely each label is gathered into one cluster.</p><h3>Adjusted Rand index (ARI)</h3><p>Agreement between the clustering and the hidden labels over all pairs of hidden genes, corrected so random partitions of the same sizes score 0.</p><p>Range: -0.5 to 1</p><p>Chance: 0</p><p>Whole-partition agreement, independent of which cluster was chosen for which label.</p><h3>Normalised mutual information (NMI)</h3><p>Mutual information between clusters and hidden labels, divided by the mean of their entropies.</p><p>Range: 0 to 1</p><p>Chance: small but above 0 for many small clusters</p><p>How much knowing a gene&#x27;s cluster tells you about its label.</p><h3>Homogeneity</h3><p>1 minus the uncertainty about the label left once the cluster is known, relative to the label&#x27;s own entropy.</p><p>Range: 0 to 1</p><p>Chance: near 0</p><p>Whether each cluster holds one label.</p><h3>Completeness</h3><p>1 minus the uncertainty about the cluster left once the label is known, relative to the clustering&#x27;s entropy.</p><p>Range: 0 to 1</p><p>Chance: near 0</p><p>Whether each label sits in one cluster. Its harmonic mean with homogeneity is the V-measure, which equals NMI.</p><h3>Unclustered share</h3><p>Share of hidden genes HDBSCAN left as noise (in no cluster).</p><p>Range: 0 to 1</p><p>Chance: not applicable</p><p>Context: noise genes cannot be recovered by any cluster.</p></div>

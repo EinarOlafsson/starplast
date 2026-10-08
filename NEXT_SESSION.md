@@ -657,3 +657,19 @@ complex/attention inputs. No actual production feature pilot yet;64.25stays35%.
 Root combined test RSS fixtures are deterministic; actual external limits remain.
 Continue a bounded executed feature-operator pilot and domain prepared-target
 capacity census, then remaining categorical/numeric/source admission partitions.
+
+Latest bounded audit partition (2026-10-08): three worker jobs are terminal.
+Prepared complete-Pfam targets are canonical in
+`results/functional_profile_targets_2026_10_08_v3/`; earlier serialization failures
+remain preserved. Source/target/split/capacity replay retains all 8,140 genes and
+333 unsupported test profiles without fitting. The numeric operator pilot in
+`results/precompute_features_2026_10_08/` exactly replays all 349 columns and 1,226
+ordered EC entities, including child-only resume and zero-builder replay.
+Its 401.6 MiB observed process peak differs from external 400 MiB cgroup accounting;
+do not describe process peak as below 400 MiB. The six-task presentation audit in
+`results/scorecard_task_views_2026_10_08/` passes 539 software checks, not biology.
+Output receipts (20/33/20 files), input/code hashes and three script parsers pass.
+**64.25 is now 45% (4–6 h); 64.17 stays 50%; 68.02 stays 30%; still 18/51 complete.**
+User now requests minimum tokens and smallest tasks first: integrate ready evidence
+and choose bounded existing acceptance gaps before expanding models or sweeps.
+Restricted activity-truth/FN-EC-02 work remains unreviewed and must not be retried.

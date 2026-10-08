@@ -1,0 +1,127 @@
+<!doctype html><meta charset="utf-8"><div class="scorecard"><h3>Identical pure host</h3><p><b>Performance</b> · Recorded evaluation</p><p>Tg · synthetic software target · blind_battery</p><p>Truth grade: synthetic_control</p><table><tr><th>Result quality / coverage</th><th>Value</th><th>Population</th></tr><tr><td><a href="scorecard:metric/replication_rate">Replication rate</a></td><td>0.5</td><td></td></tr><tr><td><a href="scorecard:metric/findings">Findings made</a></td><td>4</td><td></td></tr><tr><td><a href="scorecard:metric/replicated">Findings replicated</a></td><td>2</td><td></td></tr><tr><td><a href="scorecard:metric/null_rate">Replication by chance</a></td><td>0.375</td><td></td></tr><tr><td><a href="scorecard:metric/replication_lift">Replication lift</a></td><td>1.33333</td><td></td></tr></table><p><a href="scorecard:detail/sizes">Sample sizes</a>: eligible: 4; answered: 4; abstained: 0; correct: Unavailable / not supplied; wrong: Unavailable / not supplied</p><p><a href="scorecard:detail/uncertainty">Uncertainty</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/baseline">Matched baseline</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/freshness">Freshness</a>: {<br>  &quot;fixture_source_identity&quot;: &quot;cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619&quot;<br>}</p><p><a href="scorecard:expand">Full test record and definitions</a></p><p><a href="scorecard:detail/source">Ground-truth source and interpretation</a> · <a href="scorecard:detail/split">Split and fitted populations</a> · <a href="scorecard:detail/controls">Controls</a> · <a href="scorecard:detail/failures">Failure examples</a> · <a href="scorecard:detail/rows">Row-level outcomes</a> · <a href="scorecard:detail/gaps">Limitations and gaps</a> · <a href="scorecard:detail/identity">Evaluation identity</a> · <a href="scorecard:detail/parameters">Evaluation parameters</a> · <a href="scorecard:detail/task_details">Task-specific test record</a></p><h4>Evaluation scope</h4><pre>{
+  &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+  &quot;organism&quot;: &quot;Tg&quot;,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;seed&quot;: &quot;3&quot;,
+  &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+  &quot;strategy&quot;: &quot;blind_battery&quot;,
+  &quot;target&quot;: &quot;synthetic software target&quot;,
+  &quot;unit&quot;: &quot;finding&quot;
+}</pre><h3>Ground-truth source and interpretation</h3><pre>{
+  &quot;context&quot;: &quot;Software presentation only&quot;,
+  &quot;grade&quot;: &quot;synthetic_control&quot;,
+  &quot;lineage&quot;: &quot;Hand-authored records; no fit or biological source&quot;,
+  &quot;name&quot;: &quot;Authored synthetic replication fixture&quot;,
+  &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+  &quot;sha256&quot;: &quot;cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619&quot;,
+  &quot;version&quot;: &quot;Unavailable / not supplied&quot;
+}</pre><h3>Split and fitted populations</h3><pre>{
+  &quot;fit_population&quot;: null,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;reason&quot;: &quot;No fitting in this software fixture&quot;
+}</pre><h3>Sample sizes</h3><pre>{
+  &quot;abstained&quot;: 0,
+  &quot;answered&quot;: 4,
+  &quot;correct&quot;: null,
+  &quot;eligible&quot;: 4,
+  &quot;unique_biological_entities&quot;: 4,
+  &quot;wrong&quot;: null
+}</pre><h3>Matched baseline</h3><pre>Unavailable / not supplied</pre><h3>Uncertainty</h3><pre>Unavailable / not supplied</pre><h3>Controls</h3><pre>{
+  &quot;card&quot;: {
+    &quot;cohort_identity&quot;: &quot;b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04&quot;,
+    &quot;counts&quot;: {
+      &quot;abstained&quot;: 0,
+      &quot;answered&quot;: 4,
+      &quot;correct&quot;: null,
+      &quot;eligible&quot;: 4,
+      &quot;unique_biological_entities&quot;: 4,
+      &quot;wrong&quot;: null
+    },
+    &quot;evaluation_parameters&quot;: {
+      &quot;null_rates&quot;: [
+        0.25,
+        0.5
+      ]
+    },
+    &quot;extra&quot;: {
+      &quot;correct_wrong_interpretation&quot;: &quot;Not a categorical prediction task; use the declared task metrics&quot;,
+      &quot;replicated_findings&quot;: 0,
+      &quot;tested_findings&quot;: 4,
+      &quot;unreplicated_findings&quot;: 4
+    },
+    &quot;metric_status&quot;: {
+      &quot;findings&quot;: &quot;available&quot;,
+      &quot;null_rate&quot;: &quot;available&quot;,
+      &quot;replicated&quot;: &quot;available&quot;,
+      &quot;replication_lift&quot;: &quot;available&quot;,
+      &quot;replication_rate&quot;: &quot;available&quot;
+    },
+    &quot;metrics&quot;: {
+      &quot;findings&quot;: 4.0,
+      &quot;null_rate&quot;: 0.375,
+      &quot;replicated&quot;: 0.0,
+      &quot;replication_lift&quot;: 0.0,
+      &quot;replication_rate&quot;: 0.0
+    },
+    &quot;parameter_identity&quot;: &quot;9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1&quot;,
+    &quot;records_identity&quot;: &quot;5ef80c028dea69964dc8a3a5c7eb4426baaf2accd9ccb480dd1629c9caf1f52a&quot;,
+    &quot;scope&quot;: {
+      &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+      &quot;gaps&quot;: [
+        &quot;Synthetic software behavior does not admit biological performance&quot;
+      ],
+      &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+      &quot;organism&quot;: &quot;Tg&quot;,
+      &quot;partition&quot;: &quot;software_test&quot;,
+      &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+      &quot;seed&quot;: 3,
+      &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+      &quot;strategy&quot;: &quot;blind_battery&quot;,
+      &quot;target&quot;: &quot;synthetic software target&quot;,
+      &quot;task&quot;: &quot;replication&quot;,
+      &quot;truth_grade&quot;: &quot;synthetic_control&quot;,
+      &quot;unit&quot;: &quot;finding&quot;
+    },
+    &quot;scope_identity&quot;: &quot;7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4&quot;,
+    &quot;small_sample&quot;: true
+  },
+  &quot;interpretation&quot;: &quot;Explicit authored software control; not biological chance&quot;
+}</pre><h3>Failure examples</h3><pre>Unavailable / not supplied</pre><h3>Row-level outcomes</h3><pre>[
+  {
+    &quot;entity&quot;: &quot;finding1&quot;,
+    &quot;replicated&quot;: true
+  },
+  {
+    &quot;entity&quot;: &quot;finding2&quot;,
+    &quot;replicated&quot;: false
+  },
+  {
+    &quot;entity&quot;: &quot;finding3&quot;,
+    &quot;replicated&quot;: true
+  },
+  {
+    &quot;entity&quot;: &quot;finding4&quot;,
+    &quot;replicated&quot;: false
+  }
+]</pre><h3>Freshness</h3><pre>{
+  &quot;fixture_source_identity&quot;: &quot;cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619&quot;
+}</pre><h3>Limitations and gaps</h3><pre>[
+  &quot;Synthetic software behavior does not admit biological performance&quot;
+]</pre><h3>Evaluation identity</h3><pre>{
+  &quot;cohort_identity&quot;: &quot;b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04&quot;,
+  &quot;parameter_identity&quot;: &quot;9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1&quot;,
+  &quot;records_identity&quot;: &quot;6aacb0c452069d964d436dd0c71bfc721ceed401c4604725b4da76fffeb36357&quot;,
+  &quot;scope_identity&quot;: &quot;7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4&quot;
+}</pre><h3>Evaluation parameters</h3><pre>{
+  &quot;null_rates&quot;: [
+    0.25,
+    0.5
+  ]
+}</pre><h3>Task-specific test record</h3><pre>{
+  &quot;correct_wrong_interpretation&quot;: &quot;Not a categorical prediction task; use the declared task metrics&quot;,
+  &quot;replicated_findings&quot;: 2,
+  &quot;tested_findings&quot;: 4,
+  &quot;unreplicated_findings&quot;: 2
+}</pre><h3>Replication rate</h3><p>Share of the findings made on one half of the genes that hold on the other half.</p><p>Range: 0 to 1</p><p>Chance: the rate with the second half&#x27;s evidence scrambled</p><p>Whether the findings are properties of the genes or of the sample they were found in.</p><h3>Findings made</h3><p>Number of findings made on the first half.</p><p>Range: 0 upward</p><p>Chance: not applicable</p><p>Context: how much there was to replicate.</p><h3>Findings replicated</h3><p>Number of those findings that held on the second half.</p><p>Range: 0 to findings</p><p>Chance: findings x the null rate</p><p>The findings worth reading first; each is a claim that held twice.</p><h3>Replication by chance</h3><p>The replication rate with the second half&#x27;s evidence scrambled, averaged over runs.</p><p>Range: 0 to 1</p><p>Chance: is itself the chance level</p><p>What replication looks like for findings with nothing behind them.</p><h3>Replication lift</h3><p>Replication rate divided by the replication rate by chance.</p><p>Range: 0 upward</p><p>Chance: 1</p><p>How many times more often real findings replicate than chance ones.</p></div>

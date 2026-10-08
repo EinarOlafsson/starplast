@@ -1,0 +1,71 @@
+<!doctype html><meta charset="utf-8"><div class="scorecard"><h3>Identical pure host</h3><p><b>Performance</b> · Untested / unavailable</p><p>Tg · synthetic software target · positive_unlabeled</p><p>Truth grade: synthetic_control</p><table><tr><th>Result quality / coverage</th><th>Value</th><th>Population</th></tr><tr><td><a href="scorecard:metric/auroc">AUROC</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/auprc">AUPRC</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/auprc_lift">AUPRC lift</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/prevalence">Prevalence</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/pauroc_10">Partial AUROC (FPR &lt;= 10%)</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/r_precision">R-precision</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/precision_at_1pct">Precision @ top 1%</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/enrichment_at_1pct">Enrichment @ top 1%</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/recall_at_10pct">Recall @ top 10%</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/max_f1">Best F1</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/ndcg">nDCG</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr></table><p><a href="scorecard:detail/sizes">Sample sizes</a>: eligible: 3; answered: 3; abstained: 0; correct: Unavailable / not supplied; wrong: Unavailable / not supplied</p><p><a href="scorecard:detail/uncertainty">Uncertainty</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/baseline">Matched baseline</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/freshness">Freshness</a>: {<br>  &quot;fixture_source_identity&quot;: &quot;734e136805160f77103647f042bcc4bf5d77d2b2383309415e1b671832c365fe&quot;<br>}</p><p><a href="scorecard:expand">Full test record and definitions</a></p><p><a href="scorecard:detail/source">Ground-truth source and interpretation</a> · <a href="scorecard:detail/split">Split and fitted populations</a> · <a href="scorecard:detail/controls">Controls</a> · <a href="scorecard:detail/failures">Failure examples</a> · <a href="scorecard:detail/rows">Row-level outcomes</a> · <a href="scorecard:detail/gaps">Limitations and gaps</a> · <a href="scorecard:detail/identity">Evaluation identity</a> · <a href="scorecard:detail/parameters">Evaluation parameters</a> · <a href="scorecard:detail/task_details">Task-specific test record</a></p><h4>Evaluation scope</h4><pre>{
+  &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+  &quot;organism&quot;: &quot;Tg&quot;,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;seed&quot;: &quot;3&quot;,
+  &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+  &quot;strategy&quot;: &quot;positive_unlabeled&quot;,
+  &quot;target&quot;: &quot;synthetic software target&quot;,
+  &quot;unit&quot;: &quot;gene&quot;
+}</pre><h3>Ground-truth source and interpretation</h3><pre>{
+  &quot;context&quot;: &quot;Software presentation only&quot;,
+  &quot;grade&quot;: &quot;synthetic_control&quot;,
+  &quot;lineage&quot;: &quot;Hand-authored records; no fit or biological source&quot;,
+  &quot;name&quot;: &quot;Authored synthetic positive_only_ranking fixture&quot;,
+  &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+  &quot;sha256&quot;: &quot;734e136805160f77103647f042bcc4bf5d77d2b2383309415e1b671832c365fe&quot;,
+  &quot;version&quot;: &quot;Unavailable / not supplied&quot;
+}</pre><h3>Split and fitted populations</h3><pre>{
+  &quot;fit_population&quot;: null,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;reason&quot;: &quot;No fitting in this software fixture&quot;
+}</pre><h3>Sample sizes</h3><pre>{
+  &quot;abstained&quot;: 0,
+  &quot;answered&quot;: 3,
+  &quot;correct&quot;: null,
+  &quot;eligible&quot;: 3,
+  &quot;unique_biological_entities&quot;: 3,
+  &quot;wrong&quot;: null
+}</pre><h3>Matched baseline</h3><pre>Unavailable / not supplied</pre><h3>Uncertainty</h3><pre>Unavailable / not supplied</pre><h3>Controls</h3><pre>{
+  &quot;card&quot;: null,
+  &quot;interpretation&quot;: &quot;Explicit authored software control; not biological chance&quot;
+}</pre><h3>Failure examples</h3><pre>Unavailable / not supplied</pre><h3>Row-level outcomes</h3><pre>[
+  {
+    &quot;entity&quot;: &quot;g1&quot;,
+    &quot;positive&quot;: true,
+    &quot;returned&quot;: true,
+    &quot;score&quot;: 4.0
+  },
+  {
+    &quot;entity&quot;: &quot;g2&quot;,
+    &quot;positive&quot;: null,
+    &quot;returned&quot;: true,
+    &quot;score&quot;: 3.0
+  },
+  {
+    &quot;entity&quot;: &quot;g3&quot;,
+    &quot;positive&quot;: true,
+    &quot;returned&quot;: false,
+    &quot;score&quot;: 2.0
+  }
+]</pre><h3>Freshness</h3><pre>{
+  &quot;fixture_source_identity&quot;: &quot;734e136805160f77103647f042bcc4bf5d77d2b2383309415e1b671832c365fe&quot;
+}</pre><h3>Limitations and gaps</h3><pre>[
+  &quot;Synthetic software behavior does not admit biological performance&quot;
+]</pre><h3>Evaluation identity</h3><pre>{
+  &quot;cohort_identity&quot;: &quot;268e5b827ba0e04f2403cd3d615d6147ce72aa02cb1b8a1429f30cc978ee33b9&quot;,
+  &quot;parameter_identity&quot;: &quot;7f2de3ef5c6594d865edcfd3a4a7c814fb5858a839391dc3175391d24686b813&quot;,
+  &quot;records_identity&quot;: &quot;2ebea4ece412b49629ca3809d7230575b402fcd5e5522729d4f296604ca36d9c&quot;,
+  &quot;scope_identity&quot;: &quot;8d8a60725ad646a0de07b85fbefe80e91537758f4c1223d87bf58f13a76fc419&quot;
+}</pre><h3>Evaluation parameters</h3><pre>{
+  &quot;depth&quot;: 2,
+  &quot;verified_negatives&quot;: false
+}</pre><h3>Task-specific test record</h3><pre>{
+  &quot;correct_wrong_interpretation&quot;: &quot;Not a categorical prediction task; use the declared task metrics&quot;,
+  &quot;depth&quot;: 2,
+  &quot;known_positive_recall_at_depth&quot;: 0.5,
+  &quot;negative_assumptions&quot;: &quot;unknown_is_not_negative&quot;,
+  &quot;precision_identifiable&quot;: false
+}</pre><h3>AUROC</h3><p>Probability that a random hidden positive is ranked above a random negative (area under the ROC curve); ties count half.</p><p>Range: 0 to 1</p><p>Chance: 0.5</p><p>Separation over the whole ranking. Insensitive to how rare positives are, so a high AUROC can coexist with a poor top of the list -- read it with AUPRC.</p><h3>AUPRC</h3><p>Average precision: the mean, over the hidden positives, of the precision of the ranking down to that positive (area under the precision-recall curve).</p><p>Range: 0 to 1</p><p>Chance: the prevalence (share of positives among everything ranked)</p><p>How clean the top of the ranking is. Its chance level is the prevalence, so compare it with that (AUPRC lift), never with 0.5.</p><h3>AUPRC lift</h3><p>AUPRC divided by the prevalence, its value for a random ordering.</p><p>Range: 0 to 1/prevalence</p><p>Chance: 1</p><p>How many times better than a random ordering the ranking is, where it matters. Comparable across tests with different prevalences, unlike AUPRC itself.</p><h3>Prevalence</h3><p>Hidden positives divided by everything ranked.</p><p>Range: 0 to 1</p><p>Chance: not applicable (a property of the test)</p><p>The chance level of AUPRC and of precision at any depth; context for every other number.</p><h3>Partial AUROC (FPR &lt;= 10%)</h3><p>AUROC restricted to false-positive rates up to 10%, rescaled (McClish) so 0.5 is chance and 1 perfect.</p><p>Range: 0.5 to 1 (after rescaling)</p><p>Chance: 0.5</p><p>Separation in the part of the ranking anyone would act on; what matters for screening.</p><h3>R-precision</h3><p>Precision among the top R items, where R is the number of hidden positives. Equal to recall at that depth.</p><p>Range: 0 to 1</p><p>Chance: the prevalence</p><p>If you took as many candidates as there are true positives, the share that would be right.</p><h3>Precision @ top 1%</h3><p>Share of positives among the top 1% of the ranking (at least one item).</p><p>Range: 0 to 1</p><p>Chance: the prevalence</p><p>How good the very first candidates are -- the list anyone would test first.</p><h3>Enrichment @ top 1%</h3><p>Precision at the top 1% divided by the prevalence.</p><p>Range: 0 to 1/prevalence</p><p>Chance: 1</p><p>How many times more positives the first 1% holds than a random 1% would.</p><h3>Recall @ top 10%</h3><p>Share of all hidden positives found in the top 10% of the ranking.</p><p>Range: 0 to 1</p><p>Chance: 0.1</p><p>How much of the answer a short list contains.</p><h3>Best F1</h3><p>The highest F1 (harmonic mean of precision and recall) over every cut-off of the ranking.</p><p>Range: 0 to 1</p><p>Chance: about 2 x prevalence / (1 + prevalence) (taking everything)</p><p>The best single-threshold trade-off the ranking allows; optimistic, since the cut-off is chosen on the answer.</p><h3>nDCG</h3><p>Normalised discounted cumulative gain: positives count 1 / log2(rank + 1), divided by the value of a perfect ranking.</p><p>Range: 0 to 1</p><p>Chance: depends on prevalence; low when positives are rare</p><p>A whole-ranking score that weights the top most, smoothly rather than at one cut-off.</p></div>

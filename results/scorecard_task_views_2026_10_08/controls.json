@@ -1,0 +1,683 @@
+{
+  "clusters": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": null,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": null
+    },
+    "evaluation_parameters": {
+      "chosen_clusters": {
+        "A": 0,
+        "B": 1
+      }
+    },
+    "extra": {
+      "correct_wrong_interpretation": "Unavailable: geometry is not a categorical caller",
+      "placed": 4,
+      "unplaced": 0
+    },
+    "metric_status": {
+      "ari": "available",
+      "completeness": "available",
+      "homogeneity": "available",
+      "nmi": "available",
+      "noise_share": "available",
+      "weighted_f1_clusters": "available",
+      "weighted_precision_clusters": "available",
+      "weighted_recall_clusters": "available"
+    },
+    "metrics": {
+      "ari": 0.0,
+      "completeness": 1.0,
+      "homogeneity": 0.0,
+      "nmi": 0.0,
+      "noise_share": 0.0,
+      "weighted_f1_clusters": 0.3333333333333333,
+      "weighted_precision_clusters": 0.25,
+      "weighted_recall_clusters": 0.5
+    },
+    "parameter_identity": "09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b",
+    "records_identity": "fb8784450e35f1b30fc1b7556dbb0a8dbb5bde3fc32a9b9dcd9afc6bac584578",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "holdout_search",
+      "target": "synthetic software target",
+      "task": "cluster recovery",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3",
+    "small_sample": true
+  },
+  "labels": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": 2,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": 2
+    },
+    "evaluation_parameters": {},
+    "extra": {
+      "accuracy_all_hidden": 0.5,
+      "accuracy_among_calls": 0.5,
+      "confusion": [
+        {
+          "count": 2,
+          "prediction": "A",
+          "truth": "A"
+        },
+        {
+          "count": 2,
+          "prediction": "A",
+          "truth": "B"
+        }
+      ],
+      "single_outcome": false,
+      "uncertainty": {
+        "biological_groups": null,
+        "reason": "Biological groups unresolved",
+        "status": "unavailable"
+      }
+    },
+    "metric_status": {
+      "accuracy": "available",
+      "coverage": "available",
+      "kappa": "available",
+      "macro_auprc": "unavailable_for_this_cohort_or_truth",
+      "macro_auroc": "unavailable_for_this_cohort_or_truth",
+      "macro_f1": "available",
+      "macro_precision": "available",
+      "macro_recall": "available",
+      "mcc": "available",
+      "precision_of_calls": "available",
+      "weighted_f1": "available"
+    },
+    "metrics": {
+      "accuracy": 0.5,
+      "coverage": 1.0,
+      "kappa": 0.0,
+      "macro_auprc": null,
+      "macro_auroc": null,
+      "macro_f1": 0.3333333333333333,
+      "macro_precision": 0.25,
+      "macro_recall": 0.5,
+      "mcc": 0.0,
+      "precision_of_calls": 0.5,
+      "weighted_f1": 0.3333333333333333
+    },
+    "parameter_identity": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "records_identity": "c61cabd3f8ae28c79f92a5591d22db0815dd3291ec773d8d33df32cb9bfd9e5c",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "feature_knn",
+      "target": "synthetic software target",
+      "task": "label calls",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "c66fbdb67d26fbd2965c2e8cb0381228cfeaa568aa34c4bc365887a9b2030d03",
+    "small_sample": true
+  },
+  "numeric_intervals": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": null,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": null
+    },
+    "evaluation_parameters": {
+      "baseline_name": "authored constant-two control",
+      "quantity_unit": "synthetic assay units"
+    },
+    "extra": {
+      "baseline_comparison": {
+        "eligible_metrics": {
+          "bottom_decile_recall": null,
+          "finite_mean_interval_width": null,
+          "interval_availability": null,
+          "interval_coverage": null,
+          "interval_coverage_answered": null,
+          "interval_width_in_sd": null,
+          "kendall": null,
+          "mae": 1.0,
+          "mean_interval_width": null,
+          "nrmse": 1.0954451150103321,
+          "pearson": null,
+          "promised_coverage": null,
+          "r2": -0.19999999999999996,
+          "rmse": 1.224744871391589,
+          "spearman": null,
+          "top_decile_recall": null,
+          "unbounded_interval_share": null,
+          "value_coverage": 1.0
+        },
+        "eligible_rows": 4,
+        "fit_lineage": "Caller must pin training-only baseline fit and source identity",
+        "mae_skill": 0.0,
+        "matched_answered_rows": 4,
+        "matched_metrics": {
+          "bottom_decile_recall": null,
+          "finite_mean_interval_width": null,
+          "interval_availability": null,
+          "interval_coverage": null,
+          "interval_coverage_answered": null,
+          "interval_width_in_sd": null,
+          "kendall": null,
+          "mae": 1.0,
+          "mean_interval_width": null,
+          "nrmse": 1.0954451150103321,
+          "pearson": null,
+          "promised_coverage": null,
+          "r2": -0.19999999999999996,
+          "rmse": 1.224744871391589,
+          "spearman": null,
+          "top_decile_recall": null,
+          "unbounded_interval_share": null,
+          "value_coverage": 1.0
+        },
+        "mse_skill": 0.0,
+        "name": "authored constant-two control"
+      },
+      "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics",
+      "quantity_unit": "synthetic assay units"
+    },
+    "metric_status": {
+      "bottom_decile_recall": "unavailable_for_this_cohort_or_truth",
+      "finite_mean_interval_width": "unavailable_for_this_cohort_or_truth",
+      "interval_availability": "unavailable_for_this_cohort_or_truth",
+      "interval_coverage": "unavailable_for_this_cohort_or_truth",
+      "interval_coverage_answered": "unavailable_for_this_cohort_or_truth",
+      "interval_width_in_sd": "unavailable_for_this_cohort_or_truth",
+      "kendall": "unavailable_for_this_cohort_or_truth",
+      "mae": "available",
+      "mean_interval_width": "unavailable_for_this_cohort_or_truth",
+      "nrmse": "available",
+      "pearson": "unavailable_for_this_cohort_or_truth",
+      "promised_coverage": "unavailable_for_this_cohort_or_truth",
+      "r2": "available",
+      "rmse": "available",
+      "spearman": "unavailable_for_this_cohort_or_truth",
+      "top_decile_recall": "unavailable_for_this_cohort_or_truth",
+      "unbounded_interval_share": "unavailable_for_this_cohort_or_truth",
+      "value_coverage": "available"
+    },
+    "metrics": {
+      "bottom_decile_recall": null,
+      "finite_mean_interval_width": null,
+      "interval_availability": null,
+      "interval_coverage": null,
+      "interval_coverage_answered": null,
+      "interval_width_in_sd": null,
+      "kendall": null,
+      "mae": 1.0,
+      "mean_interval_width": null,
+      "nrmse": 1.0954451150103321,
+      "pearson": null,
+      "promised_coverage": null,
+      "r2": -0.19999999999999996,
+      "rmse": 1.224744871391589,
+      "spearman": null,
+      "top_decile_recall": null,
+      "unbounded_interval_share": null,
+      "value_coverage": 1.0
+    },
+    "parameter_identity": "4c6ce5d076b892ba4d2bbe2254d09cbf6268a6801326cb4bf5eb1374321e5929",
+    "records_identity": "5585add2a04b9879e4440fee4e0634f1ca75b795a5f28f56a1d360c08166ad21",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "trait_regression",
+      "target": "synthetic software target",
+      "task": "values",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "74938e797c3b3f2080ccde5f735b22d7beac3feb49facc51176fc8ce6c7a7443",
+    "small_sample": true
+  },
+  "positive_only_ranking": null,
+  "positive_only_retrieval": null,
+  "prediction_sets": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 4,
+      "answered": 0,
+      "correct": 0,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": 0
+    },
+    "evaluation_parameters": {
+      "nominal_set_coverage": 0.9,
+      "prediction_classes": [
+        "A",
+        "B"
+      ]
+    },
+    "extra": {
+      "accuracy_all_hidden": 0.0,
+      "accuracy_among_calls": null,
+      "confusion": [
+        {
+          "count": 2,
+          "prediction": null,
+          "truth": "A"
+        },
+        {
+          "count": 2,
+          "prediction": null,
+          "truth": "B"
+        }
+      ],
+      "prediction_classes": [
+        "A",
+        "B"
+      ],
+      "single_outcome": false,
+      "uncertainty": {
+        "biological_groups": null,
+        "reason": "Biological groups unresolved",
+        "status": "unavailable"
+      }
+    },
+    "metric_status": {
+      "accuracy": "available",
+      "coverage": "available",
+      "empty_set_share": "available",
+      "kappa": "available",
+      "macro_auprc": "unavailable_for_this_cohort_or_truth",
+      "macro_auroc": "unavailable_for_this_cohort_or_truth",
+      "macro_f1": "available",
+      "macro_precision": "available",
+      "macro_recall": "available",
+      "mcc": "available",
+      "mean_set_size": "available",
+      "precision_of_calls": "unavailable_for_this_cohort_or_truth",
+      "set_coverage": "available",
+      "set_efficiency": "available",
+      "singleton_share": "available",
+      "weighted_f1": "available"
+    },
+    "metrics": {
+      "accuracy": 0.0,
+      "coverage": 0.0,
+      "empty_set_share": 0.0,
+      "kappa": 0.0,
+      "macro_auprc": null,
+      "macro_auroc": null,
+      "macro_f1": 0.0,
+      "macro_precision": 0.0,
+      "macro_recall": 0.0,
+      "mcc": 0.0,
+      "mean_set_size": 2.0,
+      "precision_of_calls": null,
+      "set_coverage": 1.0,
+      "set_efficiency": 0.0,
+      "singleton_share": 0.0,
+      "weighted_f1": 0.0
+    },
+    "parameter_identity": "525501c5ad86b3e34a19ed8dc8492e4ada18e676ff54299b945e0720bf72f1fb",
+    "records_identity": "43bd0e9f60c1efb4844d35b41151ad81b1c79d8a2ebe53d61db12f82879d55af",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "conformal_calls",
+      "target": "synthetic software target",
+      "task": "label calls",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "363db71b48f44d8f2fb8caca1b4fe94c8a1b13132486a8db908165e8bc47f5fc",
+    "small_sample": true
+  },
+  "ranking": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": null,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": null
+    },
+    "evaluation_parameters": {
+      "verified_negatives": true
+    },
+    "extra": {
+      "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics"
+    },
+    "metric_status": {
+      "auprc": "available",
+      "auprc_lift": "available",
+      "auroc": "available",
+      "enrichment_at_1pct": "available",
+      "max_f1": "available",
+      "ndcg": "available",
+      "pauroc_10": "available",
+      "precision_at_1pct": "available",
+      "prevalence": "available",
+      "r_precision": "available",
+      "recall_at_10pct": "available"
+    },
+    "metrics": {
+      "auprc": 0.5,
+      "auprc_lift": 1.0,
+      "auroc": 0.25,
+      "enrichment_at_1pct": 0.0,
+      "max_f1": 0.6666666666666666,
+      "ndcg": 0.6509209298071326,
+      "pauroc_10": 0.47368421052631576,
+      "precision_at_1pct": 0.0,
+      "prevalence": 0.5,
+      "r_precision": 0.5,
+      "recall_at_10pct": 0.0
+    },
+    "parameter_identity": "12488c2558fbddde4fbd0d3d5595074fa08b01944fc42205ca2bbe2eb4189b56",
+    "records_identity": "160d89f4131bba37122799eac6b05556eea769e231cbed5c892209940efc3b2e",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "positive_unlabeled",
+      "target": "synthetic software target",
+      "task": "ranking",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "8d8a60725ad646a0de07b85fbefe80e91537758f4c1223d87bf58f13a76fc419",
+    "small_sample": true
+  },
+  "replication": {
+    "cohort_identity": "b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": null,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": null
+    },
+    "evaluation_parameters": {
+      "null_rates": [
+        0.25,
+        0.5
+      ]
+    },
+    "extra": {
+      "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics",
+      "replicated_findings": 0,
+      "tested_findings": 4,
+      "unreplicated_findings": 4
+    },
+    "metric_status": {
+      "findings": "available",
+      "null_rate": "available",
+      "replicated": "available",
+      "replication_lift": "available",
+      "replication_rate": "available"
+    },
+    "metrics": {
+      "findings": 4.0,
+      "null_rate": 0.375,
+      "replicated": 0.0,
+      "replication_lift": 0.0,
+      "replication_rate": 0.0
+    },
+    "parameter_identity": "9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1",
+    "records_identity": "5ef80c028dea69964dc8a3a5c7eb4426baaf2accd9ccb480dd1629c9caf1f52a",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "blind_battery",
+      "target": "synthetic software target",
+      "task": "replication",
+      "truth_grade": "synthetic_control",
+      "unit": "finding"
+    },
+    "scope_identity": "7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4",
+    "small_sample": true
+  },
+  "retrieval": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": null,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": null
+    },
+    "evaluation_parameters": {
+      "verified_negatives": true
+    },
+    "extra": {
+      "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics"
+    },
+    "metric_status": {
+      "f1": "available",
+      "fold_enrichment": "available",
+      "jaccard": "available",
+      "precision": "available",
+      "recall": "available",
+      "returned": "available",
+      "set_mcc": "available"
+    },
+    "metrics": {
+      "f1": 0.6666666666666666,
+      "fold_enrichment": 1.0,
+      "jaccard": 0.5,
+      "precision": 0.5,
+      "recall": 1.0,
+      "returned": 4.0,
+      "set_mcc": 0.0
+    },
+    "parameter_identity": "12488c2558fbddde4fbd0d3d5595074fa08b01944fc42205ca2bbe2eb4189b56",
+    "records_identity": "a5d993d5a94e0251e549096dff7271313cb598d8febb9828331479dc4e3c4a00",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "geneset_hunt",
+      "target": "synthetic software target",
+      "task": "set retrieval",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "d94896e40004ea148d3d888a178f3d3ce2e23e413106307caf59d1f64f82ab6a",
+    "small_sample": true
+  },
+  "values": {
+    "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+    "counts": {
+      "abstained": 0,
+      "answered": 4,
+      "correct": null,
+      "eligible": 4,
+      "unique_biological_entities": 4,
+      "wrong": null
+    },
+    "evaluation_parameters": {
+      "baseline_name": "authored constant-two control",
+      "quantity_unit": "synthetic assay units"
+    },
+    "extra": {
+      "baseline_comparison": {
+        "eligible_metrics": {
+          "bottom_decile_recall": null,
+          "finite_mean_interval_width": null,
+          "interval_availability": null,
+          "interval_coverage": null,
+          "interval_coverage_answered": null,
+          "interval_width_in_sd": null,
+          "kendall": null,
+          "mae": 1.0,
+          "mean_interval_width": null,
+          "nrmse": 1.0954451150103321,
+          "pearson": null,
+          "promised_coverage": null,
+          "r2": -0.19999999999999996,
+          "rmse": 1.224744871391589,
+          "spearman": null,
+          "top_decile_recall": null,
+          "unbounded_interval_share": null,
+          "value_coverage": 1.0
+        },
+        "eligible_rows": 4,
+        "fit_lineage": "Caller must pin training-only baseline fit and source identity",
+        "mae_skill": 0.0,
+        "matched_answered_rows": 4,
+        "matched_metrics": {
+          "bottom_decile_recall": null,
+          "finite_mean_interval_width": null,
+          "interval_availability": null,
+          "interval_coverage": null,
+          "interval_coverage_answered": null,
+          "interval_width_in_sd": null,
+          "kendall": null,
+          "mae": 1.0,
+          "mean_interval_width": null,
+          "nrmse": 1.0954451150103321,
+          "pearson": null,
+          "promised_coverage": null,
+          "r2": -0.19999999999999996,
+          "rmse": 1.224744871391589,
+          "spearman": null,
+          "top_decile_recall": null,
+          "unbounded_interval_share": null,
+          "value_coverage": 1.0
+        },
+        "mse_skill": 0.0,
+        "name": "authored constant-two control"
+      },
+      "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics",
+      "quantity_unit": "synthetic assay units"
+    },
+    "metric_status": {
+      "bottom_decile_recall": "unavailable_for_this_cohort_or_truth",
+      "finite_mean_interval_width": "unavailable_for_this_cohort_or_truth",
+      "interval_availability": "unavailable_for_this_cohort_or_truth",
+      "interval_coverage": "unavailable_for_this_cohort_or_truth",
+      "interval_coverage_answered": "unavailable_for_this_cohort_or_truth",
+      "interval_width_in_sd": "unavailable_for_this_cohort_or_truth",
+      "kendall": "unavailable_for_this_cohort_or_truth",
+      "mae": "available",
+      "mean_interval_width": "unavailable_for_this_cohort_or_truth",
+      "nrmse": "available",
+      "pearson": "unavailable_for_this_cohort_or_truth",
+      "promised_coverage": "unavailable_for_this_cohort_or_truth",
+      "r2": "available",
+      "rmse": "available",
+      "spearman": "unavailable_for_this_cohort_or_truth",
+      "top_decile_recall": "unavailable_for_this_cohort_or_truth",
+      "unbounded_interval_share": "unavailable_for_this_cohort_or_truth",
+      "value_coverage": "available"
+    },
+    "metrics": {
+      "bottom_decile_recall": null,
+      "finite_mean_interval_width": null,
+      "interval_availability": null,
+      "interval_coverage": null,
+      "interval_coverage_answered": null,
+      "interval_width_in_sd": null,
+      "kendall": null,
+      "mae": 1.0,
+      "mean_interval_width": null,
+      "nrmse": 1.0954451150103321,
+      "pearson": null,
+      "promised_coverage": null,
+      "r2": -0.19999999999999996,
+      "rmse": 1.224744871391589,
+      "spearman": null,
+      "top_decile_recall": null,
+      "unbounded_interval_share": null,
+      "value_coverage": 1.0
+    },
+    "parameter_identity": "4c6ce5d076b892ba4d2bbe2254d09cbf6268a6801326cb4bf5eb1374321e5929",
+    "records_identity": "5585add2a04b9879e4440fee4e0634f1ca75b795a5f28f56a1d360c08166ad21",
+    "scope": {
+      "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+      "gaps": [
+        "Synthetic software behavior does not admit biological performance"
+      ],
+      "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+      "organism": "Tg",
+      "partition": "software_test",
+      "protocol": "synthetic software fixture protocol",
+      "seed": 3,
+      "settings": "fixed authored fixture; no fitting",
+      "strategy": "trait_regression",
+      "target": "synthetic software target",
+      "task": "values",
+      "truth_grade": "synthetic_control",
+      "unit": "gene"
+    },
+    "scope_identity": "74938e797c3b3f2080ccde5f735b22d7beac3feb49facc51176fc8ce6c7a7443",
+    "small_sample": true
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "stage": "resume_reference",
+  "states": {
+    "numeric_operator": "succeeded",
+    "operator_reference": "succeeded"
+  },
+  "builder_calls": [
+    "operator_reference"
+  ],
+  "artifact_identities": {
+    "numeric_operator": "ea92a2a22fdf13e2ba8926e0ae2422df7a69b15bd8a207d5b53b32b7eff17371",
+    "operator_reference": "63d87234637bf4a15363df809adecd1b67cad3ea8bc3f5da24c8d0f6484c0ca5"
+  },
+  "measured_run": {
+    "artifact_storage_bytes": 12966060,
+    "budget": {
+      "max_jobs": 2,
+      "max_package_bytes": 33554432,
+      "max_seconds": 120,
+      "max_storage_bytes": 33554432,
+      "memory_limit_bytes": 419430400
+    },
+    "jobs": {
+      "numeric_operator": {
+        "content_identity": "ea92a2a22fdf13e2ba8926e0ae2422df7a69b15bd8a207d5b53b32b7eff17371",
+        "key": "4670a4a348df8d4076a5406dd2db39bdf8ba4a211ace72cc05e5d3faa87670fa",
+        "resumed": true,
+        "status": "succeeded",
+        "storage_bytes": 12896399
+      },
+      "operator_reference": {
+        "content_identity": "63d87234637bf4a15363df809adecd1b67cad3ea8bc3f5da24c8d0f6484c0ca5",
+        "key": "7eab7da93b4e659c6ecc4dbd4d09d4694b19afc2e731fc86868a48fe1e6447ab",
+        "status": "succeeded"
+      }
+    },
+    "package_bytes": 12966060,
+    "plan": "8d6cce1ac4d35aa6877e9a57a71a4e56f8723db3546b39efa4f237d0a2ee24f5",
+    "process_peak_rss_bytes": 421117952,
+    "process_rss_bytes": 410636288,
+    "runtime_seconds": 2.247945719049312,
+    "started_unix": 1791485540.453283,
+    "status": "finished",
+    "stop_reason": ""
+  }
+}

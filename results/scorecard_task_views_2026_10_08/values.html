@@ -1,0 +1,296 @@
+<!doctype html><meta charset="utf-8"><div class="scorecard"><h3>Identical pure host</h3><p><b>Performance</b> · Recorded evaluation</p><p>Tg · synthetic software target · trait_regression</p><p>Truth grade: synthetic_control</p><table><tr><th>Result quality / coverage</th><th>Value</th><th>Population</th></tr><tr><td><a href="scorecard:metric/spearman">Spearman rho</a></td><td>1</td><td></td></tr><tr><td><a href="scorecard:metric/pearson">Pearson r</a></td><td>0.992215</td><td></td></tr><tr><td><a href="scorecard:metric/kendall">Kendall tau-b</a></td><td>1</td><td></td></tr><tr><td><a href="scorecard:metric/r2">R-squared (out of sample)</a></td><td>0.85</td><td></td></tr><tr><td><a href="scorecard:metric/nrmse">Normalised RMSE</a></td><td>0.387298</td><td></td></tr><tr><td><a href="scorecard:metric/mae">Mean absolute error</a></td><td>0.266667</td><td></td></tr><tr><td><a href="scorecard:metric/rmse">Root-mean-square error</a></td><td>0.316228</td><td></td></tr><tr><td><a href="scorecard:metric/top_decile_recall">Top-decile recall</a></td><td>1</td><td></td></tr><tr><td><a href="scorecard:metric/bottom_decile_recall">Bottom-decile recall</a></td><td>1</td><td></td></tr><tr><td><a href="scorecard:metric/value_coverage">Coverage</a></td><td>0.75</td><td>All eligible: 4</td></tr><tr><td><a href="scorecard:metric/interval_coverage">Interval coverage, all eligible</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td>All eligible: 4</td></tr><tr><td><a href="scorecard:metric/interval_coverage_answered">Interval coverage, available intervals</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/interval_availability">Interval availability</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td>All eligible: 4</td></tr><tr><td><a href="scorecard:metric/mean_interval_width">Mean interval width</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/finite_mean_interval_width">Mean finite interval width</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/unbounded_interval_share">Unbounded interval share</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/interval_width_in_sd">Interval width in truth standard deviations</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/promised_coverage">Nominal interval coverage</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr></table><p><a href="scorecard:detail/sizes">Sample sizes</a>: eligible: 4; answered: 3; abstained: 1; correct: Unavailable / not supplied; wrong: Unavailable / not supplied</p><p><a href="scorecard:detail/uncertainty">Uncertainty</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/baseline">Matched baseline</a>: name: authored constant-two control; matched answered rows: 3; mae skill: 0.6; mse skill: 0.85</p><p><a href="scorecard:detail/freshness">Freshness</a>: {<br>  &quot;fixture_source_identity&quot;: &quot;4c920dfaf97a8a1a062cd128341daba7dc3fb17de7ed2482958b80aef94a7681&quot;<br>}</p><p><a href="scorecard:expand">Full test record and definitions</a></p><p><a href="scorecard:detail/source">Ground-truth source and interpretation</a> · <a href="scorecard:detail/split">Split and fitted populations</a> · <a href="scorecard:detail/controls">Controls</a> · <a href="scorecard:detail/failures">Failure examples</a> · <a href="scorecard:detail/rows">Row-level outcomes</a> · <a href="scorecard:detail/gaps">Limitations and gaps</a> · <a href="scorecard:detail/identity">Evaluation identity</a> · <a href="scorecard:detail/parameters">Evaluation parameters</a> · <a href="scorecard:detail/task_details">Task-specific test record</a></p><h4>Evaluation scope</h4><pre>{
+  &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+  &quot;organism&quot;: &quot;Tg&quot;,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;seed&quot;: &quot;3&quot;,
+  &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+  &quot;strategy&quot;: &quot;trait_regression&quot;,
+  &quot;target&quot;: &quot;synthetic software target&quot;,
+  &quot;unit&quot;: &quot;gene&quot;
+}</pre><h3>Ground-truth source and interpretation</h3><pre>{
+  &quot;context&quot;: &quot;Software presentation only&quot;,
+  &quot;grade&quot;: &quot;synthetic_control&quot;,
+  &quot;lineage&quot;: &quot;Hand-authored records; no fit or biological source&quot;,
+  &quot;name&quot;: &quot;Authored synthetic values fixture&quot;,
+  &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+  &quot;sha256&quot;: &quot;4c920dfaf97a8a1a062cd128341daba7dc3fb17de7ed2482958b80aef94a7681&quot;,
+  &quot;version&quot;: &quot;Unavailable / not supplied&quot;
+}</pre><h3>Split and fitted populations</h3><pre>{
+  &quot;fit_population&quot;: null,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;reason&quot;: &quot;No fitting in this software fixture&quot;
+}</pre><h3>Sample sizes</h3><pre>{
+  &quot;abstained&quot;: 1,
+  &quot;answered&quot;: 3,
+  &quot;correct&quot;: null,
+  &quot;eligible&quot;: 4,
+  &quot;unique_biological_entities&quot;: 4,
+  &quot;wrong&quot;: null
+}</pre><h3>Matched baseline</h3><pre>{
+  &quot;eligible_metrics&quot;: {
+    &quot;bottom_decile_recall&quot;: null,
+    &quot;finite_mean_interval_width&quot;: null,
+    &quot;interval_availability&quot;: null,
+    &quot;interval_coverage&quot;: null,
+    &quot;interval_coverage_answered&quot;: null,
+    &quot;interval_width_in_sd&quot;: null,
+    &quot;kendall&quot;: null,
+    &quot;mae&quot;: 1.0,
+    &quot;mean_interval_width&quot;: null,
+    &quot;nrmse&quot;: 1.0954451150103321,
+    &quot;pearson&quot;: null,
+    &quot;promised_coverage&quot;: null,
+    &quot;r2&quot;: -0.19999999999999996,
+    &quot;rmse&quot;: 1.224744871391589,
+    &quot;spearman&quot;: null,
+    &quot;top_decile_recall&quot;: null,
+    &quot;unbounded_interval_share&quot;: null,
+    &quot;value_coverage&quot;: 1.0
+  },
+  &quot;eligible_rows&quot;: 4,
+  &quot;fit_lineage&quot;: &quot;Caller must pin training-only baseline fit and source identity&quot;,
+  &quot;mae_skill&quot;: 0.6,
+  &quot;matched_answered_rows&quot;: 3,
+  &quot;matched_metrics&quot;: {
+    &quot;bottom_decile_recall&quot;: null,
+    &quot;finite_mean_interval_width&quot;: null,
+    &quot;interval_availability&quot;: null,
+    &quot;interval_coverage&quot;: null,
+    &quot;interval_coverage_answered&quot;: null,
+    &quot;interval_width_in_sd&quot;: null,
+    &quot;kendall&quot;: null,
+    &quot;mae&quot;: 0.6666666666666666,
+    &quot;mean_interval_width&quot;: null,
+    &quot;nrmse&quot;: 1.0,
+    &quot;pearson&quot;: null,
+    &quot;promised_coverage&quot;: null,
+    &quot;r2&quot;: 0.0,
+    &quot;rmse&quot;: 0.816496580927726,
+    &quot;spearman&quot;: null,
+    &quot;top_decile_recall&quot;: null,
+    &quot;unbounded_interval_share&quot;: null,
+    &quot;value_coverage&quot;: 1.0
+  },
+  &quot;mse_skill&quot;: 0.85,
+  &quot;name&quot;: &quot;authored constant-two control&quot;
+}</pre><h3>Uncertainty</h3><pre>Unavailable / not supplied</pre><h3>Controls</h3><pre>{
+  &quot;card&quot;: {
+    &quot;cohort_identity&quot;: &quot;3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500&quot;,
+    &quot;counts&quot;: {
+      &quot;abstained&quot;: 0,
+      &quot;answered&quot;: 4,
+      &quot;correct&quot;: null,
+      &quot;eligible&quot;: 4,
+      &quot;unique_biological_entities&quot;: 4,
+      &quot;wrong&quot;: null
+    },
+    &quot;evaluation_parameters&quot;: {
+      &quot;baseline_name&quot;: &quot;authored constant-two control&quot;,
+      &quot;quantity_unit&quot;: &quot;synthetic assay units&quot;
+    },
+    &quot;extra&quot;: {
+      &quot;baseline_comparison&quot;: {
+        &quot;eligible_metrics&quot;: {
+          &quot;bottom_decile_recall&quot;: null,
+          &quot;finite_mean_interval_width&quot;: null,
+          &quot;interval_availability&quot;: null,
+          &quot;interval_coverage&quot;: null,
+          &quot;interval_coverage_answered&quot;: null,
+          &quot;interval_width_in_sd&quot;: null,
+          &quot;kendall&quot;: null,
+          &quot;mae&quot;: 1.0,
+          &quot;mean_interval_width&quot;: null,
+          &quot;nrmse&quot;: 1.0954451150103321,
+          &quot;pearson&quot;: null,
+          &quot;promised_coverage&quot;: null,
+          &quot;r2&quot;: -0.19999999999999996,
+          &quot;rmse&quot;: 1.224744871391589,
+          &quot;spearman&quot;: null,
+          &quot;top_decile_recall&quot;: null,
+          &quot;unbounded_interval_share&quot;: null,
+          &quot;value_coverage&quot;: 1.0
+        },
+        &quot;eligible_rows&quot;: 4,
+        &quot;fit_lineage&quot;: &quot;Caller must pin training-only baseline fit and source identity&quot;,
+        &quot;mae_skill&quot;: 0.0,
+        &quot;matched_answered_rows&quot;: 4,
+        &quot;matched_metrics&quot;: {
+          &quot;bottom_decile_recall&quot;: null,
+          &quot;finite_mean_interval_width&quot;: null,
+          &quot;interval_availability&quot;: null,
+          &quot;interval_coverage&quot;: null,
+          &quot;interval_coverage_answered&quot;: null,
+          &quot;interval_width_in_sd&quot;: null,
+          &quot;kendall&quot;: null,
+          &quot;mae&quot;: 1.0,
+          &quot;mean_interval_width&quot;: null,
+          &quot;nrmse&quot;: 1.0954451150103321,
+          &quot;pearson&quot;: null,
+          &quot;promised_coverage&quot;: null,
+          &quot;r2&quot;: -0.19999999999999996,
+          &quot;rmse&quot;: 1.224744871391589,
+          &quot;spearman&quot;: null,
+          &quot;top_decile_recall&quot;: null,
+          &quot;unbounded_interval_share&quot;: null,
+          &quot;value_coverage&quot;: 1.0
+        },
+        &quot;mse_skill&quot;: 0.0,
+        &quot;name&quot;: &quot;authored constant-two control&quot;
+      },
+      &quot;correct_wrong_interpretation&quot;: &quot;Not a categorical prediction task; use the declared task metrics&quot;,
+      &quot;quantity_unit&quot;: &quot;synthetic assay units&quot;
+    },
+    &quot;metric_status&quot;: {
+      &quot;bottom_decile_recall&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;finite_mean_interval_width&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;interval_availability&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;interval_coverage&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;interval_coverage_answered&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;interval_width_in_sd&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;kendall&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;mae&quot;: &quot;available&quot;,
+      &quot;mean_interval_width&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;nrmse&quot;: &quot;available&quot;,
+      &quot;pearson&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;promised_coverage&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;r2&quot;: &quot;available&quot;,
+      &quot;rmse&quot;: &quot;available&quot;,
+      &quot;spearman&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;top_decile_recall&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;unbounded_interval_share&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;value_coverage&quot;: &quot;available&quot;
+    },
+    &quot;metrics&quot;: {
+      &quot;bottom_decile_recall&quot;: null,
+      &quot;finite_mean_interval_width&quot;: null,
+      &quot;interval_availability&quot;: null,
+      &quot;interval_coverage&quot;: null,
+      &quot;interval_coverage_answered&quot;: null,
+      &quot;interval_width_in_sd&quot;: null,
+      &quot;kendall&quot;: null,
+      &quot;mae&quot;: 1.0,
+      &quot;mean_interval_width&quot;: null,
+      &quot;nrmse&quot;: 1.0954451150103321,
+      &quot;pearson&quot;: null,
+      &quot;promised_coverage&quot;: null,
+      &quot;r2&quot;: -0.19999999999999996,
+      &quot;rmse&quot;: 1.224744871391589,
+      &quot;spearman&quot;: null,
+      &quot;top_decile_recall&quot;: null,
+      &quot;unbounded_interval_share&quot;: null,
+      &quot;value_coverage&quot;: 1.0
+    },
+    &quot;parameter_identity&quot;: &quot;4c6ce5d076b892ba4d2bbe2254d09cbf6268a6801326cb4bf5eb1374321e5929&quot;,
+    &quot;records_identity&quot;: &quot;5585add2a04b9879e4440fee4e0634f1ca75b795a5f28f56a1d360c08166ad21&quot;,
+    &quot;scope&quot;: {
+      &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+      &quot;gaps&quot;: [
+        &quot;Synthetic software behavior does not admit biological performance&quot;
+      ],
+      &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+      &quot;organism&quot;: &quot;Tg&quot;,
+      &quot;partition&quot;: &quot;software_test&quot;,
+      &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+      &quot;seed&quot;: 3,
+      &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+      &quot;strategy&quot;: &quot;trait_regression&quot;,
+      &quot;target&quot;: &quot;synthetic software target&quot;,
+      &quot;task&quot;: &quot;values&quot;,
+      &quot;truth_grade&quot;: &quot;synthetic_control&quot;,
+      &quot;unit&quot;: &quot;gene&quot;
+    },
+    &quot;scope_identity&quot;: &quot;74938e797c3b3f2080ccde5f735b22d7beac3feb49facc51176fc8ce6c7a7443&quot;,
+    &quot;small_sample&quot;: true
+  },
+  &quot;interpretation&quot;: &quot;Explicit authored software control; not biological chance&quot;
+}</pre><h3>Failure examples</h3><pre>Unavailable / not supplied</pre><h3>Row-level outcomes</h3><pre>[
+  {
+    &quot;baseline_prediction&quot;: 2.0,
+    &quot;entity&quot;: &quot;g1&quot;,
+    &quot;prediction&quot;: 1.2,
+    &quot;truth&quot;: 1.0
+  },
+  {
+    &quot;baseline_prediction&quot;: 2.0,
+    &quot;entity&quot;: &quot;g2&quot;,
+    &quot;prediction&quot;: 2.1,
+    &quot;truth&quot;: 2.0
+  },
+  {
+    &quot;baseline_prediction&quot;: 2.0,
+    &quot;entity&quot;: &quot;g3&quot;,
+    &quot;prediction&quot;: 3.5,
+    &quot;truth&quot;: 3.0
+  },
+  {
+    &quot;baseline_prediction&quot;: 2.0,
+    &quot;entity&quot;: &quot;g4&quot;,
+    &quot;prediction&quot;: null,
+    &quot;truth&quot;: 4.0
+  }
+]</pre><h3>Freshness</h3><pre>{
+  &quot;fixture_source_identity&quot;: &quot;4c920dfaf97a8a1a062cd128341daba7dc3fb17de7ed2482958b80aef94a7681&quot;
+}</pre><h3>Limitations and gaps</h3><pre>[
+  &quot;Synthetic software behavior does not admit biological performance&quot;
+]</pre><h3>Evaluation identity</h3><pre>{
+  &quot;cohort_identity&quot;: &quot;3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500&quot;,
+  &quot;parameter_identity&quot;: &quot;4c6ce5d076b892ba4d2bbe2254d09cbf6268a6801326cb4bf5eb1374321e5929&quot;,
+  &quot;records_identity&quot;: &quot;1a7b71db9ba26578fc9939e2d51afedd1e9699ed9e799b751a40a6a7c8c5487c&quot;,
+  &quot;scope_identity&quot;: &quot;74938e797c3b3f2080ccde5f735b22d7beac3feb49facc51176fc8ce6c7a7443&quot;
+}</pre><h3>Evaluation parameters</h3><pre>{
+  &quot;baseline_name&quot;: &quot;authored constant-two control&quot;,
+  &quot;quantity_unit&quot;: &quot;synthetic assay units&quot;
+}</pre><h3>Task-specific test record</h3><pre>{
+  &quot;baseline_comparison&quot;: {
+    &quot;eligible_metrics&quot;: {
+      &quot;bottom_decile_recall&quot;: null,
+      &quot;finite_mean_interval_width&quot;: null,
+      &quot;interval_availability&quot;: null,
+      &quot;interval_coverage&quot;: null,
+      &quot;interval_coverage_answered&quot;: null,
+      &quot;interval_width_in_sd&quot;: null,
+      &quot;kendall&quot;: null,
+      &quot;mae&quot;: 1.0,
+      &quot;mean_interval_width&quot;: null,
+      &quot;nrmse&quot;: 1.0954451150103321,
+      &quot;pearson&quot;: null,
+      &quot;promised_coverage&quot;: null,
+      &quot;r2&quot;: -0.19999999999999996,
+      &quot;rmse&quot;: 1.224744871391589,
+      &quot;spearman&quot;: null,
+      &quot;top_decile_recall&quot;: null,
+      &quot;unbounded_interval_share&quot;: null,
+      &quot;value_coverage&quot;: 1.0
+    },
+    &quot;eligible_rows&quot;: 4,
+    &quot;fit_lineage&quot;: &quot;Caller must pin training-only baseline fit and source identity&quot;,
+    &quot;mae_skill&quot;: 0.6,
+    &quot;matched_answered_rows&quot;: 3,
+    &quot;matched_metrics&quot;: {
+      &quot;bottom_decile_recall&quot;: null,
+      &quot;finite_mean_interval_width&quot;: null,
+      &quot;interval_availability&quot;: null,
+      &quot;interval_coverage&quot;: null,
+      &quot;interval_coverage_answered&quot;: null,
+      &quot;interval_width_in_sd&quot;: null,
+      &quot;kendall&quot;: null,
+      &quot;mae&quot;: 0.6666666666666666,
+      &quot;mean_interval_width&quot;: null,
+      &quot;nrmse&quot;: 1.0,
+      &quot;pearson&quot;: null,
+      &quot;promised_coverage&quot;: null,
+      &quot;r2&quot;: 0.0,
+      &quot;rmse&quot;: 0.816496580927726,
+      &quot;spearman&quot;: null,
+      &quot;top_decile_recall&quot;: null,
+      &quot;unbounded_interval_share&quot;: null,
+      &quot;value_coverage&quot;: 1.0
+    },
+    &quot;mse_skill&quot;: 0.85,
+    &quot;name&quot;: &quot;authored constant-two control&quot;
+  },
+  &quot;correct_wrong_interpretation&quot;: &quot;Not a categorical prediction task; use the declared task metrics&quot;,
+  &quot;quantity_unit&quot;: &quot;synthetic assay units&quot;
+}</pre><h3>Spearman rho</h3><p>Rank correlation between predicted and hidden measured values.</p><p>Range: -1 to 1</p><p>Chance: 0 (standard deviation 1/sqrt(n - 1))</p><p>Whether the ORDER of the genes is predicted, whatever the scale. The headline for values, robust to outliers and to a prediction on a different scale.</p><h3>Pearson r</h3><p>Linear correlation between predicted and hidden values.</p><p>Range: -1 to 1</p><p>Chance: 0</p><p>Like Spearman but on the values themselves, so a few extreme genes can dominate it.</p><h3>Kendall tau-b</h3><p>Share of gene pairs ordered the same way by prediction and truth, minus the share ordered oppositely, corrected for ties.</p><p>Range: -1 to 1</p><p>Chance: 0</p><p>The most directly interpretable rank agreement: (1 + tau) / 2 is the chance a random pair is ordered correctly.</p><h3>R-squared (out of sample)</h3><p>1 minus the squared prediction error over the variance of the hidden values around their own mean.</p><p>Range: below 0 to 1</p><p>Chance: 0 or below (predicting the mean scores 0)</p><p>The share of the hidden values&#x27; variance the prediction explains. Negative when the prediction is further off than the mean -- common for a good ranking on the wrong scale.</p><h3>Normalised RMSE</h3><p>Root-mean-square error divided by the standard deviation of the hidden values.</p><p>Range: 0 upward</p><p>Chance: 1 (predicting the mean)</p><p>Typical error in units of the measurement&#x27;s own spread: below 1 beats the mean.</p><h3>Mean absolute error</h3><p>Mean absolute difference between predicted and hidden values, in the measurement&#x27;s units.</p><p>Range: 0 upward</p><p>Chance: the mean absolute deviation of the hidden values</p><p>Typical size of an error, in the same units as the data.</p><h3>Root-mean-square error</h3><p>Square root of the mean squared prediction error on answered hidden values, in the measurement&#x27;s units.</p><p>Range: 0 upward</p><p>Chance: error of the declared matched baseline</p><p>Error in the same units as the data, with larger errors weighted more.</p><h3>Top-decile recall</h3><p>Share of the genes in the true top 10% of hidden values that are also in the predicted top 10%.</p><p>Range: 0 to 1</p><p>Chance: 0.1</p><p>Whether the extreme genes -- usually the interesting ones -- are predicted extreme.</p><h3>Bottom-decile recall</h3><p>The same for the bottom 10% -- for fitness scores, the most essential genes.</p><p>Range: 0 to 1</p><p>Chance: 0.1</p><p>Whether the genes at the other extreme are found.</p><h3>Coverage</h3><p>Share of hidden values that received a prediction.</p><p>Range: 0 to 1</p><p>Chance: not applicable</p><p>Every other value metric is computed on these genes.</p><p>All eligible: 4</p><h3>Interval coverage, all eligible</h3><p>Observed values inside their finite or explicitly unbounded interval, divided by all eligible rows.</p><p>Range: 0 to 1</p><p>Chance: not applicable; inspect nominal coverage and interval width</p><p>Unavailable intervals count as uncovered; wide intervals need their width alongside coverage.</p><p>All eligible: 4</p><h3>Interval coverage, available intervals</h3><p>Observed values inside their interval divided by rows with finite or explicitly unbounded intervals.</p><p>Range: 0 to 1</p><p>Chance: not applicable; inspect nominal coverage and availability</p><p>Coverage among available intervals can hide unsupported genes; also inspect all eligible coverage.</p><h3>Interval availability</h3><p>Share of eligible rows with a finite or explicitly unbounded interval.</p><p>Range: 0 to 1</p><p>Chance: not applicable; this describes method reach</p><p>Available includes unbounded intervals; their share and finite width disclose actual inference capacity.</p><p>All eligible: 4</p><h3>Mean interval width</h3><p>Mean upper minus lower bound over available intervals, in measurement units; unavailable if any is unbounded.</p><p>Range: 0 upward</p><p>Chance: not applicable; compare on the same coverage and cohort</p><p>Narrower is useful only together with adequate empirical coverage and interval availability.</p><h3>Mean finite interval width</h3><p>Mean upper minus lower bound among finite intervals only, in measurement units.</p><p>Range: 0 upward</p><p>Chance: not applicable; compare on the same finite cohort</p><p>This restricted mean excludes unbounded and unavailable intervals; never read it as whole cohort width.</p><h3>Unbounded interval share</h3><p>Explicitly unbounded intervals divided by all eligible evaluation rows.</p><p>Range: 0 to 1</p><p>Chance: not applicable; this describes missing finite capacity</p><p>An unbounded interval covers any finite truth but provides no finite numeric resolution.</p><h3>Interval width in truth standard deviations</h3><p>Mean available interval width divided by the population standard deviation of all eligible observed truth.</p><p>Range: 0 upward</p><p>Chance: not applicable; compare on the same coverage and cohort</p><p>Dimensionless width is unavailable for unbounded intervals or constant truth; raw width remains separate.</p><h3>Nominal interval coverage</h3><p>Declared one minus conformal alpha, fixed before final test evaluation.</p><p>Range: 0 to 1</p><p>Chance: not applicable; a setting rather than achieved accuracy</p><p>This nominal level requires source and exchangeability review; it is not a per gene correctness probability.</p></div>

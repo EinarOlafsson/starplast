@@ -1,0 +1,7 @@
+# Frozen complete-profile source preparation
+
+FN-DOM-PREP-01 freezes the verified Tg Pfam recorded profiles, all original 8,140 genes, unknown annotation states, original groups and one protected eligible split. Scope, seed and assignments were saved before reporting held-out training-profile support. No classifier, model fitting, source download, biological function inference, calibration or admission occurs.
+
+The prior immutable census retains original source cells. This target contract retains normalized complete recorded profiles; raw source/census byte hashes, normalized target, cohort, split and role-specific capacity payload hashes have distinct meanings in summary.json. All unknown genes remain outside eligible roles. Every unsupported test profile remains in the test denominator. Training support is not measured model inference capacity or function accuracy and cannot select settings.
+
+Original assignment releases and evidence grades remain unresolved, separately from current nomenclature. Nonmembership means recorded-profile omission only, not adjudicated biological absence. Missing orthogroups use explicit unique singleton groups, leaving homology independence unresolved. Column-projected installed sources, every saved normalized record, capacities and hashes were exactly replayed. The executed notebook records the actual run; input_manifest.json pins dependencies/code, and SHA256SUMS.txt covers all output bytes. These artifacts are preparation evidence, not benchmark outcomes.

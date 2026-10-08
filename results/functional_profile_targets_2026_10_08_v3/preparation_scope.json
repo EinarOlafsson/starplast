@@ -1,0 +1,37 @@
+{
+  "preparation_id": "FN-DOM-PREP-01-Tg-pfam-complete-profile",
+  "organism": "Tg",
+  "source_target": "pfam_id",
+  "target": "pfam_id_complete_profile",
+  "seed": 20261008,
+  "group_fractions": [
+    0.55,
+    0.15,
+    0.15,
+    0.15
+  ],
+  "split_identity": "eebbd2faa197c21766e87ebf4d5364b4c6d0d59dd9187b068d433bf63164401a",
+  "target_identity": "7e48d75f30ee4195f0c52dd410fe9e399201c92440fa76805e00da5e8484e9e0",
+  "cohort_identity": "844543a68983d794b51c3faf237aaf6788a77c38934e69e4f82035e1d5121b8d",
+  "source_census_path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_domain_profile_census_2026_10_08/Tg_pfam_id_profiles.parquet",
+  "source_census_sha256": "b35ded15e09f16fe669c9f1191fc8bfb025c2382d511cac38a662b037ae7d613",
+  "installed_source_sha256": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+  "source_census_checksums_sha256": "c31e59d329b6a69d0beeb120ee936b1de7c10de79106864fce1a40c43d048ad2",
+  "group_source_column": "orthogroup",
+  "group_source_release": "unresolved",
+  "group_policy": "Context.groups equivalent: original nonempty orthogroup; missing values use unique __position singleton",
+  "source_assignment_release": "unresolved",
+  "source_evidence_grade": "unresolved",
+  "nomenclature_releases": [
+    "Pfam:38.2"
+  ],
+  "feature_access": "inductive",
+  "purpose": "source preparation and training-profile support only",
+  "capacity_used_for_selection": false,
+  "fitting_performed": false,
+  "biological_admission": false,
+  "raw_source_cells_retained_in": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_domain_profile_census_2026_10_08/Tg_pfam_id_profiles.parquet",
+  "target_identity_semantics": "Normalized complete profiles, diagnostic IDs, source lineage, protected groups and split; excludes raw source cells",
+  "cohort_identity_semantics": "Exact whole-gene universe/order and eligibility only",
+  "gap": "Missing orthogroups remain unresolved singleton protection; homology/source independence and biological function accuracy are not established"
+}

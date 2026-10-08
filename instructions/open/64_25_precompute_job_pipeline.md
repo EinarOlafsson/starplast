@@ -1,13 +1,13 @@
 # 64.25 · Build a resumable precomputation pipeline
 
-Status: OPEN — 35%, 2026-10-08. Serial resumable framework and one real frozen-result replay verified; production feature/map/model/deployment wiring remains open.
+Status: OPEN — 45%, 2026-10-08. Serial framework, frozen-result replay and numeric feature operator verified; map/model/deployment wiring remains open.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
 | Field | Value |
 |---|---|
 | Depends on | 64.08, 64.10, 64.11, 64.12, 64.13, 64.14, 64.15, 64.16 |
-| Estimated remaining engineering time | 4–8 h |
+| Estimated remaining engineering time | 4–6 h |
 | Existing code to inspect | `scripts/build_track_record.py`, `scripts/build_claims.py`, `starplast/searches.py`, `starplast/packs.py` |
 
 ## Deliverable
@@ -81,4 +81,16 @@ values and attention aliases are refused. It produces no labels, confidence or
 biological accuracy and checks selected numeric columns, not graph/map lineage.
 59 pure feature/runner checks pass under400MB; all738combined integration checks
 pass after making Qt-process RSS fixtures deterministic. The first executed
-production operator pilot remains pending; overall action stays35%.
+production operator pilot was subsequently executed as recorded below.
+
+Executed `results/precompute_features_2026_10_08/pilot.ipynb` retains all 1,226
+original EC cohort entities, 679 training entities and 349 permitted columns.
+Native training ranks, independently calculated query ECDFs, historical training
+vectors/distributions and missingness agree exactly. Typed operator/child binding,
+one-job interruption, child-only resume and zero-builder replay are verified.
+All 33 manifest files and upstream receipts were checked against their bytes.
+Runtime was 16.64 seconds; evidence size was 19,999,824 bytes before the README.
+Observed process peak was 401.6 MiB with an external 400 MiB cgroup limit; RSS
+and cgroup accounting differ, so no claim of process peak below 400 MiB is made.
+This remains an intermediate operator: no new classifier, accuracy, confidence
+or deployment. Remaining scientific builders and wider coverage keep the item open.

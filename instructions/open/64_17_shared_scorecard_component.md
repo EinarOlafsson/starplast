@@ -59,3 +59,11 @@ one missing public-class docstring; two later feature fixtures inherited the Qt
 process's RSS budget and were made deterministic (an intermediate fixture-name
 typo was also corrected). The separate feature/runner suite passes59checks under
 a real400MB external cap. Production memory guards were not relaxed.
+
+Executed `results/scorecard_task_views_2026_10_08/pilot.ipynb` adds 539 software
+presentation checks across all six task contracts and ten synthetic aggregate
+cards, including controls, unavailable states, set/interval definitions and
+individual outcomes. Two HTML hosts preserve identical values, definitions and
+exports. All 20 output receipts and current code hashes were verified. This does
+not add biological benchmarks or prove desktop, calibration or admission routes;
+the whole action remains open at 50%.

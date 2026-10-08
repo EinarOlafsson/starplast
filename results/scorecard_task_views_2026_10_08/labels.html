@@ -1,0 +1,179 @@
+<!doctype html><meta charset="utf-8"><div class="scorecard"><h3>Identical pure host</h3><p><b>Performance</b> · Recorded evaluation</p><p>Tg · synthetic software target · feature_knn</p><p>Truth grade: synthetic_control</p><table><tr><th>Result quality / coverage</th><th>Value</th><th>Population</th></tr><tr><td><a href="scorecard:metric/accuracy">Accuracy, all eligible</a></td><td>0.5</td><td>All eligible: 4</td></tr><tr><td><a href="scorecard:metric/coverage">Coverage</a></td><td>0.75</td><td>All eligible: 4</td></tr><tr><td><a href="scorecard:metric/precision_of_calls">Accuracy among calls</a></td><td>0.666667</td><td>Calls made: 3</td></tr><tr><td><a href="scorecard:metric/macro_precision">Macro precision</a></td><td>0.75</td><td></td></tr><tr><td><a href="scorecard:metric/macro_recall">Macro recall (balanced accuracy)</a></td><td>0.5</td><td></td></tr><tr><td><a href="scorecard:metric/macro_f1">Macro F1</a></td><td>0.583333</td><td></td></tr><tr><td><a href="scorecard:metric/weighted_f1">Weighted F1</a></td><td>0.583333</td><td></td></tr><tr><td><a href="scorecard:metric/kappa">Cohen&#x27;s kappa</a></td><td>0.2</td><td></td></tr><tr><td><a href="scorecard:metric/mcc">Matthews correlation (MCC)</a></td><td>0.223607</td><td></td></tr><tr><td><a href="scorecard:metric/macro_auroc">Macro AUROC</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr><tr><td><a href="scorecard:metric/macro_auprc">Macro AUPRC</a></td><td>Unavailable (unavailable_for_this_cohort_or_truth)</td><td></td></tr></table><p><a href="scorecard:detail/sizes">Sample sizes</a>: eligible: 4; answered: 3; abstained: 1; correct: 2; wrong: 1</p><p><a href="scorecard:detail/uncertainty">Uncertainty</a>: status: unavailable; reason: Biological groups unresolved; biological groups: Unavailable / not supplied</p><p><a href="scorecard:detail/baseline">Matched baseline</a>: Unavailable / not supplied</p><p><a href="scorecard:detail/freshness">Freshness</a>: {<br>  &quot;fixture_source_identity&quot;: &quot;a1cee359a63ebd6397a0cc1d8a139caeb4a1962daf98570418ea7e1a61ff77e1&quot;<br>}</p><p><a href="scorecard:expand">Full test record and definitions</a></p><p><a href="scorecard:detail/source">Ground-truth source and interpretation</a> · <a href="scorecard:detail/split">Split and fitted populations</a> · <a href="scorecard:detail/controls">Controls</a> · <a href="scorecard:detail/failures">Failure examples</a> · <a href="scorecard:detail/rows">Row-level outcomes</a> · <a href="scorecard:detail/gaps">Limitations and gaps</a> · <a href="scorecard:detail/identity">Evaluation identity</a> · <a href="scorecard:detail/parameters">Evaluation parameters</a> · <a href="scorecard:detail/task_details">Task-specific test record</a></p><h4>Evaluation scope</h4><pre>{
+  &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+  &quot;organism&quot;: &quot;Tg&quot;,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;seed&quot;: &quot;3&quot;,
+  &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+  &quot;strategy&quot;: &quot;feature_knn&quot;,
+  &quot;target&quot;: &quot;synthetic software target&quot;,
+  &quot;unit&quot;: &quot;gene&quot;
+}</pre><h3>Ground-truth source and interpretation</h3><pre>{
+  &quot;context&quot;: &quot;Software presentation only&quot;,
+  &quot;grade&quot;: &quot;synthetic_control&quot;,
+  &quot;lineage&quot;: &quot;Hand-authored records; no fit or biological source&quot;,
+  &quot;name&quot;: &quot;Authored synthetic labels fixture&quot;,
+  &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+  &quot;sha256&quot;: &quot;a1cee359a63ebd6397a0cc1d8a139caeb4a1962daf98570418ea7e1a61ff77e1&quot;,
+  &quot;version&quot;: &quot;Unavailable / not supplied&quot;
+}</pre><h3>Split and fitted populations</h3><pre>{
+  &quot;fit_population&quot;: null,
+  &quot;partition&quot;: &quot;software_test&quot;,
+  &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+  &quot;reason&quot;: &quot;No fitting in this software fixture&quot;
+}</pre><h3>Sample sizes</h3><pre>{
+  &quot;abstained&quot;: 1,
+  &quot;answered&quot;: 3,
+  &quot;correct&quot;: 2,
+  &quot;eligible&quot;: 4,
+  &quot;unique_biological_entities&quot;: 4,
+  &quot;wrong&quot;: 1
+}</pre><h3>Matched baseline</h3><pre>Unavailable / not supplied</pre><h3>Uncertainty</h3><pre>{
+  &quot;biological_groups&quot;: null,
+  &quot;reason&quot;: &quot;Biological groups unresolved&quot;,
+  &quot;status&quot;: &quot;unavailable&quot;
+}</pre><h3>Controls</h3><pre>{
+  &quot;card&quot;: {
+    &quot;cohort_identity&quot;: &quot;3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500&quot;,
+    &quot;counts&quot;: {
+      &quot;abstained&quot;: 0,
+      &quot;answered&quot;: 4,
+      &quot;correct&quot;: 2,
+      &quot;eligible&quot;: 4,
+      &quot;unique_biological_entities&quot;: 4,
+      &quot;wrong&quot;: 2
+    },
+    &quot;evaluation_parameters&quot;: {},
+    &quot;extra&quot;: {
+      &quot;accuracy_all_hidden&quot;: 0.5,
+      &quot;accuracy_among_calls&quot;: 0.5,
+      &quot;confusion&quot;: [
+        {
+          &quot;count&quot;: 2,
+          &quot;prediction&quot;: &quot;A&quot;,
+          &quot;truth&quot;: &quot;A&quot;
+        },
+        {
+          &quot;count&quot;: 2,
+          &quot;prediction&quot;: &quot;A&quot;,
+          &quot;truth&quot;: &quot;B&quot;
+        }
+      ],
+      &quot;single_outcome&quot;: false,
+      &quot;uncertainty&quot;: {
+        &quot;biological_groups&quot;: null,
+        &quot;reason&quot;: &quot;Biological groups unresolved&quot;,
+        &quot;status&quot;: &quot;unavailable&quot;
+      }
+    },
+    &quot;metric_status&quot;: {
+      &quot;accuracy&quot;: &quot;available&quot;,
+      &quot;coverage&quot;: &quot;available&quot;,
+      &quot;kappa&quot;: &quot;available&quot;,
+      &quot;macro_auprc&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;macro_auroc&quot;: &quot;unavailable_for_this_cohort_or_truth&quot;,
+      &quot;macro_f1&quot;: &quot;available&quot;,
+      &quot;macro_precision&quot;: &quot;available&quot;,
+      &quot;macro_recall&quot;: &quot;available&quot;,
+      &quot;mcc&quot;: &quot;available&quot;,
+      &quot;precision_of_calls&quot;: &quot;available&quot;,
+      &quot;weighted_f1&quot;: &quot;available&quot;
+    },
+    &quot;metrics&quot;: {
+      &quot;accuracy&quot;: 0.5,
+      &quot;coverage&quot;: 1.0,
+      &quot;kappa&quot;: 0.0,
+      &quot;macro_auprc&quot;: null,
+      &quot;macro_auroc&quot;: null,
+      &quot;macro_f1&quot;: 0.3333333333333333,
+      &quot;macro_precision&quot;: 0.25,
+      &quot;macro_recall&quot;: 0.5,
+      &quot;mcc&quot;: 0.0,
+      &quot;precision_of_calls&quot;: 0.5,
+      &quot;weighted_f1&quot;: 0.3333333333333333
+    },
+    &quot;parameter_identity&quot;: &quot;44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a&quot;,
+    &quot;records_identity&quot;: &quot;c61cabd3f8ae28c79f92a5591d22db0815dd3291ec773d8d33df32cb9bfd9e5c&quot;,
+    &quot;scope&quot;: {
+      &quot;benchmark_id&quot;: &quot;SCORECARD-SOFTWARE-ONLY&quot;,
+      &quot;gaps&quot;: [
+        &quot;Synthetic software behavior does not admit biological performance&quot;
+      ],
+      &quot;negative_semantics&quot;: &quot;Artificial fixture truth only; no biological negative inference&quot;,
+      &quot;organism&quot;: &quot;Tg&quot;,
+      &quot;partition&quot;: &quot;software_test&quot;,
+      &quot;protocol&quot;: &quot;synthetic software fixture protocol&quot;,
+      &quot;seed&quot;: 3,
+      &quot;settings&quot;: &quot;fixed authored fixture; no fitting&quot;,
+      &quot;strategy&quot;: &quot;feature_knn&quot;,
+      &quot;target&quot;: &quot;synthetic software target&quot;,
+      &quot;task&quot;: &quot;label calls&quot;,
+      &quot;truth_grade&quot;: &quot;synthetic_control&quot;,
+      &quot;unit&quot;: &quot;gene&quot;
+    },
+    &quot;scope_identity&quot;: &quot;c66fbdb67d26fbd2965c2e8cb0381228cfeaa568aa34c4bc365887a9b2030d03&quot;,
+    &quot;small_sample&quot;: true
+  },
+  &quot;interpretation&quot;: &quot;Explicit authored software control; not biological chance&quot;
+}</pre><h3>Failure examples</h3><pre>Unavailable / not supplied</pre><h3>Row-level outcomes</h3><pre>[
+  {
+    &quot;entity&quot;: &quot;g1&quot;,
+    &quot;prediction&quot;: &quot;A&quot;,
+    &quot;truth&quot;: &quot;A&quot;
+  },
+  {
+    &quot;entity&quot;: &quot;g2&quot;,
+    &quot;prediction&quot;: null,
+    &quot;truth&quot;: &quot;A&quot;
+  },
+  {
+    &quot;entity&quot;: &quot;g3&quot;,
+    &quot;prediction&quot;: &quot;A&quot;,
+    &quot;truth&quot;: &quot;B&quot;
+  },
+  {
+    &quot;entity&quot;: &quot;g4&quot;,
+    &quot;prediction&quot;: &quot;B&quot;,
+    &quot;truth&quot;: &quot;B&quot;
+  }
+]</pre><h3>Freshness</h3><pre>{
+  &quot;fixture_source_identity&quot;: &quot;a1cee359a63ebd6397a0cc1d8a139caeb4a1962daf98570418ea7e1a61ff77e1&quot;
+}</pre><h3>Limitations and gaps</h3><pre>[
+  &quot;Synthetic software behavior does not admit biological performance&quot;
+]</pre><h3>Evaluation identity</h3><pre>{
+  &quot;cohort_identity&quot;: &quot;3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500&quot;,
+  &quot;parameter_identity&quot;: &quot;44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a&quot;,
+  &quot;records_identity&quot;: &quot;de11b9a081a53fec82d833d12820beb48bb16aa6679531158358e07fefe96cef&quot;,
+  &quot;scope_identity&quot;: &quot;c66fbdb67d26fbd2965c2e8cb0381228cfeaa568aa34c4bc365887a9b2030d03&quot;
+}</pre><h3>Evaluation parameters</h3><pre>{}</pre><h3>Task-specific test record</h3><pre>{
+  &quot;accuracy_all_hidden&quot;: 0.5,
+  &quot;accuracy_among_calls&quot;: 0.6666666666666666,
+  &quot;confusion&quot;: [
+    {
+      &quot;count&quot;: 1,
+      &quot;prediction&quot;: &quot;A&quot;,
+      &quot;truth&quot;: &quot;A&quot;
+    },
+    {
+      &quot;count&quot;: 1,
+      &quot;prediction&quot;: null,
+      &quot;truth&quot;: &quot;A&quot;
+    },
+    {
+      &quot;count&quot;: 1,
+      &quot;prediction&quot;: &quot;A&quot;,
+      &quot;truth&quot;: &quot;B&quot;
+    },
+    {
+      &quot;count&quot;: 1,
+      &quot;prediction&quot;: &quot;B&quot;,
+      &quot;truth&quot;: &quot;B&quot;
+    }
+  ],
+  &quot;single_outcome&quot;: false,
+  &quot;uncertainty&quot;: {
+    &quot;biological_groups&quot;: null,
+    &quot;reason&quot;: &quot;Biological groups unresolved&quot;,
+    &quot;status&quot;: &quot;unavailable&quot;
+  }
+}</pre><h3>Accuracy, all eligible</h3><p>Hidden genes called with their true label, divided by ALL hidden genes. A gene the strategy declined to call counts as wrong.</p><p>Range: 0 to 1</p><p>Chance: about the sum of squared class shares (Cohen&#x27;s chance term)</p><p>The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.</p><p>All eligible: 4</p><h3>Coverage</h3><p>Share of hidden genes that received any call.</p><p>Range: 0 to 1</p><p>Chance: not applicable (a property of the strategy, not of luck)</p><p>How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.</p><p>All eligible: 4</p><h3>Accuracy among calls</h3><p>Correct calls divided by calls made (also called selective accuracy).</p><p>Range: 0 to 1</p><p>Chance: as accuracy, among the genes called</p><p>How far to trust one call. Equals accuracy when coverage is 1.</p><p>Calls made: 3</p><h3>Macro precision</h3><p>For each true class: of the genes called that class, the share that truly are; averaged over classes with equal weight. A class never called scores 0.</p><p>Range: 0 to 1</p><p>Chance: about the average class share</p><p>Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.</p><h3>Macro recall (balanced accuracy)</h3><p>For each true class: the share of its hidden genes called correctly; averaged over classes with equal weight. Identical to balanced accuracy.</p><p>Range: 0 to 1</p><p>Chance: 1 / number of classes, for a caller that ignores the data</p><p>Whether every class is found, not just the large ones. Compare with accuracy: a large gap means the strategy lives on the big classes.</p><h3>Macro F1</h3><p>Per class, the harmonic mean of precision and recall; averaged over classes with equal weight.</p><p>Range: 0 to 1</p><p>Chance: low; roughly the average class share</p><p>One number balancing finding each class and being right when calling it, with rare classes counted as much as common ones.</p><h3>Weighted F1</h3><p>Per-class F1 averaged with each class weighted by its number of hidden genes.</p><p>Range: 0 to 1</p><p>Chance: about the sum of squared class shares</p><p>Macro F1&#x27;s counterpart that follows the class sizes; close to accuracy when coverage is high.</p><h3>Cohen&#x27;s kappa</h3><p>Agreement between calls and truth corrected for the agreement their class frequencies alone would give: (observed - expected) / (1 - expected). No call is its own category.</p><p>Range: -1 to 1</p><p>Chance: 0</p><p>Accuracy with chance removed: 0 is no better than matching class frequencies, 1 is perfect. Comparable across labels with different numbers and sizes of classes.</p><h3>Matthews correlation (MCC)</h3><p>The multiclass Matthews correlation coefficient (Gorodkin&#x27;s R_K) between calls and truth, with no call as its own category.</p><p>Range: -1 to 1</p><p>Chance: 0</p><p>A correlation between the call and the truth that stays honest under strong class imbalance; often the single most informative number for an unbalanced label.</p><h3>Macro AUROC</h3><p>For each class, the probability that a random hidden gene of that class gets a higher score for the class than a random hidden gene of another class; averaged over classes. Needs per-class scores.</p><p>Range: 0 to 1</p><p>Chance: 0.5</p><p>How well the strategy&#x27;s scores separate each class from the rest, before any threshold is chosen. Missing for strategies that call labels without scoring every class.</p><h3>Macro AUPRC</h3><p>For each class, the area under the precision-recall curve of its one-vs-rest scores (average precision); averaged over classes. Needs per-class scores.</p><p>Range: 0 to 1</p><p>Chance: the class&#x27;s share among hidden genes, averaged</p><p>Like macro AUROC but dominated by the top of each ranking, which is where calls are made; far below AUROC means good separation overall but a noisy top.</p></div>

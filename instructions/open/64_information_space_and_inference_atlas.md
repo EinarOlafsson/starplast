@@ -154,7 +154,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.22](64_22_mouse_gene_space.md) | 0% | 8–16 h | Build the mouse gene information space | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
 | [64.23](64_23_space_selection_packs.md) | 0% | 4–8 h | Select and install available organism spaces | 64.18, 64.21, 64.22 |
 | [64.24](64_24_host_parasite_evidence.md) | 0% | 4–8 h | Explore typed organism-to-host connections | 64.03, 64.21, 64.22, 64.23 |
-| [64.25](64_25_precompute_job_pipeline.md) | 35% | 4–8 h | Build a resumable precomputation pipeline | 64.08, 64.10, 64.11, 64.12, 64.13, 64.14, 64.15, 64.16 |
+| [64.25](64_25_precompute_job_pipeline.md) | 45% | 4–6 h | Build a resumable precomputation pipeline | 64.08, 64.10, 64.11, 64.12, 64.13, 64.14, 64.15, 64.16 |
 | [64.26](64_26_toxoplasma_inference_pack.md) | 0% | 4–8 h + compute | Precompute the Toxoplasma inference atlas | 64.07, 64.17, 64.25 |
 | [64.27](64_27_plasmodium_inference_pack.md) | 0% | 4–8 h + compute | Precompute the Plasmodium inference atlas | 64.07, 64.17, 64.25, 64.26 |
 | [64.28](64_28_human_inference_pack.md) | 0% | 6–12 h + compute | Precompute and validate human inferences | 64.10, 64.11, 64.12, 64.13, 64.14, 64.15, 64.16, 64.21, 64.23, 64.25 |
