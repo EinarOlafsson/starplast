@@ -1,0 +1,11 @@
+[Unit]
+Description=Observe Starplast work activity and session boundaries
+
+[Service]
+Type=oneshot
+WorkingDirectory=/media/carruthers/mnt3/claude/repo/starplast
+ExecStart=/usr/bin/python3 /media/carruthers/mnt3/claude/repo/starplast/scripts/work_watchdog.py check
+MemoryMax=128M
+TimeoutStartSec=30
+NoNewPrivileges=true
+UMask=0077

@@ -25,7 +25,7 @@ cohorts and all ten deliberate leakage refusals verified (532 checks passed, two
 64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). 64.08 adds immutable artifact roles and cache invalidation (840 checks passed). 64.09 reconciles 1,038,372 rows in 4,112 cohorts, preserving both accuracy denominators (835 checks passed). Continue at **64.10**, categorical frozen row adapters, and remaining host expression/gene-space work under 65.04/64.21/64.22. See
 `results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
-the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
+the entire progress table (40 instruction-64 rows, four instruction-65 rows, four instruction-66 rows and watchdog 67.01).
 Keep the stored tracker and completion evidence current.
 
 **New user priority (2026-10-07):** [instruction 65](instructions/open/65_dataset_selection_audit.md)
@@ -485,3 +485,19 @@ biological admission remain gaps. Constant-float baseline decile diagnostic
 preserved; revised cards retain identical values/models and correct code hashes.
 1,123 final checks passed. Continue other numeric/categorical adapters and
 biological truth; no additional full action complete (still 16/48).
+
+## Active continuation/watchdog, 2026-10-08
+
+The user explicitly requests a watchdog to keep the list moving and log stops.
+Native goal continuation is active for unfinished instructions 64/65/66.
+`starplast-work-watchdog.timer` is enabled/active, polling once/minute under
+128 MB. `.starplast-watchdog/events.jsonl` retains private stop/progress events;
+read it and state.json at resume, get actual goal status, record current item and
+reason through `scripts/work_watchdog.py record`. Before a turn ends, log its
+actual reason; progress reports are automatic-continuation boundaries, not
+completion. Four earlier runtime invalid_prompt/content-restriction errors were
+observed and logged, alongside eight other historical turn boundaries. Do not
+bypass restrictions or invent a cause after an abrupt loss of runtime activity.
+403 checks pass; completed [67.01](instructions/done/67_01_work_continuation_watchdog.md).
+Total now 17/49 complete; 64.10 stays 35%, 64.11 25%, 65.04 4%. Repost all 49
+rows whenever a complete item earns a tick. Details: [watchdog](docs/work-watchdog.md).

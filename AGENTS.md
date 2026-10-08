@@ -43,3 +43,15 @@
 - PyPI projects and trusted publishers must belong to Einar's own PyPI account.
   Never register the packages under another account or claim publication succeeded
   without verifying the upload. Setup and release commands are in `docs/releases.md`.
+
+- Work continuation/watchdog (user, 2026-10-08): keep the native goal active for
+  unfinished instructions 64/65/66. Do not stop at inaccessible content; record
+  the gap and advance the next permitted independent task. At each resumed turn,
+  read `.starplast-watchdog/state.json` and recent `events.jsonl`, verify actual
+  native goal status with the goal tool, then record the current item/progress
+  through `python scripts/work_watchdog.py record`. Before a turn boundary or
+  explicit stop, record the real reason (and observed goal status); normal final
+  reports are continuation boundaries, not full-list completion. Do not infer a
+  crash/overload from inactivity, bypass runtime restrictions, or start competing
+  agents. See `docs/work-watchdog.md` and completed action 67.01. The systemd
+  timer observes actual runtime events independently; preserve its private log.
