@@ -604,3 +604,17 @@ root continued independent tasks without retrying restricted content. Partial
 `scripts/review_functional_activity_truth.py`, `results/functional_activity_truth_2026_10_08/`
 and `tests/test_functional_contract_audit.py` remain untouched/unreviewed/uncommitted,
 not admitted evidence. Private watchdog logs retain actual causes; timer remains active.
+
+Latest precompute partition: **64.25 now35%**, serial typed job graph, complete
+parent content IDs, input snapshots, validated/corruption-refusing resume,
+interruption recovery, failures/blocked descendants, atomic journal/writer lock
+and cooperative attempt/time/currentRSS/disk/package budgets. Executed
+`results/precompute_ec_views_2026_10_08/` retains all182 real frozen EC test rows,
+recomputes exact profile/seven-member cards, stops after one partition, resumes
+only two unfinished builders and replays with zero builders. Stages0.350/0.957/
+0.328s; process lifetime peak187.3MiB, typed artifacts166,244bytes, recorded evidence
+688,151bytes before addedREADME.83 pure framework/artifact/split checks pass;
+34 runner checks also pass within the final broad app run using deterministic
+fixtureRSS. Remaining production feature/map/model/deployment builders and adapter
+coverage keep this item open. No new tick (18/51). Functional work pushed as682a399;
+no original runtime strategy, dataset promotion, native-goal completion or release.

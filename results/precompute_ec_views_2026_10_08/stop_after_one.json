@@ -1,0 +1,49 @@
+{
+  "stage": "stop_after_one",
+  "states": {
+    "held_out_rows": "succeeded",
+    "scorecards": "pending",
+    "member_cards": "pending"
+  },
+  "builder_calls": [
+    "held_out_rows"
+  ],
+  "artifact_identities": {
+    "held_out_rows": "4754cab5103f736968881a3d09b203334faaa8dcc2d69381ecbbf67f02c36240"
+  },
+  "measured_run": {
+    "artifact_storage_bytes": 79793,
+    "budget": {
+      "max_jobs": 1,
+      "max_package_bytes": 2097152,
+      "max_seconds": 120,
+      "max_storage_bytes": 4194304,
+      "memory_limit_bytes": 419430400
+    },
+    "jobs": {
+      "held_out_rows": {
+        "content_identity": "4754cab5103f736968881a3d09b203334faaa8dcc2d69381ecbbf67f02c36240",
+        "key": "038ab07bfda4dc88968d7ca0e4735d1073ac08d69a2f230d0e911f9076be65e2",
+        "status": "succeeded"
+      },
+      "member_cards": {
+        "key": "9986c7c85a49539457ce26709502810e20c75d8f4bda7a4487cf0502d7b46605",
+        "reason": "Run job attempt budget exhausted",
+        "status": "pending"
+      },
+      "scorecards": {
+        "key": "6cb6fcb3ade610bc6cc8a2706b13625ddda92767736222511fcf9e5af0b61707",
+        "reason": "Run job attempt budget exhausted",
+        "status": "pending"
+      }
+    },
+    "package_bytes": 79793,
+    "plan": "1de50ee36a13579fc99e42f184e13c6e287fcf0cdab8a26f26dca7989c656b33",
+    "process_peak_rss_bytes": 142360576,
+    "process_rss_bytes": 124387328,
+    "runtime_seconds": 0.3497561509720981,
+    "started_unix": 1791482051.8451033,
+    "status": "stopped",
+    "stop_reason": "Run job attempt budget exhausted"
+  }
+}
