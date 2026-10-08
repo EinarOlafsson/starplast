@@ -1,0 +1,84 @@
+{
+  "source_nodes_sha256": {
+    "Tg": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+    "Pf": "410d5fb58c15c0f110de2e1fd61910d4ae10508709847b1777cb3e7bc88d3641"
+  },
+  "source_releases": {
+    "InterPro": {
+      "release": "110.0",
+      "release_date": "3rd September 2026",
+      "license": "CC0-1.0",
+      "license_url": "https://interpro-documentation.readthedocs.io/en/latest/license.html",
+      "metadata_url": "https://ftp.ebi.ac.uk/pub/databases/interpro/current_release/entry.list",
+      "entries": 54922
+    },
+    "Pfam": {
+      "release": "38.2",
+      "version_metadata": "Pfam release       : 38.2\nPfam-A families    : 30134\nDate               : 2026-01\nBased on UniProtKB : 2025_03\n",
+      "license": "CC0-1.0",
+      "license_url": "https://interpro-documentation.readthedocs.io/en/latest/license.html",
+      "metadata_url": "https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz",
+      "entries": 30134,
+      "version_gap": "Pfam.version states UniProtKB 2025_03; online about page states 2026_01. Descriptor and version bytes pinned; original gene assignment release unresolved.",
+      "retired_metadata_entries": 1121
+    }
+  },
+  "retired_metadata_acquired": true,
+  "terms": 8043,
+  "membership_rows": 34983,
+  "status_counts": {
+    "current_metadata": 7926,
+    "missing_current_metadata": 112,
+    "withdrawn": 5
+  },
+  "labels": [
+    {
+      "organism": "Pf",
+      "target": "interpro_ids",
+      "membership_rows": 9980,
+      "genes": 3695,
+      "terms": 3846,
+      "named_rows": 9862,
+      "status_counts": {
+        "current_metadata": 9862,
+        "missing_current_metadata": 118
+      }
+    },
+    {
+      "organism": "Pf",
+      "target": "pfam_ids",
+      "membership_rows": 4586,
+      "genes": 3298,
+      "terms": 1949,
+      "named_rows": 4584,
+      "status_counts": {
+        "current_metadata": 4584,
+        "withdrawn": 2
+      }
+    },
+    {
+      "organism": "Tg",
+      "target": "interpro_id",
+      "membership_rows": 14465,
+      "genes": 4957,
+      "terms": 4989,
+      "named_rows": 14408,
+      "status_counts": {
+        "current_metadata": 14408,
+        "missing_current_metadata": 57
+      }
+    },
+    {
+      "organism": "Tg",
+      "target": "pfam_id",
+      "membership_rows": 5952,
+      "genes": 4310,
+      "terms": 2447,
+      "named_rows": 5941,
+      "status_counts": {
+        "current_metadata": 5941,
+        "withdrawn": 11
+      }
+    }
+  ]
+}

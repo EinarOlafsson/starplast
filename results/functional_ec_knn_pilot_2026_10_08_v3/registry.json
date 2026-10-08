@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "benchmark_id": "FN-EC-01:Tg:major_class_profiles",
+      "organism": "Tg",
+      "target": "ec_major_classes",
+      "task": "label calls",
+      "evaluation_unit": "gene",
+      "evidence_grade": "unresolved",
+      "grade_basis": "Complete recorded EC profiles resolved through pinned nomenclature; gene activity evidence grades unverified",
+      "source_ids": [
+        "toxodb_ec_numbers"
+      ],
+      "truth_file": {
+        "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v3/truth.parquet",
+        "sha256": "4b4a845a8ecdebbb7cde9b86836378a638a42641e169c2c24440589612e1f2dc",
+        "bytes": 64185,
+        "role": "processed_input",
+        "url": "",
+        "association": "exact_derived_source_annotation_profiles"
+      },
+      "universe_file": {
+        "path": "/media/carruthers/mnt3/claude/repo/starplast/results/functional_ec_knn_pilot_2026_10_08_v3/universe.json",
+        "sha256": "fc8eba37c013b73e3291d5a2690e18135ef2435419c5eb2f1e26a0acdde07ed7",
+        "bytes": 138381,
+        "role": "processed_input",
+        "url": "",
+        "association": "exact_installed_gene_universe"
+      },
+      "eligibility_hex": "01220a2200802228010002000220100002000c000801c10001600420008002004408c00c006110010330480042a140288031880000028519422010085801800000100010220000a4002109000038100000000840e00203103003000000302046d00800008880200008580040438081a120002820580400031004a43080240064004504548200022084100000004a100183400540040800000060a002024001002100408661418c10000080040524001228aa0400c0b11010000d1000000069020283042d8410870d000000a31a80d209000200100800111013a04010014444a90000720090205084500088009024002080001480063614c0000a02000182ce1688030208080803442460000001082080242001420c010018110f24000034008140208210000004830ca850000808010942c688813407240d0008061410404040000008201083ac0200039c02200441840022e000080884040814388a4910800a00009810021420144180128840213044204024050a20132400a204c13200021002063040c00000000010087218a605208000c000281690804102c50200001481812c2010320420090212c5008000c40304a208000c808a10205c54150c022842220820122208c870168a89220a0000852480011033320284200502441094048400980000b606404a32021880920082466028800828402c4df0815520900c48018004442119f3040c084308c501a08d00e0825063824002208b2c00200bd0021c4102ec480c001b50021908000040c852101c200040a18440009014013288320100094001085008400000012183000101004003064844781080c30082400002000a04001113c0100024c0000216004200400a01028070422441400802281c04801800000010840180c00000100200083120218000080020064016020021855402800cae462010300020901040004000400100222051390ca013100080020039800404404202804254c000148a0001000100000a2000010c080008000440b000000408400080004001000000002005a088409004804008000408001080008000200000007810020002002004411020844040000020780080040028001d10001020100000080c0000100200000044000008000000000200004000045040000000000000000000008000001000000018c04150000000100009000000000402000000012000000000000000000000800001000800410000000000040b0041028000000081000000000000000000000000000002000008000000100000000010000006000000000400000000000000000000000000000004000040000800000000100000000000000000000012000000080000000000000000320088000000000000000002000000001000000800000000000000800401000000000000",
+      "cohort_sha256": "566ae360fad4674e741f7b438f0ef88206e64e2f121ef031f53cc527c4f221fd",
+      "stored_population": 8140,
+      "eligible_population": 1226,
+      "measured_population": null,
+      "contexts": [
+        "ME49 reference annotation; biological assay/stage unresolved"
+      ],
+      "quantity_unit": "enzyme_major_class_profile",
+      "exclusions": [
+        "ec_major_classes",
+        "ec_number",
+        "ec_number_orthology",
+        "has_cp_ortholog",
+        "has_domain",
+        "has_ec",
+        "has_pf_ortholog",
+        "interpro_desc",
+        "interpro_id",
+        "interpro_ids",
+        "lineage_specific",
+        "n_fulltext",
+        "n_interpro",
+        "n_publications",
+        "orthogroup",
+        "paralog_number",
+        "pfam_id",
+        "pfam_ids"
+      ],
+      "negative_semantics": "complete recorded annotation profiles; biological absence unknown",
+      "negative_values": [],
+      "status": "candidate",
+      "gaps": [
+        "0 eligible genes lack resolved homology groups",
+        "Biological accuracy requires a separately admitted independent truth source",
+        "Exact profile recovery preserves multiple major classes; novel combinations may be unsupported",
+        "Gene-level EC curation/experimental/predicted evidence grades remain unresolved",
+        "Native training rank transform is frozen; whole-context ranking is not used for inductive evaluation",
+        "Nomenclature resolution is not a new gene activity measurement",
+        "Source release and complete homology/source independence remain unresolved",
+        "Unannotated/unresolvable profiles remain unknown; no genome-wide verified negatives",
+        "Vote shares and class scores are method support, not calibrated probabilities"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "organism": "Tg",
+      "strategy": "feature_knn",
+      "task": "label calls",
+      "benchmark_ids": [
+        "FN-EC-01:Tg:major_class_profiles"
+      ],
+      "gaps": [
+        "0 eligible genes lack resolved homology groups",
+        "Biological accuracy requires a separately admitted independent truth source",
+        "Exact profile recovery preserves multiple major classes; novel combinations may be unsupported",
+        "Gene-level EC curation/experimental/predicted evidence grades remain unresolved",
+        "Native training rank transform is frozen; whole-context ranking is not used for inductive evaluation",
+        "Nomenclature resolution is not a new gene activity measurement",
+        "Source release and complete homology/source independence remain unresolved",
+        "Unannotated/unresolvable profiles remain unknown; no genome-wide verified negatives",
+        "Vote shares and class scores are method support, not calibrated probabilities"
+      ]
+    }
+  ]
+}

@@ -92,7 +92,7 @@ whenever an action is completed, replacing its percentage with a green tick.
 | # | Task |
 |---|---|
 | 67.01 | [Keep native work continuation active and log actual stops](done/67_01_work_continuation_watchdog.md) — timer active, 12 historical boundaries/4 restrictions logged; 403 checks passed |
-| 68 | [Broaden Discoveries across functions and all available labels](open/68_discoveries_function_coverage.md) — 68.01 browser complete; next 68.02 functional benchmarks/precomputed inference. Include both new rows in full reports (51 total) |
+| 68 | [Broaden Discoveries across functions and all available labels](open/68_discoveries_function_coverage.md) — 68.01 browser complete; 68.02 25%: pinned names, frozen EC recovery and real scorecards; independent activity/calibration/deployment still pending. Include both rows in full reports (51 total) |
 | 66.04 | [Correct ambiguous host projections and preserve all original gene evidence](done/66_04_host_symbol_projections.md) — 39 projections withheld, 20,010 gene rows retained; 575 follow-up checks passed |
 | 66 | [Recover missing source files and audit host candidate versions](open/66_source_recovery_and_host_candidates.md) — 4/4 complete: source recovery, RBC review, journal equivalence and verified host ambiguity correction |
 | 65 | [Audit every dataset choice and retain the citation-rate/recency/comprehensiveness rule](open/65_dataset_selection_audit.md) — 3/4 bounded items complete; biological admission, deeper search and validated replacements remain 65.04 |

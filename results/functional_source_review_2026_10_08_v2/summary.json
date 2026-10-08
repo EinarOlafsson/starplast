@@ -1,0 +1,185 @@
+{
+  "ec_release_header": "CC   -----------------------------------------------------------------------\nCC\nCC   ENZYME nomenclature database\nCC\nCC   -----------------------------------------------------------------------\nCC   Release of 02-Sep-2026\nCC   -----------------------------------------------------------------------\nCC\nCC   Alan Bridge and Kristian Axelsen\nCC   SIB Swiss Institute of Bioinformatics\nCC   Centre Medical Universitaire (CMU)\nCC   1, rue Michel Servet\nCC   1211 Geneva 4\nCC   Switzerland\nCC\nCC   Email: enzyme@expasy.org\nCC\nCC   WWW server: https://enzyme.expasy.org/\nCC\nCC   -----------------------------------------------------------------------\nCC   Copyrighted by the SIB Swiss Institute of Bioinformatics and\nCC   distributed under the Creative Commons Attribution (CC BY 4.0) License\nCC   -----------------------------------------------------------------------\n//\n",
+  "ec_entry_counts": {
+    "active": 6939,
+    "transferred": 1314,
+    "deleted": 178,
+    "preliminary": 41
+  },
+  "sources": [
+    {
+      "organism": "Tg",
+      "target": "ec_number",
+      "genes": 8140,
+      "source_annotated_genes": 1313,
+      "eligible_complete_profiles": 1226,
+      "profile_status": {
+        "unannotated": 6827,
+        "complete": 1226,
+        "unresolved": 87
+      },
+      "resolution_status": {
+        "active": 1142,
+        "unique_transfer": 141,
+        "ambiguous_transfer": 33,
+        "deleted": 27,
+        "missing": 27
+      },
+      "multi_major_class_genes": 12,
+      "major_class_profiles": {
+        "[\"2\"]": 493,
+        "[\"3\"]": 318,
+        "[\"1\"]": 132,
+        "[\"7\"]": 75,
+        "[\"6\"]": 73,
+        "[\"5\"]": 62,
+        "[\"4\"]": 61,
+        "[\"1\",\"2\"]": 3,
+        "[\"2\",\"4\"]": 2,
+        "[\"1\",\"3\"]": 2,
+        "[\"1\",\"2\",\"6\"]": 1,
+        "[\"4\",\"7\"]": 1,
+        "[\"2\",\"6\"]": 1,
+        "[\"5\",\"7\"]": 1,
+        "[\"2\",\"3\"]": 1
+      },
+      "source_ids": [
+        "toxodb_ec_numbers"
+      ],
+      "declared_source_grade": "registry annotation; individual evidence grades unresolved",
+      "biological_benchmark_admitted": false,
+      "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+      "gaps": [
+        "Gene-level curation/experimental/predicted evidence not independently verified",
+        "Original source annotation release and homology/source independence unresolved",
+        "ENZYME nomenclature defines reactions; it is not new gene activity evidence"
+      ]
+    },
+    {
+      "organism": "Pf",
+      "target": "ec_number",
+      "genes": 5720,
+      "source_annotated_genes": 1220,
+      "eligible_complete_profiles": 1050,
+      "profile_status": {
+        "unannotated": 4500,
+        "complete": 1050,
+        "unresolved": 170
+      },
+      "resolution_status": {
+        "active": 1177,
+        "missing": 126,
+        "unique_transfer": 92,
+        "ambiguous_transfer": 42,
+        "deleted": 5
+      },
+      "multi_major_class_genes": 30,
+      "major_class_profiles": {
+        "[\"2\"]": 350,
+        "[\"3\"]": 342,
+        "[\"6\"]": 89,
+        "[\"1\"]": 76,
+        "[\"5\"]": 63,
+        "[\"4\"]": 51,
+        "[\"7\"]": 49,
+        "[\"2\",\"6\"]": 8,
+        "[\"2\",\"3\"]": 6,
+        "[\"3\",\"4\"]": 3,
+        "[\"4\",\"5\"]": 2,
+        "[\"1\",\"3\"]": 2,
+        "[\"2\",\"4\"]": 2,
+        "[\"3\",\"7\"]": 2,
+        "[\"1\",\"2\"]": 1,
+        "[\"3\",\"5\"]": 1,
+        "[\"1\",\"3\",\"4\"]": 1,
+        "[\"1\",\"7\"]": 1,
+        "[\"1\",\"5\"]": 1
+      },
+      "source_ids": [
+        "pf_enzyme_classification"
+      ],
+      "declared_source_grade": "registry annotation; individual evidence grades unresolved",
+      "biological_benchmark_admitted": false,
+      "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+      "gaps": [
+        "Gene-level curation/experimental/predicted evidence not independently verified",
+        "Original source annotation release and homology/source independence unresolved",
+        "ENZYME nomenclature defines reactions; it is not new gene activity evidence"
+      ]
+    },
+    {
+      "organism": "Pf",
+      "target": "ec_number_orthology",
+      "genes": 5720,
+      "source_annotated_genes": 1506,
+      "eligible_complete_profiles": 1055,
+      "profile_status": {
+        "unannotated": 4214,
+        "complete": 1055,
+        "unresolved": 451
+      },
+      "resolution_status": {
+        "active": 2148,
+        "missing": 372,
+        "unique_transfer": 195,
+        "ambiguous_transfer": 94,
+        "deleted": 62
+      },
+      "multi_major_class_genes": 152,
+      "major_class_profiles": {
+        "[\"2\"]": 350,
+        "[\"3\"]": 289,
+        "[\"1\"]": 68,
+        "[\"6\"]": 65,
+        "[\"4\"]": 57,
+        "[\"5\"]": 41,
+        "[\"2\",\"3\"]": 33,
+        "[\"7\"]": 33,
+        "[\"2\",\"6\"]": 14,
+        "[\"1\",\"2\"]": 13,
+        "[\"3\",\"6\"]": 13,
+        "[\"2\",\"4\"]": 11,
+        "[\"4\",\"5\"]": 7,
+        "[\"2\",\"7\"]": 6,
+        "[\"1\",\"3\"]": 6,
+        "[\"2\",\"5\"]": 5,
+        "[\"3\",\"4\"]": 5,
+        "[\"3\",\"7\"]": 4,
+        "[\"3\",\"5\"]": 4,
+        "[\"1\",\"5\"]": 4,
+        "[\"2\",\"3\",\"5\"]": 3,
+        "[\"4\",\"6\"]": 3,
+        "[\"1\",\"2\",\"5\"]": 2,
+        "[\"5\",\"7\"]": 2,
+        "[\"4\",\"7\"]": 2,
+        "[\"1\",\"2\",\"3\"]": 2,
+        "[\"3\",\"4\",\"6\"]": 1,
+        "[\"1\",\"3\",\"6\"]": 1,
+        "[\"2\",\"4\",\"5\"]": 1,
+        "[\"2\",\"3\",\"7\"]": 1,
+        "[\"1\",\"4\"]": 1,
+        "[\"1\",\"2\",\"3\",\"4\"]": 1,
+        "[\"1\",\"2\",\"7\"]": 1,
+        "[\"1\",\"3\",\"7\"]": 1,
+        "[\"2\",\"3\",\"6\"]": 1,
+        "[\"1\",\"4\",\"5\"]": 1,
+        "[\"2\",\"6\",\"7\"]": 1,
+        "[\"1\",\"6\",\"7\"]": 1,
+        "[\"6\",\"7\"]": 1
+      },
+      "source_ids": [
+        "pf_enzyme_classification"
+      ],
+      "declared_source_grade": "orthology_transfer",
+      "biological_benchmark_admitted": false,
+      "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+      "gaps": [
+        "Gene-level curation/experimental/predicted evidence not independently verified",
+        "Original source annotation release and homology/source independence unresolved",
+        "ENZYME nomenclature defines reactions; it is not new gene activity evidence"
+      ]
+    }
+  ],
+  "domain_note": "Gene domain matches are annotations/predictions, not an independently measured activity assay",
+  "ontology_selection": "Official current nomenclature metadata; no gene dataset replacement or literature-best claim"
+}

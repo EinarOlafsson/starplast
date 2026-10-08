@@ -43,6 +43,45 @@ def test_ec_replacement_mentions_are_not_assigned_classes_and_descriptions_stay_
     assert 'replacement' in inventory.set_index('target').loc['ec_number','annotation_warning']
 
 
+def test_domain_names_enrich_only_missing_descriptions_without_changing_membership():
+    from starplast import functional_domains as FD
+    ctx = context()
+    original = D.annotation_members(ctx,'pfam_id')
+    named = D.annotation_members(ctx,'pfam_id',domain_lookup=FD.shipped())
+    pd.testing.assert_frame_equal(named[original.columns].drop(columns='description'),
+        original.drop(columns='description'),check_exact=True)
+    kinase = named[named.value.eq('PF00069')].iloc[0]
+    assert 'kinase' in kinase.description.lower()
+    assert kinase.description_source=='Pfam current nomenclature'
+    assert kinase.source_description==''
+    assert kinase.metadata_source_url.startswith('https://ftp.ebi.ac.uk/')
+    classes = D.class_summary(named,'pfam_id').set_index('value')
+    assert classes.loc['PF00069','ontology_status']=='current_metadata'
+    paired = D.annotation_members(ctx,'interpro_id',domain_lookup=FD.shipped())
+    assert paired.description.tolist()==['Kinase','Binding','Binding']
+    assert paired.description_source.eq('Original source annotation').all()
+    assert paired.source_description.tolist()==['Kinase','Binding','Binding']
+
+
+def test_missing_or_corrupt_nomenclature_keeps_annotation_browser_available(monkeypatch):
+    def unavailable():raise ValueError('snapshot checksum mismatch')
+    monkeypatch.setattr(D.FD,'shipped',unavailable)
+    inventory,members = D.catalogue(context(),pd.DataFrame(),pd.DataFrame())
+    assert members[members.target.eq('pfam_id')].value.tolist()==['PF00069','PF00001.2']
+    assert 'unavailable' in inventory.set_index('target').loc['pfam_id','annotation_warning']
+
+
+def test_installed_falciparum_missing_domain_descriptions_gain_searchable_names():
+    ctx = S.Context.shipped(O.FALCIPARUM)
+    inventory,members = D.catalogue(ctx,pd.DataFrame(),pd.DataFrame())
+    original = D.annotation_members(ctx,'pfam_ids')
+    named = members[members.target.eq('pfam_ids')].reset_index(drop=True)
+    pd.testing.assert_frame_equal(named[original.columns].drop(columns='description'),
+        original.drop(columns='description'),check_exact=True)
+    assert named.description.str.contains('kinase',case=False,na=False).any()
+    assert 'not verified gene function' in inventory.set_index('target').loc['pfam_ids','annotation_warning']
+
+
 def test_unannotated_gene_table_retains_an_empty_catalogue_schema():
     ctx = S.Context(pd.DataFrame({'gene_id':['TGME49_100001']}),graph={},organism=O.TOXOPLASMA)
     inventory,members = D.catalogue(ctx,pd.DataFrame(),pd.DataFrame())
@@ -91,7 +130,7 @@ def test_function_search_class_members_and_gene_navigation_are_distinct_from_cla
     try:
         assert panel.tabs.currentWidget()==panel.annotations_page
         panel.annotation_search.setText('kinase')
-        assert set(panel.browsed_labels.target)=={'interpro_id','ec_number'}
+        assert set(panel.browsed_labels.target)=={'interpro_id','ec_number','pfam_id'}
         row = int(panel.browsed_labels.index[panel.browsed_labels.target.eq('interpro_id')][0])
         panel._select_annotation_label(row,0)
         assert panel.label.currentData()=='interpro_id'

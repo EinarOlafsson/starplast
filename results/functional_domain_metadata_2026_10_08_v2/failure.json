@@ -1,0 +1,6 @@
+{
+  "status": "diagnostic",
+  "error": "AssertionError in independent current-Pfam metadata replay",
+  "cause": "Independent parser stripped trailing whitespace from DE fields while the production parser retained it. 102 selected current descriptors have trailing whitespace. Names and types were semantically equal, but the exact comparison correctly refused unequal bytes.",
+  "resolution": "Retain trailing source whitespace in independent DE parsing; execute a new immutable snapshot. No source memberships or packaged data changed."
+}

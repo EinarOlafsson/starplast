@@ -238,8 +238,10 @@ inference atlas, backed by appropriate ground-truth tests, reusable precomputati
 meta-analysis and scorecards at every level. 64.01–64.09 are complete; continue remaining adapters/source admission and
 respect each card's dependencies. Completed cards record fixtures, validation and limitations.
 **Latest user priority (2026-10-08): function across Discoveries.** Browser coverage
-68.01 is complete; continue **68.02 functional source review, frozen benchmarks and
-precomputed functional inference**, using the existing 64 contracts. Localization
+68.01 is complete; **68.02 is 25%** with pinned domain names, a frozen EC recovery
+pilot and actual functional scorecards. Continue independent activity/source admission,
+Plasmodium/domain targets, further adapters and calibrated deployment using the
+existing 64 contracts. Localization
 was the first developed prediction path; the old menu/default filters hid broader
 annotation and untested-label coverage. Preserve all existing host/audit work.
 The census leaves missingness causes unknown, identifies 16 rows lacking slot context and
@@ -561,3 +563,44 @@ declared curation/domain-prediction/orthology lineage, current ontology and
 unknown-negative semantics before fitting or reporting biological accuracy.
 Instruction 64 categorical/numeric actions remain 35%; human gene space 30%;
 dataset promotion/admission 4%. No native-goal completion or release implied.
+
+Latest functional partition: **68.02 now 25%; still 18/51 whole actions complete**.
+Official ENZYME/InterPro/Pfam nomenclature is pinned. All 34,983 domain memberships
+and original descriptions preserved; 7,926 of 8,043 IDs have current names, 112
+InterPro IDs unresolved and five Pfam IDs withdrawn with no reassignment. Current
+names do not establish original assignment releases or independently measured activity.
+Strict EC resolution gives 1,226/1,050 complete curated-source profiles in the two
+parasites, plus 1,055 separate Plasmodium orthology-derived profiles.
+
+Frozen FN-EC-01 seed23/k15/min-share0.3 fits training-only numeric kNN: 679 train,
+175 tune,190 calibration,182 test; tuning/calibration unused. 349 inputs explicitly
+withhold EC/domain/homology/attention summaries; graph empty. Exact recovery71/182
+(39.0%), coverage171/182 (94.0%), correct71/171 among calls (41.5%); majority66/182
+(36.3%). All native scores/model/card outputs replay exactly, including11abstentions
+and an unseen full profile. This is weak source-profile recovery; **zero independently
+admitted activity benchmarks, calibrated probabilities or deployment claims**.
+Canonical pilot `results/functional_ec_knn_pilot_2026_10_08_v4/`, identity
+`349317afd8f24b860d94ae1e11280a6130bf451700b02b9d2145fab85fc99162`.
+Source reviewv2/domain metadatav4/UI bundlev4 and
+`results/functional_discoveries_audit_2026_10_08/` retain executed evidence.
+Actual Discoveries offers label/strategy/profile/seven major-class/control cards,
+gene outcomes and selected-domain provenance. Both organisms' kinase searches
+reach InterPro/Pfam; Plasmodium benchmark availability remains explicitly zero.
+Original node/claim/recipe/record hashes unchanged. 653 distinct focused checks
+verified (652 broad pass, then19 functional UI/reader checks after correcting
+one HTML-tooltip fixture). Earlier Qt tuple lookup and method-docstring failures fixed.
+
+Next bounded function work: protected-group Plasmodium EC recovery; complete
+InterPro/Pfam profiles; source admission and independent activity truth; additional
+adapters/calibration/deployment. Domain-content and domain-edge families differ,
+and search.LAYER_SOURCES omits domain: explicitly exclude domain graph edges and
+derived maps/representations with sentinel tests before graph benchmarks. Attention
+aliases need a general exclusion follow-up; already explicitly withheld here.
+Three worker agents were explicitly authorized by the user and delivered metadata,
+UI scorecards and the ordinary precompute framework. Keep concurrent small jobs
+within the combined2GB lease and root Qt/app checks serial; defer GPU/>=8GB jobs
+during the plaque priority. Two actual worker invalid_prompt stops were logged;
+root continued independent tasks without retrying restricted content. Partial
+`scripts/review_functional_activity_truth.py`, `results/functional_activity_truth_2026_10_08/`
+and `tests/test_functional_contract_audit.py` remain untouched/unreviewed/uncommitted,
+not admitted evidence. Private watchdog logs retain actual causes; timer remains active.

@@ -1,0 +1,59 @@
+[
+  {
+    "key": "interpro",
+    "organism": "Tg",
+    "columns": [
+      "n_interpro",
+      "interpro_id",
+      "interpro_desc",
+      "pfam_id"
+    ],
+    "url": "https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular?organism=%5B%22Toxoplasma%20gondii%20ME49%22%5D&reportConfig=%7B%22attributes%22%3A%5B%22gene_source_id%22%2C%22interpro_id%22%2C%22interpro_description%22%2C%22pfam_id%22%2C%22pfam_description%22%5D%2C%22includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D",
+    "path": "datasets/interpro_tgon.csv",
+    "note": "Domain annotation partly records study effort, not conserved architecture.",
+    "independent_gene_activity_truth": false,
+    "source_grade": "orthology_transfer for explicitly derived EC; all other individual grades unresolved"
+  },
+  {
+    "key": "toxodb_ec_numbers",
+    "organism": "Tg",
+    "columns": [
+      "ec_number",
+      "has_ec"
+    ],
+    "url": "https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular",
+    "path": "starplast/data/toxodb_ec_numbers.tsv",
+    "note": "An annotation rather than a measurement, with the same standing as the InterPro domains that fill `domain content`. It matters because it is the ONLY gene-indexed metabolic datum there is -- every other metabolism question in the catalog is about metabolites, and a metabolite is not a gene. Verified against conservation: enzymes have a Plasmodium ortholog 59.6% of the time against 30.4% for other genes (odds 3.39, p = 8e-88), are lineage-specific a third as often, and are more costly to lose in vitro. `has_ec` is 0 and not missing where ToxoDB reports no EC: the whole proteome was asked, so no assignment is an answer about the gene.",
+    "independent_gene_activity_truth": false,
+    "source_grade": "orthology_transfer for explicitly derived EC; all other individual grades unresolved"
+  },
+  {
+    "key": "plasmodb_pf3d7_domains",
+    "organism": "Pf",
+    "columns": [
+      "n_interpro",
+      "has_domain",
+      "interpro_ids",
+      "pfam_ids"
+    ],
+    "url": "https://plasmodb.org/plasmo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular",
+    "path": "starplast/data/pf_nodes.parquet",
+    "note": "Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes).",
+    "independent_gene_activity_truth": false,
+    "source_grade": "orthology_transfer for explicitly derived EC; all other individual grades unresolved"
+  },
+  {
+    "key": "pf_enzyme_classification",
+    "organism": "Pf",
+    "columns": [
+      "ec_number",
+      "has_ec",
+      "ec_number_orthology"
+    ],
+    "url": "https://plasmodb.org/plasmo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular",
+    "path": "datasets/reference/plasmodb/plasmodb_pf3d7_ec.tsv",
+    "note": "PlasmoDB serves two EC fields and they are different KINDS of evidence -- one curated for this organism, one inferred from the gene's OrthoMCL group -- so they are separate columns and `has_ec` counts only the curated one. Merged they would be 1,584 genes with no way to tell which 335 were never annotated here at all, which is inference standing where annotation should. The slot lists the curated column first and its policy is `one`, so the leading candidate wins and the derived field is there to be chosen deliberately rather than by default.",
+    "independent_gene_activity_truth": false,
+    "source_grade": "orthology_transfer for explicitly derived EC; all other individual grades unresolved"
+  }
+]
