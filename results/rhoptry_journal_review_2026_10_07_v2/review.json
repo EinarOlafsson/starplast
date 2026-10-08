@@ -1,0 +1,112 @@
+{
+  "source_page": "https://link.springer.com/article/10.1038/s44318-026-00911-z",
+  "requested_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs44318-026-00911-z/MediaObjects/44318_2026_911_MOESM2_ESM.zip",
+  "retrieved_utc": "2026-10-07T21:46:33.590151+00:00",
+  "archive_receipt": {
+    "path": "results/rhoptry_journal_review_2026_10_07/review.json",
+    "sha256": "3f763683cc75847cf425b0010824393db7154a368ed5e94fd0d2865b2a2a330d"
+  },
+  "original_retrieval_utc": "2026-10-07T21:43:24.194191+00:00",
+  "status": "retrieved_validated_archive",
+  "path": "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/host/k562_rhoptry_screen/journal_2026/44318_2026_911_MOESM2_ESM.zip",
+  "sha256": "b33609a3061adaba3a96b8243a23455945409cc7decb77e2428b76e60b0b962a",
+  "bytes": 2827580,
+  "archive_members": [
+    {
+      "name": "Dataset_EV1/",
+      "bytes": 0
+    },
+    {
+      "name": "__MACOSX/._Dataset_EV1",
+      "bytes": 210
+    },
+    {
+      "name": "Dataset_EV1/Dataset EV1 - Screen Analysis.xlsx",
+      "bytes": 2826565
+    },
+    {
+      "name": "__MACOSX/Dataset_EV1/._Dataset EV1 - Screen Analysis.xlsx",
+      "bytes": 415
+    },
+    {
+      "name": "Dataset_EV1/README.txt",
+      "bytes": 1035
+    },
+    {
+      "name": "__MACOSX/Dataset_EV1/._README.txt",
+      "bytes": 676
+    }
+  ],
+  "comparison": {
+    "before_rows": 20010,
+    "after_rows": 20010,
+    "gene_sets_equal": true,
+    "common_genes": 20010,
+    "fields": {
+      "Combined Rhoptry Score": {
+        "identical_cells": 20010,
+        "different_cells": 0,
+        "before_missing": 0,
+        "after_missing": 0,
+        "max_abs_difference": 0.0
+      },
+      "greenN|beta": {
+        "identical_cells": 20010,
+        "different_cells": 0,
+        "before_missing": 0,
+        "after_missing": 0,
+        "max_abs_difference": 0.0
+      },
+      "greenN|wald-fdr": {
+        "identical_cells": 20010,
+        "different_cells": 0,
+        "before_missing": 0,
+        "after_missing": 0,
+        "max_abs_difference": 0.0
+      }
+    },
+    "assay_values_identical": true,
+    "journal_member": "Dataset_EV1/Dataset EV1 - Screen Analysis.xlsx",
+    "journal_sheet": "Rhoptry discharge MAgECK-MLE",
+    "journal_member_sha256": "be38f07e5b3facc39e63f19ccfb862e34305b402d9b31bad56248c482824d3a1",
+    "preprint_file_sha256": "a3c07f1b072cd30a07704d994082d2581836e03e16e6567aa28590fe5344874d"
+  },
+  "mapping_audit": {
+    "source_organism": "Hs",
+    "target_organism": "Hs",
+    "source_namespace": "published gene symbol",
+    "target_namespace": "reviewed UniProt protein",
+    "source_version": "preprint SHA256:a3c07f1b072cd30a07704d994082d2581836e03e16e6567aa28590fe5344874d",
+    "target_version": "reviewed human SHA256:842de4a8e8c961c0c6ad575579897ecc1b11425a6d851e71abfcf0ea50aa88fd",
+    "source_entities": 20010,
+    "mapped_entities": 18700,
+    "ambiguous_entities": 39,
+    "unmapped_entities": 1271,
+    "target_entities": 18700,
+    "many_to_one_targets": 0,
+    "source_identifier_missing_rows": 0,
+    "reference": "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/reference/uniprot/reviewed_human.tsv.gz"
+  },
+  "installed_reproduction": {
+    "rhoptry_discharge_score": {
+      "installed_nonmissing": 18739,
+      "exact_matches": 18739,
+      "missing_installed_ids": 0,
+      "max_abs_difference": 0.0
+    },
+    "rhoptry_discharge_beta": {
+      "installed_nonmissing": 18739,
+      "exact_matches": 18739,
+      "missing_installed_ids": 0,
+      "max_abs_difference": 0.0
+    },
+    "rhoptry_discharge_fdr": {
+      "installed_nonmissing": 18739,
+      "exact_matches": 18739,
+      "missing_installed_ids": 0,
+      "max_abs_difference": 0.0
+    }
+  },
+  "decision": "retain_measurements; journal citation upgrade eligible after independent metadata identity checks",
+  "mapping_followup": "Legacy symbol mapping picks first reviewed accession; audit before promoting any remapped data"
+}

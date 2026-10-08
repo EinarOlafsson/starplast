@@ -1,0 +1,121 @@
+{
+  "accession" : "PXD005200",
+  "title" : "Comprehensive and at copy number resolution analysis of the red blood cells proteome unravels unexpected membrane transporters",
+  "additionalAttributes" : [ ],
+  "projectDescription" : "Red blood cells (RBC) are the most abundant cell type in human body that are responsible not only for tissue transport of oxygen and carbon dioxide, but also for a range of other functions. RBC and, in particular, their plasma membrane have been extensively studied for many years. These investigations led to composite models of RBC membrane organization. During the past decade proteomic studies extended our knowledge on RBC composition, however these studies were, at their best, able to provide only semiquantitative insights. Here we report a large scale proteomic investigation of RBCs and their ‘white ghost’ membrane fraction. Our in depth analysis resulted in identification of 2,650 proteins of which we consistently quantified 990 proteins in the RBC membrane. We quantified 41 membrane transporter proteins spanning 5 orders of magnitude dynamic range. Some of these, including the drug transporter ABCA7 and choline transporters SLC44A1 and SLC44A2 were previously not reported for the RBC membrane. Comparison of protein copy number values assessed by proteomics showed a good correlation with literature data, however abundances of few proteins were not consistent with the classical references. Since we validated our data by a targeted analysis using labelled standards we suggest to consider some older reference data from a variety of biochemical approaches as inaccurate. Our study provide the first comprehensive and quantitative analysis of the RBCs which may have implications for studying erythrocyte structure, functions and disease.",
+  "sampleProcessingProtocol" : "Sample aliquots containing 100 g total protein were processed using the MED FASP method.  The proteins were first overnight cleaved either using endoproteinase ArgC, or GluC, or LysC and in the second step digested with trypsin for 2h. The enzyme to protein ration was 1:50. Digestion with LysC and trypsin were carried out in 50 mM Tris-HCl, pH 8.5. For the cleavage with ArgC the buffer was supplemented with 10 mM MgCl2. The digestion with GluC was carried out in 25 mM ammonium bicarbonate. All reactions were conducted at 37C. Aliquots containing 10 µg total peptide were concentrated to a volume of ~5 µL and were stored frozen at -20 C until mass spectrometric analysis.",
+  "dataProcessingProtocol" : "The MS data were analyzed using MaxQuant software (version 1.5.3.14). Protein abundances were calculated from the spectral raw intensities using the 'Total Protein Approach\".",
+  "projectTags" : [ "Biological" ],
+  "keywords" : [ "\"total protein approach\"", "Human red blood cell", "Fasp" ],
+  "doi" : "",
+  "submissionType" : "PARTIAL",
+  "license" : "EBI terms of use",
+  "submissionDate" : "2016-10-21",
+  "publicationDate" : "2017-08-11",
+  "submitters" : [ {
+    "title" : "UNKNOWN",
+    "firstName" : "Jacek",
+    "lastName" : "Wisniewski",
+    "identifier" : "660138",
+    "affiliation" : "Proteomics",
+    "email" : "jwisniew@biochem.mpg.de",
+    "country" : "Germany",
+    "orcid" : "0000-0002-8452-5095",
+    "name" : "Jacek Wisniewski",
+    "id" : "660138"
+  } ],
+  "labPIs" : [ {
+    "title" : "Dr",
+    "firstName" : "Jacek R",
+    "lastName" : "Wisniewski",
+    "identifier" : "56600100",
+    "affiliation" : "Max-Planck-Institute of Biochemistry Martinsried, Germany",
+    "email" : "jwisniew@biochem.mpg.de",
+    "country" : "",
+    "orcid" : "",
+    "name" : "Jacek R Wisniewski",
+    "id" : "56600100"
+  } ],
+  "instruments" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1001911",
+    "name" : "Q Exactive"
+  } ],
+  "softwares" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MS",
+    "accession" : "MS:1001583",
+    "name" : "MaxQuant"
+  } ],
+  "experimentTypes" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "PRIDE",
+    "accession" : "PRIDE:0000429",
+    "name" : "Shotgun proteomics"
+  } ],
+  "quantificationMethods" : [ ],
+  "countries" : [ "Germany" ],
+  "sampleAttributes" : [ {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "EFO:0000635",
+      "name" : "organism part"
+    },
+    "value" : [ {
+      "cvLabel" : "BTO",
+      "accession" : "BTO:0000424",
+      "name" : "erythrocyte"
+    }, {
+      "cvLabel" : "CL",
+      "accession" : "CL:0000232",
+      "name" : "erythrocyte"
+    } ]
+  }, {
+    "@type" : "Tuple",
+    "key" : {
+      "cvLabel" : "EFO",
+      "accession" : "OBI:0100026",
+      "name" : "organism"
+    },
+    "value" : [ {
+      "cvLabel" : "NEWT",
+      "accession" : "NEWT:9606",
+      "name" : "Homo sapiens (Human)"
+    } ]
+  } ],
+  "organisms" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "NEWT",
+    "accession" : "NEWT:9606",
+    "name" : "Homo sapiens (human)"
+  } ],
+  "organismParts" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "CL",
+    "accession" : "CL:0000232",
+    "name" : "Erythrocyte"
+  }, {
+    "@type" : "CvParam",
+    "cvLabel" : "BTO",
+    "accession" : "BTO:0000424",
+    "name" : "Erythrocyte"
+  } ],
+  "diseases" : [ ],
+  "references" : [ {
+    "referenceLine" : "Bryk AH, Wiśniewski JR. Quantitative Analysis of Human Red Blood Cell Proteome. J Proteome Res. 2017 Aug 4;16(8):2752-2761",
+    "pubmedID" : 28689405,
+    "doi" : "10.1021/acs.jproteome.7b00025"
+  } ],
+  "identifiedPTMStrings" : [ {
+    "@type" : "CvParam",
+    "cvLabel" : "MOD",
+    "accession" : "MOD:00696",
+    "name" : "phosphorylated residue"
+  } ],
+  "totalFileDownloads" : 7293,
+  "botCount" : 2001,
+  "hubCount" : 5201,
+  "organicCount" : 91
+}

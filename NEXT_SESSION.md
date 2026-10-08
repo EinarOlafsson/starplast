@@ -19,7 +19,7 @@ including 16 scoped refusals. Evidence and gaps are in
 reproduction of all 15,437 installed mouse macrophage TPM values. Continue at **64.04**,
 the ground-truth registry. See `results/measurement_provenance_recovered_2026_10_07/README.md`.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
-the entire progress table (40 instruction-64 rows, four instruction-65 rows and three instruction-66 rows).
+the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
 Keep the stored tracker and completion evidence current.
 
 **New user priority (2026-10-07):** [instruction 65](instructions/open/65_dataset_selection_audit.md)
@@ -57,7 +57,14 @@ current public PMC cloud API: 12 named missing inputs recovered, 57 processed so
 bindings available in `results/source_recovery_pmc_2026_10_07_v2/`. Ten attempted sources
 remain unresolved, including one declared PMID/PMCID mismatch. Preserve these refusals.
 The 2017 RBC processed MaxQuant archive and two DOI-matched publisher supplements are
-now external with verified checksums; candidate mapping/admission remains open. Original
+now external with verified checksums; RBC source review (66.02) is complete: retain the distinct installed fraction/surface
+evidence, keep absolute abundance as a separate candidate under 65.04. Rhoptry
+version comparison (66.03) is complete: all 20,010 genes × three fields exactly
+match the journal. Canonical citation updated; raw v2 provenance and measurements
+retained. The audit found 39 ambiguous symbol-to-protein projections assigned by
+the old first-accession policy: correct these across host sources under 66.04.
+An additional 43 processed supplementary inputs were recovered for unmatched
+legacy derivations; they require transform/table association review, not renaming. Original
 source data stays external; no runtime dataset replacement is implied by acquisition.
 The proposed worker-stagger/retry feature was cancelled as a wrong-session request.
 

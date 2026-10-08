@@ -1,13 +1,14 @@
 # 66 — Recover source files and verify host candidate upgrades
 
-Status: OPEN, 2026-10-07. Authorized by the user's instruction to finish open
+Status: OPEN — 2/4 controlled items complete, 2026-10-07. Authorized by the user's instruction to finish open
 items, download missing datasets and replace sources where warranted.
 
 | Item | Percent done | Time left | Description |
 |---|---:|---|---|
-| 66.01 | 60% | 2–4 h + downloads | Reconcile relocated source files and retrieve missing processed sources with explicit failure records |
-| 66.02 | 35% | 3–6 h + validation | Review the quantitative RBC candidate against installed fraction/surface evidence |
-| 66.03 | 20% | 2–3 h + lookup | Verify host rhoptry journal/preprint data equivalence and version provenance |
+| 66.01 | 80% | 2–4 h + downloads | Reconcile relocated source files and retrieve missing processed sources with explicit failure records |
+| [66.02](../done/66_02_rbc_candidate_review.md) | ✅ | 0 h | Review the quantitative RBC candidate against installed fraction/surface evidence |
+| [66.03](../done/66_03_rhoptry_journal_version.md) | ✅ | 0 h | Verify host rhoptry journal/preprint data equivalence and version provenance |
+| 66.04 | 0% | 4–8 h + validation | Correct ambiguous host symbol projections while preserving original gene-level evidence |
 
 66.01 acceptance: inspect all 162 registered sources against the explicit existing
 archive; distinguish raw input from derived and installed files; retain every
@@ -26,7 +27,7 @@ Any actual runtime data change additionally requires the existing non-loss,
 leakage, layout, calibration and affected benchmark/tutorial checks. A missing
 deposit or an incomparable measurement stays an explicit gap.
 
-Add these three rows to the entire progress report. Completion requires evidence,
+Add these four rows to the entire progress report. Completion requires evidence,
 relevant checks, a commit and nightly push. This is independent of the cancelled
 worker-stagger/retry request; that request remains disregarded.
 
@@ -40,6 +41,30 @@ The old PMC archive service was retired in August 2026; use public discovered cl
 metadata with exact source identity, not guessed version numbers or filenames.
 
 The RBC candidate MaxQuant ZIP and two publisher supplements have verified deposit
-checksums; candidate analysis and admission remain pending. PubMed confirms the
+checksums; controlled quantitative review is complete, with retain decision and quantitative-pack
+admission remaining under 65.04. PubMed confirms the
 rhoptry journal article is an UpdateOf the registered preprint; supplement equivalence
-remains unverified. No installed source was changed.
+is now verified for all 20,010 genes and three score fields; the canonical citation is
+updated, and exact runtime values/v2 provenance are retained.
+
+## 66.04: host symbol mapping correction
+
+The version review found 39 screened gene symbols mapping to multiple reviewed
+proteins. `host.uniprot_index()` currently uses the first accession for symbols,
+while its Ensembl mapping properly withholds ambiguity. This requires a separate
+controlled correction across host sources. Preserve original gene-level values
+and identifier/mapping provenance; never silently select one protein, duplicate
+an assay value or turn withheld projections into negatives. Audit affected host
+deposits, record every ambiguity and distinguish gene perturbation from protein
+measurement. Check non-loss against archived gene evidence, leakage, affected
+truth/scorecards and any changed inference/calibration artifacts before promotion.
+Existing protein projections remain explicitly flagged in the source note meanwhile.
+
+User steering: unavailable/undisplayable source content is recorded as a gap;
+continue the next independent item without waiting for it.
+
+An additional 43 published processed supplement inputs are retrieved and checksummed
+for unmatched legacy derivations; two sources remain version/media gaps. See
+`results/source_review_input_recovery_2026_10_07/`. They are original review inputs,
+not arbitrary renamed legacy outputs. Continue 66.01 source/transform association
+and 66.04 host mapping correction while inaccessible content stays recorded.

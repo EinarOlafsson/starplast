@@ -69,6 +69,9 @@ One file per task. This index is the status table; the files carry the reasoning
 | 65.02 | [Audit all registered publication identities and annual citation rates](done/65_02_publication_identity_audit.md) — 162 sources accounted for, 95 PMID/DOI identities resolved; remaining roles/gaps explicit |
 | 65.03 | [Search every slot and retain biological comparison gaps](done/65_03_slot_literature_discovery.md) — 297 slots searched, 2,032 distinct publications retained, six diagnostic traps triaged; no promotions |
 
+| 66.02 | [Review quantitative RBC groups, donors, incumbent quantities and admission gaps](done/66_02_rbc_candidate_review.md) — 2,653 groups, 2,061 unambiguous noncolliding protein projections; retain incumbents |
+| 66.03 | [Verify rhoptry journal/preprint data equivalence and upgrade citation provenance](done/66_03_rhoptry_journal_version.md) — 20,010 genes × three fields exact; 39 ambiguous symbol mappings separately queued |
+
 ## Open
 
 The current execution order is [instruction 64](open/64_information_space_and_inference_atlas.md):
@@ -79,7 +82,7 @@ whenever an action is completed, replacing its percentage with a green tick.
 
 | # | Task |
 |---|---|
-| 66 | [Recover missing source files and audit host candidate versions](open/66_source_recovery_and_host_candidates.md) — 12 missing supplements recovered; host candidate review remains open |
+| 66 | [Recover missing source files and audit host candidate versions](open/66_source_recovery_and_host_candidates.md) — 2/4 complete: RBC review and rhoptry journal equivalence; source recovery and host mapping correction remain |
 | 65 | [Audit every dataset choice and retain the citation-rate/recency/comprehensiveness rule](open/65_dataset_selection_audit.md) — 3/4 bounded items complete; biological admission, deeper search and validated replacements remain 65.04 |
 | 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 3/40 complete (7.5%); continue with 64.04 |
 | 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; October 7 literature audit complete (no Tg candidate passes, Pf candidate adds only two claims; no promotion). Next: orthology/experimental verifier coverage, frozen prospective tests, genes outside the tested range |

@@ -19,7 +19,7 @@ accuracy. Unknown dates/counts/coverage remain unknown, not zero or guessed.
 | [65.01](../done/65_01_dataset_selection_policy.md) | ✅ | 0 h | Implement and test a versioned selection policy |
 | [65.02](../done/65_02_publication_identity_audit.md) | ✅ | 0 h | Audit publication identity and citation rates for all 162 registered sources |
 | [65.03](../done/65_03_slot_literature_discovery.md) | ✅ | 0 h | Search every current slot for literature challengers and expose comparison gaps |
-| 65.04 | 0% | 16–32 h + compute | Review biological eligibility and deeper literature; validate/promote replacements and rerun affected checks |
+| 65.04 | 2% | 16–30 h + compute | Review biological eligibility and deeper literature; validate/promote replacements and rerun affected checks |
 
 65.02 depends on 65.01; 65.03 depends on 65.01/65.02; 65.04 depends on all three.
 Each completion requires recorded evidence, relevant checks, a commit and nightly
@@ -73,3 +73,9 @@ lineage/assay-coverage decisions remain explicit in the review queue.
 
 Popularity alone cannot close these review batches. The audit/search cards are
 complete; the user's overarching best-dataset validation request remains open.
+
+Host review update: 66.02 retains complementary RBC fraction/surface evidence and
+keeps absolute copy counts as a separate candidate with measured group/mapping gaps.
+66.03 verifies the rhoptry journal/preprint table exactly and upgrades the citation,
+retaining first-publication lineage and exposing 39 ambiguous symbol projections.
+No numerical replacement is promoted; corrected projection and pack admission remain.
