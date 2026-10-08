@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "base_commit": "78a059368b8d0290827f46c871238dc5050226f5",
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/build_ground_truth_registry.py": "ecf644db32b7f87fcb70beb30eabdbbf261779833baa2eb3874ead14a0002a14",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/measurement_provenance_recovered_2026_10_07/traces.json": "942af768604b3d75866c3bc84d8e41ca3219f071605cfcb365073a45065cb48b",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/ground_truth.py": "0e12a06550c87646e8b89c7f28c746df35658ea3269fb4327dbe60814a65b4c3",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/datasets.py": "2dd335dea596e11c69e1445f7e68f206b995916f0e2953c09fa0b4d9e04173f9",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategies.py": "b9d2f461991d83479e9d6e1f91c6591f8bbb68438affddfe8116b07aa04cb236",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/track_record.py": "5cdf75d9d2ded6073570049d79abe2038080e1aa517361a8f3af4c2d6994fafc",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/localization.py": "749bec84809eb661b28bf2a518b4454678e378335c8e1d12bd09ff17c272ed4a",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/search.py": "54d7fc6dbaa401a2c7883ddc8440461940e3045f99a44117d2e4aead363cf6ba",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard.py": "aeddc48184f157989516caf32879d0ea071389cfd6fb225e61086f4a9313bade",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/organisms.py": "55d184dd251287644514a6b5b01fc35c68a48038fed18865970ba35b78fde9c9",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategy_catalog.py": "ff94e855ab006a00652acb94c0fd1aa63c1e014534d26c0dfa47de47879e829a",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategy_graph.py": "5291f3aa95f277d965307cd79ce888e0abc45f4a9e9f2d88a18947580c123659",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategy_learning.py": "4f1c62d57190987080c26dceae3c2addca2e8d84634e5d2806bae784fe9c34e5",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/nodes.parquet": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/pf_nodes.parquet": "410d5fb58c15c0f110de2e1fd61910d4ae10508709847b1777cb3e7bc88d3641",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/hs_host_proteins.parquet": "9c78c84fe07836b3c3b269d01af3cd1d8a5fb26e0eacbf1b94a38577c23c166f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/mm_host_proteins.parquet": "30e9349d736327c680e00a3c15429bda28fc6599e2989eb9d01d539a1b725c4f"
+  },
+  "outputs": {
+    "targets.csv": "304dc9ee7bbc1e8d8a0a5f0a60e51165512ca34daca093a83ab198c5509650a0",
+    "Hs_truth.parquet": "19175c9a4d7df1fec5b3cfaf8cb0a7297fc7814492f3c5952cf680f71b5776a3",
+    "Pf_truth.parquet": "a9525eb919cece0590077caf6c9c9f7fe62c5970e7a9871fe5b5319a4c59f455",
+    "registry.json": "5086fca0f935048cae6452f7cd1dd6e111d22b39b8e9397c16aa74e4a260dbd1",
+    "Mm_truth.parquet": "f9178af5d1e13ab2f05a142c6f0c44f12f7ea2007b324e6a9d838ac668777c3d",
+    "strategy_gaps.json": "b56486bba8ac4da0a08c278336b685589ced20d124ef2e2a10138677dc533b29",
+    "Tg_truth.parquet": "fd75e17a7b87dbf794cb653aee886e9e1bc6f21934417164c0953983a97b2ed6",
+    "Mm_universe.json": "a2b69f83291fd33e6f647e9745c2942e4bb862fb0ae2767a0d01ee047161eb1e",
+    "Hs_universe.json": "436bd5e6df01ea6d13b52626ab23ad4c40af7ebe44c080da8b4c5ab9a86e60df",
+    "Tg_universe.json": "fc8eba37c013b73e3291d5a2690e18135ef2435419c5eb2f1e26a0acdde07ed7",
+    "Pf_universe.json": "a8ddd273b5c403569e5691192423e957fd0225f92a0aae69ffd82cc6e9f8919b"
+  },
+  "summary": {
+    "target_addresses": 529,
+    "benchmark_candidates": 646,
+    "admitted_benchmarks": 0,
+    "strategies_per_species": 39,
+    "strategy_species_addresses": 156,
+    "grades": {
+      "unresolved": 450,
+      "direct_experiment": 53,
+      "derived_quantity": 12,
+      "prediction": 10,
+      "orthology_transfer": 4
+    },
+    "measured_population": "unresolved; installed nonmissing observations are not assay denominators",
+    "runtime_changes": "none"
+  },
+  "software": {
+    "python": "3.12.13",
+    "pandas": "3.0.5",
+    "numpy": "2.4.6"
+  }
+}

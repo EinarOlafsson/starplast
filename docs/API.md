@@ -95,6 +95,9 @@ for source_file in pilot.source_files:
     source_file.verify()
 ```
 
+See [ground-truth candidates](ground-truth.md) for versioned biological benchmark
+eligibility, evidence grades, strategy references and explicit validation gaps.
+
 See [measurement provenance](provenance.md) for the source-file, transform and
 mapping contracts, the exact raw-to-installed host pilot and the unresolved legacy
 audit fields. `registry_organism` is an exploration scope; actual assay species

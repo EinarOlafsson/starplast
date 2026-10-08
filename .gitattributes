@@ -1,2 +1,4 @@
 # Preserve the exact primary-service README bytes pinned by recovery manifests.
 results/source_recovery_pmc_*/PMC_README.txt -text -whitespace
+# Keep the checksummed bioRxiv response, including its original line endings.
+results/rhoptry_journal_review_2026_10_07_v2/preprint_history.json -text -whitespace

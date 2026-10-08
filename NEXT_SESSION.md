@@ -10,14 +10,17 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **3/40 complete (7.5%)**:
+40 bounded action cards with dependencies and acceptance tests. **4/40 complete (10%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
 including 16 scoped refusals. Evidence and gaps are in
 `results/information_inventory_2026_10_07/README.md`. 64.03 adds typed provenance for 628 addresses, a measured mapping-loss audit and exact
-reproduction of all 15,437 installed mouse macrophage TPM values. Continue at **64.04**,
-the ground-truth registry. See `results/measurement_provenance_recovered_2026_10_07/README.md`.
+reproduction of all 15,437 installed mouse macrophage TPM values. 64.04 records 529 targets,
+646 benchmark candidates and explicit validation gaps for all 39 strategies × four species.
+Zero independent biological benchmarks admitted; 440 output grades remain unresolved.
+Continue at **64.05**, hold-out/split protocols. See
+`results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
 Keep the stored tracker and completion evidence current.
@@ -227,7 +230,7 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 Follow [instruction 64](instructions/open/64_information_space_and_inference_atlas.md) and its
 linked action cards. It covers both clarified goals: evidence-space exploration and a gene/class/label
 inference atlas, backed by appropriate ground-truth tests, reusable precomputation, dependence-aware
-meta-analysis and scorecards at every level. 64.01–64.03 are complete; start at **64.04** and
+meta-analysis and scorecards at every level. 64.01–64.04 are complete; start at **64.05** and
 respect each card's dependencies. Completed cards record fixtures, validation and limitations.
 The census leaves missingness causes unknown, identifies 16 rows lacking slot context and
 retains unattributed host bridge records; do not turn these gaps into negative measurements.
