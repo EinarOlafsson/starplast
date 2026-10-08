@@ -8,7 +8,7 @@ items, download missing datasets and replace sources where warranted.
 | [66.01](../done/66_01_source_recovery.md) | ✅ | 0 h | Reconcile relocated source files and retrieve missing processed sources with explicit failure records |
 | [66.02](../done/66_02_rbc_candidate_review.md) | ✅ | 0 h | Review the quantitative RBC candidate against installed fraction/surface evidence |
 | [66.03](../done/66_03_rhoptry_journal_version.md) | ✅ | 0 h | Verify host rhoptry journal/preprint data equivalence and version provenance |
-| 66.04 | 0% | 4–8 h + validation | Correct ambiguous host symbol projections while preserving original gene-level evidence |
+| 66.04 | 25% | 4–8 h + validation | Correct ambiguous host symbol projections while preserving original gene-level evidence |
 
 66.01 acceptance: inspect all 162 registered sources against the explicit existing
 archive; distinguish raw input from derived and installed files; retain every
@@ -48,6 +48,25 @@ is now verified for all 20,010 genes and three score fields; the canonical citat
 updated, and exact runtime values/v2 provenance are retained.
 
 ## 66.04: host symbol mapping correction
+
+First controlled implementation partition: correct `uniprot_index` to withhold
+symbols naming multiple reviewed proteins, retaining its existing public mapping
+schema and Ensembl behavior. Expose the original rhoptry source as gene/symbol
+evidence before protein projection; preserve all ambiguous/unmapped source rows.
+Verify reviewed-row order independence and full primary-source non-loss. Freeze
+mapping/report lineage and compare the new builder with the archived legacy
+mapping. This partition does not migrate installed protein tables: that remains
+a separate bounded step with affected data/benchmark/calibration/layout checks.
+
+First-partition evidence: `results/host_symbol_mapping_2026_10_08/`;
+`host.uniprot_index` withholds multi-accession symbols with unchanged Ensembl
+mapping and public schema. `deposits.k562_rhoptry_evidence` preserves all 20,010
+gene rows and exact three score fields; 39 ambiguous and 1,271 unmapped genes
+remain available before projection. All 18,700 unambiguous candidate protein
+projections match installed scores exactly. **574 checks passed, two existing
+skips**, plus full-source executed replay and mapping-order/non-loss tests.
+Installed tables are unchanged; explicit migration/withdrawal provenance and
+affected checks are next. Progress 25%; no completion tick yet.
 
 The version review found 39 screened gene symbols mapping to multiple reviewed
 proteins. `host.uniprot_index()` currently uses the first accession for symbols,

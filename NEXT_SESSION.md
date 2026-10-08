@@ -433,3 +433,13 @@ remain. All rows/gaps/refusal diagnostics retained. 534 relevant checks passed;
 counts/values/hashes/policy refusal replayed. 65.04 is 4%; 66.04 remains open.
 Continue **GT-HOST-TX-02**, host mapping correction and original gene evidence.
 No installed values or calibration changed.
+
+66.04 first builder partition (25%): `host.uniprot_index` now withholds ambiguous
+symbols; Ensembl mappings/schema unchanged. `deposits.k562_rhoptry_evidence`
+retains all original source rows before protein projection.
+`results/host_symbol_mapping_2026_10_08/`: 20,010 exact gene records, 39 ambiguous
+and 1,271 unmapped retained; all 18,700 unambiguous candidate protein rows match
+the installed three scores exactly. 574 relevant checks passed, two existing
+skips, source replay verified. Installed wrong protein projections remain
+pending migration, explicit withdrawal/gene-preservation provenance and affected
+non-loss/layout/calibration/benchmark checks. Continue that bounded partition.

@@ -760,6 +760,19 @@ def test_an_id_naming_two_reviewed_proteins_is_dropped(tmp_path):
     assert "ENSG00000000001" not in H.uniprot_index(root, "human", log=lambda *a: None)["by_ensembl"]
 
 
+def test_ambiguous_symbols_cannot_select_a_protein_by_reviewed_row_order(tmp_path):
+    """Withhold all ambiguous projections; duplicate records of one accession stay valid."""
+    reviewed = [("P31946", "DUPLICATE_SYMBOL"), ("P62258", "DUPLICATE_SYMBOL"),
+                ("P11111", "UNIQUE_SYMBOL"), ("P11111", "UNIQUE_SYMBOL")]
+    results = []
+    for order in (reviewed, list(reversed(reviewed))):
+        root = _idmap(tmp_path, reviewed=order, ensembl=[("P11111", "ENSG00000000001.1")])
+        results.append(H.uniprot_index(root, "human", log=lambda *a: None))
+    assert results[0] == results[1]
+    assert results[0]["by_symbol"] == {"UNIQUE_SYMBOL": "P11111"}
+    assert results[0]["by_ensembl"] == {"ENSG00000000001": "P11111"}
+
+
 def test_a_truncated_mapping_file_yields_no_index_rather_than_raising(tmp_path):
     """A partial reviewed list is WORSE than none: every accession missing from it silently demotes
     a real gene to ambiguous. The endpoint this comes from truncates under load."""

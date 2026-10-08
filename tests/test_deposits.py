@@ -20,6 +20,28 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from starplast import deposits as D  # noqa: E402
 
 
+def test_rhoptry_gene_evidence_survives_ambiguous_or_unmapped_protein_projection(tmp_path, monkeypatch):
+    """A strong ambiguous gene hit is preserved as gene evidence, never assigned to a protein."""
+    path = tmp_path.joinpath(*D.K562)
+    path.parent.mkdir(parents=True)
+    raw = pd.DataFrame({"Gene": ["AMBIGUOUS", "UNMAPPED", "UNIQUE"],
+        "Combined Rhoptry Score": [20., -3., 1.], "greenN|beta": [2., -.3, .1],
+        "greenN|wald-fdr": [.001, .2, .8]})
+    raw.to_excel(path, sheet_name="Rhoptry discharge MAgECK-MLE", index=False)
+    monkeypatch.setattr(D, "_index", lambda *args, **kwargs: {"by_symbol": {"UNIQUE": "P11111"}})
+    evidence = D.k562_rhoptry_evidence(str(tmp_path))
+    assert evidence.source_row.tolist() == [2, 3, 4]
+    assert evidence.source_gene_symbol.tolist() == raw.Gene.tolist()
+    assert evidence.gene_symbol.tolist() == raw.Gene.tolist()
+    for field, source in [("rhoptry_discharge_score", "Combined Rhoptry Score"),
+                          ("rhoptry_discharge_beta", "greenN|beta"), ("rhoptry_discharge_fdr", "greenN|wald-fdr")]:
+        assert evidence[field].tolist() == raw[source].tolist()
+    projected = D.k562_rhoptry_screen(str(tmp_path))
+    assert projected.host_id.tolist() == ["P11111"]
+    assert projected.rhoptry_discharge_score.tolist() == [1.]
+    pd.testing.assert_frame_equal(D.k562_rhoptry_evidence(str(tmp_path)), evidence)
+
+
 # --------------------------------------------------------------------------- the statistics
 def test_moderated_t_finds_a_planted_difference_and_not_a_planted_null():
     rng = np.random.default_rng(0)
