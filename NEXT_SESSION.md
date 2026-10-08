@@ -52,7 +52,9 @@ Do not mistake metadata resolution or pending abstract hits for admitted biology
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
 branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7
 literature-verifier audit, the instruction-64 action plan, the entity/query contract and inventory;
-strategies, calibration, data and shipped claims remain at the released baseline.
+runtime inference algorithms, parasite tables/graphs and shipped claims retain their released baseline.
+Nightly corrects host ambiguity projections and numeric error metrics; frozen historical
+calibration/benchmark records retain their original input/code lineage.
 
 ---
 
@@ -441,7 +443,7 @@ retains all original source rows before protein projection.
 and 1,271 unmapped retained; all 18,700 unambiguous candidate protein rows match
 the installed three scores exactly. 574 relevant checks passed, two existing
 skips, source replay verified. Installed wrong protein projections remain
-pending migration, explicit withdrawal/gene-preservation provenance and affected
+The later final migration completes explicit withdrawal/gene-preservation provenance and affected
 non-loss/layout/calibration/benchmark checks. Continue that bounded partition.
 
 ## Latest controlled completion: 66.04, 2026-10-08
