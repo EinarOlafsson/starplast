@@ -150,7 +150,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.18](64_18_dataset_space_browser.md) | 0% | 4–8 h | Browse the selected organism's datasets | 64.02, 64.03, 64.17 |
 | [64.19](64_19_gene_evidence_entry.md) | 0% | 4–8 h | Make gene lookup an evidence entry point | 64.01, 64.03, 64.17, 64.18 |
 | [64.20](64_20_label_class_entry.md) | 0% | 4–8 h | Make labels and protein classes entry points | 64.01, 64.02, 64.17, 64.19 |
-| [64.21](64_21_human_gene_space.md) | 0% | 8–16 h | Build the human gene information space | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
+| [64.21](64_21_human_gene_space.md) | 30% | 6–12 h | Build the human gene information space | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
 | [64.22](64_22_mouse_gene_space.md) | 0% | 8–16 h | Build the mouse gene information space | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
 | [64.23](64_23_space_selection_packs.md) | 0% | 4–8 h | Select and install available organism spaces | 64.18, 64.21, 64.22 |
 | [64.24](64_24_host_parasite_evidence.md) | 0% | 4–8 h | Explore typed organism-to-host connections | 64.03, 64.21, 64.22, 64.23 |

@@ -1,13 +1,13 @@
 # 64.21 · Build the human gene information space
 
-Status: OPEN — 0%, 2026-10-07. Existing foundations are reused; completion of this acceptance contract is not yet verified.
+Status: OPEN — 30%, 2026-10-08. Canonical source-gene foundation verified; pack/admission gates remain open.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
 | Field | Value |
 |---|---|
 | Depends on | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
-| Estimated remaining engineering time | 8–16 h |
+| Estimated remaining engineering time | 6–12 h |
 | Existing code to inspect | `starplast/organisms.py`, `starplast/host.py`, `starplast/spaces/`, `starplast/packs.py`, `starplast/datasets.py` |
 
 ## Deliverable
@@ -33,3 +33,51 @@ follow-up and its dependency rather than silently widening the item.
 ## Completion evidence
 
 Pending: commit, checks, artifact/benchmark identities, measured population, limitations and dated result.
+
+## Frozen first partition: canonical source genes and explicit protein links
+
+2026-10-08, before full source parsing. Reuse the verified GTEx v10 processed
+median-TPM source and verified UniProt 2026_03 reviewed human entry/idmapping
+snapshots already acquired in the host-expression review. Retain all 59,033
+source records and both selected numeric fields. Build canonical unversioned
+Ensembl gene rows only from ordinary source IDs; retain 45 `_PAR_Y` records as
+separate qualified source evidence, never collapse them into X-gene values.
+The resulting 58,988-gene universe is this source's annotation scope, not a
+claim of genome-wide completeness. Preserve versioned source IDs, names and
+source row positions; zero median TPM is an observed summary, not missingness.
+
+Use round-trip float parsing and verify each retained measurement against its
+original source text. Map explicit reviewed UniProt Ensembl cross-reference
+pairs without resolving one-to-many relations by row order, symbol guesses or
+averaging. Gene/protein mappings do not authorize automatic protein-measurement
+projection. Quantify unmapped, multi-protein genes, multi-gene proteins and
+qualified records. Declare source hashes, contexts, median-TPM units, curation
+versus measured-evidence grades and redistribution status/gaps per column.
+Cultured adult GTEx fibroblasts are not independently validated HFF measurements.
+
+Execute a reproducible builder/replay notebook in a new
+`results/human_gene_space_foundation_2026_10_08/` packet. This first partition
+does not register/promote an installed host gene space or claim a distributable
+pack before reference, license, non-loss/graph-order/opening and benchmark
+gates pass. Keep installed protein references and parasite data unchanged;
+complete pack/opening and additional selected sources remain controlled follow-up
+partitions of this item. GTEx v11 stays a pending source-comparison candidate
+under 65.04; version releases do not reset publication citation age.
+
+Foundation validated in the executed build/replay packet. All 59,033 original
+source records and 118,066 selected median-TPM cells replay exactly from source
+text. 58,988 canonical gene rows retain 117,976 ordinary-gene cells; 45 qualified
+Y records retain their 90 cells separately. No source record is lost, no zero is
+turned missing, and no protein reference row is renamed as a gene. Reviewed
+cross-references retain 22,320 candidate pairs: 39,630 genes unmapped, 19,208
+with one reviewed protein, 150 with multiple proteins, and 1,713 source genes
+with a protein shared with another reference gene. All reverse mappings remain
+explicit; no protein measurements are projected. Source positions/versions and
+mapping counts stay outside the biological-feature table.
+
+Per-column context, species, units, source hashes, evidence grade, redistribution
+gaps and typed measurement provenance are retained. 618 relevant checks pass;
+two wrapper provenance-role failures were recorded and resolved before output
+writes. All installed host/parasite input hashes remain unchanged. Build/opening,
+graph-order, distributable-pack licensing and reference/biological admission
+still require their gates; no additional complete action earns a tick.

@@ -517,3 +517,22 @@ verified upstream, not duplicated as a standalone deployment bundle.
 No full action completed (17/49); 64.10 remains 35%, 65.04 4%.
 Continue controlled remaining numeric adapters/variants and biological truth;
 full outer coverage and shared user-facing scorecard component remain open.
+
+Latest host partition: **64.21 human gene space now 30%**. Executed
+`results/human_gene_space_foundation_2026_10_08/` builds 58,988 actual canonical
+source-gene rows from verified GTEx v10, preserving all 59,033 original source
+records and all 118,066 selected source cells exactly. The 45 qualified PAR_Y
+records keep their 90 cells separately; they never overwrite ordinary X-gene
+measurements. Reviewed UniProt crossrefs retain all 22,320 pairs, with 39,630
+unmapped, 19,208 one-protein and 150 multi-protein genes; 1,713 source genes have
+a shared protein. Counts/source positions/annotation versions are separate
+metadata and never biological features. No protein feature is projected.
+Per-column metadata plus typed measurement provenance retain exact source
+hashes, median-TPM units, cultured-adult-fibroblast versus HFF context gap, reference
+scope and redistribution/benchmark gaps. 618 checks passed; two wrapper source-role
+errors before output writes recorded in `results/human_gene_space_preflight_2026_10_08/`.
+All inspected installed host/parasite table/graph/track-record hashes unchanged.
+No host space registered or distributable pack claimed. Continue controlled
+reference/license/graph/independent-opening gates for this source set, then mouse
+gene foundation and remaining sources. GTEx v11 still pending 65.04 comparison;
+no claim that v10 is the best available replacement. Still 17/49 complete.

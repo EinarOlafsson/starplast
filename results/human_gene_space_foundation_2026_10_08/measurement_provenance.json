@@ -1,0 +1,134 @@
+[
+  {
+    "source_id": "host_gtex_transcriptome",
+    "registry_organism": "Hs",
+    "output_organism": "Hs",
+    "storage_unit": "gene",
+    "column": "gtex_fibroblast_median_tpm",
+    "evidence_grade": "direct_experiment",
+    "quantity_unit": "median transcripts per million (TPM)",
+    "context": [
+      "Cells_Cultured_fibroblasts"
+    ],
+    "source_files": [
+      {
+        "path": "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/spaces/Hs/expression/GTEx_v10/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz",
+        "sha256": "b951fd32aae5cad48435026e07225860596a411a75efd0519e00f330b7a98294",
+        "bytes": 8846936,
+        "role": "processed_input",
+        "url": "",
+        "association": "registry_asserted_not_independently_verified"
+      }
+    ],
+    "transforms": [
+      {
+        "name": "GTEx source-gene identity and summary preservation",
+        "implementation": "starplast.spaces.human",
+        "code_sha256": "104463ec11ce64e68af45d3230339efb00149d031923c222ff01d54fde14cb91",
+        "inputs": [
+          "host_gtex_transcriptome:Name",
+          "Cells_Cultured_fibroblasts",
+          "Liver_Hepatocyte"
+        ],
+        "outputs": [
+          "gene_id",
+          "gene_name",
+          "gtex_fibroblast_median_tpm",
+          "gtex_lcm_hepatocyte_median_tpm"
+        ],
+        "parameters": {
+          "reference": "GENCODE39/GRCh38",
+          "qualified_PAR_Y": "retain separately, no ordinary-gene overwrite",
+          "source_float_conversion": "Python binary64 round-trip",
+          "protein_measurement_projection": false
+        }
+      }
+    ],
+    "mappings": [],
+    "upstream_sources": [],
+    "publication_identity": "PMID:32913098",
+    "publication_status": "registered; release lineage unresolved",
+    "license": "GTEx open-access acknowledgement terms; specific redistribution review unresolved",
+    "redistribution": "unresolved",
+    "gaps": [
+      "Independent biological benchmark admission remains unresolved",
+      "GTEx v10 release-to-publication and sample-summary/context lineage review remains pending",
+      "Complete pack redistribution/reference/graph/opening gates remain pending",
+      "Cultured adult fibroblasts are not validated HFF measurements",
+      "Gene annotation scope is this source, not genome completeness"
+    ],
+    "source_species": [
+      "Homo sapiens"
+    ],
+    "source_species_status": "source_file_verified",
+    "source_species_reference": "https://storage.googleapis.com/adult-gtex/bulk-gex/v10/rna-seq/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz",
+    "schema_version": 2,
+    "trace_id": "9d12ed12d56377c1b5b5bd19606607ab3b43452d285ba1f67691bda2f30aa9f3"
+  },
+  {
+    "source_id": "host_gtex_transcriptome",
+    "registry_organism": "Hs",
+    "output_organism": "Hs",
+    "storage_unit": "gene",
+    "column": "gtex_lcm_hepatocyte_median_tpm",
+    "evidence_grade": "direct_experiment",
+    "quantity_unit": "median transcripts per million (TPM)",
+    "context": [
+      "Liver_Hepatocyte"
+    ],
+    "source_files": [
+      {
+        "path": "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/spaces/Hs/expression/GTEx_v10/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz",
+        "sha256": "b951fd32aae5cad48435026e07225860596a411a75efd0519e00f330b7a98294",
+        "bytes": 8846936,
+        "role": "processed_input",
+        "url": "",
+        "association": "registry_asserted_not_independently_verified"
+      }
+    ],
+    "transforms": [
+      {
+        "name": "GTEx source-gene identity and summary preservation",
+        "implementation": "starplast.spaces.human",
+        "code_sha256": "104463ec11ce64e68af45d3230339efb00149d031923c222ff01d54fde14cb91",
+        "inputs": [
+          "host_gtex_transcriptome:Name",
+          "Cells_Cultured_fibroblasts",
+          "Liver_Hepatocyte"
+        ],
+        "outputs": [
+          "gene_id",
+          "gene_name",
+          "gtex_fibroblast_median_tpm",
+          "gtex_lcm_hepatocyte_median_tpm"
+        ],
+        "parameters": {
+          "reference": "GENCODE39/GRCh38",
+          "qualified_PAR_Y": "retain separately, no ordinary-gene overwrite",
+          "source_float_conversion": "Python binary64 round-trip",
+          "protein_measurement_projection": false
+        }
+      }
+    ],
+    "mappings": [],
+    "upstream_sources": [],
+    "publication_identity": "PMID:32913098",
+    "publication_status": "registered; release lineage unresolved",
+    "license": "GTEx open-access acknowledgement terms; specific redistribution review unresolved",
+    "redistribution": "unresolved",
+    "gaps": [
+      "Independent biological benchmark admission remains unresolved",
+      "GTEx v10 release-to-publication and sample-summary/context lineage review remains pending",
+      "Complete pack redistribution/reference/graph/opening gates remain pending",
+      "Cultured adult fibroblasts are not validated HFF measurements",
+      "Gene annotation scope is this source, not genome completeness"
+    ],
+    "source_species": [
+      "Homo sapiens"
+    ],
+    "source_species_status": "source_file_verified",
+    "source_species_reference": "https://storage.googleapis.com/adult-gtex/bulk-gex/v10/rna-seq/GTEx_Analysis_v10_RNASeQCv2.4.2_gene_median_tpm.gct.gz",
+    "schema_version": 2,
+    "trace_id": "f8345090627e550bf56550a9b06bf4713decb1fd55e9b012cd877a7bd75d913c"
+  }
+]
