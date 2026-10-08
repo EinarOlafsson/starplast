@@ -250,9 +250,29 @@ that produced it, and any edge layer built from it before it looks at anything e
 The [strategy catalogue](strategies.md) lists all of them with their measured
 verdicts, including the ones that fail on this data.
 
-### Discoveries: knowledge generated, then tested
+### Discoveries: functions, labels and tested inferences
 
-The **discoveries** tab lists what Starplast infers about genes with no label -- a localization, a
+The **discoveries** tab opens on **Labels and functions**. Browse functional domains
+and protein families (InterPro and Pfam), enzyme classifications (EC), phenotypes,
+stages, localization, structural labels and other available categorical annotations.
+Search a term such as `kinase`, an exact identifier such as `IPR000719`, or a label
+name. Select a label and then a class to see its known members; click a gene to open
+its evidence. One gene can belong to several functional classes. Descriptions are
+shown only where the organism's installed source provides them.
+
+Each label reports annotated genes, class count, precomputed claims, and evaluation
+availability. **Open held-out scorecard** opens existing label/class results where
+they exist. Legacy tests retain their original source-recovery scope. Missing tests
+say **not evaluated**; known membership does not create a precision or recall score.
+Missing annotation and a false annotation-presence flag do not establish biological
+absence. Curated and orthology-derived EC fields remain separate.
+
+The old view showed only labels with generated claims. Its default filters left
+Toxoplasma localization claims visible, while hiding existing untested cell-cycle
+claims. Functional domains and enzymes now remain browsable even where functional
+inference and independent validation have not yet been implemented.
+
+The **Inferred claims** view lists what Starplast infers about genes with no label -- a localization, a
 phenotype, a stage -- and how each claim was tested. Every claim has:
 
 - a **confidence**: of held-out genes given claims this confident, at least this share were right;
@@ -261,11 +281,12 @@ phenotype, a stage -- and how each claim was tested. Every claim has:
   certainty was measured on, so no number is attached);
 - a **lift**: confidence over how common the claimed class is anyway.
 
-Independence is measured, not assumed: a check counts only if it does not repeat the generator's
+The legacy recipe's independence screen admits a check only if it does not repeat the generator's
 mistakes much more often than independent evidence would. By default the tab shows tested claims at
 80% or more with a lift of at least 2; every filter can be loosened. Click a claim for its reasoning,
 **Colour map** to see a label measured and claimed, **Save…** to export. The gene card opens with the
-same claims for one gene.
+same claims for one gene. These historical calibration and verifier tests are
+separate from admission of independent biological benchmarks.
 
 ### The track record: would it have known?
 

@@ -25,7 +25,7 @@ cohorts and all ten deliberate leakage refusals verified (532 checks passed, two
 64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). 64.08 adds immutable artifact roles and cache invalidation (840 checks passed). 64.09 reconciles 1,038,372 rows in 4,112 cohorts, preserving both accuracy denominators (835 checks passed). Continue at **64.10**, categorical frozen row adapters, and remaining host expression/gene-space work under 65.04/64.21/64.22. See
 `results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
-the entire progress table (40 instruction-64 rows, four instruction-65 rows, four instruction-66 rows and watchdog 67.01).
+the entire progress table (40 instruction-64 rows, four instruction-65 rows, four instruction-66 rows, watchdog 67.01 and two instruction-68 rows: 51 total).
 Keep the stored tracker and completion evidence current.
 
 **New user priority (2026-10-07):** [instruction 65](instructions/open/65_dataset_selection_audit.md)
@@ -235,8 +235,13 @@ cd <repo> && python scripts/calibrate_strategies.py --publish --out results/cali
 Follow [instruction 64](instructions/open/64_information_space_and_inference_atlas.md) and its
 linked action cards. It covers both clarified goals: evidence-space exploration and a gene/class/label
 inference atlas, backed by appropriate ground-truth tests, reusable precomputation, dependence-aware
-meta-analysis and scorecards at every level. 64.01–64.06 are complete; start at **64.07** and
+meta-analysis and scorecards at every level. 64.01–64.09 are complete; continue remaining adapters/source admission and
 respect each card's dependencies. Completed cards record fixtures, validation and limitations.
+**Latest user priority (2026-10-08): function across Discoveries.** Browser coverage
+68.01 is complete; continue **68.02 functional source review, frozen benchmarks and
+precomputed functional inference**, using the existing 64 contracts. Localization
+was the first developed prediction path; the old menu/default filters hid broader
+annotation and untested-label coverage. Preserve all existing host/audit work.
 The census leaves missingness causes unknown, identifies 16 rows lacking slot context and
 retains unattributed host bridge records; do not turn these gaps into negative measurements.
 
@@ -536,3 +541,23 @@ No host space registered or distributable pack claimed. Continue controlled
 reference/license/graph/independent-opening gates for this source set, then mouse
 gene foundation and remaining sources. GTEx v11 still pending 65.04 comparison;
 no claim that v10 is the best available replacement. Still 17/49 complete.
+
+Latest Discoveries partition: **68.01 complete; 18/51 full actions complete**.
+`starplast/discovery_labels.py` plus the actual Discoveries panel now browse 41
+Toxoplasma and 30 Plasmodium labels, with function first. InterPro/Pfam/EC classes,
+phenotypes, stages, structural labels and annotation flags no longer require a
+generated claim to appear. Search terms/IDs, select overlapping class members,
+open genes and existing legacy label/class scorecards. Claim filters/export/map
+behaviour preserved; verifier-column rendering and empty-recipe lookup corrected.
+Executed `results/discoveries_label_coverage_2026_10_08_v4/` independently replays
+every variable and all 21,787/18,879 functional memberships exactly. Source tables,
+claims, recipes and 1,038,372 held-out rows have unchanged hashes. **413 final
+checks pass, one optional pdoc skip**; earlier broader app/navigation/help checks
+pass with one corrected new fixture assertion. Three audit diagnostics are kept:
+EC replacement codes mentioned in descriptions are not extra assigned classes,
+empty InterPro delimiters and internal EC semicolons preserve source semantics.
+No new functional claims or held-out rows: **68.02 is the next priority**, with
+declared curation/domain-prediction/orthology lineage, current ontology and
+unknown-negative semantics before fitting or reporting biological accuracy.
+Instruction 64 categorical/numeric actions remain 35%; human gene space 30%;
+dataset promotion/admission 4%. No native-goal completion or release implied.

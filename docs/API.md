@@ -21,6 +21,25 @@ Use `pf_nodes.parquet` for *P. falciparum*. `paths.cache_file()` honours
 `STARPLAST_CACHE`. This example imports no GUI modules and does not download data.
 Keep the table row order when aligning coordinates or cluster labels with genes.
 
+## Browse existing functions and labels
+
+```python
+from starplast import claims, discovery_labels, organisms, strategies, track_record
+
+ctx = strategies.Context.shipped(organisms.TOXOPLASMA)
+labels, members = discovery_labels.catalogue(
+    ctx, claims.shipped(ctx.organism), claims.recipes(ctx.organism),
+    track_record.shipped(ctx.organism),
+)
+enzyme_classes = discovery_labels.class_summary(members, "ec_number")
+```
+
+`members` contains one row per label/class/gene, retaining overlapping InterPro,
+Pfam and EC memberships. `labels` reports known annotation and legacy inference/test
+coverage separately. Missing annotation is unknown membership; class precision and
+recall remain null without independent evaluation. Catalogue construction does not
+fit strategies, download sources or change shipped claims.
+
 ## Address an evidence or inference question
 
 ```python

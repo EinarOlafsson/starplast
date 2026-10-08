@@ -247,7 +247,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
                 f'{r.held_out_rows:,} legacy held-out rows across {r.evaluated_strategies} strategies. '
                 f'Source: {r.source_ids}. Independent biological class precision/recall: not evaluated. '
                 'Known annotation is separate from inference; missing annotation is unknown membership. '
-                'False/0 annotation flags do not establish biological absence. '+r.annotation_warning)
+                'False/0 annotation flags do not establish biological absence.')
         else:
             self._annotation_note_base = (f'{len(self.inventory)} available labels across function, phenotype, stage, localization and other categories. '
                 'Select a label to inspect its known classes and genes. Inferred claims and their filters are in the next tab.')

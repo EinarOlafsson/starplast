@@ -173,6 +173,28 @@ checks add elapsed time; budget them after pilot measurements.
 
 ## Every current strategy's ground-truth contract
 
+Additional authorized actions remain part of **every full completion report**:
+**18/51** complete overall after the 68.01 Discoveries browser, with 9/40 of this
+instruction's original actions complete. The newest priority is **68.02 function**;
+reuse the source/split/record/scorecard contracts above. Do not treat broad annotation
+browsing as completion of functional inference or independent biological validation.
+
+| Item | Percent done | Time left | Description | Depends on |
+|---|---:|---|---|---|
+| [65.01](../done/65_01_dataset_selection_policy.md) | ✅ | 0 h | Implement the dataset-selection rule | — |
+| [65.02](../done/65_02_publication_identity_audit.md) | ✅ | 0 h | Audit publication identities and citation rates | 65.01 |
+| [65.03](../done/65_03_slot_literature_discovery.md) | ✅ | 0 h | Search literature alternatives for every slot | 65.01, 65.02 |
+| [65.04](65_dataset_selection_audit.md) | 4% | 16–30 h + compute | Validate eligibility and justified replacements | 65.01, 65.02, 65.03 |
+| [66.01](../done/66_01_source_recovery.md) | ✅ | 0 h | Recover and reconcile missing processed sources | — |
+| [66.02](../done/66_02_rbc_candidate_review.md) | ✅ | 0 h | Review the quantitative RBC candidate | 66.01 |
+| [66.03](../done/66_03_rhoptry_journal_version.md) | ✅ | 0 h | Verify the host rhoptry journal version | 66.01 |
+| [66.04](../done/66_04_host_symbol_projections.md) | ✅ | 0 h | Correct ambiguous host projections | 66.03 |
+| [67.01](../done/67_01_work_continuation_watchdog.md) | ✅ | 0 h | Keep continuation active and log actual stops | — |
+| [68.01](../done/68_01_discoveries_label_browser.md) | ✅ | 0 h | Browse all available labels and functions in Discoveries | — |
+| [68.02](68_discoveries_function_coverage.md) | 0% | 8–16 h + compute | Benchmark and precompute functional inferences | 68.01, 64.04–64.09 |
+
+### Strategy ground-truth matrix
+
 This matrix specifies what must be retained or established. It does not assert that every test
 already exists or passes. A strategy can have multiple task contracts for different targets/queries.
 64.07 also registers all underlying techniques and their appropriate validation roles.

@@ -18,6 +18,12 @@
 - Keep the instruction-64 action cards and full progress table current. Each time an item is
   completed, replace its percentage with a green tick and show the user the entire table again.
   Completion requires the card's acceptance evidence, relevant checks, commit and nightly push.
+- Discoveries priority (user, 2026-10-08): span available labels with function first.
+  Follow `instructions/open/68_discoveries_function_coverage.md`: keep annotation
+  membership separate from inferred claims; expose unavailable tests and link existing
+  scorecards. Prioritize functional source/target benchmarks and precomputed results,
+  with source-family exclusions and explicit curation/prediction/transfer lineage.
+  Include actions 68.01/68.02 in each full completion progress report (51 rows).
 - Make changes on `nightly`. Keep `main` as the release branch.
 - As each coherent change is finished and its relevant checks pass, commit and
   push it to `nightly`. For the current 0.43.0 work, keep development on `nightly`
