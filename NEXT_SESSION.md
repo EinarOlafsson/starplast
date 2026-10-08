@@ -851,3 +851,20 @@ and15current UIinputs. Source recovery only, no biological/calibration/deploymen
 or importance admission. Function40%,categorical35%,whole22/51. Next small task:
 descriptive paired method agreement/error dependence on same cohort, shared-source
 limits explicit; other host/literature/strategy gaps remain. Watchdog/goal active.
+
+Latest paired partition:64.32/64.33 now20%, whole22/51 unchanged. Canonical
+`results/pf_functional_agreement_2026_10_08_v2/`, report SHA
+940da900b3d5ba356c6e360f220787b849d7382138132ccc96f2d1684178e98b.
+152genes/four unsupported/145groups retained,143joint calls:94agreements,
+33correct/61same wrong;49conflicts (7kNN correct/25forest correct/17bothwrong).
+Nine forest-only calls (one correct),78bothwrong overall. Shared labels/training/
+exact native input/retained columns and dependency hashes disclosed; no independence,
+confidence, biological accuracy, ensemble-selection or group-aware interval claim.
+Shared scorecard HTML/JSON export, no new app button.61checks pass serial1900MiB,
+workers terminal. Report1.186s under800MiB;101source outputs/25artifact receipts;
+independent acceptanceV2 verifies13packet outputs/14current inputs and every count/rate.
+Preserve800MiB test OOM/renderer diagnostics. OriginalV1 retained; V2 adds strict
+fit-role/feature-access/admission guards, same values. Next smallest step: expose
+this card from existing Pf Discoveries tests with context refusal and original
+method cards preserved. Broader uncertainty/calibration/method/host/dataset gaps
+remain. Restricted activity-truth partials untouched; native goal/watchdog active.

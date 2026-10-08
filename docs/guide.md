@@ -288,6 +288,12 @@ recovered, 93 wrong calls and no abstentions on the same 152 genes. It uses
 keeps the frozen result exactly repeatable. Each strategy retains its own
 scorecard; both retain the original training-only controls. Method support is
 uncalibrated and is not a probability of biological correctness.
+The [frozen paired report](../results/pf_functional_agreement_2026_10_08_v2/scorecard.html)
+compares every gene in these two tests. The methods agree on 94 genes:33 agreements
+match the recorded profile and61 are wrong. Shared labels, training genes and inputs
+prevent an independence claim. Conflicts and abstentions remain inspectable;
+biological accuracy, calibrated confidence and group-aware uncertainty are unavailable.
+This report is a separate export.
 The test uses direct annotations; orthology-derived annotations remain separate.
 Individual annotation curation/prediction provenance is unresolved. These scores
 measure recorded annotation recovery; independent biological accuracy, calibrated

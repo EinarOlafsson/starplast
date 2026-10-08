@@ -1,0 +1,68 @@
+Running as unit: starplast-paired-checks-v2-20261008.service
+..........F...............................................               [100%]
+=================================== FAILURES ===================================
+_____ test_shipped_pair_retains_all_rows_original_methods_and_exact_export _____
+
+pair = (FunctionalBenchmark(metadata={'benchmark_id': 'FN-EC-PF-CONTROL-01', 'biological_admission': False, 'calibrated_confi...: 'OG6_102770', 'prediction': '["7"]', 'support': 0.4065694294808652, 'training_supported': True, 'truth': '["7"]'}]}))
+
+    def test_shipped_pair_retains_all_rows_original_methods_and_exact_export(pair):
+        original = deepcopy(pair)
+        report = A.compare(*pair)
+        assert report['counts']['eligible'] == 152
+        assert report['counts']['unsupported'] == 4
+        assert report['counts']['joint_answered'] == 143
+        assert sum(report['counts'][key] for key in A._OUTCOMES) == 152
+        assert report['counts']['both_abstain'] == 0
+        assert report['counts']['left_only_correct'] + report['counts']['left_only_wrong'] == 0
+        assert report['methods'][0]['counts']['correct'] == 40
+        assert report['methods'][1]['counts']['correct'] == 59
+        assert report['overlap']['same_training_entities'] is True
+        assert report['overlap']['independent_evidence'] is False
+        assert {'truth', 'table', 'split', 'exclusions'} <= {d['kind'] for d in report['overlap']['shared_dependencies']}
+        view = A.build_scorecard(report)
+        assert json.loads(export_scorecard(view))['snapshot'] == report
+>       assert 'Source recovery among agreements' in render_scorecard_html(view)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_agreement.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+view = ScorecardView(kind='evidence', title='Paired source-profile recovery', status='descriptive', task=None, scope=(('organ...2cc97586ceafe43b15a224fdcb1ca","truth_grade":"unresolved","unit":"gene"},"target":"ec_direct_complete_major_profile"}')
+expanded = False
+
+    def render_scorecard_html(view: ScorecardView, *, expanded: bool = False) -> str:
+        """Render compact result quality and one-action access to the full record.
+    
+        QTextBrowser hosts handle ``scorecard:expand`` by rendering with expanded=True,
+        and metric/detail routes with :func:`render_scorecard_detail`.
+        """
+        html = ['<div class="scorecard"><h3>', escape(view.title), '</h3><p><b>',
+                escape(view.kind.title()), '</b> · ', escape(view.status), '</p>']
+        scope = dict(view.scope)
+        html.append('<p>' + escape(' · '.join(scope[key] for key in ('organism', 'target', 'strategy'))) + '</p>')
+        html.append('<p>Truth grade: ' + escape(view.source.grade) + '</p>')
+        if dict(view.counts).get('eligible') == 1 and view.kind == 'performance':
+            html.append('<p>Single recorded outcome; no per-gene accuracy probability.</p>')
+        if view.kind == 'performance':
+            selected = view.metrics if expanded else tuple(metric for metric in view.metrics if metric.headline)
+            html.append('<table><tr><th>Result quality / coverage</th><th>Value</th><th>Population</th></tr>')
+            for metric in selected:
+                html.append('<tr><td>' + _anchor(metric.label, 'scorecard:metric/' + metric.key)
+                            + '</td><td>' + escape(_value(metric.value))
+                            + (' (' + escape(metric.status) + ')' if metric.value is None else '')
+                            + '</td><td>' + escape(metric.denominator) + '</td></tr>')
+            html.append('</table>')
+        else:
+            key = 'outcome' if view.kind == 'outcome' else 'evidence'
+>           detail=next(detail for detail in view.details if detail.key==key)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           StopIteration
+
+starplast/scorecard_view.py:405: StopIteration
+=========================== short test summary info ============================
+FAILED tests/test_functional_agreement.py::test_shipped_pair_retains_all_rows_original_methods_and_exact_export
+1 failed, 57 passed in 15.77s
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 16.282s
+CPU time consumed: 22.293s

@@ -1,0 +1,48 @@
+Running as unit: starplast-paired-focused-20261008.service
+..........F
+=================================== FAILURES ===================================
+_____ test_shipped_pair_retains_all_rows_original_methods_and_exact_export _____
+
+pair = (FunctionalBenchmark(metadata={'benchmark_id': 'FN-EC-PF-CONTROL-01', 'biological_admission': False, 'calibrated_confi...: 'OG6_102770', 'prediction': '["7"]', 'support': 0.4065694294808652, 'training_supported': True, 'truth': '["7"]'}]}))
+
+    def test_shipped_pair_retains_all_rows_original_methods_and_exact_export(pair):
+        original = deepcopy(pair)
+        report = A.compare(*pair)
+        assert report['counts']['eligible'] == 152
+        assert report['counts']['unsupported'] == 4
+        assert report['counts']['joint_answered'] == 143
+        assert sum(report['counts'][key] for key in A._OUTCOMES) == 152
+        assert report['counts']['both_abstain'] == 0
+        assert report['counts']['left_only_correct'] + report['counts']['left_only_wrong'] == 0
+        assert report['methods'][0]['counts']['correct'] == 40
+        assert report['methods'][1]['counts']['correct'] == 59
+        assert report['overlap']['same_training_entities'] is True
+        assert report['overlap']['independent_evidence'] is False
+        assert {'truth', 'table', 'split', 'exclusions'} <= {d['kind'] for d in report['overlap']['shared_dependencies']}
+        view = A.build_scorecard(report)
+        assert json.loads(export_scorecard(view))['snapshot'] == report
+>       assert 'Source recovery among agreements' in render_scorecard_html(view)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_agreement.py:97: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/scorecard_view.py:390: in render_scorecard_html
+    html.append('<p>' + escape(' · '.join(scope[key] for key in ('organism', 'target', 'strategy'))) + '</p>')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7c9b5d8b5a80>
+
+>   html.append('<p>' + escape(' · '.join(scope[key] for key in ('organism', 'target', 'strategy'))) + '</p>')
+                                          ^^^^^^^^^^
+E   KeyError: 'strategy'
+
+starplast/scorecard_view.py:390: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_functional_agreement.py::test_shipped_pair_retains_all_rows_original_methods_and_exact_export
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 10 passed in 0.97s
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 1.299s
+CPU time consumed: 2.970s

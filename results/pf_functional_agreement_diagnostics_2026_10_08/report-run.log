@@ -1,0 +1,60 @@
+Running as unit: starplast-paired-report-20261008.service
+{
+  "source_outputs_verified": 101,
+  "artifact_files_verified": 25,
+  "inputs_verified": 14,
+  "counts": {
+    "both_abstain": 0,
+    "left_only_correct": 0,
+    "left_only_wrong": 0,
+    "right_only_correct": 1,
+    "right_only_wrong": 8,
+    "agree_correct": 33,
+    "agree_wrong": 61,
+    "conflict_left_correct": 7,
+    "conflict_right_correct": 25,
+    "conflict_both_wrong": 17,
+    "eligible": 152,
+    "joint_answered": 143,
+    "agreements": 94,
+    "conflicts": 49,
+    "shared_wrong": 78,
+    "unsupported": 4,
+    "groups": 145
+  },
+  "rates": {
+    "joint_coverage": {
+      "numerator": 143,
+      "denominator": 152,
+      "value": 0.9407894736842105
+    },
+    "agreement_among_joint_calls": {
+      "numerator": 94,
+      "denominator": 143,
+      "value": 0.6573426573426573
+    },
+    "source_recovery_among_agreements": {
+      "numerator": 33,
+      "denominator": 94,
+      "value": 0.35106382978723405
+    },
+    "correct_agreements_all_eligible": {
+      "numerator": 33,
+      "denominator": 152,
+      "value": 0.21710526315789475
+    },
+    "shared_wrong_among_joint_calls": {
+      "numerator": 78,
+      "denominator": 143,
+      "value": 0.5454545454545454
+    }
+  },
+  "biological_admission": false,
+  "calibrated_confidence": null,
+  "group_uncertainty": "unavailable",
+  "fits_performed": 0
+}
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 1.342s
+CPU time consumed: 2.976s

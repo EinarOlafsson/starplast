@@ -2,3 +2,5 @@
 results/source_recovery_pmc_*/PMC_README.txt -text -whitespace
 # Keep the checksummed bioRxiv response, including its original line endings.
 results/rhoptry_journal_review_2026_10_07_v2/preprint_history.json -text -whitespace
+# Keep checksummed pytest diagnostics, including whitespace in native tracebacks.
+results/pf_functional_agreement_diagnostics_2026_10_08/*.log -text -whitespace
