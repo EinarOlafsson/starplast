@@ -1,6 +1,6 @@
 # 64 · Explore the evidence space and inspect every inference, with ground-truth scorecards
 
-Status: OPEN — 4/40 actions complete (10%), 2026-10-07. Query, inventory, provenance and ground-truth candidate registry verified; hold-out protocols next.
+Status: OPEN — 5/40 actions complete (12.5%), 2026-10-07. Candidate truth registry and nested hold-out protocols verified; shared baselines next.
 
 This is the current execution plan under the user's clarified goals. Instructions 53, 60, 62 and 63
 retain their completed work, design decisions and evidence; this plan controls their integration order.
@@ -134,8 +134,8 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.02](../done/64_02_dataset_inventory.md) | ✅ | 0 h | Inventory the available information space | 64.01 |
 | [64.03](../done/64_03_measurement_provenance.md) | ✅ | 0 h | Trace each measurement to its source | 64.02 |
 | [64.04](../done/64_04_ground_truth_registry.md) | ✅ | 0 h | Register the ground-truth test cases | 64.01, 64.03 |
-| [64.05](64_05_heldout_split_protocols.md) | 0% | 4–8 h | Freeze the hold-outs and leakage rules | 64.04 |
-| [64.06](64_06_benchmark_baselines.md) | 0% | 3–5 h | Standardize baselines and negative controls | 64.04, 64.05 |
+| [64.05](../done/64_05_heldout_split_protocols.md) | ✅ | 0 h | Freeze the hold-outs and leakage rules | 64.04 |
+| [64.06](64_06_benchmark_baselines.md) | 50% | 1–2 h | Standardize baselines and negative controls | 64.04, 64.05 |
 | [64.07](64_07_strategy_capability_contracts.md) | 0% | 4–6 h | Declare what each of the 39 strategies answers | 64.01, 64.04 |
 | [64.08](64_08_result_artifact_contract.md) | 0% | 4–6 h | Version inference and benchmark artifacts | 64.03, 64.05, 64.07 |
 | [64.09](64_09_scorecard_aggregation.md) | 0% | 4–6 h | Make all scorecard levels use the same records | 64.04, 64.06, 64.08 |

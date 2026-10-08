@@ -1,0 +1,1827 @@
+{
+  "grade": "synthetic_control",
+  "biological_admission": "not_ground_truth",
+  "known_node": {
+    "regime": "known_node",
+    "split": {
+      "organism": "Tg",
+      "benchmark_id": "synthetic_pair_regime:v1",
+      "group_kind": "entity",
+      "assignments": [
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_1\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_1\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_2\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_4\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_5\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_6\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_8\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_10\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_10\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_11\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_11\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_12\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_12\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_13\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_13\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_14\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_14\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_0\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_0\",\"fixture_node_15\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_2\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_4\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_5\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_6\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_7\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_8\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_10\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_10\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_11\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_11\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_12\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_12\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_13\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_13\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_14\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_14\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_1\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_1\",\"fixture_node_15\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_4\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_5\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_6\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_2\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_2\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_2\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_2\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_2\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_2\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_2\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_2\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_2\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_3\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_3\",\"fixture_node_4\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_3\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_3\",\"fixture_node_5\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_3\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_3\",\"fixture_node_6\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_3\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_3\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_3\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_3\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_3\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_3\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_3\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_3\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_3\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_4\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_4\",\"fixture_node_5\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_4\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_4\",\"fixture_node_6\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_4\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_4\",\"fixture_node_7\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_4\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_4\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_4\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_4\",\"fixture_node_9\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_4\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_4\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_4\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_4\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_4\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_4\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_4\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_5\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_5\",\"fixture_node_6\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_5\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_5\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_5\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_5\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_5\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_5\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_5\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_5\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_5\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_5\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_5\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_5\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_5\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_6\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_6\",\"fixture_node_7\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_6\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_6\",\"fixture_node_8\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_6\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_6\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_6\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_6\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_6\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_6\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_6\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_6\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_6\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_7\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_7\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_7\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_7\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_7\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_7\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_7\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_7\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_7\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_8\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_8\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_8\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_8\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_8\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_9\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_9\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_9\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_15\",\"fixture_node_9\"]",
+          "group": "[\"fixture_node_15\",\"fixture_node_9\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_11\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_11\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_12\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_12\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_13\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_13\"]",
+          "role": "calibration"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_14\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_14\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_10\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_10\",\"fixture_node_15\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_12\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_12\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_13\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_13\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_14\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_14\"]",
+          "role": "test"
+        },
+        {
+          "entity": "[\"fixture_node_11\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_11\",\"fixture_node_15\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_13\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_13\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_14\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_14\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_12\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_12\",\"fixture_node_15\"]",
+          "role": "tune"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_14\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_14\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_13\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_13\",\"fixture_node_15\"]",
+          "role": "train"
+        },
+        {
+          "entity": "[\"fixture_node_14\",\"fixture_node_15\"]",
+          "group": "[\"fixture_node_14\",\"fixture_node_15\"]",
+          "role": "train"
+        }
+      ],
+      "seed": 17,
+      "feature_access": "transductive",
+      "protocol_version": 1
+    },
+    "pairs": [
+      [
+        "fixture_node_0",
+        "fixture_node_1",
+        "calibration"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_2",
+        "tune"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_3",
+        "train"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_4",
+        "calibration"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_5",
+        "calibration"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_6",
+        "calibration"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_7",
+        "train"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_8",
+        "tune"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_10",
+        "test"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_13",
+        "calibration"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_14",
+        "calibration"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_2",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_3",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_4",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_5",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_6",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_7",
+        "calibration"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_8",
+        "tune"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_10",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_12",
+        "tune"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_13",
+        "train"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_14",
+        "tune"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_3",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_4",
+        "test"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_5",
+        "tune"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_6",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_7",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_10",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_12",
+        "tune"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_13",
+        "test"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_4",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_5",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_6",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_7",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_10",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_11",
+        "calibration"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_13",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_5",
+        "tune"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_6",
+        "calibration"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_7",
+        "test"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_9",
+        "calibration"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_10",
+        "tune"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_12",
+        "test"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_13",
+        "tune"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_14",
+        "test"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_15",
+        "test"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_6",
+        "test"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_7",
+        "train"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_10",
+        "tune"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_12",
+        "calibration"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_13",
+        "test"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_15",
+        "tune"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_7",
+        "calibration"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_8",
+        "calibration"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_10",
+        "train"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_11",
+        "test"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_13",
+        "tune"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_14",
+        "test"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_10",
+        "tune"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_13",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_14",
+        "test"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_15",
+        "test"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_10",
+        "calibration"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_13",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_10",
+        "train"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_11",
+        "test"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_12",
+        "tune"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_13",
+        "calibration"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_11",
+        "train"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_12",
+        "tune"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_13",
+        "calibration"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_12",
+        "test"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_13",
+        "train"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_14",
+        "test"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_12",
+        "fixture_node_13",
+        "train"
+      ],
+      [
+        "fixture_node_12",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_12",
+        "fixture_node_15",
+        "tune"
+      ],
+      [
+        "fixture_node_13",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_13",
+        "fixture_node_15",
+        "train"
+      ],
+      [
+        "fixture_node_14",
+        "fixture_node_15",
+        "train"
+      ]
+    ],
+    "excluded_cross_partition": []
+  },
+  "cold_node": {
+    "regime": "cold_node",
+    "split": {
+      "organism": "Tg",
+      "benchmark_id": "synthetic_cold_nodes:v1",
+      "group_kind": "entity",
+      "assignments": [
+        {
+          "entity": "fixture_node_0",
+          "group": "fixture_node_0",
+          "role": "tune"
+        },
+        {
+          "entity": "fixture_node_1",
+          "group": "fixture_node_1",
+          "role": "tune"
+        },
+        {
+          "entity": "fixture_node_2",
+          "group": "fixture_node_2",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_3",
+          "group": "fixture_node_3",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_4",
+          "group": "fixture_node_4",
+          "role": "calibration"
+        },
+        {
+          "entity": "fixture_node_5",
+          "group": "fixture_node_5",
+          "role": "test"
+        },
+        {
+          "entity": "fixture_node_6",
+          "group": "fixture_node_6",
+          "role": "calibration"
+        },
+        {
+          "entity": "fixture_node_7",
+          "group": "fixture_node_7",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_8",
+          "group": "fixture_node_8",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_9",
+          "group": "fixture_node_9",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_10",
+          "group": "fixture_node_10",
+          "role": "calibration"
+        },
+        {
+          "entity": "fixture_node_11",
+          "group": "fixture_node_11",
+          "role": "test"
+        },
+        {
+          "entity": "fixture_node_12",
+          "group": "fixture_node_12",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_13",
+          "group": "fixture_node_13",
+          "role": "test"
+        },
+        {
+          "entity": "fixture_node_14",
+          "group": "fixture_node_14",
+          "role": "train"
+        },
+        {
+          "entity": "fixture_node_15",
+          "group": "fixture_node_15",
+          "role": "tune"
+        }
+      ],
+      "seed": 17,
+      "feature_access": "inductive",
+      "protocol_version": 1
+    },
+    "pairs": [
+      [
+        "fixture_node_0",
+        "fixture_node_1",
+        "tune"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_15",
+        "tune"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_15",
+        "tune"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_3",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_7",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_7",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_6",
+        "calibration"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_10",
+        "calibration"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_11",
+        "test"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_13",
+        "test"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_10",
+        "calibration"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_8",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_9",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_12",
+        "train"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_14",
+        "train"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_13",
+        "test"
+      ],
+      [
+        "fixture_node_12",
+        "fixture_node_14",
+        "train"
+      ]
+    ],
+    "excluded_cross_partition": [
+      [
+        "fixture_node_0",
+        "fixture_node_2"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_3"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_4"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_5"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_6"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_7"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_8"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_9"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_0",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_2"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_3"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_4"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_5"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_6"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_7"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_8"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_9"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_1",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_4"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_5"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_6"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_2",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_4"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_5"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_6"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_3",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_5"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_7"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_8"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_9"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_4",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_6"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_7"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_8"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_9"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_5",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_7"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_8"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_9"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_6",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_7",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_8",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_10"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_9",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_11"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_10",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_12"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_11",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_12",
+        "fixture_node_13"
+      ],
+      [
+        "fixture_node_12",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_13",
+        "fixture_node_14"
+      ],
+      [
+        "fixture_node_13",
+        "fixture_node_15"
+      ],
+      [
+        "fixture_node_14",
+        "fixture_node_15"
+      ]
+    ]
+  }
+}
