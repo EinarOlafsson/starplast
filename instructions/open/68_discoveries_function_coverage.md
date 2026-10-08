@@ -173,3 +173,27 @@ independent biological truth. Exact raw-cell, normalized-target and protected-gr
 replay is retained with separate source and semantic identities. Earlier failed
 serialization attempts remain immutable diagnostics. No model was selected or fit;
 68.02 remains 30% and independent truth/source admission remain open.
+
+## Frozen complete-Pfam baseline controls, 2026-10-08
+
+`results/functional_profile_controls_2026_10_08/` consumes the pinned verified
+prepared-target V3 with unchanged source, ordered protected-group split and
+control seed 20261008. Shared training-majority and seeded training-prevalence
+controls are frozen before reading test truth. All 635 test genes remain,
+including 333 unsupported profiles; 3,830 unknown source genes stay outside the
+eligible cohort. Complete original profile classes are retained, with zero
+training prior for unseen profiles. These controls use no features or classifier.
+
+Exact prediction/score/parquet/JSON replay, independently counted class metrics,
+full confusion records and shared scorecard snapshots are saved. Majority calls
+recover 19/635 profiles (2.9921%); seeded prevalence calls recover 2/635 (0.3150%).
+These are reference-annotation control measurements, not biological function
+accuracy or calibrated gene confidence. Classes without test truth have explicit
+unavailable recall; unsupported test truth still contributes to macro metrics.
+
+16 focused control, split/unknown, test-truth-invariance and input corruption
+checks pass. The executed notebook passes under a 400 MiB cap in 6.676 s;
+35 input/source/code hashes and 22 output receipts verify. All numeric checks are
+exact; no tolerance relaxation. The source release, source/homology independence,
+biological admission, actual source-excluded classifier and deployment remain
+open. 68.02 stays 30%; whole-action completion remains 22/51 after 64.20.

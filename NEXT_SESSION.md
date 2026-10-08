@@ -740,6 +740,9 @@ Final immutable V4 Tg/Pf packets: 418+459 checks, 18 input hashes/20 receipts ea
 failure, successful V2 and combined V3 OOM diagnostics. No biological truth,
 source promotion, strategy fitting, deployment or host installation added.
 Next smallest partition: 68.02 training-only complete-Pfam baseline controls on
-verified prepared-target V3. Worker code is ready; root validates exact score,
-class/confusion and immutable notebook replay before accepting the partition.
+verified prepared-target V3. The exact control partition is accepted: 16 focused checks, 35 input hashes and
+22 receipts verify; the executed 400 MiB-capped notebook finishes in 6.676 s.
+All 635 test genes/333 unsupported profiles remain; majority/prevalence recover
+19/2 profiles. This is annotation-control arithmetic, not biological accuracy.
+68.02 stays 30%; classifier fitting/source admission/deployment remain open.
 Full goal remains active; nightly CI/release gates and restricted partials remain.
