@@ -1,6 +1,6 @@
 # 64.10 · Complete the categorical-label benchmark records
 
-Status: OPEN — 10%, 2026-10-08. First frozen native-vote adapter implemented; remaining label-capable adapters and full coverage are pending.
+Status: OPEN — 20%, 2026-10-08. Native feature-kNN and the missing ortholog-transfer adapter verified; remaining label-capable adapters and full coverage are pending.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -53,7 +53,29 @@ majority baseline 0.230357. Artifact identity
 `4924dfa57c5fc39a6bd3f92718e031d60d23163b34da869ef102a5c1ec03e350`.
 **1,161 checks passed**, one optional pdoc documentation module skipped locally;
 445 focused checks also passed before the broader strategy/track-record suite.
-This coherent change is committed/pushed to nightly as the first adapter.
+This coherent change is committed/pushed to nightly as `8b59643`.
 
-Pending: remaining adapters, full outer coverage, biological source admission
+Second bounded change: `starplast/transfer_records.py` adds the previously
+unrecorded categorical `ortholog_transfer` path. The native donor orthogroup
+aggregation receives no receiver target column; the source-to-label mapping
+fits only on receiver training genes. Both endpoints remain prediction-grade.
+Source table/mapping identities, semantic review and dependence gaps are explicit.
+The existing Plasmodium schizont spatial prediction is a scoped installed-source
+pilot, not a new preferred dataset or an admitted biological comparator.
+
+`results/ortholog_transfer_pilot_2026_10_08/`: same frozen 560-gene test cohort,
+123 calls, 437 abstentions, 65 correct/58 wrong. Mapping reaches 967/3,827 receiver
+genes, 550 training and 126 test genes; three mapped test values lack a learned
+source category. All-hidden surrogate recovery 0.116071, called-only 0.528455,
+majority baseline 0.230357. No native class scores/support or AUROC/AUPRC are
+invented. Every native projection/call, card and matched baseline replays exactly.
+Artifact `65034bf84b7dc87aefee2e21622294cb33f0789b4e9dc41fb81243ee9ec33f07`;
+mapping `e1da9a0c47cecdd47087c34026ddc5e5add6d4f950570a81574c481b40654d80`.
+**464 relevant checks passed**. Artifact validation now also refuses numeric
+outputs as categorical evaluations and categorical outputs as numeric ones.
+Initial missing evaluation metadata was refused before any artifact was written;
+the executed verification records that diagnostic and corrected scope.
+
+Pending: other missing adapters (`holdout_search`, `multiplex_modules`,
+`conformal_calls`), full outer coverage, biological source admission
 and calibration. This item does not earn a completion tick from one pilot.

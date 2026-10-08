@@ -5,7 +5,7 @@ import json
 
 import pytest
 
-from starplast import artifacts as A, capabilities as C, organisms as O
+from starplast import artifacts as A, capabilities as C, organisms as O, scorecard as SC
 from starplast.query import Query
 from starplast.splits import Assignment, SplitManifest
 
@@ -105,6 +105,16 @@ def test_confidence_scope_and_unavailable_outputs_are_explicit():
     with pytest.raises(ValueError, match='explicit gaps'):
         replace(spec(), status='unavailable')
     assert replace(spec(), status='unavailable', gaps=('no truth',)).status == 'unavailable'
+
+
+def test_adaptive_transfer_task_requires_the_matching_native_output_type():
+    current = spec('ortholog_transfer')
+    label = next(o for o in C.get('ortholog_transfer').outputs if o.kind == 'label_calls')
+    with pytest.raises(ValueError, match='Numeric outputs cannot'):
+        replace(current, task=SC.T_LABEL)
+    with pytest.raises(ValueError, match='Categorical outputs cannot'):
+        replace(current, output=label)
+    assert replace(current, task=SC.T_LABEL, output=label).output == label
 
 
 def test_payload_corruption_manifest_corruption_and_symlinks_refused(tmp_path):

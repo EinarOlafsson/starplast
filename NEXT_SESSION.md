@@ -383,7 +383,7 @@ implementation order and bounded acceptance conditions now come from instruction
 
 64.09 complete: `starplast/record_scorecards.py`, `results/record_reconciliation_2026_10_08_v3/`; all legacy outcomes match standard metrics on identical cohorts. Original truth/exclusion/nested-fit lineage remains unresolved, not retroactively admitted. Settings/seeds/modes/named sets remain separate; no independent-sample inflation or component/per-gene probability claims.
 
-64.10 is 10%: first `starplast/label_records.py` feature-kNN adapter, with native
+64.10 is 20%: first `starplast/label_records.py` feature-kNN adapter (`8b59643`), with native
 training rank parity and frozen train distributions for held-out values. The
 prediction-grade compartment pilot retains all 560 test genes and full native
 class scores; `results/label_knn_pilot_2026_10_08_v5/` is the rank-transform run.
@@ -391,4 +391,11 @@ Earlier z-score/serialization diagnostics retain original code. Scorecard
 identities now preserve one-ULP differences. Continue remaining categorical
 adapters/full outer coverage and independent truth acquisition; host-symbol
 correction remains 66.04. No runtime strategy, installed values or calibration
-has changed.
+has changed. The missing categorical ortholog-transfer adapter is also verified:
+`starplast/transfer_records.py`, `results/ortholog_transfer_pilot_2026_10_08/`.
+Same 560 test genes: 123 calls/437 abstentions, 65 correct/58 wrong; all-hidden
+surrogate agreement 0.116071 versus called-only 0.528455. Native method has no
+class-score/support output; no scores invented. Both target/source are stored
+spatial predictions with context/independence gaps. 464 checks passed and exact
+projection/call/card/baseline replay verified. Continue missing `holdout_search`,
+`multiplex_modules`, `conformal_calls`, full outer coverage and independent truth.

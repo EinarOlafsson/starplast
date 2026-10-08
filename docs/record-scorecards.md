@@ -78,3 +78,27 @@ and preprocessing diagnostics.
 Artifact JSON and metric identities preserve native floating-point values;
 the default rounded pandas JSON representation is not used. A one-ULP score
 change invalidates the card identity even if rounded display metrics coincide.
+
+## Frozen ortholog transfer
+
+`starplast.transfer_records.ortholog_transfer` records the native categorical
+transfer path. `TransferSource` pins donor species/column/table, the projection
+identity, evidence grade and semantic/dependence review. Donor values already
+projected through orthogroups are supplied in frozen receiver order. Only
+receiver training labels fit the native source-to-label map. Known donor values
+derived from receiver truth are refused; unresolved dependence remains a gap.
+Receiver column exclusions cannot be applied merely by name to another species.
+
+Every test gene appears, including missing mappings and source categories without
+a learned receiver label. The method produces no native class-score matrix,
+support or calibrated confidence; AUROC/AUPRC remain unavailable. The spatial
+prediction pilot at `results/ortholog_transfer_pilot_2026_10_08/` makes 123 calls
+among 560 test genes: 65 agree and 58 disagree with stored receiver predictions,
+with 437 abstentions. Called-only agreement of 52.8% and all-hidden agreement of
+11.6% describe different denominators; the same-cohort majority baseline is
+23.0%. Both endpoints have prediction grade and unresolved context equivalence.
+These are surrogate recovery measurements, not independent biological accuracy.
+
+Row-column order is recorded explicitly for replay because JSON object key
+ordering is not a dataframe schema. Adaptive numeric and categorical strategies
+must use the matching typed output in benchmark artifacts.
