@@ -20,7 +20,7 @@ PAGES = {"index": "docs/index.md", "guide": "docs/guide.md", "API": "docs/API.md
          "strategy_cards": "docs/strategy_cards.md",
          "graphspace": "docs/graphspace.md", "dataset_selection": "docs/dataset_selection.md",
          "provenance": "docs/provenance.md", "ground-truth": "docs/ground-truth.md",
-         "splits": "docs/splits.md", "baselines": "docs/baselines.md", "capabilities": "docs/capabilities.md", "artifacts": "docs/artifacts.md"}
+         "splits": "docs/splits.md", "baselines": "docs/baselines.md", "capabilities": "docs/capabilities.md", "artifacts": "docs/artifacts.md", "record-scorecards": "docs/record-scorecards.md"}
 
 
 def main():

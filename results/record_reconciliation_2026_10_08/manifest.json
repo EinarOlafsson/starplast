@@ -1,0 +1,29 @@
+{
+  "created_utc": "2026-10-08T04:58:58.067121+00:00",
+  "summary": {
+    "legacy_rows": 1038372,
+    "distinct_cohorts": 4112,
+    "unique_organism_gene_addresses": 13860,
+    "cohorts_with_abstentions": 1852,
+    "different_all_hidden_vs_among_calls": 910,
+    "standard_metric_mismatches": 0,
+    "legacy_precision_mismatches": 0,
+    "biological_admission": "not established; truth/exclusion/nested-fit lineage unresolved",
+    "uncertainty": "unavailable without supplied biological groups; repeats not independent samples",
+    "runtime_inference_changes": "none"
+  },
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/reconcile_record_scorecards.py": "1866b74d1c75964d8cff324cbb4fdbd2f41491595d612290e3933188a67019c6",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/track_record.parquet": "0a771e65e918ae71e95a73bb7efe92157c6ce2eb0a4bd32db612a3948c45c817",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/record_scorecards.py": "01e57e89d2100ec2c3bacc22dc3c460ad31909373d81e1e52ea4a327d0efd61f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard.py": "aeddc48184f157989516caf32879d0ea071389cfd6fb225e61086f4a9313bade",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/track_record.py": "5cdf75d9d2ded6073570049d79abe2038080e1aa517361a8f3af4c2d6994fafc",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/capabilities.py": "6659d9c0cf4eab8d1b932d06a50c0c0818b6903efb279c04835464d61934d723"
+  },
+  "outputs": {
+    "cohort_reconciliation.csv": "228a7a6ec91cc7fb88ceaccb64e9a3dac0a8aace14d9bbfa78fc78293add43e3",
+    "cards.json": "303802e7228078f29c06e364b01d7660fda67b2af30b83d32a536832b4fbd221",
+    "summary.json": "efd5fe8f4544c536766cd18b8a9082e5ee6b32b790e09f145d4f5c88764794eb",
+    "scope_coverage.csv": "fc4b61197c72cd52356b05b3f557386b5e505dd19062db5a82bae71dab9a8ca8"
+  }
+}

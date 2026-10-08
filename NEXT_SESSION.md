@@ -10,7 +10,7 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **8/40 complete (20%)**:
+40 bounded action cards with dependencies and acceptance tests. **9/40 complete (22.5%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
@@ -22,7 +22,7 @@ Zero independent biological benchmarks admitted; 440 output grades remain unreso
 64.05 freezes nested roles and training-only source exclusions; two real candidate
 cohorts and all ten deliberate leakage refusals verified (532 checks passed, two existing skips).
 64.06 provides shared training-only baselines and synthetic/null controls (426 checks passed).
-64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). 64.08 adds immutable artifact roles and cache invalidation (840 checks passed). Continue at **64.09**, shared scorecard aggregation, and host symbol correction under 66.04. See
+64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). 64.08 adds immutable artifact roles and cache invalidation (840 checks passed). 64.09 reconciles 1,038,372 rows in 4,112 cohorts, preserving both accuracy denominators (835 checks passed). Continue at **64.10**, categorical frozen row adapters, and host symbol correction under 66.04. See
 `results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
@@ -380,3 +380,5 @@ implementation order and bounded acceptance conditions now come from instruction
 64.07 complete: `starplast/capabilities.py` and `results/capability_contracts_2026_10_08_v2/`; distinct pair/class/evidence/gene outputs and explicit unavailable host adapters. No new biological performance claims. Next 64.08 artifact roles/identity/invalidation, then 64.09 shared aggregation.
 
 64.08 complete: `starplast/artifacts.py`, `results/artifact_contracts_2026_10_08_v2/`; six task types and five storage roles, ten exact synthetic round trips. Frozen split guards reject misassigned fit/test entities and known benchmark genes as unknown deployment. No estimator fitted. Next 64.09 shared row-level aggregation/reconciliation.
+
+64.09 complete: `starplast/record_scorecards.py`, `results/record_reconciliation_2026_10_08_v3/`; all legacy outcomes match standard metrics on identical cohorts. Original truth/exclusion/nested-fit lineage remains unresolved, not retroactively admitted. Settings/seeds/modes/named sets remain separate; no independent-sample inflation or component/per-gene probability claims. Next 64.10 categorical row adapters, with real truth gaps and frozen fitting explicit.

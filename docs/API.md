@@ -416,3 +416,5 @@ should import the relevant modules directly.
 Strategy question/output declarations and adapter plans: [capabilities](capabilities.md).
 
 Immutable inference roles, manifests and invalidation: [artifacts](artifacts.md).
+
+Shared row-level scorecard aggregation and denominator reconciliation: [record scorecards](record-scorecards.md).

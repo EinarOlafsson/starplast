@@ -1,6 +1,6 @@
 # 64 · Explore the evidence space and inspect every inference, with ground-truth scorecards
 
-Status: OPEN — 8/40 actions complete (20%), 2026-10-08. Versioned artifact roles and dependency invalidation verified; shared aggregation next.
+Status: OPEN — 9/40 actions complete (22.5%), 2026-10-08. All legacy outcomes reconciled through shared scorecard semantics; categorical adapters next.
 
 This is the current execution plan under the user's clarified goals. Instructions 53, 60, 62 and 63
 retain their completed work, design decisions and evidence; this plan controls their integration order.
@@ -138,7 +138,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.06](../done/64_06_benchmark_baselines.md) | ✅ | 0 h | Standardize baselines and negative controls | 64.04, 64.05 |
 | [64.07](../done/64_07_strategy_capability_contracts.md) | ✅ | 0 h | Declare what each of the 39 strategies answers | 64.01, 64.04 |
 | [64.08](../done/64_08_result_artifact_contract.md) | ✅ | 0 h | Version inference and benchmark artifacts | 64.03, 64.05, 64.07 |
-| [64.09](64_09_scorecard_aggregation.md) | 0% | 4–6 h | Make all scorecard levels use the same records | 64.04, 64.06, 64.08 |
+| [64.09](../done/64_09_scorecard_aggregation.md) | ✅ | 0 h | Make all scorecard levels use the same records | 64.04, 64.06, 64.08 |
 | [64.10](64_10_label_benchmark_records.md) | 0% | 6–12 h | Complete the categorical-label benchmark records | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.11](64_11_value_benchmark_records.md) | 0% | 6–10 h | Keep held-out numeric predictions | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.12](64_12_gene_ranking_benchmarks.md) | 0% | 6–10 h | Test gene rankings and set retrieval | 64.05, 64.06, 64.07, 64.08, 64.09 |
