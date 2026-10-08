@@ -313,18 +313,15 @@ Skill says how far above chance a strategy is; the scorecard says in what way. E
 
 ## Working with spaCR
 
-[spaCR](https://github.com/EinarOlafsson/spacr) handles microscopy and image-based
-screen analysis. Its Starplast launcher installs and opens this app in a separate
-Python environment. Starplast provides a place to explore the biological evidence
-around those screen results. Export a gene-level table from spaCR and import it
-into Starplast; launching the app does not transfer results automatically.
+[spaCR](https://github.com/EinarOlafsson/spacr) analyses microscopy screens.
+Its launcher installs and opens Starplast in a separate Python environment.
+Export a gene-level table from spaCR and import it into Starplast; launching the app does not transfer results.
 
 ## Data and reproducibility
 
 **[Full table of included data and source links →](https://github.com/EinarOlafsson/starplast/blob/main/docs/datasets.md)**
 
-Open **Tools → Datasets** to filter installed sources and inspect their coverage,
-provenance and original stored values. See the [dataset browser guide](docs/dataset_browser.md).
+**Tools → Datasets** opens sources, coverage, provenance and stored values ([guide](docs/dataset_browser.md)).
 
 The catalogue lists all 130 registered datasets and computed layers, with their
 measurements, coverage, publication references, and links to source data or inputs.

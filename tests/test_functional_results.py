@@ -211,5 +211,11 @@ def test_selected_domain_provenance_keeps_source_description_and_unknown_members
         assert panel.shown_members.gene_id.tolist()==['TGME49_100002']
         panel.annotation_class.setCurrentIndex(0)
         assert 'Domain IPR000002' not in panel.annotation_note.text()
-        assert panel.annotation_class.toolTip()==''
+        document.setHtml(panel.annotation_class.toolTip())
+        guidance=' '.join(document.toPlainText().split())
+        assert 'Choose a recorded annotation class' in guidance
+        assert 'Missing annotation remains unknown membership' in guidance
+        for stale in ('IPR000001','IPR000002','Original source kinase','110.0',
+                      'https://example.org/metadata-license','https://example.org/domain-source'):
+            assert stale not in guidance
     finally:panel.close()
