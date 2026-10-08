@@ -1,0 +1,56 @@
+{
+  "policy": {
+    "version": 1,
+    "minimum_age_days": 30.0,
+    "recency_bonus": 0.1,
+    "recency_decay_years": 5.0,
+    "comprehensiveness_bonus": 0.25
+  },
+  "candidates": [
+    {
+      "dataset_id": "GTEx_v10",
+      "scope": "human selected fibroblast/hepatocyte reference RNA-seq TPM",
+      "publication_id": "PMID:32913098",
+      "first_publication_date": "2020-09-01",
+      "citations": 5426,
+      "comprehensiveness": null,
+      "citation_provider": "Europe PMC",
+      "citation_snapshot": "2026-10-08",
+      "admission": "pending",
+      "admission_reason": "release-to-publication lineage, native mapping drift/PAR_Y, fixed eligible coverage and affected validation pending",
+      "policy_version": 1,
+      "as_of": "2026-10-08",
+      "status": "pending",
+      "age_years": null,
+      "citations_per_year": null,
+      "recency_factor": null,
+      "comprehensiveness_factor": null,
+      "score": null,
+      "gap": "release-to-publication lineage, native mapping drift/PAR_Y, fixed eligible coverage and affected validation pending"
+    },
+    {
+      "dataset_id": "GTEx_v11",
+      "scope": "human selected fibroblast/hepatocyte reference RNA-seq TPM",
+      "publication_id": "PMID:32913098",
+      "first_publication_date": "2020-09-01",
+      "citations": 5426,
+      "comprehensiveness": null,
+      "citation_provider": "Europe PMC",
+      "citation_snapshot": "2026-10-08",
+      "admission": "pending",
+      "admission_reason": "release-to-publication lineage, native mapping drift/PAR_Y, fixed eligible coverage and affected validation pending",
+      "policy_version": 1,
+      "as_of": "2026-10-08",
+      "status": "pending",
+      "age_years": null,
+      "citations_per_year": null,
+      "recency_factor": null,
+      "comprehensiveness_factor": null,
+      "score": null,
+      "gap": "release-to-publication lineage, native mapping drift/PAR_Y, fixed eligible coverage and affected validation pending"
+    }
+  ],
+  "decision": "retain_installed_values_pending_mapping_transform_review; candidate_not_promoted",
+  "recency_interpretation": "v11 release does not reset the shared publication citation-age clock",
+  "coverage_interpretation": "gene-annotation rows are not measured protein comprehensiveness"
+}

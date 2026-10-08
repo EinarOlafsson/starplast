@@ -19,7 +19,7 @@ accuracy. Unknown dates/counts/coverage remain unknown, not zero or guessed.
 | [65.01](../done/65_01_dataset_selection_policy.md) | ✅ | 0 h | Implement and test a versioned selection policy |
 | [65.02](../done/65_02_publication_identity_audit.md) | ✅ | 0 h | Audit publication identity and citation rates for all 162 registered sources |
 | [65.03](../done/65_03_slot_literature_discovery.md) | ✅ | 0 h | Search every current slot for literature challengers and expose comparison gaps |
-| 65.04 | 2% | 16–30 h + compute | Review biological eligibility and deeper literature; validate/promote replacements and rerun affected checks |
+| 65.04 | 4% | 16–30 h + compute | Review biological eligibility and deeper literature; validate/promote replacements and rerun affected checks |
 
 65.02 depends on 65.01; 65.03 depends on 65.01/65.02; 65.04 depends on all three.
 Each completion requires recorded evidence, relevant checks, a commit and nightly
@@ -93,3 +93,31 @@ No new paper, inferred identifier, replacement or biological admission follows
 from this partition. Missing content becomes a recorded gap and the next source
 proceeds. Final classifier marker sets can include the same paper's microscopy
 and profile-based selections; they need row-level independence review.
+
+Bounded host expression partition **GT-HOST-TX-01**: the existing
+`host_gtex_transcriptome` and `host_mouse_tissue_transcriptome` records. Inspect
+verified v10 tissue fields, exact installed-value reproduction and original
+mapping receipts; check primary GTEx release metadata and the publicly listed
+v11 median summary as a version candidate. Discover object addresses through
+the public primary storage listing, verify provider checksum and retain original
+filenames; no bulk per-sample/instrument files. Review E-MTAB-3579's original
+assay/sample/age fields separately, preserving CAGE versus RNA-seq and adult
+brain versus juvenile muscle distinctions. Acquisition and comparison do not
+promote a runtime replacement; unavailable content is a gap while the other
+source proceeds. Numerical replacement requires the existing affected checks.
+
+GT-HOST-TX-01 evidence:
+`results/host_expression_source_review_2026_10_08/` retrieves provider-checksummed
+GTEx v11 summary/LCM README plus original Atlas `tpmss.tsv`; all Atlas parsed
+values match the archived table. Full gene rows preserve PAR_Y. v11 has 74,628
+genes versus 59,033, but only 11 additional native protein projections. Installed
+replay exposes mapping/cutoff gaps; the documented 0.5 per-region filter reproduces
+every overlapping legacy brain value. Mapping/coverage differences remain.
+534 relevant checks passed; executed verification confirms rows/counts/checksums
+and pending-admission policy refusal. No source declared literature-best or
+promoted. Four additional source addresses reviewed across spatial/host partitions;
+deeper literature/admission/promotion remains open (4%).
+
+**GT-HOST-TX-02** depends on 66.04/64.21/64.22: original installed mapping lineage,
+PAR_Y and explicit CAGE detection filter must be resolved, with raw gene evidence
+intact, before corrected protein projections or v11 admission.

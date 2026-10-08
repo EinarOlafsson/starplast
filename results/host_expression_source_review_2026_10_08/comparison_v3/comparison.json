@@ -1,0 +1,91 @@
+{
+  "installed_reproduction": {
+    "v10": {
+      "native_mapped_rows": 19088,
+      "fields": {
+        "fibroblast_tpm": {
+          "installed_observed": 19087,
+          "missing_reproductions": 3,
+          "extra_mapped_values_on_installed_universe": 2,
+          "exact_differences": 0,
+          "unresolved_installed_IDs": [
+            "P59510",
+            "Q6ZTK2",
+            "Q96FN5"
+          ]
+        },
+        "hepatocyte_tpm": {
+          "installed_observed": 19087,
+          "missing_reproductions": 3,
+          "extra_mapped_values_on_installed_universe": 2,
+          "exact_differences": 0,
+          "unresolved_installed_IDs": [
+            "P59510",
+            "Q6ZTK2",
+            "Q96FN5"
+          ]
+        }
+      }
+    },
+    "fantom": {
+      "native_mapped_rows": 13851,
+      "fields": {
+        "brain_tpm": {
+          "installed_observed": 9763,
+          "missing_reproductions": 8,
+          "extra_mapped_values_on_installed_universe": 1342,
+          "exact_differences": 1741,
+          "unresolved_installed_IDs": [
+            "A2BGJ5",
+            "D3YX90",
+            "F8VQK3",
+            "Q3UU43",
+            "Q6XZL8",
+            "Q8BWW4",
+            "Q8CHC4"
+          ]
+        },
+        "skeletal_muscle_tpm": {
+          "installed_observed": 8635,
+          "missing_reproductions": 7,
+          "extra_mapped_values_on_installed_universe": 1276,
+          "exact_differences": 0,
+          "unresolved_installed_IDs": [
+            "F8VQK3",
+            "Q3UU43",
+            "Q6XZL8",
+            "Q8BWW4",
+            "Q8CHC4"
+          ]
+        }
+      }
+    }
+  },
+  "gtex_version_comparison": {
+    "v10_genes": 59033,
+    "v11_genes": 74628,
+    "shared_genes": 56474,
+    "v10_only_genes": 2559,
+    "v11_only_genes": 18154,
+    "v10_native_mapped_proteins": 19088,
+    "v11_native_mapped_proteins": 19099,
+    "shared_mapped_proteins": 19082,
+    "fields": {
+      "Cells_Cultured_fibroblasts": {
+        "common_finite_gene_rows": 56474,
+        "exact_equal": 29609,
+        "changed": 26865,
+        "spearman_rank_correlation": 0.980912572935858,
+        "median_absolute_TPM_difference": 0.0
+      },
+      "Liver_Hepatocyte": {
+        "common_finite_gene_rows": 56474,
+        "exact_equal": 30316,
+        "changed": 26158,
+        "spearman_rank_correlation": 0.9801465208419708,
+        "median_absolute_TPM_difference": 0.0
+      }
+    },
+    "decision": "candidate_only; annotation and sample/method lineage plus affected validation pending"
+  }
+}

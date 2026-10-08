@@ -60,6 +60,15 @@ measurement. Check non-loss against archived gene evidence, leakage, affected
 truth/scorecards and any changed inference/calibration artifacts before promotion.
 Existing protein projections remain explicitly flagged in the source note meanwhile.
 
+Additional source-review dependency **GT-HOST-TX-02**:
+`results/host_expression_source_review_2026_10_08/` verifies GTEx v11 and original
+Atlas table, but native source replay differs from installed fields. Preserve
+PAR_Y gene identifiers instead of splitting at the first dot. The documented
+0.5 CAGE filter per region reproduces all overlapping installed brain values;
+mapping/coverage gaps remain. Review original gene/source/mapping lineage with
+symbol ambiguity. Original gene rows and replay gaps retained; no numerical
+replacement. 534 relevant checks passed.
+
 User steering: unavailable/undisplayable source content is recorded as a gap;
 continue the next independent item without waiting for it.
 

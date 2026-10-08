@@ -420,3 +420,16 @@ dependence and target-selection gaps remain. 426 relevant checks passed; exact
 complete-row/media/mapping replay. No biological admission or runtime changes.
 Continue host GTEx/FANTOM source lineage (65.04) and remaining categorical
 adapters independently of unavailable content.
+
+Host expression review **GT-HOST-TX-01**:
+`results/host_expression_source_review_2026_10_08/` downloads primary GTEx v11
+summary/LCM README and original Atlas `tpmss.tsv`, with verified associations and
+provider/acquisition hashes. Atlas parsed values exactly match the archived table.
+v11 remains a candidate with no new citation-age clock. Full gene rows preserve
+PAR_Y, which native split-at-dot collapses. Current replay has three missing/two
+extra GTEx projections and Atlas mapping/cutoff gaps. The documented 0.5 filter
+per region reproduces every overlapping legacy value; small mapping/coverage gaps
+remain. All rows/gaps/refusal diagnostics retained. 534 relevant checks passed;
+counts/values/hashes/policy refusal replayed. 65.04 is 4%; 66.04 remains open.
+Continue **GT-HOST-TX-02**, host mapping correction and original gene evidence.
+No installed values or calibration changed.
