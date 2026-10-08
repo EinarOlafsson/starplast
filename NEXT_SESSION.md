@@ -68,7 +68,7 @@ evidence, keep absolute abundance as a separate candidate under 65.04. Rhoptry
 version comparison (66.03) is complete: all 20,010 genes × three fields exactly
 match the journal. Canonical citation updated; raw v2 provenance and measurements
 retained. The audit found 39 ambiguous symbol-to-protein projections assigned by
-the old first-accession policy: correct these across host sources under 66.04.
+the old first-accession policy: 66.04 now withholds these projections with preserved original gene evidence.
 An additional 43 processed supplementary inputs were recovered for unmatched
 legacy derivations; they require transform/table association review, not renaming. Original
 source data stays external; no runtime dataset replacement is implied by acquisition.
@@ -375,7 +375,7 @@ implementation order and bounded acceptance conditions now come from instruction
 
 ## October 8 source recovery completion
 
-66.01 is complete: all 162 sources accounted for, 69 processed bindings, 11 container manifests and 538 candidate files, with explicit association, transform and access gaps. Read `results/source_recovery_final_2026_10_07_v2/README.md`. CSPA exact installed-field reproduction verified; its non-detection semantics corrected without numerical change. Frozen benchmark readers support explicit checksum-verified relocation. **717 relevant checks passed.** Instruction 66 is 3/4 complete; continue 64.07 strategy capability contracts and 66.04 host mapping correction. Numerical admission/replacements remain 65.04. Earlier code identities remain archived with their immutable artifacts.
+66.01 is complete: all 162 sources accounted for, 69 processed bindings, 11 container manifests and 538 candidate files, with explicit association, transform and access gaps. Read `results/source_recovery_final_2026_10_07_v2/README.md`. CSPA exact installed-field reproduction verified; its non-detection semantics corrected without numerical change. Frozen benchmark readers support explicit checksum-verified relocation. **717 relevant checks passed.** Instruction 66 is 4/4 complete; continue 64.10/64.11 frozen benchmark adapters. Numerical admission/replacements remain 65.04. Earlier code identities remain archived with their immutable artifacts.
 
 64.07 complete: `starplast/capabilities.py` and `results/capability_contracts_2026_10_08_v2/`; distinct pair/class/evidence/gene outputs and explicit unavailable host adapters. No new biological performance claims. Next 64.08 artifact roles/identity/invalidation, then 64.09 shared aggregation.
 
@@ -383,14 +383,14 @@ implementation order and bounded acceptance conditions now come from instruction
 
 64.09 complete: `starplast/record_scorecards.py`, `results/record_reconciliation_2026_10_08_v3/`; all legacy outcomes match standard metrics on identical cohorts. Original truth/exclusion/nested-fit lineage remains unresolved, not retroactively admitted. Settings/seeds/modes/named sets remain separate; no independent-sample inflation or component/per-gene probability claims.
 
-64.10 is 30%: first `starplast/label_records.py` feature-kNN adapter (`8b59643`), with native
+64.10 is 35%: first `starplast/label_records.py` feature-kNN adapter (`8b59643`), with native
 training rank parity and frozen train distributions for held-out values. The
 prediction-grade compartment pilot retains all 560 test genes and full native
 class scores; `results/label_knn_pilot_2026_10_08_v5/` is the rank-transform run.
 Earlier z-score/serialization diagnostics retain original code. Scorecard
 identities now preserve one-ULP differences. Continue remaining categorical
 adapters/full outer coverage and independent truth acquisition; host-symbol
-correction remains 66.04. No runtime strategy, installed values or calibration
+correction is complete under 66.04. No runtime strategy, installed values or calibration
 has changed. The missing categorical ortholog-transfer adapter is also verified:
 `starplast/transfer_records.py`, `results/ortholog_transfer_pilot_2026_10_08/`.
 Same 560 test genes: 123 calls/437 abstentions, 65 correct/58 wrong; all-hidden
@@ -430,11 +430,11 @@ PAR_Y, which native split-at-dot collapses. Current replay has three missing/two
 extra GTEx projections and Atlas mapping/cutoff gaps. The documented 0.5 filter
 per region reproduces every overlapping legacy value; small mapping/coverage gaps
 remain. All rows/gaps/refusal diagnostics retained. 534 relevant checks passed;
-counts/values/hashes/policy refusal replayed. 65.04 is 4%; 66.04 remains open.
+counts/values/hashes/policy refusal replayed. 65.04 is 4%; 66.04 is complete.
 Continue **GT-HOST-TX-02**, host mapping correction and original gene evidence.
 No installed values or calibration changed.
 
-66.04 first builder partition (25%): `host.uniprot_index` now withholds ambiguous
+Historical 66.04 first builder milestone (then 25%): `host.uniprot_index` now withholds ambiguous
 symbols; Ensembl mappings/schema unchanged. `deposits.k562_rhoptry_evidence`
 retains all original source rows before protein projection.
 `results/host_symbol_mapping_2026_10_08/`: 20,010 exact gene records, 39 ambiguous
@@ -472,3 +472,14 @@ baselines and small answered cohorts, with matched answered-row baseline skill.
 Next bounded numeric adapter: training-only native ridge on the existing
 `fit_invitro_hff` candidate, original direct-experiment grade with unresolved
 source/units/admission gaps; freeze scope before expensive fitting.
+
+Latest numeric partition: 64.11 now 25%, native ridge on the existing HFF
+fitness candidate, canonical `results/ridge_value_pilot_2026_10_08_v2/`.
+Training-only exclusions/ranks/model; 4,015 train/1,106 tune/1,103 calibration/
+1,101 test genes, 331 features. All training matrices/native predictions replay
+exactly; MAE 1.269871, RMSE 1.590402, Spearman 0.701225, matched training-mean
+MAE/MSE skill 0.335439/0.474868, coverage 1. Source/units/mapping/independent
+biological admission remain gaps. Constant-float baseline decile diagnostic
+preserved; revised cards retain identical values/models and correct code hashes.
+1,123 final checks passed. Continue other numeric/categorical adapters and
+biological truth; no additional full action complete (still 16/48).

@@ -1,0 +1,136 @@
+{
+  "summary": {
+    "organism": "Tg",
+    "target": "fit_invitro_hff",
+    "truth_grade": "direct_experiment",
+    "benchmark_admitted": false,
+    "quantity_unit": "unresolved",
+    "eligible": 7325,
+    "train": 4015,
+    "tune": 1106,
+    "calibration": 1103,
+    "test": 1101,
+    "training_selected_columns": 331,
+    "kept_model_columns": 331,
+    "counts": {
+      "eligible": 1101,
+      "answered": 1101,
+      "abstained": 0,
+      "correct": null,
+      "wrong": null,
+      "unique_biological_entities": 1101
+    },
+    "metrics": {
+      "spearman": 0.7012248324928195,
+      "pearson": 0.6915972163283599,
+      "kendall": 0.5030535944683859,
+      "r2": 0.4748632135206916,
+      "nrmse": 0.7246632228002939,
+      "mae": 1.269871312189383,
+      "rmse": 1.590401599926495,
+      "top_decile_recall": 0.38181818181818183,
+      "bottom_decile_recall": 0.39090909090909093,
+      "value_coverage": 1.0
+    },
+    "baseline_comparisons": {
+      "mean": {
+        "name": "training mean",
+        "eligible_rows": 1101,
+        "matched_answered_rows": 1101,
+        "eligible_metrics": {
+          "spearman": null,
+          "pearson": null,
+          "kendall": null,
+          "r2": -8.985499485802961e-06,
+          "nrmse": 1.0000044927396505,
+          "mae": 1.9108417345037854,
+          "rmse": 2.194686711216081,
+          "top_decile_recall": null,
+          "bottom_decile_recall": null,
+          "value_coverage": 1.0
+        },
+        "matched_metrics": {
+          "spearman": null,
+          "pearson": null,
+          "kendall": null,
+          "r2": -8.985499485802961e-06,
+          "nrmse": 1.0000044927396505,
+          "mae": 1.9108417345037854,
+          "rmse": 2.194686711216081,
+          "top_decile_recall": null,
+          "bottom_decile_recall": null,
+          "value_coverage": 1.0
+        },
+        "mae_skill": 0.3354387811091283,
+        "mse_skill": 0.47486793209461764,
+        "fit_lineage": "Caller must pin training-only baseline fit and source identity"
+      },
+      "median": {
+        "name": "training median",
+        "eligible_rows": 1101,
+        "matched_answered_rows": 1101,
+        "eligible_metrics": {
+          "spearman": null,
+          "pearson": null,
+          "kendall": null,
+          "r2": -0.050748673432300606,
+          "nrmse": 1.025060326728286,
+          "mae": 1.8769663941871026,
+          "rmse": 2.2496761700560537,
+          "top_decile_recall": null,
+          "bottom_decile_recall": null,
+          "value_coverage": 1.0
+        },
+        "matched_metrics": {
+          "spearman": null,
+          "pearson": null,
+          "kendall": null,
+          "r2": -0.050748673432300606,
+          "nrmse": 1.025060326728286,
+          "mae": 1.8769663941871026,
+          "rmse": 2.2496761700560537,
+          "top_decile_recall": null,
+          "bottom_decile_recall": null,
+          "value_coverage": 1.0
+        },
+        "mae_skill": 0.3234448330443589,
+        "mse_skill": 0.500226077122768,
+        "fit_lineage": "Caller must pin training-only baseline fit and source identity"
+      }
+    },
+    "artifact_identity": "782d9e3745b28552b84f9a97022f270bfcb228e49ce37d1e2da5b1c5af08f1b8",
+    "runtime_changes": "none",
+    "interpretation": "stored experimental-score recovery; biological admission unresolved"
+  },
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/results/ground_truth_registry_2026_10_07_v2/registry.json": "43a58be0040b63c3062358d2665cc18340818de01d508741592592470084f5e2",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/nodes.parquet": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/ground_truth_registry_2026_10_07_v2/Tg_truth.parquet": "fd75e17a7b87dbf794cb653aee886e9e1bc6f21934417164c0953983a97b2ed6",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/ground_truth_registry_2026_10_07_v2/Tg_universe.json": "fc8eba37c013b73e3291d5a2690e18135ef2435419c5eb2f1e26a0acdde07ed7",
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/freeze_ridge_value_pilot.py": "5e7df2fe04b0e931c98d3bb91f0ad23963a20b8759f788d8e3dd38991069c3cb",
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/freeze_conformal_pilot.py": "8a7e2d4be656c664cb0ebadf761e07c45b703bc7fa1b66421d3626fb09f59aa6",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/value_records.py": "8e04d45f8a56a1fe4a72d38cea8f5edd97212a20a79a5dc4225cf5f82e0baa34",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategy_catalog.py": "ff94e855ab006a00652acb94c0fd1aa63c1e014534d26c0dfa47de47879e829a",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategies.py": "b9d2f461991d83479e9d6e1f91c6591f8bbb68438affddfe8116b07aa04cb236",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard.py": "b9578423606371c1b432141dbfc4ad1e01e5dd69e8d162b2e6a1689192bb8730",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/record_scorecards.py": "c5f3741ca9f8b6751fa40e0cefc4c41073fc732222f48f515ab1e314a3694108",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/baselines.py": "c135471fe8fc96cd443cdd90bf8058733502728588704e31a0c4099306be5307",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/splits.py": "6898360c7f5acfa3aa97e4004d20db19ee7a4bea224a85c2a537c2e729b7d23f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/artifacts.py": "405ca2f936d1c6e9110bea9db99cd03cf23dd0f544a83ce39ea80d599bdcbfed",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/capabilities.py": "6659d9c0cf4eab8d1b932d06a50c0c0818b6903efb279c04835464d61934d723",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/ground_truth.py": "6ee607c6e7e4a5c259dd69af8a4d3f30c1918b5176898d4a74c117eb4bcbd13d",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/search.py": "54d7fc6dbaa401a2c7883ddc8440461940e3045f99a44117d2e4aead363cf6ba"
+  },
+  "outputs": {
+    "summary.json": "86ca0eef6c686bd7c7204eb008095729228bf851327d2e85b1e49918706cf513",
+    "split.json": "8e9eac13e50acf607258f74b1e13e16b1dd675a76f69c37246782c664075329e",
+    "held_out/baseline_comparisons.json": "5c19c0621c5b9db22ff140f280063d9e792684c912b6ee7830f2df9f50c8a9bc",
+    "held_out/model_state.json": "8ed2532b3e375d01b5762e554c4324c672e88678b0ca8bc246a9deb908fddb99",
+    "held_out/baseline_state.json": "137e1f42f82fc113084972d149a9a45193b5a52e9331cd4a48bdd9bbb6ad9daa",
+    "held_out/rows.json": "6efeb5223fbcb877e5596eed1a1e55fb3367b8dacc144d09b1b21d2514f26fdb",
+    "held_out/row_columns.json": "5cc9c2d6447f88a5cd257a981a339ba65e4e81607281e1428e07b261e86a759e",
+    "held_out/card.json": "66e974d6c4f30bdcfd1d018cb8c51c1cf45a4a5ba4a284a7cdbbb9085e714218",
+    "held_out/manifest.json": "f27e94c4ec8fa5c79ea5df37b3593ee33b1df22decff0df859cc5fe764244495",
+    "held_out/own_kind_exclusions.json": "b3eef3600c60c215450f522823539eb892fa79c0ab3e6974be0e7086237c1c6e"
+  }
+}

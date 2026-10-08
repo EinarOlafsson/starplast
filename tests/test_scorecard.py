@@ -122,6 +122,24 @@ def test_constant_prediction_baseline_keeps_errors_and_undefined_correlation():
     assert np.isnan(card['spearman']) and np.isnan(card['top_decile_recall'])
 
 
+def test_float_constant_large_cohort_does_not_gain_spurious_variation():
+    # Standard deviation can be a tiny nonzero number for identical floats.
+    prediction = np.full(1101, .1)
+    card = SC.values(prediction, np.linspace(0.,1.,1101))
+    for metric in ('spearman','pearson','kendall','top_decile_recall','bottom_decile_recall'):
+        assert np.isnan(card[metric])
+    card = SC.values(np.linspace(0.,1.,1101), prediction)
+    assert np.isnan(card['r2']) and np.isnan(card['nrmse'])
+    assert np.isfinite(card['mae']) and np.isfinite(card['rmse'])
+
+
+def test_underflowed_truth_spread_keeps_normalized_error_unavailable():
+    truth = np.array([1e-300, 2e-300, 3e-300])
+    card = SC.values(truth, truth)
+    assert card['mae'] == 0. and card['rmse'] == 0.
+    assert np.isnan(card['r2']) and np.isnan(card['nrmse'])
+
+
 @pytest.mark.parametrize('truth,prediction,mae,rmse', [
     ([2.], [5.], 3., 3.), ([2., 2., 2.], [1., 2., 4.], 1., np.sqrt(5/3)),
     ([1., 2., 3.], [np.nan, 4., np.nan], 2., 2.)])

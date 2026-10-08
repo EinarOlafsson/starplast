@@ -146,3 +146,18 @@ infinite predictions and contradictory numeric abstention flags are refused.
 The outcome hash includes actual baseline values, and the parameter identity
 includes its name/units. The caller must still pin the baseline's training-only
 fit/source lineage in its artifact; row arithmetic alone cannot establish that.
+
+## First frozen numeric adapter
+
+`starplast.value_records.trait_ridge` fits the native ridge estimator on training
+values alone, with train-fitted ranks and zero imputation. It retains every test
+row, explicit abstention and serialized fitting provenance. Held-out features
+cannot change the fitted state. The caller freezes training source/own-kind
+exclusions before feature selection; target values keep their original scale.
+
+`results/ridge_value_pilot_2026_10_08_v2/` retains all 1,101 HFF fitness candidate
+test genes and exact native training/prediction replay, with matched mean/median
+baselines. Original source/units/mapping and independent admission remain gaps.
+The first packet preserves the constant-float std diagnostic: exact nonzero
+range, rather than rounded std alone, prevents constant-baseline decile rankings.
+Fitted state and all values are identical across the corrected metric revision.

@@ -622,10 +622,10 @@ def values(pred, truth) -> dict:
         err = p - y
         mse = float((err ** 2).mean())
         out.update(mae=float(np.abs(err).mean()), rmse=math.sqrt(mse))
-        if len(y) >= 3 and np.std(y) > 0:
+        if len(y) >= 3 and np.ptp(y) > 0 and np.std(y) > 0:
             out.update(r2=1.0 - float((err ** 2).sum()) / float(((y-y.mean()) ** 2).sum()),
                        nrmse=math.sqrt(mse) / float(np.std(y)))
-    if len(y) >= 3 and np.std(y) > 0 and np.std(p) > 0:
+    if len(y) >= 3 and np.ptp(y) > 0 and np.ptp(p) > 0:
         k = max(1, int(round(0.1 * len(y))))
         top_t, top_p = set(np.argsort(-y)[:k]), set(np.argsort(-p)[:k])
         bot_t, bot_p = set(np.argsort(y)[:k]), set(np.argsort(p)[:k])

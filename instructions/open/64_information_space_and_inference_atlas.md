@@ -140,7 +140,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.08](../done/64_08_result_artifact_contract.md) | ✅ | 0 h | Version inference and benchmark artifacts | 64.03, 64.05, 64.07 |
 | [64.09](../done/64_09_scorecard_aggregation.md) | ✅ | 0 h | Make all scorecard levels use the same records | 64.04, 64.06, 64.08 |
 | [64.10](64_10_label_benchmark_records.md) | 35% | 6–12 h | Complete the categorical-label benchmark records | 64.05, 64.06, 64.07, 64.08, 64.09 |
-| [64.11](64_11_value_benchmark_records.md) | 10% | 6–10 h | Keep held-out numeric predictions | 64.05, 64.06, 64.07, 64.08, 64.09 |
+| [64.11](64_11_value_benchmark_records.md) | 25% | 6–10 h | Keep held-out numeric predictions | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.12](64_12_gene_ranking_benchmarks.md) | 0% | 6–10 h | Test gene rankings and set retrieval | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.13](64_13_relationship_benchmarks.md) | 0% | 6–12 h | Test relationship and link inference | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.14](64_14_cluster_benchmarks.md) | 0% | 6–10 h | Test map and module recovery | 64.05, 64.06, 64.07, 64.08, 64.09 |
