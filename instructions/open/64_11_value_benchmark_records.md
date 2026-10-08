@@ -1,6 +1,6 @@
 # 64.11 · Keep held-out numeric predictions
 
-Status: OPEN — 25%, 2026-10-08. Existing foundations are reused; completion of this acceptance contract is not yet verified.
+Status: OPEN — 35%, 2026-10-08. Existing foundations are reused; completion of this acceptance contract is not yet verified.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -90,3 +90,36 @@ proves unchanged model/prediction/source values. 1,123 final checks passed.
 Artifact `782d9e3745b28552b84f9a97022f270bfcb228e49ce37d1e2da5b1c5af08f1b8`.
 25%, no completion tick: other mechanisms/variants, intervals, full coverage
 and source/units/biological admission are still pending.
+
+## Frozen numeric interval partition: ridge base, 2026-10-08
+
+Reuse only the verified v2 ridge state and unchanged HFF fitness candidate
+source/exclusions/ordered roles. Native ridge alpha=1 remains train-only;
+fixed conformal alpha=0.1, absolute-residual quantile from the separate 1,103
+calibration genes; all 1,101 test genes retained. Reuse train-fitted ranks/
+zero imputation, never fit preprocessing to calibration/test. Verify point
+predictions and native _intervals parity on identical frozen roles. Record
+calibration residuals/quantile lineage and interval lower/upper/status; nonfinite
+thresholds use explicit unavailable/unbounded status, not nonfinite JSON.
+Cards expose empirical all-eligible/answered interval coverage, availability,
+width and nominal coverage alongside errors and matched training baselines.
+Synthetic finite/unbounded/missing intervals test identifiable coverage/capacity;
+no independent biological admission, exchangeability or per-gene guarantee.
+Output a new `results/value_conformal_pilot_2026_10_08/` packet. Boosting variant,
+other numeric mechanisms and full outer coverage remain separate controlled work.
+
+Numeric ridge interval partition validated: the executed packet preserves all
+1,101 test genes and the upstream model state by verified reference. Separate
+1,103-gene calibration half-width 2.762314; native predictions/bounds/quantile
+replay exactly. Empirical stored-value coverage 0.921889 at nominal 0.9, finite
+availability 1, mean width 5.524628 (2.517286 eligible-truth standard deviations).
+Both matched training mean/median error and skill cards replay. Standard glossary
+defines all interval metrics; point-only cards retain null interval fields.
+Known-truth finite/unbounded/unavailable controls, missing calibration, mutation,
+cohort order and source/arithmetic refusals are covered. 1,009 relevant checks
+pass; initial 10 fixture failures (wrong module for native point fitter) corrected,
+55 initially passed. No installed source, runtime native algorithm or historical
+snapshot changed. Artifact identity
+`43fd24722a1cd4be3c3d0629abd16514b8b6833ab3627df908f5240551673b76`.
+35%, no completion tick: other variants/mechanisms, full outer coverage and
+source/unit/independent biological admission remain open.

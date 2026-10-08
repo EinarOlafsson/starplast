@@ -453,3 +453,20 @@ constant predictions and small answered cohorts. Raw-unit RMSE was not recorded
 in the historical calibration tables above and remains unavailable there.
 Historical values are preserved with their original lineage; no new calibration
 publication or biological benchmark is implied.
+
+## Numeric interval metric definitions (2026-10-08)
+
+These definitions apply to newly computed row cards. The historical published
+calibration tables above retain their original values and do not acquire interval
+measurements from the new pilot. Point-only cards leave these fields unavailable.
+
+| Metric | Definition | Interpretation |
+|---|---|---|
+| Interval coverage, all eligible | Observed values inside their finite or explicitly unbounded interval, divided by all eligible rows. | Unavailable intervals count as uncovered; wide intervals need their width alongside coverage. |
+| Interval coverage, available intervals | Observed values inside their interval divided by rows with finite or explicitly unbounded intervals. | Coverage among available intervals can hide unsupported genes; also inspect all eligible coverage. |
+| Interval availability | Share of eligible rows with a finite or explicitly unbounded interval. | Available includes unbounded intervals; their share and finite width disclose actual inference capacity. |
+| Mean interval width | Mean upper minus lower bound over available intervals, in measurement units; unavailable if any is unbounded. | Narrower is useful only together with adequate empirical coverage and interval availability. |
+| Mean finite interval width | Mean upper minus lower bound among finite intervals only, in measurement units. | This restricted mean excludes unbounded and unavailable intervals; never read it as whole cohort width. |
+| Unbounded interval share | Explicitly unbounded intervals divided by all eligible evaluation rows. | An unbounded interval covers any finite truth but provides no finite numeric resolution. |
+| Interval width in truth standard deviations | Mean available interval width divided by the population standard deviation of all eligible observed truth. | Dimensionless width is unavailable for unbounded intervals or constant truth; raw width remains separate. |
+| Nominal interval coverage | Declared one minus conformal alpha, fixed before final test evaluation. | This nominal level requires source and exchangeability review; it is not a per gene correctness probability. |

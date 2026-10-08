@@ -1,0 +1,21 @@
+{
+  "focused_initial": {
+    "passed": 55,
+    "failed": 10,
+    "reason": "Fixture referenced _fit_predict in strategy_learning; actual native point fitter is in strategy_catalog",
+    "resolution": "Fixture import/call corrected; native algorithm unchanged"
+  },
+  "focused_corrected": {
+    "passed": 65,
+    "failed": 0
+  },
+  "extended": {
+    "passed": 1009,
+    "failed": 0,
+    "warning": "Existing fetch_names module-execution warning"
+  },
+  "counts_overlap": true,
+  "memory_cap_gb": 2,
+  "gpu_used": false,
+  "executed_pilot_replay": "exact native predictions, bounds, quantile, calibration and cards"
+}

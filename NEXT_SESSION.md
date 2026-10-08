@@ -440,11 +440,11 @@ Historical 66.04 first builder milestone (then 25%): `host.uniprot_index` now wi
 symbols; Ensembl mappings/schema unchanged. `deposits.k562_rhoptry_evidence`
 retains all original source rows before protein projection.
 `results/host_symbol_mapping_2026_10_08/`: 20,010 exact gene records, 39 ambiguous
-and 1,271 unmapped retained; all 18,700 unambiguous candidate protein rows match
-the installed three scores exactly. 574 relevant checks passed, two existing
-skips, source replay verified. Installed wrong protein projections remain
-The later final migration completes explicit withdrawal/gene-preservation provenance and affected
-non-loss/layout/calibration/benchmark checks. Continue that bounded partition.
+and 1,271 unmapped retained. The original builder compared 18,700 unambiguous
+candidate protein rows using pandas' default tolerance; this did not prove
+binary identity. 574 relevant checks passed, two existing skips. The later final
+migration below completed withdrawal/gene preservation and strict precision
+review, preserving pre-existing source/legacy encoding differences explicitly.
 
 ## Latest controlled completion: 66.04, 2026-10-08
 
@@ -501,3 +501,19 @@ bypass restrictions or invent a cause after an abrupt loss of runtime activity.
 403 checks pass; completed [67.01](instructions/done/67_01_work_continuation_watchdog.md).
 Total now 17/49 complete; 64.10 stays 35%, 64.11 25%, 65.04 4%. Repost all 49
 rows whenever a complete item earns a tick. Details: [watchdog](docs/work-watchdog.md).
+
+Latest numeric interval partition: **64.11 now 35%**, verified train-only ridge
+reference plus separate 1,103 calibration genes and all 1,101 test genes in
+`results/value_conformal_pilot_2026_10_08/`. Native point predictions, bounds,
+absolute-error quantile and row/baseline cards replay exactly. Fixed nominal
+coverage 0.9; stored-value coverage 0.921889, half-width 2.762314, finite
+availability 1, mean width 5.524628 (2.517286 eligible-truth SD). Explicit
+finite/unbounded/unavailable interval statuses and glossary metrics prevent
+coverage being mistaken for capacity. Point-only cards gain null interval fields;
+historical snapshots retain original values/code. 1,009 relevant checks pass,
+10 initial fixture module-reference failures resolved. No biological admission
+or exchangeability guarantee; units remain unresolved. Full model state is
+verified upstream, not duplicated as a standalone deployment bundle.
+No full action completed (17/49); 64.10 remains 35%, 65.04 4%.
+Continue controlled remaining numeric adapters/variants and biological truth;
+full outer coverage and shared user-facing scorecard component remain open.

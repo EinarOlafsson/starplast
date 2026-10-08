@@ -27,6 +27,36 @@ and precision/AUROC/AUPRC remain unavailable where not identifiable. Native
 numeric units remain declared or unresolved. Cluster placements are distinct
 from categorical calls, and replication counts refer to tested findings.
 
+Numeric intervals require `lower`, `upper` and `interval_status` together.
+The status is `finite`, `unbounded` or `unavailable`; unbounded/unavailable
+bounds are null, never JSON infinity. All-eligible interval coverage counts
+unavailable intervals as uncovered; available-interval coverage has a separate
+denominator. Unbounded intervals cover finite truth but provide no finite
+resolution. Whole available-cohort width becomes unavailable when any interval
+is unbounded, while the explicitly restricted finite-only width remains separate.
+Nominal coverage is a setting, subject to source/context/exchangeability review,
+not a gene's correctness probability. These optional metrics appear in the
+standard glossary and are null for point-only cards; historical snapshots are
+not rewritten with newly calculated metrics.
+
+`value_conformal_records.conformal_values` consumes a verified train-only numeric
+fitted-model artifact, the complete separate calibration predictions/observed
+values, and the complete test predictions. It retains the native absolute-error
+quantile and every test row. Missing calibration predictions make intervals
+unavailable rather than reducing the calibration population. Infinite residual
+arithmetic is refused. The caller must also verify actual prediction generation;
+artifact declarations cannot establish source independence.
+
+The executed pilot in `results/value_conformal_pilot_2026_10_08/` reuses the exact
+frozen ridge model and ranks from the v2 numeric pilot. It retains 4,015 training,
+1,103 calibration and 1,101 test genes. At fixed alpha 0.1, half-width is 2.762314,
+empirical stored-value coverage is 0.921889, interval availability is 1 and mean
+width is 5.524628 (2.517286 eligible-truth standard deviations). All predictions,
+bounds, residuals, quantile and matched training mean/median cards replay exactly.
+Source units and independent biological/exchangeability admission remain open.
+The full upstream model state is pinned by artifact identity; the local typed
+model reference is not a standalone deployment bundle.
+
 When biological groups are supplied, label cards offer a descriptive group
 bootstrap with a fixed seed. Fewer than five groups, missing group identities
 and unknown provenance leave intervals unavailable. Grouping does not prove
