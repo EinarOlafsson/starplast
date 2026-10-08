@@ -276,7 +276,16 @@ test selector. The fixed candidate recovers 12 of 635 recorded profiles, makes
 eight wrong calls and abstains on 615 genes. The majority control recovers 19
 profiles. Domain cards measure recorded annotation membership; omissions do not
 establish biological absence. Independent biological accuracy and calibration
-remain unavailable. Plasmodium has no packaged functional recovery result yet.
+remain unavailable.
+
+For Plasmodium, select `ec_number` to open the frozen complete EC-major profile
+test. It recovers 40 of 152 recorded profiles, makes 103 wrong calls and abstains
+on nine genes; all four profiles unsupported in training remain included. The
+majority control recovers 43 profiles and the prevalence control recovers 35.
+The test uses direct annotations; orthology-derived annotations remain separate.
+Individual annotation curation/prediction provenance is unresolved. These scores
+measure recorded annotation recovery; independent biological accuracy, calibrated
+confidence and predictions for unknown genes remain unavailable.
 
 The old view showed only labels with generated claims. Its default filters left
 Toxoplasma localization claims visible, while hiding existing untested cell-cycle

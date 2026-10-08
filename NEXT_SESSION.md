@@ -238,9 +238,9 @@ inference atlas, backed by appropriate ground-truth tests, reusable precomputati
 meta-analysis and scorecards at every level. 64.01–64.09 are complete; continue remaining adapters/source admission and
 respect each card's dependencies. Completed cards record fixtures, validation and limitations.
 **Latest user priority (2026-10-08): function across Discoveries.** Browser coverage
-68.01 is complete; **68.02 is 35%** with pinned domain names, frozen EC/Pfam recovery
+68.01 is complete; **68.02 is 40%** with pinned domain names, frozen EC/Pfam recovery
 pilots and actual functional scorecards. Continue independent activity/source admission,
-Plasmodium result integration, further adapters and calibrated deployment using the
+remaining functional source/method partitions and calibrated deployment using the
 existing 64 contracts. Localization
 was the first developed prediction path; the old menu/default filters hid broader
 annotation and untested-label coverage. Preserve all existing host/audit work.
@@ -823,3 +823,15 @@ under800MiB; prior resource/path failures preserved with original code.
 Actual biological accuracy remains unknown. Next small partition: install and
 verify the accepted Pf candidate in Discoveries. Shipped Tg EC/Pfam bundle still
 unchanged; function35%, whole actions22/51, goal/watchdog active.
+
+Latest integration: **68.02 now40%;22/51 whole actions**. Shipped bundle
+SHA4275691a748d91f618da5606d21e8eb35976980ea456ea667b106960db21a2b2
+contains original Tg EC/Pfam entries plus accepted Pf direct EC test, all exact.
+Actual Pf desktop audit verifies original controls, membership/profile exports,
+gene/coverage routes and altered-source/wrong-organism refusals; screenshot
+inspected.81 focused checks pass; independent acceptance verifies18 outputs and
+15 current input hashes. Audit5.03s/717,492,224bytes; merge2.20s/519,588KiB under
+serial1900MiB with all workers terminal. Initial installer400MiB OOM preserved
+with original bundle/code; no fitting or biological/calibration/deployment
+admission. Guide updated. Continue remaining functional source/method partitions,
+then other instruction64/65/66 gaps; retain cancelled/restricted-task boundaries.

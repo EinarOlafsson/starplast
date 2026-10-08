@@ -11,7 +11,7 @@ inference/benchmark coverage clearly.
 | Item | Percent done | Time left | Description |
 |---|---:|---|---|
 | [68.01](../done/68_01_discoveries_label_browser.md) | ✅ | 0 h | Browse all available labels and functional classes, memberships and inference/test coverage in Discoveries |
-| 68.02 | 35% | 6–12 h + compute | Add functional ground-truth targets, strategy benchmarks and precomputed functional claims |
+| 68.02 | 40% | 6–12 h + compute | Add functional ground-truth targets, strategy benchmarks and precomputed functional claims |
 
 68.01 is bounded to current categorical annotations/flags plus multi-valued InterPro,
 Pfam and EC fields, both existing organisms, and existing claims/recipes. Search labels
@@ -348,3 +348,31 @@ control names;98 focused tests pass under800MiB. Preserved earlier accidental
 desktop selections and combined-suite400MiB OOMs, plus the packager's relative
 path diagnostic with original code. Shipped bundle unchanged; Pf desktop
 integration is next. 68.02 stays35%,22/51 whole actions, no new tick.
+
+Next bounded integration: install the accepted Pf reader candidate without
+changing either existing Tg entry or any native cards. Verify direct annotation,
+strategy, original controls, profile/class outcomes, gene and coverage routes,
+exports, all152 test/four unsupported genes, changed-source and cross-organism
+refusals. No new fitting, source admission, calibration or deployment.
+
+## Plasmodium Discoveries integration, 2026-10-08 — partial40%
+
+Executed merge `results/pf_functional_results_merged_2026_10_08_v2/` preserves
+both original Tg entries and the accepted Pf candidate exactly. Shipped bundle
+SHA256 `4275691a748d91f618da5606d21e8eb35976980ea456ea667b106960db21a2b2`;
+two Tg/one Pf tests. Native Pf controls keep distinct original names/scopes.
+All152 held-out genes/four unsupported profiles,40 correct/103 wrong/nine
+abstentions retained; direct and orthology-derived annotations stay separate.
+
+Desktop packet `results/pf_functional_ui_2026_10_08/` verifies annotation,
+strategy, original controls, membership/profile exports, gene and coverage
+navigation; changed-source and cross-organism refusals, unavailable host tests.
+Screenshot inspected. Audit5.03s,717,492,224bytes process peak under serial1900MiB.
+81 focused reader/class/coverage/desktop checks pass. Independent executed
+`results/pf_functional_integration_acceptance_2026_10_08/` verifies18 packet
+outputs,15 current input receipts and exact original/candidate equality.
+Preserve initial400MiB installer OOM with original source/bundle snapshots;
+canonical merge2.20s/519,588KiB under root serial1900MiB, all workers terminal.
+Guide now records Pf availability and weak recovery below majority. No biological
+admission, calibration, unknown-gene claims or new fitting;22/51 whole actions.
+Next: remaining functional source/method partitions and independent truth gaps.

@@ -13,7 +13,7 @@ from starplast import functional_results as F, organisms as O
 def _document():
     path=Path(F.__file__).with_name('data')/'functional_results.json'
     document=json.loads(path.read_text())
-    document['benchmarks']=[entry for entry in document['benchmarks'] if entry['metadata'].get('profile_namespace','ec_major')=='ec_major']
+    document['benchmarks']=[entry for entry in document['benchmarks'] if entry['metadata'].get('profile_namespace','ec_major')=='ec_major' and entry['metadata']['organism']==O.TOXOPLASMA]
     return document
 
 
@@ -48,9 +48,26 @@ def test_shipped_view_retains_exact_rows_cards_and_null_biological_accuracy():
     assert [card['class'] for card in benchmark.major_class_cards]==list('1234567')
     assert all(card['biological_precision'] is None and card['biological_recall'] is None for card in benchmark.major_class_cards)
     assert all(row['calibrated_confidence'] is None for row in benchmark.rows)
-    assert F.shipped(O.FALCIPARUM)[0]==[]
+    pf,reason=F.shipped(O.FALCIPARUM)
+    assert not reason and len(pf)==1 and pf[0].metadata['target']=='ec_direct_complete_major_profile'
     source=Path(__file__).resolve().parents[1]/benchmark.metadata['source_directory']/'held_out'
     for name,payload in benchmark.payloads.items():assert payload==json.loads((source/name).read_text())
+
+
+def test_shipped_pf_retains_original_control_scopes_and_unsupported_population():
+    benchmarks,reason=F.shipped(O.FALCIPARUM);benchmark,=benchmarks
+    assert not reason and benchmark.source_matches('ec_number')
+    assert not benchmark.source_matches('ec_number_orthology')
+    assert len(benchmark.rows)==152 and sum(not row['training_supported'] for row in benchmark.rows)==4
+    assert benchmark.card['counts']['correct']==40 and benchmark.card['counts']['abstained']==9
+    assert benchmark.metadata['summary']['train']==600 and benchmark.metadata['summary']['calibration']==147
+    assert set(benchmark.baseline_cards)=={'training_majority','training_prevalence'}
+    assert benchmark.baseline_cards['training_majority']['counts']['correct']==43
+    assert benchmark.baseline_cards['training_prevalence']['counts']['correct']==35
+    source=Path(__file__).resolve().parents[1]/benchmark.metadata['source_directory']/'held_out'
+    for name,payload in benchmark.payloads.items():assert payload==json.loads((source/name).read_text())
+    assert all(card['scope']['strategy']==name and card['scope']['protocol']==benchmark.card['scope']['protocol']
+        for name,card in benchmark.baseline_cards.items())
 
 
 def test_bundle_checksum_is_external_and_changed_payloads_are_refused(tmp_path):

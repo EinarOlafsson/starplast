@@ -16,7 +16,7 @@ def sha(path):
         return hashlib.file_digest(file, 'sha256').hexdigest()
 
 
-def audit(output):
+def audit(output, organism='Tg'):
     from PyQt6 import QtWidgets
     from starplast import functional_results as F, strategies as S
     from starplast.discoveries_panel import DiscoveriesPanel
@@ -34,15 +34,16 @@ def audit(output):
     for path in code:
         (output / 'code' / path.name).write_bytes(path.read_bytes())
     (output / 'input_manifest.json').write_text(json.dumps(before, indent=2) + '\n')
-    benchmarks, reason = F.shipped('Tg')
-    assert not reason and {item.namespace for item in benchmarks} == {'ec_major', 'pfam'}
+    benchmarks, reason = F.shipped(organism)
+    expected_namespaces={'ec_major','pfam'} if organism=='Tg' else {'ec_major'}
+    assert not reason and {item.namespace for item in benchmarks} == expected_namespaces
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
-    panel = DiscoveriesPanel('Tg', context=S.Context.shipped('Tg'))
+    panel = DiscoveriesPanel(organism, context=S.Context.shipped(organism))
     summaries = []
     chosen = []
     panel.gene_chosen.connect(chosen.append)
     try:
-        assert not panel.coverage_warning and len(panel.functional_benchmarks) == 2
+        assert not panel.coverage_warning and len(panel.functional_benchmarks) == len(benchmarks)
         for benchmark in benchmarks:
             source = benchmark.metadata['source_targets'][0]
             panel.label.setCurrentIndex(panel.label.findData(source))
@@ -105,10 +106,10 @@ def audit(output):
                 'controls': list(benchmark.baseline_cards), 'artifact_identity': benchmark.metadata['source_artifact_identity'],
                 'routes': ['annotation', 'strategy', 'control', 'membership', 'profile', 'gene', 'coverage'],
                 'independent_biology': None, 'calibration': None})
-        assert not F.shipped('Pf')[0] and F.shipped('Pf')[1]
+        assert all(not F.shipped(host)[0] and F.shipped(host)[1] for host in ('Hs','Mm'))
         changed = panel.context.nodes.copy()
         changed.loc[changed.index[0], 'gene_id'] = 'altered_audit_gene'
-        invalid = S.Context(changed, graph={}, organism='Tg')
+        invalid = S.Context(changed, graph={}, organism=organism)
         for benchmark in benchmarks:
             try:
                 F.require_context(benchmark, invalid)
@@ -116,13 +117,17 @@ def audit(output):
                 pass
             else:
                 raise AssertionError('Altered source borrowed archived accuracy')
+            other=S.Context(panel.context.nodes,graph={},organism='Pf' if organism=='Tg' else 'Tg')
+            try:F.require_context(benchmark,other)
+            except ValueError:pass
+            else:raise AssertionError('Other organism borrowed archived accuracy')
     finally:
         panel.close()
     assert before == {str(path): sha(path) for path in code + sources}
     summary = {'benchmarks': summaries, 'elapsed_seconds': time.monotonic() - start,
         'process_peak_bytes': next(int(line.split()[1]) * 1024 for line in Path('/proc/self/status').read_text().splitlines()
             if line.startswith('VmHWM:')), 'original_inputs_unchanged': True,
-        'other_organism_unavailable': True, 'altered_context_refused': True}
+        'organism':organism,'hosts_unavailable':True,'cross_organism_refused':True,'altered_context_refused':True}
     (output / 'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
     return summary
 
@@ -131,12 +136,13 @@ def main():
     from scripts.notebook_runner import ExecutedNotebook
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    output = parser.parse_args().out
+    parser.add_argument('--organism', choices=('Tg','Pf'),default='Tg')
+    args=parser.parse_args();output=args.out
     nb = ExecutedNotebook('Exact domain and enzyme Discoveries scorecard navigation')
-    nb.ns.update(audit=audit, output=output)
+    nb.ns.update(audit=audit, output=output,organism=args.organism)
     nb.md('Use original held-out artifacts and unchanged installed node tables; no fit, source promotion or biological admission. Verify class populations, controls, abstentions and all displayed routes.')
     try:
-        nb.code('summary = audit(output)', 'summary')
+        nb.code('summary = audit(output,organism)', 'summary')
         print(json.dumps(nb.ns['summary'], indent=2))
     except Exception as exc:
         output.mkdir(parents=True, exist_ok=True)
