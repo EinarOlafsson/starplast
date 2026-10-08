@@ -96,6 +96,7 @@ Predict a measured value for genes without one. What is hidden: a share of a mea
 | **R-squared (out of sample)** | 1 minus the squared prediction error over the variance of the hidden values around their own mean. | below 0 to 1 | 0 or below (predicting the mean scores 0) | The share of the hidden values' variance the prediction explains. Negative when the prediction is further off than the mean -- common for a good ranking on the wrong scale. |
 | **Normalised RMSE** | Root-mean-square error divided by the standard deviation of the hidden values. | 0 upward | 1 (predicting the mean) | Typical error in units of the measurement's own spread: below 1 beats the mean. |
 | **Mean absolute error** | Mean absolute difference between predicted and hidden values, in the measurement's units. | 0 upward | the mean absolute deviation of the hidden values | Typical size of an error, in the same units as the data. |
+| **Root-mean-square error** | Square root of mean squared error on answered hidden values, in measurement units. | 0 upward | error of the declared matched baseline | Weights larger errors more; compare on the same answered cohort. |
 | **Top-decile recall** | Share of the genes in the true top 10% of hidden values that are also in the predicted top 10%. | 0 to 1 | 0.1 | Whether the extreme genes -- usually the interesting ones -- are predicted extreme. |
 | **Bottom-decile recall** | The same for the bottom 10% -- for fitness scores, the most essential genes. | 0 to 1 | 0.1 | Whether the genes at the other extreme are found. |
 | **Coverage** | Share of hidden values that received a prediction. | 0 to 1 | not applicable | Every other value metric is computed on these genes. |
@@ -446,3 +447,9 @@ What each strategy's method is built from. The Strategies tab shows the same exp
 | **Random forest** | models | Hundreds of decision trees, each grown on a bootstrap sample of genes with a random subset of measurements at every split, voting on the class; classes are re-weighted to balance. | Finds thresholds and interactions a linear model cannot, and is robust to scale and outliers. | 37 |
 | **Permutation importance** | statistics | Shuffles one measurement among held-out genes and records how much balanced accuracy drops; repeated to give a mean and a spread. | Measures what a model actually relies on for new genes, unlike impurity importance, which rewards measurements with many distinct values. | 37 |
 | **Stacking** | models | Trains a meta-model on the out-of-fold predictions of several base models, so the combination is learned on genes no base model trained on. | Learns per label and per class how far to trust each kind of evidence, without rewarding a base model for memorising its training genes. | 38 |
+
+Numeric metric update (2026-10-08): newly computed cards retain MAE/RMSE for
+constant predictions and small answered cohorts. Raw-unit RMSE was not recorded
+in the historical calibration tables above and remains unavailable there.
+Historical values are preserved with their original lineage; no new calibration
+publication or biological benchmark is implied.

@@ -464,3 +464,11 @@ train-only rank/model state; separate 569 calibration/560 test genes. Stored-lab
 set coverage 0.905357, mean size 6.975/26, zero singleton calls. 1,088 relevant
 checks passed. Categorical action now 35%; no new completion tick, independent
 biology/full outer coverage/missing adapters remain pending.
+
+64.11 metric prerequisite now 10%: numeric cards retain MAE/RMSE for constant
+baselines and small answered cohorts, with matched answered-row baseline skill.
+`results/numeric_metric_review_2026_10_08/` contains executed analytic controls.
+544 final checks pass; original historical calibration/data remain unchanged.
+Next bounded numeric adapter: training-only native ridge on the existing
+`fit_invitro_hff` candidate, original direct-experiment grade with unresolved
+source/units/admission gaps; freeze scope before expensive fitting.

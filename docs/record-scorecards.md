@@ -127,3 +127,22 @@ is 0.0618. An all-training-classes control achieves coverage 100%, size 26 and
 efficiency zero; high set coverage alone would conceal weak inference capacity.
 Eleven rare classes use the overall threshold. Independent biological truth,
 exchangeability, the logistic variant and full outer coverage remain open.
+
+## Numeric errors and matched training baselines
+
+Numeric MAE and raw-unit RMSE remain available for constant predictions, constant
+truth and even one answered value. Correlations and decile ranking remain
+unavailable without adequate variation/sample size; R-squared and normalized
+RMSE additionally need nonzero truth spread. No answers means zero coverage
+and unknown error, not zero error. Historical frozen calibration values retain
+their original code and are not silently recomputed by this metric correction.
+
+A numeric row cohort may include `baseline_prediction` for every eligible entity
+with `baseline_name` in its parameters. Cards expose the baseline's full-cohort
+errors and errors on exactly the strategy's answered rows. MAE/MSE skill is
+`1 - model_error / baseline_error` on those matched rows; a perfect zero-error
+baseline or no answers leaves skill unavailable. Missing/infinite baselines,
+infinite predictions and contradictory numeric abstention flags are refused.
+The outcome hash includes actual baseline values, and the parameter identity
+includes its name/units. The caller must still pin the baseline's training-only
+fit/source lineage in its artifact; row arithmetic alone cannot establish that.

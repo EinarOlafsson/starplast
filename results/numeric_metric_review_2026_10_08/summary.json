@@ -1,0 +1,135 @@
+{
+  "fixture_card": {
+    "scope": {
+      "organism": "Tg",
+      "strategy": "trait_regression",
+      "target": "known_numeric_control",
+      "task": "values",
+      "settings": "fixed known-truth control",
+      "seed": 17,
+      "protocol": "analytic_control",
+      "partition": "test",
+      "benchmark_id": "numeric-control-v1",
+      "truth_grade": "synthetic_control",
+      "unit": "gene",
+      "negative_semantics": "All fixture truth explicitly known; no biology admitted",
+      "gaps": [
+        "Numerical fixture only"
+      ]
+    },
+    "scope_identity": "fa129696180b0d9e06f645e700a7daf31f618e3939c35f3176bc3bca4b6312c2",
+    "evaluation_parameters": {
+      "quantity_unit": "fixture units",
+      "baseline_name": "fixed training-mean control"
+    },
+    "parameter_identity": "f94148f4588e8c1e962238e290ee47c2038b096e24a71e36654aca68e038ea76",
+    "records_identity": "84a2748c19ef9c700c9bc75916379b2a235069ff0d3939e8d2566a47b999862a",
+    "cohort_identity": "268e5b827ba0e04f2403cd3d615d6147ce72aa02cb1b8a1429f30cc978ee33b9",
+    "counts": {
+      "eligible": 3,
+      "answered": 2,
+      "abstained": 1,
+      "correct": null,
+      "wrong": null,
+      "unique_biological_entities": 3
+    },
+    "metrics": {
+      "spearman": null,
+      "pearson": null,
+      "kendall": null,
+      "r2": null,
+      "nrmse": null,
+      "mae": 0.5,
+      "rmse": 0.7071067811865476,
+      "top_decile_recall": null,
+      "bottom_decile_recall": null,
+      "value_coverage": 0.6666666666666666
+    },
+    "metric_status": {
+      "spearman": "unavailable_for_this_cohort_or_truth",
+      "pearson": "unavailable_for_this_cohort_or_truth",
+      "kendall": "unavailable_for_this_cohort_or_truth",
+      "r2": "unavailable_for_this_cohort_or_truth",
+      "nrmse": "unavailable_for_this_cohort_or_truth",
+      "mae": "available",
+      "rmse": "available",
+      "top_decile_recall": "unavailable_for_this_cohort_or_truth",
+      "bottom_decile_recall": "unavailable_for_this_cohort_or_truth",
+      "value_coverage": "available"
+    },
+    "small_sample": true,
+    "extra": {
+      "quantity_unit": "fixture units",
+      "baseline_comparison": {
+        "name": "fixed training-mean control",
+        "eligible_rows": 3,
+        "matched_answered_rows": 2,
+        "eligible_metrics": {
+          "spearman": null,
+          "pearson": null,
+          "kendall": null,
+          "r2": -0.4998438638492766,
+          "nrmse": 1.2246811274161435,
+          "mae": 33.333333333333336,
+          "rmse": 56.586217403180434,
+          "top_decile_recall": null,
+          "bottom_decile_recall": null,
+          "value_coverage": 1.0
+        },
+        "matched_metrics": {
+          "spearman": null,
+          "pearson": null,
+          "kendall": null,
+          "r2": null,
+          "nrmse": null,
+          "mae": 1.0,
+          "rmse": 1.0,
+          "top_decile_recall": null,
+          "bottom_decile_recall": null,
+          "value_coverage": 1.0
+        },
+        "mae_skill": 0.5,
+        "mse_skill": 0.5,
+        "fit_lineage": "Caller must pin training-only baseline fit and source identity"
+      },
+      "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics"
+    }
+  },
+  "constant_baseline_metrics": {
+    "spearman": null,
+    "pearson": null,
+    "kendall": null,
+    "r2": 0.0,
+    "nrmse": 1.0,
+    "mae": 1.0,
+    "rmse": 1.118033988749895,
+    "top_decile_recall": null,
+    "bottom_decile_recall": null,
+    "value_coverage": 1.0
+  },
+  "one_answer_metrics": {
+    "spearman": null,
+    "pearson": null,
+    "kendall": null,
+    "r2": null,
+    "nrmse": null,
+    "mae": 3.0,
+    "rmse": 3.0,
+    "top_decile_recall": null,
+    "bottom_decile_recall": null,
+    "value_coverage": 1.0
+  },
+  "no_answer_metrics": {
+    "spearman": null,
+    "pearson": null,
+    "kendall": null,
+    "r2": null,
+    "nrmse": null,
+    "mae": null,
+    "rmse": null,
+    "top_decile_recall": null,
+    "bottom_decile_recall": null,
+    "value_coverage": 0.0
+  },
+  "biological_admission": false
+}

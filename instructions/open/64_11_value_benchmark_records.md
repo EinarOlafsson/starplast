@@ -1,6 +1,6 @@
 # 64.11 · Keep held-out numeric predictions
 
-Status: OPEN — 0%, 2026-10-07. Existing foundations are reused; completion of this acceptance contract is not yet verified.
+Status: OPEN — 10%, 2026-10-08. Existing foundations are reused; completion of this acceptance contract is not yet verified.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -33,3 +33,24 @@ follow-up and its dependency rather than silently widening the item.
 ## Completion evidence
 
 Pending: commit, checks, artifact/benchmark identities, measured population, limitations and dated result.
+
+## Frozen prerequisite partition: numeric error and matched-baseline cards
+
+2026-10-08, before numeric pilot fitting. Correct the standard metric path so
+constant predictions/truth and small answered cohorts retain identifiable MAE/
+RMSE while undefined correlations/normalizations remain unavailable. Add raw-unit
+RMSE to the metric glossary. Row cards optionally consume an explicit per-row
+training-only baseline prediction, named in parameters; compare MAE/MSE skill
+on exactly the strategy's finite answered rows, retain full-cohort baseline
+errors separately, and refuse incomplete baselines or contradictory abstention.
+No fitted adapter, source addition or biological admission in this partition.
+Use analytically known errors, constant baselines, abstentions and zero-error
+controls as ground truth; verify current calibration display and legacy records.
+Historical frozen calibration values are not rewritten as newly recomputed scores.
+
+Prerequisite validated: `results/numeric_metric_review_2026_10_08/`. Constant
+baselines retain MAE/RMSE; matched answered-row baseline skill and explicit
+abstention guards are implemented. Analytic known-truth notebook replayed;
+544 final checks pass, including calibration/display/legacy record compatibility.
+Historical calibration/benchmark snapshots remain untouched. Fitted adapters and
+real-data evaluation are next; 10%, no completion tick.
