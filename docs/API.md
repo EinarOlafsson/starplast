@@ -412,3 +412,5 @@ disk. `scripts/build_star_edges.py` rebuilds `data/star_edges.parquet`.
 Call it on the GUI thread. `app.main()` owns the application event loop and is
 intended as the console entry point. Scripts that only need tables and analyses
 should import the relevant modules directly.
+
+Strategy question/output declarations and adapter plans: [capabilities](capabilities.md).

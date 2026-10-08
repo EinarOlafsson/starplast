@@ -1,0 +1,2266 @@
+[
+  {
+    "strategy": "holdout_search",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "class_recovery",
+        "unit": "class",
+        "semantics": "class recovery and coverage; not per-gene probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "geneset_hunt",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100003\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100004\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100005\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100006\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"gene_set\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "TGME49_100001 TGME49_100002 TGME49_100003 TGME49_100004 TGME49_100005 TGME49_100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "gene_set",
+        "unit": "gene",
+        "semantics": "retrieved members; unmeasured membership remains unknown"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "recoverability_atlas",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "class_recovery",
+        "unit": "class",
+        "semantics": "class recovery and coverage; not per-gene probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "consensus_modules",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "blind_battery",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"gene\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "block_ablation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "evidence_effects",
+        "unit": "evidence_family",
+        "semantics": "matched held-out prediction loss when removed; not gene calls"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "feature_knn",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "map_neighbours",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "cluster_guilt",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "label_outliers",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "layer_propagation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "contacts"
+      ],
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "layer_vote",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "physical_partners",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "structural_homology",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "folds"
+      ],
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "multiplex_modules",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "link_prediction",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"pair\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "contacts"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "attention_correction",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"pair\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "papers"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "unwritten_links",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"pair\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "supervised_classifier",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "positive_unlabeled",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100003\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100004\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100005\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100006\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"gene_set\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "TGME49_100001 TGME49_100002 TGME49_100003 TGME49_100004 TGME49_100005 TGME49_100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "trait_regression",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "masked_imputation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "column",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "imputed percentile in transformed matrix; not native assay units"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "condition_shift",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "baseline",
+        "baseline"
+      ],
+      [
+        "condition",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "rank-scale condition residual after baseline adjustment; not native assay units"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "set_enrichment",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100003\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100004\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100005\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100006\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"gene_set\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "TGME49_100001 TGME49_100002 TGME49_100003 TGME49_100004 TGME49_100005 TGME49_100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      },
+      {
+        "kind": "feature_enrichment",
+        "unit": "feature",
+        "semantics": "feature association and multiplicity-adjusted q; not probability of a gene label"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "seed_expansion",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100003\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100004\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100005\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100006\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"gene_set\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "TGME49_100001 TGME49_100002 TGME49_100003 TGME49_100004 TGME49_100005 TGME49_100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "split_clusters",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "a",
+        "location"
+      ],
+      [
+        "b",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "conjunctions",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "a",
+        "location"
+      ],
+      [
+        "b",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "paralog_divergence",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"pair\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "ortholog_transfer",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "source",
+        "other_growth"
+      ],
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "stratum_focus",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "triangulation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "understudied_first",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "neighbour_space",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100003\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100004\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100005\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100006\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"gene_set\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "TGME49_100001 TGME49_100002 TGME49_100003 TGME49_100004 TGME49_100005 TGME49_100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "network_training",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"TGME49_100001\",\"kind\":\"gene\",\"organism\":\"Tg\"},{\"identifier\":\"TGME49_100002\",\"kind\":\"gene\",\"organism\":\"Tg\"}],\"kind\":\"pair\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "contacts"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "conformal_calls",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "label_sets",
+        "unit": "gene",
+        "semantics": "split-conformal prediction set; test coverage and size separately"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "graph_convolution",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "random_forest",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "evidence_effects",
+        "unit": "feature",
+        "semantics": "held-out permutation contribution; not individual component accuracy"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "stacking",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "conformal_values",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Tg\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "numeric_intervals",
+        "unit": "gene",
+        "semantics": "split-conformal interval in target units; coverage and width need outer testing"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "holdout_search",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "class_recovery",
+        "unit": "class",
+        "semantics": "class recovery and coverage; not per-gene probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "geneset_hunt",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100003\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100004\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100005\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100006\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"gene_set\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "PF3D7_0100001 PF3D7_0100002 PF3D7_0100003 PF3D7_0100004 PF3D7_0100005 PF3D7_0100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "gene_set",
+        "unit": "gene",
+        "semantics": "retrieved members; unmeasured membership remains unknown"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "recoverability_atlas",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "class_recovery",
+        "unit": "class",
+        "semantics": "class recovery and coverage; not per-gene probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "consensus_modules",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "blind_battery",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"gene\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "block_ablation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "evidence_effects",
+        "unit": "evidence_family",
+        "semantics": "matched held-out prediction loss when removed; not gene calls"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "feature_knn",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "map_neighbours",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "cluster_guilt",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "label_outliers",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "layer_propagation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "contacts"
+      ],
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "layer_vote",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "physical_partners",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "structural_homology",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "folds"
+      ],
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "multiplex_modules",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "link_prediction",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"pair\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "contacts"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "attention_correction",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"pair\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "papers"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "unwritten_links",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"pair\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "supervised_classifier",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "positive_unlabeled",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100003\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100004\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100005\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100006\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"gene_set\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "PF3D7_0100001 PF3D7_0100002 PF3D7_0100003 PF3D7_0100004 PF3D7_0100005 PF3D7_0100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "trait_regression",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "masked_imputation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "column",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "imputed percentile in transformed matrix; not native assay units"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "condition_shift",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "baseline",
+        "baseline"
+      ],
+      [
+        "condition",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "rank-scale condition residual after baseline adjustment; not native assay units"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "set_enrichment",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100003\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100004\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100005\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100006\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"gene_set\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "PF3D7_0100001 PF3D7_0100002 PF3D7_0100003 PF3D7_0100004 PF3D7_0100005 PF3D7_0100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      },
+      {
+        "kind": "feature_enrichment",
+        "unit": "feature",
+        "semantics": "feature association and multiplicity-adjusted q; not probability of a gene label"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "seed_expansion",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100003\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100004\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100005\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100006\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"gene_set\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "PF3D7_0100001 PF3D7_0100002 PF3D7_0100003 PF3D7_0100004 PF3D7_0100005 PF3D7_0100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "split_clusters",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "a",
+        "location"
+      ],
+      [
+        "b",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "conjunctions",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "a",
+        "location"
+      ],
+      [
+        "b",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "paralog_divergence",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"pair\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "ortholog_transfer",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "source",
+        "other_growth"
+      ],
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "stratum_focus",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "triangulation",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "understudied_first",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "neighbour_space",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100003\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100004\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100005\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100006\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"gene_set\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "genes",
+        "PF3D7_0100001 PF3D7_0100002 PF3D7_0100003 PF3D7_0100004 PF3D7_0100005 PF3D7_0100006"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "network_training",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[{\"identifier\":\"PF3D7_0100001\",\"kind\":\"gene\",\"organism\":\"Pf\"},{\"identifier\":\"PF3D7_0100002\",\"kind\":\"gene\",\"organism\":\"Pf\"}],\"kind\":\"pair\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "layer",
+        "contacts"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "conformal_calls",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "label_sets",
+        "unit": "gene",
+        "semantics": "split-conformal prediction set; test coverage and size separately"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "graph_convolution",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "random_forest",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "evidence_effects",
+        "unit": "feature",
+        "semantics": "held-out permutation contribution; not individual component accuracy"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "stacking",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"label\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"location\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "location"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  },
+  {
+    "strategy": "conformal_values",
+    "query_json": "{\"context\":{\"condition\":\"\",\"host\":\"\",\"stage\":\"\",\"strain\":\"\",\"tissue\":\"\"},\"entities\":[],\"kind\":\"trait\",\"organism\":\"Pf\",\"output\":\"inferences\",\"schema_version\":1,\"target\":\"growth\",\"values\":[]}",
+    "applicable": true,
+    "reason": "applicable",
+    "detail": "Declared inputs support these output meanings; no inference executed",
+    "settings": [
+      [
+        "target",
+        "growth"
+      ]
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "numeric_intervals",
+        "unit": "gene",
+        "semantics": "split-conformal interval in target units; coverage and width need outer testing"
+      }
+    ],
+    "benchmark_ids": [],
+    "validation_gaps": [
+      "Independent biological benchmark unavailable",
+      "Technique component tests are declared, not measured by this interface",
+      "Parameters not supplied retain unresolved defaults until the context adapter binds them"
+    ],
+    "schema_version": 1
+  }
+]

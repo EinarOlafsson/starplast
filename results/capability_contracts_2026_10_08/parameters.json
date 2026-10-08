@@ -1,0 +1,1158 @@
+{
+  "holdout_search": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": null,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "n_neighbors",
+      "label": "UMAP neighbours to try",
+      "kind": "grid",
+      "default": "15, 50",
+      "why": "Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built."
+    },
+    {
+      "name": "min_dist",
+      "label": "UMAP min_dist to try",
+      "kind": "grid",
+      "default": "0.0, 0.25",
+      "why": "Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps."
+    },
+    {
+      "name": "min_cluster_size",
+      "label": "Cluster sizes to try",
+      "kind": "grid",
+      "default": "20, 50",
+      "why": "Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding."
+    },
+    {
+      "name": "selection",
+      "label": "Cluster selection to try",
+      "kind": "grid",
+      "default": "eom, leaf",
+      "why": "HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "features",
+      "label": "Feature sets",
+      "kind": "choice",
+      "default": "all",
+      "why": "'all' walks one map per setting from every permitted measurement; 'families' also walks each kind of measurement alone, so you learn which evidence carries the label -- at several times the cost."
+    },
+    {
+      "name": "min_f1",
+      "label": "Call a label's cluster at F1",
+      "kind": "float",
+      "default": 0.2,
+      "why": "Each label's best cluster names its unlabelled members only if it isolates that label at least this well on the known genes. Lower names more clusters and is wrong more often; every call carries its cluster's F1 as its support."
+    }
+  ],
+  "geneset_hunt": [
+    {
+      "name": "genes",
+      "label": "Gene list",
+      "kind": "genes",
+      "default": "",
+      "why": "Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped."
+    },
+    {
+      "name": "exclude",
+      "label": "Column the list came from",
+      "kind": "category",
+      "default": null,
+      "why": "If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it."
+    },
+    {
+      "name": "n_neighbors",
+      "label": "UMAP neighbours to try",
+      "kind": "grid",
+      "default": "15, 50",
+      "why": "Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built."
+    },
+    {
+      "name": "min_dist",
+      "label": "UMAP min_dist to try",
+      "kind": "grid",
+      "default": "0.0, 0.25",
+      "why": "Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps."
+    },
+    {
+      "name": "min_cluster_size",
+      "label": "Cluster sizes to try",
+      "kind": "grid",
+      "default": "20, 50",
+      "why": "Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding."
+    },
+    {
+      "name": "selection",
+      "label": "Cluster selection to try",
+      "kind": "grid",
+      "default": "eom, leaf",
+      "why": "HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "features",
+      "label": "Feature sets",
+      "kind": "choice",
+      "default": "all",
+      "why": "'all' uses every permitted measurement in each map; 'families' also tries each kind of measurement alone, which can find a list that is coherent in one kind of evidence and invisible in the combination."
+    },
+    {
+      "name": "random_sets",
+      "label": "Random lists for the null",
+      "kind": "int",
+      "default": 100,
+      "why": "How many random lists of the same size are scored over the same walk to give the search-corrected p-value. More is steadier and costs little, because the maps are already built."
+    }
+  ],
+  "recoverability_atlas": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000.0,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    }
+  ],
+  "consensus_modules": [
+    {
+      "name": "target",
+      "label": "Held-out label (optional)",
+      "kind": "category",
+      "default": null,
+      "why": "A label whose closure is removed from every map, and which the modules are then read against. Leave empty to build modules from everything; the self-test then uses the default label."
+    },
+    {
+      "name": "n_neighbors",
+      "label": "UMAP neighbours to try",
+      "kind": "grid",
+      "default": "15, 30, 50",
+      "why": "Comma-separated UMAP n_neighbors values to walk. Small values keep local detail such as complexes; large values keep the global arrangement such as organelles. Every value multiplies the number of maps built."
+    },
+    {
+      "name": "min_dist",
+      "label": "UMAP min_dist to try",
+      "kind": "grid",
+      "default": "0.0, 0.25",
+      "why": "Comma-separated UMAP min_dist values to walk. Zero packs similar genes tightly, which clusters well; larger values spread them out, which reads better and clusters worse. Every value multiplies the number of maps."
+    },
+    {
+      "name": "min_cluster_size",
+      "label": "Cluster sizes to try",
+      "kind": "grid",
+      "default": "20, 50",
+      "why": "Comma-separated HDBSCAN minimum cluster sizes. Small values find small complexes and also split organelles; large values find organelles and swallow complexes. Cheap to widen: clustering is fast next to embedding."
+    },
+    {
+      "name": "selection",
+      "label": "Cluster selection to try",
+      "kind": "grid",
+      "default": "eom, leaf",
+      "why": "HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "threshold",
+      "label": "Co-clustering threshold",
+      "kind": "float",
+      "default": 0.5,
+      "why": "The share of clusterings in which two genes must be placed together to be in the same module. Higher is stricter: fewer, smaller, more trustworthy modules."
+    },
+    {
+      "name": "min_module",
+      "label": "Smallest module",
+      "kind": "int",
+      "default": 10,
+      "why": "Modules smaller than this are dropped as noise. A module of three genes that co-cluster is a coincidence as often as it is a complex."
+    }
+  ],
+  "blind_battery": [
+    {
+      "name": "map_from",
+      "label": "Build the map from",
+      "kind": "choice",
+      "default": NaN,
+      "why": "The family of measurements the map is built from; everything else becomes a held-out feature to read it with. Families are the kinds of evidence the table carries: transcription, translation, fitness, modification and so on."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000.0,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    }
+  ],
+  "block_ablation": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": null,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "unit",
+      "label": "Unit of evidence",
+      "kind": "choice",
+      "default": "family",
+      "why": "'family' groups the datasets by kind of measurement -- a dozen or so rows, quick. 'block' scores every dataset on its own -- a hundred rows, several minutes, and the level at which an experiment can be named."
+    }
+  ],
+  "feature_knn": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "min_share",
+      "label": "Call when the vote is at least",
+      "kind": "float",
+      "default": 0.3,
+      "why": "The share of the neighbourhood vote the winning label must hold before a gene is called. Higher calls fewer genes and fewer of them wrongly; the self-test uses the same threshold, so its number describes exactly these calls."
+    }
+  ],
+  "map_neighbours": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 4000.0,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "n_neighbors",
+      "label": "UMAP neighbours",
+      "kind": "int",
+      "default": 25.0,
+      "why": "The UMAP n_neighbors of the map the neighbours are read from. Larger values give a map whose distances reflect broad organisation; smaller ones, local detail."
+    },
+    {
+      "name": "min_dist",
+      "label": "UMAP min_dist",
+      "kind": "float",
+      "default": 0.1,
+      "why": "The UMAP min_dist of that map. Small values pack similar genes together, which is what a neighbourhood vote wants."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "min_share",
+      "label": "Call when the vote is at least",
+      "kind": "float",
+      "default": 0.3,
+      "why": "The share of the neighbourhood vote the winning label must hold before a gene is called. Higher calls fewer genes and fewer of them wrongly; the self-test uses the same threshold, so its number describes exactly these calls."
+    }
+  ],
+  "cluster_guilt": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": null,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "min_cluster_size",
+      "label": "Cluster size",
+      "kind": "int",
+      "default": 25,
+      "why": "HDBSCAN's minimum cluster size for the one map this strategy reads. Enrichment needs clusters big enough to hold several labelled genes, so very small values call almost nothing."
+    },
+    {
+      "name": "selection",
+      "label": "Cluster selection",
+      "kind": "choice",
+      "default": "leaf",
+      "why": "HDBSCAN's cluster selection for the one map this strategy reads. 'leaf' gives many small clusters, which is what naming a cluster needs; 'eom' gives a few very large ones, which on this proteome no single label dominates."
+    },
+    {
+      "name": "min_lift",
+      "label": "Minimum lift",
+      "kind": "float",
+      "default": 2.0,
+      "why": "How many times its proteome-wide share a label must be over-represented in a cluster before the cluster is named for it. Two is conservative for large classes and generous for rare ones."
+    }
+  ],
+  "label_outliers": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "top",
+      "label": "Genes to list",
+      "kind": "int",
+      "default": 200.0,
+      "why": "How many of the most surprising genes to list. The ranking is over every labelled gene; this only limits how much of it is shown and saved."
+    }
+  ],
+  "layer_propagation": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "layer",
+      "label": "Edge layer",
+      "kind": "layer",
+      "default": NaN,
+      "why": "The measured network the label is walked across. Each layer is a different kind of evidence -- co-expression, co-fitness, crosslinks, structural similarity -- and a layer built from the held-out label itself is refused."
+    },
+    {
+      "name": "restart",
+      "label": "Restart probability",
+      "kind": "float",
+      "default": 0.5,
+      "why": "At each step the walk returns to the seeds with this probability. High values keep labels close to where they started; low values let them travel several edges, which reaches more genes with weaker evidence."
+    }
+  ],
+  "layer_vote": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    }
+  ],
+  "physical_partners": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": null,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    }
+  ],
+  "structural_homology": [
+    {
+      "name": "target",
+      "label": "Annotation to transfer",
+      "kind": "column",
+      "default": NaN,
+      "why": "The functional annotation carried along the structural layer: an EC number by default, or any column of labels. It is truncated to the chosen level before anything is compared."
+    },
+    {
+      "name": "level",
+      "label": "Annotation depth",
+      "kind": "int",
+      "default": 1.0,
+      "why": "How many dot-separated parts of the annotation to keep: 1 is the enzyme class, 4 the exact reaction. Zero keeps the whole label. Deeper is more specific and less often predictable from fold."
+    },
+    {
+      "name": "layer",
+      "label": "Structural layer",
+      "kind": "layer",
+      "default": NaN,
+      "why": "The edge layer of structural similarity. Any layer can be chosen, but the strategy's reasoning -- fold outlives sequence -- applies to the structural one."
+    }
+  ],
+  "multiplex_modules": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "resolution",
+      "label": "Resolution",
+      "kind": "float",
+      "default": 1.0,
+      "why": "Modularity resolution for each layer's communities. Above 1 gives more, smaller communities; below 1 fewer, larger ones."
+    },
+    {
+      "name": "agreement",
+      "label": "Layer agreement",
+      "kind": "float",
+      "default": 0.5,
+      "why": "The share of the layers covering two genes that must put them in one community before the consensus does. Higher is stricter and leaves more genes unplaced."
+    }
+  ],
+  "link_prediction": [
+    {
+      "name": "layer",
+      "label": "Interaction layer to complete",
+      "kind": "layer",
+      "default": NaN,
+      "why": "The layer whose missing edges are predicted. Its own visible edges are used (shared partners, degree), the other measured layers are evidence, and layers derived from it are excluded."
+    },
+    {
+      "name": "top",
+      "label": "Pairs to list",
+      "kind": "int",
+      "default": 300.0,
+      "why": "How many of the highest-scoring unobserved pairs to list. Every candidate is scored; this only limits what is shown and saved."
+    }
+  ],
+  "attention_correction": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "layer",
+      "label": "Literature layer",
+      "kind": "layer",
+      "default": NaN,
+      "why": "Which co-mention layer to read: abstracts, or full-text paragraphs. The full-text layer is an open-access subset and is less dominated by review-article lists."
+    },
+    {
+      "name": "top",
+      "label": "Top pairs",
+      "kind": "int",
+      "default": 200.0,
+      "why": "How many of the highest-ranked pairs are compared. The test caps this at a fifth of the pairs whose genes are both labelled, so the top is really a top."
+    }
+  ],
+  "unwritten_links": [
+    {
+      "name": "min_layers",
+      "label": "Layers that must agree",
+      "kind": "int",
+      "default": 2,
+      "why": "How many independent measurement layers must link a pair before it is listed. One layer is a single experiment's word; two or more is agreement between different kinds of evidence."
+    },
+    {
+      "name": "top",
+      "label": "Pairs to list",
+      "kind": "int",
+      "default": 500,
+      "why": "How many unwritten pairs to list, most supported first. Every pair is counted; this only limits what is shown and saved."
+    }
+  ],
+  "supervised_classifier": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "C",
+      "label": "Regularisation C",
+      "kind": "float",
+      "default": 0.5,
+      "why": "Inverse penalty strength. Small values force a simple model that uses few measurements strongly; large values let it fit detail, including noise. 0.5 is a middle setting for a few hundred rank-scaled measurements."
+    },
+    {
+      "name": "min_probability",
+      "label": "Call when probability is at least",
+      "kind": "float",
+      "default": 0.0,
+      "why": "A gene is called only when the model's top probability reaches this. Zero calls every gene; 0.6 keeps the calls the model is sure of."
+    }
+  ],
+  "positive_unlabeled": [
+    {
+      "name": "genes",
+      "label": "Gene list",
+      "kind": "genes",
+      "default": "",
+      "why": "Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped."
+    },
+    {
+      "name": "exclude",
+      "label": "Column the list came from",
+      "kind": "category",
+      "default": null,
+      "why": "If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it."
+    },
+    {
+      "name": "bags",
+      "label": "Bags",
+      "kind": "int",
+      "default": 15,
+      "why": "How many positive-versus-random-draw models are averaged. More bags make the ranking steadier; 15 is usually enough, and each bag is a small fit."
+    },
+    {
+      "name": "top",
+      "label": "Candidates to list",
+      "kind": "int",
+      "default": 300,
+      "why": "How many of the highest-scoring genes not on your list to show. Every gene is scored; this only limits the table."
+    }
+  ],
+  "trait_regression": [
+    {
+      "name": "target",
+      "label": "Measurement to predict",
+      "kind": "number",
+      "default": null,
+      "why": "The numeric measurement to predict from everything else. Its own closure -- the same experiment's other outputs and anything restating it -- is withheld first."
+    },
+    {
+      "name": "model",
+      "label": "Model",
+      "kind": "choice",
+      "default": "boosted",
+      "why": "'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read."
+    },
+    {
+      "name": "own_kind",
+      "label": "Its own kind of measurement",
+      "kind": "choice",
+      "default": "leave out",
+      "why": "'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other."
+    },
+    {
+      "name": "top",
+      "label": "Surprising genes to list",
+      "kind": "int",
+      "default": 200,
+      "why": "How many of the measured genes furthest from their prediction to list, by absolute z-score of the out-of-fold residual."
+    }
+  ],
+  "masked_imputation": [
+    {
+      "name": "target",
+      "label": "Leave out the closure of",
+      "kind": "category",
+      "default": NaN,
+      "why": "Optionally, a label whose closure is removed from the table before completion, so imputed values can be used against that label without leakage."
+    },
+    {
+      "name": "column",
+      "label": "Column to fill",
+      "kind": "number",
+      "default": NaN,
+      "why": "The measurement whose missing values are listed after completion. Every column is completed; this only chooses which one to show."
+    },
+    {
+      "name": "rank",
+      "label": "Rank",
+      "kind": "int",
+      "default": 20.0,
+      "why": "How many underlying patterns the low-rank model may use. Too few blur distinct programmes together; too many fit noise and reconstruct nothing."
+    }
+  ],
+  "condition_shift": [
+    {
+      "name": "condition",
+      "label": "Condition",
+      "kind": "number",
+      "default": NaN,
+      "why": "The measurement taken in the condition of interest, for example fitness in the mouse. Its closure and the baseline's are withheld from the predictors."
+    },
+    {
+      "name": "baseline",
+      "label": "Baseline",
+      "kind": "number",
+      "default": NaN,
+      "why": "The same measurement in the reference condition, for example fitness in fibroblasts. What the baseline explains is removed; what remains is condition-specific."
+    },
+    {
+      "name": "model",
+      "label": "Model",
+      "kind": "choice",
+      "default": "boosted",
+      "why": "'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read."
+    },
+    {
+      "name": "own_kind",
+      "label": "Its own kind of measurement",
+      "kind": "choice",
+      "default": "leave out",
+      "why": "'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other."
+    }
+  ],
+  "set_enrichment": [
+    {
+      "name": "genes",
+      "label": "Gene list",
+      "kind": "genes",
+      "default": "",
+      "why": "Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped."
+    },
+    {
+      "name": "exclude",
+      "label": "Column the list came from",
+      "kind": "category",
+      "default": null,
+      "why": "If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it."
+    },
+    {
+      "name": "top",
+      "label": "Genes to rank",
+      "kind": "int",
+      "default": 300,
+      "why": "How many of the genes that best match the profile, and are not on the list, to show."
+    }
+  ],
+  "seed_expansion": [
+    {
+      "name": "genes",
+      "label": "Gene list",
+      "kind": "genes",
+      "default": "",
+      "why": "Gene accessions, one per line or separated by commas or spaces, pasted from anywhere. Matched exactly against this organism's table, ignoring case; anything not found is reported by name rather than silently dropped."
+    },
+    {
+      "name": "exclude",
+      "label": "Column the list came from",
+      "kind": "category",
+      "default": null,
+      "why": "If the gene list was made from a column of this table, name it here and that column, everything restating it and its experiment are withheld; otherwise the strategy would find the list again by reading the column that defined it."
+    },
+    {
+      "name": "mode",
+      "label": "Walk across",
+      "kind": "choice",
+      "default": "networks + measurements",
+      "why": "'networks' walks only the measured edge layers. 'networks + measurements' adds a nearest-neighbour graph of the measurement table, so genes absent from every network can still be reached."
+    },
+    {
+      "name": "restart",
+      "label": "Restart probability",
+      "kind": "float",
+      "default": 0.3,
+      "why": "How often the walk jumps back to your seeds. High keeps it close (few, near relatives); low lets it wander (more candidates, further away)."
+    },
+    {
+      "name": "top",
+      "label": "Candidates to list",
+      "kind": "int",
+      "default": 300,
+      "why": "How many of the most-visited genes not on your list to show. Every gene is scored by the walk; this only limits the table that is shown and saved."
+    }
+  ],
+  "split_clusters": [
+    {
+      "name": "a",
+      "label": "Shared label (A)",
+      "kind": "category",
+      "default": null,
+      "why": "The label the cluster must agree on -- what its genes have in common. Withheld from the map, with its closure. A coarse label works best: a cluster can agree on an organelle far more often than on one of two dozen sub-compartments."
+    },
+    {
+      "name": "b",
+      "label": "Splitting label or measurement (B)",
+      "kind": "column",
+      "default": null,
+      "why": "The label or measurement the cluster must divide on. A category splits into enriched groups; a measurement into two modes. Withheld from the map too."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "min_cluster_size",
+      "label": "Cluster size",
+      "kind": "int",
+      "default": 40,
+      "why": "HDBSCAN minimum cluster size. A split needs enough genes on both sides, so larger clusters find more splits and smaller ones find purer clusters."
+    },
+    {
+      "name": "selection",
+      "label": "Cluster selection to try",
+      "kind": "grid",
+      "default": "eom, leaf",
+      "why": "HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little."
+    }
+  ],
+  "conjunctions": [
+    {
+      "name": "a",
+      "label": "First label",
+      "kind": "category",
+      "default": null,
+      "why": "One of the two labels whose combination is sought. Withheld from the map with its closure; a coarse label such as the unified localization works best."
+    },
+    {
+      "name": "b",
+      "label": "Second label",
+      "kind": "category",
+      "default": null,
+      "why": "The other label. Withheld from the map too, so the cluster is found without either and the combination cannot be read back from the input."
+    },
+    {
+      "name": "sample",
+      "label": "Genes per map",
+      "kind": "int",
+      "default": 3000,
+      "why": "How many genes each map embeds. Zero embeds all of them; a sample of a few thousand makes a walk of many maps finish in minutes rather than an hour, at the cost of saying nothing about the genes left out."
+    },
+    {
+      "name": "min_cluster_size",
+      "label": "Cluster size",
+      "kind": "int",
+      "default": 15,
+      "why": "HDBSCAN minimum cluster size. Combinations are finer than single labels, so smaller clusters than for a split are usually right."
+    },
+    {
+      "name": "selection",
+      "label": "Cluster selection to try",
+      "kind": "grid",
+      "default": "eom, leaf",
+      "why": "HDBSCAN's cluster selection, comma-separated: 'eom' keeps the most persistent clusters -- on the real proteome two to six very large ones -- and 'leaf' every leaf of the cluster tree, dozens of small purer clusters with more genes left as noise. Walking both costs little."
+    }
+  ],
+  "paralog_divergence": [
+    {
+      "name": "target",
+      "label": "Label to compare (optional)",
+      "kind": "category",
+      "default": NaN,
+      "why": "A label withheld from the profiles and shown beside each pair; the self-test asks whether divergence predicts a difference in it. The default label is used for the test when this is empty."
+    },
+    {
+      "name": "min_shared",
+      "label": "Measurements both must have",
+      "kind": "int",
+      "default": 10.0,
+      "why": "A pair is scored only over measurements present for both genes, and only if there are at least this many. Fewer shared measurements give noisier divergence."
+    }
+  ],
+  "ortholog_transfer": [
+    {
+      "name": "target",
+      "label": "Target in this organism",
+      "kind": "column",
+      "default": null,
+      "why": "The measurement or label to predict here. Numeric targets are scored by rank correlation, labels by correct calls."
+    },
+    {
+      "name": "source",
+      "label": "Source in the other organism",
+      "kind": "column",
+      "default": null,
+      "why": "The measurement or label taken from the other species' orthologs. It is aggregated over each orthogroup before it is compared with anything."
+    }
+  ],
+  "stratum_focus": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": null,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "stratum",
+      "label": "Stratum",
+      "kind": "choice",
+      "default": "lineage-specific",
+      "why": "Which genes to focus on: lineage-specific (no ortholog outside the lineage), hypothetical proteins, understudied genes (no focal or substantive paper), or conserved genes for comparison."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "min_share",
+      "label": "Call when the vote is at least",
+      "kind": "float",
+      "default": 0.3,
+      "why": "The share of the neighbourhood vote the winning label must hold before a gene is called. Higher calls fewer genes and fewer of them wrongly; the self-test uses the same threshold, so its number describes exactly these calls."
+    }
+  ],
+  "triangulation": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "min_agree",
+      "label": "Methods that must agree",
+      "kind": "int",
+      "default": 2.0,
+      "why": "How many of the independent methods must give the same label before a gene is called. Two of three is the usual balance; three of three is the surest and reaches the fewest genes."
+    }
+  ],
+  "understudied_first": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "min_agree",
+      "label": "Methods that must agree",
+      "kind": "int",
+      "default": 2.0,
+      "why": "How many of the three methods must agree before an understudied gene is called; these genes have no literature to catch a wrong call, so agreement matters more here than anywhere."
+    }
+  ],
+  "neighbour_space": [
+    {
+      "name": "genes",
+      "label": "Genes to read",
+      "kind": "genes",
+      "default": "",
+      "why": "Gene accessions whose neighbourhoods to list, one per line or separated by commas or spaces. Leave empty to list the neighbourhoods around the strongest edges in the space instead. Anything not found is reported by name."
+    },
+    {
+      "name": "exclude",
+      "label": "Label being held out",
+      "kind": "category",
+      "default": null,
+      "why": "A label this space must stay blind to, if the neighbourhoods are going to be used while scoring that label. Its whole closure is applied: the column, anything restating it, the experiment that produced it, and any edge layer built from it."
+    },
+    {
+      "name": "layer",
+      "label": "Layer to hide in the self-test",
+      "kind": "layer",
+      "default": null,
+      "why": "Which layer's edges are hidden and asked back when the strategy tests itself. It is removed from its own features, so the question is whether the OTHER evidence finds its edges; a dense layer gives a stricter test than a sparse one."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours per gene",
+      "kind": "int",
+      "default": 10,
+      "why": "How many neighbours to list for each gene given. The space ranks every candidate pair; this only decides how far down each gene's list is printed."
+    },
+    {
+      "name": "top",
+      "label": "Pairs to list",
+      "kind": "int",
+      "default": 500,
+      "why": "How many of the strongest pairs in the whole space to list in 'the space', and how many to draw the fallback genes from when no gene list was given."
+    },
+    {
+      "name": "knn",
+      "label": "Nearest genes per gene",
+      "kind": "int",
+      "default": 15,
+      "why": "How many nearest genes in measurement space become candidate neighbours for each gene, on top of its partners in every layer. This is what lets the space speak about a pair no network touches at all; zero restricts it to pairs some layer already links."
+    },
+    {
+      "name": "per_layer",
+      "label": "Neighbours kept per layer",
+      "kind": "int",
+      "default": 25,
+      "why": "How many partners per gene are kept from each layer, strongest weight first. A dense layer such as the shared-compartment one would otherwise supply more than a hundred thousand pairs that all make the same claim."
+    }
+  ],
+  "network_training": [
+    {
+      "name": "exclude",
+      "label": "Label being held out",
+      "kind": "category",
+      "default": null,
+      "why": "A label this space must stay blind to, if the neighbourhoods are going to be used while scoring that label. Its whole closure is applied: the column, anything restating it, the experiment that produced it, and any edge layer built from it."
+    },
+    {
+      "name": "layer",
+      "label": "Layer to hide in the self-test",
+      "kind": "layer",
+      "default": null,
+      "why": "Which layer's edges are hidden and asked back when the strategy tests itself. It is removed from its own features, so the question is whether the OTHER evidence finds its edges; a dense layer gives a stricter test than a sparse one."
+    },
+    {
+      "name": "model",
+      "label": "Model",
+      "kind": "choice",
+      "default": "logistic",
+      "why": "The logistic baseline on the pair features is interpretable and always fitted. The embedding adds spectral node vectors and is used for ranking only if it beats the baseline on the degree-matched null; otherwise it is reported and the baseline ranks."
+    },
+    {
+      "name": "top",
+      "label": "Gaps to list",
+      "kind": "int",
+      "default": 300,
+      "why": "How many of the highest-probability pairs that no layer records to list. Every candidate pair is scored; this only limits what is shown and saved."
+    },
+    {
+      "name": "min_probability",
+      "label": "Minimum probability",
+      "kind": "float",
+      "default": 0.0,
+      "why": "Gaps below this calibrated probability are not listed. The probability is against a degree-matched non-pair, not an absolute posterior, so treat it as a ranking with a scale rather than as a chance of being true."
+    },
+    {
+      "name": "fraction",
+      "label": "Share of orthogroups held out",
+      "kind": "float",
+      "default": 0.25,
+      "why": "How much of the graph is hidden for scoring, by orthogroup. A larger share is a harder test on less training data; a smaller one leaves too few hidden edges in a sparse layer to score at all."
+    },
+    {
+      "name": "knn",
+      "label": "Nearest genes per gene",
+      "kind": "int",
+      "default": 15,
+      "why": "How many nearest genes in measurement space become candidate neighbours for each gene, on top of its partners in every layer. This is what lets the space speak about a pair no network touches at all; zero restricts it to pairs some layer already links."
+    },
+    {
+      "name": "per_layer",
+      "label": "Neighbours kept per layer",
+      "kind": "int",
+      "default": 25,
+      "why": "How many partners per gene are kept from each layer, strongest weight first. A dense layer such as the shared-compartment one would otherwise supply more than a hundred thousand pairs that all make the same claim."
+    }
+  ],
+  "conformal_calls": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": null,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "alpha",
+      "label": "Error rate allowed (alpha)",
+      "kind": "float",
+      "default": 0.1,
+      "why": "The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals."
+    },
+    {
+      "name": "model",
+      "label": "Base model",
+      "kind": "choice",
+      "default": "logistic",
+      "why": "Where the scores the sets are built from come from: a class-balanced logistic regression on every permitted measurement, or the distance-weighted vote of the nearest labelled genes. The guarantee holds for either."
+    },
+    {
+      "name": "thresholds",
+      "label": "Guarantee",
+      "kind": "choice",
+      "default": "per class",
+      "why": "'per class' calibrates a threshold for each label separately (Mondrian conformal), so the promise holds within every class; 'overall' uses one threshold, which can over-cover common classes and under-cover rare ones."
+    },
+    {
+      "name": "C",
+      "label": "Regularisation C",
+      "kind": "float",
+      "default": 0.5,
+      "why": "Inverse penalty strength of the logistic base model: small values force a simple model, large values let it fit detail. Unused by the kNN base model."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    }
+  ],
+  "graph_convolution": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "hops",
+      "label": "Network steps",
+      "kind": "int",
+      "default": 2.0,
+      "why": "How many steps of neighbourhood averaging are added as feature blocks. Zero is strategy 19; one adds direct partners; two adds partners of partners, which helps on sparse networks and blurs everything on dense ones."
+    },
+    {
+      "name": "C",
+      "label": "Regularisation C",
+      "kind": "float",
+      "default": 0.5,
+      "why": "Inverse penalty strength of the logistic regression. Smoothing multiplies the number of features, so a stronger penalty (smaller C) than strategy 19's is often right."
+    },
+    {
+      "name": "min_probability",
+      "label": "Call when probability is at least",
+      "kind": "float",
+      "default": 0.0,
+      "why": "A gene is called only when the model's top probability reaches this. Zero calls every gene; 0.6 keeps the calls the model is sure of."
+    }
+  ],
+  "random_forest": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "trees",
+      "label": "Trees",
+      "kind": "int",
+      "default": 300.0,
+      "why": "How many decision trees vote. More trees give a steadier answer and a smoother probability, never a more flexible model; 300 is past the point of change for a few hundred measurements."
+    },
+    {
+      "name": "min_leaf",
+      "label": "Genes per leaf at least",
+      "kind": "int",
+      "default": 2.0,
+      "why": "The smallest group of genes a tree may end on. Larger leaves smooth the model and resist noisy labels; 1 lets every tree memorise its training genes."
+    }
+  ],
+  "stacking": [
+    {
+      "name": "target",
+      "label": "Held-out label",
+      "kind": "category",
+      "default": NaN,
+      "why": "The label the strategy is scored against and never allowed to see: the column itself, anything that restates it and the experiment that produced it are removed first, by the same closure the Search tab uses."
+    },
+    {
+      "name": "k",
+      "label": "Neighbours to consult",
+      "kind": "int",
+      "default": 15.0,
+      "why": "How many labelled genes vote on each call. Few neighbours follow fine local structure and are noisy; many are stable and blur small classes into large ones. Fifteen is the project's default everywhere a neighbourhood is scored."
+    },
+    {
+      "name": "folds",
+      "label": "Out-of-fold splits",
+      "kind": "int",
+      "default": 5.0,
+      "why": "How many orthogroup folds the base predictions are made in. Each fold's genes are predicted by base models that never saw them, which is what keeps the meta-model honest."
+    }
+  ],
+  "conformal_values": [
+    {
+      "name": "target",
+      "label": "Measurement to predict",
+      "kind": "number",
+      "default": null,
+      "why": "The numeric measurement to predict from everything else. Its own closure -- the same experiment's other outputs and anything restating it -- is withheld first."
+    },
+    {
+      "name": "alpha",
+      "label": "Error rate allowed (alpha)",
+      "kind": "float",
+      "default": 0.1,
+      "why": "The share of new genes whose true answer may fall outside what is returned. 0.1 promises that at least 90% of prediction sets contain the true label (or 90% of intervals the true value); smaller alpha gives bigger sets and wider intervals."
+    },
+    {
+      "name": "model",
+      "label": "Model",
+      "kind": "choice",
+      "default": "boosted",
+      "why": "'boosted' is gradient-boosted trees: nonlinear, tolerant of missing values, slower. 'ridge' is a penalised straight-line fit: fast, and its weights can be read."
+    },
+    {
+      "name": "own_kind",
+      "label": "Its own kind of measurement",
+      "kind": "choice",
+      "default": "leave out",
+      "why": "'leave out' removes every column measured the same way as the target -- all the fitness screens, when the target is a fitness screen -- so the answer says what OTHER evidence knows. 'include' keeps them, which mostly measures how well the screens agree with each other."
+    }
+  ]
+}

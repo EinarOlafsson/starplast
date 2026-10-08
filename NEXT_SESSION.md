@@ -10,7 +10,7 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **6/40 complete (15%)**:
+40 bounded action cards with dependencies and acceptance tests. **7/40 complete (17.5%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
@@ -22,7 +22,7 @@ Zero independent biological benchmarks admitted; 440 output grades remain unreso
 64.05 freezes nested roles and training-only source exclusions; two real candidate
 cohorts and all ten deliberate leakage refusals verified (532 checks passed, two existing skips).
 64.06 provides shared training-only baselines and synthetic/null controls (426 checks passed).
-Continue at **64.07**, strategy capability contracts, and host symbol correction under 66.04. See
+64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). Continue at **64.08**, versioned artifact schema, and host symbol correction under 66.04. See
 `results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
@@ -376,3 +376,5 @@ implementation order and bounded acceptance conditions now come from instruction
 ## October 8 source recovery completion
 
 66.01 is complete: all 162 sources accounted for, 69 processed bindings, 11 container manifests and 538 candidate files, with explicit association, transform and access gaps. Read `results/source_recovery_final_2026_10_07_v2/README.md`. CSPA exact installed-field reproduction verified; its non-detection semantics corrected without numerical change. Frozen benchmark readers support explicit checksum-verified relocation. **717 relevant checks passed.** Instruction 66 is 3/4 complete; continue 64.07 strategy capability contracts and 66.04 host mapping correction. Numerical admission/replacements remain 65.04. Earlier code identities remain archived with their immutable artifacts.
+
+64.07 complete: `starplast/capabilities.py` and `results/capability_contracts_2026_10_08_v2/`; distinct pair/class/evidence/gene outputs and explicit unavailable host adapters. No new biological performance claims. Next 64.08 artifact roles/identity/invalidation, then 64.09 shared aggregation.

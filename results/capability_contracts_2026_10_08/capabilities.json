@@ -1,0 +1,3332 @@
+[
+  {
+    "strategy": "holdout_search",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "class_recovery",
+        "unit": "class",
+        "semantics": "class recovery and coverage; not per-gene probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "n_neighbors",
+      "min_dist",
+      "min_cluster_size",
+      "selection",
+      "sample",
+      "features",
+      "min_f1"
+    ],
+    "benchmark_tasks": [
+      "cluster recovery"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "settings_walk",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Settings walk; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "geneset_hunt",
+    "query_kinds": [
+      "gene_set"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "gene_set",
+        "unit": "gene",
+        "semantics": "retrieved members; unmeasured membership remains unknown"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 5,
+    "parameters": [
+      "genes",
+      "exclude",
+      "n_neighbors",
+      "min_dist",
+      "min_cluster_size",
+      "selection",
+      "sample",
+      "features",
+      "random_sets"
+    ],
+    "benchmark_tasks": [
+      "set retrieval"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "settings_walk",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Settings walk; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "recoverability_atlas",
+    "query_kinds": [
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "class_recovery",
+        "unit": "class",
+        "semantics": "class recovery and coverage; not per-gene probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "sample",
+      "k"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "consensus_modules",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "n_neighbors",
+      "min_dist",
+      "min_cluster_size",
+      "selection",
+      "sample",
+      "threshold",
+      "min_module"
+    ],
+    "benchmark_tasks": [
+      "cluster recovery"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "settings_walk",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Settings walk; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "co_association",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "blind_battery",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class",
+      "trait"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "map_from",
+      "sample"
+    ],
+    "benchmark_tasks": [
+      "replication"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "map_quality",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Label-free map quality; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "chi_square",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Chi-square test (Cramer's V); no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "kruskal_wallis",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Kruskal-Wallis test (eta-squared); no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "bh_fdr",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Benjamini-Hochberg FDR; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "block_ablation",
+    "query_kinds": [
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "evidence_effects",
+        "unit": "evidence_family",
+        "semantics": "matched held-out prediction loss when removed; not gene calls"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k",
+      "unit"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "ablation",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Evidence ablation; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "grouped_cv",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup-grouped cross-validation; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "feature_knn",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k",
+      "min_share"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "map_neighbours",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "sample",
+      "n_neighbors",
+      "min_dist",
+      "k",
+      "min_share"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "cluster_guilt",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "sample",
+      "min_cluster_size",
+      "selection",
+      "min_lift"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hypergeometric",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Hypergeometric enrichment; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "bh_fdr",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Benjamini-Hochberg FDR; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "label_outliers",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "layer_propagation",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "layer"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "layer",
+      "restart"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "random_walk_restart",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "layer_vote",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "chance_weighting",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "physical_partners",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "physical"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "structural_homology",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "structural",
+      "layer"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "level",
+      "layer"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "tm_score",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "multiplex_modules",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "multiplex"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "resolution",
+      "agreement"
+    ],
+    "benchmark_tasks": [
+      "cluster recovery"
+    ],
+    "techniques": [
+      {
+        "technique": "greedy_modularity",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "louvain",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "link_prediction",
+    "query_kinds": [
+      "gene",
+      "pair"
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "required": [
+      "layer"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "layer",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "triadic_closure",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Shared partners (triadic closure); no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "degree_matched",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Degree-matched non-pairs; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "attention_correction",
+    "query_kinds": [
+      "gene",
+      "pair",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "required": [
+      "literature",
+      "layer"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "layer",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "attention_residual",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "unwritten_links",
+    "query_kinds": [
+      "gene",
+      "pair"
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "required": [
+      "measured",
+      "literature"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "min_layers",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "support_count",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "supervised_classifier",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "C",
+      "min_probability"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "grouped_cv",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup-grouped cross-validation; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "positive_unlabeled",
+    "query_kinds": [
+      "gene_set"
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 5,
+    "parameters": [
+      "genes",
+      "exclude",
+      "bags",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "pu_bagging",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "trait_regression",
+    "query_kinds": [
+      "gene",
+      "trait"
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "numeric"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "model",
+      "own_kind",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "values"
+    ],
+    "techniques": [
+      {
+        "technique": "gradient_boosting",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "ridge",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "grouped_cv",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup-grouped cross-validation; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "masked_imputation",
+    "query_kinds": [
+      "gene",
+      "trait"
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "imputed percentile in transformed matrix; not native assay units"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "column",
+        "numeric"
+      ]
+    ],
+    "target_parameter": "column",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "column",
+      "rank"
+    ],
+    "benchmark_tasks": [
+      "values"
+    ],
+    "techniques": [
+      {
+        "technique": "soft_impute",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "condition_shift",
+    "query_kinds": [
+      "gene",
+      "trait"
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "rank-scale condition residual after baseline adjustment; not native assay units"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "condition",
+        "numeric"
+      ],
+      [
+        "baseline",
+        "numeric"
+      ]
+    ],
+    "target_parameter": "condition",
+    "minimum_seeds": 0,
+    "parameters": [
+      "condition",
+      "baseline",
+      "model",
+      "own_kind"
+    ],
+    "benchmark_tasks": [
+      "values"
+    ],
+    "techniques": [
+      {
+        "technique": "residualisation",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Residualisation on a baseline; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "gradient_boosting",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "ridge",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "grouped_cv",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup-grouped cross-validation; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "set_enrichment",
+    "query_kinds": [
+      "gene_set"
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      },
+      {
+        "kind": "feature_enrichment",
+        "unit": "feature",
+        "semantics": "feature association and multiplicity-adjusted q; not probability of a gene label"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 3,
+    "parameters": [
+      "genes",
+      "exclude",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "hypergeometric",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Hypergeometric enrichment; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "rank_sum",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Rank-sum test; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "bh_fdr",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Benjamini-Hochberg FDR; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "seed_expansion",
+    "query_kinds": [
+      "gene_set"
+    ],
+    "outputs": [
+      {
+        "kind": "gene_ranking",
+        "unit": "gene",
+        "semantics": "relative method score; not calibrated membership probability"
+      }
+    ],
+    "required": [
+      "features_or_graph"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 2,
+    "parameters": [
+      "genes",
+      "exclude",
+      "mode",
+      "restart",
+      "top"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "random_walk_restart",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "knn_graph",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "split_clusters",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "a",
+        "categorical"
+      ],
+      [
+        "b",
+        "any"
+      ]
+    ],
+    "target_parameter": "a",
+    "minimum_seeds": 0,
+    "parameters": [
+      "a",
+      "b",
+      "sample",
+      "min_cluster_size",
+      "selection"
+    ],
+    "benchmark_tasks": [
+      "replication"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hypergeometric",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Hypergeometric enrichment; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "bimodal_split",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Bimodal split; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "bh_fdr",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Benjamini-Hochberg FDR; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "conjunctions",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "map_modules",
+        "unit": "module",
+        "semantics": "geometry or module membership; not label probability"
+      },
+      {
+        "kind": "replication_findings",
+        "unit": "finding",
+        "semantics": "discovery association; independent replication requires disjoint validation"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "a",
+        "categorical"
+      ],
+      [
+        "b",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "a",
+    "minimum_seeds": 0,
+    "parameters": [
+      "a",
+      "b",
+      "sample",
+      "min_cluster_size",
+      "selection"
+    ],
+    "benchmark_tasks": [
+      "replication"
+    ],
+    "techniques": [
+      {
+        "technique": "umap",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hdbscan",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "hypergeometric",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Hypergeometric enrichment; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "bh_fdr",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Benjamini-Hochberg FDR; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "paralog_divergence",
+    "query_kinds": [
+      "gene",
+      "pair",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "min_shared"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "profile_correlation",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Profile correlation; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "ortholog_transfer",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class",
+      "trait"
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "groups",
+      "other"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "any"
+      ],
+      [
+        "source",
+        "other"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "source"
+    ],
+    "benchmark_tasks": [
+      "values",
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "orthogroup_mapping",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup mapping; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "stratum_focus",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "stratum",
+      "k",
+      "min_share"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "triangulation",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k",
+      "min_agree"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "agreement",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "understudied_first",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features",
+      "attention"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k",
+      "min_agree"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "agreement",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "neighbour_space",
+    "query_kinds": [
+      "gene",
+      "gene_set",
+      "pair"
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "required": [
+      "graph"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "genes",
+      "exclude",
+      "layer",
+      "k",
+      "top",
+      "knn",
+      "per_layer"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "knn_graph",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "degree_matched",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Degree-matched non-pairs; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "network_training",
+    "query_kinds": [
+      "gene",
+      "pair"
+    ],
+    "outputs": [
+      {
+        "kind": "pair_ranking",
+        "unit": "pair",
+        "semantics": "relative relationship support; missing edges are not negatives"
+      }
+    ],
+    "required": [
+      "layer"
+    ],
+    "column_parameters": [],
+    "target_parameter": "",
+    "minimum_seeds": 0,
+    "parameters": [
+      "exclude",
+      "layer",
+      "model",
+      "top",
+      "min_probability",
+      "fraction",
+      "knn",
+      "per_layer"
+    ],
+    "benchmark_tasks": [
+      "ranking"
+    ],
+    "techniques": [
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "spectral_embedding",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "degree_matched",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Degree-matched non-pairs; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "representations_for_declared_fit_role",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "conformal_calls",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "label_sets",
+        "unit": "gene",
+        "semantics": "split-conformal prediction set; test coverage and size separately"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "alpha",
+      "model",
+      "thresholds",
+      "C",
+      "k"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "split_conformal",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Disjoint train/calibration/test: achieved coverage AND set/interval size; compare point-model contribution.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "graph_convolution",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features",
+      "measured"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "hops",
+      "C",
+      "min_probability"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "sgc",
+        "roles": [
+          "pipeline_ablation",
+          "known_truth_null_control"
+        ],
+        "test": "Paired pipeline with/without component on frozen biological truth; planted structure and matched null checks.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "permitted_graph_operators",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "random_forest",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      },
+      {
+        "kind": "evidence_effects",
+        "unit": "feature",
+        "semantics": "held-out permutation contribution; not individual component accuracy"
+      }
+    ],
+    "required": [
+      "features"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "trees",
+      "min_leaf"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "random_forest",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "permutation_importance",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Permutation importance; no biological accuracy attribution from a composite.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "stacking",
+    "query_kinds": [
+      "gene",
+      "label",
+      "class"
+    ],
+    "outputs": [
+      {
+        "kind": "label_calls",
+        "unit": "gene",
+        "semantics": "label with method-specific support; not calibrated probability"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "categorical"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "k",
+      "folds"
+    ],
+    "benchmark_tasks": [
+      "label calls"
+    ],
+    "techniques": [
+      {
+        "technique": "stacking",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "knn",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "logistic_regression",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "network_vote",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "grouped_cv",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup-grouped cross-validation; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  },
+  {
+    "strategy": "conformal_values",
+    "query_kinds": [
+      "gene",
+      "trait"
+    ],
+    "outputs": [
+      {
+        "kind": "numeric_estimates",
+        "unit": "gene",
+        "semantics": "estimated target value in declared target units"
+      },
+      {
+        "kind": "numeric_intervals",
+        "unit": "gene",
+        "semantics": "split-conformal interval in target units; coverage and width need outer testing"
+      }
+    ],
+    "required": [
+      "features",
+      "groups"
+    ],
+    "column_parameters": [
+      [
+        "target",
+        "numeric"
+      ]
+    ],
+    "target_parameter": "target",
+    "minimum_seeds": 0,
+    "parameters": [
+      "target",
+      "alpha",
+      "model",
+      "own_kind"
+    ],
+    "benchmark_tasks": [
+      "values"
+    ],
+    "techniques": [
+      {
+        "technique": "gradient_boosting",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "ridge",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Held-out task truth against matched baseline; isolate component contribution on the same frozen cohort.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "split_conformal",
+        "roles": [
+          "direct_prediction",
+          "pipeline_ablation"
+        ],
+        "test": "Disjoint train/calibration/test: achieved coverage AND set/interval size; compare point-model contribution.",
+        "status": "declared_not_measured"
+      },
+      {
+        "technique": "grouped_cv",
+        "roles": [
+          "known_truth_null_control"
+        ],
+        "test": "Known truth and null fixtures for Orthogroup-grouped cross-validation; no biological accuracy attribution from a composite. Deliberate held-out leakage must be refused; settings and ensemble fitting use inner roles only.",
+        "status": "declared_not_measured"
+      }
+    ],
+    "precomputable": [
+      "evidence_provenance",
+      "permitted_features",
+      "target_and_query_specific_models_or_results",
+      "held_out_outputs",
+      "scorecards"
+    ],
+    "cache_dependencies": [
+      "organism",
+      "entity_universe",
+      "context",
+      "source_hashes",
+      "code_hashes",
+      "query",
+      "target",
+      "source_exclusions",
+      "settings",
+      "fit_split",
+      "fit_role"
+    ],
+    "organisms": [
+      "Tg",
+      "Pf"
+    ]
+  }
+]
