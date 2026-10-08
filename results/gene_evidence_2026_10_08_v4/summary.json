@@ -1,0 +1,51 @@
+{
+  "checks": 1246,
+  "populations": [
+    {
+      "organism": "Tg",
+      "alias_gene": "TGME49_208830",
+      "evidence_gene": "TGME49_208830",
+      "target": "compartment",
+      "class": "dense granules",
+      "columns": 442
+    },
+    {
+      "organism": "Pf",
+      "alias_gene": "PF3D7_1133400",
+      "evidence_gene": "PF3D7_0102900",
+      "target": "lopit_pf_location",
+      "class": "nucleo-cytoplasm",
+      "columns": 167
+    }
+  ],
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/gene_evidence.py": "abe513379e4641ae4781f7939151d94014aa4da525088d560d0aaa3e57fe0663",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/gene_evidence_browser.py": "6ed59f30634260031edc8afb8a66b29672b963564bc3bbc7699369e2feb9e668",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/app.py": "1fdfe38b25ea4e794b986abc80d1289f5a7cf385676d3c5fd3f0d7687b571eb1",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/query.py": "b0f9ad5d26004f509a69d5b0240e6f484b8628cf22fcc3bed8f8fd3eaf761b56",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/identity.py": "95ec5506691bcdfee661474b2dfdc1386e05752014e08c127c090ef3983448b1",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/slots.py": "93052e9172e6fdcefaa5c7fccb26527e3cd7ef66ebe2e077a7a92d1736ebb194",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/datasets.py": "eb017aad057bcbd3f43b159d6536a33502c4ac4d5a46e51a25ac2afc6320ff20",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/inventory.py": "5ceb23e140e788f1417f2ac8b65624446e38eaa229fb9b08e46f11f2c0d046bc",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/dataset_space.py": "e0d1abcff6ca8aae28824bd2a6b789aad26e9fe5b4c17cf130a87f917c6eb447",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/dataset_space_inputs.py": "28725be1fef159036030e4279dd94a4597097c8ed79cde37e0e1c7320c1b2626",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard_browser.py": "0dc8661b108c77fc75317081a47bba2b77c834a76b93ecad45b9bd600dff5b27",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard_view.py": "383005f443b7c3b6194e401074ccdbad2c2ed04254296ec6ebc4d3075ae3cea6",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/track_record.py": "5cdf75d9d2ded6073570049d79abe2038080e1aa517361a8f3af4c2d6994fafc",
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/audit_gene_evidence.py": "c8debe102c99909182c50879cabb0c6f1634d5e07ada09609f92ef750890d635",
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/notebook_runner.py": "e319e5a584ad4ce60be32d22818f6f987d9969e743b01acdcb40ea4b173b9e34",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/nodes.parquet": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/pf_nodes.parquet": "410d5fb58c15c0f110de2e1fd61910d4ae10508709847b1777cb3e7bc88d3641",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/toxodb_identity.tsv": "bc9ad569ddceb382f811b2b840df518977aaad1632fe6bf64fd26daf3ae58f72",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/plasmodb_identity.tsv": "afa45edecdd37ee363ba407470d1cc296e8da5edac35dacf36b7816c282a3dfc",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/toxodb_strain_gt1.tsv": "92dd9cadde55ca27cc1544ff42fba2961128d3624a1ed82755aed1e923fed282",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/toxodb_strain_veg.tsv": "31d939496d18265772b0fa7fa18d8fed69c5165c23083f40dcde866e750b3ff6",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/track_record.parquet": "0a771e65e918ae71e95a73bb7efe92157c6ce2eb0a4bd32db612a3948c45c817"
+  },
+  "runtime_seconds": 102.28949118289165,
+  "process_peak_rss_bytes": 835956736,
+  "limitations": [
+    "Stored evidence and existing annotation-recovery scorecards only",
+    "No new independent biological truth, strategy fits, host installation or source promotion"
+  ]
+}

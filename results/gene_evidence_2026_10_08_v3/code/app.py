@@ -2997,10 +2997,6 @@ class Window(QtWidgets.QMainWindow):
         row = self.sel if row is None else row
         if row is None or not 0 <= row < len(self.nodes):
             return None
-        previous = getattr(self, '_gene_evidence_dialog', None)
-        if previous is not None:
-            previous.close()
-            previous.deleteLater()
         code = organisms.by_species(self.species).code
         space = from_sources({code: {'nodes': self.nodes}}, imports=self.imports, imported_organism=code)
         dialog = QtWidgets.QDialog(self)
@@ -4276,10 +4272,6 @@ class Window(QtWidgets.QMainWindow):
         gid = as_text(self.nodes.gene_id).str.lower()
         hit = np.flatnonzero(self.nodes.gene_id.astype(str).isin(identifiers))
         if identifiers and not len(hit):
-            self.sel = None
-            self.redraw()
-            self.detail.setHtml('<p>Recorded alias targets are absent from the current gene table: '
-                + ', '.join(escape(identifier) for identifier in sorted(identifiers)) + '.</p>')
             self.status.showMessage('Recorded alias resolves outside the current gene table; no gene selected')
             return
         if hit.size == 0:

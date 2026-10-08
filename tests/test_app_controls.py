@@ -218,9 +218,13 @@ def test_searching_an_exact_gene_id_selects_it(win):
     assert str(win.nodes.gene_id.iloc[win.sel]) == gid
 
 
-def test_searching_a_product_substring_finds_a_gene(win):
+def test_searching_a_product_substring_requires_a_gene_choice(win):
     win.search.setText("kinase")
     win.do_search()
+    assert win.sel is None
+    assert 'Choose a gene' in win.detail.toPlainText()
+    row = int(np.flatnonzero(win.nodes['product'].astype(str).str.lower().str.contains('kinase', regex=False))[0])
+    win._detail_link(QtCore.QUrl(f'starplast://select/{row}'))
     assert win.sel is not None
     assert "kinase" in str(win.nodes["product"].iloc[win.sel]).lower()
 

@@ -30,3 +30,16 @@ Acceptance is recorded by `python -m scripts.audit_dataset_browser --out NEW_DIR
 The executed notebook freezes local input/code hashes and checks source cards,
 filters, exact stored values, pagination, session imports and gene navigation.
 Use a fresh directory for each replay.
+
+Gene search resolves exact recorded aliases within the selected organism. Multiple
+alias or text matches show a candidate list; select an accession to open its gene.
+The gene card’s **All evidence by biological question** link opens a condensed
+view. **Show all evidence** includes every stored column and missing value.
+Each row shows its question, context, quantity unit, declared origin and gaps;
+source selection opens the original coverage/provenance card. Label and class
+buttons reach existing recorded results when the current table matches the
+installed context. Changed tables require their own validation.
+
+Python callers can use `gene_evidence.build_resolver` for exact scoped aliases
+and `gene_evidence.evidence_rows` for original per-column records. Gene entry
+acceptance runs with `python -m scripts.audit_gene_evidence --out NEW_DIRECTORY`.

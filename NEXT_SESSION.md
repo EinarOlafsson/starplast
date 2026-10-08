@@ -10,7 +10,7 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **11/40 complete (27.5%)**:
+40 bounded action cards with dependencies and acceptance tests. **12/40 complete (30%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
@@ -707,3 +707,21 @@ No biological truth, strategy fits, host installation or source promotions added
 Next smallest bounded action: 64.19 gene evidence entry, reusing the query,
 provenance, scorecard and dataset-browser contracts. Human foundation stays 30%,
 mouse 0%; 65.04 stays 4%, 68.02 stays 30%. Restricted partials remain untouched.
+
+Latest acceptance: **64.19 complete; 21/51 full actions, 12/40 instruction-64 actions**.
+Exact organism-qualified canonical and recorded alias lookup exposes collisions,
+including index targets absent from the current table. Product matches require
+an explicit candidate click. Unavailable alias targets clear stale selection.
+The gene card opens condensed/all-column evidence grouped by biological question,
+with exact original values, source cards and dataset-address navigation. Label
+and class routes preserve complete legacy ledger results; changed tables cannot
+borrow that accuracy. Replacing the dialog releases its predecessor.
+Canonical `results/gene_evidence_2026_10_08_v5/`: 1,246 executed checks over
+442 Tg/167 Pf columns, GRA16/AMA1 aliases and two recorded label/class routes;
+22 current input hashes, 20 output receipts, 102.68 seconds/804.1 MiB peak.
+473 relevant regressions pass with one existing GL-context skip; final widget
+width checks pass (4). Initial audit diagnostics preserve a wrong Pf column and
+an unscored AMA1 class; no annotation or scorecard was fabricated to pass.
+Next small action64.20: labels/classes as entry points, reusing Discoveries,
+query/provenance/dataset/gene contracts. Scientific coverage, hosts and dataset
+promotions remain open. Preserve restricted partials and nightly/full-CI gates.
