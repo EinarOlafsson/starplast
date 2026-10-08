@@ -1,0 +1,1 @@
+Desktop presentation acceptance: all six task contracts, exact exports, definitions, full details, registered navigation and reviewed human source evidence. See summary.json for checks and limitations; external browser dispatch was mocked. Missing biology and calibration remain unavailable.

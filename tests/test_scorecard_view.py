@@ -146,6 +146,76 @@ def test_numeric_interval_coverage_never_hides_width_or_baseline_matching():
     assert json.loads(export_scorecard(view))['snapshot']['card']['extra']['baseline_comparison'] == baseline
 
 
+@pytest.mark.parametrize('location', ['details', 'card', 'extra'])
+def test_calibration_record_has_dedicated_escaped_route_and_exact_snapshot(location):
+    card = fixture()
+    calibration = {'status': 'recorded fixture only', 'population': ['c1', 'c2'],
+        'source': '<script>fixture</script>', 'nominal_coverage': .9,
+        'confidence_kind': 'prediction_set', 'biological_admission': False}
+    details = {'calibration': calibration} if location == 'details' else {}
+    if location == 'card':
+        card['calibration'] = calibration
+    elif location == 'extra':
+        card['extra']['calibration'] = calibration
+    view = build_scorecard_view(card, details=details)
+    record = next(detail for detail in view.details if detail.key == 'calibration')
+    assert json.loads(record.text) == calibration
+    assert 'scorecard:detail/calibration' in render_scorecard_html(view)
+    assert validate_scorecard_link('scorecard:detail/calibration') == 'scorecard:detail/calibration'
+    popup = render_scorecard_detail(view, 'calibration')
+    assert 'c1' in popup and '&lt;script&gt;' in popup and '<script>' not in popup
+    exported = json.loads(export_scorecard(view))
+    assert exported['snapshot'] == {'card': card, 'details': details}
+    assert by_key(view)['accuracy'].value == card['metrics']['accuracy']
+
+
+def test_missing_calibration_is_explicit_and_does_not_add_snapshot_fields():
+    card = fixture()
+    view = build_scorecard_view(card)
+    popup = render_scorecard_detail(view, 'calibration')
+    assert 'unavailable' in popup and 'Calibration metadata not supplied' in popup
+    assert 'Calibration metadata not supplied' in render_scorecard_html(view)
+    assert json.loads(export_scorecard(view))['snapshot'] == {'card': card, 'details': {}}
+
+
+def test_identity_only_freshness_exposes_unknown_date_and_version_without_inference():
+    card = fixture()
+    freshness = {'artifact_identity': 'fixture immutable identity', 'source_table_sha256': 'a' * 64}
+    details = {'freshness': freshness}
+    view = build_scorecard_view(card, details=details)
+    record = json.loads(next(detail.text for detail in view.details if detail.key == 'freshness'))
+    assert record['artifact_identity'] == freshness['artifact_identity']
+    assert record['date_availability'] == record['version_availability'] == 'Unavailable / not supplied'
+    assert not any(key in record for key in ('date', 'created_at', 'source_version'))
+    popup = render_scorecard_detail(view, 'freshness')
+    assert 'date_availability' in popup and 'version_availability' in popup
+    assert json.loads(export_scorecard(view))['snapshot'] == {'card': card, 'details': details}
+
+
+def test_supplied_freshness_values_and_explicit_nulls_are_preserved():
+    card = fixture()
+    known = {'retrieved_at': 'fixture date', 'source_version': 'fixture version', 'artifact_identity': 'identity'}
+    view = build_scorecard_view(card, details={'freshness': known})
+    assert json.loads(next(detail.text for detail in view.details if detail.key == 'freshness')) == known
+    unknown = {'date': None, 'source_version': 'unresolved', 'artifact_identity': 'identity'}
+    view = build_scorecard_view(card, details={'freshness': unknown})
+    shown = json.loads(next(detail.text for detail in view.details if detail.key == 'freshness'))
+    assert shown['date'] is None and shown['source_version'] == 'unresolved'
+    assert shown['date_availability'] == shown['version_availability'] == 'Unavailable / not supplied'
+    assert json.loads(export_scorecard(view))['snapshot']['details']['freshness'] == unknown
+
+
+def test_unknown_freshness_markers_ignore_case_and_space_preserving_raw_metadata():
+    freshness = {'retrieved_at': ' Unknown ', 'source_version': ' UNRESOLVED ',
+                 'artifact_identity': 'fixture identity'}
+    view = build_scorecard_view(fixture(), details={'freshness': freshness})
+    shown = json.loads(next(detail.text for detail in view.details if detail.key == 'freshness'))
+    assert shown['retrieved_at'] == freshness['retrieved_at']
+    assert shown['source_version'] == freshness['source_version']
+    assert shown['date_availability'] == shown['version_availability'] == 'Unavailable / not supplied'
+    assert json.loads(export_scorecard(view))['snapshot']['details']['freshness'] == freshness
+
+
 def test_source_grade_context_lineage_and_unknown_negatives_remain_distinct():
     card = fixture()
     card['scope']['truth_grade'] = 'prediction'

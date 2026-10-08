@@ -1,0 +1,372 @@
+{
+  "counts": [
+    [
+      "abstained",
+      0
+    ],
+    [
+      "answered",
+      4
+    ],
+    [
+      "correct",
+      null
+    ],
+    [
+      "eligible",
+      4
+    ],
+    [
+      "unique_biological_entities",
+      4
+    ],
+    [
+      "wrong",
+      null
+    ]
+  ],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"Software presentation only\",\n  \"grade\": \"synthetic_control\",\n  \"lineage\": \"Hand-authored records; no fit or biological source\",\n  \"name\": \"Authored synthetic replication fixture\",\n  \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n  \"sha256\": \"cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"fit_population\": null,\n  \"partition\": \"software_test\",\n  \"protocol\": \"synthetic software fixture protocol\",\n  \"reason\": \"No fitting in this software fixture\"\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "{\n  \"abstained\": 0,\n  \"answered\": 4,\n  \"correct\": null,\n  \"eligible\": 4,\n  \"unique_biological_entities\": 4,\n  \"wrong\": null\n}"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "calibration",
+      "label": "Calibration record",
+      "text": "{\n  \"reason\": \"Calibration metadata not supplied\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "{\n  \"card\": {\n    \"cohort_identity\": \"b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04\",\n    \"counts\": {\n      \"abstained\": 0,\n      \"answered\": 4,\n      \"correct\": null,\n      \"eligible\": 4,\n      \"unique_biological_entities\": 4,\n      \"wrong\": null\n    },\n    \"evaluation_parameters\": {\n      \"null_rates\": [\n        0.25,\n        0.5\n      ]\n    },\n    \"extra\": {\n      \"correct_wrong_interpretation\": \"Not a categorical prediction task; use the declared task metrics\",\n      \"replicated_findings\": 0,\n      \"tested_findings\": 4,\n      \"unreplicated_findings\": 4\n    },\n    \"metric_status\": {\n      \"findings\": \"available\",\n      \"null_rate\": \"available\",\n      \"replicated\": \"available\",\n      \"replication_lift\": \"available\",\n      \"replication_rate\": \"available\"\n    },\n    \"metrics\": {\n      \"findings\": 4.0,\n      \"null_rate\": 0.375,\n      \"replicated\": 0.0,\n      \"replication_lift\": 0.0,\n      \"replication_rate\": 0.0\n    },\n    \"parameter_identity\": \"9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1\",\n    \"records_identity\": \"5ef80c028dea69964dc8a3a5c7eb4426baaf2accd9ccb480dd1629c9caf1f52a\",\n    \"scope\": {\n      \"benchmark_id\": \"SCORECARD-SOFTWARE-ONLY\",\n      \"gaps\": [\n        \"Synthetic software behavior does not admit biological performance\"\n      ],\n      \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n      \"organism\": \"Tg\",\n      \"partition\": \"software_test\",\n      \"protocol\": \"synthetic software fixture protocol\",\n      \"seed\": 3,\n      \"settings\": \"fixed authored fixture; no fitting\",\n      \"strategy\": \"blind_battery\",\n      \"target\": \"synthetic software target\",\n      \"task\": \"replication\",\n      \"truth_grade\": \"synthetic_control\",\n      \"unit\": \"finding\"\n    },\n    \"scope_identity\": \"7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4\",\n    \"small_sample\": true\n  },\n  \"interpretation\": \"Explicit authored software control; not biological chance\"\n}"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "[\n  {\n    \"entity\": \"finding1\",\n    \"replicated\": true\n  },\n  {\n    \"entity\": \"finding2\",\n    \"replicated\": false\n  },\n  {\n    \"entity\": \"finding3\",\n    \"replicated\": true\n  },\n  {\n    \"entity\": \"finding4\",\n    \"replicated\": false\n  }\n]"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"date_availability\": \"Unavailable / not supplied\",\n  \"fixture_source_identity\": \"cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619\",\n  \"version_availability\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "[\n  \"Synthetic software behavior does not admit biological performance\"\n]"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": \"b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04\",\n  \"parameter_identity\": \"9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1\",\n  \"records_identity\": \"6aacb0c452069d964d436dd0c71bfc721ceed401c4604725b4da76fffeb36357\",\n  \"scope_identity\": \"7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4\"\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "{\n  \"null_rates\": [\n    0.25,\n    0.5\n  ]\n}"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "{\n  \"correct_wrong_interpretation\": \"Not a categorical prediction task; use the declared task metrics\",\n  \"replicated_findings\": 2,\n  \"tested_findings\": 4,\n  \"unreplicated_findings\": 2\n}"
+    }
+  ],
+  "kind": "performance",
+  "links": [],
+  "metrics": [
+    {
+      "chance": "the rate with the second half's evidence scrambled",
+      "definition": "Share of the findings made on one half of the genes that hold on the other half.",
+      "denominator": "",
+      "headline": true,
+      "key": "replication_rate",
+      "label": "Replication rate",
+      "range": "0 to 1",
+      "reading": "Whether the findings are properties of the genes or of the sample they were found in.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "not applicable",
+      "definition": "Number of findings made on the first half.",
+      "denominator": "",
+      "headline": true,
+      "key": "findings",
+      "label": "Findings made",
+      "range": "0 upward",
+      "reading": "Context: how much there was to replicate.",
+      "status": "available",
+      "value": 4.0
+    },
+    {
+      "chance": "findings x the null rate",
+      "definition": "Number of those findings that held on the second half.",
+      "denominator": "",
+      "headline": false,
+      "key": "replicated",
+      "label": "Findings replicated",
+      "range": "0 to findings",
+      "reading": "The findings worth reading first; each is a claim that held twice.",
+      "status": "available",
+      "value": 2.0
+    },
+    {
+      "chance": "is itself the chance level",
+      "definition": "The replication rate with the second half's evidence scrambled, averaged over runs.",
+      "denominator": "",
+      "headline": false,
+      "key": "null_rate",
+      "label": "Replication by chance",
+      "range": "0 to 1",
+      "reading": "What replication looks like for findings with nothing behind them.",
+      "status": "available",
+      "value": 0.375
+    },
+    {
+      "chance": "1",
+      "definition": "Replication rate divided by the replication rate by chance.",
+      "denominator": "",
+      "headline": true,
+      "key": "replication_lift",
+      "label": "Replication lift",
+      "range": "0 upward",
+      "reading": "How many times more often real findings replicate than chance ones.",
+      "status": "available",
+      "value": 1.3333333333333333
+    }
+  ],
+  "scope": [
+    [
+      "organism",
+      "Tg"
+    ],
+    [
+      "target",
+      "synthetic software target"
+    ],
+    [
+      "strategy",
+      "blind_battery"
+    ],
+    [
+      "settings",
+      "fixed authored fixture; no fitting"
+    ],
+    [
+      "seed",
+      "3"
+    ],
+    [
+      "protocol",
+      "synthetic software fixture protocol"
+    ],
+    [
+      "partition",
+      "software_test"
+    ],
+    [
+      "benchmark_id",
+      "SCORECARD-SOFTWARE-ONLY"
+    ],
+    [
+      "unit",
+      "finding"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "cohort_identity": "b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04",
+      "counts": {
+        "abstained": 0,
+        "answered": 4,
+        "correct": null,
+        "eligible": 4,
+        "unique_biological_entities": 4,
+        "wrong": null
+      },
+      "evaluation_parameters": {
+        "null_rates": [
+          0.25,
+          0.5
+        ]
+      },
+      "extra": {
+        "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics",
+        "replicated_findings": 2,
+        "tested_findings": 4,
+        "unreplicated_findings": 2
+      },
+      "metric_status": {
+        "findings": "available",
+        "null_rate": "available",
+        "replicated": "available",
+        "replication_lift": "available",
+        "replication_rate": "available"
+      },
+      "metrics": {
+        "findings": 4.0,
+        "null_rate": 0.375,
+        "replicated": 2.0,
+        "replication_lift": 1.3333333333333333,
+        "replication_rate": 0.5
+      },
+      "parameter_identity": "9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1",
+      "records_identity": "6aacb0c452069d964d436dd0c71bfc721ceed401c4604725b4da76fffeb36357",
+      "scope": {
+        "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+        "gaps": [
+          "Synthetic software behavior does not admit biological performance"
+        ],
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "organism": "Tg",
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "seed": 3,
+        "settings": "fixed authored fixture; no fitting",
+        "strategy": "blind_battery",
+        "target": "synthetic software target",
+        "task": "replication",
+        "truth_grade": "synthetic_control",
+        "unit": "finding"
+      },
+      "scope_identity": "7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4",
+      "small_sample": true
+    },
+    "details": {
+      "controls": {
+        "card": {
+          "cohort_identity": "b9658cb4506091adf36aaf3c0d013426e496ee7bff85ad852e0d6548127f5f04",
+          "counts": {
+            "abstained": 0,
+            "answered": 4,
+            "correct": null,
+            "eligible": 4,
+            "unique_biological_entities": 4,
+            "wrong": null
+          },
+          "evaluation_parameters": {
+            "null_rates": [
+              0.25,
+              0.5
+            ]
+          },
+          "extra": {
+            "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics",
+            "replicated_findings": 0,
+            "tested_findings": 4,
+            "unreplicated_findings": 4
+          },
+          "metric_status": {
+            "findings": "available",
+            "null_rate": "available",
+            "replicated": "available",
+            "replication_lift": "available",
+            "replication_rate": "available"
+          },
+          "metrics": {
+            "findings": 4.0,
+            "null_rate": 0.375,
+            "replicated": 0.0,
+            "replication_lift": 0.0,
+            "replication_rate": 0.0
+          },
+          "parameter_identity": "9393733c74d45fe361acd0286d3b62a6df7e9d073ed89bc46cf1fa7f3bceada1",
+          "records_identity": "5ef80c028dea69964dc8a3a5c7eb4426baaf2accd9ccb480dd1629c9caf1f52a",
+          "scope": {
+            "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+            "gaps": [
+              "Synthetic software behavior does not admit biological performance"
+            ],
+            "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+            "organism": "Tg",
+            "partition": "software_test",
+            "protocol": "synthetic software fixture protocol",
+            "seed": 3,
+            "settings": "fixed authored fixture; no fitting",
+            "strategy": "blind_battery",
+            "target": "synthetic software target",
+            "task": "replication",
+            "truth_grade": "synthetic_control",
+            "unit": "finding"
+          },
+          "scope_identity": "7e63f71a599e2aeb99380208d6223e89fc7f174ae8f3c7c8e3c6a88058dc4ac4",
+          "small_sample": true
+        },
+        "interpretation": "Explicit authored software control; not biological chance"
+      },
+      "freshness": {
+        "fixture_source_identity": "cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619"
+      },
+      "rows": [
+        {
+          "entity": "finding1",
+          "replicated": true
+        },
+        {
+          "entity": "finding2",
+          "replicated": false
+        },
+        {
+          "entity": "finding3",
+          "replicated": true
+        },
+        {
+          "entity": "finding4",
+          "replicated": false
+        }
+      ],
+      "source": {
+        "context": "Software presentation only",
+        "grade": "synthetic_control",
+        "lineage": "Hand-authored records; no fit or biological source",
+        "name": "Authored synthetic replication fixture",
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "sha256": "cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619"
+      },
+      "split": {
+        "fit_population": null,
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "reason": "No fitting in this software fixture"
+      }
+    }
+  },
+  "source": {
+    "context": "Software presentation only",
+    "grade": "synthetic_control",
+    "lineage": "Hand-authored records; no fit or biological source",
+    "name": "Authored synthetic replication fixture",
+    "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+    "sha256": "cc1de89122574eaf7bc869fdc90568e01b8e92231c5bc883178f0426ef9e7619",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Recorded evaluation",
+  "task": "replication",
+  "title": "Identical pure host"
+}

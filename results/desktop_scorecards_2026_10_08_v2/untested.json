@@ -1,0 +1,268 @@
+{
+  "counts": [],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"Unavailable / not supplied\",\n  \"grade\": \"Unavailable / not supplied\",\n  \"lineage\": \"Unavailable / not supplied\",\n  \"name\": \"Unavailable / not supplied\",\n  \"negative_semantics\": \"Unavailable / not supplied\",\n  \"sha256\": \"Unavailable / not supplied\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"partition\": null,\n  \"protocol\": null\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "calibration",
+      "label": "Calibration record",
+      "text": "{\n  \"reason\": \"Calibration metadata not supplied\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"date_availability\": \"Unavailable / not supplied\",\n  \"supplied_metadata\": null,\n  \"version_availability\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": null,\n  \"parameter_identity\": null,\n  \"records_identity\": null,\n  \"scope_identity\": null\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "Unavailable / not supplied"
+    }
+  ],
+  "kind": "performance",
+  "links": [],
+  "metrics": [
+    {
+      "chance": "about the sum of squared class shares (Cohen's chance term)",
+      "definition": "Hidden genes called with their true label, divided by ALL hidden genes. A gene the strategy declined to call counts as wrong.",
+      "denominator": "All eligible: Unavailable / not supplied",
+      "headline": true,
+      "key": "accuracy",
+      "label": "Accuracy, all eligible",
+      "range": "0 to 1",
+      "reading": "The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "not applicable (a property of the strategy, not of luck)",
+      "definition": "Share of hidden genes that received any call.",
+      "denominator": "All eligible: Unavailable / not supplied",
+      "headline": true,
+      "key": "coverage",
+      "label": "Coverage",
+      "range": "0 to 1",
+      "reading": "How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "as accuracy, among the genes called",
+      "definition": "Correct calls divided by calls made (also called selective accuracy).",
+      "denominator": "Calls made: Unavailable / not supplied",
+      "headline": true,
+      "key": "precision_of_calls",
+      "label": "Accuracy among calls",
+      "range": "0 to 1",
+      "reading": "How far to trust one call. Equals accuracy when coverage is 1.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "about the average class share",
+      "definition": "For each true class: of the genes called that class, the share that truly are; averaged over classes with equal weight. A class never called scores 0.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_precision",
+      "label": "Macro precision",
+      "range": "0 to 1",
+      "reading": "Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "1 / number of classes, for a caller that ignores the data",
+      "definition": "For each true class: the share of its hidden genes called correctly; averaged over classes with equal weight. Identical to balanced accuracy.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_recall",
+      "label": "Macro recall (balanced accuracy)",
+      "range": "0 to 1",
+      "reading": "Whether every class is found, not just the large ones. Compare with accuracy: a large gap means the strategy lives on the big classes.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "low; roughly the average class share",
+      "definition": "Per class, the harmonic mean of precision and recall; averaged over classes with equal weight.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_f1",
+      "label": "Macro F1",
+      "range": "0 to 1",
+      "reading": "One number balancing finding each class and being right when calling it, with rare classes counted as much as common ones.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "about the sum of squared class shares",
+      "definition": "Per-class F1 averaged with each class weighted by its number of hidden genes.",
+      "denominator": "",
+      "headline": false,
+      "key": "weighted_f1",
+      "label": "Weighted F1",
+      "range": "0 to 1",
+      "reading": "Macro F1's counterpart that follows the class sizes; close to accuracy when coverage is high.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "0",
+      "definition": "Agreement between calls and truth corrected for the agreement their class frequencies alone would give: (observed - expected) / (1 - expected). No call is its own category.",
+      "denominator": "",
+      "headline": false,
+      "key": "kappa",
+      "label": "Cohen's kappa",
+      "range": "-1 to 1",
+      "reading": "Accuracy with chance removed: 0 is no better than matching class frequencies, 1 is perfect. Comparable across labels with different numbers and sizes of classes.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "0",
+      "definition": "The multiclass Matthews correlation coefficient (Gorodkin's R_K) between calls and truth, with no call as its own category.",
+      "denominator": "",
+      "headline": false,
+      "key": "mcc",
+      "label": "Matthews correlation (MCC)",
+      "range": "-1 to 1",
+      "reading": "A correlation between the call and the truth that stays honest under strong class imbalance; often the single most informative number for an unbalanced label.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "0.5",
+      "definition": "For each class, the probability that a random hidden gene of that class gets a higher score for the class than a random hidden gene of another class; averaged over classes. Needs per-class scores.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_auroc",
+      "label": "Macro AUROC",
+      "range": "0 to 1",
+      "reading": "How well the strategy's scores separate each class from the rest, before any threshold is chosen. Missing for strategies that call labels without scoring every class.",
+      "status": "unavailable",
+      "value": null
+    },
+    {
+      "chance": "the class's share among hidden genes, averaged",
+      "definition": "For each class, the area under the precision-recall curve of its one-vs-rest scores (average precision); averaged over classes. Needs per-class scores.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_auprc",
+      "label": "Macro AUPRC",
+      "range": "0 to 1",
+      "reading": "Like macro AUROC but dominated by the top of each ranking, which is where calls are made; far below AUROC means good separation overall but a noisy top.",
+      "status": "unavailable",
+      "value": null
+    }
+  ],
+  "scope": [
+    [
+      "organism",
+      "Unavailable / not supplied"
+    ],
+    [
+      "target",
+      "Unavailable / not supplied"
+    ],
+    [
+      "strategy",
+      "Unavailable / not supplied"
+    ],
+    [
+      "settings",
+      "Unavailable / not supplied"
+    ],
+    [
+      "seed",
+      "Unavailable / not supplied"
+    ],
+    [
+      "protocol",
+      "Unavailable / not supplied"
+    ],
+    [
+      "partition",
+      "Unavailable / not supplied"
+    ],
+    [
+      "benchmark_id",
+      "Unavailable / not supplied"
+    ],
+    [
+      "unit",
+      "Unavailable / not supplied"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "metrics": {},
+      "task": "label calls"
+    },
+    "details": {}
+  },
+  "source": {
+    "context": "Unavailable / not supplied",
+    "grade": "Unavailable / not supplied",
+    "lineage": "Unavailable / not supplied",
+    "name": "Unavailable / not supplied",
+    "negative_semantics": "Unavailable / not supplied",
+    "sha256": "Unavailable / not supplied",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Untested / unavailable",
+  "task": "label calls",
+  "title": "Performance scorecard"
+}

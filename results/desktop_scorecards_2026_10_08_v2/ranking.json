@@ -1,0 +1,464 @@
+{
+  "counts": [
+    [
+      "abstained",
+      0
+    ],
+    [
+      "answered",
+      4
+    ],
+    [
+      "correct",
+      null
+    ],
+    [
+      "eligible",
+      4
+    ],
+    [
+      "unique_biological_entities",
+      4
+    ],
+    [
+      "wrong",
+      null
+    ]
+  ],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"Software presentation only\",\n  \"grade\": \"synthetic_control\",\n  \"lineage\": \"Hand-authored records; no fit or biological source\",\n  \"name\": \"Authored synthetic ranking fixture\",\n  \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n  \"sha256\": \"3f1b7809c251cc5fd8f787fdff2d48dd5596fc16db522f32d94ca18628062d22\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"fit_population\": null,\n  \"partition\": \"software_test\",\n  \"protocol\": \"synthetic software fixture protocol\",\n  \"reason\": \"No fitting in this software fixture\"\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "{\n  \"abstained\": 0,\n  \"answered\": 4,\n  \"correct\": null,\n  \"eligible\": 4,\n  \"unique_biological_entities\": 4,\n  \"wrong\": null\n}"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "calibration",
+      "label": "Calibration record",
+      "text": "{\n  \"reason\": \"Calibration metadata not supplied\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "{\n  \"card\": {\n    \"cohort_identity\": \"3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500\",\n    \"counts\": {\n      \"abstained\": 0,\n      \"answered\": 4,\n      \"correct\": null,\n      \"eligible\": 4,\n      \"unique_biological_entities\": 4,\n      \"wrong\": null\n    },\n    \"evaluation_parameters\": {\n      \"verified_negatives\": true\n    },\n    \"extra\": {\n      \"correct_wrong_interpretation\": \"Not a categorical prediction task; use the declared task metrics\"\n    },\n    \"metric_status\": {\n      \"auprc\": \"available\",\n      \"auprc_lift\": \"available\",\n      \"auroc\": \"available\",\n      \"enrichment_at_1pct\": \"available\",\n      \"max_f1\": \"available\",\n      \"ndcg\": \"available\",\n      \"pauroc_10\": \"available\",\n      \"precision_at_1pct\": \"available\",\n      \"prevalence\": \"available\",\n      \"r_precision\": \"available\",\n      \"recall_at_10pct\": \"available\"\n    },\n    \"metrics\": {\n      \"auprc\": 0.5,\n      \"auprc_lift\": 1.0,\n      \"auroc\": 0.25,\n      \"enrichment_at_1pct\": 0.0,\n      \"max_f1\": 0.6666666666666666,\n      \"ndcg\": 0.6509209298071326,\n      \"pauroc_10\": 0.47368421052631576,\n      \"precision_at_1pct\": 0.0,\n      \"prevalence\": 0.5,\n      \"r_precision\": 0.5,\n      \"recall_at_10pct\": 0.0\n    },\n    \"parameter_identity\": \"12488c2558fbddde4fbd0d3d5595074fa08b01944fc42205ca2bbe2eb4189b56\",\n    \"records_identity\": \"160d89f4131bba37122799eac6b05556eea769e231cbed5c892209940efc3b2e\",\n    \"scope\": {\n      \"benchmark_id\": \"SCORECARD-SOFTWARE-ONLY\",\n      \"gaps\": [\n        \"Synthetic software behavior does not admit biological performance\"\n      ],\n      \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n      \"organism\": \"Tg\",\n      \"partition\": \"software_test\",\n      \"protocol\": \"synthetic software fixture protocol\",\n      \"seed\": 3,\n      \"settings\": \"fixed authored fixture; no fitting\",\n      \"strategy\": \"positive_unlabeled\",\n      \"target\": \"synthetic software target\",\n      \"task\": \"ranking\",\n      \"truth_grade\": \"synthetic_control\",\n      \"unit\": \"gene\"\n    },\n    \"scope_identity\": \"8d8a60725ad646a0de07b85fbefe80e91537758f4c1223d87bf58f13a76fc419\",\n    \"small_sample\": true\n  },\n  \"interpretation\": \"Explicit authored software control; not biological chance\"\n}"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "[\n  {\n    \"entity\": \"g1\",\n    \"positive\": true,\n    \"returned\": true,\n    \"score\": 4.0\n  },\n  {\n    \"entity\": \"g2\",\n    \"positive\": false,\n    \"returned\": true,\n    \"score\": 3.0\n  },\n  {\n    \"entity\": \"g3\",\n    \"positive\": true,\n    \"returned\": false,\n    \"score\": 2.0\n  },\n  {\n    \"entity\": \"g4\",\n    \"positive\": false,\n    \"returned\": false,\n    \"score\": 1.0\n  }\n]"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"date_availability\": \"Unavailable / not supplied\",\n  \"fixture_source_identity\": \"3f1b7809c251cc5fd8f787fdff2d48dd5596fc16db522f32d94ca18628062d22\",\n  \"version_availability\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "[\n  \"Synthetic software behavior does not admit biological performance\"\n]"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": \"3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500\",\n  \"parameter_identity\": \"12488c2558fbddde4fbd0d3d5595074fa08b01944fc42205ca2bbe2eb4189b56\",\n  \"records_identity\": \"16baca412ce8891620a694d5715df78e783332c122b63b34d5e841ac83aa10d1\",\n  \"scope_identity\": \"8d8a60725ad646a0de07b85fbefe80e91537758f4c1223d87bf58f13a76fc419\"\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "{\n  \"verified_negatives\": true\n}"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "{\n  \"correct_wrong_interpretation\": \"Not a categorical prediction task; use the declared task metrics\"\n}"
+    }
+  ],
+  "kind": "performance",
+  "links": [],
+  "metrics": [
+    {
+      "chance": "0.5",
+      "definition": "Probability that a random hidden positive is ranked above a random negative (area under the ROC curve); ties count half.",
+      "denominator": "",
+      "headline": false,
+      "key": "auroc",
+      "label": "AUROC",
+      "range": "0 to 1",
+      "reading": "Separation over the whole ranking. Insensitive to how rare positives are, so a high AUROC can coexist with a poor top of the list -- read it with AUPRC.",
+      "status": "available",
+      "value": 0.75
+    },
+    {
+      "chance": "the prevalence (share of positives among everything ranked)",
+      "definition": "Average precision: the mean, over the hidden positives, of the precision of the ranking down to that positive (area under the precision-recall curve).",
+      "denominator": "",
+      "headline": true,
+      "key": "auprc",
+      "label": "AUPRC",
+      "range": "0 to 1",
+      "reading": "How clean the top of the ranking is. Its chance level is the prevalence, so compare it with that (AUPRC lift), never with 0.5.",
+      "status": "available",
+      "value": 0.8333333333333333
+    },
+    {
+      "chance": "1",
+      "definition": "AUPRC divided by the prevalence, its value for a random ordering.",
+      "denominator": "",
+      "headline": true,
+      "key": "auprc_lift",
+      "label": "AUPRC lift",
+      "range": "0 to 1/prevalence",
+      "reading": "How many times better than a random ordering the ranking is, where it matters. Comparable across tests with different prevalences, unlike AUPRC itself.",
+      "status": "available",
+      "value": 1.6666666666666665
+    },
+    {
+      "chance": "not applicable (a property of the test)",
+      "definition": "Hidden positives divided by everything ranked.",
+      "denominator": "",
+      "headline": false,
+      "key": "prevalence",
+      "label": "Prevalence",
+      "range": "0 to 1",
+      "reading": "The chance level of AUPRC and of precision at any depth; context for every other number.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "0.5",
+      "definition": "AUROC restricted to false-positive rates up to 10%, rescaled (McClish) so 0.5 is chance and 1 perfect.",
+      "denominator": "",
+      "headline": false,
+      "key": "pauroc_10",
+      "label": "Partial AUROC (FPR <= 10%)",
+      "range": "0.5 to 1 (after rescaling)",
+      "reading": "Separation in the part of the ranking anyone would act on; what matters for screening.",
+      "status": "available",
+      "value": 0.7368421052631579
+    },
+    {
+      "chance": "the prevalence",
+      "definition": "Precision among the top R items, where R is the number of hidden positives. Equal to recall at that depth.",
+      "denominator": "",
+      "headline": false,
+      "key": "r_precision",
+      "label": "R-precision",
+      "range": "0 to 1",
+      "reading": "If you took as many candidates as there are true positives, the share that would be right.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "the prevalence",
+      "definition": "Share of positives among the top 1% of the ranking (at least one item).",
+      "denominator": "",
+      "headline": false,
+      "key": "precision_at_1pct",
+      "label": "Precision @ top 1%",
+      "range": "0 to 1",
+      "reading": "How good the very first candidates are -- the list anyone would test first.",
+      "status": "available",
+      "value": 1.0
+    },
+    {
+      "chance": "1",
+      "definition": "Precision at the top 1% divided by the prevalence.",
+      "denominator": "",
+      "headline": false,
+      "key": "enrichment_at_1pct",
+      "label": "Enrichment @ top 1%",
+      "range": "0 to 1/prevalence",
+      "reading": "How many times more positives the first 1% holds than a random 1% would.",
+      "status": "available",
+      "value": 2.0
+    },
+    {
+      "chance": "0.1",
+      "definition": "Share of all hidden positives found in the top 10% of the ranking.",
+      "denominator": "",
+      "headline": true,
+      "key": "recall_at_10pct",
+      "label": "Recall @ top 10%",
+      "range": "0 to 1",
+      "reading": "How much of the answer a short list contains.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "about 2 x prevalence / (1 + prevalence) (taking everything)",
+      "definition": "The highest F1 (harmonic mean of precision and recall) over every cut-off of the ranking.",
+      "denominator": "",
+      "headline": false,
+      "key": "max_f1",
+      "label": "Best F1",
+      "range": "0 to 1",
+      "reading": "The best single-threshold trade-off the ranking allows; optimistic, since the cut-off is chosen on the answer.",
+      "status": "available",
+      "value": 0.8
+    },
+    {
+      "chance": "depends on prevalence; low when positives are rare",
+      "definition": "Normalised discounted cumulative gain: positives count 1 / log2(rank + 1), divided by the value of a perfect ranking.",
+      "denominator": "",
+      "headline": false,
+      "key": "ndcg",
+      "label": "nDCG",
+      "range": "0 to 1",
+      "reading": "A whole-ranking score that weights the top most, smoothly rather than at one cut-off.",
+      "status": "available",
+      "value": 0.9197207891481876
+    }
+  ],
+  "scope": [
+    [
+      "organism",
+      "Tg"
+    ],
+    [
+      "target",
+      "synthetic software target"
+    ],
+    [
+      "strategy",
+      "positive_unlabeled"
+    ],
+    [
+      "settings",
+      "fixed authored fixture; no fitting"
+    ],
+    [
+      "seed",
+      "3"
+    ],
+    [
+      "protocol",
+      "synthetic software fixture protocol"
+    ],
+    [
+      "partition",
+      "software_test"
+    ],
+    [
+      "benchmark_id",
+      "SCORECARD-SOFTWARE-ONLY"
+    ],
+    [
+      "unit",
+      "gene"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+      "counts": {
+        "abstained": 0,
+        "answered": 4,
+        "correct": null,
+        "eligible": 4,
+        "unique_biological_entities": 4,
+        "wrong": null
+      },
+      "evaluation_parameters": {
+        "verified_negatives": true
+      },
+      "extra": {
+        "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics"
+      },
+      "metric_status": {
+        "auprc": "available",
+        "auprc_lift": "available",
+        "auroc": "available",
+        "enrichment_at_1pct": "available",
+        "max_f1": "available",
+        "ndcg": "available",
+        "pauroc_10": "available",
+        "precision_at_1pct": "available",
+        "prevalence": "available",
+        "r_precision": "available",
+        "recall_at_10pct": "available"
+      },
+      "metrics": {
+        "auprc": 0.8333333333333333,
+        "auprc_lift": 1.6666666666666665,
+        "auroc": 0.75,
+        "enrichment_at_1pct": 2.0,
+        "max_f1": 0.8,
+        "ndcg": 0.9197207891481876,
+        "pauroc_10": 0.7368421052631579,
+        "precision_at_1pct": 1.0,
+        "prevalence": 0.5,
+        "r_precision": 0.5,
+        "recall_at_10pct": 0.5
+      },
+      "parameter_identity": "12488c2558fbddde4fbd0d3d5595074fa08b01944fc42205ca2bbe2eb4189b56",
+      "records_identity": "16baca412ce8891620a694d5715df78e783332c122b63b34d5e841ac83aa10d1",
+      "scope": {
+        "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+        "gaps": [
+          "Synthetic software behavior does not admit biological performance"
+        ],
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "organism": "Tg",
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "seed": 3,
+        "settings": "fixed authored fixture; no fitting",
+        "strategy": "positive_unlabeled",
+        "target": "synthetic software target",
+        "task": "ranking",
+        "truth_grade": "synthetic_control",
+        "unit": "gene"
+      },
+      "scope_identity": "8d8a60725ad646a0de07b85fbefe80e91537758f4c1223d87bf58f13a76fc419",
+      "small_sample": true
+    },
+    "details": {
+      "controls": {
+        "card": {
+          "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+          "counts": {
+            "abstained": 0,
+            "answered": 4,
+            "correct": null,
+            "eligible": 4,
+            "unique_biological_entities": 4,
+            "wrong": null
+          },
+          "evaluation_parameters": {
+            "verified_negatives": true
+          },
+          "extra": {
+            "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics"
+          },
+          "metric_status": {
+            "auprc": "available",
+            "auprc_lift": "available",
+            "auroc": "available",
+            "enrichment_at_1pct": "available",
+            "max_f1": "available",
+            "ndcg": "available",
+            "pauroc_10": "available",
+            "precision_at_1pct": "available",
+            "prevalence": "available",
+            "r_precision": "available",
+            "recall_at_10pct": "available"
+          },
+          "metrics": {
+            "auprc": 0.5,
+            "auprc_lift": 1.0,
+            "auroc": 0.25,
+            "enrichment_at_1pct": 0.0,
+            "max_f1": 0.6666666666666666,
+            "ndcg": 0.6509209298071326,
+            "pauroc_10": 0.47368421052631576,
+            "precision_at_1pct": 0.0,
+            "prevalence": 0.5,
+            "r_precision": 0.5,
+            "recall_at_10pct": 0.0
+          },
+          "parameter_identity": "12488c2558fbddde4fbd0d3d5595074fa08b01944fc42205ca2bbe2eb4189b56",
+          "records_identity": "160d89f4131bba37122799eac6b05556eea769e231cbed5c892209940efc3b2e",
+          "scope": {
+            "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+            "gaps": [
+              "Synthetic software behavior does not admit biological performance"
+            ],
+            "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+            "organism": "Tg",
+            "partition": "software_test",
+            "protocol": "synthetic software fixture protocol",
+            "seed": 3,
+            "settings": "fixed authored fixture; no fitting",
+            "strategy": "positive_unlabeled",
+            "target": "synthetic software target",
+            "task": "ranking",
+            "truth_grade": "synthetic_control",
+            "unit": "gene"
+          },
+          "scope_identity": "8d8a60725ad646a0de07b85fbefe80e91537758f4c1223d87bf58f13a76fc419",
+          "small_sample": true
+        },
+        "interpretation": "Explicit authored software control; not biological chance"
+      },
+      "freshness": {
+        "fixture_source_identity": "3f1b7809c251cc5fd8f787fdff2d48dd5596fc16db522f32d94ca18628062d22"
+      },
+      "rows": [
+        {
+          "entity": "g1",
+          "positive": true,
+          "returned": true,
+          "score": 4.0
+        },
+        {
+          "entity": "g2",
+          "positive": false,
+          "returned": true,
+          "score": 3.0
+        },
+        {
+          "entity": "g3",
+          "positive": true,
+          "returned": false,
+          "score": 2.0
+        },
+        {
+          "entity": "g4",
+          "positive": false,
+          "returned": false,
+          "score": 1.0
+        }
+      ],
+      "source": {
+        "context": "Software presentation only",
+        "grade": "synthetic_control",
+        "lineage": "Hand-authored records; no fit or biological source",
+        "name": "Authored synthetic ranking fixture",
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "sha256": "3f1b7809c251cc5fd8f787fdff2d48dd5596fc16db522f32d94ca18628062d22"
+      },
+      "split": {
+        "fit_population": null,
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "reason": "No fitting in this software fixture"
+      }
+    }
+  },
+  "source": {
+    "context": "Software presentation only",
+    "grade": "synthetic_control",
+    "lineage": "Hand-authored records; no fit or biological source",
+    "name": "Authored synthetic ranking fixture",
+    "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+    "sha256": "3f1b7809c251cc5fd8f787fdff2d48dd5596fc16db522f32d94ca18628062d22",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Recorded evaluation",
+  "task": "ranking",
+  "title": "Identical pure host"
+}

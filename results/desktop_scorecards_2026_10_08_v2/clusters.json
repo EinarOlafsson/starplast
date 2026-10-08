@@ -1,0 +1,426 @@
+{
+  "counts": [
+    [
+      "abstained",
+      1
+    ],
+    [
+      "answered",
+      3
+    ],
+    [
+      "correct",
+      null
+    ],
+    [
+      "eligible",
+      4
+    ],
+    [
+      "unique_biological_entities",
+      4
+    ],
+    [
+      "wrong",
+      null
+    ]
+  ],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"Software presentation only\",\n  \"grade\": \"synthetic_control\",\n  \"lineage\": \"Hand-authored records; no fit or biological source\",\n  \"name\": \"Authored synthetic clusters fixture\",\n  \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n  \"sha256\": \"57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"fit_population\": null,\n  \"partition\": \"software_test\",\n  \"protocol\": \"synthetic software fixture protocol\",\n  \"reason\": \"No fitting in this software fixture\"\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "{\n  \"abstained\": 1,\n  \"answered\": 3,\n  \"correct\": null,\n  \"eligible\": 4,\n  \"unique_biological_entities\": 4,\n  \"wrong\": null\n}"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "calibration",
+      "label": "Calibration record",
+      "text": "{\n  \"reason\": \"Calibration metadata not supplied\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "{\n  \"card\": {\n    \"cohort_identity\": \"3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500\",\n    \"counts\": {\n      \"abstained\": 0,\n      \"answered\": 4,\n      \"correct\": null,\n      \"eligible\": 4,\n      \"unique_biological_entities\": 4,\n      \"wrong\": null\n    },\n    \"evaluation_parameters\": {\n      \"chosen_clusters\": {\n        \"A\": 0,\n        \"B\": 1\n      }\n    },\n    \"extra\": {\n      \"correct_wrong_interpretation\": \"Unavailable: geometry is not a categorical caller\",\n      \"placed\": 4,\n      \"unplaced\": 0\n    },\n    \"metric_status\": {\n      \"ari\": \"available\",\n      \"completeness\": \"available\",\n      \"homogeneity\": \"available\",\n      \"nmi\": \"available\",\n      \"noise_share\": \"available\",\n      \"weighted_f1_clusters\": \"available\",\n      \"weighted_precision_clusters\": \"available\",\n      \"weighted_recall_clusters\": \"available\"\n    },\n    \"metrics\": {\n      \"ari\": 0.0,\n      \"completeness\": 1.0,\n      \"homogeneity\": 0.0,\n      \"nmi\": 0.0,\n      \"noise_share\": 0.0,\n      \"weighted_f1_clusters\": 0.3333333333333333,\n      \"weighted_precision_clusters\": 0.25,\n      \"weighted_recall_clusters\": 0.5\n    },\n    \"parameter_identity\": \"09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b\",\n    \"records_identity\": \"fb8784450e35f1b30fc1b7556dbb0a8dbb5bde3fc32a9b9dcd9afc6bac584578\",\n    \"scope\": {\n      \"benchmark_id\": \"SCORECARD-SOFTWARE-ONLY\",\n      \"gaps\": [\n        \"Synthetic software behavior does not admit biological performance\"\n      ],\n      \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n      \"organism\": \"Tg\",\n      \"partition\": \"software_test\",\n      \"protocol\": \"synthetic software fixture protocol\",\n      \"seed\": 3,\n      \"settings\": \"fixed authored fixture; no fitting\",\n      \"strategy\": \"holdout_search\",\n      \"target\": \"synthetic software target\",\n      \"task\": \"cluster recovery\",\n      \"truth_grade\": \"synthetic_control\",\n      \"unit\": \"gene\"\n    },\n    \"scope_identity\": \"d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3\",\n    \"small_sample\": true\n  },\n  \"interpretation\": \"Explicit authored software control; not biological chance\"\n}"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "[\n  {\n    \"cluster\": 0,\n    \"entity\": \"g1\",\n    \"prediction\": \"A\",\n    \"truth\": \"A\"\n  },\n  {\n    \"cluster\": 0,\n    \"entity\": \"g2\",\n    \"prediction\": null,\n    \"truth\": \"A\"\n  },\n  {\n    \"cluster\": 1,\n    \"entity\": \"g3\",\n    \"prediction\": \"A\",\n    \"truth\": \"B\"\n  },\n  {\n    \"cluster\": -1,\n    \"entity\": \"g4\",\n    \"prediction\": \"B\",\n    \"truth\": \"B\"\n  }\n]"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"date_availability\": \"Unavailable / not supplied\",\n  \"fixture_source_identity\": \"57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089\",\n  \"version_availability\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "[\n  \"Synthetic software behavior does not admit biological performance\"\n]"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": \"3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500\",\n  \"parameter_identity\": \"09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b\",\n  \"records_identity\": \"72e7dae64c375fc6eb771efd1026c98887c0979cee211a8fbbd21638a0c07f90\",\n  \"scope_identity\": \"d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3\"\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "{\n  \"chosen_clusters\": {\n    \"A\": 0,\n    \"B\": 1\n  }\n}"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "{\n  \"correct_wrong_interpretation\": \"Unavailable: geometry is not a categorical caller\",\n  \"placed\": 3,\n  \"unplaced\": 1\n}"
+    }
+  ],
+  "kind": "performance",
+  "links": [],
+  "metrics": [
+    {
+      "chance": "set by permuting hidden labels over the same clusters (the verdict's null)",
+      "definition": "For each label, F1 of its hidden genes against the ONE cluster chosen for it on visible genes; averaged with labels weighted by their hidden genes. A label with no cluster scores 0.",
+      "denominator": "",
+      "headline": true,
+      "key": "weighted_f1_clusters",
+      "label": "Weighted F1",
+      "range": "0 to 1",
+      "reading": "Whether a label that nobody showed the clustering falls out as a cluster, scored on genes the choice never saw.",
+      "status": "available",
+      "value": 0.8333333333333333
+    },
+    {
+      "chance": "about the label's share",
+      "definition": "For each label, the share of hidden genes in its chosen cluster that carry it; label-size weighted.",
+      "denominator": "",
+      "headline": false,
+      "key": "weighted_precision_clusters",
+      "label": "Weighted precision",
+      "range": "0 to 1",
+      "reading": "How pure the chosen clusters are.",
+      "status": "available",
+      "value": 1.0
+    },
+    {
+      "chance": "about the cluster's share of the genes",
+      "definition": "For each label, the share of its hidden genes that landed in its chosen cluster; label-size weighted.",
+      "denominator": "",
+      "headline": false,
+      "key": "weighted_recall_clusters",
+      "label": "Weighted recall",
+      "range": "0 to 1",
+      "reading": "How completely each label is gathered into one cluster.",
+      "status": "available",
+      "value": 0.75
+    },
+    {
+      "chance": "0",
+      "definition": "Agreement between the clustering and the hidden labels over all pairs of hidden genes, corrected so random partitions of the same sizes score 0.",
+      "denominator": "",
+      "headline": true,
+      "key": "ari",
+      "label": "Adjusted Rand index (ARI)",
+      "range": "-0.5 to 1",
+      "reading": "Whole-partition agreement, independent of which cluster was chosen for which label.",
+      "status": "available",
+      "value": 0.5714285714285714
+    },
+    {
+      "chance": "small but above 0 for many small clusters",
+      "definition": "Mutual information between clusters and hidden labels, divided by the mean of their entropies.",
+      "denominator": "",
+      "headline": false,
+      "key": "nmi",
+      "label": "Normalised mutual information (NMI)",
+      "range": "0 to 1",
+      "reading": "How much knowing a gene's cluster tells you about its label.",
+      "status": "available",
+      "value": 0.7999999999999999
+    },
+    {
+      "chance": "near 0",
+      "definition": "1 minus the uncertainty about the label left once the cluster is known, relative to the label's own entropy.",
+      "denominator": "",
+      "headline": false,
+      "key": "homogeneity",
+      "label": "Homogeneity",
+      "range": "0 to 1",
+      "reading": "Whether each cluster holds one label.",
+      "status": "available",
+      "value": 0.9999999999999999
+    },
+    {
+      "chance": "near 0",
+      "definition": "1 minus the uncertainty about the cluster left once the label is known, relative to the clustering's entropy.",
+      "denominator": "",
+      "headline": false,
+      "key": "completeness",
+      "label": "Completeness",
+      "range": "0 to 1",
+      "reading": "Whether each label sits in one cluster. Its harmonic mean with homogeneity is the V-measure, which equals NMI.",
+      "status": "available",
+      "value": 0.6666666666666666
+    },
+    {
+      "chance": "not applicable",
+      "definition": "Share of hidden genes HDBSCAN left as noise (in no cluster).",
+      "denominator": "",
+      "headline": true,
+      "key": "noise_share",
+      "label": "Unclustered share",
+      "range": "0 to 1",
+      "reading": "Context: noise genes cannot be recovered by any cluster.",
+      "status": "available",
+      "value": 0.25
+    }
+  ],
+  "scope": [
+    [
+      "organism",
+      "Tg"
+    ],
+    [
+      "target",
+      "synthetic software target"
+    ],
+    [
+      "strategy",
+      "holdout_search"
+    ],
+    [
+      "settings",
+      "fixed authored fixture; no fitting"
+    ],
+    [
+      "seed",
+      "3"
+    ],
+    [
+      "protocol",
+      "synthetic software fixture protocol"
+    ],
+    [
+      "partition",
+      "software_test"
+    ],
+    [
+      "benchmark_id",
+      "SCORECARD-SOFTWARE-ONLY"
+    ],
+    [
+      "unit",
+      "gene"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+      "counts": {
+        "abstained": 1,
+        "answered": 3,
+        "correct": null,
+        "eligible": 4,
+        "unique_biological_entities": 4,
+        "wrong": null
+      },
+      "evaluation_parameters": {
+        "chosen_clusters": {
+          "A": 0,
+          "B": 1
+        }
+      },
+      "extra": {
+        "correct_wrong_interpretation": "Unavailable: geometry is not a categorical caller",
+        "placed": 3,
+        "unplaced": 1
+      },
+      "metric_status": {
+        "ari": "available",
+        "completeness": "available",
+        "homogeneity": "available",
+        "nmi": "available",
+        "noise_share": "available",
+        "weighted_f1_clusters": "available",
+        "weighted_precision_clusters": "available",
+        "weighted_recall_clusters": "available"
+      },
+      "metrics": {
+        "ari": 0.5714285714285714,
+        "completeness": 0.6666666666666666,
+        "homogeneity": 0.9999999999999999,
+        "nmi": 0.7999999999999999,
+        "noise_share": 0.25,
+        "weighted_f1_clusters": 0.8333333333333333,
+        "weighted_precision_clusters": 1.0,
+        "weighted_recall_clusters": 0.75
+      },
+      "parameter_identity": "09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b",
+      "records_identity": "72e7dae64c375fc6eb771efd1026c98887c0979cee211a8fbbd21638a0c07f90",
+      "scope": {
+        "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+        "gaps": [
+          "Synthetic software behavior does not admit biological performance"
+        ],
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "organism": "Tg",
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "seed": 3,
+        "settings": "fixed authored fixture; no fitting",
+        "strategy": "holdout_search",
+        "target": "synthetic software target",
+        "task": "cluster recovery",
+        "truth_grade": "synthetic_control",
+        "unit": "gene"
+      },
+      "scope_identity": "d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3",
+      "small_sample": true
+    },
+    "details": {
+      "controls": {
+        "card": {
+          "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+          "counts": {
+            "abstained": 0,
+            "answered": 4,
+            "correct": null,
+            "eligible": 4,
+            "unique_biological_entities": 4,
+            "wrong": null
+          },
+          "evaluation_parameters": {
+            "chosen_clusters": {
+              "A": 0,
+              "B": 1
+            }
+          },
+          "extra": {
+            "correct_wrong_interpretation": "Unavailable: geometry is not a categorical caller",
+            "placed": 4,
+            "unplaced": 0
+          },
+          "metric_status": {
+            "ari": "available",
+            "completeness": "available",
+            "homogeneity": "available",
+            "nmi": "available",
+            "noise_share": "available",
+            "weighted_f1_clusters": "available",
+            "weighted_precision_clusters": "available",
+            "weighted_recall_clusters": "available"
+          },
+          "metrics": {
+            "ari": 0.0,
+            "completeness": 1.0,
+            "homogeneity": 0.0,
+            "nmi": 0.0,
+            "noise_share": 0.0,
+            "weighted_f1_clusters": 0.3333333333333333,
+            "weighted_precision_clusters": 0.25,
+            "weighted_recall_clusters": 0.5
+          },
+          "parameter_identity": "09bde5d2e3cc05293b106e31d15976b982a8586800f7c256ad566a774d71523b",
+          "records_identity": "fb8784450e35f1b30fc1b7556dbb0a8dbb5bde3fc32a9b9dcd9afc6bac584578",
+          "scope": {
+            "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+            "gaps": [
+              "Synthetic software behavior does not admit biological performance"
+            ],
+            "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+            "organism": "Tg",
+            "partition": "software_test",
+            "protocol": "synthetic software fixture protocol",
+            "seed": 3,
+            "settings": "fixed authored fixture; no fitting",
+            "strategy": "holdout_search",
+            "target": "synthetic software target",
+            "task": "cluster recovery",
+            "truth_grade": "synthetic_control",
+            "unit": "gene"
+          },
+          "scope_identity": "d23c1b604aa5a02a078acb2391e37a83191df6cca32b6d0810e30b15f85112b3",
+          "small_sample": true
+        },
+        "interpretation": "Explicit authored software control; not biological chance"
+      },
+      "freshness": {
+        "fixture_source_identity": "57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089"
+      },
+      "rows": [
+        {
+          "cluster": 0,
+          "entity": "g1",
+          "prediction": "A",
+          "truth": "A"
+        },
+        {
+          "cluster": 0,
+          "entity": "g2",
+          "prediction": null,
+          "truth": "A"
+        },
+        {
+          "cluster": 1,
+          "entity": "g3",
+          "prediction": "A",
+          "truth": "B"
+        },
+        {
+          "cluster": -1,
+          "entity": "g4",
+          "prediction": "B",
+          "truth": "B"
+        }
+      ],
+      "source": {
+        "context": "Software presentation only",
+        "grade": "synthetic_control",
+        "lineage": "Hand-authored records; no fit or biological source",
+        "name": "Authored synthetic clusters fixture",
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "sha256": "57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089"
+      },
+      "split": {
+        "fit_population": null,
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "reason": "No fitting in this software fixture"
+      }
+    }
+  },
+  "source": {
+    "context": "Software presentation only",
+    "grade": "synthetic_control",
+    "lineage": "Hand-authored records; no fit or biological source",
+    "name": "Authored synthetic clusters fixture",
+    "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+    "sha256": "57af4cf41717d26d894bec84c98b723f7cfc470bd14dd96a131a1f575a07b089",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Recorded evaluation",
+  "task": "cluster recovery",
+  "title": "Identical pure host"
+}

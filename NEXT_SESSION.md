@@ -10,7 +10,7 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **9/40 complete (22.5%)**:
+40 bounded action cards with dependencies and acceptance tests. **10/40 complete (25%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
@@ -673,3 +673,19 @@ Output receipts (20/33/20 files), input/code hashes and three script parsers pas
 User now requests minimum tokens and smallest tasks first: integrate ready evidence
 and choose bounded existing acceptance gaps before expanding models or sweeps.
 Restricted activity-truth/FN-EC-02 work remains unreviewed and must not be retried.
+
+
+Latest acceptance: **64.17 complete; 19/51 full actions, 10/40 instruction-64 actions**.
+Dedicated calibration navigation and explicit unavailable date/version indicators
+preserve raw source snapshots and native metric schemas. The canonical desktop
+packet is `results/desktop_scorecards_2026_10_08_v2/`: 1,573 checks across 14
+actual Qt cards, 40 verified receipts, 0.68 seconds/150.0 MiB process peak.
+The first attempt preserves an incidental JSON metric-order diagnostic, corrected
+by comparing full metric records by identity with exact values/definitions.
+Fresh Discoveries UI/source replay is canonical in
+`results/functional_coverage_ui_2026_10_08_v4/`; all 51 nested receipts/input hashes
+pass, as do 90 focused view/browser/host/class/Discoveries tests and version check.
+This completes reusable presentation only; no biological truth, calibrated
+functional deployment, host installation or scientific adapter admission added.
+Choose the next small browser/navigation acceptance gap while larger biological
+source and model work remains open. Restricted partials stay untouched.

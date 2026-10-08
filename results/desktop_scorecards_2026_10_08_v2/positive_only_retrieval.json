@@ -1,0 +1,342 @@
+{
+  "counts": [
+    [
+      "abstained",
+      1
+    ],
+    [
+      "answered",
+      2
+    ],
+    [
+      "correct",
+      null
+    ],
+    [
+      "eligible",
+      3
+    ],
+    [
+      "unique_biological_entities",
+      3
+    ],
+    [
+      "wrong",
+      null
+    ]
+  ],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"Software presentation only\",\n  \"grade\": \"synthetic_control\",\n  \"lineage\": \"Hand-authored records; no fit or biological source\",\n  \"name\": \"Authored synthetic positive_only_retrieval fixture\",\n  \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n  \"sha256\": \"64c7c26c73caf52ee9beef3a177feb1c55b680506b49b3b060277c599ace4b93\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"fit_population\": null,\n  \"partition\": \"software_test\",\n  \"protocol\": \"synthetic software fixture protocol\",\n  \"reason\": \"No fitting in this software fixture\"\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "{\n  \"abstained\": 1,\n  \"answered\": 2,\n  \"correct\": null,\n  \"eligible\": 3,\n  \"unique_biological_entities\": 3,\n  \"wrong\": null\n}"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "calibration",
+      "label": "Calibration record",
+      "text": "{\n  \"reason\": \"Calibration metadata not supplied\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "{\n  \"card\": null,\n  \"interpretation\": \"Explicit authored software control; not biological chance\"\n}"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "[\n  {\n    \"entity\": \"g1\",\n    \"positive\": true,\n    \"returned\": true,\n    \"score\": 4.0\n  },\n  {\n    \"entity\": \"g2\",\n    \"positive\": null,\n    \"returned\": true,\n    \"score\": 3.0\n  },\n  {\n    \"entity\": \"g3\",\n    \"positive\": true,\n    \"returned\": false,\n    \"score\": 2.0\n  }\n]"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"date_availability\": \"Unavailable / not supplied\",\n  \"fixture_source_identity\": \"64c7c26c73caf52ee9beef3a177feb1c55b680506b49b3b060277c599ace4b93\",\n  \"version_availability\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "[\n  \"Synthetic software behavior does not admit biological performance\"\n]"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": \"268e5b827ba0e04f2403cd3d615d6147ce72aa02cb1b8a1429f30cc978ee33b9\",\n  \"parameter_identity\": \"b779e78d4acfd0ab7505b3da839a61397e668122cf23e449c44b59949f0c1087\",\n  \"records_identity\": \"2ebea4ece412b49629ca3809d7230575b402fcd5e5522729d4f296604ca36d9c\",\n  \"scope_identity\": \"d94896e40004ea148d3d888a178f3d3ce2e23e413106307caf59d1f64f82ab6a\"\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "{\n  \"verified_negatives\": false\n}"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "{\n  \"correct_wrong_interpretation\": \"Not a categorical prediction task; use the declared task metrics\",\n  \"known_positive_recall\": 0.5,\n  \"negative_assumptions\": \"unknown_is_not_negative\",\n  \"precision_identifiable\": false\n}"
+    }
+  ],
+  "kind": "performance",
+  "links": [],
+  "metrics": [
+    {
+      "chance": "the members' share of the candidate genes",
+      "definition": "Share of the returned genes that are hidden members.",
+      "denominator": "",
+      "headline": true,
+      "key": "precision",
+      "label": "Precision",
+      "range": "0 to 1",
+      "reading": "How many of the candidates are real.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "the returned share of the candidate genes",
+      "definition": "Share of the hidden members that were returned.",
+      "denominator": "",
+      "headline": true,
+      "key": "recall",
+      "label": "Recall",
+      "range": "0 to 1",
+      "reading": "How much of the set was found.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "low; about the members' share for a random return of the same size",
+      "definition": "Harmonic mean of precision and recall.",
+      "denominator": "",
+      "headline": false,
+      "key": "f1",
+      "label": "F1",
+      "range": "0 to 1",
+      "reading": "One number that is only high when both are.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "near 0",
+      "definition": "Overlap of returned and hidden sets divided by their union.",
+      "denominator": "",
+      "headline": false,
+      "key": "jaccard",
+      "label": "Jaccard index",
+      "range": "0 to 1",
+      "reading": "How close the returned set is to being exactly the hidden set; stricter than F1.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "0",
+      "definition": "Correlation between 'returned' and 'is a hidden member' over all candidate genes.",
+      "denominator": "",
+      "headline": false,
+      "key": "set_mcc",
+      "label": "Matthews correlation (MCC)",
+      "range": "-1 to 1",
+      "reading": "Accounts for the genes correctly NOT returned as well; honest when the set is small.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "1",
+      "definition": "Precision divided by the members' share of the candidate genes.",
+      "denominator": "",
+      "headline": false,
+      "key": "fold_enrichment",
+      "label": "Fold enrichment",
+      "range": "0 to 1/share",
+      "reading": "How many times more members the returned set holds than a random set of its size.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "not applicable",
+      "definition": "How many genes the strategy returned as the set.",
+      "denominator": "",
+      "headline": true,
+      "key": "returned",
+      "label": "Genes returned",
+      "range": "0 to all",
+      "reading": "Context: a high recall from returning half the genome is not a finding.",
+      "status": "available",
+      "value": 2.0
+    }
+  ],
+  "scope": [
+    [
+      "organism",
+      "Tg"
+    ],
+    [
+      "target",
+      "synthetic software target"
+    ],
+    [
+      "strategy",
+      "geneset_hunt"
+    ],
+    [
+      "settings",
+      "fixed authored fixture; no fitting"
+    ],
+    [
+      "seed",
+      "3"
+    ],
+    [
+      "protocol",
+      "synthetic software fixture protocol"
+    ],
+    [
+      "partition",
+      "software_test"
+    ],
+    [
+      "benchmark_id",
+      "SCORECARD-SOFTWARE-ONLY"
+    ],
+    [
+      "unit",
+      "gene"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "cohort_identity": "268e5b827ba0e04f2403cd3d615d6147ce72aa02cb1b8a1429f30cc978ee33b9",
+      "counts": {
+        "abstained": 1,
+        "answered": 2,
+        "correct": null,
+        "eligible": 3,
+        "unique_biological_entities": 3,
+        "wrong": null
+      },
+      "evaluation_parameters": {
+        "verified_negatives": false
+      },
+      "extra": {
+        "correct_wrong_interpretation": "Not a categorical prediction task; use the declared task metrics",
+        "known_positive_recall": 0.5,
+        "negative_assumptions": "unknown_is_not_negative",
+        "precision_identifiable": false
+      },
+      "metric_status": {
+        "f1": "unavailable_for_this_cohort_or_truth",
+        "fold_enrichment": "unavailable_for_this_cohort_or_truth",
+        "jaccard": "unavailable_for_this_cohort_or_truth",
+        "precision": "unavailable_for_this_cohort_or_truth",
+        "recall": "unavailable_for_this_cohort_or_truth",
+        "returned": "available",
+        "set_mcc": "unavailable_for_this_cohort_or_truth"
+      },
+      "metrics": {
+        "f1": null,
+        "fold_enrichment": null,
+        "jaccard": null,
+        "precision": null,
+        "recall": null,
+        "returned": 2.0,
+        "set_mcc": null
+      },
+      "parameter_identity": "b779e78d4acfd0ab7505b3da839a61397e668122cf23e449c44b59949f0c1087",
+      "records_identity": "2ebea4ece412b49629ca3809d7230575b402fcd5e5522729d4f296604ca36d9c",
+      "scope": {
+        "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+        "gaps": [
+          "Synthetic software behavior does not admit biological performance"
+        ],
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "organism": "Tg",
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "seed": 3,
+        "settings": "fixed authored fixture; no fitting",
+        "strategy": "geneset_hunt",
+        "target": "synthetic software target",
+        "task": "set retrieval",
+        "truth_grade": "synthetic_control",
+        "unit": "gene"
+      },
+      "scope_identity": "d94896e40004ea148d3d888a178f3d3ce2e23e413106307caf59d1f64f82ab6a",
+      "small_sample": true
+    },
+    "details": {
+      "controls": {
+        "card": null,
+        "interpretation": "Explicit authored software control; not biological chance"
+      },
+      "freshness": {
+        "fixture_source_identity": "64c7c26c73caf52ee9beef3a177feb1c55b680506b49b3b060277c599ace4b93"
+      },
+      "rows": [
+        {
+          "entity": "g1",
+          "positive": true,
+          "returned": true,
+          "score": 4.0
+        },
+        {
+          "entity": "g2",
+          "positive": null,
+          "returned": true,
+          "score": 3.0
+        },
+        {
+          "entity": "g3",
+          "positive": true,
+          "returned": false,
+          "score": 2.0
+        }
+      ],
+      "source": {
+        "context": "Software presentation only",
+        "grade": "synthetic_control",
+        "lineage": "Hand-authored records; no fit or biological source",
+        "name": "Authored synthetic positive_only_retrieval fixture",
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "sha256": "64c7c26c73caf52ee9beef3a177feb1c55b680506b49b3b060277c599ace4b93"
+      },
+      "split": {
+        "fit_population": null,
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "reason": "No fitting in this software fixture"
+      }
+    }
+  },
+  "source": {
+    "context": "Software presentation only",
+    "grade": "synthetic_control",
+    "lineage": "Hand-authored records; no fit or biological source",
+    "name": "Authored synthetic positive_only_retrieval fixture",
+    "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+    "sha256": "64c7c26c73caf52ee9beef3a177feb1c55b680506b49b3b060277c599ace4b93",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Recorded evaluation",
+  "task": "set retrieval",
+  "title": "Identical pure host"
+}

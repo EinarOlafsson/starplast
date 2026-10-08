@@ -1,0 +1,629 @@
+{
+  "counts": [
+    [
+      "abstained",
+      2
+    ],
+    [
+      "answered",
+      2
+    ],
+    [
+      "correct",
+      2
+    ],
+    [
+      "eligible",
+      4
+    ],
+    [
+      "unique_biological_entities",
+      4
+    ],
+    [
+      "wrong",
+      0
+    ]
+  ],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"Software presentation only\",\n  \"grade\": \"synthetic_control\",\n  \"lineage\": \"Hand-authored records; no fit or biological source\",\n  \"name\": \"Authored synthetic prediction_sets fixture\",\n  \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n  \"sha256\": \"65fc54e4c7a06fe29c1bdb9cb2f9bdf5bda8e9404bd2d56ee4661b242fed5ed7\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"fit_population\": null,\n  \"partition\": \"software_test\",\n  \"protocol\": \"synthetic software fixture protocol\",\n  \"reason\": \"No fitting in this software fixture\"\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "{\n  \"abstained\": 2,\n  \"answered\": 2,\n  \"correct\": 2,\n  \"eligible\": 4,\n  \"unique_biological_entities\": 4,\n  \"wrong\": 0\n}"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "{\n  \"biological_groups\": null,\n  \"reason\": \"Biological groups unresolved\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "calibration",
+      "label": "Calibration record",
+      "text": "{\n  \"reason\": \"Calibration metadata not supplied\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "{\n  \"card\": {\n    \"cohort_identity\": \"3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500\",\n    \"counts\": {\n      \"abstained\": 4,\n      \"answered\": 0,\n      \"correct\": 0,\n      \"eligible\": 4,\n      \"unique_biological_entities\": 4,\n      \"wrong\": 0\n    },\n    \"evaluation_parameters\": {\n      \"nominal_set_coverage\": 0.9,\n      \"prediction_classes\": [\n        \"A\",\n        \"B\"\n      ]\n    },\n    \"extra\": {\n      \"accuracy_all_hidden\": 0.0,\n      \"accuracy_among_calls\": null,\n      \"confusion\": [\n        {\n          \"count\": 2,\n          \"prediction\": null,\n          \"truth\": \"A\"\n        },\n        {\n          \"count\": 2,\n          \"prediction\": null,\n          \"truth\": \"B\"\n        }\n      ],\n      \"prediction_classes\": [\n        \"A\",\n        \"B\"\n      ],\n      \"single_outcome\": false,\n      \"uncertainty\": {\n        \"biological_groups\": null,\n        \"reason\": \"Biological groups unresolved\",\n        \"status\": \"unavailable\"\n      }\n    },\n    \"metric_status\": {\n      \"accuracy\": \"available\",\n      \"coverage\": \"available\",\n      \"empty_set_share\": \"available\",\n      \"kappa\": \"available\",\n      \"macro_auprc\": \"unavailable_for_this_cohort_or_truth\",\n      \"macro_auroc\": \"unavailable_for_this_cohort_or_truth\",\n      \"macro_f1\": \"available\",\n      \"macro_precision\": \"available\",\n      \"macro_recall\": \"available\",\n      \"mcc\": \"available\",\n      \"mean_set_size\": \"available\",\n      \"precision_of_calls\": \"unavailable_for_this_cohort_or_truth\",\n      \"set_coverage\": \"available\",\n      \"set_efficiency\": \"available\",\n      \"singleton_share\": \"available\",\n      \"weighted_f1\": \"available\"\n    },\n    \"metrics\": {\n      \"accuracy\": 0.0,\n      \"coverage\": 0.0,\n      \"empty_set_share\": 0.0,\n      \"kappa\": 0.0,\n      \"macro_auprc\": null,\n      \"macro_auroc\": null,\n      \"macro_f1\": 0.0,\n      \"macro_precision\": 0.0,\n      \"macro_recall\": 0.0,\n      \"mcc\": 0.0,\n      \"mean_set_size\": 2.0,\n      \"precision_of_calls\": null,\n      \"set_coverage\": 1.0,\n      \"set_efficiency\": 0.0,\n      \"singleton_share\": 0.0,\n      \"weighted_f1\": 0.0\n    },\n    \"parameter_identity\": \"525501c5ad86b3e34a19ed8dc8492e4ada18e676ff54299b945e0720bf72f1fb\",\n    \"records_identity\": \"43bd0e9f60c1efb4844d35b41151ad81b1c79d8a2ebe53d61db12f82879d55af\",\n    \"scope\": {\n      \"benchmark_id\": \"SCORECARD-SOFTWARE-ONLY\",\n      \"gaps\": [\n        \"Synthetic software behavior does not admit biological performance\"\n      ],\n      \"negative_semantics\": \"Artificial fixture truth only; no biological negative inference\",\n      \"organism\": \"Tg\",\n      \"partition\": \"software_test\",\n      \"protocol\": \"synthetic software fixture protocol\",\n      \"seed\": 3,\n      \"settings\": \"fixed authored fixture; no fitting\",\n      \"strategy\": \"conformal_calls\",\n      \"target\": \"synthetic software target\",\n      \"task\": \"label calls\",\n      \"truth_grade\": \"synthetic_control\",\n      \"unit\": \"gene\"\n    },\n    \"scope_identity\": \"363db71b48f44d8f2fb8caca1b4fe94c8a1b13132486a8db908165e8bc47f5fc\",\n    \"small_sample\": true\n  },\n  \"interpretation\": \"Explicit authored software control; not biological chance\"\n}"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "[\n  {\n    \"entity\": \"g1\",\n    \"prediction\": \"A\",\n    \"prediction_set\": [\n      \"A\"\n    ],\n    \"truth\": \"A\"\n  },\n  {\n    \"entity\": \"g2\",\n    \"prediction\": null,\n    \"prediction_set\": [\n      \"A\",\n      \"B\"\n    ],\n    \"truth\": \"A\"\n  },\n  {\n    \"entity\": \"g3\",\n    \"prediction\": null,\n    \"prediction_set\": [],\n    \"truth\": \"B\"\n  },\n  {\n    \"entity\": \"g4\",\n    \"prediction\": \"B\",\n    \"prediction_set\": [\n      \"B\"\n    ],\n    \"truth\": \"B\"\n  }\n]"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"date_availability\": \"Unavailable / not supplied\",\n  \"fixture_source_identity\": \"65fc54e4c7a06fe29c1bdb9cb2f9bdf5bda8e9404bd2d56ee4661b242fed5ed7\",\n  \"version_availability\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "[\n  \"Synthetic software behavior does not admit biological performance\"\n]"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": \"3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500\",\n  \"parameter_identity\": \"525501c5ad86b3e34a19ed8dc8492e4ada18e676ff54299b945e0720bf72f1fb\",\n  \"records_identity\": \"9b8f106cd42a40f71dc826f8ff4908cf4263472a47c638141921b47acbb11870\",\n  \"scope_identity\": \"363db71b48f44d8f2fb8caca1b4fe94c8a1b13132486a8db908165e8bc47f5fc\"\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "{\n  \"nominal_set_coverage\": 0.9,\n  \"prediction_classes\": [\n    \"A\",\n    \"B\"\n  ]\n}"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "{\n  \"accuracy_all_hidden\": 0.5,\n  \"accuracy_among_calls\": 1.0,\n  \"confusion\": [\n    {\n      \"count\": 1,\n      \"prediction\": \"A\",\n      \"truth\": \"A\"\n    },\n    {\n      \"count\": 1,\n      \"prediction\": null,\n      \"truth\": \"A\"\n    },\n    {\n      \"count\": 1,\n      \"prediction\": \"B\",\n      \"truth\": \"B\"\n    },\n    {\n      \"count\": 1,\n      \"prediction\": null,\n      \"truth\": \"B\"\n    }\n  ],\n  \"prediction_classes\": [\n    \"A\",\n    \"B\"\n  ],\n  \"single_outcome\": false,\n  \"uncertainty\": {\n    \"biological_groups\": null,\n    \"reason\": \"Biological groups unresolved\",\n    \"status\": \"unavailable\"\n  }\n}"
+    }
+  ],
+  "kind": "performance",
+  "links": [],
+  "metrics": [
+    {
+      "chance": "about the sum of squared class shares (Cohen's chance term)",
+      "definition": "Hidden genes called with their true label, divided by ALL hidden genes. A gene the strategy declined to call counts as wrong.",
+      "denominator": "All eligible: 4",
+      "headline": true,
+      "key": "accuracy",
+      "label": "Accuracy, all eligible",
+      "range": "0 to 1",
+      "reading": "The headline for label calls. Counting abstentions as errors stops a strategy looking accurate by calling only the easy genes; coverage and precision of calls split it apart.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "not applicable (a property of the strategy, not of luck)",
+      "definition": "Share of hidden genes that received any call.",
+      "denominator": "All eligible: 4",
+      "headline": true,
+      "key": "coverage",
+      "label": "Coverage",
+      "range": "0 to 1",
+      "reading": "How far the strategy reaches. A network strategy cannot call a gene with no edges; a low coverage with a high precision of calls is a precise but narrow tool.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "as accuracy, among the genes called",
+      "definition": "Correct calls divided by calls made (also called selective accuracy).",
+      "denominator": "Calls made: 2",
+      "headline": true,
+      "key": "precision_of_calls",
+      "label": "Accuracy among calls",
+      "range": "0 to 1",
+      "reading": "How far to trust one call. Equals accuracy when coverage is 1.",
+      "status": "available",
+      "value": 1.0
+    },
+    {
+      "chance": "about the average class share",
+      "definition": "For each true class: of the genes called that class, the share that truly are; averaged over classes with equal weight. A class never called scores 0.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_precision",
+      "label": "Macro precision",
+      "range": "0 to 1",
+      "reading": "Whether calls of the RARE classes can be trusted too; a strategy that only ever calls the commonest class scores low.",
+      "status": "available",
+      "value": 1.0
+    },
+    {
+      "chance": "1 / number of classes, for a caller that ignores the data",
+      "definition": "For each true class: the share of its hidden genes called correctly; averaged over classes with equal weight. Identical to balanced accuracy.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_recall",
+      "label": "Macro recall (balanced accuracy)",
+      "range": "0 to 1",
+      "reading": "Whether every class is found, not just the large ones. Compare with accuracy: a large gap means the strategy lives on the big classes.",
+      "status": "available",
+      "value": 0.5
+    },
+    {
+      "chance": "low; roughly the average class share",
+      "definition": "Per class, the harmonic mean of precision and recall; averaged over classes with equal weight.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_f1",
+      "label": "Macro F1",
+      "range": "0 to 1",
+      "reading": "One number balancing finding each class and being right when calling it, with rare classes counted as much as common ones.",
+      "status": "available",
+      "value": 0.6666666666666666
+    },
+    {
+      "chance": "about the sum of squared class shares",
+      "definition": "Per-class F1 averaged with each class weighted by its number of hidden genes.",
+      "denominator": "",
+      "headline": false,
+      "key": "weighted_f1",
+      "label": "Weighted F1",
+      "range": "0 to 1",
+      "reading": "Macro F1's counterpart that follows the class sizes; close to accuracy when coverage is high.",
+      "status": "available",
+      "value": 0.6666666666666666
+    },
+    {
+      "chance": "0",
+      "definition": "Agreement between calls and truth corrected for the agreement their class frequencies alone would give: (observed - expected) / (1 - expected). No call is its own category.",
+      "denominator": "",
+      "headline": false,
+      "key": "kappa",
+      "label": "Cohen's kappa",
+      "range": "-1 to 1",
+      "reading": "Accuracy with chance removed: 0 is no better than matching class frequencies, 1 is perfect. Comparable across labels with different numbers and sizes of classes.",
+      "status": "available",
+      "value": 0.3333333333333333
+    },
+    {
+      "chance": "0",
+      "definition": "The multiclass Matthews correlation coefficient (Gorodkin's R_K) between calls and truth, with no call as its own category.",
+      "denominator": "",
+      "headline": false,
+      "key": "mcc",
+      "label": "Matthews correlation (MCC)",
+      "range": "-1 to 1",
+      "reading": "A correlation between the call and the truth that stays honest under strong class imbalance; often the single most informative number for an unbalanced label.",
+      "status": "available",
+      "value": 0.4472135954999579
+    },
+    {
+      "chance": "0.5",
+      "definition": "For each class, the probability that a random hidden gene of that class gets a higher score for the class than a random hidden gene of another class; averaged over classes. Needs per-class scores.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_auroc",
+      "label": "Macro AUROC",
+      "range": "0 to 1",
+      "reading": "How well the strategy's scores separate each class from the rest, before any threshold is chosen. Missing for strategies that call labels without scoring every class.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "the class's share among hidden genes, averaged",
+      "definition": "For each class, the area under the precision-recall curve of its one-vs-rest scores (average precision); averaged over classes. Needs per-class scores.",
+      "denominator": "",
+      "headline": false,
+      "key": "macro_auprc",
+      "label": "Macro AUPRC",
+      "range": "0 to 1",
+      "reading": "Like macro AUROC but dominated by the top of each ranking, which is where calls are made; far below AUROC means good separation overall but a noisy top.",
+      "status": "unavailable_for_this_cohort_or_truth",
+      "value": null
+    },
+    {
+      "chance": "not applicable",
+      "definition": "Eligible rows with no labels in their prediction set, divided by all eligible rows.",
+      "denominator": "All eligible: 4",
+      "headline": false,
+      "key": "empty_set_share",
+      "label": "Empty-set share",
+      "range": "0 to 1",
+      "reading": "Empty sets are abstentions and coverage misses. Their native efficiency contribution is nevertheless the same as a singleton; inspect both measures.",
+      "status": "available",
+      "value": 0.25
+    },
+    {
+      "chance": "not applicable",
+      "definition": "Mean number of distinct labels in each prediction set over all eligible rows, including empty sets.",
+      "denominator": "",
+      "headline": true,
+      "key": "mean_set_size",
+      "label": "Mean prediction-set size",
+      "range": "0 to the number of declared model classes",
+      "reading": "Smaller sets narrow the answer only when coverage remains adequate. A set containing every model class provides little resolution.",
+      "status": "available",
+      "value": 1.0
+    },
+    {
+      "chance": "not applicable; a setting rather than achieved coverage",
+      "definition": "Declared one minus conformal alpha, fixed before the final label test.",
+      "denominator": "",
+      "headline": false,
+      "key": "promised_coverage",
+      "label": "Nominal prediction-set coverage",
+      "range": "0 to 1",
+      "reading": "Compare with achieved prediction-set coverage and size. Source/context/exchangeability review is required; this setting is not a per-gene correctness probability.",
+      "status": "available",
+      "value": 0.9
+    },
+    {
+      "chance": "depends on set size and label distribution; not a fixed chance rate",
+      "definition": "Eligible rows whose prediction set contains their observed label, divided by all eligible rows. An empty set is uncovered.",
+      "denominator": "All eligible: 4",
+      "headline": true,
+      "key": "set_coverage",
+      "label": "Prediction-set coverage, all eligible",
+      "range": "0 to 1",
+      "reading": "Inspect coverage with set size, empty-set share and singleton-call coverage. Recovering source labels does not establish independent biological validity.",
+      "status": "available",
+      "value": 0.75
+    },
+    {
+      "chance": "measured by the same procedure on shuffled labels where a null is supplied",
+      "definition": "For C declared model classes, 1 - (mean(clip(set size, 1, C)) - 1) / (C - 1). Unavailable when C is less than two, classes are unspecified or the cohort is empty.",
+      "denominator": "",
+      "headline": false,
+      "key": "set_efficiency",
+      "label": "Prediction-set efficiency",
+      "range": "0 to 1",
+      "reading": "One means singleton-sized or empty sets; zero means all-class sets. Empty sets are clipped to size one here but count as coverage misses. Inspect achieved coverage and empty-set share.",
+      "status": "available",
+      "value": 0.75
+    },
+    {
+      "chance": "not applicable",
+      "definition": "Eligible rows with exactly one label in their prediction set, divided by all eligible rows.",
+      "denominator": "All eligible: 4",
+      "headline": false,
+      "key": "singleton_share",
+      "label": "Singleton-set share",
+      "range": "0 to 1",
+      "reading": "For recorded conformal label outcomes, only singleton sets produce individual label calls. This is reach, not correctness.",
+      "status": "available",
+      "value": 0.5
+    }
+  ],
+  "scope": [
+    [
+      "organism",
+      "Tg"
+    ],
+    [
+      "target",
+      "synthetic software target"
+    ],
+    [
+      "strategy",
+      "conformal_calls"
+    ],
+    [
+      "settings",
+      "fixed authored fixture; no fitting"
+    ],
+    [
+      "seed",
+      "3"
+    ],
+    [
+      "protocol",
+      "synthetic software fixture protocol"
+    ],
+    [
+      "partition",
+      "software_test"
+    ],
+    [
+      "benchmark_id",
+      "SCORECARD-SOFTWARE-ONLY"
+    ],
+    [
+      "unit",
+      "gene"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+      "counts": {
+        "abstained": 2,
+        "answered": 2,
+        "correct": 2,
+        "eligible": 4,
+        "unique_biological_entities": 4,
+        "wrong": 0
+      },
+      "evaluation_parameters": {
+        "nominal_set_coverage": 0.9,
+        "prediction_classes": [
+          "A",
+          "B"
+        ]
+      },
+      "extra": {
+        "accuracy_all_hidden": 0.5,
+        "accuracy_among_calls": 1.0,
+        "confusion": [
+          {
+            "count": 1,
+            "prediction": "A",
+            "truth": "A"
+          },
+          {
+            "count": 1,
+            "prediction": null,
+            "truth": "A"
+          },
+          {
+            "count": 1,
+            "prediction": "B",
+            "truth": "B"
+          },
+          {
+            "count": 1,
+            "prediction": null,
+            "truth": "B"
+          }
+        ],
+        "prediction_classes": [
+          "A",
+          "B"
+        ],
+        "single_outcome": false,
+        "uncertainty": {
+          "biological_groups": null,
+          "reason": "Biological groups unresolved",
+          "status": "unavailable"
+        }
+      },
+      "metric_status": {
+        "accuracy": "available",
+        "coverage": "available",
+        "empty_set_share": "available",
+        "kappa": "available",
+        "macro_auprc": "unavailable_for_this_cohort_or_truth",
+        "macro_auroc": "unavailable_for_this_cohort_or_truth",
+        "macro_f1": "available",
+        "macro_precision": "available",
+        "macro_recall": "available",
+        "mcc": "available",
+        "mean_set_size": "available",
+        "precision_of_calls": "available",
+        "promised_coverage": "available",
+        "set_coverage": "available",
+        "set_efficiency": "available",
+        "singleton_share": "available",
+        "weighted_f1": "available"
+      },
+      "metrics": {
+        "accuracy": 0.5,
+        "coverage": 0.5,
+        "empty_set_share": 0.25,
+        "kappa": 0.3333333333333333,
+        "macro_auprc": null,
+        "macro_auroc": null,
+        "macro_f1": 0.6666666666666666,
+        "macro_precision": 1.0,
+        "macro_recall": 0.5,
+        "mcc": 0.4472135954999579,
+        "mean_set_size": 1.0,
+        "precision_of_calls": 1.0,
+        "promised_coverage": 0.9,
+        "set_coverage": 0.75,
+        "set_efficiency": 0.75,
+        "singleton_share": 0.5,
+        "weighted_f1": 0.6666666666666666
+      },
+      "parameter_identity": "525501c5ad86b3e34a19ed8dc8492e4ada18e676ff54299b945e0720bf72f1fb",
+      "records_identity": "9b8f106cd42a40f71dc826f8ff4908cf4263472a47c638141921b47acbb11870",
+      "scope": {
+        "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+        "gaps": [
+          "Synthetic software behavior does not admit biological performance"
+        ],
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "organism": "Tg",
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "seed": 3,
+        "settings": "fixed authored fixture; no fitting",
+        "strategy": "conformal_calls",
+        "target": "synthetic software target",
+        "task": "label calls",
+        "truth_grade": "synthetic_control",
+        "unit": "gene"
+      },
+      "scope_identity": "363db71b48f44d8f2fb8caca1b4fe94c8a1b13132486a8db908165e8bc47f5fc",
+      "small_sample": true
+    },
+    "details": {
+      "controls": {
+        "card": {
+          "cohort_identity": "3aef477f49c289c0c91e2269f7e4d49c3411335e18b5e50fe898f501e52d0500",
+          "counts": {
+            "abstained": 4,
+            "answered": 0,
+            "correct": 0,
+            "eligible": 4,
+            "unique_biological_entities": 4,
+            "wrong": 0
+          },
+          "evaluation_parameters": {
+            "nominal_set_coverage": 0.9,
+            "prediction_classes": [
+              "A",
+              "B"
+            ]
+          },
+          "extra": {
+            "accuracy_all_hidden": 0.0,
+            "accuracy_among_calls": null,
+            "confusion": [
+              {
+                "count": 2,
+                "prediction": null,
+                "truth": "A"
+              },
+              {
+                "count": 2,
+                "prediction": null,
+                "truth": "B"
+              }
+            ],
+            "prediction_classes": [
+              "A",
+              "B"
+            ],
+            "single_outcome": false,
+            "uncertainty": {
+              "biological_groups": null,
+              "reason": "Biological groups unresolved",
+              "status": "unavailable"
+            }
+          },
+          "metric_status": {
+            "accuracy": "available",
+            "coverage": "available",
+            "empty_set_share": "available",
+            "kappa": "available",
+            "macro_auprc": "unavailable_for_this_cohort_or_truth",
+            "macro_auroc": "unavailable_for_this_cohort_or_truth",
+            "macro_f1": "available",
+            "macro_precision": "available",
+            "macro_recall": "available",
+            "mcc": "available",
+            "mean_set_size": "available",
+            "precision_of_calls": "unavailable_for_this_cohort_or_truth",
+            "set_coverage": "available",
+            "set_efficiency": "available",
+            "singleton_share": "available",
+            "weighted_f1": "available"
+          },
+          "metrics": {
+            "accuracy": 0.0,
+            "coverage": 0.0,
+            "empty_set_share": 0.0,
+            "kappa": 0.0,
+            "macro_auprc": null,
+            "macro_auroc": null,
+            "macro_f1": 0.0,
+            "macro_precision": 0.0,
+            "macro_recall": 0.0,
+            "mcc": 0.0,
+            "mean_set_size": 2.0,
+            "precision_of_calls": null,
+            "set_coverage": 1.0,
+            "set_efficiency": 0.0,
+            "singleton_share": 0.0,
+            "weighted_f1": 0.0
+          },
+          "parameter_identity": "525501c5ad86b3e34a19ed8dc8492e4ada18e676ff54299b945e0720bf72f1fb",
+          "records_identity": "43bd0e9f60c1efb4844d35b41151ad81b1c79d8a2ebe53d61db12f82879d55af",
+          "scope": {
+            "benchmark_id": "SCORECARD-SOFTWARE-ONLY",
+            "gaps": [
+              "Synthetic software behavior does not admit biological performance"
+            ],
+            "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+            "organism": "Tg",
+            "partition": "software_test",
+            "protocol": "synthetic software fixture protocol",
+            "seed": 3,
+            "settings": "fixed authored fixture; no fitting",
+            "strategy": "conformal_calls",
+            "target": "synthetic software target",
+            "task": "label calls",
+            "truth_grade": "synthetic_control",
+            "unit": "gene"
+          },
+          "scope_identity": "363db71b48f44d8f2fb8caca1b4fe94c8a1b13132486a8db908165e8bc47f5fc",
+          "small_sample": true
+        },
+        "interpretation": "Explicit authored software control; not biological chance"
+      },
+      "freshness": {
+        "fixture_source_identity": "65fc54e4c7a06fe29c1bdb9cb2f9bdf5bda8e9404bd2d56ee4661b242fed5ed7"
+      },
+      "rows": [
+        {
+          "entity": "g1",
+          "prediction": "A",
+          "prediction_set": [
+            "A"
+          ],
+          "truth": "A"
+        },
+        {
+          "entity": "g2",
+          "prediction": null,
+          "prediction_set": [
+            "A",
+            "B"
+          ],
+          "truth": "A"
+        },
+        {
+          "entity": "g3",
+          "prediction": null,
+          "prediction_set": [],
+          "truth": "B"
+        },
+        {
+          "entity": "g4",
+          "prediction": "B",
+          "prediction_set": [
+            "B"
+          ],
+          "truth": "B"
+        }
+      ],
+      "source": {
+        "context": "Software presentation only",
+        "grade": "synthetic_control",
+        "lineage": "Hand-authored records; no fit or biological source",
+        "name": "Authored synthetic prediction_sets fixture",
+        "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+        "sha256": "65fc54e4c7a06fe29c1bdb9cb2f9bdf5bda8e9404bd2d56ee4661b242fed5ed7"
+      },
+      "split": {
+        "fit_population": null,
+        "partition": "software_test",
+        "protocol": "synthetic software fixture protocol",
+        "reason": "No fitting in this software fixture"
+      }
+    }
+  },
+  "source": {
+    "context": "Software presentation only",
+    "grade": "synthetic_control",
+    "lineage": "Hand-authored records; no fit or biological source",
+    "name": "Authored synthetic prediction_sets fixture",
+    "negative_semantics": "Artificial fixture truth only; no biological negative inference",
+    "sha256": "65fc54e4c7a06fe29c1bdb9cb2f9bdf5bda8e9404bd2d56ee4661b242fed5ed7",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Recorded evaluation",
+  "task": "label calls",
+  "title": "Identical pure host"
+}
