@@ -252,7 +252,7 @@ quantity were approximating on 2026-08-13.
 | Tg_host surface / receptor repertoire · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | fill | — |
 | Tg_host response to infection · human neuron | human neuron; bradyzoite, neuronal cyst | **-** |  |  |  | `` | separate | — |
 | Tg_host protein recruitment to the vacuole | parasitophorous vacuole; tachyzoite in HFF | **A** | 12 |  | 100.0% | `pv_enrichment_log2` | one | **Toxoplasma gondii exploits the host ESCRT machinery for parasite uptake of host cytosolic proteins.** (PLoS Pathog 2021) [34898650](https://pubmed.ncbi.nlm.nih.gov/34898650/) `PLoS Pathog` |
-| Tg_host gene requirement · rhoptry discharge | human K562; Toxoplasma invasion assay | **A** | 18739 |  | 100.0% | `rhoptry_discharge_score, rhoptry_discharge_beta, rhoptry_discharge_fdr` | fill | `bioRxiv 10.1101/2025.10.16.682961` — genome-wide CRISPR screen for host genes required for rhoptry discharge |
+| Tg_host gene requirement · rhoptry discharge | human K562; Toxoplasma invasion assay | **A** | 18700 |  | 100.0% | `rhoptry_discharge_score, rhoptry_discharge_beta, rhoptry_discharge_fdr` | fill | `bioRxiv 10.1101/2025.10.16.682961` — genome-wide CRISPR screen for host genes required for rhoptry discharge |
 
 ### NEVER a feature
 

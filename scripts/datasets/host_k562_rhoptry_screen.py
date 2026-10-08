@@ -5,7 +5,7 @@ Whether knocking out a human gene stops Toxoplasma discharging its rhoptries
 
     level / kind : reference / CRISPR_screen
     provides     : rhoptry_discharge_score, rhoptry_discharge_beta, rhoptry_discharge_fdr
-    coverage     : 18,739 reviewed human protein rows from 20,010 screened gene symbols; 39 ambiguous symbol mappings
+    coverage     : 18,700 unambiguous protein projections; all 20,010 gene scores retained; 39 ambiguous symbols withheld
     citation     : Valleau D et al., Clustering of host N-glycans by the microneme MIC1/4/6 complex licenses Toxoplasma rhoptry discharge. EMBO J 2026, doi:10.1038/s44318-026-00911-z
     PMID         : 42791346
     accession    : bioRxiv 10.1101/2025.10.16.682961 v2 Table S1
@@ -20,12 +20,15 @@ Quirks that cost time once:
     ST6GAL1, which the paper argues are not involved, are not hits. The Wald FDR is shipped
     rather than the permutation one, which is quantised into a few values and would read as
     ties. Keyed by reviewed UniProt through gene symbol. The 2026 journal Dataset EV1 matches
-    all 20,010 source genes and all three score fields exactly; the installed v2 source file and
-    values are retained. First-publication lineage is bioRxiv doi:10.1101/2025.10.16.682961
-    (2025), not a new experiment in 2026. Mapping audit: 18,700 unambiguous symbols, 39
-    ambiguous symbols assigned by the legacy first-accession policy, and 1,271 unmapped symbols.
-    These 39 protein projections require mapping correction; raw gene scores are preserved. See
-    results/rhoptry_journal_review_2026_10_07_v2/.
+    all 20,010 source genes and all three score fields exactly; the original v2 source file and
+    all gene scores are retained. First-publication lineage is bioRxiv
+    doi:10.1101/2025.10.16.682961 (2025), not a new experiment in 2026. Mapping correction:
+    18,700 unambiguous protein projections; 39 ambiguous symbols are withheld and 1,271 unmapped
+    symbols remain gene evidence. All 20,010 original gene rows, including mapping alternatives,
+    are preserved in deposit_host_k562_rhoptry_gene_evidence.parquet. The source-verified ledger
+    host_projection_withdrawals.json records the 117 corrected protein cells and separate
+    source/legacy decimal encodings. Withheld does not mean absent or a negative experiment. See
+    results/host_symbol_mapping_2026_10_08/.
 
 Fetches the source, reads it, resolves its accessions to current ToxoDB ME49, and reports the
 coverage that resolution achieves. The shipped columns are assembled by

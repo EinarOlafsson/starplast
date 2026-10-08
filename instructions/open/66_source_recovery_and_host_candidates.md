@@ -1,6 +1,6 @@
 # 66 — Recover source files and verify host candidate upgrades
 
-Status: OPEN — 3/4 controlled items complete, 2026-10-08. Authorized by the user's instruction to finish open
+Status: COMPLETE — 4/4 controlled items complete, 2026-10-08. Authorized by the user's instruction to finish open
 items, download missing datasets and replace sources where warranted.
 
 | Item | Percent done | Time left | Description |
@@ -8,7 +8,7 @@ items, download missing datasets and replace sources where warranted.
 | [66.01](../done/66_01_source_recovery.md) | ✅ | 0 h | Reconcile relocated source files and retrieve missing processed sources with explicit failure records |
 | [66.02](../done/66_02_rbc_candidate_review.md) | ✅ | 0 h | Review the quantitative RBC candidate against installed fraction/surface evidence |
 | [66.03](../done/66_03_rhoptry_journal_version.md) | ✅ | 0 h | Verify host rhoptry journal/preprint data equivalence and version provenance |
-| 66.04 | 25% | 4–8 h + validation | Correct ambiguous host symbol projections while preserving original gene-level evidence |
+| [66.04](../done/66_04_host_symbol_projections.md) | ✅ | 0 h | Correct ambiguous host symbol projections while preserving original gene-level evidence |
 
 66.01 acceptance: inspect all 162 registered sources against the explicit existing
 archive; distinguish raw input from derived and installed files; retain every
@@ -63,13 +63,27 @@ First-partition evidence: `results/host_symbol_mapping_2026_10_08/`;
 mapping and public schema. `deposits.k562_rhoptry_evidence` preserves all 20,010
 gene rows and exact three score fields; 39 ambiguous and 1,271 unmapped genes
 remain available before projection. All 18,700 unambiguous candidate protein
-projections match installed scores exactly. **574 checks passed, two existing
+projections agree under the original pandas float tolerance. Strict binary
+source/legacy differences are recorded in the migration precision review. **574 checks passed, two existing
 skips**, plus full-source executed replay and mapping-order/non-loss tests.
-Installed tables are unchanged; explicit migration/withdrawal provenance and
-affected checks are next. Progress 25%; no completion tick yet.
+At this historical first partition installed tables were unchanged (25%).
+The final migration below completes this action.
+
+Second controlled partition: withdraw only the 39 verified legacy symbol-to-one-
+protein rhoptry projections in the installed human table and corresponding
+derived deposit cache. Preserve all host rows, identities, other measurements
+and exact unambiguous values. Ship all 20,010 original gene scores with mapping
+statuses/alternatives and an explicit per-cell withdrawal ledger linked to that
+evidence. Archive original installed inputs and their hashes; verify every
+withheld value matches its declared exact source/legacy decimal encoding. Historical host-migration coverage
+must reconcile through this verified ledger, preserving the historical report
+and refusing unrecorded loss. Validate host/deposit/leakage, affected biological
+checks, source catalogue/layout and unchanged parasite inference/calibration
+inputs before completion. GTEx/PAR_Y/CAGE-cutoff admission remains separate
+GT-HOST-TX-02 under 65.04 and the host gene-space cards.
 
 The version review found 39 screened gene symbols mapping to multiple reviewed
-proteins. `host.uniprot_index()` currently uses the first accession for symbols,
+proteins. The legacy `host.uniprot_index()` used the first accession for symbols,
 while its Ensembl mapping properly withholds ambiguity. This requires a separate
 controlled correction across host sources. Preserve original gene-level values
 and identifier/mapping provenance; never silently select one protein, duplicate
@@ -77,7 +91,7 @@ an assay value or turn withheld projections into negatives. Audit affected host
 deposits, record every ambiguity and distinguish gene perturbation from protein
 measurement. Check non-loss against archived gene evidence, leakage, affected
 truth/scorecards and any changed inference/calibration artifacts before promotion.
-Existing protein projections remain explicitly flagged in the source note meanwhile.
+The final correction withholds the verified ambiguous projections with a ledger.
 
 Additional source-review dependency **GT-HOST-TX-02**:
 `results/host_expression_source_review_2026_10_08/` verifies GTEx v11 and original
@@ -97,4 +111,13 @@ for unmatched legacy derivations; two sources remain version/media gaps. See
 not arbitrary renamed legacy outputs. Continue 66.01 source/transform association
 and 66.04 host mapping correction while inaccessible content stays recorded.
 
-Final 66.01 evidence: all 162 addresses reconciled, 69 processed bindings, 11 containers and 538 candidate files; hashes verified in `results/source_recovery_final_2026_10_07_v2/`. CSPA original filename recovered with exact installed-field reproduction and protocol-specific non-detection semantics. No numerical runtime promotion. Host mapping correction (66.04) remains open.
+Final 66.01 evidence: all 162 addresses reconciled, 69 processed bindings, 11 containers and 538 candidate files; hashes verified in `results/source_recovery_final_2026_10_07_v2/`. CSPA original filename recovered with exact installed-field reproduction and protocol-specific non-detection semantics. No numerical runtime promotion. Host mapping correction (66.04) is complete; see its final evidence below.
+
+Final 66.04 evidence: [completion card](../done/66_04_host_symbol_projections.md)
+and `results/host_symbol_mapping_2026_10_08/migration/`. Only 117 ambiguous cells
+are withdrawn; 20,989 host rows, all other installed values and all 20,010 original
+gene records are strictly preserved. Verified ledger and original backups shipped/
+recorded. 575 extended checks passed, two existing skips; prior failures resolved.
+Pre-existing source/legacy encoding differences are explicitly recorded, correcting
+the first audit's tolerance-based “exact” wording. Expression-source admission,
+host gene spaces and host inference remain open under 65.04/instruction 64.

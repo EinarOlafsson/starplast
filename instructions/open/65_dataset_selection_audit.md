@@ -78,7 +78,8 @@ Host review update: 66.02 retains complementary RBC fraction/surface evidence an
 keeps absolute copy counts as a separate candidate with measured group/mapping gaps.
 66.03 verifies the rhoptry journal/preprint table exactly and upgrades the citation,
 retaining first-publication lineage and exposing 39 ambiguous symbol projections.
-No numerical replacement is promoted; corrected projection and pack admission remain.
+66.04 now corrects the 39 ambiguous projections with original gene evidence intact;
+expression-source replacement and host pack admission remain open.
 
 Bounded truth-source partition **GT-SPATIAL-01** (65.04 with 64.10, depending on
 64.03/64.04): review the two already registered primary spatial papers,
@@ -120,4 +121,4 @@ deeper literature/admission/promotion remains open (4%).
 
 **GT-HOST-TX-02** depends on 66.04/64.21/64.22: original installed mapping lineage,
 PAR_Y and explicit CAGE detection filter must be resolved, with raw gene evidence
-intact, before corrected protein projections or v11 admission.
+intact, before corrected expression projections or v11 admission.

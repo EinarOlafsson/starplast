@@ -22,7 +22,7 @@ Zero independent biological benchmarks admitted; 440 output grades remain unreso
 64.05 freezes nested roles and training-only source exclusions; two real candidate
 cohorts and all ten deliberate leakage refusals verified (532 checks passed, two existing skips).
 64.06 provides shared training-only baselines and synthetic/null controls (426 checks passed).
-64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). 64.08 adds immutable artifact roles and cache invalidation (840 checks passed). 64.09 reconciles 1,038,372 rows in 4,112 cohorts, preserving both accuracy denominators (835 checks passed). Continue at **64.10**, categorical frozen row adapters, and host symbol correction under 66.04. See
+64.07 declares all 39 strategy capabilities, 40 component-test roles and 624 synthetic query routes (855 final checks passed). 64.08 adds immutable artifact roles and cache invalidation (840 checks passed). 64.09 reconciles 1,038,372 rows in 4,112 cohorts, preserving both accuracy denominators (835 checks passed). Continue at **64.10**, categorical frozen row adapters, and remaining host expression/gene-space work under 65.04/64.21/64.22. See
 `results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
@@ -443,3 +443,17 @@ the installed three scores exactly. 574 relevant checks passed, two existing
 skips, source replay verified. Installed wrong protein projections remain
 pending migration, explicit withdrawal/gene-preservation provenance and affected
 non-loss/layout/calibration/benchmark checks. Continue that bounded partition.
+
+## Latest controlled completion: 66.04, 2026-10-08
+
+[66.04](instructions/done/66_04_host_symbol_projections.md) completes instruction 66
+(4/4): 39 ambiguous rhoptry protein projections withheld (117 cells), every other
+installed human value exactly preserved, all 20,010 original gene records shipped.
+Verified withdrawal ledger, exact external backups and executed migration/replay
+are in `results/host_symbol_mapping_2026_10_08/migration/`. 575 follow-up checks
+passed, two existing skips; two initial failures resolved. Strict precision review
+corrects earlier tolerance-based exactness wording and retains pre-existing source/
+legacy encoding gaps. Mouse/parasite feature/graph/track-record/claim hashes unchanged.
+Total completed actions: 16/48; instruction 64 remains 9/40, categorical records
+30%, literature-wide admission/replacement audit 4%. Continue frozen benchmark
+adapters; host expression lineage and host gene spaces remain separate open work.
