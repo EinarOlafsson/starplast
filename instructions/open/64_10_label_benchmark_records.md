@@ -1,6 +1,6 @@
 # 64.10 · Complete the categorical-label benchmark records
 
-Status: OPEN — 30%, 2026-10-08. Native feature-kNN, ortholog-transfer and kNN conformal adapters verified; remaining adapters/variants and full coverage are pending.
+Status: OPEN — 35%, 2026-10-08. Native feature-kNN, ortholog-transfer and both native conformal bases verified; remaining adapters/variants and full coverage are pending.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -103,8 +103,7 @@ The canonical v2 also refuses post-load mutations of the base-model payload.
 An executed identity-hardening comparison preserves the initial prototype and
 verifies identical numerical outcomes with distinct correct code/model lineage.
 
-Pending: missing adapters (`holdout_search`, `multiplex_modules`), logistic
-conformal variant, full outer coverage, biological source admission
+Pending: missing adapters (`holdout_search`, `multiplex_modules`), full outer coverage, biological source admission
 and calibration. This item does not earn a completion tick from one pilot.
 
 Truth-source follow-up **GT-SPATIAL-01**, shared with 65.04:
@@ -117,4 +116,28 @@ nine match exact installed gene IDs. Six other attempted targets remain unknown,
 not negatives. Coarse microscopy taxonomy, selection bias, context and feature
 dependence remain explicit admission gaps. **426 relevant checks passed** and
 complete rows/media/mapping replayed. No biological benchmark admitted; the
-30% adapter progress and remaining acceptance conditions are unchanged.
+truth admission gaps and remaining acceptance conditions are unchanged.
+
+## Next frozen partition: logistic conformal, 2026-10-08
+
+Reuse the seed-17 candidate compartment truth, unchanged source SHA and ordered
+train/tune/calibration/test cohorts (2,126/572/569/560). Reuse only the verified
+training-fitted rank distributions/source exclusions from the kNN pilot; fit the
+native balanced logistic model on training labels alone. Fix C=0.5, alpha=0.1
+and per-class thresholds before execution. Retain fitted coefficients/intercepts,
+all raw calibration/test scores, sets, singleton abstentions and matching cards.
+Replay against the native conformal routine on the identical frozen roles and
+compare the all-training-class control. No tuning against outer outcomes, source
+addition or biological admission. Output: a new immutable
+`results/conformal_logistic_pilot_2026_10_08/` packet. Extend meaningful native
+parity/boundary tests to both bases; preserve preceding frozen code packets.
+
+Logistic partition completed: `results/conformal_logistic_pilot_2026_10_08/`.
+Native training-only logistic coefficients/intercepts, all calibration/test scores,
+quantiles, sets and matched cards replay exactly. Same 560 test genes/26 classes;
+empirical prediction-grade coverage 0.905357, mean size 6.975, efficiency 0.761;
+zero singleton calls/empty sets. Eleven rare classes use overall fallback.
+All-training-class control coverage 1, size 26, efficiency 0. No independent
+biological truth or exchangeability promise. 1,088 relevant checks passed.
+Artifact `3e007f211b59ef86af8ab1ce4c51bc5526f3c79f53ee307bc87091e2e3acb78e`.
+Progress 35%; missing adapters/full outer coverage/biology remain open.

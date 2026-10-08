@@ -455,5 +455,12 @@ passed, two existing skips; two initial failures resolved. Strict precision revi
 corrects earlier tolerance-based exactness wording and retains pre-existing source/
 legacy encoding gaps. Mouse/parasite feature/graph/track-record/claim hashes unchanged.
 Total completed actions: 16/48; instruction 64 remains 9/40, categorical records
-30%, literature-wide admission/replacement audit 4%. Continue frozen benchmark
+35%, literature-wide admission/replacement audit 4%. Continue frozen benchmark
 adapters; host expression lineage and host gene spaces remain separate open work.
+
+Latest 64.10 partition: native logistic conformal pilot completed and exact native
+replayed in `results/conformal_logistic_pilot_2026_10_08/`. Fixed C=0.5/alpha=0.1,
+train-only rank/model state; separate 569 calibration/560 test genes. Stored-label
+set coverage 0.905357, mean size 6.975/26, zero singleton calls. 1,088 relevant
+checks passed. Categorical action now 35%; no new completion tick, independent
+biology/full outer coverage/missing adapters remain pending.

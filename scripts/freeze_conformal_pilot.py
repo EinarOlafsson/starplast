@@ -1,4 +1,4 @@
-"""Execute native kNN conformal sets on separate frozen calibration/test cohorts."""
+"""Execute native kNN/logistic conformal sets on frozen calibration/test cohorts."""
 from __future__ import annotations
 
 import argparse
@@ -14,7 +14,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from starplast import artifacts as A, baselines as B, capabilities as C, conformal_records as F, organisms as O, record_scorecards as R, scorecard as SC, strategies as S  # noqa: E402
+from starplast import artifacts as A, baselines as B, capabilities as C, conformal_records as F, organisms as O, record_scorecards as R, scorecard as SC, strategies as S, strategy_catalog as N  # noqa: E402
 from starplast.ground_truth import read_registry  # noqa: E402
 from starplast.query import Query  # noqa: E402
 from starplast.splits import read_split, write_split  # noqa: E402
@@ -48,11 +48,13 @@ def frozen_rank_matrix(features, state):
     return matrix
 
 
-def freeze(output):
+def freeze(output, model='kNN'):
     """Reuse fixed training state, calibrate separately, and retain every test set."""
     output = Path(output)
     if output.exists():
         raise ValueError('Use a new conformal-pilot directory')
+    if model not in {'kNN', 'logistic'}:
+        raise ValueError('Use an explicitly supported native base model')
     prior = ROOT/'results/label_knn_pilot_2026_10_08_v5'
     split, exclusions = read_split(prior/'split.json')
     old_spec = A.spec_from_dict(json.loads((prior/'held_out/manifest.json').read_text())['spec'])
@@ -81,13 +83,27 @@ def freeze(output):
     np.testing.assert_array_equal(matrix[positions['train']], state['training_vectors'])
     visible = pd.Series([None]*len(ids), dtype=object)
     visible.iloc[positions['train']] = labels.to_numpy()
-    native, _ = S.knn_vote(matrix, visible, state['k'], query=np.union1d(positions['calibration'], positions['test']))
+    query_positions = np.union1d(positions['calibration'], positions['test'])
+    base_strategy = 'feature_knn' if model == 'kNN' else 'supervised_classifier'
+    if model == 'kNN':
+        native, _ = S.knn_vote(matrix, visible, state['k'], query=query_positions)
+        base_settings = old_spec.settings_json
+    else:
+        split.guard_fit('model_fit', labels.index)
+        native, _, fitted = N._logistic(matrix, visible, query_positions, C=.5)
+        if fitted is None:
+            raise ValueError('Frozen logistic pilot has no supported native model')
+        state = dict(state, strategy=base_strategy, C=.5, max_iter=500, class_weight='balanced',
+            coefficients=fitted.coef_.tolist(), intercept=fitted.intercept_.tolist(),
+            iterations=fitted.n_iter_.tolist(), native_classes=fitted.classes_.tolist())
+        base_settings = A.canonical_object({'C': .5, 'model': 'native balanced logistic', 'selection': 'fixed'})
     scores = S.class_scores_of(native)
     scores.index = list(ids)
     cal_scores, test_scores = (scores.loc[list(split.entities(role))] for role in ('calibration', 'test'))
-    np.testing.assert_array_equal(test_scores.to_numpy(), np.asarray(old.payloads['class_scores.json']['scores']))
+    if model == 'kNN':
+        np.testing.assert_array_equal(test_scores.to_numpy(), np.asarray(old.payloads['class_scores.json']['scores']))
     code = [Path(__file__), *(ROOT/'starplast'/name for name in ('conformal_records.py', 'strategy_learning.py',
-        'strategies.py', 'record_scorecards.py', 'scorecard.py', 'baselines.py', 'artifacts.py', 'splits.py', 'capabilities.py', 'ground_truth.py'))]
+        'strategies.py', 'strategy_catalog.py', 'record_scorecards.py', 'scorecard.py', 'baselines.py', 'artifacts.py', 'splits.py', 'capabilities.py', 'ground_truth.py'))]
     dependencies = [A.Dependency('code', p.stem, _sha(p)) for p in code]
     dependencies += [A.Dependency('table', 'installed', _sha(source)), A.Dependency('truth', entry.benchmark_id, entry.truth_file.sha256),
         A.Dependency('split', 'nested', split.identity), A.Dependency('exclusions', 'training', hashlib.sha256(A.canonical_object(asdict(exclusions)).encode()).hexdigest()),
@@ -95,8 +111,8 @@ def freeze(output):
     version = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()+'+conformal-adapter-worktree'
     query = Query(entry.organism, 'label', target=entry.target)
     model_scope = dict(json.loads(old_spec.evaluation_scope_json), eligible_population=len(labels))
-    model_spec = A.ArtifactSpec(query.to_json(), 'feature_knn', SC.T_LABEL, C.get('feature_knn').outputs[0], entry.target,
-        split.entities('train'), 'fitted_model', 'train:'+split.identity, tuple(dependencies), old_spec.settings_json,
+    model_spec = A.ArtifactSpec(query.to_json(), base_strategy, SC.T_LABEL, C.get(base_strategy).outputs[0], entry.target,
+        split.entities('train'), 'fitted_model', 'train:'+split.identity, tuple(dependencies), base_settings,
         A.canonical_object(model_scope), split.seed, version, fit_entities=split.entities('train'), fit_role='train',
         benchmark_id=entry.benchmark_id, confidence_kind='method_support', gaps=('Fixed training state; no selection from outer outcomes',))
     output.mkdir(parents=True)
@@ -111,8 +127,8 @@ def freeze(output):
     rows['correct'] = pd.array([p == t if isinstance(p, str) else None for p, t in zip(rows.prediction, rows.truth)], dtype='boolean')
     rows['group'] = rows.entity.map({a.entity: a.group for a in split.assignments})
     gaps = tuple(sorted(set((*entry.gaps, *batch.gaps, 'Stored predictions are surrogate truth; independent biological accuracy is unavailable',
-        'kNN pilot only; logistic variant and full outer coverage remain open'))))
-    settings = {'model': 'kNN', 'k': state['k'], 'alpha': .1, 'thresholds': 'per class', 'selection': 'fixed without outer-test tuning'}
+        'Single frozen base/target pilot; full outer coverage remains open'))))
+    settings = {'model': model, 'k': state['k'], 'C': .5, 'alpha': .1, 'thresholds': 'per class', 'selection': 'fixed without outer-test tuning'}
     scope = R.RecordScope(entry.organism, 'conformal_calls', entry.target, SC.T_LABEL, A.canonical_object(settings), split.seed,
         split.identity, 'outer_test', entry.benchmark_id, entry.evidence_grade, 'gene', entry.negative_semantics, gaps)
     params = {'class_scores': test_scores.reset_index(drop=True)}
@@ -137,7 +153,7 @@ def freeze(output):
     payloads = json.loads(json.dumps(payloads, allow_nan=False))
     identity = A.write_artifact(output/'held_out', spec, payloads, split=split)
     assert A.read_artifact(output/'held_out', expected=spec, split=split).payloads == payloads
-    summary = {'strategy': 'conformal_calls', 'model': 'kNN', 'truth_grade': entry.evidence_grade, 'benchmark_admitted': False,
+    summary = {'strategy': 'conformal_calls', 'model': model, 'truth_grade': entry.evidence_grade, 'benchmark_admitted': False,
         'train': len(labels), 'calibration': len(cal_labels), 'retained_test_rows': len(rows), 'native_class_columns': len(test_scores.columns),
         'rare_class_overall_fallback': batch.model_state['rare_class_overall_fallback'],
         'unsupported_calibration_classes': batch.model_state['unsupported_calibration_classes'],
@@ -159,11 +175,12 @@ def main():
     from notebook_runner import ExecutedNotebook
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--model', choices=('kNN', 'logistic'), default='kNN')
     args = parser.parse_args()
-    nb = ExecutedNotebook('Frozen native kNN conformal sets and outer-test scorecards')
+    nb = ExecutedNotebook('Frozen native '+args.model+' conformal sets and outer-test scorecards')
     nb.md('Fixed seed-17 Toxoplasma compartment candidate: prior training rank state, separate 569-gene calibration and 560-gene test cohorts. Alpha=0.1/per-class thresholds are fixed without outer-outcome selection. Native quantiles and rare-class overall fallback are preserved. Stored labels have prediction grade; exchangeability and independent biological accuracy remain unresolved.')
-    nb.code('from scripts.freeze_conformal_pilot import freeze', f'summary=freeze({str(args.out)!r})', 'summary')
-    nb.md('Every test set and native score row is retained. Empty and multi-label sets abstain from singleton calling. Scorecards separate both call denominators from empirical set coverage, size, singleton/empty shares and native efficiency. Unbounded thresholds have explicit status/null value. Logistic/full-outer/independent-truth work stays open. Installed data, runtime strategies and calibration are unchanged.')
+    nb.code('from scripts.freeze_conformal_pilot import freeze', f'summary=freeze({str(args.out)!r}, model={args.model!r})', 'summary')
+    nb.md('Every test set and native score row is retained. Empty and multi-label sets abstain from singleton calling. Scorecards separate both call denominators from empirical set coverage, size, singleton/empty shares and native efficiency. Unbounded thresholds have explicit status/null value. Full-outer/independent-truth work stays open. Installed data, runtime strategies and calibration are unchanged.')
     nb.write(str(args.out/'pilot.ipynb'))
     print(nb.ns['summary'])
 
