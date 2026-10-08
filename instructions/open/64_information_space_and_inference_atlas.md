@@ -1,6 +1,6 @@
 # 64 · Explore the evidence space and inspect every inference, with ground-truth scorecards
 
-Status: OPEN — 12/40 actions complete (30%), 2026-10-08. Shared scorecards, dataset browser and gene evidence entry accepted; label entry and categorical adapters remain.
+Status: OPEN — 13/40 actions complete (32.5%), 2026-10-08. Shared scorecards and dataset/gene/label browsers accepted; categorical adapters remain.
 
 This is the current execution plan under the user's clarified goals. Instructions 53, 60, 62 and 63
 retain their completed work, design decisions and evidence; this plan controls their integration order.
@@ -149,7 +149,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.17](../done/64_17_shared_scorecard_component.md) | ✅ | 0 h | Expose one reusable scorecard component | 64.09, 64.16 |
 | [64.18](../done/64_18_dataset_space_browser.md) | ✅ | 0 h | Browse the selected organism's datasets | 64.02, 64.03, 64.17 |
 | [64.19](../done/64_19_gene_evidence_entry.md) | ✅ | 0 h | Make gene lookup an evidence entry point | 64.01, 64.03, 64.17, 64.18 |
-| [64.20](64_20_label_class_entry.md) | 0% | 4–8 h | Make labels and protein classes entry points | 64.01, 64.02, 64.17, 64.19 |
+| [64.20](../done/64_20_label_class_entry.md) | ✅ | 0 h | Make labels and protein classes entry points | 64.01, 64.02, 64.17, 64.19 |
 | [64.21](64_21_human_gene_space.md) | 30% | 6–12 h | Build the human gene information space | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
 | [64.22](64_22_mouse_gene_space.md) | 0% | 8–16 h | Build the mouse gene information space | 64.01, 64.02, 64.03, 64.04, 64.05, 64.08 |
 | [64.23](64_23_space_selection_packs.md) | 0% | 4–8 h | Select and install available organism spaces | 64.18, 64.21, 64.22 |
@@ -174,7 +174,7 @@ checks add elapsed time; budget them after pilot measurements.
 ## Every current strategy's ground-truth contract
 
 Additional authorized actions remain part of **every full completion report**:
-**21/51** complete overall after gene evidence entry, with 12/40 of this
+**22/51** complete overall after label/class entry, with 13/40 of this
 instruction's original actions complete. The newest priority is **68.02 function**;
 reuse the source/split/record/scorecard contracts above. Do not treat broad annotation
 browsing as completion of functional inference or independent biological validation.

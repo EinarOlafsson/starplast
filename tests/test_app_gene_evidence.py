@@ -74,10 +74,31 @@ def test_original_table_routes_label_and_quoted_class(qapp, monkeypatch):
     monkeypatch.setattr(A.pd, 'read_parquet', lambda _: w.nodes.copy())
     called = []
     w._detail_link = lambda url: called.append(url.toString())
+    opened = []
+    w.open_label_browser = lambda column, label: opened.append((column, label))
     dialog = SimpleNamespace(close=lambda: None)
     A.Window._gene_label_route(w, dialog, 1, 'label/name', 'a/b')
     assert called == ['starplast://class/label%2Fname/a%2Fb']
     assert w._detail_row == 1
+    assert opened == [('label/name', 'a/b')]
+
+
+def test_label_source_filters_organism_and_clears_ambiguous_selection(qapp):
+    filters = {key: QtWidgets.QComboBox() for key in ('organism', 'unit')}
+    filters['organism'].addItem('All', None)
+    filters['organism'].addItem(O.TOXOPLASMA, O.TOXOPLASMA)
+    filters['organism'].addItem(O.FALCIPARUM, O.FALCIPARUM)
+    filters['unit'].addItem('All', None)
+    refreshed = []
+    browser = SimpleNamespace(search=QtWidgets.QLineEdit(), filters=filters,
+        shown_rows=[{'question': 'original'}, {'question': 'refused'}],
+        source_table=QtWidgets.QTableWidget(2, 1), _show_selected=lambda: refreshed.append(True))
+    browser.source_table.setCurrentCell(0, 0)
+    w = SimpleNamespace(species=O.get(O.TOXOPLASMA).species, open_dataset_browser=lambda: browser)
+    A.Window._label_source(w, 'authored-source')
+    assert filters['organism'].currentData() == O.TOXOPLASMA
+    assert browser.search.text() == 'authored-source'
+    assert browser.source_table.currentRow() == -1 and refreshed
 
 
 def test_reopening_gene_evidence_releases_the_previous_window(qapp, monkeypatch):

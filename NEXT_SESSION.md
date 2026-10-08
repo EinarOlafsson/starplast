@@ -10,7 +10,7 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **12/40 complete (30%)**:
+40 bounded action cards with dependencies and acceptance tests. **13/40 complete (32.5%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
@@ -725,3 +725,21 @@ an unscored AMA1 class; no annotation or scorecard was fabricated to pass.
 Next small action64.20: labels/classes as entry points, reusing Discoveries,
 query/provenance/dataset/gene contracts. Scientific coverage, hosts and dataset
 promotions remain open. Preserve restricted partials and nightly/full-CI gates.
+
+Latest acceptance: **64.20 complete; 22/51 full actions, 13/40 instruction-64 actions**.
+Tools → Labels and classes opens all 41 Tg/30 Pf native labels, function first,
+with membership/unknown counts and separate records for all 39 strategies.
+Original complete protein profiles, overlapping classes and known False values
+remain intact. Class precision/recall/confusion and label overall/macro metrics
+retain exact legacy settings/seed/cohort; missing biology/hierarchy stays explicit.
+Actual class→gene→label→source navigation passes for both organisms. Ambiguous
+source questions clear stale cards and records. Changed contexts refuse accuracy.
+Final immutable V4 Tg/Pf packets: 418+459 checks, 18 input hashes/20 receipts each;
+178.64/181.66 s, 1849.4/1373.2 MiB peaks, serial under the same 1900 MiB cap.
+494 relevant checks pass; version/whitespace pass. Preserve first categorical
+failure, successful V2 and combined V3 OOM diagnostics. No biological truth,
+source promotion, strategy fitting, deployment or host installation added.
+Next smallest partition: 68.02 training-only complete-Pfam baseline controls on
+verified prepared-target V3. Worker code is ready; root validates exact score,
+class/confusion and immutable notebook replay before accepting the partition.
+Full goal remains active; nightly CI/release gates and restricted partials remain.

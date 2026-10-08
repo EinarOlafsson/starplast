@@ -212,3 +212,18 @@ def test_readable_widths_and_exact_tooltips_preserve_unverified_metadata(app):
         assert model.headerData(0, QtCore.Qt.Orientation.Horizontal, QtCore.Qt.ItemDataRole.ToolTipRole) == 'gene_id'
     finally:
         browser.close()
+
+
+def test_clearing_ambiguous_source_selection_clears_old_evidence(app):
+    space, _, _ = fixture()
+    browser = DatasetBrowser(space, organism=O.TOXOPLASMA)
+    try:
+        select(browser, 'numeric_fixture')
+        assert browser.card.view is not None and not browser.entity_frame.empty
+        browser.source_table.setCurrentCell(-1, -1)
+        browser._show_selected()
+        assert browser.selected_row is None and browser.card.view is None
+        assert browser.entity_frame.empty and browser.page_start == 0
+        assert not browser.page_previous.isEnabled() and not browser.page_next.isEnabled()
+    finally:
+        browser.close()
