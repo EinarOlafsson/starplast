@@ -117,6 +117,16 @@ def test_adaptive_transfer_task_requires_the_matching_native_output_type():
     assert replace(current, task=SC.T_LABEL, output=label).output == label
 
 
+def test_loaded_artifact_content_identity_refuses_later_in_memory_mutation(tmp_path):
+    current = spec()
+    A.write_artifact(tmp_path/'result', current, {'state.json': {'labels': ['A', 'B']}}, split=SPLIT)
+    artifact = A.read_artifact(tmp_path/'result', expected=current, split=SPLIT)
+    artifact.verify_contents()
+    artifact.payloads['state.json']['labels'][0] = 'C'
+    with pytest.raises(ValueError, match='changed after loading'):
+        artifact.verify_contents()
+
+
 def test_payload_corruption_manifest_corruption_and_symlinks_refused(tmp_path):
     current = spec()
     for case in ('payload', 'manifest', 'symlink'):

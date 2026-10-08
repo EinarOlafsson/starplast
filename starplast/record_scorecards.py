@@ -166,6 +166,27 @@ def aggregate(rows, scope, *, parameters=None):
         metrics = SC.label_calls(predictions, rows.truth, np.arange(n), class_scores=scores)
         extra['confusion'] = [{'truth': str(truth), 'prediction': str(pred) if pd.notna(pred) else None, 'count': int(count)}
             for (truth, pred), count in rows.groupby(['truth', 'prediction'], dropna=False, observed=True).size().items()]
+        if 'prediction_set' in rows:
+            sets = rows.prediction_set.tolist()
+            if not all(isinstance(members, (list, tuple)) and len(set(members)) == len(members)
+                    and all(isinstance(label, str) and label for label in members) for members in sets):
+                raise ValueError('Prediction sets require explicit unique categorical members')
+            sizes = np.array([len(members) for members in sets])
+            expected = [members[0] if len(members) == 1 else None for members in sets]
+            if predictions.tolist() != expected:
+                raise ValueError('Singleton calls and prediction-set members disagree')
+            if 'set_size' in rows and rows.set_size.tolist() != sizes.tolist():
+                raise ValueError('Stored set sizes disagree with native members')
+            classes = list(pd.DataFrame(scores).columns) if scores is not None else parameters.get('prediction_classes')
+            if classes is not None and (len(set(classes)) != len(classes) or not all(isinstance(c, str) and c for c in classes)
+                    or any(set(members)-set(classes) for members in sets)):
+                raise ValueError('Prediction-set classes differ from the declared model')
+            from .strategy_learning import _efficiency
+            metrics.update(set_coverage=float(np.mean([truth in members for truth, members in zip(rows.truth, sets)])),
+                mean_set_size=float(sizes.mean()), singleton_share=float(np.mean(sizes == 1)),
+                empty_set_share=float(np.mean(sizes == 0)),
+                set_efficiency=_efficiency(pd.Series(sizes), len(classes)) if classes is not None else None)
+            extra['prediction_classes'] = classes
     elif task == SC.T_VALUES:
         _required(rows, ('truth', 'prediction'))
         truth, pred = rows.truth.to_numpy(dtype=float), rows.prediction.to_numpy(dtype=float)
@@ -250,7 +271,7 @@ def aggregate(rows, scope, *, parameters=None):
             'small_sample': n < 5, 'extra': extra}
 
 
-def class_cards(rows, scope):
+def class_cards(rows, scope, *, parameters=None):
     """Class precision includes false calls from other classes; recall includes abstentions."""
     if scope.task != SC.T_LABEL:
         raise ValueError('Class call metrics require label predictions')
@@ -262,7 +283,10 @@ def class_cards(rows, scope):
         tp, fp, fn = int((actual & predicted).sum()), int((~actual & predicted).sum()), int((actual & ~predicted).sum())
         precision = tp / (tp + fp) if tp + fp else 0.0
         recall = tp / (tp + fn)
-        card = aggregate(rows[actual], scope)
+        local = dict(parameters or {})
+        if 'class_scores' in local:
+            local['class_scores'] = pd.DataFrame(local['class_scores']).iloc[np.flatnonzero(actual)].reset_index(drop=True)
+        card = aggregate(rows[actual], scope, parameters=local)
         card['class'] = label
         card['class_metrics'] = {'precision': precision, 'recall': recall,
             'f1': 2 * precision * recall / (precision + recall) if precision + recall else 0.0,
@@ -283,7 +307,7 @@ def views(rows, scope, *, parameters=None):
     organism = {'organism': scope.organism, 'task': scope.task, 'cards': [card],
                 'unique_biological_entities': int(rows.entity.nunique()), 'pooled_accuracy': None}
     return {'target': card, 'strategy': card, 'method': method, 'organism': organism,
-            'class': class_cards(rows, scope) if scope.task == SC.T_LABEL else [],
+            'class': class_cards(rows, scope, parameters=parameters) if scope.task == SC.T_LABEL else [],
             'gene': [{'entity': str(row.entity), 'outcome': row.to_dict(), 'validation_scope': scope.identity,
                       'per_gene_accuracy_probability': None} for _, row in rows.iterrows()]}
 

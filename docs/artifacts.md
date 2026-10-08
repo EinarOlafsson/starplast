@@ -38,6 +38,13 @@ The writer never overwrites an existing directory and writes its completion
 manifest last. An interrupted partial directory stays available for inspection
 and cannot be loaded as a completed artifact.
 
+`Artifact.verify_contents()` rechecks canonical writer payloads and specification
+against the complete loaded identity. Adapters accepting an in-memory artifact
+call it before fitting/calibration, so later mutations of a model's nested state
+cannot silently reuse its earlier verified identity. Numeric outputs cannot
+stand in for categorical benchmark calls, or categorical outputs for numeric
+estimates, even when an adaptive strategy declares both output kinds.
+
 Method support and calibrated confidence are separate. Calibrated probabilities,
 sets and intervals require a calibration identity and applicability scope, and
 must match the output kind. A ranking or geometric score cannot become a gene

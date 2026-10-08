@@ -102,3 +102,28 @@ These are surrogate recovery measurements, not independent biological accuracy.
 Row-column order is recorded explicitly for replay because JSON object key
 ordering is not a dataframe schema. Adaptive numeric and categorical strategies
 must use the matching typed output in benchmark artifacts.
+
+## Frozen conformal label sets
+
+`starplast.conformal_records.conformal_calls` requires a verified, complete
+train-only native kNN/logistic fitted-model artifact, separate calibration/test
+score tables and calibration labels. It keeps native quantiles and rare-class
+overall fallback. Empty/multi-label sets abstain from singleton calling. Set
+members are typed lists; native display text is retained separately, so a class
+name containing a separator does not redefine set membership. Unbounded
+thresholds carry explicit status and null value in finite JSON.
+
+The shared card reports empirical set coverage, mean size, singleton/empty
+shares and native efficiency, alongside both accuracy denominators. Efficiency
+uses the released definition: empty sets count as size one, while set coverage
+still counts them as misses. Class cards use the same model class vocabulary
+and their own record/score cohort. A singleton is a set of size one, not a
+calibrated probability that its label is correct.
+
+The kNN pilot at `results/conformal_label_pilot_2026_10_08_v2/` retains 560 test genes
+and all 26 score columns. Set coverage against stored prediction labels is
+97.3%, with average set size 24.46/26 and zero singleton calls. Native efficiency
+is 0.0618. An all-training-classes control achieves coverage 100%, size 26 and
+efficiency zero; high set coverage alone would conceal weak inference capacity.
+Eleven rare classes use the overall threshold. Independent biological truth,
+exchangeability, the logistic variant and full outer coverage remain open.

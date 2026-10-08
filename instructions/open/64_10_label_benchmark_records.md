@@ -1,6 +1,6 @@
 # 64.10 · Complete the categorical-label benchmark records
 
-Status: OPEN — 20%, 2026-10-08. Native feature-kNN and the missing ortholog-transfer adapter verified; remaining label-capable adapters and full coverage are pending.
+Status: OPEN — 30%, 2026-10-08. Native feature-kNN, ortholog-transfer and kNN conformal adapters verified; remaining adapters/variants and full coverage are pending.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -76,6 +76,33 @@ outputs as categorical evaluations and categorical outputs as numeric ones.
 Initial missing evaluation metadata was refused before any artifact was written;
 the executed verification records that diagnostic and corrected scope.
 
-Pending: other missing adapters (`holdout_search`, `multiplex_modules`,
-`conformal_calls`), full outer coverage, biological source admission
+Third bounded change: `starplast/conformal_records.py` consumes a verified
+train-only native base model, separate calibration/test score populations and
+only calibration labels. Native quantiles, per-class thresholds/rare-class overall
+fallback, typed set members, native set text and all raw scores are retained.
+Unbounded thresholds are explicit status/null, not nonfinite JSON.
+`record_scorecards` adds empirical set coverage, mean size, singleton/empty share
+and native efficiency at target/class levels, alongside call metrics. Class
+score parameters are restricted to each class cohort when deriving its card.
+
+Pilot: `results/conformal_label_pilot_2026_10_08_v2/`, same frozen training state,
+2,126 training/569 calibration/560 test genes, alpha 0.1/per-class/kNN fixed
+without test-outcome selection. Native function parity is exact on identical
+frozen partitions; the released partition chooser is temporarily replaced in
+the diagnostic and restored. Every score, set, threshold, card and matched
+baseline replays. **908 checks passed**, one optional pdoc module skipped.
+Empirical prediction-grade set coverage 0.973214, mean size 24.455357 of 26,
+efficiency 0.061786, **zero singleton calls**; 11 rare classes use the overall
+fallback. All-training-classes control covers all stored labels with size 26
+and efficiency zero. Broad coverage is not a useful-label accuracy claim.
+Artifact `a6062f243a4e4fdf4702e9fc9162c438139da54684bf2873948ee1aa04bfa4ad`;
+calibration `cc5b0da9c6a5e767376e64cb331aa893bb7bc2d07e52024a5eb018280b7cdc38`.
+No independent biology or exchangeability guarantee admitted; no runtime
+strategy/data/calibration change.
+The canonical v2 also refuses post-load mutations of the base-model payload.
+An executed identity-hardening comparison preserves the initial prototype and
+verifies identical numerical outcomes with distinct correct code/model lineage.
+
+Pending: missing adapters (`holdout_search`, `multiplex_modules`), logistic
+conformal variant, full outer coverage, biological source admission
 and calibration. This item does not earn a completion tick from one pilot.

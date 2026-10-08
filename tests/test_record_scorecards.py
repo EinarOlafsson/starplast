@@ -149,3 +149,28 @@ def test_score_identity_preserves_changes_below_pandas_default_json_precision():
     scores.iloc[0, 0] = np.nextafter(scores.iloc[0, 0], 1.)
     changed = R.aggregate(labels(), scope(), parameters={'class_scores': scores})
     assert first['parameter_identity'] != changed['parameter_identity']
+
+
+def test_conformal_cards_keep_set_coverage_efficiency_and_singletons_separate():
+    rows = pd.DataFrame({'entity': ['g1', 'g2', 'g3', 'g4'], 'truth': ['A', 'B', 'C', 'B'],
+        'prediction': pd.Series(['A', None, None, None], dtype=object),
+        'prediction_set': [['A'], ['A', 'B'], [], ['A', 'C']], 'set_size': [1, 2, 0, 2]})
+    params = {'prediction_classes': ['A', 'B', 'C']}
+    card = R.aggregate(rows, scope(), parameters=params)
+    assert card['metrics']['coverage'] == .25 and card['metrics']['set_coverage'] == .5
+    assert card['metrics']['mean_set_size'] == 1.25
+    assert card['metrics']['singleton_share'] == .25 and card['metrics']['empty_set_share'] == .25
+    # The released efficiency treats empty sets as size one; coverage still
+    # records them as misses. That convention is retained explicitly.
+    assert card['metrics']['set_efficiency'] == .75
+    classes = {c['class']: c for c in R.class_cards(rows, scope(), parameters=params)}
+    assert classes['B']['metrics']['set_coverage'] == .5
+    assert classes['C']['metrics']['set_coverage'] == 0.
+    inconsistent = rows.copy()
+    inconsistent.at[1, 'prediction'] = 'B'
+    with pytest.raises(ValueError, match='Singleton calls'):
+        R.aggregate(inconsistent, scope(), parameters=params)
+    inconsistent = rows.copy()
+    inconsistent.at[1, 'set_size'] = 1
+    with pytest.raises(ValueError, match='set sizes'):
+        R.aggregate(inconsistent, scope(), parameters=params)

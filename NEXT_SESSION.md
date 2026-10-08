@@ -383,7 +383,7 @@ implementation order and bounded acceptance conditions now come from instruction
 
 64.09 complete: `starplast/record_scorecards.py`, `results/record_reconciliation_2026_10_08_v3/`; all legacy outcomes match standard metrics on identical cohorts. Original truth/exclusion/nested-fit lineage remains unresolved, not retroactively admitted. Settings/seeds/modes/named sets remain separate; no independent-sample inflation or component/per-gene probability claims.
 
-64.10 is 20%: first `starplast/label_records.py` feature-kNN adapter (`8b59643`), with native
+64.10 is 30%: first `starplast/label_records.py` feature-kNN adapter (`8b59643`), with native
 training rank parity and frozen train distributions for held-out values. The
 prediction-grade compartment pilot retains all 560 test genes and full native
 class scores; `results/label_knn_pilot_2026_10_08_v5/` is the rank-transform run.
@@ -397,5 +397,15 @@ Same 560 test genes: 123 calls/437 abstentions, 65 correct/58 wrong; all-hidden
 surrogate agreement 0.116071 versus called-only 0.528455. Native method has no
 class-score/support output; no scores invented. Both target/source are stored
 spatial predictions with context/independence gaps. 464 checks passed and exact
-projection/call/card/baseline replay verified. Continue missing `holdout_search`,
-`multiplex_modules`, `conformal_calls`, full outer coverage and independent truth.
+projection/call/card/baseline replay verified (commit `445e5f1`).
+`starplast/conformal_records.py` adds kNN conformal sets with verified base model
+and separate calibration labels, exact native parity on frozen roles. Shared
+cards retain set coverage/size/singleton/empty share/native efficiency and class
+metrics. `results/conformal_label_pilot_2026_10_08_v2/`: empirical prediction-grade
+coverage 0.973214, mean set size 24.455357/26, efficiency 0.061786, zero singleton
+calls. All-training-classes control has coverage 1, size 26, efficiency 0. 908
+checks passed; optional pdoc skipped. No biological/exchangeability guarantee.
+Continue missing `holdout_search`/`multiplex_modules`, logistic conformal variant,
+full outer coverage and independent truth. The former two need explicit label
+benchmark-task declarations alongside their native cluster tests; graph/map
+transductive construction and learned representation fitting must follow 64.05.

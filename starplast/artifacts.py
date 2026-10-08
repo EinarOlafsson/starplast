@@ -227,6 +227,20 @@ class Artifact:
     payloads: dict
     identity: str
 
+    def verify_contents(self):
+        """Reject mutation of canonical writer payloads after checksum-verified loading."""
+        if not isinstance(self.payloads, dict) or not self.payloads:
+            raise ValueError('Artifact requires nonempty canonical data payloads')
+        files = {}
+        for name, value in self.payloads.items():
+            _payload_name(name)
+            encoded = (_json(value) + '\n').encode('utf-8')
+            files[name] = {'sha256': hashlib.sha256(encoded).hexdigest(), 'bytes': len(encoded)}
+        body = {'schema_version': SCHEMA_VERSION, 'key': self.spec.identity,
+                'spec': asdict(self.spec), 'files': files}
+        if _digest(body) != self.identity:
+            raise ValueError('Artifact contents or specification changed after loading')
+
 
 def _payload_name(name):
     if not isinstance(name, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*\.json', name) or name == 'manifest.json':
