@@ -141,3 +141,15 @@ All-training-class control coverage 1, size 26, efficiency 0. No independent
 biological truth or exchangeability promise. 1,088 relevant checks passed.
 Artifact `3e007f211b59ef86af8ab1ce4c51bc5526f3c79f53ee307bc87091e2e3acb78e`.
 Progress 35%; missing adapters/full outer coverage/biology remain open.
+
+Functional complete-Pfam partition, 2026-10-08:
+`results/functional_profile_knn_2026_10_08_v4/` reuses the native feature-kNN
+adapter with fixed training-only selection/ranks and source/derived-input closure.
+All 635 test genes, 333 unsupported profiles, 348 numeric inputs, 1,413 native
+training classes and 2,279 reporting classes remain. Exact native/refit/serialized
+replay yields 12 correct, eight wrong and 615 abstentions; majority recovers19
+profiles. Independent acceptance verifies47 input/47 output/12 artifact receipts.
+124 focused adapter/control/exclusion/card/artifact regressions pass. Annotation
+recovery remains separate from biological validation. Earlier categorical,
+metadata and resource failures are retained; UI packaging and remaining adapters
+are pending. Progress stays35%; no full-action completion.

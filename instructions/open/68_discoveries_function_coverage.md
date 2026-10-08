@@ -208,3 +208,48 @@ precompute guard and direct categorical adapters before the next Pfam pilot.
 ordinary measurement names remain usable. Installed runtime strategies and all
 historical source/result packets remain unchanged. New benchmarks pin this policy
 code; undeclared biological/source lineage remains unresolved, not certified.
+
+## Frozen complete-Pfam kNN pilot, 2026-10-08
+
+Before the actual fit: reuse only the pinned prepared-target V3 and unchanged
+protected train/tune/calibration/test roles (2381/635/659/635). Fixed native
+feature-kNN k=15/min_share=0.3, no tune/test selection. Select registered numeric
+inputs on training coverage/variation only; close functional/domain, homology,
+literature/attention and declared/registered descendants, plus unregistered or
+unresolved derivations. Fit native training ranks and frozen query ECDF; use no
+graphs/maps. Retain all 635 test genes and 333 unsupported complete profiles.
+
+The frozen pilot records native
+raw neighbor votes, method support, class scores/model/exclusions, exact replay,
+matched train-only controls, all-eligible/among-call recovery and class/macro
+confusions. Unsupported inputs retain explicit abstention/null and unavailable
+artifact status. Ground truth remains original source-annotation recovery;
+source/homology independence, biological accuracy, calibration and deployment
+stay unknown. 15 synthetic source/hidden-role/native/unavailable checks pass.
+Do not promote biological claims or complete 68.02 from this one pilot.
+
+Canonical acceptance: `results/functional_profile_knn_2026_10_08_v4/` retains
+348 training-selected numeric inputs, 1,413 native training classes and 2,279
+full-source reporting classes. Exact native ranks, calls, neighbor weights,
+support, scores, refit, parquet/JSON and typed-artifact replay pass. Of 635 test
+genes, 20 receive calls: 12 correct, eight wrong, 615 abstentions. All-eligible
+recovery is 12/635 (1.89%), coverage 20/635 (3.15%), and correctness among calls
+12/20 (60%). Majority/prevalence controls recover 19/2 profiles; the candidate
+does not beat majority on all-eligible recovery. These are annotation-profile
+metrics, not biological accuracy or confidence in unknown genes.
+
+The accepted executed run finishes in 46.61 seconds with 975.92 MiB process
+peak, serial under the existing 1,900 MiB root allowance; all workers terminal.
+Independent notebook `results/functional_profile_knn_acceptance_2026_10_08/`
+verifies 47 input hashes, 47 output receipts, 12 artifact receipts and exact
+denominators. Artifact identity:
+`38cfb6bf110cadb559eac41c798298d7d95882efe2524a3591ccf7ad63d0385f`.
+
+Preserved earlier attempts: pandas3 NaN/None categorical representation failure;
+two worker signal9 diagnostic stops with unproven cause; root full-matrix
+diagnostic proving exact numerical/native results; typed unit/population metadata
+refusal; authoritative systemd 800 MiB OOM while saving. Only missing-value
+representation, typed scope and retained-memory lifetime changed; settings and
+all cohorts remain fixed. Browser packaging, independent truth/source admission,
+additional strategies and calibrated deployment remain open. 68.02 stays30%;
+whole-action completion remains22/51, with no new tick.

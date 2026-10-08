@@ -761,3 +761,20 @@ Initial categorical parity failure is NaN/None representation; only missingness
 normalization changed,13 synthetic checks pass. Root verifies actual full matrix
 and native outputs under800MiB before canonical replay. Two signal9 worker
 partials remain diagnostic, without asserting an unproven OOM cause. No new tick.
+
+Latest functional acceptance: canonical complete-Pfam kNN V4 at
+`results/functional_profile_knn_2026_10_08_v4/`; fixed k15/share0.3, 348 inputs,
+2,381 training/635 test genes, 333 unsupported test profiles. Exact native ranks,
+votes/support/scores, refit, serialization and typed artifact replay pass.
+12 correct/eight wrong/615 abstentions: all-eligible recovery1.89%, coverage3.15%,
+correctness among calls60%; majority control recovers19/635 (2.99%). This weak
+annotation recovery is not admitted biology, calibrated confidence or deployment.
+47 input/47 output/12 artifact receipts independently verified in the acceptance
+notebook;124 focused software checks pass. Runtime46.61s/975.92MiB process peak
+serial under1900MiB, all workers terminal. Earlier unit/population metadata refusal
+and authoritative800MiB systemd OOM preserved; only categorical missingness,
+metadata and retained-copy lifetime changed. No relaxed numeric checks/settings.
+Whole actions22/51,64.10 stays35%,68.02 stays30%. Next small partition: generalize
+the existing EC-only functional result reader/packager to complete domain profiles,
+then expose this exact Pfam benchmark and class/gene cards in Discoveries. Independent
+truth admission, other mechanisms, human/mouse packs and dataset promotions remain.
