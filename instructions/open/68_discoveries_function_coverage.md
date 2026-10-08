@@ -376,3 +376,45 @@ canonical merge2.20s/519,588KiB under root serial1900MiB, all workers terminal.
 Guide now records Pf availability and weak recovery below majority. No biological
 admission, calibration, unknown-gene claims or new fitting;22/51 whole actions.
 Next: remaining functional source/method partitions and independent truth gaps.
+
+## Predeclared native Pf random forest, 2026-10-08
+
+Pilot FN-EC-PF-RF-01 uses the unchanged direct EC preparation packet, seed20261008,
+roles600/151/147/152 and all four unsupported profiles. Native catalogue settings:
+300 trees,min_leaf2,max_features sqrt,balanced_subsample. Use source closurev3
+and training-only native ranks. A scoped constructor wrapper fixes n_jobs1,
+restored afterward, solely to make probability accumulation serial and exactly
+repeatable; record this execution difference from native n_jobs4 explicitly.
+Retain native tree state, predictions, scores/support, source-recovery cards and
+unchanged control payloads. Require exact native/refit/tree-JSON/parquet/artifact
+replay and held-out feature/truth/role leakage checks. One400MiB worker packet;
+no worker retries/cap increases. No importance, tuning, calibration, deployment,
+biological or new source admission. Root owns acceptance and reader integration.
+
+Accepted RF partition: `starplast/forest_records.py` keeps native statistical
+parameters, training-only ranks, complete cohort, raw scores/support and exact
+JSON tree state including native dtype offsets/alignment. 17 adapter/pilot
+fixtures cover exact native/refit/tree replay, held-out feature/truth and role
+refusals, constructor restoration and unavailable states. Worker400MiB dataset
+attempt ended signal9; cause remains unproven, original35 receipts/code retained.
+Canonical root serial `results/pf_functional_ec_forest_2026_10_08_v2/` succeeds
+11.44s/570,120KiB under1900MiB, all workers terminal:59 correct/93 wrong/no
+abstentions on152 genes, including all four unsupported test genes. Majority43,
+prevalence35 and kNN40 use the identical cohort; no outer-test model selection.
+Artifact `c2891db34c1c43dec0372e792e3b6fa777a286cd43c7b0722c34d0630720b0cd`.
+
+Independent candidate acceptance verifies52 outputs,70 inputs and12 artifact
+receipts. Executed merge retains all three previous entries and native RF
+candidate exactly; shipped SHA
+`386c8e05f5b8cf32f4b9ba6c777d32933c73c08ce40d9e01d0b27959e9dbadda`.
+Actual two-strategy desktop audit verifies original controls, class/profile
+exports, gene/coverage navigation and source/organism refusals; both screenshots
+inspected. Runtime5.03s/648,929,280bytes. Method-support header is generic;
+multiple strategies retain separate cards, and zero-abstention profiles work.
+101 combined regressions pass25.21s; prior Qt styling segfault and84-check
+isolated success retained with unresolved cause. Final independent packet
+verifies112 receipts across failed/canonical/candidate/merge/UI packets and15
+current UI inputs. Source-recovery metrics do not establish biological accuracy,
+calibrated confidence, deployment or permutation importance. 68.02 stays40%,
+64.10 stays35%,22/51 whole actions. Next small task: descriptive paired method
+agreement/error dependence on this exact cohort, with shared-source limits.

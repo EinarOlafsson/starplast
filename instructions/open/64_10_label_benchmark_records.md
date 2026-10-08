@@ -1,6 +1,6 @@
 # 64.10 · Complete the categorical-label benchmark records
 
-Status: OPEN — 35%, 2026-10-08. Native feature-kNN, ortholog-transfer and both native conformal bases verified; remaining adapters/variants and full coverage are pending.
+Status: OPEN — 35%, 2026-10-08. Native feature-kNN, ortholog-transfer, both native conformal bases and serial random-forest calls verified; remaining adapters/variants and full coverage are pending.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -153,3 +153,15 @@ profiles. Independent acceptance verifies47 input/47 output/12 artifact receipts
 recovery remains separate from biological validation. Earlier categorical,
 metadata and resource failures are retained; UI packaging and remaining adapters
 are pending. Progress stays35%; no full-action completion.
+
+Native random-forest call partition,2026-10-08: forest_records.py invokes the
+existing forest with catalogue defaults300trees/leaf2, training-only ranks and
+serial n_jobs1 (native4) solely for exact probability addition. Native tree JSON
+state, calls/support/scores and unavailable states replay exactly; native statistics
+unchanged. Frozen Pf direct EC profile test152genes/four unsupported gives59correct,
+93wrong,noabstentions; source grade unresolved. Canonical packet
+results/pf_functional_ec_forest_2026_10_08_v2 and independent acceptance retain
+source/control/cohort identities. 101 combined focused checks pass; resource and
+Qt diagnostics preserved. Adapter excludes importance, tuning, calibration,
+deployment and independent biological admission; remaining method/variant coverage
+still open. 64.10 stays35%; no whole-action tick.

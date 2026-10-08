@@ -1,0 +1,69 @@
+{
+  "benchmarks": [
+    {
+      "namespace": "ec_major",
+      "source": "ec_number",
+      "counts": {
+        "abstained": 9,
+        "answered": 143,
+        "correct": 40,
+        "eligible": 152,
+        "unique_biological_entities": 152,
+        "wrong": 103
+      },
+      "selected_membership_cards": 2,
+      "controls": [
+        "training_majority",
+        "training_prevalence"
+      ],
+      "artifact_identity": "49d625acba268ce5599fd22f00a43bba313f84cf50a816449a944e34850626d0",
+      "routes": [
+        "annotation",
+        "strategy",
+        "control",
+        "membership",
+        "profile",
+        "gene",
+        "coverage"
+      ],
+      "independent_biology": null,
+      "calibration": null
+    },
+    {
+      "namespace": "ec_major",
+      "source": "ec_number",
+      "counts": {
+        "abstained": 0,
+        "answered": 152,
+        "correct": 59,
+        "eligible": 152,
+        "unique_biological_entities": 152,
+        "wrong": 93
+      },
+      "selected_membership_cards": 3,
+      "controls": [
+        "training_majority",
+        "training_prevalence"
+      ],
+      "artifact_identity": "c2891db34c1c43dec0372e792e3b6fa777a286cd43c7b0722c34d0630720b0cd",
+      "routes": [
+        "annotation",
+        "strategy",
+        "control",
+        "membership",
+        "profile",
+        "gene",
+        "coverage"
+      ],
+      "independent_biology": null,
+      "calibration": null
+    }
+  ],
+  "elapsed_seconds": 5.033852903987281,
+  "process_peak_bytes": 648929280,
+  "original_inputs_unchanged": true,
+  "organism": "Pf",
+  "hosts_unavailable": true,
+  "cross_organism_refused": true,
+  "altered_context_refused": true
+}

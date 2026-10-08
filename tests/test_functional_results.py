@@ -49,13 +49,15 @@ def test_shipped_view_retains_exact_rows_cards_and_null_biological_accuracy():
     assert all(card['biological_precision'] is None and card['biological_recall'] is None for card in benchmark.major_class_cards)
     assert all(row['calibrated_confidence'] is None for row in benchmark.rows)
     pf,reason=F.shipped(O.FALCIPARUM)
-    assert not reason and len(pf)==1 and pf[0].metadata['target']=='ec_direct_complete_major_profile'
+    assert not reason and {item.metadata['strategy'] for item in pf}=={'feature_knn','random_forest'}
+    assert all(item.metadata['target']=='ec_direct_complete_major_profile' for item in pf)
     source=Path(__file__).resolve().parents[1]/benchmark.metadata['source_directory']/'held_out'
     for name,payload in benchmark.payloads.items():assert payload==json.loads((source/name).read_text())
 
 
 def test_shipped_pf_retains_original_control_scopes_and_unsupported_population():
-    benchmarks,reason=F.shipped(O.FALCIPARUM);benchmark,=benchmarks
+    benchmarks,reason=F.shipped(O.FALCIPARUM)
+    benchmark=next(item for item in benchmarks if item.metadata['strategy']=='feature_knn')
     assert not reason and benchmark.source_matches('ec_number')
     assert not benchmark.source_matches('ec_number_orthology')
     assert len(benchmark.rows)==152 and sum(not row['training_supported'] for row in benchmark.rows)==4
@@ -68,6 +70,22 @@ def test_shipped_pf_retains_original_control_scopes_and_unsupported_population()
     for name,payload in benchmark.payloads.items():assert payload==json.loads((source/name).read_text())
     assert all(card['scope']['strategy']==name and card['scope']['protocol']==benchmark.card['scope']['protocol']
         for name,card in benchmark.baseline_cards.items())
+
+
+def test_shipped_native_forest_preserves_matched_cohort_and_controls():
+    benchmarks,reason=F.shipped(O.FALCIPARUM);assert not reason
+    by_strategy={item.metadata['strategy']:item for item in benchmarks}
+    forest=by_strategy['random_forest'];knn=by_strategy['feature_knn']
+    assert [(row['entity'],row['truth'],row['group'],row['training_supported']) for row in forest.rows]==[
+        (row['entity'],row['truth'],row['group'],row['training_supported']) for row in knn.rows]
+    assert forest.card['counts']['correct']==59 and forest.card['counts']['answered']==152
+    assert forest.card['counts']['abstained']==0 and sum(not row['training_supported'] for row in forest.rows)==4
+    assert forest.payloads['baseline_cards.json']==knn.payloads['baseline_cards.json']
+    assert forest.metadata['summary']['native_n_jobs']==4 and forest.metadata['summary']['execution_n_jobs']==1
+    assert forest.card['scope']['protocol']==knn.card['scope']['protocol']
+    assert forest.metadata['source_artifact_identity']!=knn.metadata['source_artifact_identity']
+    source=Path(__file__).resolve().parents[1]/forest.metadata['source_directory']/'held_out'
+    for name,payload in forest.payloads.items():assert payload==json.loads((source/name).read_text())
 
 
 def test_bundle_checksum_is_external_and_changed_payloads_are_refused(tmp_path):

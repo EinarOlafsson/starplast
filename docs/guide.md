@@ -267,7 +267,7 @@ availability. **Open held-out scorecard** opens existing label/class results whe
 they exist. Legacy tests retain their original source-recovery scope. Missing tests
 say **not evaluated**; known membership does not create a precision or recall score.
 Missing annotation and a false annotation-presence flag do not establish biological
-absence. Curated and orthology-derived EC fields remain separate.
+absence. Direct and orthology-derived EC fields remain separate.
 
 For Toxoplasma, **Functional tests** also provides frozen complete-Pfam profile
 recovery, domain membership cards, gene outcomes and training-only controls.
@@ -280,8 +280,14 @@ remain unavailable.
 
 For Plasmodium, select `ec_number` to open the frozen complete EC-major profile
 test. It recovers 40 of 152 recorded profiles, makes 103 wrong calls and abstains
-on nine genes; all four profiles unsupported in training remain included. The
+on nine genes; all four test genes with profiles unsupported in training remain included. The
 majority control recovers 43 profiles and the prevalence control recovers 35.
+The test selector also offers the fixed native random forest: 59 profiles
+recovered, 93 wrong calls and no abstentions on the same 152 genes. It uses
+300 trees and a minimum leaf size of two. Serial tree probability accumulation
+keeps the frozen result exactly repeatable. Each strategy retains its own
+scorecard; both retain the original training-only controls. Method support is
+uncalibrated and is not a probability of biological correctness.
 The test uses direct annotations; orthology-derived annotations remain separate.
 Individual annotation curation/prediction provenance is unresolved. These scores
 measure recorded annotation recovery; independent biological accuracy, calibrated

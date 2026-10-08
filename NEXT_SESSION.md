@@ -835,3 +835,19 @@ serial1900MiB with all workers terminal. Initial installer400MiB OOM preserved
 with original bundle/code; no fitting or biological/calibration/deployment
 admission. Guide updated. Continue remaining functional source/method partitions,
 then other instruction64/65/66 gaps; retain cancelled/restricted-task boundaries.
+
+Latest native functional strategy: accepted serial random forest on unchanged
+Pf EC target/cohort.59/152correct,93wrong,noabstentions; kNN40/152,majority43/152,
+prevalence35/152; all four unsupported test genes retained. Native defaults
+300trees/leaf2; only n_jobs4→1 for deterministic probability addition. Exact
+native/refit/treeJSON/parquet/artifact replay; root serial packet V2 succeeds
+11.44s/570,120KiB under1900MiB. Worker signal9 preserved, cause unproven.
+52 outputs/70inputs/12artifact receipts independently verified. Shipped bundle
+SHA386c8e05f5b8cf32f4b9ba6c777d32933c73c08ce40d9e01d0b27959e9dbadda
+now2Tg/2Pf; previous entries/native controls exact. Actual two-strategy desktop
+routes and both screenshots verified.101 combined checks pass; prior Qt styling
+segfault/84isolated passes retained, cause unresolved. Final receipt audit112outputs
+and15current UIinputs. Source recovery only, no biological/calibration/deployment
+or importance admission. Function40%,categorical35%,whole22/51. Next small task:
+descriptive paired method agreement/error dependence on same cohort, shared-source
+limits explicit; other host/literature/strategy gaps remain. Watchdog/goal active.

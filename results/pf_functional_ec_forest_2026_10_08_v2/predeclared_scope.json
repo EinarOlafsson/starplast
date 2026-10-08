@@ -1,0 +1,20 @@
+{
+  "pilot_id": "FN-EC-PF-RF-01",
+  "target": "ec_direct_complete_major_profile",
+  "settings": {
+    "pilot_id": "FN-EC-PF-RF-01",
+    "trees": 300,
+    "min_leaf": 2,
+    "execution_n_jobs": 1,
+    "native_n_jobs": 4,
+    "max_features": "sqrt",
+    "class_weight": "balanced_subsample",
+    "execution_difference": "Single job for exact serial tree probability reduction; statistical defaults unchanged",
+    "selection": "Fixed before execution; no test/tune/calibration selection",
+    "feature_selection": "Registered numeric columns; native training coverage/variation floor",
+    "feature_transform": "Native training average ranks; frozen query ECDF",
+    "graphs_or_maps_used": false
+  },
+  "preparation_manifest_sha256": "a29e416488ba7b0722afca63764a27afcaa6f1fa521a5539a247837a9a7d38c7",
+  "biological_admission": false
+}
