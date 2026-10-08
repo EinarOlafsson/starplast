@@ -323,6 +323,9 @@ into Starplast; launching the app does not transfer results automatically.
 
 **[Full table of included data and source links →](https://github.com/EinarOlafsson/starplast/blob/main/docs/datasets.md)**
 
+Open **Tools → Datasets** to filter installed sources and inspect their coverage,
+provenance and original stored values. See the [dataset browser guide](docs/dataset_browser.md).
+
 The catalogue lists all 130 registered datasets and computed layers, with their
 measurements, coverage, publication references, and links to source data or inputs.
 Coverage differs by organism and assay;

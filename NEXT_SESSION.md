@@ -10,7 +10,7 @@ their hosts; start from a gene, class, localization or label and inspect every a
 precomputed results, agreements/conflicts and a ground-truth-tested meta-inference. Scorecards
 must make accuracy, capacity and the underlying test evidence accessible at every level.
 The controlling plan is **[instruction 64](instructions/open/64_information_space_and_inference_atlas.md)**:
-40 bounded action cards with dependencies and acceptance tests. **10/40 complete (25%)**:
+40 bounded action cards with dependencies and acceptance tests. **11/40 complete (27.5%)**:
 64.01 provides the entity/query schema and provenance-preserving exact alias resolver
 (`starplast/query.py`, 472 focused checks passed). 64.02 provides the offline inventory
 (`starplast/inventory.py`, 525 focused checks passed): all 162 sources reconcile to 180 rows
@@ -689,3 +689,21 @@ This completes reusable presentation only; no biological truth, calibrated
 functional deployment, host installation or scientific adapter admission added.
 Choose the next small browser/navigation acceptance gap while larger biological
 source and model work remains open. Restricted partials stay untouched.
+
+Latest acceptance: **64.18 complete; 20/51 full actions, 11/40 instruction-64 actions**.
+Tools → Datasets shares the Slots window. All 162 sources reconcile to 180 scoped
+records, with explicit host/entity qualification, original stored values, source
+cards, bounded paging and separate session imports. Processed availability is
+separate from raw-assay provenance; stored slots do not imply experimental grade.
+Canonical `results/dataset_browser_2026_10_08_v8/`: 3,900 notebook checks,
+27 current input hashes, 24 verified receipts, 98.05 seconds/1,082.8 MiB peak.
+505 focused regressions pass, one existing GL-context skip; six prior CI failures
+and native interval checks pass (24). Full CI for old 9d7752b failed; its six
+specific regressions are fixed, replacement nightly CI must still run.
+Two native Qt test failures remain recorded with unproven causes; after explicit
+new slot-test iterator cleanup, the same combined scope passes. A worker's 400 MiB
+explanation audit was OOM-killed, then passed serially. Preserve all diagnostics.
+No biological truth, strategy fits, host installation or source promotions added.
+Next smallest bounded action: 64.19 gene evidence entry, reusing the query,
+provenance, scorecard and dataset-browser contracts. Human foundation stays 30%,
+mouse 0%; 65.04 stays 4%, 68.02 stays 30%. Restricted partials remain untouched.

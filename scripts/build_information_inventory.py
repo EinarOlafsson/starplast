@@ -38,7 +38,7 @@ def write_snapshot(output: Path) -> pd.DataFrame:
     if output.exists():
         raise ValueError("Use a new output directory; existing snapshots are immutable")
     inputs = [ROOT / "starplast" / filename for filename in
-              ("datasets.py", "inventory.py", "organisms.py", "slots.py", "evidence.py", "data/slots.json")]
+              ("datasets.py", "inventory.py", "organisms.py", "slots.py", "evidence.py", "source_refusals.py", "data/slots.json")]
     inputs += [Path(__file__), ROOT / "scripts/generate_slot_table.py"]
     tables, bridges, graph_paths, row_counts = {}, {}, {}, {}
     table_paths = {}
@@ -68,7 +68,10 @@ def write_snapshot(output: Path) -> pd.DataFrame:
             tables[(code, "metabolite")] = frame
         inputs.append(metabolites)
         row_counts[metabolites.name] = len(frame)
-    raw_paths = {d.key: D.local_path(d.key) for d in D.REGISTRY}
+    raw_paths = {d.key: D.local_path(d.key) for d in D.REGISTRY
+                 if d.path and not d.path.startswith('starplast/data/')}
+    processed_paths = {d.key: D.local_path(d.key) for d in D.REGISTRY
+                       if d.path and d.path.startswith('starplast/data/')}
     slot_map = {s.organism + "_" + s.name: s for s in slots.all_slots()}
     refusals = []
     for (question, accession), reason in sorted(REFUSED_CANDIDATES.items()):
@@ -79,7 +82,8 @@ def write_snapshot(output: Path) -> pd.DataFrame:
     hashes = {str(path): _hash(path) for path in sorted(set(inputs))}
     with ExitStack() as stack:
         graphs = {code: stack.enter_context(np.load(path)) for code, path in graph_paths.items() if path.is_file()}
-        report = build_inventory(tables, graphs, bridges, raw_paths=raw_paths, refusals=refusals)
+        report = build_inventory(tables, graphs, bridges, raw_paths=raw_paths,
+                                 processed_paths=processed_paths, refusals=refusals)
     registry_rows = report[report.status != "rejected"]
     if set(registry_rows.source_id) != {d.key for d in D.REGISTRY}:
         raise ValueError("Inventory does not reconcile with every registered source")

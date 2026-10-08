@@ -1,0 +1,2743 @@
+{
+  "checks": 3892,
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/audit_dataset_browser.py": "b39a68d6f0cf1256eab833228c3c73cceb15708037f42a9ec2bb3c0cc74fd859",
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/notebook_runner.py": "e319e5a584ad4ce60be32d22818f6f987d9969e743b01acdcb40ea4b173b9e34",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/app.py": "6501321b14cf6c7b9f78af6e14553a02bd73d6c182668138a1b7d28f0899d698",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/graph.npz": "ba0460246b76f4808a7613e97d3cb5216cdcb0555f6aa35b85a43029f2c16e2d",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/host_bridges.parquet": "4b93fcbb605b7312c10b7387fbb54d560a69aff155dc115b781553cc68acc940",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/hs_host_proteins.parquet": "1b5af9142db5d67a4d0d3e072c541078281e750fe3c0ba8e22330a619623cfa0",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/metabolites.parquet": "5a7dbc2af492aad62a45a0e2c7090c40401a4b483db4fe4d9a45a79dadc3a9e3",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/mm_host_proteins.parquet": "30e9349d736327c680e00a3c15429bda28fc6599e2989eb9d01d539a1b725c4f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/nodes.parquet": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/pf_graph.npz": "5331e5a9ec7b63478a69edff7450a8ee0318703c672c316b3a7dbcc4ba47fed8",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/pf_host_bridges.parquet": "154e08750a263599748827a72995878e435c8e0796e23b8ec1549a7742423449",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/pf_nodes.parquet": "410d5fb58c15c0f110de2e1fd61910d4ae10508709847b1777cb3e7bc88d3641",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/slots.json": "fa3f04c24fe924446410507f4d1654fdf07351d0a9cc7e323324be29d550dc75",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/dataset_browser.py": "ddc21c74a84fe2adf55eff7d261dc14242f65ad64e96f5b28798633c31aeafb2",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/dataset_space.py": "e0d1abcff6ca8aae28824bd2a6b789aad26e9fe5b4c17cf130a87f917c6eb447",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/dataset_space_inputs.py": "28725be1fef159036030e4279dd94a4597097c8ed79cde37e0e1c7320c1b2626",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/datasets.py": "eb017aad057bcbd3f43b159d6536a33502c4ac4d5a46e51a25ac2afc6320ff20",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/evidence.py": "33c54be415e8e85208a05ab27e8769e23fdf23f470e7b678ffa3d7de87a12c3f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/inventory.py": "5ceb23e140e788f1417f2ac8b65624446e38eaa229fb9b08e46f11f2c0d046bc",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/organisms.py": "55d184dd251287644514a6b5b01fc35c68a48038fed18865970ba35b78fde9c9",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/provenance.py": "dd81809fdbfcc5497d2e864fb1a973c1b082ff22a6ca34872aa8531979442256",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard.py": "8ed3dd185fb818f69a2e3a028f53f4c0ff82656871170a91fca81f8fe0ca0234",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard_browser.py": "0dc8661b108c77fc75317081a47bba2b77c834a76b93ecad45b9bd600dff5b27",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/scorecard_view.py": "383005f443b7c3b6194e401074ccdbad2c2ed04254296ec6ebc4d3075ae3cea6",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/slot_tree.py": "a977e8de47cd32133b2ddcf541331d6244696c8629441ba86adb3ba2f1321800",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/slots.py": "93052e9172e6fdcefaa5c7fccb26527e3cd7ef66ebe2e077a7a92d1736ebb194",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/source_refusals.py": "5ca00221880907b71cad7a93fa5bc66a206e1cbda28ee021462a847185e998b8"
+  },
+  "inventory_rows": 180,
+  "limitations": [
+    "Coverage counts stored values, not biological accuracy",
+    "Missing lineage, assay units and raw provenance remain unresolved",
+    "Session import is an authored UI control; no publication or biological admission",
+    "No source downloads, strategy fits or calibrated deployment"
+  ],
+  "process_peak_rss_bytes": 1040830464,
+  "runtime_seconds": 87.19285065401345,
+  "sources": [
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "esm2_protein",
+        "Tg",
+        "source_records",
+        ""
+      ],
+      "status": "source_only",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "local_af3",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1210,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "xue_singlecell",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7499,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "stage_enriched",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1911,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_identity",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_strain_snps",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_codon_usage",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "orthomcl",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "interpro",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "alphafold",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 6480,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "lopit_tgon",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "lopit_pfal",
+        "Tg",
+        "source_records",
+        ""
+      ],
+      "status": "unavailable",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "lopit_cpar",
+        "Tg",
+        "source_records",
+        ""
+      ],
+      "status": "unavailable",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse108740",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8131,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse206344",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7974,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse22258",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 6564,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse168465",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7438,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse99395",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7506,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse129869",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7880,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse19092",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 6504,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse51780",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 6504,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse168155",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7869,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse200962",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7880,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse253884_5",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 551,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "invivo_brain_transcriptome",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7663,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse132248_stress",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7880,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "morc_depletion",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7841,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_invitro",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7325,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_invivo_composite",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7460,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_serum_restriction",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7395,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_glucose_limitation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7393,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_parasite_density",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7461,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_macrophage",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7402,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crispr_young2019",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 115,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gra17_synthlethal",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7553,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "invivo_platform",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 168,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gra12",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 239,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "hosttx_effectors",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 252,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "bioid_corpus_membership",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "ipms_corpus_membership",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "proteome_pru",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 748,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "proteome_total",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3005,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "phosphosites",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "phospho_quantitative",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1603,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "oocyst_itraq",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 2079,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "starpath_xlms",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "ipms_baits",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "foldseek_struct",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "bioid_corpus",
+        "Tg",
+        "source_records",
+        ""
+      ],
+      "status": "unavailable",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pulldown_corpus",
+        "Tg",
+        "source_records",
+        ""
+      ],
+      "status": "unavailable",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pubmed",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pmc_oa",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse223620_bfd2_rip",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7463,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse245775",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7880,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse313048_atac",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7988,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse277553_cuttag",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_palmitome",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 488,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "iedb_bcell",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 34,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_epitopes",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 221,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_h4_acetylation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7515,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_macrophage",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_ec_numbers",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "crosslink_interactome",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 494,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pvm_proximity",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1274,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "cdpk1_substrates",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 367,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "mrna_stability",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 412,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "mrna_decay_gse329845",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5997,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse302107_riboseq",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5966,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "gse302108_utr5",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5825,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "brady_subtypes",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7880,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "iron_depletion_proteome",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 4942,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "organelle_surface_turboid",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 742,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "myristoylome",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 65,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_arginine_methylation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 368,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_nanopore_isoforms",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 798,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "toxodb_enteroepithelial",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7739,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pride_acetylation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3921,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pride_proximity",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1742,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pride_glycosylation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 394,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pride_nitrosylation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 660,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pride_lactylation",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 515,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pride_ubiquitination",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 130,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "oxidative_stress_screen",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 7384,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "spacr_escrt_screen",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 10,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "myr1_host_ip",
+        "Tg",
+        "pair",
+        ""
+      ],
+      "status": "unattributed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pv_host_uptake",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 12,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "metabolome_iron",
+        "Tg",
+        "metabolite",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1102,
+      "table_rows": 1296,
+      "total_rows": 1296
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "lipidome_vesicles",
+        "Tg",
+        "metabolite",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 194,
+      "table_rows": 1296,
+      "total_rows": 1296
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "curated_enteric_fitness",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "curated_drug_sensitivity",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "curated_resistance_alleles",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "splitcas9_imaging_screen",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 318,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_attributes",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_orthology",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_domains",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_snps",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_latency_transcriptome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 4887,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_m6a_nanopore",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5285,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_gametocyte_proteome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 2544,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_target_engagement",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3126,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_febrile_phospho",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1874,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_chromatin_proxiome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 2019,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_meltome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 2040,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_pb_fertility_transfer",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1121,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_piggybac",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5385,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_expression",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_alphafold_confidence",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5098,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_febrile_stress",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_sir2_perturbation",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5544,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_iedb_bcell",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 434,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_iedb_tcell",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 44,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_derived_stage_labels",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_identity",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_riboseq",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3501,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_berghei_liver_transfer",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 754,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_erythrocyte_proteome",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5264,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_foldseek_struct",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5108,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": 4571,
+      "scope": [
+        "pf_foldseek_struct",
+        "Pf",
+        "pair",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": 4571
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_erythrocyte_surface",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 267,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_mouse_tissue_transcriptome",
+        "Mm",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 10617,
+      "table_rows": 15590,
+      "total_rows": 15590
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_gtex_transcriptome",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 19087,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_k562_rhoptry_screen",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 18700,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_hff_tg_infection",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 10631,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_bmdm_baseline",
+        "Mm",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 15437,
+      "table_rows": 15590,
+      "total_rows": 15590
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_hepatocyte_pf_infection",
+        "Hs",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 12550,
+      "table_rows": 20989,
+      "total_rows": 20989
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "host_macrophage_surfaceome",
+        "Mm",
+        "protein",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1296,
+      "table_rows": 15590,
+      "total_rows": 15590
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_literature",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": 577,
+      "scope": [
+        "pf_literature",
+        "Pf",
+        "pair",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": 577
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_berghei_transfer",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 2447,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_idc_timing",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 4881,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_ip_ms",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 65,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_cdpk1_dependent_sites",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 62,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_secretome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 184,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_isoforms",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1857,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_lactylome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_acetylome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_myristoylome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 609,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_palmitome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_phosphoproteome_meta",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "plasmodb_pf3d7_exportpred",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_host_degree",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 117,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_enzyme_classification",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5720,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_codon_usage",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5318,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_host_bridge_xlms",
+        "Pf",
+        "pair",
+        ""
+      ],
+      "status": "unattributed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_complexes",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 128,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 79,
+      "origin": "registry_asserted_unverified",
+      "pair_records": 79,
+      "scope": [
+        "pf_crosslink_ms",
+        "Pf",
+        "pair",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": 79
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": 88776,
+      "scope": [
+        "pf_relation_layers",
+        "Pf",
+        "pair",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": 88776
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": 6344,
+      "scope": [
+        "cotranslation_edges",
+        "Tg",
+        "pair",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": 6344
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "m6a_peaks",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 837,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "sexual_stages",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 4463,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "secretome_partition",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 165,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "antisense_level",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 8140,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "melting_temperature",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3120,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "thermal_shift_cetsa",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 2348,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "cyst_wall_interactome",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 56,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "second_background_fitness",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 131,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "differentiation_screen",
+        "Tg",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 237,
+      "table_rows": 8140,
+      "total_rows": 8140
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_spatial_proteome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3000,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_field_variation",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5232,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_mrna_dynamics",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 4572,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_hsp90_chemoproteome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3049,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_rna_dependence",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 3671,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_committed_proteome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 1950,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 200,
+      "origin": "registry_asserted_unverified",
+      "pair_records": null,
+      "scope": [
+        "pf_resistome",
+        "Pf",
+        "gene",
+        ""
+      ],
+      "status": "installed",
+      "stored_any_rows": 5037,
+      "table_rows": 5720,
+      "total_rows": 5720
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:PXD033470",
+        "Pf",
+        "gene",
+        "Pf_glycosylation \u00b7 asexual blood stage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:PXD033642",
+        "Tg",
+        "gene",
+        "Tg_protein turnover"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE266204",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE275112",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE300509",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE313048",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE313273",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE313582",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE329845",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE334992",
+        "Tg",
+        "gene",
+        "Tg_transcription \u00b7 in IFN-gamma macrophage"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE129869",
+        "Tg",
+        "gene",
+        "Tg_translation \u00b7 per cell-cycle phase"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE243206",
+        "Tg",
+        "gene",
+        "Tg_translation \u00b7 per cell-cycle phase"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE302107",
+        "Tg",
+        "gene",
+        "Tg_translation \u00b7 per cell-cycle phase"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE302108",
+        "Tg",
+        "gene",
+        "Tg_translation \u00b7 per cell-cycle phase"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE43722",
+        "Tg",
+        "gene",
+        "Tg_translation \u00b7 per cell-cycle phase"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    },
+    {
+      "displayed_rows": 0,
+      "origin": "unknown",
+      "pair_records": null,
+      "scope": [
+        "candidate:GSE99395",
+        "Tg",
+        "gene",
+        "Tg_translation \u00b7 per cell-cycle phase"
+      ],
+      "status": "rejected",
+      "stored_any_rows": null,
+      "table_rows": null,
+      "total_rows": null
+    }
+  ]
+}

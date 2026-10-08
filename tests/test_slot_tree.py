@@ -49,6 +49,24 @@ def test_the_window_wraps_the_view(qapp):
     assert "slot tree" in window.windowTitle()
 
 
+def test_stored_slot_availability_does_not_claim_experimental_grade(qapp):
+    """A filled annotation column is not proof of experimental evidence."""
+    from starplast import organisms as O
+    view = T.SlotTree(pd.DataFrame({'gene_id': ['TGME49_100001'], 'compartment': ['Cytosol']}),
+        organism=O.TOXOPLASMA, sources={O.TOXOPLASMA: {}, O.FALCIPARUM: {}})
+    iterator = T.QtWidgets.QTreeWidgetItemIterator(view.tree)
+    found = False
+    while iterator.value():
+        item = iterator.value()
+        if item.data(0, T.QtCore.Qt.ItemDataRole.UserRole + 1) is True:
+            assert item.text(1) == 'available'
+            found = True
+        iterator += 1
+    assert found and view.tree.headerItem().text(1) == 'status'
+    # The native iterator must be destroyed while its owning tree still exists.
+    del iterator
+
+
 # --------------------------------------------------------------------------- it matches the catalog
 def test_every_slot_appears_exactly_once_per_hierarchy(qapp):
     """The tree is the catalog re-addressed, not a subset of it. A slot missing from one hierarchy is
@@ -196,7 +214,7 @@ def test_an_empty_slot_is_coloured_rather_than_left_to_be_noticed(qapp):
     from starplast import theme as TH
     view = T.SlotTree(sources={"Pf": {}}, organism="Pf")     # no table: everything reads empty
     leaf = view._leaves(view.tree.invisibleRootItem())[0]
-    assert leaf.text(1) == "—"
+    assert leaf.text(1) == 'unavailable'
     assert leaf.foreground(0).color() == QtGui.QColor(TH.palette_for("dark")["warning"])
 
 

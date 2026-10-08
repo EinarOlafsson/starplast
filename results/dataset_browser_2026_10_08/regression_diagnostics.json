@@ -1,0 +1,37 @@
+{
+  "runs": [
+    {
+      "outcome": "1 failed, 502 passed, 1 skipped",
+      "reason": "Old empty-slot test expected a dash before availability label was updated"
+    },
+    {
+      "outcome": "exit 139, native segmentation fault",
+      "reason": "Observed during combined Qt regressions; exact native cause unproven"
+    },
+    {
+      "outcome": "504 passed, 1 skipped",
+      "change": "Browser tests now use standard shared pytest-qt QApplication fixture"
+    }
+  ],
+  "scope": "Actual observations only; no database overload or runtime content restriction inferred",
+  "final_validation_observations": [
+    {
+      "stage": "combined regression after V8",
+      "result": "native ABRT",
+      "message": "malloc_consolidate(): unaligned fastbin chunk detected",
+      "cause": "unproven",
+      "followup": "Explicitly destroy new slot-test native iterator while its owning tree exists; rerun unchanged regression scope."
+    },
+    {
+      "stage": "worker explanation audit",
+      "result": "exit137",
+      "cause": "400MiB cgroup OOM confirmed by worker journal",
+      "followup": "Same explanation node passed in serial 1900MiB scope with five strategy nodes and interval records (24 passed)."
+    },
+    {
+      "stage": "audit invocation",
+      "result": "import errors",
+      "followup": "V6 preserves missing scripts import diagnostic; -m initially lacked notebook_runner import, corrected package import for canonical V8."
+    }
+  ]
+}
