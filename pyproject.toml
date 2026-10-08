@@ -71,4 +71,5 @@ starplast = ["data/*.npz", "data/*.parquet", "data/*.tsv", "data/*.tsv.gz", "dat
 starplast = ["data/embeddings/*"]
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 markers = ["slow: runs a real build or a full documentation pass; minutes rather than seconds"]
