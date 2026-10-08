@@ -792,3 +792,20 @@ Next smallest bounded function work: protected-group Plasmodium EC preparation
 using existing source/exclusion/controls contracts, preserving missingness and
 source-grade gaps. Restricted activity-truth partials remain untouched; native
 goal/watchdog active, host spaces and dataset promotions still open.
+
+Latest Pf preparation/control acceptance:
+`results/pf_functional_ec_controls_2026_10_08/`. Whole5,720 genes; direct
+EC1,050 complete/170 unresolved/4,500 unannotated,19 atomic major-class profiles.
+Orthology EC1,055 complete/451 unresolved/4,214 unannotated kept separate.
+Seed20261008, native groups, roles600/151/147/152; zero missing/fallback collisions,
+four unsupported test genes retained. Train-only majority/prevalence recover43/35
+of152; these are control arithmetic, not feature_knn performance or biological
+accuracy. All rows/class/major cards and exact source/group/serialization replay
+saved. 128 relevant checks pass,40 outputs/38 inputs independently verified.
+Runtime4.13s/261,208KiB under400MiB. Corrected pf_enzyme_classification's
+unsupported direct='curated' prose, regenerated catalogue; no source bytes changed.
+Next bounded step: fixed native Pf EC kNN on this exact protected split, with
+full-table registered source-closed training-only feature selection, native replay
+and matched controls. Do not reuse projected-control exclusions as sufficient for
+new feature columns. 68.02 stays35%,22/51 complete; independent biology, calibrated
+deployment, host spaces and dataset promotion remain open. Restricted files untouched.

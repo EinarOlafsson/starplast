@@ -1,0 +1,25 @@
+{
+  "benchmark_id": "FN-EC-PF-CONTROL-01",
+  "organism": "Pf",
+  "source_target": "ec_number",
+  "target": "ec_direct_complete_major_profile",
+  "seed": 20261008,
+  "fractions": [
+    0.55,
+    0.15,
+    0.15,
+    0.15
+  ],
+  "controls": [
+    "training_majority",
+    "training_prevalence"
+  ],
+  "selection": "Fixed before source preparation; no test/tune support or metrics select settings",
+  "group_policy": "Exact native Context.groups on whole table positions; collision refused",
+  "truth_grade": "unresolved",
+  "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+  "orthology_role": "separate_census_only",
+  "classifier_fitting_performed": false,
+  "biological_admission": false,
+  "review_manifest_sha256": "5fb85c26e4939c4737a6969c474cd63395ea2faaa1fb111a71ebd241e0aaa81c"
+}

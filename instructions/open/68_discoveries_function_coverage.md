@@ -276,3 +276,35 @@ receipts, including historical code/bundle snapshots after intentional pin chang
 Preserve first800MiB OOM and second audit's wrong export-envelope key diagnostic.
 Independent biological truth, other functional mechanisms/organisms, calibration
 and deployment remain open;22/51 whole actions, no completion tick.
+
+## Predeclared Plasmodium EC controls, 2026-10-08
+
+Scope FN-EC-PF-CONTROL-01: direct `ec_number` complete major-class profiles;
+verified ENZYME/source review V2 manifest
+`5fb85c26e4939c4737a6969c474cd63395ea2faaa1fb111a71ebd241e0aaa81c`.
+Keep the whole original Pf gene order, native protected groups and explicit
+missing-group fallback/collision checks. Seed20261008 and fractions
+(0.55,0.15,0.15,0.15) fixed before execution. Source exclusions and
+majority/prevalence controls use training only; unknown and unsupported profiles
+remain visible. `ec_number_orthology` is a separate census, never merged into
+the target or used as a predictor. No classifier, acquisition, biological
+admission, calibration or deployment; direct annotation evidence stays unresolved.
+
+Accepted preparation/control packet:
+`results/pf_functional_ec_controls_2026_10_08/`. All5,720 genes retained;
+direct EC has1,050 complete profiles/19 classes,170 unresolved and4,500
+unannotated. Orthology-derived EC remains a separate census (1,055 complete,
+451 unresolved,4,214 unannotated). Roles600/151/147/152 use recorded native
+groups with zero missing-group fallbacks or collisions. All four unsupported
+test genes across three profiles remain in the denominator.
+
+Majority/prevalence controls recover43/152 (28.29%) and35/152 (23.03%).
+Actual control-name scopes, full confusion, profile/seven-major-class metrics,
+raw source/normalization/group/split and exact serialization replay retained.
+No inference-strategy fit or independent biological accuracy. Runtime4.13s,
+261,208KiB process peak under400MiB;128 relevant regressions pass. Independent
+acceptance verifies40 output checksums,38 inputs and exact population arithmetic.
+The source catalogue now describes direct annotations with unresolved individual
+curation/prediction provenance, rather than asserting manual curation. Generated
+catalogue refreshed; source/node bytes unchanged. No dataset promoted or replaced.
+68.02 stays35%,22/51 whole actions; actual Pf inference and UI result remain next.

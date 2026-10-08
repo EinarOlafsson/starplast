@@ -1,0 +1,1784 @@
+{
+  "training_majority": {
+    "card": {
+      "scope": {
+        "organism": "Pf",
+        "strategy": "training_majority",
+        "target": "ec_direct_complete_major_profile",
+        "task": "label calls",
+        "unit": "gene",
+        "settings": {
+          "role": "training_only_baseline_control",
+          "control_name": "training_majority",
+          "selection": "Fixed before source preparation; no test/tune support or metrics select settings",
+          "classifier_fitting_performed": false
+        },
+        "seed": 20261008,
+        "protocol": "220cc119a511806017878e5890088e4064c65a9a720258e59ea3dcdb6a085e6b",
+        "partition": "outer_test",
+        "benchmark_id": "FN-EC-PF-CONTROL-01",
+        "truth_grade": "unresolved",
+        "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only"
+      },
+      "counts": {
+        "eligible": 152,
+        "answered": 152,
+        "abstained": 0,
+        "correct": 43,
+        "wrong": 109
+      },
+      "metrics": {
+        "accuracy": 0.28289473684210525,
+        "coverage": 1.0,
+        "precision_of_calls": 0.28289473684210525,
+        "macro_precision": 0.023574561403508772,
+        "macro_recall": 0.08333333333333333,
+        "macro_f1": 0.03675213675213675,
+        "weighted_f1": 0.1247638326585695,
+        "kappa": 0.0,
+        "mcc": 0.0,
+        "macro_auroc": 0.5,
+        "macro_auprc": 0.08333333333333331
+      },
+      "extra": {
+        "control_name": "training_majority",
+        "role": "training_only_baseline_control",
+        "classifier_fitting_performed": false,
+        "baseline_parameters_estimated_from_training_only": true,
+        "test_support_used_for_selection": false,
+        "confusion": [
+          {
+            "truth": "[\"1\",\"2\"]",
+            "prediction": "[\"2\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\",\"3\"]",
+            "prediction": "[\"2\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"2\"]",
+            "count": 13
+          },
+          {
+            "truth": "[\"2\",\"3\"]",
+            "prediction": "[\"2\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\",\"6\"]",
+            "prediction": "[\"2\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"2\"]",
+            "count": 43
+          },
+          {
+            "truth": "[\"3\",\"7\"]",
+            "prediction": "[\"2\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"2\"]",
+            "count": 52
+          },
+          {
+            "truth": "[\"4\"]",
+            "prediction": "[\"2\"]",
+            "count": 8
+          },
+          {
+            "truth": "[\"5\"]",
+            "prediction": "[\"2\"]",
+            "count": 8
+          },
+          {
+            "truth": "[\"6\"]",
+            "prediction": "[\"2\"]",
+            "count": 10
+          },
+          {
+            "truth": "[\"7\"]",
+            "prediction": "[\"2\"]",
+            "count": 11
+          }
+        ],
+        "class_universe": [
+          "[\"1\",\"2\"]",
+          "[\"1\",\"3\",\"4\"]",
+          "[\"1\",\"3\"]",
+          "[\"1\",\"5\"]",
+          "[\"1\",\"7\"]",
+          "[\"1\"]",
+          "[\"2\",\"3\"]",
+          "[\"2\",\"4\"]",
+          "[\"2\",\"6\"]",
+          "[\"2\"]",
+          "[\"3\",\"4\"]",
+          "[\"3\",\"5\"]",
+          "[\"3\",\"7\"]",
+          "[\"3\"]",
+          "[\"4\",\"5\"]",
+          "[\"4\"]",
+          "[\"5\"]",
+          "[\"6\"]",
+          "[\"7\"]"
+        ],
+        "unsupported_test_genes": 4,
+        "biological_accuracy": null,
+        "biological_admission": false,
+        "unknown_states": {
+          "unannotated": 4500,
+          "unresolved": 170
+        },
+        "class_score_semantics": "Training prior/majority one-hot control; not calibrated gene confidence"
+      }
+    },
+    "view_snapshot": {
+      "card": {
+        "counts": {
+          "abstained": 0,
+          "answered": 152,
+          "correct": 43,
+          "eligible": 152,
+          "wrong": 109
+        },
+        "extra": {
+          "baseline_parameters_estimated_from_training_only": true,
+          "biological_accuracy": null,
+          "biological_admission": false,
+          "class_score_semantics": "Training prior/majority one-hot control; not calibrated gene confidence",
+          "class_universe": [
+            "[\"1\",\"2\"]",
+            "[\"1\",\"3\",\"4\"]",
+            "[\"1\",\"3\"]",
+            "[\"1\",\"5\"]",
+            "[\"1\",\"7\"]",
+            "[\"1\"]",
+            "[\"2\",\"3\"]",
+            "[\"2\",\"4\"]",
+            "[\"2\",\"6\"]",
+            "[\"2\"]",
+            "[\"3\",\"4\"]",
+            "[\"3\",\"5\"]",
+            "[\"3\",\"7\"]",
+            "[\"3\"]",
+            "[\"4\",\"5\"]",
+            "[\"4\"]",
+            "[\"5\"]",
+            "[\"6\"]",
+            "[\"7\"]"
+          ],
+          "classifier_fitting_performed": false,
+          "confusion": [
+            {
+              "count": 1,
+              "prediction": "[\"2\"]",
+              "truth": "[\"1\",\"2\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"2\"]",
+              "truth": "[\"1\",\"3\"]"
+            },
+            {
+              "count": 13,
+              "prediction": "[\"2\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"2\"]",
+              "truth": "[\"2\",\"3\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"2\"]",
+              "truth": "[\"2\",\"6\"]"
+            },
+            {
+              "count": 43,
+              "prediction": "[\"2\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"2\"]",
+              "truth": "[\"3\",\"7\"]"
+            },
+            {
+              "count": 52,
+              "prediction": "[\"2\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 8,
+              "prediction": "[\"2\"]",
+              "truth": "[\"4\"]"
+            },
+            {
+              "count": 8,
+              "prediction": "[\"2\"]",
+              "truth": "[\"5\"]"
+            },
+            {
+              "count": 10,
+              "prediction": "[\"2\"]",
+              "truth": "[\"6\"]"
+            },
+            {
+              "count": 11,
+              "prediction": "[\"2\"]",
+              "truth": "[\"7\"]"
+            }
+          ],
+          "control_name": "training_majority",
+          "role": "training_only_baseline_control",
+          "test_support_used_for_selection": false,
+          "unknown_states": {
+            "unannotated": 4500,
+            "unresolved": 170
+          },
+          "unsupported_test_genes": 4
+        },
+        "metrics": {
+          "accuracy": 0.28289473684210525,
+          "coverage": 1.0,
+          "kappa": 0.0,
+          "macro_auprc": 0.08333333333333331,
+          "macro_auroc": 0.5,
+          "macro_f1": 0.03675213675213675,
+          "macro_precision": 0.023574561403508772,
+          "macro_recall": 0.08333333333333333,
+          "mcc": 0.0,
+          "precision_of_calls": 0.28289473684210525,
+          "weighted_f1": 0.1247638326585695
+        },
+        "scope": {
+          "benchmark_id": "FN-EC-PF-CONTROL-01",
+          "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+          "organism": "Pf",
+          "partition": "outer_test",
+          "protocol": "220cc119a511806017878e5890088e4064c65a9a720258e59ea3dcdb6a085e6b",
+          "seed": 20261008,
+          "settings": {
+            "classifier_fitting_performed": false,
+            "control_name": "training_majority",
+            "role": "training_only_baseline_control",
+            "selection": "Fixed before source preparation; no test/tune support or metrics select settings"
+          },
+          "strategy": "training_majority",
+          "target": "ec_direct_complete_major_profile",
+          "task": "label calls",
+          "truth_grade": "unresolved",
+          "unit": "gene"
+        }
+      },
+      "details": {
+        "gaps": [
+          "Direct EC individual assignment evidence grades/source release remain unresolved",
+          "ENZYME nomenclature is not independent measured gene activity",
+          "Native orthogroups do not establish complete homology/source independence",
+          "Orthology transfer remains a separate census; never combined into direct truth",
+          "Calibration and deployment applicability unknown",
+          "0 whole genes use unresolved native singleton groups"
+        ],
+        "source": {
+          "grade": "unresolved",
+          "name": "pf_enzyme_classification; direct ec_number",
+          "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+          "version": "unresolved"
+        }
+      }
+    },
+    "profile_class_cards": [
+      {
+        "class": "[\"1\",\"2\"]",
+        "source_genes": 1,
+        "training_genes": 0,
+        "test_truth_genes": 1,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"1\",\"3\",\"4\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"1\",\"3\"]",
+        "source_genes": 2,
+        "training_genes": 0,
+        "test_truth_genes": 1,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"1\",\"5\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"1\",\"7\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"1\"]",
+        "source_genes": 76,
+        "training_genes": 43,
+        "test_truth_genes": 13,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 13,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"2\",\"3\"]",
+        "source_genes": 6,
+        "training_genes": 4,
+        "test_truth_genes": 1,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"2\",\"4\"]",
+        "source_genes": 2,
+        "training_genes": 2,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"2\",\"6\"]",
+        "source_genes": 8,
+        "training_genes": 5,
+        "test_truth_genes": 2,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"2\"]",
+        "source_genes": 350,
+        "training_genes": 206,
+        "test_truth_genes": 43,
+        "predicted_genes": 152,
+        "true_positive": 43,
+        "false_positive": 109,
+        "false_negative": 0,
+        "precision": 0.28289473684210525,
+        "recall": 1.0,
+        "f1": 0.441025641025641,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"3\",\"4\"]",
+        "source_genes": 3,
+        "training_genes": 2,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"3\",\"5\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"3\",\"7\"]",
+        "source_genes": 2,
+        "training_genes": 0,
+        "test_truth_genes": 2,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"3\"]",
+        "source_genes": 342,
+        "training_genes": 188,
+        "test_truth_genes": 52,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 52,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"4\",\"5\"]",
+        "source_genes": 2,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"4\"]",
+        "source_genes": 51,
+        "training_genes": 31,
+        "test_truth_genes": 8,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"5\"]",
+        "source_genes": 63,
+        "training_genes": 36,
+        "test_truth_genes": 8,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"6\"]",
+        "source_genes": 89,
+        "training_genes": 56,
+        "test_truth_genes": 10,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 10,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"7\"]",
+        "source_genes": 49,
+        "training_genes": 22,
+        "test_truth_genes": 11,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 11,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      }
+    ],
+    "major_class_cards": [
+      {
+        "class": "1",
+        "eligible": 152,
+        "known_positive_genes": 15,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 15,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.09868421052631579,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "2",
+        "eligible": 152,
+        "known_positive_genes": 47,
+        "true_positive": 47,
+        "false_positive": 105,
+        "false_negative": 0,
+        "precision": 0.3092105263157895,
+        "recall": 1.0,
+        "f1": 0.4723618090452261,
+        "coverage": 1.0,
+        "reference_prevalence": 0.3092105263157895,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "3",
+        "eligible": 152,
+        "known_positive_genes": 56,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 56,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.3684210526315789,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "4",
+        "eligible": 152,
+        "known_positive_genes": 8,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 8,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.05263157894736842,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "5",
+        "eligible": 152,
+        "known_positive_genes": 8,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 8,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.05263157894736842,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "6",
+        "eligible": 152,
+        "known_positive_genes": 12,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 12,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.07894736842105263,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "7",
+        "eligible": 152,
+        "known_positive_genes": 13,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 13,
+        "precision": null,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.08552631578947369,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      }
+    ]
+  },
+  "training_prevalence": {
+    "card": {
+      "scope": {
+        "organism": "Pf",
+        "strategy": "training_prevalence",
+        "target": "ec_direct_complete_major_profile",
+        "task": "label calls",
+        "unit": "gene",
+        "settings": {
+          "role": "training_only_baseline_control",
+          "control_name": "training_prevalence",
+          "selection": "Fixed before source preparation; no test/tune support or metrics select settings",
+          "classifier_fitting_performed": false
+        },
+        "seed": 20261008,
+        "protocol": "220cc119a511806017878e5890088e4064c65a9a720258e59ea3dcdb6a085e6b",
+        "partition": "outer_test",
+        "benchmark_id": "FN-EC-PF-CONTROL-01",
+        "truth_grade": "unresolved",
+        "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only"
+      },
+      "counts": {
+        "eligible": 152,
+        "answered": 152,
+        "abstained": 0,
+        "correct": 35,
+        "wrong": 117
+      },
+      "metrics": {
+        "accuracy": 0.23026315789473684,
+        "coverage": 1.0,
+        "precision_of_calls": 0.23026315789473684,
+        "macro_precision": 0.06975044199646403,
+        "macro_recall": 0.07541368515205725,
+        "macro_f1": 0.07161514898357003,
+        "weighted_f1": 0.22337664336279295,
+        "kappa": 0.008198092688639785,
+        "mcc": 0.008273201100822414,
+        "macro_auroc": 0.5,
+        "macro_auprc": 0.08333333333333331
+      },
+      "extra": {
+        "control_name": "training_prevalence",
+        "role": "training_only_baseline_control",
+        "classifier_fitting_performed": false,
+        "baseline_parameters_estimated_from_training_only": true,
+        "test_support_used_for_selection": false,
+        "confusion": [
+          {
+            "truth": "[\"1\",\"2\"]",
+            "prediction": "[\"3\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\",\"3\"]",
+            "prediction": "[\"2\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"1\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"2\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"3\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"4\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"5\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"6\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"1\"]",
+            "prediction": "[\"7\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\",\"3\"]",
+            "prediction": "[\"7\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\",\"6\"]",
+            "prediction": "[\"5\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\",\"6\"]",
+            "prediction": "[\"6\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"1\"]",
+            "count": 8
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"2\",\"6\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"2\"]",
+            "count": 17
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"3\",\"4\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"3\"]",
+            "count": 10
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"4\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"6\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"2\"]",
+            "prediction": "[\"7\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"3\",\"7\"]",
+            "prediction": "[\"2\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"3\",\"7\"]",
+            "prediction": "[\"6\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"1\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"2\",\"6\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"2\"]",
+            "count": 21
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"3\",\"4\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"3\"]",
+            "count": 16
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"4\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"5\"]",
+            "count": 4
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"6\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"3\"]",
+            "prediction": "[\"7\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"4\"]",
+            "prediction": "[\"1\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"4\"]",
+            "prediction": "[\"2\"]",
+            "count": 2
+          },
+          {
+            "truth": "[\"4\"]",
+            "prediction": "[\"3\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"4\"]",
+            "prediction": "[\"4\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"4\"]",
+            "prediction": "[\"7\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"5\"]",
+            "prediction": "[\"1\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"5\"]",
+            "prediction": "[\"2\",\"3\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"5\"]",
+            "prediction": "[\"2\"]",
+            "count": 5
+          },
+          {
+            "truth": "[\"5\"]",
+            "prediction": "[\"3\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"6\"]",
+            "prediction": "[\"2\"]",
+            "count": 3
+          },
+          {
+            "truth": "[\"6\"]",
+            "prediction": "[\"3\"]",
+            "count": 4
+          },
+          {
+            "truth": "[\"6\"]",
+            "prediction": "[\"4\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"6\"]",
+            "prediction": "[\"5\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"6\"]",
+            "prediction": "[\"7\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"7\"]",
+            "prediction": "[\"1\"]",
+            "count": 1
+          },
+          {
+            "truth": "[\"7\"]",
+            "prediction": "[\"2\"]",
+            "count": 4
+          },
+          {
+            "truth": "[\"7\"]",
+            "prediction": "[\"3\"]",
+            "count": 5
+          },
+          {
+            "truth": "[\"7\"]",
+            "prediction": "[\"4\"]",
+            "count": 1
+          }
+        ],
+        "class_universe": [
+          "[\"1\",\"2\"]",
+          "[\"1\",\"3\",\"4\"]",
+          "[\"1\",\"3\"]",
+          "[\"1\",\"5\"]",
+          "[\"1\",\"7\"]",
+          "[\"1\"]",
+          "[\"2\",\"3\"]",
+          "[\"2\",\"4\"]",
+          "[\"2\",\"6\"]",
+          "[\"2\"]",
+          "[\"3\",\"4\"]",
+          "[\"3\",\"5\"]",
+          "[\"3\",\"7\"]",
+          "[\"3\"]",
+          "[\"4\",\"5\"]",
+          "[\"4\"]",
+          "[\"5\"]",
+          "[\"6\"]",
+          "[\"7\"]"
+        ],
+        "unsupported_test_genes": 4,
+        "biological_accuracy": null,
+        "biological_admission": false,
+        "unknown_states": {
+          "unannotated": 4500,
+          "unresolved": 170
+        },
+        "class_score_semantics": "Training prior/majority one-hot control; not calibrated gene confidence"
+      }
+    },
+    "view_snapshot": {
+      "card": {
+        "counts": {
+          "abstained": 0,
+          "answered": 152,
+          "correct": 35,
+          "eligible": 152,
+          "wrong": 117
+        },
+        "extra": {
+          "baseline_parameters_estimated_from_training_only": true,
+          "biological_accuracy": null,
+          "biological_admission": false,
+          "class_score_semantics": "Training prior/majority one-hot control; not calibrated gene confidence",
+          "class_universe": [
+            "[\"1\",\"2\"]",
+            "[\"1\",\"3\",\"4\"]",
+            "[\"1\",\"3\"]",
+            "[\"1\",\"5\"]",
+            "[\"1\",\"7\"]",
+            "[\"1\"]",
+            "[\"2\",\"3\"]",
+            "[\"2\",\"4\"]",
+            "[\"2\",\"6\"]",
+            "[\"2\"]",
+            "[\"3\",\"4\"]",
+            "[\"3\",\"5\"]",
+            "[\"3\",\"7\"]",
+            "[\"3\"]",
+            "[\"4\",\"5\"]",
+            "[\"4\"]",
+            "[\"5\"]",
+            "[\"6\"]",
+            "[\"7\"]"
+          ],
+          "classifier_fitting_performed": false,
+          "confusion": [
+            {
+              "count": 1,
+              "prediction": "[\"3\"]",
+              "truth": "[\"1\",\"2\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"2\"]",
+              "truth": "[\"1\",\"3\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"1\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"2\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"3\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"4\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"5\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"6\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"7\"]",
+              "truth": "[\"1\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"7\"]",
+              "truth": "[\"2\",\"3\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"5\"]",
+              "truth": "[\"2\",\"6\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"6\"]",
+              "truth": "[\"2\",\"6\"]"
+            },
+            {
+              "count": 8,
+              "prediction": "[\"1\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"2\",\"6\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 17,
+              "prediction": "[\"2\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"3\",\"4\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 10,
+              "prediction": "[\"3\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"4\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"6\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"7\"]",
+              "truth": "[\"2\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"2\"]",
+              "truth": "[\"3\",\"7\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"6\"]",
+              "truth": "[\"3\",\"7\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"1\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"2\",\"6\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 21,
+              "prediction": "[\"2\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"3\",\"4\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 16,
+              "prediction": "[\"3\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"4\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 4,
+              "prediction": "[\"5\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"6\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"7\"]",
+              "truth": "[\"3\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"1\"]",
+              "truth": "[\"4\"]"
+            },
+            {
+              "count": 2,
+              "prediction": "[\"2\"]",
+              "truth": "[\"4\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"3\"]",
+              "truth": "[\"4\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"4\"]",
+              "truth": "[\"4\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"7\"]",
+              "truth": "[\"4\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"1\"]",
+              "truth": "[\"5\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"2\",\"3\"]",
+              "truth": "[\"5\"]"
+            },
+            {
+              "count": 5,
+              "prediction": "[\"2\"]",
+              "truth": "[\"5\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"3\"]",
+              "truth": "[\"5\"]"
+            },
+            {
+              "count": 3,
+              "prediction": "[\"2\"]",
+              "truth": "[\"6\"]"
+            },
+            {
+              "count": 4,
+              "prediction": "[\"3\"]",
+              "truth": "[\"6\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"4\"]",
+              "truth": "[\"6\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"5\"]",
+              "truth": "[\"6\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"7\"]",
+              "truth": "[\"6\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"1\"]",
+              "truth": "[\"7\"]"
+            },
+            {
+              "count": 4,
+              "prediction": "[\"2\"]",
+              "truth": "[\"7\"]"
+            },
+            {
+              "count": 5,
+              "prediction": "[\"3\"]",
+              "truth": "[\"7\"]"
+            },
+            {
+              "count": 1,
+              "prediction": "[\"4\"]",
+              "truth": "[\"7\"]"
+            }
+          ],
+          "control_name": "training_prevalence",
+          "role": "training_only_baseline_control",
+          "test_support_used_for_selection": false,
+          "unknown_states": {
+            "unannotated": 4500,
+            "unresolved": 170
+          },
+          "unsupported_test_genes": 4
+        },
+        "metrics": {
+          "accuracy": 0.23026315789473684,
+          "coverage": 1.0,
+          "kappa": 0.008198092688639785,
+          "macro_auprc": 0.08333333333333331,
+          "macro_auroc": 0.5,
+          "macro_f1": 0.07161514898357003,
+          "macro_precision": 0.06975044199646403,
+          "macro_recall": 0.07541368515205725,
+          "mcc": 0.008273201100822414,
+          "precision_of_calls": 0.23026315789473684,
+          "weighted_f1": 0.22337664336279295
+        },
+        "scope": {
+          "benchmark_id": "FN-EC-PF-CONTROL-01",
+          "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+          "organism": "Pf",
+          "partition": "outer_test",
+          "protocol": "220cc119a511806017878e5890088e4064c65a9a720258e59ea3dcdb6a085e6b",
+          "seed": 20261008,
+          "settings": {
+            "classifier_fitting_performed": false,
+            "control_name": "training_prevalence",
+            "role": "training_only_baseline_control",
+            "selection": "Fixed before source preparation; no test/tune support or metrics select settings"
+          },
+          "strategy": "training_prevalence",
+          "target": "ec_direct_complete_major_profile",
+          "task": "label calls",
+          "truth_grade": "unresolved",
+          "unit": "gene"
+        }
+      },
+      "details": {
+        "gaps": [
+          "Direct EC individual assignment evidence grades/source release remain unresolved",
+          "ENZYME nomenclature is not independent measured gene activity",
+          "Native orthogroups do not establish complete homology/source independence",
+          "Orthology transfer remains a separate census; never combined into direct truth",
+          "Calibration and deployment applicability unknown",
+          "0 whole genes use unresolved native singleton groups"
+        ],
+        "source": {
+          "grade": "unresolved",
+          "name": "pf_enzyme_classification; direct ec_number",
+          "negative_semantics": "unannotated_is_unknown; recovery of complete recorded profiles only",
+          "version": "unresolved"
+        }
+      }
+    },
+    "profile_class_cards": [
+      {
+        "class": "[\"1\",\"2\"]",
+        "source_genes": 1,
+        "training_genes": 0,
+        "test_truth_genes": 1,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"1\",\"3\",\"4\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"1\",\"3\"]",
+        "source_genes": 2,
+        "training_genes": 0,
+        "test_truth_genes": 1,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"1\",\"5\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"1\",\"7\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"1\"]",
+        "source_genes": 76,
+        "training_genes": 43,
+        "test_truth_genes": 13,
+        "predicted_genes": 15,
+        "true_positive": 1,
+        "false_positive": 14,
+        "false_negative": 12,
+        "precision": 0.06666666666666667,
+        "recall": 0.07692307692307693,
+        "f1": 0.07142857142857144,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"2\",\"3\"]",
+        "source_genes": 6,
+        "training_genes": 4,
+        "test_truth_genes": 1,
+        "predicted_genes": 1,
+        "true_positive": 0,
+        "false_positive": 1,
+        "false_negative": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"2\",\"4\"]",
+        "source_genes": 2,
+        "training_genes": 2,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"2\",\"6\"]",
+        "source_genes": 8,
+        "training_genes": 5,
+        "test_truth_genes": 2,
+        "predicted_genes": 3,
+        "true_positive": 0,
+        "false_positive": 3,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"2\"]",
+        "source_genes": 350,
+        "training_genes": 206,
+        "test_truth_genes": 43,
+        "predicted_genes": 57,
+        "true_positive": 17,
+        "false_positive": 40,
+        "false_negative": 26,
+        "precision": 0.2982456140350877,
+        "recall": 0.3953488372093023,
+        "f1": 0.33999999999999997,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"3\",\"4\"]",
+        "source_genes": 3,
+        "training_genes": 2,
+        "test_truth_genes": 0,
+        "predicted_genes": 2,
+        "true_positive": 0,
+        "false_positive": 2,
+        "false_negative": 0,
+        "precision": 0.0,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"3\",\"5\"]",
+        "source_genes": 1,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"3\",\"7\"]",
+        "source_genes": 2,
+        "training_genes": 0,
+        "test_truth_genes": 2,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 2,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"3\"]",
+        "source_genes": 342,
+        "training_genes": 188,
+        "test_truth_genes": 52,
+        "predicted_genes": 43,
+        "true_positive": 16,
+        "false_positive": 27,
+        "false_negative": 36,
+        "precision": 0.37209302325581395,
+        "recall": 0.3076923076923077,
+        "f1": 0.3368421052631579,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"4\",\"5\"]",
+        "source_genes": 2,
+        "training_genes": 1,
+        "test_truth_genes": 0,
+        "predicted_genes": 0,
+        "true_positive": 0,
+        "false_positive": 0,
+        "false_negative": 0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "biological_accuracy": null,
+        "status": "unavailable_no_test_truth"
+      },
+      {
+        "class": "[\"4\"]",
+        "source_genes": 51,
+        "training_genes": 31,
+        "test_truth_genes": 8,
+        "predicted_genes": 10,
+        "true_positive": 1,
+        "false_positive": 9,
+        "false_negative": 7,
+        "precision": 0.1,
+        "recall": 0.125,
+        "f1": 0.11111111111111112,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"5\"]",
+        "source_genes": 63,
+        "training_genes": 36,
+        "test_truth_genes": 8,
+        "predicted_genes": 7,
+        "true_positive": 0,
+        "false_positive": 7,
+        "false_negative": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"6\"]",
+        "source_genes": 89,
+        "training_genes": 56,
+        "test_truth_genes": 10,
+        "predicted_genes": 6,
+        "true_positive": 0,
+        "false_positive": 6,
+        "false_negative": 10,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      },
+      {
+        "class": "[\"7\"]",
+        "source_genes": 49,
+        "training_genes": 22,
+        "test_truth_genes": 11,
+        "predicted_genes": 8,
+        "true_positive": 0,
+        "false_positive": 8,
+        "false_negative": 11,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "biological_accuracy": null,
+        "status": "reference_profile_control"
+      }
+    ],
+    "major_class_cards": [
+      {
+        "class": "1",
+        "eligible": 152,
+        "known_positive_genes": 15,
+        "true_positive": 1,
+        "false_positive": 14,
+        "false_negative": 14,
+        "precision": 0.06666666666666667,
+        "recall": 0.06666666666666667,
+        "f1": 0.06666666666666667,
+        "coverage": 1.0,
+        "reference_prevalence": 0.09868421052631579,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "2",
+        "eligible": 152,
+        "known_positive_genes": 47,
+        "true_positive": 18,
+        "false_positive": 43,
+        "false_negative": 29,
+        "precision": 0.29508196721311475,
+        "recall": 0.3829787234042553,
+        "f1": 0.3333333333333333,
+        "coverage": 1.0,
+        "reference_prevalence": 0.3092105263157895,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "3",
+        "eligible": 152,
+        "known_positive_genes": 56,
+        "true_positive": 17,
+        "false_positive": 29,
+        "false_negative": 39,
+        "precision": 0.3695652173913043,
+        "recall": 0.30357142857142855,
+        "f1": 0.3333333333333333,
+        "coverage": 1.0,
+        "reference_prevalence": 0.3684210526315789,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "4",
+        "eligible": 152,
+        "known_positive_genes": 8,
+        "true_positive": 1,
+        "false_positive": 11,
+        "false_negative": 7,
+        "precision": 0.08333333333333333,
+        "recall": 0.125,
+        "f1": 0.1,
+        "coverage": 1.0,
+        "reference_prevalence": 0.05263157894736842,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "5",
+        "eligible": 152,
+        "known_positive_genes": 8,
+        "true_positive": 0,
+        "false_positive": 7,
+        "false_negative": 8,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.05263157894736842,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "6",
+        "eligible": 152,
+        "known_positive_genes": 12,
+        "true_positive": 1,
+        "false_positive": 8,
+        "false_negative": 11,
+        "precision": 0.1111111111111111,
+        "recall": 0.08333333333333333,
+        "f1": 0.09523809523809523,
+        "coverage": 1.0,
+        "reference_prevalence": 0.07894736842105263,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      },
+      {
+        "class": "7",
+        "eligible": 152,
+        "known_positive_genes": 13,
+        "true_positive": 0,
+        "false_positive": 8,
+        "false_negative": 13,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "coverage": 1.0,
+        "reference_prevalence": 0.08552631578947369,
+        "interpretation": "Recovery of recorded complete profiles; not independent biological activity accuracy",
+        "biological_precision": null,
+        "biological_recall": null,
+        "calibrated_confidence": null
+      }
+    ]
+  }
+}
