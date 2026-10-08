@@ -739,10 +739,25 @@ Final immutable V4 Tg/Pf packets: 418+459 checks, 18 input hashes/20 receipts ea
 494 relevant checks pass; version/whitespace pass. Preserve first categorical
 failure, successful V2 and combined V3 OOM diagnostics. No biological truth,
 source promotion, strategy fitting, deployment or host installation added.
-Next smallest partition: 68.02 training-only complete-Pfam baseline controls on
+Latest small partition: 68.02 training-only complete-Pfam baseline controls on
 verified prepared-target V3. The exact control partition is accepted: 16 focused checks, 35 input hashes and
 22 receipts verify; the executed 400 MiB-capped notebook finishes in 6.676 s.
 All 635 test genes/333 unsupported profiles remain; majority/prevalence recover
 19/2 profiles. This is annotation-control arithmetic, not biological accuracy.
 68.02 stays 30%; classifier fitting/source admission/deployment remain open.
 Full goal remains active; nightly CI/release gates and restricted partials remain.
+
+Latest documentary gate: human V5 terms/reference review is accepted, with 25
+foundation/source receipts verified twice, five authoritative captures, five
+GTEx V10→GENCODE39/GRCh38 checks and 19 output receipts. Conditional GTEx public
+redistribution and UniProt CC BY4 documented; future pinned v10 must show older
+version/source/date attribution. GENCODE39 is GRCh38.p13. V11 linkage, pack notices,
+reference-gene mapping/graph/opening, publication and biological admission remain
+open. Human stays30%, mouse0%,65.04 stays4%; no source/foundation promoted.
+Preserve V1–V4 diagnostics/captures; actual V5 review111.2MiB/0.44s under400MiB.
+Functional attention-alias closure64 checks pushed37f6770. Complete-Pfam native
+kNN pilot is frozen at k15/share0.3 with train-only source-closed numeric inputs.
+Initial categorical parity failure is NaN/None representation; only missingness
+normalization changed,13 synthetic checks pass. Root verifies actual full matrix
+and native outputs under800MiB before canonical replay. Two signal9 worker
+partials remain diagnostic, without asserting an unproven OOM cause. No new tick.

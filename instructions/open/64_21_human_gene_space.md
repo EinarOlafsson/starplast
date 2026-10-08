@@ -1,6 +1,6 @@
 # 64.21 · Build the human gene information space
 
-Status: OPEN — 30%, 2026-10-08. Canonical source-gene foundation verified; pack/admission gates remain open.
+Status: OPEN — 30%, 2026-10-08. Canonical source-gene foundation and documentary v10 terms/reference verified; pack/admission gates remain open.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -81,3 +81,40 @@ two wrapper provenance-role failures were recorded and resolved before output
 writes. All installed host/parasite input hashes remain unchanged. Build/opening,
 graph-order, distributable-pack licensing and reference/biological admission
 still require their gates; no additional complete action earns a tick.
+
+## Frozen documentary partition: reference and public redistribution terms
+
+2026-10-08, before audit jobs. Verify only the existing human foundation and its
+pinned GTEx/UniProt source hashes; capture authoritative GTEx public-data terms
+(actual rendered/frontend text, not a JavaScript shell), UniProt license JSON,
+and GENCODE 39/47 release-to-assembly statements. Keep URL, retrieval date, bytes,
+SHA-256 and bounded-request outcomes in a new executed
+`results/human_reference_terms_2026_10_08/` packet. Requests are limited to 8 MiB
+per response and the worker to 400 MiB. Unreadable pages remain explicit gaps
+while independent pages continue. This documentary review neither changes the
+foundation, admits a benchmark, promotes v11 nor declares a distributable pack
+or genome-wide completeness; downstream licensing/reference/opening gates remain
+separate controlled work.
+
+Documentary partition accepted in canonical
+`results/human_reference_terms_2026_10_08_v5/`: 25 foundation/source receipts
+reverified twice, five authoritative captures and five GTEx V10→GENCODE39 checks.
+Official frontend license component/route text confirms conditional public-data
+redistribution: source/date acknowledgment, no implied endorsement, current data
+or a visible stale-version notice. Future pinned v10 packs must implement those
+conditions. UniProt copyrightable database parts use CC BY 4.0 with attribution
+and a separate other-rights disclaimer. GTEx's own release table/query setting
+links V10 to GENCODE39/GRCh38; the official GENCODE39 page identifies GRCh38.p13.
+GENCODE47 is GRCh38.p14; the captured frontend does not establish V11's reference.
+Sources: [GTEx terms](https://gtexportal.org/home/license),
+[UniProt license JSON](https://rest.uniprot.org/help/license),
+[GENCODE39](https://www.gencodegenes.org/human/release_39.html).
+
+19 final output receipts verify. Executed final review took 0.44 s, 111.2 MiB
+peak under 400 MiB, with zero new requests (verified captures reused). Earlier
+wrapper-import failure, request-ceiling and text-review gaps remain preserved;
+V2 inherited-launcher high-water measurement is explicitly superseded by actual
+executed-process VmHWM. No original foundation or admission fields were mutated.
+Pack notices/attribution, reference-gene coverage/mapping, graph/order/opening,
+release-specific publication lineage and biological benchmarks remain open.
+64.21 stays 30%; this documentary gate does not admit a distributable host pack.

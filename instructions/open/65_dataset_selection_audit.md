@@ -122,3 +122,14 @@ deeper literature/admission/promotion remains open (4%).
 **GT-HOST-TX-02** depends on 66.04/64.21/64.22: original installed mapping lineage,
 PAR_Y and explicit CAGE detection filter must be resolved, with raw gene evidence
 intact, before corrected expression projections or v11 admission.
+
+## Host documentary eligibility partition, 2026-10-08
+
+The canonical `results/human_reference_terms_2026_10_08_v5/` independently pins
+conditional GTEx public-data reuse terms, UniProt CC BY4/disclaimers and actual
+GTEx V10→GENCODE39/GRCh38 reference association; all25 foundation/source receipts
+remain unchanged. Future older-version packs require visible version notices and
+source/date attribution. This is documentary eligibility evidence, not a new
+citation-rate comparison, a source promotion, V11 association or an installed
+human gene space. Release-to-publication lineage, measured version/quantity
+mapping and best-source selection remain unresolved; 65.04 stays4%.

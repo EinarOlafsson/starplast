@@ -1,0 +1,44 @@
+{
+  "findings": {
+    "uniprot": {
+      "status": "documented",
+      "license": "CC BY 4.0 for copyrightable database parts",
+      "attribution_required": true,
+      "other_rights_disclaimer": true,
+      "last_modified": "2024-12-18",
+      "source_url": "https://rest.uniprot.org/help/license",
+      "text_path": "uniprot_license_text.md"
+    },
+    "gencode39": {
+      "status": "documented",
+      "release": 39,
+      "assembly": "GRCh38.p13",
+      "statement": "Release 39 (GRCh38.p13)",
+      "source_url": "https://www.gencodegenes.org/human/release_39.html",
+      "interpretation": "GENCODE release identity only; source-specific GTEx linkage still requires its release metadata"
+    },
+    "gencode47": {
+      "status": "documented",
+      "release": 47,
+      "assembly": "GRCh38.p14",
+      "statement": "Release 47 (GRCh38.p14)",
+      "source_url": "https://www.gencodegenes.org/human/release_47.html",
+      "interpretation": "GENCODE release identity only; source-specific GTEx linkage still requires its release metadata"
+    }
+  },
+  "gaps": [
+    "GTEx license component text not yet recovered; JS shell does not establish redistribution permission"
+  ],
+  "verified_foundation_inputs_outputs": 25,
+  "foundation_and_sources_unchanged": true,
+  "pack_promoted": false,
+  "biological_admission": false,
+  "v11_promoted": false,
+  "remaining": [
+    "GTEx release-to-publication lineage",
+    "Source-specific reference annotation/assembly linkage",
+    "Pack attribution/stale-version notices and license implementation",
+    "Mapping/reference/graph/opening and benchmark gates"
+  ],
+  "interpretation": "Documentary evidence only; original foundation admission and redistribution fields are unchanged"
+}
