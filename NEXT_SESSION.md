@@ -381,4 +381,14 @@ implementation order and bounded acceptance conditions now come from instruction
 
 64.08 complete: `starplast/artifacts.py`, `results/artifact_contracts_2026_10_08_v2/`; six task types and five storage roles, ten exact synthetic round trips. Frozen split guards reject misassigned fit/test entities and known benchmark genes as unknown deployment. No estimator fitted. Next 64.09 shared row-level aggregation/reconciliation.
 
-64.09 complete: `starplast/record_scorecards.py`, `results/record_reconciliation_2026_10_08_v3/`; all legacy outcomes match standard metrics on identical cohorts. Original truth/exclusion/nested-fit lineage remains unresolved, not retroactively admitted. Settings/seeds/modes/named sets remain separate; no independent-sample inflation or component/per-gene probability claims. Next 64.10 categorical row adapters, with real truth gaps and frozen fitting explicit.
+64.09 complete: `starplast/record_scorecards.py`, `results/record_reconciliation_2026_10_08_v3/`; all legacy outcomes match standard metrics on identical cohorts. Original truth/exclusion/nested-fit lineage remains unresolved, not retroactively admitted. Settings/seeds/modes/named sets remain separate; no independent-sample inflation or component/per-gene probability claims.
+
+64.10 is 10%: first `starplast/label_records.py` feature-kNN adapter, with native
+training rank parity and frozen train distributions for held-out values. The
+prediction-grade compartment pilot retains all 560 test genes and full native
+class scores; `results/label_knn_pilot_2026_10_08_v5/` is the rank-transform run.
+Earlier z-score/serialization diagnostics retain original code. Scorecard
+identities now preserve one-ULP differences. Continue remaining categorical
+adapters/full outer coverage and independent truth acquisition; host-symbol
+correction remains 66.04. No runtime strategy, installed values or calibration
+has changed.

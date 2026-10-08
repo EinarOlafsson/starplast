@@ -49,3 +49,32 @@ cards. Task-specific frozen row adapters and biological evidence follow under
 64.10–64.16.
 
 Each card also pins its full outcome rows and evaluation parameters. Class-score matrices retain their hash, columns and row count; changed scores cannot reuse a prior metric identity.
+
+## First frozen categorical adapter
+
+`starplast.label_records.feature_knn` takes an ordered feature population,
+the complete training-label cohort, a frozen split and training-derived source
+exclusions. It calls the existing native distance-weighted vote and retains
+every outer-test row and class-score value, including scores for abstained calls.
+It never receives held-out labels or labels support as calibrated confidence.
+
+Training features reproduce `Context.matrix`'s average-rank percentile transform,
+centered at 0.5, with missing values filled by zero. Evaluation values use the
+frozen training distribution: observed ties have their average rank; unseen
+values use the right empirical CDF. All-missing training columns are withheld.
+The original whole-context ranks are inappropriate for the declared inductive
+protocol because held-out values would change training ranks. The stored model
+state includes ordered training distributions and vectors so this distinction
+can be inspected and replayed.
+
+`results/label_knn_pilot_2026_10_08_v5/` contains the executed first pilot and
+verification on stored compartment calls. The target is prediction-grade;
+its recovery measures agreement with those stored predictions, not independent
+biological accuracy. Independent biological truth, other label-capable adapters,
+full outer-fold coverage and confidence calibration remain open. Earlier pilot
+directories retain their original code and explicitly documented serialization
+and preprocessing diagnostics.
+
+Artifact JSON and metric identities preserve native floating-point values;
+the default rounded pandas JSON representation is not used. A one-ULP score
+change invalidates the card identity even if rounded display metrics coincide.

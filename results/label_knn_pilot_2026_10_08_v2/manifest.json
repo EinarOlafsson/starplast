@@ -1,0 +1,81 @@
+{
+  "created_utc": "2026-10-08T05:14:49.979069+00:00",
+  "summary": {
+    "organism": "Tg",
+    "target": "compartment",
+    "truth_grade": "prediction",
+    "benchmark_admitted": false,
+    "eligible_candidate_genes": 3827,
+    "train": 2126,
+    "tune": 572,
+    "calibration": 569,
+    "test": 560,
+    "retained_test_rows": 560,
+    "selected_training_columns": 366,
+    "model_columns": 366,
+    "class_score_columns": 26,
+    "unsupported_test_classes": {},
+    "counts": {
+      "eligible": 560,
+      "answered": 431,
+      "abstained": 129,
+      "correct": 176,
+      "wrong": 255,
+      "unique_biological_entities": 560
+    },
+    "metrics": {
+      "accuracy": 0.3142857142857143,
+      "coverage": 0.7696428571428572,
+      "precision_of_calls": 0.40835266821345706,
+      "macro_precision": 0.2709092979295284,
+      "macro_recall": 0.19980521220741773,
+      "macro_f1": 0.1869175944962466,
+      "weighted_f1": 0.3156197095443821,
+      "kappa": 0.2270559183922878,
+      "mcc": 0.23609085233278188,
+      "macro_auroc": 0.7837714239034023,
+      "macro_auprc": 0.35285615597470626
+    },
+    "majority_baseline_metrics": {
+      "accuracy": 0.23035714285714284,
+      "coverage": 1.0,
+      "precision_of_calls": 0.23035714285714284,
+      "macro_precision": 0.009598214285714285,
+      "macro_recall": 0.041666666666666664,
+      "macro_f1": 0.015602322206095788,
+      "weighted_f1": 0.08625855276798672,
+      "kappa": 0.0,
+      "mcc": 0.0,
+      "macro_auroc": null,
+      "macro_auprc": null
+    },
+    "artifact_identity": "62cd18402d06e3b46890115d2badb19288d73e56968e953c6e9ad120505e14ae",
+    "interpretation": "surrogate stored-prediction recovery; not independent biological accuracy",
+    "native_runtime_changes": "none"
+  },
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/freeze_label_knn_pilot.py": "d5523e6f9d3e8c6c7748a129a48ff728f0da67be96d5e3cfdd2a8c57bcc48aeb",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/ground_truth_registry_2026_10_07_v2/registry.json": "43a58be0040b63c3062358d2665cc18340818de01d508741592592470084f5e2",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/ground_truth_registry_2026_10_07_v2/Tg_truth.parquet": "fd75e17a7b87dbf794cb653aee886e9e1bc6f21934417164c0953983a97b2ed6",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/ground_truth_registry_2026_10_07_v2/Tg_universe.json": "fc8eba37c013b73e3291d5a2690e18135ef2435419c5eb2f1e26a0acdde07ed7",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/nodes.parquet": "1a2fee1a4b97be8442287dfe982c991c119ece6f9f318968956f926ebe87c69c",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/label_records.py": "ea3797db3761bc09b23036f4d60ac17fe2430b2b465eb973befb0aa84a2e7d8a",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/artifacts.py": "5da45c94dbfde288acb545e1e6d593087cadd3ed74269839da12f08890004ea4",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/record_scorecards.py": "c9e6828fef5c77cec0610879214830650d079fe24177cb85300be22a2144579d",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/splits.py": "6898360c7f5acfa3aa97e4004d20db19ee7a4bea224a85c2a537c2e729b7d23f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/strategies.py": "b9d2f461991d83479e9d6e1f91c6591f8bbb68438affddfe8116b07aa04cb236",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/baselines.py": "c135471fe8fc96cd443cdd90bf8058733502728588704e31a0c4099306be5307",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/capabilities.py": "6659d9c0cf4eab8d1b932d06a50c0c0818b6903efb279c04835464d61934d723"
+  },
+  "outputs": {
+    "summary.json": "c990faa79444cb5ed5811dea1eb9b197237fbe80f6d03fb25cccfbabd165c7e9",
+    "split.json": "8826317d7b8cc4056ef367486b1a2735150a9990a735a4bc11a86e5dc786ff51",
+    "held_out/class_scores.json": "c741f8286d480dc99eddb5f3f612ffb3b2240d14c50c667109982c99dcf3a2ad",
+    "held_out/model_state.json": "dfbfc564ce54911c5070370357282b6300a46b134d947c45e9ea126dad5960c2",
+    "held_out/class_cards.json": "45fb55b5b312411513ab01c57a6624a1a712d6421d5452aea14648d7067eb243",
+    "held_out/rows.json": "7db949a873948632090f889cac0826862a9a5320f2cafe1574fe6b65a57bee16",
+    "held_out/card.json": "7ae4b251d53c8e8cfb15fbe8d718e5744d412902f5a69cbd46e70c15e7fabd77",
+    "held_out/manifest.json": "065c10ab35ed822bdf94a68cfcbb1bc25cc027e4a15ad79d2568f427b0dca8f9",
+    "held_out/baseline_cards.json": "22432f2763c12efece4dd7b8a2a522faeac73553799db49ef17e12318beee485"
+  }
+}

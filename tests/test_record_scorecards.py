@@ -141,3 +141,11 @@ def test_record_and_evaluation_parameter_identities_change_with_metric_inputs():
     scored = R.aggregate(rows, scope(), parameters={'class_scores': scores})
     assert scored['parameter_identity'] != first['parameter_identity']
     assert scored['evaluation_parameters']['class_scores']['columns'] == ['A', 'B']
+
+
+def test_score_identity_preserves_changes_below_pandas_default_json_precision():
+    scores = pd.DataFrame({'A': [.8, .7, .4, .1], 'B': [.2, .3, .6, .9]})
+    first = R.aggregate(labels(), scope(), parameters={'class_scores': scores})
+    scores.iloc[0, 0] = np.nextafter(scores.iloc[0, 0], 1.)
+    changed = R.aggregate(labels(), scope(), parameters={'class_scores': scores})
+    assert first['parameter_identity'] != changed['parameter_identity']

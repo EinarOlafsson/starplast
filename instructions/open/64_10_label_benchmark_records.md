@@ -1,6 +1,6 @@
 # 64.10 · Complete the categorical-label benchmark records
 
-Status: OPEN — 0%, 2026-10-07. Existing foundations are reused; completion of this acceptance contract is not yet verified.
+Status: OPEN — 10%, 2026-10-08. First frozen native-vote adapter implemented; remaining label-capable adapters and full coverage are pending.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -32,4 +32,28 @@ follow-up and its dependency rather than silently widening the item.
 
 ## Completion evidence
 
-Pending: commit, checks, artifact/benchmark identities, measured population, limitations and dated result.
+First bounded change: `starplast/label_records.py` implements feature kNN with
+training-only native rank scaling, frozen source exclusions, retained class
+scores and explicit abstention. Training ranks match native `Context.matrix`,
+including ties/missing values; query ranks use frozen training distributions.
+The whole-context rank transform is deliberately withheld under inductive
+evaluation. No installed data or runtime strategy is changed.
+
+Pilot: `results/label_knn_pilot_2026_10_08_v5/`, candidate stored Toxoplasma
+compartment calls, seed 17, 3,827 eligible genes, train/tune/calibration/test
+2,126/572/569/560. Stored calls have prediction grade; recovery is not biological
+accuracy. Every test gene and native class-score value is retained. Earlier
+diagnostics and their original code remain available. Full-precision score
+hashing fixes an independently discovered rounded-JSON identity weakness.
+
+Verification: all 560 calls and 26 native score columns replay exactly; training
+vectors exactly match native `Context.matrix`. 196 correct calls, 236 wrong,
+128 abstentions; all-hidden recovery 0.35, called-only recovery 0.453704,
+majority baseline 0.230357. Artifact identity
+`4924dfa57c5fc39a6bd3f92718e031d60d23163b34da869ef102a5c1ec03e350`.
+**1,161 checks passed**, one optional pdoc documentation module skipped locally;
+445 focused checks also passed before the broader strategy/track-record suite.
+This coherent change is committed/pushed to nightly as the first adapter.
+
+Pending: remaining adapters, full outer coverage, biological source admission
+and calibration. This item does not earn a completion tick from one pilot.

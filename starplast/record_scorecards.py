@@ -62,6 +62,21 @@ def _finite(metrics):
     return {k: float(v) if v is not None and np.isfinite(v) else None for k, v in metrics.items()}
 
 
+def _frame_identity(frame):
+    # Pandas JSON defaults to ten decimal places: hashing that representation
+    # would miss changed native scores. Python's float JSON preserves their
+    # round-trip representation; missing values remain explicit nulls.
+    frame = pd.DataFrame(frame)
+    payload = {'columns': frame.columns.tolist(), 'index': frame.index.tolist(),
+               'data': frame.astype(object).where(frame.notna(), None).to_numpy().tolist()}
+    return hashlib.sha256(json.dumps(payload, allow_nan=False,
+        default=lambda value: value.item() if isinstance(value, np.generic) else _unsupported_scalar(value)).encode()).hexdigest()
+
+
+def _unsupported_scalar(value):
+    raise ValueError('Outcome metadata needs an explicit finite JSON scalar: ' + type(value).__name__)
+
+
 def _required(rows, columns):
     if set(columns) - set(rows.columns):
         raise ValueError('Missing outcome columns: ' + ', '.join(sorted(set(columns) - set(rows.columns))))
@@ -133,7 +148,7 @@ def aggregate(rows, scope, *, parameters=None):
     recorded_parameters = dict(parameters)
     if 'class_scores' in recorded_parameters:
         frame = pd.DataFrame(recorded_parameters['class_scores'])
-        recorded_parameters['class_scores'] = {'sha256': hashlib.sha256(frame.to_json(orient='split').encode()).hexdigest(),
+        recorded_parameters['class_scores'] = {'sha256': _frame_identity(frame),
                                                'columns': list(frame.columns), 'rows': len(frame)}
     parameter_identity = hashlib.sha256(json.dumps(recorded_parameters, sort_keys=True, allow_nan=False).encode()).hexdigest()
     n = len(rows)
@@ -229,7 +244,7 @@ def aggregate(rows, scope, *, parameters=None):
     clean = _finite(metrics)
     return {'scope': asdict(scope), 'scope_identity': scope.identity,
             'evaluation_parameters': recorded_parameters, 'parameter_identity': parameter_identity,
-            'records_identity': hashlib.sha256(rows.to_json(orient='split', index=False).encode()).hexdigest(),
+            'records_identity': _frame_identity(rows),
             'cohort_identity': hashlib.sha256(json.dumps(rows.entity.tolist()).encode()).hexdigest(),
             'counts': counts, 'metrics': clean, 'metric_status': {k: 'available' if v is not None else 'unavailable_for_this_cohort_or_truth' for k, v in clean.items()},
             'small_sample': n < 5, 'extra': extra}

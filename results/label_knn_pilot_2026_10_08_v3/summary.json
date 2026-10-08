@@ -1,0 +1,53 @@
+{
+  "organism": "Tg",
+  "target": "compartment",
+  "truth_grade": "prediction",
+  "benchmark_admitted": false,
+  "eligible_candidate_genes": 3827,
+  "train": 2126,
+  "tune": 572,
+  "calibration": 569,
+  "test": 560,
+  "retained_test_rows": 560,
+  "selected_training_columns": 366,
+  "model_columns": 366,
+  "class_score_columns": 26,
+  "unsupported_test_classes": {},
+  "counts": {
+    "eligible": 560,
+    "answered": 431,
+    "abstained": 129,
+    "correct": 176,
+    "wrong": 255,
+    "unique_biological_entities": 560
+  },
+  "metrics": {
+    "accuracy": 0.3142857142857143,
+    "coverage": 0.7696428571428572,
+    "precision_of_calls": 0.40835266821345706,
+    "macro_precision": 0.2709092979295284,
+    "macro_recall": 0.19980521220741773,
+    "macro_f1": 0.1869175944962466,
+    "weighted_f1": 0.3156197095443821,
+    "kappa": 0.2270559183922878,
+    "mcc": 0.23609085233278188,
+    "macro_auroc": 0.7837714239034023,
+    "macro_auprc": 0.35285615597470626
+  },
+  "majority_baseline_metrics": {
+    "accuracy": 0.23035714285714284,
+    "coverage": 1.0,
+    "precision_of_calls": 0.23035714285714284,
+    "macro_precision": 0.009598214285714285,
+    "macro_recall": 0.041666666666666664,
+    "macro_f1": 0.015602322206095788,
+    "weighted_f1": 0.08625855276798672,
+    "kappa": 0.0,
+    "mcc": 0.0,
+    "macro_auroc": null,
+    "macro_auprc": null
+  },
+  "artifact_identity": "4ed9121b4c6ad1e089e4f8fa4d9c1c372b8d6087fa561433a33f8384f0822d68",
+  "interpretation": "surrogate stored-prediction recovery; not independent biological accuracy",
+  "native_runtime_changes": "none"
+}
