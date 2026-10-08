@@ -1,0 +1,115 @@
+Running as unit: starplast-paired-desktop-v3-20261008.service
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+This plugin does not support propagateSizeHints()
+{
+  "benchmarks": [
+    {
+      "namespace": "ec_major",
+      "source": "ec_number",
+      "counts": {
+        "abstained": 9,
+        "answered": 143,
+        "correct": 40,
+        "eligible": 152,
+        "unique_biological_entities": 152,
+        "wrong": 103
+      },
+      "selected_membership_cards": 2,
+      "controls": [
+        "training_majority",
+        "training_prevalence"
+      ],
+      "artifact_identity": "49d625acba268ce5599fd22f00a43bba313f84cf50a816449a944e34850626d0",
+      "routes": [
+        "annotation",
+        "strategy",
+        "control",
+        "membership",
+        "profile",
+        "gene",
+        "coverage"
+      ],
+      "paired_counts": {
+        "agree_correct": 33,
+        "agree_wrong": 61,
+        "agreements": 94,
+        "both_abstain": 0,
+        "conflict_both_wrong": 17,
+        "conflict_left_correct": 7,
+        "conflict_right_correct": 25,
+        "conflicts": 49,
+        "eligible": 152,
+        "groups": 145,
+        "joint_answered": 143,
+        "left_only_correct": 0,
+        "left_only_wrong": 0,
+        "right_only_correct": 1,
+        "right_only_wrong": 8,
+        "shared_wrong": 78,
+        "unsupported": 4
+      },
+      "independent_biology": null,
+      "calibration": null
+    },
+    {
+      "namespace": "ec_major",
+      "source": "ec_number",
+      "counts": {
+        "abstained": 0,
+        "answered": 152,
+        "correct": 59,
+        "eligible": 152,
+        "unique_biological_entities": 152,
+        "wrong": 93
+      },
+      "selected_membership_cards": 3,
+      "controls": [
+        "training_majority",
+        "training_prevalence"
+      ],
+      "artifact_identity": "c2891db34c1c43dec0372e792e3b6fa777a286cd43c7b0722c34d0630720b0cd",
+      "routes": [
+        "annotation",
+        "strategy",
+        "control",
+        "membership",
+        "profile",
+        "gene",
+        "coverage"
+      ],
+      "paired_counts": {
+        "agree_correct": 33,
+        "agree_wrong": 61,
+        "agreements": 94,
+        "both_abstain": 0,
+        "conflict_both_wrong": 17,
+        "conflict_left_correct": 7,
+        "conflict_right_correct": 25,
+        "conflicts": 49,
+        "eligible": 152,
+        "groups": 145,
+        "joint_answered": 143,
+        "left_only_correct": 0,
+        "left_only_wrong": 0,
+        "right_only_correct": 1,
+        "right_only_wrong": 8,
+        "shared_wrong": 78,
+        "unsupported": 4
+      },
+      "independent_biology": null,
+      "calibration": null
+    }
+  ],
+  "elapsed_seconds": 7.432766619953327,
+  "process_peak_bytes": 810123264,
+  "original_inputs_unchanged": true,
+  "organism": "Pf",
+  "hosts_unavailable": true,
+  "cross_organism_refused": true,
+  "altered_context_refused": true
+}
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 8.004s
+CPU time consumed: 12.516s

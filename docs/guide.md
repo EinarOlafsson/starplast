@@ -293,7 +293,14 @@ compares every gene in these two tests. The methods agree on 94 genes:33 agreeme
 match the recorded profile and61 are wrong. Shared labels, training genes and inputs
 prevent an independence claim. Conflicts and abstentions remain inspectable;
 biological accuracy, calibrated confidence and group-aware uncertainty are unavailable.
-This report is a separate export.
+In Functional tests, choose **Comparison: kNN and random forest** from either Pf
+strategy. Each row shows the recorded profile and both calls. Click a row to open
+its gene; double-click to inspect the observed paired outcome. **Save selected
+scorecard…** exports the full paired report with its exact values and identities.
+Changing the installed source context or a missing/corrupt report makes the
+comparison unavailable and clears its displayed rows. Individual method cards and
+their original controls remain available for matching source contexts through the
+same selector.
 The test uses direct annotations; orthology-derived annotations remain separate.
 Individual annotation curation/prediction provenance is unresolved. These scores
 measure recorded annotation recovery; independent biological accuracy, calibrated

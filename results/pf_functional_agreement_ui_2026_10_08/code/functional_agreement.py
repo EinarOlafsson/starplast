@@ -244,9 +244,7 @@ def build_scorecard(report) -> ScorecardView:
         ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
     content = {
         'evidence': ('Paired source-profile outcomes', {
-            labels[key]: (f"{rate['numerator']} / {rate['denominator']} ({rate['value']:.1%})"
-                          if rate['value'] is not None else 'Unavailable: no eligible denominator')
-            for key, rate in report['rates'].items()}),
+            labels[key]: rate for key, rate in report['rates'].items()}),
         'sizes': ('Sample sizes', report['counts']),
         'uncertainty': ('Uncertainty', report['group_uncertainty']),
         'calibration': ('Calibration', {'status': 'unavailable', 'reason': _LIMIT}),

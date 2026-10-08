@@ -423,14 +423,6 @@ class DiscoveriesPanel(QtWidgets.QWidget):
             self.functional_card.clear();self.functional_rows.setRowCount(0);self.functional_shown_rows=[]
             self.functional_export.setEnabled(False)
             return
-        try:
-            FR.require_context(benchmark,self.context)
-        except ValueError as exc:
-            self.functional_card.view=None
-            self.functional_card.setHtml('<p>Frozen recovery unavailable: '+escape(str(exc))+'</p>')
-            self.functional_rows.setRowCount(0);self.functional_shown_rows=[]
-            self.functional_export.setEnabled(False)
-            return
         kind,value=address.split(':',1)
         if kind=='comparison':
             self._show_functional_comparison(benchmark)

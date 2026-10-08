@@ -868,3 +868,22 @@ fit-role/feature-access/admission guards, same values. Next smallest step: expos
 this card from existing Pf Discoveries tests with context refusal and original
 method cards preserved. Broader uncertainty/calibration/method/host/dataset gaps
 remain. Restricted activity-truth partials untouched; native goal/watchdog active.
+
+Latest paired desktop partition:64.33 now30%,64.32 stays20%,whole22/51 unchanged.
+Discoveries → Functional tests → Comparison: kNN and random forest opens the exact
+pinned report from either Pf strategy. All152 genes/four unsupported remain, both
+calls visible with named-method outcomes; rates show fractions/percentages, exports
+retain exact values. Gene click/paired outcome popup and return to original method
+cards/controls verified. Missing/corrupt reports or changed current source/organism
+clear stale comparison cards/rows/exports. Shipped report SHA940da900…8e98b matches
+canonical bytes. Every functional selection rechecks context, including return
+to a method after source mutation. Canonical desktop V3 packet under
+`results/pf_functional_agreement_ui_2026_10_08_v3/`; actual7.43s/810,123,264-byte
+process peak under serial1900MiB, workers terminal. Final68 focused checks pass;
+Tg desktop regression also passes. Independent acceptanceV2 verifies54 output
+receipts/18 current inputs. Preserve initial deleted-dialog
+test teardown and acceptance-script import failure; both fixed, original code/logs
+retained. No original nodes/claims/benchmark bundle, fits, calibration or biological
+admission changed. Next smallest partition: group-aware uncertainty for this
+matched source-profile pair, explicit denominators/unsupported genes retained.
+Other strategy/host/literature gaps remain; restricted partials untouched.

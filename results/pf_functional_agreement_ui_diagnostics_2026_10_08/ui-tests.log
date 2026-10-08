@@ -1,0 +1,26 @@
+Running as unit: starplast-paired-ui-tests-20261008.service
+.E.................................                                      [100%]
+==================================== ERRORS ====================================
+_ ERROR at teardown of test_pair_from_both_strategies_retains_exact_export_rows_and_gene_outcomes _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7529e2e3abd0>
+
+    @pytest.fixture
+    def panel(monkeypatch):
+        monkeypatch.setattr(C, 'shipped', lambda *args: pd.DataFrame())
+        monkeypatch.setattr(C, 'recipes', lambda *args: pd.DataFrame())
+        monkeypatch.setattr(T, 'shipped', lambda *args: pd.DataFrame())
+        panel = DiscoveriesPanel('Pf')
+        yield panel
+>       if hasattr(panel, 'functional_outcome_dialog'): panel.functional_outcome_dialog.close()
+                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       RuntimeError: wrapped C/C++ object of type QDialog has been deleted
+
+tests/test_functional_agreement_ui.py:20: RuntimeError
+=========================== short test summary info ============================
+ERROR tests/test_functional_agreement_ui.py::test_pair_from_both_strategies_retains_exact_export_rows_and_gene_outcomes
+34 passed, 1 error in 12.57s
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 13.152s
+CPU time consumed: 27.549s

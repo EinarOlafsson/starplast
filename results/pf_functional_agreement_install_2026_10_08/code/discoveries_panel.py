@@ -423,14 +423,6 @@ class DiscoveriesPanel(QtWidgets.QWidget):
             self.functional_card.clear();self.functional_rows.setRowCount(0);self.functional_shown_rows=[]
             self.functional_export.setEnabled(False)
             return
-        try:
-            FR.require_context(benchmark,self.context)
-        except ValueError as exc:
-            self.functional_card.view=None
-            self.functional_card.setHtml('<p>Frozen recovery unavailable: '+escape(str(exc))+'</p>')
-            self.functional_rows.setRowCount(0);self.functional_shown_rows=[]
-            self.functional_export.setEnabled(False)
-            return
         kind,value=address.split(':',1)
         if kind=='comparison':
             self._show_functional_comparison(benchmark)
@@ -540,19 +532,10 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         self.functional_rows.setHorizontalHeaderLabels(['held-out gene','product','recorded profile',
             'kNN profile','random forest profile','paired outcome'])
         self.functional_rows.setRowCount(len(report['rows']))
-        labels={'both_abstain':'Both abstained',
-            'left_only_correct':'kNN correct; forest abstained',
-            'left_only_wrong':'kNN wrong; forest abstained',
-            'right_only_correct':'Forest correct; kNN abstained',
-            'right_only_wrong':'Forest wrong; kNN abstained',
-            'agree_correct':'Same correct profile','agree_wrong':'Same wrong profile',
-            'conflict_left_correct':'kNN correct; forest differs',
-            'conflict_right_correct':'Forest correct; kNN differs',
-            'conflict_both_wrong':'Different profiles; both wrong'}
         for i,row in enumerate(report['rows']):
             values=(row['entity'],self.products.get(row['entity'],''),row['truth'],
                 row['left_prediction'] or 'abstained',row['right_prediction'] or 'abstained',
-                labels[row['outcome']])
+                row['outcome'].replace('_',' '))
             for j,text in enumerate(values):
                 self.functional_rows.setItem(i,j,QtWidgets.QTableWidgetItem(str(text)))
         self.functional_rows.resizeColumnsToContents()
