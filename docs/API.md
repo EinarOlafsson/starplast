@@ -414,3 +414,5 @@ intended as the console entry point. Scripts that only need tables and analyses
 should import the relevant modules directly.
 
 Strategy question/output declarations and adapter plans: [capabilities](capabilities.md).
+
+Immutable inference roles, manifests and invalidation: [artifacts](artifacts.md).

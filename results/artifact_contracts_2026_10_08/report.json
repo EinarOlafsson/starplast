@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "scorecard_tasks": 6,
+    "roundtrips": 10,
+    "distinct_roles": [
+      "deployment",
+      "fitted_model",
+      "held_out",
+      "reusable_base",
+      "scorecard"
+    ],
+    "changed_code_invalidates": 10,
+    "unchanged_inputs_invalidate": 0,
+    "deliberate_scope_refusals": [
+      {
+        "change": "entity_order",
+        "refused": "Artifact does not retain the complete ordered outer-test cohort"
+      },
+      {
+        "change": "settings",
+        "refused": "Artifact input, entity order or evaluation scope is stale or mismatched"
+      },
+      {
+        "change": "partition",
+        "refused": "Artifact input, entity order or evaluation scope is stale or mismatched"
+      },
+      {
+        "change": "model_population",
+        "refused": "Artifact input, entity order or evaluation scope is stale or mismatched"
+      }
+    ],
+    "biological_accuracy": "not measured",
+    "fitted_models": 0
+  },
+  "tasks": [
+    {
+      "strategy": "feature_knn",
+      "task": "label calls",
+      "output_kind": "label_calls",
+      "role": "held_out",
+      "identity": "adefa9ae857f7a1a01fa8d1d5f092ff8cfbf32d0dd0e5bc37819b9cda2e25a0a",
+      "roundtrip": "exact"
+    },
+    {
+      "strategy": "trait_regression",
+      "task": "values",
+      "output_kind": "numeric_estimates",
+      "role": "held_out",
+      "identity": "d08a466effcd6289e1ac836916ecc2b3815ec82fa16695f6802678375430c196",
+      "roundtrip": "exact"
+    },
+    {
+      "strategy": "positive_unlabeled",
+      "task": "ranking",
+      "output_kind": "gene_ranking",
+      "role": "held_out",
+      "identity": "9b5523e69d288302251307355c806766d6c15e34df174da81f5d1a53203a7681",
+      "roundtrip": "exact"
+    },
+    {
+      "strategy": "geneset_hunt",
+      "task": "set retrieval",
+      "output_kind": "gene_set",
+      "role": "held_out",
+      "identity": "11bedb30299b1f937c8de35cde3200369f562fa5a40392454313c85a95c9863a",
+      "roundtrip": "exact"
+    },
+    {
+      "strategy": "holdout_search",
+      "task": "cluster recovery",
+      "output_kind": "map_modules",
+      "role": "held_out",
+      "identity": "6366a3a01a78368e5432024f16d6990823d6757122b55f3afeb7cbb3e6e61696",
+      "roundtrip": "exact"
+    },
+    {
+      "strategy": "blind_battery",
+      "task": "replication",
+      "output_kind": "replication_findings",
+      "role": "held_out",
+      "identity": "4ca80de106aa6bf2b3aeaf9974735ef91fa96efc03418c80b57823c9331bebea",
+      "roundtrip": "exact"
+    }
+  ]
+}

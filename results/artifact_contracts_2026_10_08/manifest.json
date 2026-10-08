@@ -1,0 +1,73 @@
+{
+  "created_utc": "2026-10-08T04:48:32.109850+00:00",
+  "summary": {
+    "scorecard_tasks": 6,
+    "roundtrips": 10,
+    "distinct_roles": [
+      "deployment",
+      "fitted_model",
+      "held_out",
+      "reusable_base",
+      "scorecard"
+    ],
+    "changed_code_invalidates": 10,
+    "unchanged_inputs_invalidate": 0,
+    "deliberate_scope_refusals": [
+      {
+        "change": "entity_order",
+        "refused": "Artifact does not retain the complete ordered outer-test cohort"
+      },
+      {
+        "change": "settings",
+        "refused": "Artifact input, entity order or evaluation scope is stale or mismatched"
+      },
+      {
+        "change": "partition",
+        "refused": "Artifact input, entity order or evaluation scope is stale or mismatched"
+      },
+      {
+        "change": "model_population",
+        "refused": "Artifact input, entity order or evaluation scope is stale or mismatched"
+      }
+    ],
+    "biological_accuracy": "not measured",
+    "fitted_models": 0
+  },
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/freeze_artifact_pilot.py": "4f861fc1b9fafc3531bf40e0ad9aed56d877b43f57018f775a13c68bb14f44db",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/artifacts.py": "842f28dd08b2204ec2d4de4b5659e4dec71e3366bfaea023d11195e1a2852445",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/capabilities.py": "6659d9c0cf4eab8d1b932d06a50c0c0818b6903efb279c04835464d61934d723",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/splits.py": "6898360c7f5acfa3aa97e4004d20db19ee7a4bea224a85c2a537c2e729b7d23f",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/query.py": "b0f9ad5d26004f509a69d5b0240e6f484b8628cf22fcc3bed8f8fd3eaf761b56"
+  },
+  "outputs": {
+    "report.json": "b92b7fb9f481361e1e7571cac5905a92c475ba7ed2cec20d9c67948a574db362",
+    "split.json": "74a29682e6b71a69ec7a2f384b18d42f9bd5f3d17c58e4e27efb6dcde9d39073",
+    "holdout_search/rows.json": "843be046a8cd51110ac8bc004386001786f1691429fa5487b25c7cf7b3692d7a",
+    "holdout_search/manifest.json": "c7b487138ae54ccbc680f87a554559807e2869120531fd76655937611828aec0",
+    "holdout_search/interpretation.json": "d29562444046c86eb23b2a3f78c77b8805f9d7433b4e3a70501f6ac5b82da984",
+    "scorecard/card.json": "6b4c1cec0d30a92ef48651fb5dc5a1b1ce9e5bc128b8d9c12047a1b7e5097f95",
+    "scorecard/manifest.json": "741c46856e77fef61bb303fa80f898a8fb4dbb087b4afffebb9fc585c3cb4f24",
+    "model_metadata/model.json": "cc8855de78cfde4adb70e0e6098a689e560a964cffdaa7b44935144f2b853447",
+    "model_metadata/manifest.json": "fe36d3f609cbabca4de502630817083594d8f317e082ef2740109d39a076fda3",
+    "reusable_base/data.json": "2fa1fefac0e5f1078e743cab2b9a90474e946ebafdc4dd5cdc82eb12253c9173",
+    "reusable_base/manifest.json": "bca38e2944291e9a6664dc40f9a31db88c3919dabf0f4e01c54341af369d124a",
+    "deployment/rows.json": "6b00cdbb09283306a0378a3a99868dc2e9bf65fe4281e4db8228c5daaf5c1347",
+    "deployment/manifest.json": "d9e9e94dd173b64f6ed0af9f427617a36f8ef719b58c470f62bbab08cc24bc4f",
+    "trait_regression/rows.json": "843be046a8cd51110ac8bc004386001786f1691429fa5487b25c7cf7b3692d7a",
+    "trait_regression/manifest.json": "90f74ced7dce5109715145dc7e01db786f26cfd65566525c1e706699c69641fe",
+    "trait_regression/interpretation.json": "4fff24f820d7e9e8f3b5d481df08a5a8e98fccdbade1e07ec4228805a31722d7",
+    "feature_knn/rows.json": "843be046a8cd51110ac8bc004386001786f1691429fa5487b25c7cf7b3692d7a",
+    "feature_knn/manifest.json": "03c3d4f4c1a66f340671c1abdf9a65752087255ca2dcd96e2b9f500bb6983b68",
+    "feature_knn/interpretation.json": "b722cbe288c056ed22c0cf7fe190ed41ee272b07231ab624e7c9f1fac17a54e4",
+    "blind_battery/rows.json": "843be046a8cd51110ac8bc004386001786f1691429fa5487b25c7cf7b3692d7a",
+    "blind_battery/manifest.json": "b1247081053d9afffa8fa0bf0103630f888d33d4f9bc04e21b44dd0a6d5d969f",
+    "blind_battery/interpretation.json": "66ef3ecb6171c6228caa47c0e233eada344fa77b0352b04625d25ef0ad4ca281",
+    "positive_unlabeled/rows.json": "843be046a8cd51110ac8bc004386001786f1691429fa5487b25c7cf7b3692d7a",
+    "positive_unlabeled/manifest.json": "022032fedec624ec03440215f3a8358cc336f5b885073365986c7703264b78e3",
+    "positive_unlabeled/interpretation.json": "72d2dcdbf2226bddb7bd61642dec22d11977055ca6ca2488c9ef180f2134fa7b",
+    "geneset_hunt/rows.json": "843be046a8cd51110ac8bc004386001786f1691429fa5487b25c7cf7b3692d7a",
+    "geneset_hunt/manifest.json": "09ad06eb31e9af824ee769a51c111645a3b2da192ca6172f6b2584c2cbbd0fe9",
+    "geneset_hunt/interpretation.json": "76aafa49e0702a0b8ef5dc2805a0aa340e14e3572c11f0d82af9ead5e811b0bf"
+  }
+}
