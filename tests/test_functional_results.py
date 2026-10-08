@@ -12,7 +12,9 @@ from starplast import functional_results as F, organisms as O
 
 def _document():
     path=Path(F.__file__).with_name('data')/'functional_results.json'
-    return json.loads(path.read_text())
+    document=json.loads(path.read_text())
+    document['benchmarks']=[entry for entry in document['benchmarks'] if entry['metadata'].get('profile_namespace','ec_major')=='ec_major']
+    return document
 
 
 def _write(tmp_path,document):
@@ -34,8 +36,11 @@ def _repair_source_hashes(document):
 
 def test_shipped_view_retains_exact_rows_cards_and_null_biological_accuracy():
     benchmarks,reason=F.shipped(O.TOXOPLASMA)
-    assert len(benchmarks)==1 and not reason
-    benchmark=benchmarks[0]
+    assert not reason
+    addresses={(benchmark.namespace,benchmark.metadata['target']) for benchmark in benchmarks}
+    assert addresses in ({('ec_major','ec_major_classes')},
+        {('ec_major','ec_major_classes'),('pfam','pfam_id_complete_profile')})
+    benchmark=next(benchmark for benchmark in benchmarks if benchmark.namespace=='ec_major')
     assert benchmark.source_matches('ec_number') and not benchmark.source_matches('interpro_id')
     assert benchmark.metadata['target']=='ec_major_classes'
     assert len(benchmark.rows)==benchmark.card['counts']['eligible']

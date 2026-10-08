@@ -191,7 +191,7 @@ browsing as completion of functional inference or independent biological validat
 | [66.04](../done/66_04_host_symbol_projections.md) | ✅ | 0 h | Correct ambiguous host projections | 66.03 |
 | [67.01](../done/67_01_work_continuation_watchdog.md) | ✅ | 0 h | Keep continuation active and log actual stops | — |
 | [68.01](../done/68_01_discoveries_label_browser.md) | ✅ | 0 h | Browse all available labels and functions in Discoveries | — |
-| [68.02](68_discoveries_function_coverage.md) | 30% | 6–12 h + compute | Benchmark and precompute functional inferences | 68.01, 64.04–64.09 |
+| [68.02](68_discoveries_function_coverage.md) | 35% | 6–12 h + compute | Benchmark and precompute functional inferences | 68.01, 64.04–64.09 |
 
 ### Strategy ground-truth matrix
 

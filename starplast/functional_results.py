@@ -11,9 +11,10 @@ from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
+import re
 
 # Updated only when a verified immutable pilot is deliberately packaged.
-FUNCTIONAL_RESULTS_SHA256 = '732d670fe45197f0d35b9c8db6f51f9981173bdfae67bbf089d38d0a4ac7a633'
+FUNCTIONAL_RESULTS_SHA256 = '854d014260330490e2b0f7189d8e6744448ab5d39f7686d75c4aba3cd763a84b'
 _PAYLOAD_NAMES = ('rows.json','card.json','profile_class_cards.json',
                   'major_class_cards.json','baseline_cards.json')
 _CLASSES = {'1':'Oxidoreductases','2':'Transferases','3':'Hydrolases',
@@ -32,19 +33,50 @@ def _invalid_constant(value):
     raise ValueError('Nonfinite functional result: '+value)
 
 
-def profile_classes(value):
-    """Read a complete EC major-class profile without treating missing truth as absence."""
+def profile_classes(value, namespace='ec_major'):
+    """Read a complete supported profile without treating missing truth as absence."""
+    if namespace not in {'ec_major','pfam'}:raise ValueError('Unsupported functional profile namespace')
     if value is None:return None
     members=json.loads(value)
-    if (not isinstance(members,list) or not members or members!=sorted(set(members))
-            or any(member not in _CLASSES for member in members)):
-        raise ValueError('Invalid complete EC major-class profile')
+    if (not isinstance(members,list) or not members or not all(isinstance(member,str) for member in members)
+            or members!=sorted(set(members))
+            or any(member not in _CLASSES if namespace=='ec_major' else re.fullmatch(r'PF\d{5}',member) is None for member in members)):
+        raise ValueError('Invalid complete functional profile in namespace '+namespace)
     return tuple(members)
 
 
-def class_title(value):
+def class_title(value, namespace='ec_major'):
     """Display a pinned major enzyme-class name or the original profile identifier."""
-    return f'{value} — {_CLASSES[value]}' if value in _CLASSES else str(value)
+    if namespace not in {'ec_major','pfam'}:raise ValueError('Unsupported functional profile namespace')
+    if namespace=='pfam' and re.fullmatch(r'PF\d{5}',str(value)):
+        try:
+            from . import functional_domains as D
+            metadata=D.shipped().lookup(value)
+            if metadata.get('status')=='current_metadata' and metadata.get('name'):
+                return value+' — '+metadata['name']+' (current nomenclature)'
+        except (OSError,ValueError,KeyError,TypeError):pass
+    return f'{value} — {_CLASSES[value]}' if namespace=='ec_major' and value in _CLASSES else str(value)
+
+
+def member_cards(rows, namespace='ec_major'):
+    """Derive recorded-presence cards; profile complements are never biological negatives."""
+    actual=[profile_classes(row['truth'],namespace) for row in rows]
+    predicted=[profile_classes(row['prediction'],namespace) or () for row in rows]
+    if not rows or any(value is None for value in actual):raise ValueError('Member cards require complete observed reference profiles')
+    terms=list(_CLASSES) if namespace=='ec_major' else sorted({term for members in actual+predicted for term in members})
+    answered=sum(row['prediction'] is not None for row in rows)
+    cards=[]
+    for term in terms:
+        positive=[term in members for members in actual];called=[term in members for members in predicted]
+        tp=sum(t and p for t,p in zip(positive,called));fp=sum(not t and p for t,p in zip(positive,called));fn=sum(t and not p for t,p in zip(positive,called))
+        cards.append({'class':term,'eligible':len(rows),'known_positive_genes':sum(positive),
+            'true_positive':tp,'false_positive':fp,'false_negative':fn,
+            'precision':tp/(tp+fp) if tp+fp else None,'recall':tp/sum(positive) if sum(positive) else None,
+            'f1':2*tp/(2*tp+fp+fn) if 2*tp+fp+fn else None,'coverage':answered/len(rows),
+            'reference_prevalence':sum(positive)/len(rows),'biological_precision':None,'biological_recall':None,
+            'calibrated_confidence':None,'truth_semantics':'Recorded presence in complete source profiles',
+            'complement_semantics':'Not recorded in this complete profile; not verified biological absence'})
+    return cards
 
 
 def require_context(benchmark, context):
@@ -83,6 +115,9 @@ class FunctionalBenchmark:
     def organism(self):return self.metadata['organism']
 
     @property
+    def namespace(self):return self.metadata.get('profile_namespace','ec_major')
+
+    @property
     def rows(self):return self.payloads['rows.json']
 
     @property
@@ -92,10 +127,12 @@ class FunctionalBenchmark:
     def major_class_cards(self):return self.payloads['major_class_cards.json']
 
     @property
-    def profile_class_cards(self):return self.payloads['profile_class_cards.json']
+    def profile_class_cards(self):return self.payloads['class_cards.json' if self.namespace=='pfam' else 'profile_class_cards.json']
 
     @property
-    def baseline_cards(self):return self.payloads['baseline_cards.json']
+    def baseline_cards(self):
+        cards=self.payloads['baseline_cards.json']
+        return {name:value['card'] for name,value in cards.items()} if self.namespace=='pfam' else cards
 
     def source_matches(self, target):
         """Match an installed source label rather than pretending it is the derived target."""
@@ -106,6 +143,10 @@ def _benchmark(entry):
     if not isinstance(entry,dict) or not isinstance(entry.get('metadata'),dict) or not isinstance(entry.get('payloads'),dict):
         raise ValueError('Functional benchmark must retain explicit metadata and payloads')
     metadata=entry['metadata'];payloads=entry['payloads'];manifest=metadata['source_manifest']
+    namespace=metadata.get('profile_namespace','ec_major')
+    if namespace not in {'ec_major','pfam'}:raise ValueError('Unsupported functional profile namespace')
+    if namespace=='pfam' and (metadata.get('source_targets')!=['pfam_id'] or metadata.get('target')!='pfam_id_complete_profile'):
+        raise ValueError('Functional Pfam source/derived-target address mismatch')
     if metadata.get('biological_admission') is not False or metadata.get('calibrated_confidence') is not None:
         raise ValueError('Recovery tests cannot advertise biological admission or calibrated confidence')
     body={key:value for key,value in manifest.items() if key!='identity'}
@@ -114,11 +155,18 @@ def _benchmark(entry):
     spec=manifest['spec'];scope=payloads['card.json']['scope']
     if _hash(spec)!=manifest['key']:
         raise ValueError('Functional source scope identity changed')
-    for name in _PAYLOAD_NAMES:
+    native_names=_PAYLOAD_NAMES if namespace=='ec_major' else ('rows.json','card.json','class_cards.json','baseline_cards.json')
+    for name in native_names:
         encoded=(_canonical(payloads[name])+'\n').encode()
         receipt=manifest['files'][name]
         if receipt['sha256']!=hashlib.sha256(encoded).hexdigest() or receipt['bytes']!=len(encoded):
             raise ValueError('Functional source payload changed: '+name)
+    if namespace=='pfam':
+        expected_derivation={'recipe':'recorded_profile_member_cards_v1','namespace':'pfam',
+            'source_rows_sha256':manifest['files']['rows.json']['sha256'],
+            'payload_sha256':_hash(payloads['major_class_cards.json'])}
+        if metadata.get('membership_derivation')!=expected_derivation:
+            raise ValueError('Functional membership derivation receipt changed')
     if (spec['role']!='held_out' or spec['evaluation_partition']!='test'
             or spec['confidence_kind']!='method_support'):
         raise ValueError('Functional recovery requires held-out method-support results')
@@ -140,7 +188,7 @@ def _benchmark(entry):
     correct=answered=0
     for row in rows:
         if row['truth'] is None:raise ValueError('Unknown functional truth cannot enter recovery metrics')
-        profile_classes(row['truth']);profile_classes(row['prediction'])
+        profile_classes(row['truth'],namespace);profile_classes(row['prediction'],namespace)
         if row.get('calibrated_confidence') is not None or row['abstained']!=(row['prediction'] is None):
             raise ValueError('Functional confidence or abstention semantics changed')
         answered+=row['prediction'] is not None
@@ -155,16 +203,45 @@ def _benchmark(entry):
             or summary['artifact_identity']!=manifest['identity'] or summary['counts']!=counts
             or summary['metrics']!=payloads['card.json']['metrics']):
         raise ValueError('Functional source summary differs from the pinned artifact')
+    if namespace=='pfam':
+        original=metadata['source_summary']
+        mapping={'train':'train_genes','test':'test_genes','eligible_profiles':'eligible_genes'}
+        if (metadata.get('summary_mapping')!=mapping or any(summary[key]!=original[value] for key,value in mapping.items())
+                or any(summary[key]!=original[key] for key in ('artifact_identity','counts','metrics'))
+                or sum(row.get('training_supported') is False for row in rows)!=original['unsupported_test_genes']
+                or any(type(row.get('training_supported')) is not bool for row in rows)):
+            raise ValueError('Functional Pfam summary/capacity mapping changed')
+        split=metadata['split_manifest'];receipt=metadata['source_split_receipt']
+        split_identity=_hash(split)
+        assignments=split['assignments'];roles=('train','tune','calibration','test')
+        role_entities={role:[row['entity'] for row in assignments if row['role']==role] for role in roles}
+        groups={}
+        for row in assignments:
+            if row['role'] not in roles or groups.setdefault(row['group'],row['role'])!=row['role']:
+                raise ValueError('Functional split role/group boundary changed')
+        if (receipt.get('identity')!=split_identity or scope['protocol']!=split_identity
+                or split['organism']!=metadata['organism'] or split['benchmark_id']!=metadata['benchmark_id']
+                or len({row['entity'] for row in assignments})!=len(assignments)
+                or role_entities['train']!=spec['fit_entities'] or role_entities['test']!=entities
+                or metadata.get('summary_role_mapping')!={role:role for role in roles}
+                or any(not role_entities[role] or summary[role]!=len(role_entities[role]) for role in roles)
+                or summary['eligible_profiles']!=len(assignments)
+                or re.fullmatch(r'[a-f0-9]{64}',receipt.get('sha256','')) is None
+                or type(receipt.get('bytes')) is not int or receipt['bytes']<=0
+                or not any(dep['kind']=='split' and dep['sha256']==split_identity for dep in spec['dependencies'])):
+            raise ValueError('Functional split-derived role mapping changed')
     classes=payloads['major_class_cards.json']
-    if [card['class'] for card in classes]!=list(_CLASSES):
+    if namespace=='ec_major' and [card['class'] for card in classes]!=list(_CLASSES):
         raise ValueError('Functional view must retain all seven major-class cards')
+    if namespace=='pfam' and classes!=member_cards(rows,namespace):
+        raise ValueError('Functional domain membership cards differ from recorded profiles')
     if any(card.get('biological_precision') is not None or card.get('biological_recall') is not None
             or card.get('calibrated_confidence') is not None or card['eligible']!=len(rows) for card in classes):
         raise ValueError('Functional class scope or biological interpretation changed')
-    for card in classes:
+    for card in classes if namespace=='ec_major' else ():
         term=card['class']
-        actual=[term in profile_classes(row['truth']) for row in rows]
-        predicted=[term in (profile_classes(row['prediction']) or ()) for row in rows]
+        actual=[term in profile_classes(row['truth'],namespace) for row in rows]
+        predicted=[term in (profile_classes(row['prediction'],namespace) or ()) for row in rows]
         tp=sum(t and p for t,p in zip(actual,predicted));fp=sum(not t and p for t,p in zip(actual,predicted))
         fn=sum(t and not p for t,p in zip(actual,predicted))
         expected={'known_positive_genes':sum(actual),'true_positive':tp,'false_positive':fp,'false_negative':fn,
@@ -173,7 +250,7 @@ def _benchmark(entry):
             'reference_prevalence':sum(actual)/len(rows)}
         if any(card.get(key)!=value for key,value in expected.items()):
             raise ValueError('Functional major-class metrics differ from held-out rows')
-    profiles=payloads['profile_class_cards.json']
+    profiles=payloads['class_cards.json' if namespace=='pfam' else 'profile_class_cards.json']
     if [card['class'] for card in profiles]!=sorted(set(row['truth'] for row in rows)):
         raise ValueError('Functional view must retain every observed reference-profile class')
     for card in profiles:
@@ -187,11 +264,26 @@ def _benchmark(entry):
         if (card['scope']!=scope or card['counts']['eligible']!=sum(actual)
                 or any(card['class_metrics'].get(key)!=value for key,value in expected.items())):
             raise ValueError('Functional profile-class metrics differ from held-out rows')
-    if not {'majority','prevalence_call'}<=set(payloads['baseline_cards.json']):
+    controls={'training_majority','training_prevalence'} if namespace=='pfam' else {'majority','prevalence_call'}
+    if not controls<=set(payloads['baseline_cards.json']):
         raise ValueError('Functional view must retain matched training-only controls')
-    for card in payloads['baseline_cards.json'].values():
-        if card['scope']!=scope or card['counts']['eligible']!=len(rows):
+    for name,control in payloads['baseline_cards.json'].items():
+        card=control['card'] if namespace=='pfam' else control
+        if (namespace=='ec_major' and card['scope']!=scope) or card['counts']['eligible']!=len(rows):
             raise ValueError('Functional baseline must use the identical frozen test scope')
+        if namespace=='pfam':
+            extra=card.get('extra',{})
+            control_scope=card['scope'];evaluation=json.loads(spec['evaluation_scope_json'])
+            if (any(control_scope.get(key)!=scope[key] for key in ('organism','target','seed','task','truth_grade','unit','negative_semantics'))
+                    or control_scope.get('strategy')!=name or control_scope.get('partition')!='test'
+                    or extra.get('split_identity')!=scope['protocol']
+                    or any(extra.get(key)!=evaluation[key] for key in ('target_identity','cohort_identity'))
+                    or extra.get('baseline_parameters_estimated_from_training_only') is not True
+                    or extra.get('classifier_or_feature_fitting_performed') is not False
+                    or extra.get('test_support_used_for_selection') is not False
+                    or extra.get('biological_accuracy') is not None
+                    or metadata['source_summary']['baseline_comparisons'][name]['metrics']!=card['metrics']):
+                raise ValueError('Functional baseline provenance/summary changed')
     return FunctionalBenchmark(metadata,payloads)
 
 

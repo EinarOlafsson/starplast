@@ -257,8 +257,10 @@ and protein families (InterPro and Pfam), enzyme classifications (EC), phenotype
 stages, localization, structural labels and other available categorical annotations.
 Search a term such as `kinase`, an exact identifier such as `IPR000719`, or a label
 name. Select a label and then a class to see its known members; click a gene to open
-its evidence. One gene can belong to several functional classes. Descriptions are
-shown only where the organism's installed source provides them.
+its evidence. One gene can belong to several functional classes. Descriptions
+retain installed source text where available; additional domain names come from
+the pinned nomenclature snapshot. Names do not validate gene function or recover
+the original annotation release.
 
 Each label reports annotated genes, class count, precomputed claims, and evaluation
 availability. **Open held-out scorecard** opens existing label/class results where
@@ -266,6 +268,15 @@ they exist. Legacy tests retain their original source-recovery scope. Missing te
 say **not evaluated**; known membership does not create a precision or recall score.
 Missing annotation and a false annotation-presence flag do not establish biological
 absence. Curated and orthology-derived EC fields remain separate.
+
+For Toxoplasma, **Functional tests** also provides frozen complete-Pfam profile
+recovery, domain membership cards, gene outcomes and training-only controls.
+Select `pfam_id` and open its functional result, or choose it directly in the
+test selector. The fixed candidate recovers 12 of 635 recorded profiles, makes
+eight wrong calls and abstains on 615 genes. The majority control recovers 19
+profiles. Domain cards measure recorded annotation membership; omissions do not
+establish biological absence. Independent biological accuracy and calibration
+remain unavailable. Plasmodium has no packaged functional recovery result yet.
 
 The old view showed only labels with generated claims. Its default filters left
 Toxoplasma localization claims visible, while hiding existing untested cell-cycle

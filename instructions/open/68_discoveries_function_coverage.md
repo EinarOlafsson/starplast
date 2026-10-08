@@ -11,7 +11,7 @@ inference/benchmark coverage clearly.
 | Item | Percent done | Time left | Description |
 |---|---:|---|---|
 | [68.01](../done/68_01_discoveries_label_browser.md) | ✅ | 0 h | Browse all available labels and functional classes, memberships and inference/test coverage in Discoveries |
-| 68.02 | 30% | 6–12 h + compute | Add functional ground-truth targets, strategy benchmarks and precomputed functional claims |
+| 68.02 | 35% | 6–12 h + compute | Add functional ground-truth targets, strategy benchmarks and precomputed functional claims |
 
 68.01 is bounded to current categorical annotations/flags plus multi-valued InterPro,
 Pfam and EC fields, both existing organisms, and existing claims/recipes. Search labels
@@ -253,3 +253,26 @@ representation, typed scope and retained-memory lifetime changed; settings and
 all cohorts remain fixed. Browser packaging, independent truth/source admission,
 additional strategies and calibrated deployment remain open. 68.02 stays30%;
 whole-action completion remains22/51, with no new tick.
+
+## Complete-Pfam Discoveries integration, 2026-10-08 — partial35%
+
+The offline reader and packager support explicit EC/Pfam namespaces and preserve
+all native payload hashes, control names/scopes and protected split roles. Domain
+membership cards are independently derived recorded-presence/complement tests,
+with their recipe/row identity retained; they do not adjudicate biological absence.
+The accepted candidate packet `results/functional_profile_ui_bundle_2026_10_08/`
+has 479 native profile cards and 583 domain-membership cards, all635 test genes
+and333 unsupported profiles. Packaging0.99s/266.5MiB under400MiB, no fitting.
+
+The executed merge preserves original EC and Pfam entries exactly. Shipped bundle
+SHA256 `854d014260330490e2b0f7189d8e6744448ab5d39f7686d75c4aba3cd763a84b`.
+Actual desktop audit `results/functional_profile_ui_2026_10_08_v3/` verifies
+source→result, strategy, controls, membership/profile exports, abstentions,
+gene and coverage navigation, changed-context refusal and no Plasmodium borrowing.
+Runtime10.17s, process peak1,067,978,752bytes under serial1900MiB. Screenshot
+inspected;118 relevant reader/class/coverage/domain/Discoveries regressions pass.
+Independent acceptance verifies30 packet outputs,26 inputs and12 original artifact
+receipts, including historical code/bundle snapshots after intentional pin changes.
+Preserve first800MiB OOM and second audit's wrong export-envelope key diagnostic.
+Independent biological truth, other functional mechanisms/organisms, calibration
+and deployment remain open;22/51 whole actions, no completion tick.

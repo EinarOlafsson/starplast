@@ -50,6 +50,35 @@ def metrics(view):
     return {metric.key: metric for metric in view.metrics}
 
 
+def test_domain_membership_cards_use_pfam_namespace_and_preserve_populations():
+    original = fixture()
+    replacements = {'1': 'PF00001', '2': 'PF00002', '3': 'PF00003',
+        '["1"]': '["PF00001"]', '["2"]': '["PF00002"]'}
+
+    def convert(value):
+        if isinstance(value, dict):
+            return {key: convert(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [convert(item) for item in value]
+        return replacements.get(value, value) if isinstance(value, str) else value
+
+    payloads = convert(original.payloads)
+    payloads['class_cards.json'] = payloads.pop('profile_class_cards.json')
+    payloads['baseline_cards.json'] = {name: {'card': card}
+        for name, card in payloads['baseline_cards.json'].items()}
+    benchmark = F.FunctionalBenchmark({**original.metadata, 'profile_namespace': 'pfam'}, payloads)
+    domain = C.build(benchmark, 'major:PF00002')
+    assert 'domain' in domain.title.lower()
+    assert metrics(domain)['class_precision'].value == .5
+    assert metrics(domain)['class_recall'].value == .5
+    assert metrics(domain)['coverage'].value == .75
+    assert [row['entity'] for row in snapshot(domain)['details']['rows']] == ['g1', 'g2', 'g3']
+    assert snapshot(domain)['details']['native_class_card'] == benchmark.major_class_cards[0]
+    profile = C.build(benchmark, 'profile:["PF00002"]')
+    assert metrics(profile)['class_precision'].value == .5
+    assert snapshot(profile)['card'] == benchmark.profile_class_cards[0]
+
+
 def snapshot(view):
     return json.loads(export_scorecard(view))['snapshot']
 
@@ -102,7 +131,7 @@ def test_major_card_uses_whole_cohort_counts_and_overall_profile_call_coverage()
     assert set(values) == {'coverage', 'class_precision', 'class_recall', 'class_f1', 'reference_prevalence'}
     assert values['coverage'].value == .75
     assert values['coverage'].denominator == 'All frozen test genes: 4'
-    assert 'not the share called this major class' in values['coverage'].definition
+    assert 'not the share called this selected class' in values['coverage'].definition
     assert values['class_precision'].value == native['precision']
     assert snapshot(view)['card']['native_class_card'] == native
     assert snapshot(view)['details']['native_class_card'] == native

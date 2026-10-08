@@ -43,6 +43,7 @@ def build(benchmark: F.FunctionalBenchmark, address: str) -> ScorecardView:
     if kind not in {'profile', 'major'} or not value:
         raise ValueError('An explicit profile or major class address is required')
     metadata = benchmark.metadata
+    namespace = benchmark.namespace
     if metadata.get('biological_admission') is not False or metadata.get('calibrated_confidence') is not None:
         raise ValueError('Class presentation cannot assert biological admission or calibrated confidence')
     candidates = benchmark.profile_class_cards if kind == 'profile' else benchmark.major_class_cards
@@ -53,7 +54,7 @@ def build(benchmark: F.FunctionalBenchmark, address: str) -> ScorecardView:
     full_scope = benchmark.card['scope']
     full_n = benchmark.card['counts']['eligible']
     if kind == 'profile':
-        F.profile_classes(value)
+        F.profile_classes(value, namespace)
         actual = lambda row: row['truth'] == value
         predicted = lambda row: row['prediction'] == value
         classes = native['class_metrics']
@@ -61,11 +62,11 @@ def build(benchmark: F.FunctionalBenchmark, address: str) -> ScorecardView:
         tp, fp, fn = (classes[key] for key in ('true_positive', 'false_positive', 'false_negative'))
         prevalence = classes['evaluation_prevalence']
         presentation = native
-        title = 'Recorded reference profile: ' + F.class_title(value)
+        title = 'Recorded reference profile: ' + F.class_title(value, namespace)
         convention = 'The supplied profile-card convention reports zero when no class calls were made.'
     else:
-        actual = lambda row: value in F.profile_classes(row['truth'])
-        predicted = lambda row: value in (F.profile_classes(row['prediction']) or ())
+        actual = lambda row: value in F.profile_classes(row['truth'], namespace)
+        predicted = lambda row: value in (F.profile_classes(row['prediction'], namespace) or ())
         classes = native
         counts = {key: native[key] for key in _COUNT_KEYS}
         tp, fp, fn = (native[key] for key in ('true_positive', 'false_positive', 'false_negative'))
@@ -74,8 +75,8 @@ def build(benchmark: F.FunctionalBenchmark, address: str) -> ScorecardView:
         # Retain its supplied overall profile-call coverage and custom class rates.
         presentation = {'scope': full_scope, 'counts': counts,
                         'metrics': {'coverage': native['coverage']}, 'native_class_card': native}
-        title = 'Recorded reference class: ' + F.class_title(value)
-        convention = 'The supplied major-class card reports null when no class calls were made.'
+        title = ('Recorded reference domain: ' if namespace == 'pfam' else 'Recorded reference class: ') + F.class_title(value, namespace)
+        convention = 'The supplied membership card reports null when no class calls were made.'
     rows = [row for row in benchmark.rows if actual(row) or predicted(row)]
     failures = [row for row in rows if actual(row) != predicted(row)]
     class_sizes = {key: classes[key] for key in ('true_positive', 'false_positive', 'false_negative')}
@@ -131,7 +132,7 @@ def build(benchmark: F.FunctionalBenchmark, address: str) -> ScorecardView:
                 label='Reference-member call coverage' if kind == 'profile' else 'Profile-call coverage, whole cohort',
                 definition=('Any complete-profile calls divided by all recorded members of this profile.'
                     if kind == 'profile' else 'Any complete-profile calls divided by all frozen test genes; '
-                    'this is overall caller reach, not the share called this major class.'),
+                    'this is overall caller reach, not the share called this selected class.'),
                 denominator=('Reference-profile members: ' + str(counts['eligible']) if kind == 'profile'
                     else 'All frozen test genes: ' + str(full_n)))
         metrics.append(metric)

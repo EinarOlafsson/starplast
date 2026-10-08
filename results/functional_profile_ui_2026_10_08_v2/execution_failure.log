@@ -1,0 +1,17 @@
+Running as unit: starplast-functional-profile-ui-v2.service
+Traceback (most recent call last):
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/audit_functional_profile_ui.py", line 149, in <module>
+    main()
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/audit_functional_profile_ui.py", line 139, in main
+    nb.code('summary = audit(output)', 'summary')
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/notebook_runner.py", line 50, in code
+    exec(compile(body, f"<cell {self.count}>", "exec"), self.ns)
+  File "<cell 1>", line 1, in <module>
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/audit_functional_profile_ui.py", line 56, in audit
+    assert exported['card'] == card
+           ~~~~~~~~^^^^^^^^
+KeyError: 'card'
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 7.130s
+CPU time consumed: 26.357s

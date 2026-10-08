@@ -778,3 +778,17 @@ Whole actions22/51,64.10 stays35%,68.02 stays30%. Next small partition: generali
 the existing EC-only functional result reader/packager to complete domain profiles,
 then expose this exact Pfam benchmark and class/gene cards in Discoveries. Independent
 truth admission, other mechanisms, human/mouse packs and dataset promotions remain.
+
+Latest UI integration accepted: Discoveries now ships exact EC+complete-Pfam
+benchmarks, with namespace-specific profiles,479 Pfam profile cards,583 domain
+membership cards and all635 held-out genes/333 unsupported profiles. Recorded
+presence/complement never claims biological negatives. Native control scopes and
+full split identity/role counts retained. Candidate/merge/source/UI receipts pass;
+118 relevant regressions pass. Actual UI V3 audit10.17s/1,067,978,752byte process
+peak under1900MiB, all workers terminal. Preserve V1 authoritative800MiB OOM and
+V2 incorrect export-envelope key diagnostic. Shipped bundle externally pinned;
+no fit, biological admission or deployment. 68.02 now35%, whole actions22/51.
+Next smallest bounded function work: protected-group Plasmodium EC preparation
+using existing source/exclusion/controls contracts, preserving missingness and
+source-grade gaps. Restricted activity-truth partials remain untouched; native
+goal/watchdog active, host spaces and dataset promotions still open.

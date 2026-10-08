@@ -283,7 +283,8 @@ class DiscoveriesPanel(QtWidgets.QWidget):
             for name in benchmark.baseline_cards:
                 self.functional_view.addItem('Training-only control: '+name.replace('_',' '),'baseline:'+name)
             for card in benchmark.major_class_cards:
-                self.functional_view.addItem('Class: '+FR.class_title(card['class']),'major:'+card['class'])
+                title = 'Domain: ' if benchmark.namespace == 'pfam' else 'Class: '
+                self.functional_view.addItem(title+FR.class_title(card['class'],benchmark.namespace),'major:'+card['class'])
             for card in benchmark.profile_class_cards:
                 self.functional_view.addItem('Complete profile: '+card['class'],'profile:'+card['class'])
             self.functional_note.setText(f"{len(benchmark.rows):,} held-out genes; frozen reference-annotation recovery. "
@@ -420,11 +421,11 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         rows=benchmark.rows
         if kind=='major':
             card=next(card for card in benchmark.major_class_cards if card['class']==value)
-            rows=[row for row in rows if value in FR.profile_classes(row['truth'])
-                or value in (FR.profile_classes(row['prediction']) or ())]
+            rows=[row for row in rows if value in FR.profile_classes(row['truth'],benchmark.namespace)
+                or value in (FR.profile_classes(row['prediction'],benchmark.namespace) or ())]
             metrics={name:card.get(name) for name in ('precision','recall','f1','coverage','reference_prevalence')}
             counts={name:card[name] for name in ('eligible','known_positive_genes','true_positive','false_positive','false_negative')}
-            title='Class: '+FR.class_title(value)
+            title=('Domain: ' if benchmark.namespace == 'pfam' else 'Class: ')+FR.class_title(value,benchmark.namespace)
         else:
             card=(benchmark.baseline_cards[value] if kind=='baseline' else
                 next(card for card in benchmark.profile_class_cards if card['class']==value) if kind=='profile' else benchmark.card)
@@ -476,7 +477,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
                     'lineage':'Frozen recorded reference profiles; independent biological activity not admitted',
                     'negative_semantics':'Missing or unresolved annotation is unknown, not biological absence'},
                     'split':{'roles':{key:summary[key] for key in ('train','tune','calibration','test')},
-                        'scope':scope,'fit_entities':meta['source_manifest']['spec']['fit_entities']},
+                        'scope':card['scope'],'fit_entities':meta['source_manifest']['spec']['fit_entities']},
                     'baseline':{name:{'counts':control['counts'],'metrics':control['metrics']}
                         for name,control in benchmark.baseline_cards.items()},
                     'controls':list(benchmark.baseline_cards),'rows':rows,
@@ -491,15 +492,15 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         for i,row in enumerate(rows):
             outcome='abstained' if row['prediction'] is None else 'recovered reference profile' if row['truth']==row['prediction'] else 'different reference profile'
             if kind=='major':
-                actual=value in FR.profile_classes(row['truth'])
-                recovered=value in (FR.profile_classes(row['prediction']) or ())
+                actual=value in FR.profile_classes(row['truth'],benchmark.namespace)
+                recovered=value in (FR.profile_classes(row['prediction'],benchmark.namespace) or ())
                 outcome=('recovered reference class' if actual and recovered else 'unexpected reference-class call' if recovered else
                     'abstained; reference class missed' if row['prediction'] is None else 'reference class missed')
             values=(row['entity'],self.products.get(row['entity'],''),row['truth'],row['prediction'] or 'abstained',outcome,display(row.get('support')))
             for j,text in enumerate(values):self.functional_rows.setItem(i,j,QtWidgets.QTableWidgetItem(str(text)))
             for j,key in ((2,'truth'),(3,'prediction')):
-                members=FR.profile_classes(row[key])
-                if members:self.functional_rows.item(i,j).setToolTip('; '.join(FR.class_title(member) for member in members))
+                members=FR.profile_classes(row[key],benchmark.namespace)
+                if members:self.functional_rows.item(i,j).setToolTip('; '.join(FR.class_title(member,benchmark.namespace) for member in members))
         self.functional_rows.resizeColumnsToContents()
 
     def _functional_gene_clicked(self,row,_column):
@@ -527,7 +528,7 @@ class DiscoveriesPanel(QtWidgets.QWidget):
         self.functional_outcome_dialog=dialog
 
     def _open_functional_record(self):
-        """Route an installed EC source label directly to its distinct frozen recovery target."""
+        """Route an installed functional source label to its frozen recovery target."""
         target=self.label.currentData()
         for i,benchmark in enumerate(self.functional_benchmarks):
             if benchmark.source_matches(target):
