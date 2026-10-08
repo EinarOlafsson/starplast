@@ -197,3 +197,14 @@ checks pass. The executed notebook passes under a 400 MiB cap in 6.676 s;
 exact; no tolerance relaxation. The source release, source/homology independence,
 biological admission, actual source-excluded classifier and deployment remain
 open. 68.02 stays 30%; whole-action completion remains 22/51 after 64.20.
+
+## Functional input closure prerequisite, 2026-10-08
+
+The opt-in functional-source policy is now v2: publication/paper/citation/fulltext
+aliases (including counts, rates and case variants) and declared downstream
+representations are withheld. This closes the difference between the numeric
+precompute guard and direct categorical adapters before the next Pfam pilot.
+64 exclusion/operator checks pass, including 18 alias/derived-lineage sentinels;
+ordinary measurement names remain usable. Installed runtime strategies and all
+historical source/result packets remain unchanged. New benchmarks pin this policy
+code; undeclared biological/source lineage remains unresolved, not certified.

@@ -36,6 +36,24 @@ def test_functional_family_and_attention_sentinels_are_refused():
     excluded.guard_inputs(columns=['raw_measurement'],layers=['independent_measured_edges'])
 
 
+@pytest.mark.parametrize('column', [
+    'citation', 'citations', 'n_citations', 'citation_rate', 'paper', 'papers',
+    'n_papers', 'paper_count', 'publication', 'publications', 'n_publication',
+    'publication_year', 'fulltext', 'fulltexts', 'n_fulltexts', 'full_text_count',
+    'n_full_texts', 'CITATIONS_total',
+])
+def test_attention_aliases_and_their_declared_derivatives_are_withheld(column):
+    nodes, split = fixture()
+    nodes[column] = nodes.raw_measurement
+    nodes['raw_paperweight_measurement'] = nodes.raw_measurement
+    lineage = (F.DerivedInput('column', 'opaque_attention_vector', (('column', column),)),)
+    excluded = closure(nodes, split, derived_inputs=lineage)
+    for field in (column, 'opaque_attention_vector'):
+        with pytest.raises(ValueError, match='contamination'):
+            excluded.guard_inputs(columns=[field])
+    excluded.guard_inputs(columns=['raw_measurement', 'raw_paperweight_measurement'])
+
+
 def test_declared_graph_embedding_and_second_generation_sources_close_transitively():
     nodes,split=fixture()
     lineage=(F.DerivedInput('layer','second_operator',(('column','encoded_embedding'),)),

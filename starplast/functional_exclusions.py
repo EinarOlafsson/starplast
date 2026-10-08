@@ -17,13 +17,15 @@ import re
 from . import datasets, discovery_labels as D, strategies as S
 from .splits import make_exclusions as training_exclusions
 
-POLICY_VERSION = 'functional-source-closure-v1'
+POLICY_VERSION = 'functional-source-closure-v2'
 SOURCE_COLUMNS = frozenset((*D.FUNCTION_FIELDS,'has_ec','has_domain','n_interpro','n_pfam',
     'n_domains','domain_count','orthogroup','paralog_number','has_pf_ortholog',
     'has_cp_ortholog','lineage_specific','n_publications','n_fulltext'))
 SOURCE_LAYERS = frozenset(('domain','orthogroup',*S.LITERATURE_LAYERS))
 RELATED_COLUMN = re.compile(r'^(?:interpro|pfam|ec_number)(?:_|$)|^(?:domain_|n_domain|n_interpro|n_pfam)'
     r'|^(?:n_publications|n_fulltext|publication_count|fulltext_count)(?:_|$)')
+ATTENTION_COLUMN = re.compile(
+    r'^(?:n_)?(?:publications?|full_?texts?|citations?|papers?)(?:_|$)', re.IGNORECASE)
 
 
 def _address(kind, name):
@@ -74,7 +76,8 @@ def make_exclusions(nodes, targets, *, source_targets, benchmark_id, split, deri
     named=tuple(dict.fromkeys((*source_targets,*targets)))
     manifest=training_exclusions(nodes,named,benchmark_id=benchmark_id,split=split)
     columns=set(manifest.columns)|set(SOURCE_COLUMNS)
-    columns.update(column for column in nodes if S.NEVER_FEATURES.search(column) or RELATED_COLUMN.search(column))
+    columns.update(column for column in nodes if S.NEVER_FEATURES.search(column)
+                   or RELATED_COLUMN.search(column) or ATTENTION_COLUMN.search(column))
     # Supplemental source bans need the same registry closure as the initial target.
     columns.update(datasets.derived_dependents(columns))
     layers=set(manifest.layers)|set(SOURCE_LAYERS)
