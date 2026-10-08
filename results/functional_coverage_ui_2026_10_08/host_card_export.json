@@ -1,0 +1,333 @@
+{
+  "counts": [
+    [
+      "source_records",
+      59033
+    ],
+    [
+      "canonical_genes",
+      58988
+    ],
+    [
+      "qualified_PAR_Y_records",
+      45
+    ],
+    [
+      "unmapped_genes",
+      39630
+    ],
+    [
+      "single_protein_genes",
+      19208
+    ],
+    [
+      "multiple_protein_genes",
+      150
+    ],
+    [
+      "source_genes_with_shared_protein",
+      1713
+    ],
+    [
+      "reference_mapping_records",
+      22320
+    ],
+    [
+      "reference_gene_protein_pairs",
+      22320
+    ],
+    [
+      "mapping_genes_outside_source_universe",
+      2685
+    ],
+    [
+      "mapped_proteins_in_source_universe",
+      19268
+    ],
+    [
+      "reference_proteins_with_multiple_genes",
+      1615
+    ],
+    [
+      "source_measurement_cells",
+      118066
+    ],
+    [
+      "canonical_gene_measurement_cells",
+      117976
+    ],
+    [
+      "protein_measurements_projected",
+      0
+    ],
+    [
+      "source_records_lost",
+      0
+    ]
+  ],
+  "details": [
+    {
+      "key": "source",
+      "label": "Ground-truth source and interpretation",
+      "text": "{\n  \"context\": \"ordinary genes in this GTEx annotation; qualified Y records preserved separately\",\n  \"grade\": \"unresolved\",\n  \"lineage\": \"Original gene records and mapping summary; no protein measurements projected; independent source/benchmark admission unresolved\",\n  \"name\": \"Reviewed human source-gene foundation\",\n  \"negative_semantics\": \"Unmapped or ambiguous reference links and missing measurements are unknown; they do not establish biological absence\",\n  \"sha256\": \"b951fd32aae5cad48435026e07225860596a411a75efd0519e00f330b7a98294\",\n  \"version\": \"Unavailable / not supplied\"\n}"
+    },
+    {
+      "key": "split",
+      "label": "Split and fitted populations",
+      "text": "{\n  \"reason\": \"This is source preservation, not an inference benchmark\",\n  \"status\": \"unavailable\"\n}"
+    },
+    {
+      "key": "sizes",
+      "label": "Sample sizes",
+      "text": "{\n  \"canonical_gene_measurement_cells\": 117976,\n  \"canonical_genes\": 58988,\n  \"mapped_proteins_in_source_universe\": 19268,\n  \"mapping_genes_outside_source_universe\": 2685,\n  \"multiple_protein_genes\": 150,\n  \"protein_measurements_projected\": 0,\n  \"qualified_PAR_Y_records\": 45,\n  \"reference_gene_protein_pairs\": 22320,\n  \"reference_mapping_records\": 22320,\n  \"reference_proteins_with_multiple_genes\": 1615,\n  \"single_protein_genes\": 19208,\n  \"source_genes_with_shared_protein\": 1713,\n  \"source_measurement_cells\": 118066,\n  \"source_records\": 59033,\n  \"source_records_lost\": 0,\n  \"unmapped_genes\": 39630\n}"
+    },
+    {
+      "key": "baseline",
+      "label": "Matched baseline",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "uncertainty",
+      "label": "Uncertainty",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "controls",
+      "label": "Controls",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "failures",
+      "label": "Failure examples",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "rows",
+      "label": "Row-level outcomes",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "freshness",
+      "label": "Freshness",
+      "text": "{\n  \"source_release_to_publication\": \"unresolved\",\n  \"source_version\": null,\n  \"summary_sha256\": \"dd26db5ba4bb6855e9aabde667fe6835b03ea12da73f22ff562782b22ee3df6d\"\n}"
+    },
+    {
+      "key": "gaps",
+      "label": "Limitations and gaps",
+      "text": "[\n  \"Independent biological benchmark admission remains unresolved\",\n  \"GTEx v10 release-to-publication and sample-summary/context lineage review remains pending\",\n  \"Complete pack redistribution/reference/graph/opening gates remain pending\",\n  \"Cultured adult fibroblasts are not validated HFF measurements\",\n  \"Gene annotation scope is this source, not genome completeness\"\n]"
+    },
+    {
+      "key": "identity",
+      "label": "Evaluation identity",
+      "text": "{\n  \"cohort_identity\": null,\n  \"parameter_identity\": null,\n  \"records_identity\": null,\n  \"scope_identity\": null\n}"
+    },
+    {
+      "key": "parameters",
+      "label": "Evaluation parameters",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "task_details",
+      "label": "Task-specific test record",
+      "text": "Unavailable / not supplied"
+    },
+    {
+      "key": "evidence",
+      "label": "Evidence quality",
+      "text": "{\n  \"admission\": {\n    \"benchmark_admitted\": false,\n    \"distributable_pack_built\": false,\n    \"installed_space_registered\": false,\n    \"redistribution\": \"unresolved\"\n  },\n  \"biological_accuracy\": null,\n  \"calibrated_confidence\": null,\n  \"independent_benchmark\": null,\n  \"mapping_interpretation\": \"Reference links preserve ambiguity and shared targets; they are not biological validation or a license to project measurements\",\n  \"protein_measurements_projected\": 0,\n  \"reference_mapping\": {\n    \"mapped_proteins_in_source_universe\": 19268,\n    \"mapping_genes_outside_source_universe\": 2685,\n    \"multiple_protein_genes\": 150,\n    \"reference_gene_protein_pairs\": 22320,\n    \"reference_mapping_records\": 22320,\n    \"reference_proteins_with_multiple_genes\": 1615,\n    \"single_protein_genes\": 19208,\n    \"source_genes_with_shared_protein\": 1713,\n    \"unmapped_genes\": 39630\n  },\n  \"reviewed_context_and_admission_gaps\": [\n    \"Independent biological benchmark admission remains unresolved\",\n    \"GTEx v10 release-to-publication and sample-summary/context lineage review remains pending\",\n    \"Complete pack redistribution/reference/graph/opening gates remain pending\",\n    \"Cultured adult fibroblasts are not validated HFF measurements\",\n    \"Gene annotation scope is this source, not genome completeness\"\n  ],\n  \"scope\": \"ordinary genes in this GTEx annotation; qualified Y records preserved separately\",\n  \"source_interpretation\": \"Source records retained without protein projection; qualified Y records remain separate. Source gene annotation is not genome completeness\",\n  \"source_preservation\": {\n    \"canonical_gene_measurement_cells\": 117976,\n    \"canonical_genes\": 58988,\n    \"qualified_PAR_Y_records\": 45,\n    \"source_measurement_cells\": 118066,\n    \"source_records\": 59033,\n    \"source_records_lost\": 0\n  }\n}"
+    }
+  ],
+  "kind": "evidence",
+  "links": [],
+  "metrics": [],
+  "scope": [
+    [
+      "organism",
+      "Hs"
+    ],
+    [
+      "target",
+      "source_gene_foundation"
+    ],
+    [
+      "strategy",
+      "evidence_audit"
+    ],
+    [
+      "settings",
+      "Summary-only evidence presentation; no model fitted"
+    ],
+    [
+      "seed",
+      "Unavailable / not supplied"
+    ],
+    [
+      "protocol",
+      "Reviewed source preservation and reference mapping foundation"
+    ],
+    [
+      "partition",
+      "Source audit; not a held-out inference test"
+    ],
+    [
+      "benchmark_id",
+      "Unavailable / not supplied"
+    ],
+    [
+      "unit",
+      "gene"
+    ]
+  ],
+  "snapshot": {
+    "card": {
+      "counts": {
+        "canonical_gene_measurement_cells": 117976,
+        "canonical_genes": 58988,
+        "mapped_proteins_in_source_universe": 19268,
+        "mapping_genes_outside_source_universe": 2685,
+        "multiple_protein_genes": 150,
+        "protein_measurements_projected": 0,
+        "qualified_PAR_Y_records": 45,
+        "reference_gene_protein_pairs": 22320,
+        "reference_mapping_records": 22320,
+        "reference_proteins_with_multiple_genes": 1615,
+        "single_protein_genes": 19208,
+        "source_genes_with_shared_protein": 1713,
+        "source_measurement_cells": 118066,
+        "source_records": 59033,
+        "source_records_lost": 0,
+        "unmapped_genes": 39630
+      },
+      "evidence": {
+        "admission": {
+          "benchmark_admitted": false,
+          "distributable_pack_built": false,
+          "installed_space_registered": false,
+          "redistribution": "unresolved"
+        },
+        "biological_accuracy": null,
+        "calibrated_confidence": null,
+        "independent_benchmark": null,
+        "mapping_interpretation": "Reference links preserve ambiguity and shared targets; they are not biological validation or a license to project measurements",
+        "protein_measurements_projected": 0,
+        "reference_mapping": {
+          "mapped_proteins_in_source_universe": 19268,
+          "mapping_genes_outside_source_universe": 2685,
+          "multiple_protein_genes": 150,
+          "reference_gene_protein_pairs": 22320,
+          "reference_mapping_records": 22320,
+          "reference_proteins_with_multiple_genes": 1615,
+          "single_protein_genes": 19208,
+          "source_genes_with_shared_protein": 1713,
+          "unmapped_genes": 39630
+        },
+        "reviewed_context_and_admission_gaps": [
+          "Independent biological benchmark admission remains unresolved",
+          "GTEx v10 release-to-publication and sample-summary/context lineage review remains pending",
+          "Complete pack redistribution/reference/graph/opening gates remain pending",
+          "Cultured adult fibroblasts are not validated HFF measurements",
+          "Gene annotation scope is this source, not genome completeness"
+        ],
+        "scope": "ordinary genes in this GTEx annotation; qualified Y records preserved separately",
+        "source_interpretation": "Source records retained without protein projection; qualified Y records remain separate. Source gene annotation is not genome completeness",
+        "source_preservation": {
+          "canonical_gene_measurement_cells": 117976,
+          "canonical_genes": 58988,
+          "qualified_PAR_Y_records": 45,
+          "source_measurement_cells": 118066,
+          "source_records": 59033,
+          "source_records_lost": 0
+        }
+      },
+      "metrics": {},
+      "scope": {
+        "benchmark_id": null,
+        "gaps": [
+          "Independent biological benchmark admission remains unresolved",
+          "GTEx v10 release-to-publication and sample-summary/context lineage review remains pending",
+          "Complete pack redistribution/reference/graph/opening gates remain pending",
+          "Cultured adult fibroblasts are not validated HFF measurements",
+          "Gene annotation scope is this source, not genome completeness"
+        ],
+        "organism": "Hs",
+        "partition": "Source audit; not a held-out inference test",
+        "protocol": "Reviewed source preservation and reference mapping foundation",
+        "settings": "Summary-only evidence presentation; no model fitted",
+        "strategy": "evidence_audit",
+        "target": "source_gene_foundation",
+        "truth_grade": "unresolved",
+        "unit": "gene"
+      },
+      "source": {
+        "context": "ordinary genes in this GTEx annotation; qualified Y records preserved separately",
+        "grade": "unresolved",
+        "lineage": "Original gene records and mapping summary; no protein measurements projected; independent source/benchmark admission unresolved",
+        "name": "Reviewed human source-gene foundation",
+        "negative_semantics": "Unmapped or ambiguous reference links and missing measurements are unknown; they do not establish biological absence",
+        "sha256": "b951fd32aae5cad48435026e07225860596a411a75efd0519e00f330b7a98294",
+        "version": null
+      }
+    },
+    "details": {
+      "baseline": null,
+      "controls": null,
+      "freshness": {
+        "source_release_to_publication": "unresolved",
+        "source_version": null,
+        "summary_sha256": "dd26db5ba4bb6855e9aabde667fe6835b03ea12da73f22ff562782b22ee3df6d"
+      },
+      "gaps": [
+        "Independent biological benchmark admission remains unresolved",
+        "GTEx v10 release-to-publication and sample-summary/context lineage review remains pending",
+        "Complete pack redistribution/reference/graph/opening gates remain pending",
+        "Cultured adult fibroblasts are not validated HFF measurements",
+        "Gene annotation scope is this source, not genome completeness"
+      ],
+      "rows": null,
+      "sizes": {
+        "canonical_gene_measurement_cells": 117976,
+        "canonical_genes": 58988,
+        "mapped_proteins_in_source_universe": 19268,
+        "mapping_genes_outside_source_universe": 2685,
+        "multiple_protein_genes": 150,
+        "protein_measurements_projected": 0,
+        "qualified_PAR_Y_records": 45,
+        "reference_gene_protein_pairs": 22320,
+        "reference_mapping_records": 22320,
+        "reference_proteins_with_multiple_genes": 1615,
+        "single_protein_genes": 19208,
+        "source_genes_with_shared_protein": 1713,
+        "source_measurement_cells": 118066,
+        "source_records": 59033,
+        "source_records_lost": 0,
+        "unmapped_genes": 39630
+      },
+      "source": {
+        "context": "ordinary genes in this GTEx annotation; qualified Y records preserved separately",
+        "grade": "unresolved",
+        "lineage": "Original gene records and mapping summary; no protein measurements projected; independent source/benchmark admission unresolved",
+        "name": "Reviewed human source-gene foundation",
+        "negative_semantics": "Unmapped or ambiguous reference links and missing measurements are unknown; they do not establish biological absence",
+        "sha256": "b951fd32aae5cad48435026e07225860596a411a75efd0519e00f330b7a98294",
+        "version": null
+      },
+      "split": {
+        "reason": "This is source preservation, not an inference benchmark",
+        "status": "unavailable"
+      },
+      "uncertainty": null
+    }
+  },
+  "source": {
+    "context": "ordinary genes in this GTEx annotation; qualified Y records preserved separately",
+    "grade": "unresolved",
+    "lineage": "Original gene records and mapping summary; no protein measurements projected; independent source/benchmark admission unresolved",
+    "name": "Reviewed human source-gene foundation",
+    "negative_semantics": "Unmapped or ambiguous reference links and missing measurements are unknown; they do not establish biological absence",
+    "sha256": "b951fd32aae5cad48435026e07225860596a411a75efd0519e00f330b7a98294",
+    "version": "Unavailable / not supplied"
+  },
+  "status": "Foundation reviewed; host space, benchmark and distribution unavailable",
+  "task": null,
+  "title": "Human source-gene foundation"
+}

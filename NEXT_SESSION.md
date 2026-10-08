@@ -618,3 +618,42 @@ only two unfinished builders and replays with zero builders. Stages0.350/0.957/
 fixtureRSS. Remaining production feature/map/model/deployment builders and adapter
 coverage keep this item open. No new tick (18/51). Functional work pushed as682a399;
 no original runtime strategy, dataset promotion, native-goal completion or release.
+
+Latest integration partition: **68.02 30%, 64.17 50%; still 18/51 whole actions**.
+Three authorized workers delivered complete recorded-domain profiles, the exact
+functional coverage matrix and shared scorecard presentation; they continue bounded
+profile-target, production-feature and class-card software partitions. Domain census
+retains all34,983 memberships, including withdrawn/missing-current identifiers.
+Coverage has880 addresses/11installedlabels/oneverifiedrecovery artifact and zero
+independent biology/calibrated deployment. Discoveries exposes current-organism
+240/320address coverage with exact recorded-result routes. Exact installed-node
+hash/table binding prevents imported/altered contexts from borrowing archived accuracy.
+Functional source exclusions close registered/declared derived inputs and reject
+cycles, unresolved provenance and missing encoded questions. Existing artifacts
+are not retroactively rewritten.
+
+Shared immutable cards expose definitions/full record/export, source/split/control
+gaps and readable evidence counts; actual human source status retains58,988canonical
+genes without host inference/registration. Task-aware set metadata preserves native
+algorithm schemas. Profile/major class populations remain distinct. The final
+executed UI source replay is recorded in
+`results/functional_coverage_ui_2026_10_08_v3/`; earlier prototypes remain immutable.
+FN-EC-02 stopped with an actual runtime content-access restriction; do not retry or
+reconstruct that task. Restricted partial activity-truth files remain unreviewed.
+Watchdog logs the actual stop and ongoing independent work.
+
+GitHubCI for b5b854b failed before regressions because default pytest collected
+archived immutable test copies with duplicate module names. Commit043a2ad limits
+default discovery to live tests and is verified pushednightly; normal collection
+now succeeds without archive paths. Preserve archivedcopies. The replacement CI
+run is pending; do not claim full-suite success or release readiness.
+
+Final integration validation: **738 focused checks pass**, package-version check
+passes, V3 actual UI/source audit passes, all51manifest-covered outputfiles verified.
+Prepared-profile target software has25pure checks; numeric intermediate feature
+builder/runner has59pure checks under400MB. The latter pins source/split/exclusion
+and imported guardcode, preserves native train ranks/frozen queryECDF, and rejects
+complex/attention inputs. No actual production feature pilot yet;64.25stays35%.
+Root combined test RSS fixtures are deterministic; actual external limits remain.
+Continue a bounded executed feature-operator pilot and domain prepared-target
+capacity census, then remaining categorical/numeric/source admission partitions.

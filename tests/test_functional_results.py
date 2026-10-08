@@ -93,12 +93,10 @@ def test_panel_functional_source_links_class_cards_abstentions_and_gene_signal(m
     from starplast import claims as C, strategies as S, track_record as T
     from starplast.discoveries_panel import DiscoveriesPanel
     benchmarks,_=F.shipped(O.TOXOPLASMA);benchmark=benchmarks[0]
-    nodes=pd.DataFrame({'gene_id':[row['entity'] for row in benchmark.rows],
-        'ec_number':['2.7.11.1 (test kinase)']*len(benchmark.rows)})
     monkeypatch.setattr(C,'shipped',lambda *a:pd.DataFrame())
     monkeypatch.setattr(C,'recipes',lambda *a:pd.DataFrame())
     monkeypatch.setattr(T,'shipped',lambda *a:pd.DataFrame())
-    panel=DiscoveriesPanel(O.TOXOPLASMA,context=S.Context(nodes,graph={},organism=O.TOXOPLASMA))
+    panel=DiscoveriesPanel(O.TOXOPLASMA,context=S.Context.shipped(O.TOXOPLASMA))
     try:
         panel.label.setCurrentIndex(panel.label.findData('ec_number'))
         assert panel.annotation_functional.isEnabled() and not panel.annotation_record.isEnabled()
@@ -113,7 +111,7 @@ def test_panel_functional_source_links_class_cards_abstentions_and_gene_signal(m
         panel.functional_view.setCurrentIndex(panel.functional_view.findData('major:2'))
         expected=[r for r in benchmark.rows if '2' in F.profile_classes(r['truth']) or '2' in (F.profile_classes(r['prediction']) or ())]
         assert panel.functional_shown_rows==expected
-        assert 'reference prevalence' in panel.functional_card.toPlainText()
+        assert 'reference prevalence' in panel.functional_card.toPlainText().casefold()
         major=next(card for card in benchmark.major_class_cards if card['class']=='2')
         outcomes=[panel.functional_rows.item(i,4).text() for i in range(panel.functional_rows.rowCount())]
         assert outcomes.count('recovered reference class')==major['true_positive']
@@ -157,6 +155,16 @@ def test_frozen_functional_test_opens_real_installed_gene_view():
         assert gene in window.detail.toHtml()
         assert panel.functional_choice.currentData().metadata['organism']==O.TOXOPLASMA
         assert panel.functional_choice.currentData().metadata['biological_admission'] is False
+        panel.label.setCurrentIndex(panel.label.findData('ec_number'))
+        available=[i for i,row in enumerate(panel.coverage_shown)
+            if row['reference_recovery']['status']=='verified_reference_recovery']
+        assert len(available)==1
+        panel._coverage_selected(available[0],0)
+        assert panel.coverage_open.isEnabled()
+        panel.coverage_open.click()
+        assert panel.tabs.currentWidget()==panel.functional_page
+        assert panel.functional_card.view is not None
+        assert dict(panel.functional_card.view.counts)==panel.functional_choice.currentData().card['counts']
     finally:window.close()
 
 

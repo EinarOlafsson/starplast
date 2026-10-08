@@ -11,7 +11,7 @@ inference/benchmark coverage clearly.
 | Item | Percent done | Time left | Description |
 |---|---:|---|---|
 | [68.01](../done/68_01_discoveries_label_browser.md) | ✅ | 0 h | Browse all available labels and functional classes, memberships and inference/test coverage in Discoveries |
-| 68.02 | 25% | 8–14 h + compute | Add functional ground-truth targets, strategy benchmarks and precomputed functional claims |
+| 68.02 | 30% | 6–12 h + compute | Add functional ground-truth targets, strategy benchmarks and precomputed functional claims |
 
 68.01 is bounded to current categorical annotations/flags plus multi-valued InterPro,
 Pfam and EC fields, both existing organisms, and existing claims/recipes. Search labels
@@ -128,3 +128,37 @@ omits domain: graph adapters must explicitly withhold domain edges and derived
 representations. The first pilot has `graph={}`. Attention-count aliases need a
 general feature-exclusion follow-up (both counts are already withheld in this pilot).
 No full 68.02 completion or new progress-table tick is claimed.
+
+## Source preparation and explicit coverage — 30%, 2026-10-08
+
+The recorded-domain census preserves every original source cell and all
+34,983 memberships, including 175 missing-current InterPro and 13 withdrawn Pfam
+memberships. The executed domain census exposes complete-profile counts and
+singleton profiles without fitting or assigning new functions. Unknown and malformed
+profiles cannot become verified negatives; singleton/unsupported test profiles must
+remain in future capacity denominators.
+
+The separate immutable prepared-target contract retains normalized complete
+profiles, unknown states, universe/order and protected split identities. Its
+semantic target identity does not substitute for the original source/census hash.
+Capacity reports are reporting-only; test support cannot select settings or features.
+
+The executed coverage census has 880 organism/source/target/strategy/task addresses,
+11 installed functional source labels and one verified reference-recovery artifact.
+Human/mouse inference adapters remain unsupported/uninventoried; no accuracy transfers
+between species or labels. Discoveries now exposes the current organism's 240/320
+addresses and links the exact available EC result. Independent biology, calibration
+and deployment remain unavailable. Exact installed-node hash and table-value checks
+prevent imported or altered contexts from inheriting archived performance.
+
+An opt-in functional exclusion helper closes domain/homology/literature/attention
+sources, registered derived columns and explicitly declared representations. Sentinel
+checks reject hidden-role selection, cyclic/unresolved lineage and empty encoded
+targets. This strengthens future benchmark preparation; it does not retroactively
+change old artifacts or prove independence of undeclared inputs.
+
+Shared scorecard, class and host evidence presentation advances 64.17. Source/recovery
+snapshots and diagnostics stay immutable. FN-EC-02 stopped with an observed runtime
+content-access restriction; it remains unfinished and was not retried. Ordinary
+software tasks continued. Independent activity truth and full functional mechanism
+coverage remain open; total completion remains 18/51.

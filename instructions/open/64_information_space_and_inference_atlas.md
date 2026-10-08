@@ -146,7 +146,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.14](64_14_cluster_benchmarks.md) | 0% | 6–10 h | Test map and module recovery | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.15](64_15_replication_benchmarks.md) | 0% | 4–8 h | Test split-half and conjunction findings | 64.05, 64.06, 64.07, 64.08, 64.09 |
 | [64.16](64_16_confidence_applicability.md) | 0% | 6–12 h | Calibrate confidence and measure where it applies | 64.10, 64.11, 64.12, 64.13, 64.14, 64.15 |
-| [64.17](64_17_shared_scorecard_component.md) | 0% | 4–6 h | Expose one reusable scorecard component | 64.09, 64.16 |
+| [64.17](64_17_shared_scorecard_component.md) | 50% | 2–4 h | Expose one reusable scorecard component | 64.09, 64.16 |
 | [64.18](64_18_dataset_space_browser.md) | 0% | 4–8 h | Browse the selected organism's datasets | 64.02, 64.03, 64.17 |
 | [64.19](64_19_gene_evidence_entry.md) | 0% | 4–8 h | Make gene lookup an evidence entry point | 64.01, 64.03, 64.17, 64.18 |
 | [64.20](64_20_label_class_entry.md) | 0% | 4–8 h | Make labels and protein classes entry points | 64.01, 64.02, 64.17, 64.19 |
@@ -191,7 +191,7 @@ browsing as completion of functional inference or independent biological validat
 | [66.04](../done/66_04_host_symbol_projections.md) | ✅ | 0 h | Correct ambiguous host projections | 66.03 |
 | [67.01](../done/67_01_work_continuation_watchdog.md) | ✅ | 0 h | Keep continuation active and log actual stops | — |
 | [68.01](../done/68_01_discoveries_label_browser.md) | ✅ | 0 h | Browse all available labels and functions in Discoveries | — |
-| [68.02](68_discoveries_function_coverage.md) | 25% | 8–14 h + compute | Benchmark and precompute functional inferences | 68.01, 64.04–64.09 |
+| [68.02](68_discoveries_function_coverage.md) | 30% | 6–12 h + compute | Benchmark and precompute functional inferences | 68.01, 64.04–64.09 |
 
 ### Strategy ground-truth matrix
 

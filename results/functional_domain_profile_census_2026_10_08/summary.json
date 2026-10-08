@@ -1,0 +1,279 @@
+{
+  "benchmark_partition": "FN-DOM-01",
+  "fitting_performed": false,
+  "biological_admission": false,
+  "target_semantics": "Complete original recorded identifier set; not ordered domain architecture",
+  "negative_semantics": "Nonmembership in a complete recorded profile means reference-profile omission only; unannotated/malformed profiles are unknown; biological domain absence is not adjudicated",
+  "source_assignment_release": "unresolved",
+  "source_gene_evidence_grade": "unresolved",
+  "current_nomenclature": {
+    "InterPro": {
+      "release": "110.0",
+      "release_date": "3rd September 2026",
+      "license": "CC0-1.0",
+      "license_url": "https://interpro-documentation.readthedocs.io/en/latest/license.html",
+      "metadata_url": "https://ftp.ebi.ac.uk/pub/databases/interpro/current_release/entry.list",
+      "entries": 54922
+    },
+    "Pfam": {
+      "release": "38.2",
+      "version_metadata": "Pfam release       : 38.2\nPfam-A families    : 30134\nDate               : 2026-01\nBased on UniProtKB : 2025_03\n",
+      "license": "CC0-1.0",
+      "license_url": "https://interpro-documentation.readthedocs.io/en/latest/license.html",
+      "metadata_url": "https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.dat.gz",
+      "entries": 30134,
+      "version_gap": "Pfam.version states UniProtKB 2025_03; online about page states 2026_01. Descriptor and version bytes pinned; original gene assignment release unresolved.",
+      "retired_metadata_entries": 1121
+    }
+  },
+  "labels": [
+    {
+      "organism": "Tg",
+      "source_target": "interpro_id",
+      "genes": 8140,
+      "statuses": {
+        "recorded_complete": 4957,
+        "unannotated": 3183
+      },
+      "eligible_profiles": 4957,
+      "recorded_term_memberships": 14465,
+      "diagnostic_valid_terms_in_malformed_profiles": 0,
+      "unique_profiles": 3300,
+      "singleton_profiles": 2723,
+      "multi_identifier_profiles": 3742,
+      "empty_delimiter_genes": 1,
+      "ignored_empty_tokens": 1,
+      "duplicate_identifier_tokens": 0,
+      "metadata_status_memberships": {
+        "current_metadata": 14408,
+        "missing_current_metadata": 57
+      },
+      "unique_recorded_ids": 4989,
+      "eligible_homology_groups": 4408,
+      "eligible_genes_without_resolved_homology": 0,
+      "source_ids": [
+        "interpro"
+      ],
+      "source_records": [
+        {
+          "key": "interpro",
+          "url": "https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular?organism=%5B%22Toxoplasma%20gondii%20ME49%22%5D&reportConfig=%7B%22attributes%22%3A%5B%22gene_source_id%22%2C%22interpro_id%22%2C%22interpro_description%22%2C%22pfam_id%22%2C%22pfam_description%22%5D%2C%22includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D",
+          "path": "datasets/interpro_tgon.csv",
+          "note": "Domain annotation partly records study effort, not conserved architecture."
+        }
+      ],
+      "source_assignment_release": "unresolved",
+      "individual_gene_evidence_grade": "unresolved",
+      "top_recorded_profiles": {
+        "[\"IPR000504\",\"IPR035979\"]": 49,
+        "[\"IPR007226\",\"IPR036755\"]": 47,
+        "[\"IPR007226\",\"IPR028352\",\"IPR036755\"]": 40,
+        "[\"IPR000719\",\"IPR008271\",\"IPR011009\",\"IPR017441\"]": 37,
+        "[\"IPR000719\",\"IPR008271\",\"IPR011009\"]": 37,
+        "[\"IPR001471\"]": 32,
+        "[\"IPR001680\",\"IPR036322\"]": 31,
+        "[\"IPR016024\"]": 24,
+        "[\"IPR002048\",\"IPR011992\",\"IPR018247\"]": 21,
+        "[\"IPR001932\",\"IPR015655\",\"IPR036457\"]": 18,
+        "[\"IPR000719\",\"IPR011009\"]": 17,
+        "[\"IPR011990\",\"IPR019734\"]": 17,
+        "[\"IPR011701\",\"IPR036259\"]": 16,
+        "[\"IPR001594\"]": 16,
+        "[\"IPR001806\",\"IPR005225\",\"IPR027417\"]": 15,
+        "[\"IPR007226\"]": 15,
+        "[\"IPR002048\",\"IPR011992\"]": 14,
+        "[\"IPR029058\"]": 14,
+        "[\"IPR001611\"]": 14,
+        "[\"IPR003323\",\"IPR038765\"]": 14
+      },
+      "biological_admission": false,
+      "exact_source_and_profile_replay": true
+    },
+    {
+      "organism": "Tg",
+      "source_target": "pfam_id",
+      "genes": 8140,
+      "statuses": {
+        "recorded_complete": 4310,
+        "unannotated": 3830
+      },
+      "eligible_profiles": 4310,
+      "recorded_term_memberships": 5952,
+      "diagnostic_valid_terms_in_malformed_profiles": 0,
+      "unique_profiles": 2279,
+      "singleton_profiles": 1643,
+      "multi_identifier_profiles": 1097,
+      "empty_delimiter_genes": 0,
+      "ignored_empty_tokens": 0,
+      "duplicate_identifier_tokens": 0,
+      "metadata_status_memberships": {
+        "current_metadata": 5941,
+        "withdrawn": 11
+      },
+      "unique_recorded_ids": 2447,
+      "eligible_homology_groups": 3802,
+      "eligible_genes_without_resolved_homology": 0,
+      "source_ids": [
+        "interpro"
+      ],
+      "source_records": [
+        {
+          "key": "interpro",
+          "url": "https://toxodb.org/toxo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular?organism=%5B%22Toxoplasma%20gondii%20ME49%22%5D&reportConfig=%7B%22attributes%22%3A%5B%22gene_source_id%22%2C%22interpro_id%22%2C%22interpro_description%22%2C%22pfam_id%22%2C%22pfam_description%22%5D%2C%22includeHeader%22%3Atrue%2C%22attachmentType%22%3A%22plain%22%7D",
+          "path": "datasets/interpro_tgon.csv",
+          "note": "Domain annotation partly records study effort, not conserved architecture."
+        }
+      ],
+      "source_assignment_release": "unresolved",
+      "individual_gene_evidence_grade": "unresolved",
+      "top_recorded_profiles": {
+        "[\"PF00069\"]": 108,
+        "[\"PF04092\"]": 104,
+        "[\"PF00076\"]": 57,
+        "[\"PF00400\"]": 53,
+        "[\"PF00270\",\"PF00271\"]": 33,
+        "[\"PF00847\"]": 33,
+        "[\"PF00481\"]": 29,
+        "[\"PF14531\"]": 29,
+        "[\"PF07690\"]": 24,
+        "[\"PF00153\"]": 21,
+        "[\"PF00225\"]": 20,
+        "[\"PF13639\"]": 18,
+        "[\"PF00233\"]": 17,
+        "[\"PF00226\"]": 17,
+        "[\"PF00642\"]": 17,
+        "[\"PF00071\"]": 17,
+        "[\"PF01529\"]": 16,
+        "[\"PF00179\"]": 16,
+        "[\"PF01423\"]": 15,
+        "[\"PF02493\"]": 14
+      },
+      "biological_admission": false,
+      "exact_source_and_profile_replay": true
+    },
+    {
+      "organism": "Pf",
+      "source_target": "interpro_ids",
+      "genes": 5720,
+      "statuses": {
+        "recorded_complete": 3695,
+        "unannotated": 2025
+      },
+      "eligible_profiles": 3695,
+      "recorded_term_memberships": 9980,
+      "diagnostic_valid_terms_in_malformed_profiles": 0,
+      "unique_profiles": 2457,
+      "singleton_profiles": 2083,
+      "multi_identifier_profiles": 2569,
+      "empty_delimiter_genes": 0,
+      "ignored_empty_tokens": 0,
+      "duplicate_identifier_tokens": 0,
+      "metadata_status_memberships": {
+        "current_metadata": 9862,
+        "missing_current_metadata": 118
+      },
+      "unique_recorded_ids": 3846,
+      "eligible_homology_groups": 3117,
+      "eligible_genes_without_resolved_homology": 0,
+      "source_ids": [
+        "plasmodb_pf3d7_domains"
+      ],
+      "source_records": [
+        {
+          "key": "plasmodb_pf3d7_domains",
+          "url": "https://plasmodb.org/plasmo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular",
+          "path": "starplast/data/pf_nodes.parquet",
+          "note": "Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes)."
+        }
+      ],
+      "source_assignment_release": "unresolved",
+      "individual_gene_evidence_grade": "unresolved",
+      "top_recorded_profiles": {
+        "[\"IPR006373\"]": 129,
+        "[\"IPR004258\",\"IPR008602\",\"IPR029210\",\"IPR029211\",\"IPR041480\"]": 49,
+        "[\"IPR006526\",\"IPR019111\"]": 38,
+        "[\"IPR000504\",\"IPR035979\"]": 34,
+        "[\"IPR006374\"]": 30,
+        "[\"IPR006373\",\"IPR011992\"]": 28,
+        "[\"IPR019111\"]": 21,
+        "[\"IPR000719\",\"IPR008271\",\"IPR011009\",\"IPR017441\"]": 21,
+        "[\"IPR001650\",\"IPR011545\",\"IPR014001\",\"IPR027417\"]": 20,
+        "[\"IPR000719\",\"IPR008271\",\"IPR011009\"]": 19,
+        "[\"IPR013584\"]": 18,
+        "[\"IPR001471\"]": 17,
+        "[\"IPR006389\"]": 16,
+        "[\"IPR036322\"]": 16,
+        "[\"IPR001680\",\"IPR036322\"]": 16,
+        "[\"IPR000719\",\"IPR008266\",\"IPR011009\"]": 14,
+        "[\"IPR006410\"]": 13,
+        "[\"IPR011990\",\"IPR019734\"]": 12,
+        "[\"IPR000629\",\"IPR001650\",\"IPR011545\",\"IPR014001\",\"IPR027417\"]": 12,
+        "[\"IPR016024\"]": 12
+      },
+      "biological_admission": false,
+      "exact_source_and_profile_replay": true
+    },
+    {
+      "organism": "Pf",
+      "source_target": "pfam_ids",
+      "genes": 5720,
+      "statuses": {
+        "recorded_complete": 3298,
+        "unannotated": 2422
+      },
+      "eligible_profiles": 3298,
+      "recorded_term_memberships": 4586,
+      "diagnostic_valid_terms_in_malformed_profiles": 0,
+      "unique_profiles": 1760,
+      "singleton_profiles": 1293,
+      "multi_identifier_profiles": 796,
+      "empty_delimiter_genes": 0,
+      "ignored_empty_tokens": 0,
+      "duplicate_identifier_tokens": 0,
+      "metadata_status_memberships": {
+        "current_metadata": 4584,
+        "withdrawn": 2
+      },
+      "unique_recorded_ids": 1949,
+      "eligible_homology_groups": 2737,
+      "eligible_genes_without_resolved_homology": 0,
+      "source_ids": [
+        "plasmodb_pf3d7_domains"
+      ],
+      "source_records": [
+        {
+          "key": "plasmodb_pf3d7_domains",
+          "url": "https://plasmodb.org/plasmo/service/record-types/transcript/searches/GenesByTaxon/reports/attributesTabular",
+          "path": "starplast/data/pf_nodes.parquet",
+          "note": "Split from the attribute report on 2026-09-25 (see plasmodb_pf3d7_attributes)."
+        }
+      ],
+      "source_assignment_release": "unresolved",
+      "individual_gene_evidence_grade": "unresolved",
+      "top_recorded_profiles": {
+        "[\"PF02009\"]": 157,
+        "[\"PF00069\"]": 72,
+        "[\"PF09687\"]": 60,
+        "[\"PF03011\",\"PF05424\",\"PF15445\",\"PF15447\",\"PF18562\"]": 51,
+        "[\"PF00076\"]": 44,
+        "[\"PF00270\",\"PF00271\"]": 33,
+        "[\"PF17410\"]": 32,
+        "[\"PF00400\"]": 28,
+        "[\"PF12146\"]": 20,
+        "[\"PF00847\"]": 18,
+        "[\"PF09716\"]": 16,
+        "[\"PF08373\"]": 15,
+        "[\"PF01423\"]": 15,
+        "[\"PF09715\"]": 13,
+        "[\"PF00153\"]": 13,
+        "[\"PF00085\"]": 13,
+        "[\"PF00071\"]": 12,
+        "[\"PF13499\"]": 12,
+        "[\"PF00501\"]": 12,
+        "[\"PF00179\"]": 12
+      },
+      "biological_admission": false,
+      "exact_source_and_profile_replay": true
+    }
+  ]
+}

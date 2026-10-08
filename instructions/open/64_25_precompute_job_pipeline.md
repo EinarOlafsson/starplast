@@ -71,3 +71,14 @@ adapters64.10–64.16 remain unfinished; these fixtures and recovery-view jobs d
 complete the broader pipeline or atlas. Builders use cooperative checkpoints and
 need an external memory/time cap for preemption. Current-input identities must
 be refreshed by the caller or bound through explicit local snapshots.
+
+Next software partition, 2026-10-08: `precompute_features.NumericFeatureBuilder`
+provides a bounded intermediate numeric operator with exact ordered source
+snapshots, training-only column selection/ranks, frozen held-out ECDF, explicit
+missingness and unavailable-state blocking. Split, target, exclusion, recipe,
+builder and imported guard-code identities are required dependencies. Complex
+values and attention aliases are refused. It produces no labels, confidence or
+biological accuracy and checks selected numeric columns, not graph/map lineage.
+59 pure feature/runner checks pass under400MB; all738combined integration checks
+pass after making Qt-process RSS fixtures deterministic. The first executed
+production operator pilot remains pending; overall action stays35%.

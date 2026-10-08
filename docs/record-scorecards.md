@@ -1,5 +1,19 @@
 # Scorecards from individual evaluation records
 
+Discoveries now uses `scorecard_view.build_scorecard_view` and the desktop
+`ScorecardBrowser` for compact/full cards, metric definitions, test populations,
+sources, controls, outcomes and exact JSON export. Functional class cards distinguish
+accuracy among recorded members from class precision including false calls from
+other profiles. Evidence-quality and individual-outcome cards never supply an
+inferred accuracy probability.
+
+The Strategy coverage tab retains source/target/method/task addresses and explicit
+missing tests. Frozen functional results require exact installed input identity;
+custom tables cannot borrow their accuracy. The Host source status tab shows the
+reviewed human source foundation and unresolved mapping/context/pack gates, with
+no host performance claim. Task-aware supplemental set metric definitions preserve
+the existing numeric output schemas and recorded snapshots.
+
 `starplast.record_scorecards.aggregate(rows, scope, parameters=...)` is the common
 metric path for label calls, numeric estimates, rankings, retrieval, map/module
 recovery and replication. `RecordScope` keeps organism, strategy, target,
