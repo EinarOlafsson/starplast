@@ -238,9 +238,9 @@ inference atlas, backed by appropriate ground-truth tests, reusable precomputati
 meta-analysis and scorecards at every level. 64.01–64.09 are complete; continue remaining adapters/source admission and
 respect each card's dependencies. Completed cards record fixtures, validation and limitations.
 **Latest user priority (2026-10-08): function across Discoveries.** Browser coverage
-68.01 is complete; **68.02 is 25%** with pinned domain names, a frozen EC recovery
-pilot and actual functional scorecards. Continue independent activity/source admission,
-Plasmodium/domain targets, further adapters and calibrated deployment using the
+68.01 is complete; **68.02 is 35%** with pinned domain names, frozen EC/Pfam recovery
+pilots and actual functional scorecards. Continue independent activity/source admission,
+Plasmodium result integration, further adapters and calibrated deployment using the
 existing 64 contracts. Localization
 was the first developed prediction path; the old menu/default filters hid broader
 annotation and untested-label coverage. Preserve all existing host/audit work.
@@ -809,3 +809,17 @@ full-table registered source-closed training-only feature selection, native repl
 and matched controls. Do not reuse projected-control exclusions as sufficient for
 new feature columns. 68.02 stays35%,22/51 complete; independent biology, calibrated
 deployment, host spaces and dataset promotion remain open. Restricted files untouched.
+
+Latest accepted function partition: native Pf EC kNN canonical V2 under
+`results/pf_functional_ec_knn_2026_10_08_v2/`. All152 test genes/four unsupported
+retained:40 correct,103 wrong,nine abstentions; majority43/prevalence35, so the
+candidate does not beat majority. First packet remains diagnostic because two
+registered homology summaries escaped source exclusions. Closure policyv3
+withholds ortholog_number/has_paralog and descendants; original split/settings
+unchanged. Canonical runtime5.42s/280,400KiB under400MiB. Independent acceptance
+V2 verifies49 outputs,66 inputs,13 artifact receipts, original native controls
+and installed context; candidate reader1.24s/195,960KiB. 98 focused checks pass
+under800MiB; prior resource/path failures preserved with original code.
+Actual biological accuracy remains unknown. Next small partition: install and
+verify the accepted Pf candidate in Discoveries. Shipped Tg EC/Pfam bundle still
+unchanged; function35%, whole actions22/51, goal/watchdog active.

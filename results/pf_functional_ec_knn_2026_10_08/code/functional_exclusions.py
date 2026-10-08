@@ -17,9 +17,9 @@ import re
 from . import datasets, discovery_labels as D, strategies as S
 from .splits import make_exclusions as training_exclusions
 
-POLICY_VERSION = 'functional-source-closure-v3'
+POLICY_VERSION = 'functional-source-closure-v2'
 SOURCE_COLUMNS = frozenset((*D.FUNCTION_FIELDS,'has_ec','has_domain','n_interpro','n_pfam',
-    'n_domains','domain_count','orthogroup','paralog_number','ortholog_number','has_paralog','has_pf_ortholog',
+    'n_domains','domain_count','orthogroup','paralog_number','has_pf_ortholog',
     'has_cp_ortholog','lineage_specific','n_publications','n_fulltext'))
 SOURCE_LAYERS = frozenset(('domain','orthogroup',*S.LITERATURE_LAYERS))
 RELATED_COLUMN = re.compile(r'^(?:interpro|pfam|ec_number)(?:_|$)|^(?:domain_|n_domain|n_interpro|n_pfam)'

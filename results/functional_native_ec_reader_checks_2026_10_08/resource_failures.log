@@ -1,0 +1,10 @@
+Oct 08 18:38:50 carruthers systemd[1594]: Started /home/carruthers/anaconda3/envs/starplast/bin/python -m pytest -q -p no:cacheprovider tests/test_functional_native_ec_reader.py tests/test_functional_results.py tests/test_functional_profile_results.py.
+Oct 08 18:38:58 carruthers systemd[1594]: run-u11675.service: A process of this unit has been killed by the OOM killer.
+Oct 08 18:38:58 carruthers systemd[1594]: run-u11675.service: Main process exited, code=killed, status=9/KILL
+Oct 08 18:38:58 carruthers systemd[1594]: run-u11675.service: Failed with result 'oom-kill'.
+Oct 08 18:38:58 carruthers systemd[1594]: run-u11675.service: Consumed 9.732s CPU time.
+Oct 08 18:39:05 carruthers systemd[1594]: Started /home/carruthers/anaconda3/envs/starplast/bin/python -m pytest -q -p no:cacheprovider tests/test_functional_native_ec_reader.py tests/test_functional_results.py tests/test_functional_profile_results.py -k not panel and not context.
+Oct 08 18:39:17 carruthers systemd[1594]: starplast-native-ec-reader-pure-20261008.service: A process of this unit has been killed by the OOM killer.
+Oct 08 18:39:17 carruthers systemd[1594]: starplast-native-ec-reader-pure-20261008.service: Main process exited, code=killed, status=9/KILL
+Oct 08 18:39:17 carruthers systemd[1594]: starplast-native-ec-reader-pure-20261008.service: Failed with result 'oom-kill'.
+Oct 08 18:39:17 carruthers systemd[1594]: starplast-native-ec-reader-pure-20261008.service: Consumed 13.073s CPU time.

@@ -1,0 +1,39 @@
+Traceback (most recent call last):
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/package_pf_functional_ec_results.py", line 116, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/package_pf_functional_ec_results.py", line 105, in main
+    nb.code('result=package(source,output)','result')
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/notebook_runner.py", line 50, in code
+    exec(compile(body, f"<cell {self.count}>", "exec"), self.ns)
+  File "<cell 1>", line 1, in <module>
+  File "/media/carruthers/mnt3/claude/repo/starplast/scripts/package_pf_functional_ec_results.py", line 73, in package
+    'source_directory':str(source.relative_to(ROOT)),'source_summary':original,'summary':original,
+                           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/carruthers/anaconda3/envs/starplast/lib/python3.12/pathlib.py", line 682, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: 'results/pf_functional_ec_knn_2026_10_08_v2' is not in the subpath of '/media/carruthers/mnt3/claude/repo/starplast'
+Command exited with non-zero status 1
+	Command being timed: "/home/carruthers/anaconda3/envs/starplast/bin/python scripts/package_pf_functional_ec_results.py --source results/pf_functional_ec_knn_2026_10_08_v2 --out results/pf_functional_ec_knn_acceptance_2026_10_08"
+	User time (seconds): 0.87
+	System time (seconds): 0.16
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.03
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 148428
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 23885
+	Voluntary context switches: 69
+	Involuntary context switches: 27
+	Swaps: 0
+	File system inputs: 104
+	File system outputs: 112
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1

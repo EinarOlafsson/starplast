@@ -308,3 +308,43 @@ The source catalogue now describes direct annotations with unresolved individual
 curation/prediction provenance, rather than asserting manual curation. Generated
 catalogue refreshed; source/node bytes unchanged. No dataset promoted or replaced.
 68.02 stays35%,22/51 whole actions; actual Pf inference and UI result remain next.
+
+## Predeclared Plasmodium EC kNN, 2026-10-08
+
+Pilot FN-EC-PF-KNN-01 consumes the unchanged accepted direct-EC target and
+control packet manifest `a29e416488ba7b0722afca63764a27afcaa6f1fa521a5539a247837a9a7d38c7`.
+Keep seed20261008, roles600/151/147/152 and all four unsupported test genes.
+Fix k15/min_share0.3 before fitting. Use the full installed Pf table with
+training-only registered numeric source closure/ranks; withhold target-derived,
+unregistered and unresolved-parent features. Preserve native models, votes,
+support, scores, abstentions and the original explicitly named control cards.
+Compare exactly on the original cohort, with native/refit/serialization/artifact
+replay. One400MiB worker packet; preserve resource failures without worker
+retries or cap increases. No graphs, maps, tuning, calibration, deployment or
+biological admission. Direct annotation truth remains unresolved.
+
+First packet retained as a diagnostic: review found registered Pf
+`ortholog_number`/`has_paralog` summaries missing from the conservative source
+ban. Its44/152 recovery is not the accepted result. Bounded correction adds
+these two known aliases and descendant checks under closure policyv3; rerun
+the identical target, split and settings in a new packet. Historical packets
+keep their original code and policy identities. No target or setting selection.
+
+Accepted canonical packet `results/pf_functional_ec_knn_2026_10_08_v2/`:
+all152 test genes/four unsupported profiles retained;143 calls,40 correct,
+103 wrong and nine abstentions. Recorded-profile recovery40/152 (26.32%) is
+below majority43/152; prevalence35/152. These are source annotation recovery
+metrics; independent biological accuracy and calibrated confidence remain unknown.
+Native/refit/parquet/JSON/artifact checks are exact. Runtime5.42s,280,400KiB
+process peak under400MiB. Artifact identity
+`49d625acba268ce5599fd22f00a43bba313f84cf50a816449a944e34850626d0`.
+
+Independent executed acceptance/candidate reader packet
+`results/pf_functional_ec_knn_acceptance_2026_10_08_v2/` verifies49 outputs,
+66 input receipts,13 artifact payloads, original control bytes/scopes, protected
+cohort, unsupported denominator and exact installed context. Runtime1.24s,
+195,960KiB peak under400MiB. Explicit native EC control format keeps the actual
+control names;98 focused tests pass under800MiB. Preserved earlier accidental
+desktop selections and combined-suite400MiB OOMs, plus the packager's relative
+path diagnostic with original code. Shipped bundle unchanged; Pf desktop
+integration is next. 68.02 stays35%,22/51 whole actions, no new tick.
