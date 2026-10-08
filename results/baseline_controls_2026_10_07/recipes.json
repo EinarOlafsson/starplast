@@ -1,0 +1,71 @@
+{
+  "label calls": {
+    "task": "label calls",
+    "baselines": [
+      "training majority",
+      "training prevalence"
+    ],
+    "controls": [
+      "protected-group label null"
+    ],
+    "cohort_rule": "same eligible hidden entities and classes",
+    "limitation": "No test prevalence used for fitting; unseen classes remain visible"
+  },
+  "values": {
+    "task": "values",
+    "baselines": [
+      "training mean",
+      "training median"
+    ],
+    "controls": [
+      "protected-group value null"
+    ],
+    "cohort_rule": "same eligible finite hidden values with declared units",
+    "limitation": "No imputation of missing truth or central tendency fitted on test"
+  },
+  "ranking": {
+    "task": "ranking",
+    "baselines": [
+      "uniform random ranking"
+    ],
+    "controls": [
+      "matched candidate-universe null",
+      "degree/detection-stratum network control"
+    ],
+    "cohort_rule": "identical frozen candidate universe, seed exclusions and fixed depth",
+    "limitation": "Unlabelled entities are not verified negatives; PU precision/AUPRC not identifiable"
+  },
+  "set retrieval": {
+    "task": "set retrieval",
+    "baselines": [
+      "uniform fixed-size retrieval"
+    ],
+    "controls": [
+      "matched candidate-universe null"
+    ],
+    "cohort_rule": "identical frozen candidate universe and set size",
+    "limitation": "Positive-only recall is limited to known positives"
+  },
+  "cluster recovery": {
+    "task": "cluster recovery",
+    "baselines": [
+      "single-cluster recovery"
+    ],
+    "controls": [
+      "protected-group label null on fixed placements"
+    ],
+    "cohort_rule": "same hidden labelled entities, placements and noise mask",
+    "limitation": "Geometry/stability do not establish biological module accuracy"
+  },
+  "replication": {
+    "task": "replication",
+    "baselines": [
+      "discovery-selected null findings"
+    ],
+    "controls": [
+      "disjoint-validation effect/direction null"
+    ],
+    "cohort_rule": "same discovery selection and independent validation population",
+    "limitation": "Split-half replication does not establish new-dataset replication"
+  }
+}

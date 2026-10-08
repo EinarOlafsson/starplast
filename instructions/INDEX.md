@@ -84,7 +84,7 @@ whenever an action is completed, replacing its percentage with a green tick.
 |---|---|
 | 66 | [Recover missing source files and audit host candidate versions](open/66_source_recovery_and_host_candidates.md) — 2/4 complete: RBC review and rhoptry journal equivalence; source recovery and host mapping correction remain |
 | 65 | [Audit every dataset choice and retain the citation-rate/recency/comprehensiveness rule](open/65_dataset_selection_audit.md) — 3/4 bounded items complete; biological admission, deeper search and validated replacements remain 65.04 |
-| 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 5/40 complete (12.5%); continue with 64.06 |
+| 64 | [Explore published organism/host evidence and inspect precomputed inferences with ground-truth scorecards](open/64_information_space_and_inference_atlas.md) — 6/40 complete (15%); continue with 64.07 |
 | 63 | [Claims: generate knowledge with a measured certainty, then test it independently](open/63_claims_generate_and_verify.md) — steps 1+2 shipped in 0.54.0; October 7 literature audit complete (no Tg candidate passes, Pf candidate adds only two claims; no promotion). Next: orthology/experimental verifier coverage, frozen prospective tests, genes outside the tested range |
 | 62 | [The hold-out track record](open/62_holdout_track_record.md) — shipped 0.52.0-0.53.0 for 12 labels; left: pooled record vs scorecard check, the questions page |
 | 38 | Build a provenance-first pan-Apicomplexan dataset archive |

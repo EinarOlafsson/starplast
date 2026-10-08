@@ -99,6 +99,8 @@ See [ground-truth candidates](ground-truth.md) for versioned biological benchmar
 eligibility, evidence grades, strategy references and explicit validation gaps.
 See [benchmark hold-outs](splits.md) for nested partitions, training-only source
 selection and explicit known-node/cold-node pair regimes.
+See [shared baselines](baselines.md) for training-only estimates, matched ranking
+universes, positive-only scoring limits and degree/detection-stratum controls.
 
 See [measurement provenance](provenance.md) for the source-file, transform and
 mapping contracts, the exact raw-to-installed host pilot and the unresolved legacy

@@ -1,0 +1,209 @@
+{
+  "truth_grade": "synthetic_control",
+  "biological_admission": "not_ground_truth",
+  "task_recipes": 6,
+  "labels": {
+    "universe_sha256": "b94468b972d5933429bca883b0761a1a0e28bd07573b88b13e0cf20b418175f3",
+    "training_n": 21,
+    "evaluation_n": 6,
+    "prevalence": {
+      "common": 0.9047619047619048,
+      "rare": 0.09523809523809523
+    },
+    "split_identity": "50dd5e843ef0c49e5ba9184ffd4e67291fb17c10060e6f681f5ec4825e3644f2",
+    "role": "test",
+    "seed": 5
+  },
+  "values": {
+    "universe_sha256": "b94468b972d5933429bca883b0761a1a0e28bd07573b88b13e0cf20b418175f3",
+    "training_n": 21,
+    "evaluation_n": 6,
+    "split_identity": "50dd5e843ef0c49e5ba9184ffd4e67291fb17c10060e6f681f5ec4825e3644f2",
+    "role": "test"
+  },
+  "ranking": {
+    "universe_sha256": "e631d90566b78c33bff3566686efd15f06735ebf6514501f2d43c1c8ede3a66f",
+    "candidate_n": 100,
+    "seed": 7,
+    "query_seeds": [
+      "explicit_seed_outside_candidate_universe"
+    ]
+  },
+  "planted": {
+    "candidate_n": 100,
+    "known_positive_n": 10,
+    "depth": 10,
+    "recovered_known_positives": 10,
+    "known_positive_recall": 1.0,
+    "observed_positive_fraction": 1.0,
+    "precision": null,
+    "auroc": null,
+    "auprc": null,
+    "negative_semantics": "unlabelled_is_unknown"
+  },
+  "harness_failure_refusals": {
+    "reversed_scores": "Planted-positive harness failed; do not report biological success",
+    "null_ranking": "Planted-positive harness failed; do not report biological success"
+  },
+  "positive_only": {
+    "candidate_n": 100,
+    "known_positive_n": 10,
+    "depth": 10,
+    "recovered_known_positives": 1,
+    "known_positive_recall": 0.1,
+    "observed_positive_fraction": 0.1,
+    "precision": null,
+    "auroc": null,
+    "auprc": null,
+    "negative_semantics": "unlabelled_is_unknown"
+  },
+  "network": {
+    "edges": [
+      [
+        "synthetic_node_0",
+        "synthetic_node_1"
+      ],
+      [
+        "synthetic_node_0",
+        "synthetic_node_13"
+      ],
+      [
+        "synthetic_node_1",
+        "synthetic_node_14"
+      ],
+      [
+        "synthetic_node_10",
+        "synthetic_node_7"
+      ],
+      [
+        "synthetic_node_10",
+        "synthetic_node_9"
+      ],
+      [
+        "synthetic_node_11",
+        "synthetic_node_12"
+      ],
+      [
+        "synthetic_node_11",
+        "synthetic_node_6"
+      ],
+      [
+        "synthetic_node_12",
+        "synthetic_node_19"
+      ],
+      [
+        "synthetic_node_13",
+        "synthetic_node_4"
+      ],
+      [
+        "synthetic_node_14",
+        "synthetic_node_15"
+      ],
+      [
+        "synthetic_node_15",
+        "synthetic_node_16"
+      ],
+      [
+        "synthetic_node_16",
+        "synthetic_node_3"
+      ],
+      [
+        "synthetic_node_17",
+        "synthetic_node_18"
+      ],
+      [
+        "synthetic_node_17",
+        "synthetic_node_6"
+      ],
+      [
+        "synthetic_node_18",
+        "synthetic_node_5"
+      ],
+      [
+        "synthetic_node_19",
+        "synthetic_node_8"
+      ],
+      [
+        "synthetic_node_2",
+        "synthetic_node_7"
+      ],
+      [
+        "synthetic_node_2",
+        "synthetic_node_9"
+      ],
+      [
+        "synthetic_node_3",
+        "synthetic_node_4"
+      ],
+      [
+        "synthetic_node_5",
+        "synthetic_node_8"
+      ]
+    ],
+    "requested_swaps": 20,
+    "successful_swaps": 20,
+    "attempts": 43,
+    "degree_preserved": true,
+    "detection_contacts_preserved": true,
+    "changed_edges": 13,
+    "mixing": "not_established",
+    "status": "generated_requires_mixing_review",
+    "biological_negatives": "not_generated",
+    "seed": 8
+  },
+  "unavailable_network": {
+    "edges": [
+      [
+        "a",
+        "b"
+      ],
+      [
+        "a",
+        "c"
+      ],
+      [
+        "a",
+        "d"
+      ],
+      [
+        "a",
+        "e"
+      ],
+      [
+        "b",
+        "c"
+      ],
+      [
+        "b",
+        "d"
+      ],
+      [
+        "b",
+        "e"
+      ],
+      [
+        "c",
+        "d"
+      ],
+      [
+        "c",
+        "e"
+      ],
+      [
+        "d",
+        "e"
+      ]
+    ],
+    "requested_swaps": 5,
+    "successful_swaps": 0,
+    "attempts": 30,
+    "degree_preserved": true,
+    "detection_contacts_preserved": true,
+    "changed_edges": 0,
+    "mixing": "not_established",
+    "status": "unavailable_no_valid_swaps",
+    "biological_negatives": "not_generated",
+    "seed": 0
+  },
+  "adapter_status": "shared definitions and helpers; task-specific strategy execution remains pending"
+}
