@@ -7,7 +7,7 @@ This module does not fit models or alter the shipped evaluation behavior.
 """
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, replace
+from dataclasses import asdict, dataclass
 import hashlib
 import json
 from pathlib import Path
@@ -169,15 +169,8 @@ def _validate(entries, strategies):
                 raise ValueError("Benchmark reference must match strategy organism and task")
 
 
-def read_registry(path, *, verify_files=True, relocate_snapshots_to=None):
-    """Read a registry, optionally relocating explicitly copied flat snapshot files.
-
-    Relocation requires checksum verification and retains the content/cohort
-    identities. It never searches for files or changes the recorded registry.
-    Conflicting basenames are refused instead of selecting an arbitrary source.
-    """
-    if relocate_snapshots_to is not None and not verify_files:
-        raise ValueError("Snapshot relocation requires content verification")
+def read_registry(path, *, verify_files=True):
+    """Read and validate a registry; by default verify all pinned snapshot bytes."""
     payload = json.loads(Path(path).read_text())
     if payload.get("schema_version") != SCHEMA_VERSION:
         raise ValueError("Unsupported ground-truth registry version")
@@ -188,11 +181,6 @@ def read_registry(path, *, verify_files=True, relocate_snapshots_to=None):
             row[name] = tuple(row[name])
         for name in ("truth_file", "universe_file"):
             row[name] = SourceFile(**row[name])
-            if relocate_snapshots_to is not None:
-                root = Path(relocate_snapshots_to).resolve()
-                if not root.is_dir():
-                    raise ValueError("Explicit snapshot relocation directory is unavailable")
-                row[name] = replace(row[name], path=str(root / Path(row[name].path).name))
         entries.append(BenchmarkEntry(**row))
     strategies = [StrategyBenchmark(row["organism"], row["strategy"], row["task"],
                                     tuple(row["benchmark_ids"]), tuple(row["gaps"])) for row in payload["strategies"]]

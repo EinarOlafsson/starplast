@@ -490,9 +490,9 @@ def surface_repertoire(dataset_root: str, log=print) -> pd.DataFrame:
     A repertoire rather than a proteome, and the difference is the point: cell-surface capture
     labels what is exposed on an intact cell, so a protein here is at the surface the tachyzoite
     meets rather than merely present somewhere in the cell. The row space is every protein the atlas
-    saw on the surface of ANY mouse cell type. `False` records non-detection by this capture
-    protocol in macrophages, not proof of biological absence. Proteins outside that atlas
-    remain unmeasured; neither group can serve as verified absence labels without further evidence.
+    saw on the surface of ANY mouse cell type, so a `False` is a real negative -- the same capture
+    ran on macrophages and did not find it -- which is what instruction 39 means by a repertoire
+    slot being FILLED rather than averaged.
 
     The deposit's two matrices disagree for twelve proteins: nine carry a macrophage intensity in
     the abundance sheet with no mark in the detection matrix, and three are marked without one. A

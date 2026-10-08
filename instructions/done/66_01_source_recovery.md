@@ -1,0 +1,13 @@
+# 66.01 · Recover source files and reconcile moved inputs
+
+Status: DONE — ✅, 2026-10-08. Controlled census/recovery complete; numerical promotion and source/transform admission remain under 65.04.
+
+All 162 registered sources are accounted for in the final ledger. Sixty-nine explicit processed-source bindings and 538 processed-file candidates in 11 containers are checksummed; container membership remains an unverified biological association. Five exact registered project paths were located without copying; six named processed supplements were downloaded without overwriting originals. The remaining raw/derived/cache, deposit, transform and access gaps remain visible. Restricted VEuPathDB services were not queried or bypassed. A declared sexual-stage PMID/PMCID mismatch remains a refusal rather than binding the wrong article.
+
+The missing CSPA workbook was recovered from the exact registered PLOS endpoint, preserving its actual published filename `pone.0121314.s002.xlsx`. Previously verified PMID 25894527 / DOI 10.1371/journal.pone.0121314 identities match the resource. Its original loader reproduces 1,296 detection values and 147 nonmissing intensity values exactly, with zero lost IDs and maximum difference zero. Metadata now states that non-detection under this capture protocol does not establish biological absence. No numerical data, strategy or calibration artifact changed.
+
+The registry reader supports explicitly relocated, checksummed frozen snapshots so CI and another machine can verify repository-local truth snapshots without searching for files or modifying cohort identities. Corrupt bytes, conflicting identities and relocation without verification are refused. Earlier code identities are preserved under artifact `code/` directories.
+
+Evidence: `results/source_recovery_final_2026_10_07_v2/`, `results/host_surfaceome_recovery_2026_10_07/` and preserved intermediate snapshots. Downloads, comparisons and final hash verification are executed annotated notebooks. **717 relevant source, host, ground-truth, registry, generated-script, documentation and organism checks passed**. Final verification checks all 69 bindings, all 538 container member identities, final input/output manifests and Python 3.10 syntax. The coherent change is committed and pushed to nightly.
+
+Limits: all source addresses are accounted for, not all independently biologically validated. The additional 43 original supplement review inputs remain available for unresolved legacy transformations. Replacement decisions and deeper literature search remain 65.04; ambiguous host projection correction remains 66.04. Unavailable content remains a recorded gap, and work continues on independent items.

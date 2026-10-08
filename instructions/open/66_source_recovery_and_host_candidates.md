@@ -1,11 +1,11 @@
 # 66 — Recover source files and verify host candidate upgrades
 
-Status: OPEN — 2/4 controlled items complete, 2026-10-07. Authorized by the user's instruction to finish open
+Status: OPEN — 3/4 controlled items complete, 2026-10-08. Authorized by the user's instruction to finish open
 items, download missing datasets and replace sources where warranted.
 
 | Item | Percent done | Time left | Description |
 |---|---:|---|---|
-| 66.01 | 80% | 2–4 h + downloads | Reconcile relocated source files and retrieve missing processed sources with explicit failure records |
+| [66.01](../done/66_01_source_recovery.md) | ✅ | 0 h | Reconcile relocated source files and retrieve missing processed sources with explicit failure records |
 | [66.02](../done/66_02_rbc_candidate_review.md) | ✅ | 0 h | Review the quantitative RBC candidate against installed fraction/surface evidence |
 | [66.03](../done/66_03_rhoptry_journal_version.md) | ✅ | 0 h | Verify host rhoptry journal/preprint data equivalence and version provenance |
 | 66.04 | 0% | 4–8 h + validation | Correct ambiguous host symbol projections while preserving original gene-level evidence |
@@ -68,3 +68,5 @@ for unmatched legacy derivations; two sources remain version/media gaps. See
 `results/source_review_input_recovery_2026_10_07/`. They are original review inputs,
 not arbitrary renamed legacy outputs. Continue 66.01 source/transform association
 and 66.04 host mapping correction while inaccessible content stays recorded.
+
+Final 66.01 evidence: all 162 addresses reconciled, 69 processed bindings, 11 containers and 538 candidate files; hashes verified in `results/source_recovery_final_2026_10_07_v2/`. CSPA original filename recovered with exact installed-field reproduction and protocol-specific non-detection semantics. No numerical runtime promotion. Host mapping correction (66.04) remains open.

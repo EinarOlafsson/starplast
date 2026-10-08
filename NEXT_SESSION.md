@@ -1,6 +1,6 @@
 # Next session: start here
 
-Updated **2026-10-07** at the **0.54.0** release. Read this page first: where things stand, the rules,
+Updated **2026-10-08** at the **0.54.0** release. Read this page first: where things stand, the rules,
 the code map, and **what is left to do, in priority order (section 4)**. `HANDOFF.md` holds the
 long-standing design decisions, `instructions/` is the task ledger (`instructions/INDEX.md`), and
 `CHANGELOG.md` lists every change by release.
@@ -22,7 +22,7 @@ Zero independent biological benchmarks admitted; 440 output grades remain unreso
 64.05 freezes nested roles and training-only source exclusions; two real candidate
 cohorts and all ten deliberate leakage refusals verified (532 checks passed, two existing skips).
 64.06 provides shared training-only baselines and synthetic/null controls (426 checks passed).
-Continue at **64.07**, strategy capability contracts, while completing source recovery under 66.01. See
+Continue at **64.07**, strategy capability contracts, and host symbol correction under 66.04. See
 `results/ground_truth_registry_2026_10_07_v2/README.md` and the provenance artifact.
 **Reporting:** whenever an action completes, replace its percentage with a green tick and repost
 the entire progress table (40 instruction-64 rows, four instruction-65 rows and four instruction-66 rows).
@@ -372,3 +372,7 @@ implementation order and bounded acceptance conditions now come from instruction
 | `notebooks/track_record_2026_10_03.ipynb`, `notebooks/claims_2026_10_04.ipynb` | The executed record of both |
 | `docs/scorecards.md`, `docs/calibration.md`, `docs/strategies.md` | Every number, generated |
 | `docs/tutorial/index.html` | Six tutorials and the complete guide |
+
+## October 8 source recovery completion
+
+66.01 is complete: all 162 sources accounted for, 69 processed bindings, 11 container manifests and 538 candidate files, with explicit association, transform and access gaps. Read `results/source_recovery_final_2026_10_07_v2/README.md`. CSPA exact installed-field reproduction verified; its non-detection semantics corrected without numerical change. Frozen benchmark readers support explicit checksum-verified relocation. **717 relevant checks passed.** Instruction 66 is 3/4 complete; continue 64.07 strategy capability contracts and 66.04 host mapping correction. Numerical admission/replacements remain 65.04. Earlier code identities remain archived with their immutable artifacts.

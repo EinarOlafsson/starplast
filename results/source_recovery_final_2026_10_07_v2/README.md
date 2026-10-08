@@ -1,0 +1,11 @@
+# Final recovered-source ledger
+
+Canonical bounded recovery census, executed October 7–8, 2026; timestamps in the manifests retain UTC. All **162 registered sources** are accounted for, with **69 processed-source bindings**, **11 container manifests** and **538 checksummed processed-file candidates**. Container membership does not prove a paper/file association. Restricted services and the sexual-stage PMID/PMCID identity refusal remain explicit. Installed caches are distinguished from original assay inputs.
+
+`source_locations.json` preserves each source address, status and access/association gaps. `bindings.json` supplies explicit external file identities for future reviewed imports; it does not change runtime loader paths. `containers.json` records candidates for subsequent table/transform review. `manifest.json`, `finalization.ipynb` and `verification.ipynb` pin and verify the evidence. Original data remains outside the repository.
+
+Compared with the prior 57-binding ledger, five exact registered project inputs were located without copying or downloading, six named processed supplements were downloaded, and the published CSPA workbook was recovered under its actual publisher filename. CSPA's 1,296 detection values and 147 nonmissing intensities exactly reproduce the installed mouse cache, with no lost identifiers or numerical changes. Detection false means non-detection under the capture protocol; biological absence remains unknown. See `../host_surfaceome_recovery_2026_10_07/table/`.
+
+The initial consolidated/final ledgers remain diagnostic snapshots. The `_v2` consolidated ledger retains explicit historical identity refusal; this final `_v2` ledger additionally verifies the publisher review manifests and DOI/PMID association. Older code identities are preserved under each affected artifact's `code/` directory when current metadata or reader documentation changes.
+
+This completes the controlled source census/recovery item 66.01. It does **not** admit all candidates or assert that all literature alternatives are downloaded or replaced. Deposit/sample/table association, unresolved transformations, biological suitability, independent truth and replacements remain under 65.04 and the relevant instruction-64 cards. Host projection correction remains 66.04.

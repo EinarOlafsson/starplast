@@ -103,7 +103,7 @@ def test_frozen_census_keeps_real_truth_gaps_and_covers_every_strategy():
     # The snapshot is a local review artifact; installed wheels may omit results.
     if not path.exists():
         pytest.skip("Review artifact is not available")
-    entries, refs = read_registry(path)
+    entries, refs = read_registry(path, relocate_snapshots_to=path.parent)
     assert len(refs) == 4 * len(S.catalog())
     for organism in (O.TOXOPLASMA, O.FALCIPARUM, O.HUMAN, O.MOUSE):
         assert {ref.strategy for ref in refs if ref.organism == organism} == {s.key for s in S.catalog()}
@@ -118,3 +118,27 @@ def test_frozen_census_keeps_real_truth_gaps_and_covers_every_strategy():
     assert grades[O.TOXOPLASMA, "fit_invivo_PE"] == "derived_quantity"
     assert grades[O.TOXOPLASMA, "compartment_best"] == "orthology_transfer"
     assert grades[O.TOXOPLASMA, "stage_enriched_derived"] == "derived_quantity"
+
+
+def test_explicit_snapshot_relocation_requires_original_content(tmp_path):
+    import shutil
+    from pathlib import Path
+
+    original = tmp_path / "original"
+    original.mkdir()
+    entry = _entry(original)
+    path = tmp_path / "registry.json"
+    write_registry(path, [entry], [])
+    moved = tmp_path / "moved"
+    moved.mkdir()
+    for source in (entry.truth_file, entry.universe_file):
+        shutil.copyfile(source.path, moved / Path(source.path).name)
+    relocated, _ = read_registry(path, relocate_snapshots_to=moved)
+    assert relocated[0].truth_file.sha256 == entry.truth_file.sha256
+    assert Path(relocated[0].truth_file.path).parent == moved
+    assert relocated[0].cohort_sha256 == entry.cohort_sha256
+    with pytest.raises(ValueError, match="requires content verification"):
+        read_registry(path, verify_files=False, relocate_snapshots_to=moved)
+    (moved / Path(entry.truth_file.path).name).write_text("wrong source")
+    with pytest.raises(ValueError, match="content"):
+        read_registry(path, relocate_snapshots_to=moved)

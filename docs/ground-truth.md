@@ -53,7 +53,11 @@ Hosts currently have protein references rather than admitted host gene contexts.
 Snapshots refuse overwrites. The registry reader validates duplicate addresses,
 species/task mismatches, packed-mask counts and padding, checksums and ordered
 cohort identity. Files are pinned to absolute paths in this local review artifact;
-relocation needs an explicit verified migration. Reproduce the census with:
+relocation needs an explicit verified migration. Pass
+`relocate_snapshots_to=Path(registry_path).parent` after copying the flat snapshot
+files to that directory. The reader verifies their original checksums and ordered
+cohorts; it rejects conflicting filenames and unverified relocation. Recorded
+source addresses are preserved in the original registry. Reproduce the census with:
 
 ```bash
 python scripts/build_ground_truth_registry.py --out results/ground_truth_NEW
