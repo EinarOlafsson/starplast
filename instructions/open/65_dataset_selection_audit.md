@@ -79,3 +79,17 @@ keeps absolute copy counts as a separate candidate with measured group/mapping g
 66.03 verifies the rhoptry journal/preprint table exactly and upgrades the citation,
 retaining first-publication lineage and exposing 39 ambiguous symbol projections.
 No numerical replacement is promoted; corrected projection and pack admission remain.
+
+Bounded truth-source partition **GT-SPATIAL-01** (65.04 with 64.10, depending on
+64.03/64.04): review the two already registered primary spatial papers,
+`lopit_tgon` (PMID 33053376) and `pf_spatial_proteome` (PMID 42218142).
+Verify marker-field counts, exact installed-ID mapping and assay/label origins.
+Retrieve only the primary named marker metadata, microscopy-method companions
+and figures addressing experimental validation; retain original names and
+primary PMC version/MD5/SHA receipts. The first preflight retrieved three
+companions. The bounded extension uses figure addresses discovered in verified
+article XML: Toxoplasma Figures 1/2 and Table S9, Plasmodium Figure 3.
+No new paper, inferred identifier, replacement or biological admission follows
+from this partition. Missing content becomes a recorded gap and the next source
+proceeds. Final classifier marker sets can include the same paper's microscopy
+and profile-based selections; they need row-level independence review.

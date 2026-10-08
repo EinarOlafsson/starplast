@@ -409,3 +409,14 @@ Continue missing `holdout_search`/`multiplex_modules`, logistic conformal varian
 full outer coverage and independent truth. The former two need explicit label
 benchmark-task declarations alongside their native cluster tests; graph/map
 transductive construction and learned representation fitting must follow 64.05.
+
+GT-SPATIAL-01 truth review: `results/spatial_truth_source_review_2026_10_08/`
+retrieves/verifies seven primary spatial companions, complete marker fields and
+Plasmodium Figure 3 outcomes. Toxoplasma 718 final markers include its 62 new IFA
+results; those cannot independently test the final classifier. Nine selected
+Plasmodium IFA outcomes map exactly and are outside both marker fields; six
+other attempted targets remain unknown. Coarse taxonomy, assay/context, source
+dependence and target-selection gaps remain. 426 relevant checks passed; exact
+complete-row/media/mapping replay. No biological admission or runtime changes.
+Continue host GTEx/FANTOM source lineage (65.04) and remaining categorical
+adapters independently of unavailable content.

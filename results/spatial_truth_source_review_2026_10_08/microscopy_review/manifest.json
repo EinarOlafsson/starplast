@@ -1,0 +1,30 @@
+{
+  "created_utc": "2026-10-08T06:45:45.327862+00:00",
+  "summary": {
+    "primary_attempted_targets": 15,
+    "Figure_3_detected_IFA_targets": 9,
+    "attempted_without_resolved_IFA_outcome": 6,
+    "IFA_exact_installed_IDs": 9,
+    "IFA_source_marker_rows_S1_S2": 0,
+    "biological_benchmarks_admitted": 0,
+    "gaps": [
+      "Figure labels are coarse compartments; no equivalence to refined classifier niches assumed",
+      "Target selection used hyperLOPIT profiles; evaluate only this selected tagged cohort, not proteome-wide accuracy",
+      "Reporter tagging/one experiment limits wild-type and replication interpretation",
+      "Need explicit target taxonomy, feature/source exclusions, context and frozen truth before benchmark admission",
+      "The six unresolved IFA outcomes are not negatives; PCR/Western status remains per-target unreviewed"
+    ]
+  },
+  "input_sha256": {
+    "/media/carruthers/mnt3/claude/repo/starplast/scripts/review_spatial_microscopy.py": "21af5f0fbc96a314f46560503102d7cd495ed1adcfdec135c4dd145dda63bb20",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/spatial_truth_source_review_2026_10_08/sources.json": "b109faf1eb7d64fadea2529c47cc775ea228ab7cdbed6c86a8597dd55ff2836f",
+    "/media/carruthers/mnt3/claude/repo/starplast/results/spatial_truth_source_review_2026_10_08/table_audit_v2/media_receipts.json": "005dd20c982c26cb0f5eec5ad019be24c123fc116af162045da1c8dbebfc70a4",
+    "/media/carruthers/mnt3/claude/repo/starplast/starplast/data/pf_nodes.parquet": "410d5fb58c15c0f110de2e1fd61910d4ae10508709847b1777cb3e7bc88d3641",
+    "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/spatial_truth_review_inputs/pf_spatial_proteome/41467_2026_73664_MOESM4_ESM.xlsx": "a3c046fa568833fa7e682976170530f98dc77ded92538d8b778109c1d97a38d6",
+    "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/spatial_truth_review_inputs/pf_spatial_proteome/41467_2026_73664_Fig3_HTML.jpg": "c7d5bdfc48f4384e4176385ecb64b3ccb23ee2c7ad91b4abda4fa8f02673172a",
+    "/media/carruthers/mnt3/claude/toxoplasma_projects/datasets/post_translation/LOPIT/42218142/41467_2026_73664_MOESM3_ESM.xlsx": "c9f54d2fa67308bc5cd41ec61f2aead88c03fe17af277b3ef708e7acea3b0525"
+  },
+  "output_sha256": {
+    "outcomes.json": "641d0a884bd37376eda1e52472b39095b25168a64235573e955d9711a0cf9487"
+  }
+}

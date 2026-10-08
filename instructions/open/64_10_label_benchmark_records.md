@@ -106,3 +106,15 @@ verifies identical numerical outcomes with distinct correct code/model lineage.
 Pending: missing adapters (`holdout_search`, `multiplex_modules`), logistic
 conformal variant, full outer coverage, biological source admission
 and calibration. This item does not earn a completion tick from one pilot.
+
+Truth-source follow-up **GT-SPATIAL-01**, shared with 65.04:
+`results/spatial_truth_source_review_2026_10_08/` verifies seven additional
+primary companions and complete spatial marker tables. Toxoplasma's 718 final
+markers include all 62 new microscopy outcomes, so those outcomes cannot
+independently validate the published classifier trained on them. Plasmodium
+Figure 3 provides nine selected IFA outcomes outside both marker fields; all
+nine match exact installed gene IDs. Six other attempted targets remain unknown,
+not negatives. Coarse microscopy taxonomy, selection bias, context and feature
+dependence remain explicit admission gaps. **426 relevant checks passed** and
+complete rows/media/mapping replayed. No biological benchmark admitted; the
+30% adapter progress and remaining acceptance conditions are unchanged.
