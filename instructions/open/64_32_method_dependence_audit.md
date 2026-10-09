@@ -1,6 +1,6 @@
 # 64.32 · Measure dependence between inference mechanisms
 
-Status: OPEN — 20%, 2026-10-08. First matched source-profile report accepted; group-aware uncertainty and broader methods remain.
+Status: OPEN — 30%, 2026-10-08. First matched source-profile group intervals accepted; broader methods and lineage coverage remain.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -57,3 +57,34 @@ are inspectable. No independence, group-aware interval or biological accuracy cl
 13 final packet outputs verified. Report1.186s under800MiB; checks serial under1900MiB,
 workers terminal. Initial800MiB test OOM/renderer failures retained in diagnostics.
 Commit/push receipt is the nightly history for this partition; no whole-action tick.
+
+### Frozen uncertainty partition, 2026-10-08
+
+Use the accepted paired report SHA940da900…8e98b, all152 genes/four unsupported
+genes and145 recorded groups. Follow the existing record-card convention:
+500 whole-group resamples with replacement, seed20261008, at least five groups,
+2.5/97.5 percentiles with linear interpolation. Both methods use the same draws.
+Estimate the five existing paired rates and right-minus-left all-eligible recovery.
+Retain numerator/denominator totals, undefined draws, group selections and exact
+replay. Empty denominators/small group populations remain unavailable. Intervals
+describe source-recovery sampling variation conditional on recorded groups; no
+biological independence, calibration, model selection or new fitting is implied.
+
+### Accepted group-uncertainty partition
+
+Canonical V2 packet `results/functional_group_uncertainty_2026_10_08_v2/` preserves
+all152 genes/four unsupported/145 groups. Twelve focused checks pass. Independent
+acceptance expands every saved group draw to its original gene rows and reproduces
+all500 paired numerators/denominators/ratios and six percentile intervals exactly;
+10 output receipts/six current inputs verified. No tolerance comparisons.
+Agreement source recovery33/94 (35.1%), descriptive interval25.0–45.8%; both-wrong
+78/143 (54.5%),46.1–63.0%; right-minus-left all-eligible recovery19/152 (12.5
+percentage points),5.3–20.5 points. All500 denominators are defined in this cohort;
+empty denominators/fewer than five groups remain unavailable in fixtures. Shared
+draws retain method pairing; saved selections/arrays replay exactly. Generic integer
+ratio sums refuse malformed/replayed indices and unsupported count capacity.
+The shared scorecard exports these intervals without biological independence or
+per-gene calibration. This is a separate artifact; app comparison still uses its
+previous report. Root800MiB jobs finish under one second; initial11-check fixture
+packet retained. No new fit/source/benchmark promotion. Nightly history records
+commit/push. Next: expose pinned intervals in the existing comparison view.

@@ -887,3 +887,19 @@ retained. No original nodes/claims/benchmark bundle, fits, calibration or biolog
 admission changed. Next smallest partition: group-aware uncertainty for this
 matched source-profile pair, explicit denominators/unsupported genes retained.
 Other strategy/host/literature gaps remain; restricted partials untouched.
+
+Latest group-uncertainty partition:64.32 now30%,64.33 stays30%,whole22/51 unchanged.
+`starplast/group_ratios.py` implements shared whole-group ratio resampling,500draws,
+seed20261008,minimum5groups,linear2.5/97.5 percentiles,explicit undefined draws and
+exact saved-selection replay. Canonical V2 packet
+`results/functional_group_uncertainty_2026_10_08_v2/`:all152genes/four unsupported/
+145recorded groups retained. Agreement recovery35.1%, descriptive interval25.0–45.8%;
+bothwrong54.5%,46.1–63.0%; right-minus-left recovery12.5percentage points,5.3–20.5.
+12focused checks pass under800MiB; independent audit expands all500draws to original
+rows and reproduces every count/ratio/six intervals exactly,10outputs/six current
+inputs verified. Shared scorecard export removes the obsolete unavailable-interval
+statement while keeping biological independence/calibration unresolved. Initial11
+pure checks retained; no failures, fits, source changes or deployment. These are
+separate exported intervals; existing app report is unchanged. Next smallest task:
+attach the pinned interval result to the existing paired Discoveries card, preserving
+exact original rates/source-context refusals. Other method/host/literature gaps remain.

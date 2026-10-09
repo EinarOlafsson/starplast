@@ -301,6 +301,13 @@ Changing the installed source context or a missing/corrupt report makes the
 comparison unavailable and clears its displayed rows. Individual method cards and
 their original controls remain available for matching source contexts through the
 same selector.
+The [group-uncertainty scorecard](../results/functional_group_uncertainty_2026_10_08_v2/scorecard.html)
+adds descriptive intervals from 500 whole-group resamples. Agreement recovery is
+35.1%, with a nominal 95% percentile interval of25.0–45.8%. The resampling keeps
+both methods paired and all unsupported genes in scope. These intervals depend
+on the recorded groups; they do not establish biological independence, activity
+accuracy or calibrated confidence for an individual gene. This interval report
+is currently a separate export.
 The test uses direct annotations; orthology-derived annotations remain separate.
 Individual annotation curation/prediction provenance is unresolved. These scores
 measure recorded annotation recovery; independent biological accuracy, calibrated
