@@ -1,9 +1,31 @@
 # Next session: start here
 
-Updated **2026-10-08** at the **0.54.0** release. Read this page first: where things stand, the rules,
+Updated **2026-10-08** for the **0.55.0** release. Read this page first: where things stand, the rules,
 the code map, and **what is left to do, in priority order (section 4)**. `HANDOFF.md` holds the
 long-standing design decisions, `instructions/` is the task ledger (`instructions/INDEX.md`), and
 `CHANGELOG.md` lists every change by release.
+
+**Latest handoff:** the user requested publication of all checked changes as0.55.0
+and an updated handoff after explicitly stopping the broader work. The native goal
+is **paused**; do not restart the action list without a new resume instruction.
+Release publication is authorized despite the unfinished action list. Use the
+0.55.0 GitHub release/PyPI records to verify publication; a version bump alone is
+not an upload. Continue development on`nightly` after the release.
+
+Whole-action progress remains **22/51** (instruction64:13/40). Latest64.33 is50%,
+64.32 is30%,68.02 is40%. Paired gene/class/profile comparison is committed as
+`aee170c`; its19 focused and9 final checks, actual desktop routes and independent
+recount of all19 class addresses passed. No paired class-specific intervals were
+implemented before the stop. Source-profile scores do not establish independent
+biological accuracy or calibrated confidence. Host gene spaces, inference packs,
+broader method validation and literature replacements remain open.
+
+Leave the restricted untracked activity-truth files untouched:
+`results/functional_activity_truth_2026_10_08/`,
+`scripts/review_functional_activity_truth.py`, and
+`tests/test_functional_contract_audit.py`. Use explicit tracked test paths locally;
+do not collect these files. The watchdog's private log records the explicit user
+stop and observed paused goal state.
 
 **Current direction (user, 2026-10-07):** explore published datasets for selected organisms and
 their hosts; start from a gene, class, localization or label and inspect every applicable strategy,
@@ -50,11 +72,12 @@ annual citation-rate paper. Prioritize host rhoptry journal-version equivalence,
 Do not mistake metadata resolution or pending abstract hits for admitted biology.
 
 **Source:** `/media/carruthers/mnt3/claude/repo/starplast` (the package is `starplast/` inside it),
-branch `nightly`. `main` is the release branch at 0.54.0. Nightly also contains the October 7
-literature-verifier audit, the instruction-64 action plan, the entity/query contract and inventory;
-runtime inference algorithms, parasite tables/graphs and shipped claims retain their released baseline.
-Nightly corrects host ambiguity projections and numeric error metrics; frozen historical
-calibration/benchmark records retain their original input/code lineage.
+branch `nightly`. Version0.55.0 includes the October7–8 literature/source audits,
+query/inventory/provenance contracts, protected benchmark roles, row-level scorecards
+and frozen functional tests/comparisons. The original parasite tables/graphs and
+claim recipes retain their baseline; host ambiguity projections and numeric error
+metrics were corrected. Historical calibration/benchmark packets retain their
+original input/code lineage. Verify current release status from GitHub/PyPI.
 
 ---
 
@@ -80,14 +103,14 @@ The proposed worker-stagger/retry feature was cancelled as a wrong-session reque
 
 | | |
 |---|---|
-| Version | **0.54.0** on PyPI (2026-10-05), verified: wheel + sdist on PyPI, GitHub release with both |
-| Branches | Runtime/data baseline `1249c55`; nightly adds the handoff, October 7 literature audit, instruction-64 action plan, query contract and evidence inventory |
+| Version | **0.55.0** prepared; publication requires green CI, wheel verification and confirmed PyPI upload |
+| Branches | Develop on `nightly`; user authorized promotion to `main` for0.55.0; compare the current release tag and remote heads |
 | Tables | *T. gondii* `nodes.parquet` 8,140 genes; *P. falciparum* `pf_nodes.parquet` 5,720; host proteins 36,579 (Hs 20,989 + Mm 15,590) |
 | Strategies | 39 in 9 families, each with method, techniques, scorecard task, calibration grade, card, explainer and worked examples |
 | Calibration | 7,640 self-tests (`results/calibration_2026-09-26b`); Tg 30 reliable / 8 weak / 1 untestable; Pf 26 / 2 tuned / 9 weak / 2 untestable |
 | Track record | `data/track_record.parquet`: 12 biological labels (Tg 9, Pf 3), 14 label-calling strategies, every labelled gene held out once by orthogroup fold, plus class and random-set hold-outs (1,038,372 rows, 7.0 MB) |
 | Claims | `data/claims.parquet`: 19,641 claims about unlabelled genes over 7 labels; discoveries (tested, >= 0.8, lift >= 2): Tg compartment 13, Tg LOPIT 30, Pf localization 13, Pf *P. berghei* phenotype 667 |
-| Tests | ~4,330 pass on CI (Python 3.11), about 35 min there, 15 min locally |
+| Tests | Latest local release gate:613 passed; final nightly Tests/Documentation and installed-wheel checks are publication gates |
 
 **What the application does now** (details in CHANGELOG 0.45-0.54):
 * **Start here** -- one question at a time to the strategies worth running, *Test on my genes*, and

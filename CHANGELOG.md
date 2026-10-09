@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.55.0
+
+- Browse all recorded labels and functions in Discoveries, with separate source
+  annotations, strategy coverage and host-source status.
+- Add organism-qualified queries, dataset inventories, provenance and mapping-loss
+  audits. Record citation-rate, recency and coverage factors for dataset selection;
+  unsuitable sources and missing bibliometrics remain explicit gaps.
+- Add protected benchmark roles, source exclusions, training-only controls,
+  versioned inference artifacts and row-level scorecards. Preserve abstentions,
+  unsupported profiles and both coverage and accuracy denominators.
+- Ship frozen functional annotation-recovery tests for Toxoplasma EC/Pfam profiles
+  and Plasmodium complete EC-major profiles, including native kNN and random forest.
+  These tests measure recorded annotation recovery, not independent biological accuracy.
+- Compare paired Plasmodium methods by gene, major class and complete profile.
+  Inspect agreement, conflicts, shared errors, native method cards and exact exports.
+  Pooled profile rates include descriptive whole-group intervals; class-specific
+  paired intervals and calibrated probabilities remain unavailable.
+- Recover missing processed sources, review host expression/reference versions and
+  withhold ambiguous host-symbol projections. Independent human/mouse gene spaces,
+  inference packs and broader literature replacements remain unfinished.
+- Add a local continuation monitor that logs observed activity and stop reasons.
+  Update the action ledger and handoff without treating partial work as completion.
+
 ## 0.54.0
 
 - Claims: Starplast now generates knowledge about genes nobody has labelled and tests it by evidence

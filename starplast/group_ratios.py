@@ -32,6 +32,7 @@ def load_paired_state(report, *, path=None, expected_sha256=PAIRED_STATE_SHA256)
 
 
 def inputs(groups, numerators, denominators, names):
+    """Validate integer ratio records and return their canonical input identity."""
     groups = list(groups); names = list(names)
     if (not groups or any(not isinstance(g, str) or not g for g in groups)
             or not names or any(not isinstance(n, str) or not n for n in names)

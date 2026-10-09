@@ -1,6 +1,6 @@
 # starplast — point a session here
 
-> **Resuming work? Read [`NEXT_SESSION.md`](NEXT_SESSION.md) first**: current state, working rules and the current execution plan. The user's October 7 goals and 40 controlled action items are in [instruction 64](instructions/open/64_information_space_and_inference_atlas.md). **64.01 and 64.02 are complete** (query contract and evidence inventory; 472/525 focused checks); continue at **64.03**. This file holds the long-standing design decisions.
+> **Read [`NEXT_SESSION.md`](NEXT_SESSION.md) first** for the current state and restrictions. Updated2026-10-08 for the user-requested0.55.0 release. The broader work goal is **paused at the user's request**; publication does not complete it. The ledger records **22/51** completed actions (instruction64:13/40), with64.33 at50%. Gene/class/profile functional comparisons are implemented; independent biological validation, hosts and dataset replacements remain open. Resume only when requested. This file holds historical design decisions; use the current ledger rather than old completion claims below.
 
 A 3D knowledge-map browser for *Toxoplasma gondii* (v0/v1), built to be the front end for the information
 map. **Everything a fresh session needs is in this file.** Created 2026-08-10.

@@ -17,6 +17,7 @@ LIMITS = ('Membership is derived from recorded complete source profiles. Recorde
 
 
 def outcome_title(row):
+    """Name the two methods' observed agreement with recorded class membership."""
     labels={'both_abstain':'Both abstained','left_only_correct':'kNN matches; forest abstained',
         'left_only_wrong':'kNN differs; forest abstained','right_only_correct':'Forest matches; kNN abstained',
         'right_only_wrong':'Forest differs; kNN abstained','conflict_left_correct':'kNN matches; forest differs',

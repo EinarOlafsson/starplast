@@ -10,3 +10,5 @@ results/pf_functional_agreement_ui_diagnostics_2026_10_08_v2/*.log -text -whites
 results/functional_pair_class_2026_10_08/*.log -text -whitespace
 # Retain the checksummed scorecard export exactly as written by the notebook.
 results/functional_pair_class_acceptance_2026_10_08_v2/major2.json -text -whitespace
+# Keep immutable release-check and build logs byte-for-byte, including diagnostics.
+results/release_0_55_0_*/*.log -text -whitespace
