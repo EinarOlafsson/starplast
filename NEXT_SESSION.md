@@ -920,3 +920,16 @@ inputs verified. No failures, fits or biological/calibration/source admission.
 Next smallest bounded step: class/profile comparison navigation on this paired
 cohort with explicit annotation-negative semantics, then other method/host/literature
 gaps. Restricted partials remain untouched; native goal/watchdog active.
+
+Latest class navigation:64.33 now50%,whole22/51 unchanged. Both Pf methods expose
+seven major-class/twelve complete-profile comparisons. Full152genes/four unsupported
+remain in metrics/exports; displayed union includes false positives. Nonmembership
+is source-recorded, not biological absence; abstentions unknown. Native cards/raw
+profiles retained; class-specific intervals/calibration/consensus controls unavailable.
+19 focused+9 final checks pass. Desktop9.49s/948936704byte peak serial1900MiB;
+`results/functional_pair_class_ui_2026_10_08/`. Independent acceptanceV2 exactly
+recounts all19 addresses and verifies21 outputs/21 inputs/unchanged frozen bytes.
+Preserve initial missing-fixture-metadata failures and compact/expanded overlap
+acceptance assertion. Next smallest work: remaining bounded class-comparison
+uncertainty or an independent source/host gap; avoid widening into unvalidated fits.
+Other method/host/literature work remains. Restricted activity-truth partials untouched.

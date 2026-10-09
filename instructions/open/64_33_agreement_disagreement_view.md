@@ -1,13 +1,13 @@
 # 64.33 · Show calibrated agreement and conflicts
 
-Status: OPEN — 40%, 2026-10-08. First paired desktop rates, group intervals and gene routes accepted; broader calibrated comparisons remain.
+Status: OPEN — 50%, 2026-10-08. Paired rates, group intervals and class/profile routes accepted; broader calibrated comparisons remain.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
 | Field | Value |
 |---|---|
 | Depends on | 64.30, 64.31, 64.32 |
-| Estimated remaining engineering time | 4–8 h |
+| Estimated remaining engineering time | 3–6 h |
 | Existing code to inspect | `starplast/claims.py`, `starplast/app.py`, `starplast/strategy_panel.py`, `starplast/scorecard.py` |
 
 ## Deliverable
@@ -114,3 +114,38 @@ parent/benchmark bundle bytes. Initial display-only empty-reason wording correct
 no failed runs, fits, source changes or biological/calibration admission.
 Nightly history records commit/push; whole22/51 unchanged. Next: bounded class
 comparison navigation with exact cohort and annotation-negative semantics.
+
+### Frozen class navigation partition, 2026-10-08
+
+Compare recorded major-class membership or exact complete-profile membership on
+the same152 known-source genes. Map a spoken complete-profile call to membership;
+abstentions stay unknown. Recorded nonmembership is never biological absence.
+Keep all genes for metrics; displayed rows include reference members and either
+method's positive calls, retaining false positives. Separate positive and negative
+agreements; show native per-method class cards alongside explicitly counted
+source precision/recall. Do not reuse pooled profile intervals for this different
+question; class intervals/calibration remain unavailable. Preserve current-context
+refusals, source identities, exports and gene/individual-outcome navigation.
+
+### Accepted class/profile navigation partition
+
+Both Pf methods expose seven major-class and twelve complete-profile comparisons.
+Metrics/exports retain all152 genes/four full-profile-unsupported genes; displayed
+rows include reference members or either positive call, preserving false positives.
+Recorded nonmembership is not biological absence; abstentions stay unknown.
+Class outcomes retain original profiles/outcomes. Native method class cards remain
+inspectable; precision/recall show exact denominators. Positive/nonmembership
+agreements are separate. Per-gene outcomes have no cohort probability; pooled
+profile intervals are not applied to class questions. Paired class uncertainty,
+calibration, biology and consensus controls remain unavailable.
+
+19 focused checks and9 final checks pass. Actual desktop packet:
+`results/functional_pair_class_ui_2026_10_08/`,9.49s/948,936,704-byte process peak,
+serial1900MiB, workers terminal; screenshot inspected. Independent acceptance V2
+recounts all19 addresses exactly from original profiles, verifies21 output receipts/
+21 current inputs and unchanged source/parent/interval bytes. See
+`results/functional_pair_class_acceptance_2026_10_08_v2/`. Preserve eight initial
+synthetic-fixture failures (missing group_uncertainty metadata) and the initial
+acceptance assertion (compact versus expanded overlap metadata); both corrected
+without changing source results. Nightly history records commit/push; whole22/51
+unchanged. Other methods, hosts, literature and biological validation remain open.

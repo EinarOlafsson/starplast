@@ -1,0 +1,219 @@
+Running as unit: starplast-paired-class-tests-20261008.service
+FFFFFFFF.                                                                [100%]
+=================================== FAILURES ===================================
+_ test_major_mapping_differs_from_whole_profile_equality_and_keeps_false_calls _
+
+    def test_major_mapping_differs_from_whole_profile_equality_and_keeps_false_calls():
+>       report=fixture();result=C.derive(report,'major:2')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41ee9780>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+_ test_profile_mapping_requires_complete_equality_and_empty_positives_are_unavailable _
+
+    def test_profile_mapping_requires_complete_equality_and_empty_positives_are_unavailable():
+>       result=C.derive(fixture(),'profile:["2","3"]')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41eeb610>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+_________ test_unknown_or_implicit_class_queries_are_refused[major:8] __________
+
+address = 'major:8'
+
+    @pytest.mark.parametrize('address',['major:8','major:23','profile:["7"]','bad:2','major','profile:bad'])
+    def test_unknown_or_implicit_class_queries_are_refused(address):
+>       with pytest.raises(ValueError):C.derive(fixture(),address)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41eeafb0>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+_________ test_unknown_or_implicit_class_queries_are_refused[major:23] _________
+
+address = 'major:23'
+
+    @pytest.mark.parametrize('address',['major:8','major:23','profile:["7"]','bad:2','major','profile:bad'])
+    def test_unknown_or_implicit_class_queries_are_refused(address):
+>       with pytest.raises(ValueError):C.derive(fixture(),address)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41ee9db0>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+______ test_unknown_or_implicit_class_queries_are_refused[profile:["7"]] _______
+
+address = 'profile:["7"]'
+
+    @pytest.mark.parametrize('address',['major:8','major:23','profile:["7"]','bad:2','major','profile:bad'])
+    def test_unknown_or_implicit_class_queries_are_refused(address):
+>       with pytest.raises(ValueError):C.derive(fixture(),address)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41ee9780>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+__________ test_unknown_or_implicit_class_queries_are_refused[bad:2] ___________
+
+address = 'bad:2'
+
+    @pytest.mark.parametrize('address',['major:8','major:23','profile:["7"]','bad:2','major','profile:bad'])
+    def test_unknown_or_implicit_class_queries_are_refused(address):
+>       with pytest.raises(ValueError):C.derive(fixture(),address)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41f43d60>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+__________ test_unknown_or_implicit_class_queries_are_refused[major] ___________
+
+address = 'major'
+
+    @pytest.mark.parametrize('address',['major:8','major:23','profile:["7"]','bad:2','major','profile:bad'])
+    def test_unknown_or_implicit_class_queries_are_refused(address):
+>       with pytest.raises(ValueError):C.derive(fixture(),address)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41f41c90>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+_______ test_unknown_or_implicit_class_queries_are_refused[profile:bad] ________
+
+address = 'profile:bad'
+
+    @pytest.mark.parametrize('address',['major:8','major:23','profile:["7"]','bad:2','major','profile:bad'])
+    def test_unknown_or_implicit_class_queries_are_refused(address):
+>       with pytest.raises(ValueError):C.derive(fixture(),address)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_functional_pair_class.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+starplast/functional_pair_class.py:38: in derive
+    A.build_scorecard(report)
+starplast/functional_agreement.py:242: in build_scorecard
+    details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x702c41ee9f60>
+
+>   details = tuple(DetailView(key, label, F._canonical(report[key])) for key, label in (
+                                                        ^^^^^^^^^^^
+        ('methods', 'Original method scopes and counts'), ('overlap', 'Shared inputs and dependencies'),
+        ('group_uncertainty', 'Uncertainty'), ('rows', 'All paired gene outcomes')))
+E   KeyError: 'group_uncertainty'
+
+starplast/functional_agreement.py:242: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_functional_pair_class.py::test_major_mapping_differs_from_whole_profile_equality_and_keeps_false_calls
+FAILED tests/test_functional_pair_class.py::test_profile_mapping_requires_complete_equality_and_empty_positives_are_unavailable
+FAILED tests/test_functional_pair_class.py::test_unknown_or_implicit_class_queries_are_refused[major:8]
+FAILED tests/test_functional_pair_class.py::test_unknown_or_implicit_class_queries_are_refused[major:23]
+FAILED tests/test_functional_pair_class.py::test_unknown_or_implicit_class_queries_are_refused[profile:["7"]]
+FAILED tests/test_functional_pair_class.py::test_unknown_or_implicit_class_queries_are_refused[bad:2]
+FAILED tests/test_functional_pair_class.py::test_unknown_or_implicit_class_queries_are_refused[major]
+FAILED tests/test_functional_pair_class.py::test_unknown_or_implicit_class_queries_are_refused[profile:bad]
+8 failed, 1 passed in 1.26s
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 1.820s
+CPU time consumed: 3.434s

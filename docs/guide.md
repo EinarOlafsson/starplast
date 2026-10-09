@@ -312,6 +312,14 @@ groups stated. It also reports the forest-minus-kNN source-recovery difference i
 percentage points. Exact interval values are included in the JSON export. If the
 interval file is missing or corrupt, the original comparison remains available
 and its uncertainty is marked unavailable.
+The selector also offers paired comparisons for each recorded EC major class and
+complete profile. Metrics use all152 genes; displayed rows include recorded members
+and either method's positive calls, including false positives. Precision and recall
+show their denominators. Recorded nonmembership is not biological absence;
+abstentions stay unknown. Each export retains every gene and the original profiles.
+Double-click opens that gene's class outcome. Native method class cards remain
+inspectable. These class questions have no paired class-specific interval or
+calibrated probability; the pooled profile intervals do not apply.
 The test uses direct annotations; orthology-derived annotations remain separate.
 Individual annotation curation/prediction provenance is unresolved. These scores
 measure recorded annotation recovery; independent biological accuracy, calibrated

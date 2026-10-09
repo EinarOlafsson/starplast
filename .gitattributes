@@ -6,3 +6,7 @@ results/rhoptry_journal_review_2026_10_07_v2/preprint_history.json -text -whites
 results/pf_functional_agreement_diagnostics_2026_10_08/*.log -text -whitespace
 results/pf_functional_agreement_ui_diagnostics_2026_10_08/*.log -text -whitespace
 results/pf_functional_agreement_ui_diagnostics_2026_10_08_v2/*.log -text -whitespace
+# Preserve the original synthetic-fixture traceback for the class comparison.
+results/functional_pair_class_2026_10_08/*.log -text -whitespace
+# Retain the checksummed scorecard export exactly as written by the notebook.
+results/functional_pair_class_acceptance_2026_10_08_v2/major2.json -text -whitespace
