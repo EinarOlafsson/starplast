@@ -7,6 +7,8 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 CANDIDATE=ROOT/'results/pf_functional_ec_knn_acceptance_2026_10_08_v2/functional_results.json'
 CANDIDATE_SHA='c89b317a36e01c788b56985675a97f5494ba6c798ccb9ea06be1b83f009e7bf3'
 
@@ -19,7 +21,7 @@ def install(output, *, candidate_path=CANDIDATE, expected_sha256=CANDIDATE_SHA):
     previous=F.load(shipped,expected_sha256=old_pin)
     candidate_path=Path(candidate_path)
     candidate,=F.load(candidate_path,expected_sha256=expected_sha256)
-    assert candidate.organism=='Pf' and candidate.metadata['target']=='ec_direct_complete_major_profile'
+    assert candidate.organism==_ORGANISMS.FALCIPARUM and candidate.metadata['target']=='ec_direct_complete_major_profile'
     assert len(candidate.rows)==152 and sum(not row['training_supported'] for row in candidate.rows)==4
     (output/'original_functional_results.json').write_bytes(original)
     (output/'original_functional_results.py').write_bytes(reader.read_bytes())
@@ -35,7 +37,7 @@ def install(output, *, candidate_path=CANDIDATE, expected_sha256=CANDIDATE_SHA):
     code=reader.read_text();assert code.count(old_pin)==1
     reader.write_text(code.replace(old_pin,digest));shipped.write_bytes(merged)
     result={'old_sha256':old_pin,'candidate_sha256':expected_sha256,'merged_sha256':digest,
-        'organism_counts':{organism:sum(item.organism==organism for item in results) for organism in ('Tg','Pf')},'original_entries_retained_exactly':True,
+        'organism_counts':{organism:sum(item.organism==organism for item in results) for organism in (_ORGANISMS.TOXOPLASMA,_ORGANISMS.FALCIPARUM)},'original_entries_retained_exactly':True,
         'native_candidate_retained_exactly':True,'fitting_performed':False,'biological_admission':False}
     (output/'summary.json').write_text(json.dumps(result,indent=2)+'\n')
     return result

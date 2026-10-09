@@ -10,13 +10,15 @@ import time
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from starplast import organisms as _ORGANISMS
+
 
 def sha(path):
     with Path(path).open('rb') as file:
         return hashlib.file_digest(file, 'sha256').hexdigest()
 
 
-def audit(output, organism='Tg'):
+def audit(output, organism=_ORGANISMS.TOXOPLASMA):
     from PyQt6 import QtWidgets
     from starplast import functional_results as F, functional_agreement as A, functional_pair_class as PC, group_ratios as G, strategies as S
     from starplast.discoveries_panel import DiscoveriesPanel
@@ -37,7 +39,7 @@ def audit(output, organism='Tg'):
         (output / 'code' / path.name).write_bytes(path.read_bytes())
     (output / 'input_manifest.json').write_text(json.dumps(before, indent=2) + '\n')
     benchmarks, reason = F.shipped(organism)
-    expected_namespaces={'ec_major','pfam'} if organism=='Tg' else {'ec_major'}
+    expected_namespaces={'ec_major','pfam'} if organism==_ORGANISMS.TOXOPLASMA else {'ec_major'}
     assert not reason and {item.namespace for item in benchmarks} == expected_namespaces
     app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
     panel = DiscoveriesPanel(organism, context=S.Context.shipped(organism))
@@ -168,7 +170,7 @@ def audit(output, organism='Tg'):
                 pass
             else:
                 raise AssertionError('Altered source borrowed archived accuracy')
-            other=S.Context(panel.context.nodes,graph={},organism='Pf' if organism=='Tg' else 'Tg')
+            other=S.Context(panel.context.nodes,graph={},organism=_ORGANISMS.FALCIPARUM if organism==_ORGANISMS.TOXOPLASMA else _ORGANISMS.TOXOPLASMA)
             try:F.require_context(benchmark,other)
             except ValueError:pass
             else:raise AssertionError('Other organism borrowed archived accuracy')
@@ -187,7 +189,7 @@ def main():
     from scripts.notebook_runner import ExecutedNotebook
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--organism', choices=('Tg','Pf'),default='Tg')
+    parser.add_argument('--organism', choices=(_ORGANISMS.TOXOPLASMA,_ORGANISMS.FALCIPARUM),default=_ORGANISMS.TOXOPLASMA)
     args=parser.parse_args();output=args.out
     nb = ExecutedNotebook('Exact domain and enzyme Discoveries scorecard navigation')
     nb.ns.update(audit=audit, output=output,organism=args.organism)

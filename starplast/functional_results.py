@@ -7,6 +7,8 @@ Corrupt, incomplete and differently scoped bundles are refused before display.
 """
 from __future__ import annotations
 
+from . import organisms as _ORGANISMS
+
 from dataclasses import dataclass
 import hashlib
 import json
@@ -150,7 +152,7 @@ def _benchmark(entry):
     native_ec=control_format=='native_ec_controls_v1'
     if control_format is not None and not native_ec:
         raise ValueError('Unsupported functional control format')
-    if native_ec and (namespace!='ec_major' or metadata.get('organism')!='Pf'
+    if native_ec and (namespace!='ec_major' or metadata.get('organism')!=_ORGANISMS.FALCIPARUM
             or metadata.get('target')!='ec_direct_complete_major_profile'
             or metadata.get('source_targets')!=['ec_number']):
         raise ValueError('Functional native EC control source/target address mismatch')

@@ -11,6 +11,8 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from starplast import organisms as _ORGANISMS
+
 
 def sha(path):
     with Path(path).open('rb') as stream:
@@ -20,7 +22,7 @@ def sha(path):
 def run(output):
     from starplast import functional_agreement as A, functional_results as F
     from starplast.scorecard_view import export_scorecard, render_scorecard_html
-    benchmarks, reason = F.shipped('Pf')
+    benchmarks, reason = F.shipped(_ORGANISMS.FALCIPARUM)
     assert not reason
     pair = [next(b for b in benchmarks if b.metadata['strategy'] == strategy)
             for strategy in ('feature_knn', 'random_forest')]
@@ -89,7 +91,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
     args = parser.parse_args(); args.out.mkdir(parents=True, exist_ok=False)
-    scope = {'organism': 'Pf', 'strategies': ['feature_knn', 'random_forest'],
+    scope = {'organism': _ORGANISMS.FALCIPARUM, 'strategies': ['feature_knn', 'random_forest'],
              'target': 'ec_direct_complete_major_profile', 'test_genes': 152,
              'unsupported_test_genes': 4, 'fits_performed': 0,
              'biological_admission': False, 'group_uncertainty': 'unavailable'}

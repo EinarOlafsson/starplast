@@ -20,6 +20,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 SNAPSHOT = ROOT / 'results/functional_profile_targets_2026_10_08_v3'
 SNAPSHOT_SHA256 = '3e1d93cf0c587a7a8566e9f271f7cd2bdaab5421c75415e62350b74afa47c7ac'
 CONTROL_ID = 'FN-DOM-CONTROL-01-Tg-pfam-complete-profile'
@@ -96,7 +98,7 @@ def build_controls(contract, *, seed=SEED):
     from starplast.functional_profile_targets import ProfileTargetContract
     from starplast.scorecard_view import build_scorecard_view
 
-    if not isinstance(contract, ProfileTargetContract) or contract.organism != 'Tg' or contract.source_target != 'pfam_id':
+    if not isinstance(contract, ProfileTargetContract) or contract.organism != _ORGANISMS.TOXOPLASMA or contract.source_target != 'pfam_id':
         raise ValueError('This control partition requires a typed Tg Pfam profile target')
     if type(seed) is not int:
         raise ValueError('The prevalence control seed must be a frozen integer')

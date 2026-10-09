@@ -19,6 +19,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 from scripts import freeze_functional_profile_controls as P, freeze_functional_profile_knn as N
 from scripts import freeze_pf_functional_ec_controls as C
 
@@ -57,7 +59,7 @@ def load_packet(path=PREPARATION, *, manifest_sha256=PREPARATION_SHA):
     summary = json.loads((path / 'summary.json').read_text())
     normalized = json.loads((path / 'normalized_target.json').read_text())
     scope = json.loads((path / 'predeclared_scope.json').read_text())
-    if scope['organism'] != 'Pf' or scope['source_target'] != 'ec_number' or scope['target'] != C.TARGET or scope['biological_admission'] is not False:
+    if scope['organism'] != _ORGANISMS.FALCIPARUM or scope['source_target'] != 'ec_number' or scope['target'] != C.TARGET or scope['biological_admission'] is not False:
         raise ValueError('Only the accepted direct Pf EC preparation scope is supported')
     assert profiles.gene_id.tolist() == groups.gene_id.tolist()
     assert C._records(profiles) == normalized['profiles'] and C._records(groups) == normalized['groups']
@@ -82,7 +84,7 @@ def source_closed_inputs(nodes, packet, *, derived_inputs=()):
     from starplast import datasets as D, functional_exclusions as E, strategies as S
     from starplast.splits import SplitManifest
     split, profiles = packet['split'], packet['profiles']
-    if (not isinstance(split, SplitManifest) or split.organism != 'Pf' or 'gene_id' not in nodes or 'ec_number' not in nodes or profiles.organism.ne('Pf').any() or
+    if (not isinstance(split, SplitManifest) or split.organism != _ORGANISMS.FALCIPARUM or 'gene_id' not in nodes or 'ec_number' not in nodes or profiles.organism.ne(_ORGANISMS.FALCIPARUM).any() or
             profiles.source_target.ne('ec_number').any() or nodes.columns.has_duplicates or C.TARGET in nodes or
             tuple(nodes.gene_id) != tuple(profiles.gene_id) or tuple(profiles.gene_id[profiles.eligible]) != tuple(a.entity for a in split.assignments)):
         raise ValueError('Exact unchanged Pf direct EC source universe and typed split required')
@@ -94,7 +96,7 @@ def source_closed_inputs(nodes, packet, *, derived_inputs=()):
         benchmark_id=split.benchmark_id, split=split, derived_inputs=derived_inputs)
     metadata, unregistered, unresolved = {}, [], []
     for column in nodes:
-        source = D.provenance(column, 'Pf')
+        source = D.provenance(column, _ORGANISMS.FALCIPARUM)
         if source is None:
             unregistered.append(column)
         elif any(parent not in nodes for parent in source.derived_from):
@@ -109,10 +111,10 @@ def source_closed_inputs(nodes, packet, *, derived_inputs=()):
             parents.setdefault(item.name, set()).update(name for kind, name in item.parents if kind == 'column')
     reasons = {}
     while True:
-        added = set(D.derived_dependents(banned, 'Pf')) - banned
+        added = set(D.derived_dependents(banned, _ORGANISMS.FALCIPARUM)) - banned
         for column in added:
             reasons.setdefault(column, {'reason': 'Pf registered dependency closure',
-                'vetoed_parents': sorted(set(D.derived_sources(column, 'Pf')) & banned)})
+                'vetoed_parents': sorted(set(D.derived_sources(column, _ORGANISMS.FALCIPARUM)) & banned)})
         for column, source_parents in parents.items():
             vetoed = sorted(source_parents & banned)
             if column not in banned and vetoed:
@@ -122,7 +124,7 @@ def source_closed_inputs(nodes, packet, *, derived_inputs=()):
             break
         banned.update(added)
     excluded = replace(excluded, columns=tuple(sorted(banned)))
-    columns = S.Context(train.reset_index(drop=True), graph={}, organism='Pf').numeric_columns(exclude=excluded.columns)
+    columns = S.Context(train.reset_index(drop=True), graph={}, organism=_ORGANISMS.FALCIPARUM).numeric_columns(exclude=excluded.columns)
     features = indexed.loc[[a.entity for a in split.assignments], columns].copy()
     provenance = {'policy': E.POLICY_VERSION, 'selected_columns': columns, 'fit_entities': list(labels.index),
         'sources': {column: metadata[column] for column in columns}, 'unregistered_withheld': unregistered,
@@ -157,7 +159,7 @@ def fit_candidate(features, labels, packet, exclusions):
     full_scores = native_scores.reindex(columns=classes, fill_value=0.0) if len(native_scores.columns) else pd.DataFrame(
         np.nan, index=native_scores.index, columns=classes)
     gaps = tuple((*packet['gaps'], *batch.gaps, 'Biological accuracy/calibration/deployment unknown; reference-profile recovery only'))
-    scope = R.RecordScope('Pf', 'feature_knn', C.TARGET, SC.T_LABEL, A.canonical_object(SETTINGS), split.seed,
+    scope = R.RecordScope(_ORGANISMS.FALCIPARUM, 'feature_knn', C.TARGET, SC.T_LABEL, A.canonical_object(SETTINGS), split.seed,
         split.identity, 'outer_test', split.benchmark_id, 'unresolved', 'gene', C.NEGATIVE_SEMANTICS, gaps)
     card = R.aggregate(rows, scope, parameters={'class_scores': full_scores.reset_index(drop=True)})
     available = bool(batch.model_state['kept_columns']) and len(labels) >= 2
@@ -171,7 +173,7 @@ def fit_candidate(features, labels, packet, exclusions):
     comparisons = {}
     for name, bundle in packet['controls'].items():
         control = bundle['card']
-        if control['scope']['strategy'] != name or control['scope']['target'] != C.TARGET or control['scope']['organism'] != 'Pf' or control['scope']['protocol'] != split.identity:
+        if control['scope']['strategy'] != name or control['scope']['target'] != C.TARGET or control['scope']['organism'] != _ORGANISMS.FALCIPARUM or control['scope']['protocol'] != split.identity:
             raise ValueError('Frozen control card scope differs')
         comparisons[name] = {'source_scope': control['scope'], 'counts': control['counts'], 'metrics': control['metrics'],
             'same_entity_order_truth_groups_and_support': True,
@@ -192,9 +194,9 @@ def artifact_spec(packet, dependencies, *, gaps=(), model_available=True):
         'truth_grade': 'unresolved', 'negative_semantics': C.NEGATIVE_SEMANTICS,
         'target_identity': packet['target_identity'], 'cohort_identity': packet['cohort_identity'],
         'prepared_packet_manifest_sha256': packet.get('manifest_hash', PREPARATION_SHA),
-        'context': {'organism': 'Pf', 'assay': 'direct complete EC-major annotation', 'stage': 'unresolved', 'strain': 'unresolved'},
+        'context': {'organism': _ORGANISMS.FALCIPARUM, 'assay': 'direct complete EC-major annotation', 'stage': 'unresolved', 'strain': 'unresolved'},
         'limitations': list(limitations), 'biological_admission': False, 'calibration': 'unavailable', 'deployment': 'unknown'}
-    return A.ArtifactSpec(Query('Pf', 'label', target=C.TARGET).to_json(), 'feature_knn', SC.T_LABEL,
+    return A.ArtifactSpec(Query(_ORGANISMS.FALCIPARUM, 'label', target=C.TARGET).to_json(), 'feature_knn', SC.T_LABEL,
         Cap.get('feature_knn').outputs[0], C.TARGET, split.entities('test'), 'held_out', 'outer:test:' + split.identity,
         tuple(dependencies), A.canonical_object(SETTINGS), A.canonical_object(evaluation), split.seed,
         'FN-EC-PF-KNN-01-pinned-code', fit_entities=split.entities('train'), fit_role='train', benchmark_id=split.benchmark_id,
@@ -213,7 +215,7 @@ def freeze(output):
     nodes = pd.read_parquet(packet['source_path'])
     assert P._sha(packet['source_path']) == packet['source_hash']
     assert C._records(nodes[list(pd.read_parquet(PREPARATION / 'source_cells.parquet').columns)]) == C._records(pd.read_parquet(PREPARATION / 'source_cells.parquet'))
-    native_groups = S.Context(nodes, graph={}, organism='Pf').groups()
+    native_groups = S.Context(nodes, graph={}, organism=_ORGANISMS.FALCIPARUM).groups()
     assert native_groups.tolist() == packet['groups'].group.tolist()
     features, labels, excluded, provenance = source_closed_inputs(nodes, packet)
     assert len(features) == 1050 and len(labels) == 600
@@ -262,7 +264,7 @@ def freeze(output):
     for path, digest in receipts.items():
         assert P._sha(path) == digest, 'Changed input: ' + path
     P._write(output / 'input_manifest.json', receipts)
-    summary = {'pilot_id': PILOT, 'organism': 'Pf', 'target': C.TARGET, 'whole_genes': len(nodes),
+    summary = {'pilot_id': PILOT, 'organism': _ORGANISMS.FALCIPARUM, 'target': C.TARGET, 'whole_genes': len(nodes),
         'eligible_profiles': len(features), 'train': len(labels), 'tune': len(packet['split'].entities('tune')),
         'calibration': len(packet['split'].entities('calibration')), 'test': len(result['rows']),
         'source_annotated_genes': int(packet['profiles'].status.ne('unannotated').sum()),

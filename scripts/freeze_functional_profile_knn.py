@@ -21,6 +21,8 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 from scripts import freeze_functional_profile_controls as P
 
 PILOT_ID = 'FN-DOM-KNN-01-Tg-pfam-complete-profile'
@@ -51,7 +53,7 @@ def prepare_inputs(nodes, contract, *, derived_inputs=()):
     from starplast import datasets as D, functional_exclusions as E, strategies as S
     from starplast.functional_profile_targets import ProfileTargetContract
 
-    if not isinstance(contract, ProfileTargetContract) or contract.organism != 'Tg' or contract.source_target != 'pfam_id':
+    if not isinstance(contract, ProfileTargetContract) or contract.organism != _ORGANISMS.TOXOPLASMA or contract.source_target != 'pfam_id':
         raise ValueError('A typed Tg complete-Pfam preparation is required')
     if (not isinstance(nodes, pd.DataFrame) or nodes.columns.has_duplicates or 'gene_id' not in nodes or
             tuple(nodes.gene_id) != contract.universe or contract.target in nodes):

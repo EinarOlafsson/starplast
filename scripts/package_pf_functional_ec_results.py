@@ -12,6 +12,8 @@ import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
+from starplast import organisms as _ORGANISMS
+
 
 def sha(path):
     with Path(path).open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
@@ -71,7 +73,7 @@ def package(source,output,strategy='feature_knn'):
     assert sum(row['prediction'] is not None and row['prediction']==row['truth'] for row in rows)==original['counts']['correct']
     spec=manifest['spec'];evaluation=json.loads(spec['evaluation_scope_json'])
     metadata={'profile_namespace':'ec_major','control_format':'native_ec_controls_v1',
-        'organism':'Pf','target':spec['target'],'strategy':spec['strategy'],'benchmark_id':spec['benchmark_id'],
+        'organism':_ORGANISMS.FALCIPARUM,'target':spec['target'],'strategy':spec['strategy'],'benchmark_id':spec['benchmark_id'],
         'truth_grade':'unresolved','source_targets':['ec_number'],
         'source_context':'Installed direct Plasmodium EC annotations; individual curation/prediction provenance unresolved. Orthology-derived annotations kept separate.',
         'source_artifact_identity':artifact.identity,'source_manifest':manifest,
@@ -84,7 +86,7 @@ def package(source,output,strategy='feature_knn'):
     benchmark,=F.load(candidate,expected_sha256=sha(candidate))
     assert benchmark.payloads==payloads and benchmark.rows==rows
     nodes=pd.read_parquet(packet['source_path'])
-    F.require_context(benchmark,S.Context(nodes,graph={},organism='Pf'))
+    F.require_context(benchmark,S.Context(nodes,graph={},organism=_ORGANISMS.FALCIPARUM))
     for name,digest in inputs.items():assert sha(name)==digest,name
     result={'source_artifact_identity':artifact.identity,'source_outputs_verified':receipt_count,
         'source_inputs_verified':len(inputs),'artifact_receipts_verified':len(manifest['files']),

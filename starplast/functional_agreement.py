@@ -5,6 +5,8 @@ confidence for an unknown gene. No model is fitted or selected here.
 """
 from __future__ import annotations
 
+from . import organisms as _ORGANISMS
+
 from collections import Counter
 from copy import deepcopy
 import hashlib
@@ -32,7 +34,7 @@ def find_pair(selected, benchmarks):
     if selected is None:
         return None
     if (selected.organism, selected.namespace, selected.metadata['target']) != (
-            'Pf', 'ec_major', 'ec_direct_complete_major_profile'):
+            _ORGANISMS.FALCIPARUM, 'ec_major', 'ec_direct_complete_major_profile'):
         return None
     pair = []
     for strategy in ('feature_knn', 'random_forest'):

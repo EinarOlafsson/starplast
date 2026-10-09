@@ -18,6 +18,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 from scripts import freeze_pf_functional_ec_knn as K
 from scripts import freeze_pf_functional_ec_controls as C
 from scripts import freeze_functional_profile_controls as P, freeze_functional_profile_knn as N
@@ -53,7 +55,7 @@ def fit_candidate(features, labels, packet, exclusions):
     full_scores = batch.class_scores.reindex(columns=classes, fill_value=0.0) if len(batch.class_scores.columns) else pd.DataFrame(
         np.nan, index=batch.class_scores.index, columns=classes)
     gaps = tuple((*packet['gaps'], *batch.gaps, 'Biological accuracy/calibration/deployment unknown; reference-profile recovery only'))
-    scope = R.RecordScope('Pf', 'random_forest', C.TARGET, SC.T_LABEL, A.canonical_object(SETTINGS), split.seed,
+    scope = R.RecordScope(_ORGANISMS.FALCIPARUM, 'random_forest', C.TARGET, SC.T_LABEL, A.canonical_object(SETTINGS), split.seed,
         split.identity, 'outer_test', split.benchmark_id, 'unresolved', 'gene', C.NEGATIVE_SEMANTICS, gaps)
     card = R.aggregate(rows, scope, parameters={'class_scores': full_scores.reset_index(drop=True)})
     available = bool(batch.model_state['trees'])
@@ -68,7 +70,7 @@ def fit_candidate(features, labels, packet, exclusions):
     comparisons = {}
     for name, bundle in packet['controls'].items():
         control = bundle['card']
-        if control['scope']['strategy'] != name or control['scope']['target'] != C.TARGET or control['scope']['organism'] != 'Pf' or control['scope']['protocol'] != split.identity:
+        if control['scope']['strategy'] != name or control['scope']['target'] != C.TARGET or control['scope']['organism'] != _ORGANISMS.FALCIPARUM or control['scope']['protocol'] != split.identity:
             raise ValueError('Frozen control card scope differs')
         comparisons[name] = {'source_scope': control['scope'], 'counts': control['counts'], 'metrics': control['metrics'],
             'same_entity_order_truth_groups_and_support': True,
@@ -91,10 +93,10 @@ def artifact_spec(packet, dependencies, *, gaps=(), model_available=True):
         'truth_grade': 'unresolved', 'negative_semantics': C.NEGATIVE_SEMANTICS,
         'target_identity': packet['target_identity'], 'cohort_identity': packet['cohort_identity'],
         'prepared_packet_manifest_sha256': packet.get('manifest_hash', PREPARATION_SHA),
-        'context': {'organism': 'Pf', 'assay': 'direct complete EC-major annotation', 'stage': 'unresolved', 'strain': 'unresolved'},
+        'context': {'organism': _ORGANISMS.FALCIPARUM, 'assay': 'direct complete EC-major annotation', 'stage': 'unresolved', 'strain': 'unresolved'},
         'limitations': list(limitations), 'biological_admission': False, 'calibration': 'unavailable', 'deployment': 'unknown',
         'native_n_jobs': 4, 'execution_n_jobs': 1}
-    return A.ArtifactSpec(Query('Pf', 'label', target=C.TARGET).to_json(), 'random_forest', SC.T_LABEL,
+    return A.ArtifactSpec(Query(_ORGANISMS.FALCIPARUM, 'label', target=C.TARGET).to_json(), 'random_forest', SC.T_LABEL,
         Cap.get('random_forest').outputs[0], C.TARGET, split.entities('test'), 'held_out', 'outer:test:' + split.identity,
         tuple(dependencies), A.canonical_object(SETTINGS), A.canonical_object(evaluation), split.seed,
         PILOT + '-pinned-code', fit_entities=split.entities('train'), fit_role='train', benchmark_id=split.benchmark_id,
@@ -128,7 +130,7 @@ def freeze(output):
     assert P._sha(packet['source_path']) == packet['source_hash']
     cells = pd.read_parquet(PREPARATION / 'source_cells.parquet')
     assert C._records(nodes[list(cells.columns)]) == C._records(cells)
-    assert S.Context(nodes, graph={}, organism='Pf').groups().tolist() == packet['groups'].group.tolist()
+    assert S.Context(nodes, graph={}, organism=_ORGANISMS.FALCIPARUM).groups().tolist() == packet['groups'].group.tolist()
     features, labels, excluded, provenance = K.source_closed_inputs(nodes, packet)
     del cells, nodes
     gc.collect()
@@ -169,7 +171,7 @@ def freeze(output):
     assert A.read_artifact(output / 'held_out', expected=spec, split=packet['split']).payloads == payload
     for path, digest in receipts.items():
         assert P._sha(path) == digest, 'Changed input: ' + path
-    summary = {'pilot_id': PILOT, 'organism': 'Pf', 'target': C.TARGET, 'whole_genes': whole_genes,
+    summary = {'pilot_id': PILOT, 'organism': _ORGANISMS.FALCIPARUM, 'target': C.TARGET, 'whole_genes': whole_genes,
         'eligible_profiles': len(features), 'train': len(labels), 'tune': len(packet['split'].entities('tune')),
         'calibration': len(packet['split'].entities('calibration')), 'test': len(result['rows']),
         'source_annotated_genes': int(packet['profiles'].status.ne('unannotated').sum()),

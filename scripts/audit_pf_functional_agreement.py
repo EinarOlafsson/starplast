@@ -7,6 +7,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 PACKET = ROOT / 'results/pf_functional_agreement_2026_10_08_v2'
 OUTPUT = ROOT / 'results/pf_functional_agreement_acceptance_2026_10_08_v2'
 REPORT_SHA = '940da900b3d5ba356c6e360f220787b849d7382138132ccc96f2d1684178e98b'
@@ -28,7 +30,7 @@ def audit():
         receipts += 1
     inputs = json.loads((PACKET / 'input_manifest.json').read_text())
     for name, digest in inputs.items(): assert sha(name) == digest, name
-    entries, reason = F.shipped('Pf'); assert not reason
+    entries, reason = F.shipped(_ORGANISMS.FALCIPARUM); assert not reason
     pair = [next(b for b in entries if b.metadata['strategy'] == strategy)
             for strategy in ('feature_knn', 'random_forest')]
     report = json.loads((PACKET / 'report.json').read_text())

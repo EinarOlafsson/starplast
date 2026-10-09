@@ -111,7 +111,6 @@ ORGANISM_LITERALS = {
     "scripts/propose_datasets.py": 4,
     "scripts/run_headless_gpu_cv.py": 1,
     "scripts/strategy_selftests.py": 2,
-    "starplast/app.py": 2,
     "starplast/build_graph.py": 1,
     "starplast/calibration.py": 6,
     "starplast/chromatin.py": 1,

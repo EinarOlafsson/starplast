@@ -20,6 +20,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+
+from starplast import organisms as _ORGANISMS
 from scripts import freeze_functional_profile_controls as P
 
 REVIEW = ROOT / 'results/functional_source_review_2026_10_08_v2'
@@ -34,7 +36,7 @@ GAPS = ('Direct EC individual assignment evidence grades/source release remain u
         'Native orthogroups do not establish complete homology/source independence',
         'Orthology transfer remains a separate census; never combined into direct truth',
         'Calibration and deployment applicability unknown')
-SCOPE = {'benchmark_id': BENCHMARK, 'organism': 'Pf', 'source_target': 'ec_number', 'target': TARGET,
+SCOPE = {'benchmark_id': BENCHMARK, 'organism': _ORGANISMS.FALCIPARUM, 'source_target': 'ec_number', 'target': TARGET,
          'seed': SEED, 'fractions': list(FRACTIONS), 'controls': ['training_majority', 'training_prevalence'],
          'selection': 'Fixed before source preparation; no test/tune support or metrics select settings',
          'group_policy': 'Exact native Context.groups on whole table positions; collision refused',
@@ -105,7 +107,7 @@ def prepare_profiles(nodes, entries):
     if ('gene_id' not in nodes or 'ec_number' not in nodes or nodes.columns.has_duplicates or
             nodes.gene_id.duplicated().any() or not all(isinstance(gene, str) and gene for gene in nodes.gene_id)):
         raise ValueError('Exact unique Pf original gene/source fields required')
-    ctx = S.Context(nodes.copy(deep=True), graph={}, organism='Pf')
+    ctx = S.Context(nodes.copy(deep=True), graph={}, organism=_ORGANISMS.FALCIPARUM)
     direct, resolutions = F.ec_profiles(ctx, 'ec_number', entries)
     transfer, transfer_resolutions = F.ec_profiles(ctx, 'ec_number_orthology', entries) if 'ec_number_orthology' in nodes else (pd.DataFrame(), pd.DataFrame())
     groups = ctx.groups()
@@ -117,7 +119,7 @@ def prepare_profiles(nodes, entries):
     if collisions:
         raise ValueError('Native missing-group fallback collides with recorded orthogroup: ' + ', '.join(collisions))
     mask = direct.eligible.to_numpy(dtype=bool)
-    split = make_split(tuple(direct.gene_id[mask]), tuple(groups[mask]), organism='Pf', benchmark_id=BENCHMARK,
+    split = make_split(tuple(direct.gene_id[mask]), tuple(groups[mask]), organism=_ORGANISMS.FALCIPARUM, benchmark_id=BENCHMARK,
                        group_kind='homology', seed=SEED, fractions=FRACTIONS)
     indexed = nodes.set_index('gene_id', drop=False)
     train = indexed.loc[list(split.entities('train'))].copy()
@@ -170,7 +172,7 @@ def control_records(prepared):
         correct = int(outcomes.prediction.eq(outcomes.truth).sum())
         confusion = [{'truth': truth, 'prediction': prediction, 'count': int(count)}
             for (truth, prediction), count in outcomes.groupby(['truth', 'prediction'], sort=True).size().items()]
-        card = {'scope': {'organism': 'Pf', 'strategy': name, 'target': TARGET, 'task': SC.T_LABEL,
+        card = {'scope': {'organism': _ORGANISMS.FALCIPARUM, 'strategy': name, 'target': TARGET, 'task': SC.T_LABEL,
             'unit': 'gene', 'settings': {'role': 'training_only_baseline_control', 'control_name': name,
             'selection': SCOPE['selection'], 'classifier_fitting_performed': False}, 'seed': SEED,
             'protocol': split.identity, 'partition': 'outer_test', 'benchmark_id': BENCHMARK,
@@ -267,7 +269,7 @@ def freeze(output):
         'unsupported_test_profiles': rows.truth[~rows.training_supported].value_counts().to_dict(),
         'cohort_identity': prepared['cohort_identity'], 'normalized_target_identity': P._identity(normalized),
         'split_identity': prepared['split'].identity, 'predeclared_scope_identity': P._identity(SCOPE),
-        'original_node_sha256': receipts[str(__import__('starplast.organisms', fromlist=['nodes_path']).nodes_path('Pf'))],
+        'original_node_sha256': receipts[str(__import__('starplast.organisms', fromlist=['nodes_path']).nodes_path(_ORGANISMS.FALCIPARUM))],
         'review_manifest_sha256': REVIEW_SHA, 'enzyme_sha256': enzyme_receipt['sha256'],
         'input_receipt_count': len(receipts), 'exact_source_groups_controls_cards_and_serialization_replay': True,
         'controls': {name: {'counts': bundle['card']['counts'], 'metrics': bundle['card']['metrics']} for name, bundle in cards.items()},

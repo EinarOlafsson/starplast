@@ -12,6 +12,8 @@ responsive. Use :mod:`starplast.discover` for discovery searches without a displ
 """
 from __future__ import annotations
 
+from . import organisms as _ORGANISMS
+
 import inspect
 import json
 import os
@@ -319,7 +321,7 @@ DEPTH_COLOR = {"focal": (0.98, 0.86, 0.30),          # the paper is about this g
 #: table, graph, host bridge, 41 filled slots -- was data the browser could not open.
 SPECIES = {space.species: {"nodes": space.nodes, "graph": space.graph, "code": space.code}
            for space in organisms.SPACES.values() if space.graph}
-DEFAULT_SPECIES = organisms.get("Tg").species
+DEFAULT_SPECIES = organisms.get(_ORGANISMS.TOXOPLASMA).species
 
 
 def available_species() -> list:
@@ -344,7 +346,7 @@ def load(species: str = DEFAULT_SPECIES):
     if not (os.path.exists(npz) and os.path.exists(pq)):
         raise SystemExit("No cached graph. Run:  python -m starplast.build_graph")
     nodes = pd.read_parquet(pq)
-    if where["code"] == "Tg":
+    if where["code"] == _ORGANISMS.TOXOPLASMA:
         from .structure_catalog import attach_features
         nodes = attach_features(nodes, os.path.join(DATA, "af3_features.parquet"))
     z = np.load(npz)
@@ -4360,7 +4362,7 @@ class Window(QtWidgets.QMainWindow):
         import hashlib
         code = organisms.by_species(self.species).code
         path = paths.cache_file('plasmodb_identity.tsv' if code == organisms.FALCIPARUM else 'toxodb_identity.tsv')
-        kwargs = dict(accession_rx=identity.PF_ACC_RX, canonical_prefix='PF3D7', symbol_prefix='Pf') if code == organisms.FALCIPARUM else {}
+        kwargs = dict(accession_rx=identity.PF_ACC_RX, canonical_prefix='PF3D7', symbol_prefix=_ORGANISMS.FALCIPARUM) if code == organisms.FALCIPARUM else {}
         canonical = set(self.nodes.gene_id.astype(str))
         installed = organisms.nodes_path(code)
         if os.path.isfile(installed):

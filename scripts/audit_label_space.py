@@ -10,6 +10,10 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 
+import sys
+sys.path.insert(0,str(ROOT))
+from starplast import organisms as _ORGANISMS
+
 
 def sha(path):
     digest = hashlib.sha256()
@@ -146,7 +150,7 @@ def main():
     from scripts.notebook_runner import ExecutedNotebook
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--organism', choices=('Tg', 'Pf'))
+    parser.add_argument('--organism', choices=(_ORGANISMS.TOXOPLASMA, _ORGANISMS.FALCIPARUM))
     args = parser.parse_args()
     if args.out.exists():
         raise ValueError('Use a fresh immutable directory')
