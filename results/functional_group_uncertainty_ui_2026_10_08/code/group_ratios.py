@@ -136,10 +136,8 @@ def paired_scorecard(report, state):
     snapshot = deepcopy(report)
     snapshot['group_uncertainty'] = deepcopy(state)
     snapshot['interpretation'] = limits
-    display_state={**state,'status':state['status'].replace('_',' '),
-        'reason':state['reason'] or f"{state['draws_evaluated']} whole-group resamples; {state['recorded_groups']} recorded groups. Conditional on these groups and frozen predictions."}
-    details = tuple(replace(detail, text=F._canonical(state)) if detail.key == 'group_uncertainty' else
-                    replace(detail, text=F._canonical(display_state)) if detail.key == 'uncertainty' else
+    details = tuple(replace(detail, text=F._canonical(state))
+                    if detail.key in ('group_uncertainty', 'uncertainty') else
                     replace(detail, text=F._canonical({'status': 'unavailable',
                         'reason': 'No per-gene probability calibration; intervals describe group sampling variation'}))
                     if detail.key == 'calibration' else

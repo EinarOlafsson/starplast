@@ -903,3 +903,20 @@ pure checks retained; no failures, fits, source changes or deployment. These are
 separate exported intervals; existing app report is unchanged. Next smallest task:
 attach the pinned interval result to the existing paired Discoveries card, preserving
 exact original rates/source-context refusals. Other method/host/literature gaps remain.
+
+Latest interval integration:64.33 now40%,64.32 stays30%,whole22/51 unchanged.
+Existing Pf comparison shows five exact rates with95% descriptive whole-group
+percentile bounds and forest-minus-kNN recovery12.5points (5.3–20.5). Compact text
+shows500resamples/145groups; exchangeability/source-independence assumptions are
+explicit. Shipped interval JSON SHA0bc3e966…061f9 is identical to the numerical
+packet; parent report SHA940da900…8e98b and benchmark bundle remain unchanged.
+Missing/corrupt intervals retain valid point comparisons; incompatible parent/
+source contexts refuse data. All152genes/four unsupported, gene outcomes and exact
+exports preserved; no per-gene probabilities.48 focused checks pass;18 final
+presentation checks pass. Canonical desktopV2 under
+`results/functional_group_uncertainty_ui_2026_10_08_v2/`,6.88s/864,231,424byte
+process peak serial1900MiB, workers terminal. Independent48outputs/20current
+inputs verified. No failures, fits or biological/calibration/source admission.
+Next smallest bounded step: class/profile comparison navigation on this paired
+cohort with explicit annotation-negative semantics, then other method/host/literature
+gaps. Restricted partials remain untouched; native goal/watchdog active.

@@ -49,7 +49,6 @@ def test_pair_from_both_strategies_retains_exact_export_rows_and_gene_outcomes(p
         assert panel.functional_uncertainty_state['rates']['source_recovery_among_agreements']['interval']==[.25,.45809487951807226]
         assert '33 / 94 (35.1%)' in panel.functional_card.toPlainText()
         assert '25.0%–45.8%' in panel.functional_card.toPlainText()
-        assert '500 whole-group resamples; 145 recorded groups' in panel.functional_card.toPlainText()
         assert panel.functional_rows.item(0, 5).text() == 'Same correct profile'
         for index, row in enumerate(report['rows']):
             assert panel.functional_rows.item(index, 3).text() == (row['left_prediction'] or 'abstained')

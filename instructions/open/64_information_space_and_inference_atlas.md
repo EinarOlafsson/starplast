@@ -162,7 +162,7 @@ checks add elapsed time; budget them after pilot measurements.
 | [64.30](64_30_gene_inference_profile.md) | 0% | 6–10 h | Show every strategy's answer for a gene | 64.17, 64.19, 64.26, 64.27 |
 | [64.31](64_31_class_label_inference_profile.md) | 0% | 4–8 h | Compare inferences for a label or protein class | 64.17, 64.20, 64.26, 64.27, 64.30 |
 | [64.32](64_32_method_dependence_audit.md) | 30% | 6–10 h | Measure dependence between inference mechanisms | 64.03, 64.08, 64.10, 64.11, 64.12, 64.13, 64.14, 64.15, 64.16 |
-| [64.33](64_33_agreement_disagreement_view.md) | 30% | 4–8 h | Show calibrated agreement and conflicts | 64.30, 64.31, 64.32 |
+| [64.33](64_33_agreement_disagreement_view.md) | 40% | 4–8 h | Show calibrated agreement and conflicts | 64.30, 64.31, 64.32 |
 | [64.34](64_34_validated_meta_inference.md) | 0% | 8–16 h + compute | Train and test the meta-inference | 64.05, 64.06, 64.08, 64.16, 64.32, 64.33 |
 | [64.35](64_35_meta_scorecards.md) | 0% | 4–6 h | Expose meta-inference scorecards at every level | 64.17, 64.30, 64.31, 64.34 |
 | [64.36](64_36_navigation_acceptance.md) | 0% | 4–6 h | Connect every evidence and inference level | 64.18, 64.19, 64.20, 64.23, 64.24, 64.30, 64.31, 64.33, 64.35 |

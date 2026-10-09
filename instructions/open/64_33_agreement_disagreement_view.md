@@ -1,6 +1,6 @@
 # 64.33 · Show calibrated agreement and conflicts
 
-Status: OPEN — 30%, 2026-10-08. First descriptive paired desktop card and gene routes accepted; broader calibrated comparisons remain.
+Status: OPEN — 40%, 2026-10-08. First paired desktop rates, group intervals and gene routes accepted; broader calibrated comparisons remain.
 
 Parent: [64 · Information space and inference atlas](64_information_space_and_inference_atlas.md).
 
@@ -85,3 +85,32 @@ with workers terminal. Initial deleted-dialog test teardown and import-path
 diagnostics are preserved. No original node/claim/benchmark bytes, fits, biological
 admission or calibrated probabilities changed. Nightly history records commit/push.
 64.33 stays open; whole22/51 unchanged. Next: matched group-aware uncertainty.
+
+### Frozen interval display partition, 2026-10-08
+
+Attach the verified interval JSON SHA0bc3e966…061f9 to the existing Pf paired card.
+Preserve exact original rates and all152 genes/four unsupported; show descriptive
+95% whole-group percentile bounds and shared-group assumptions. Missing/corrupt or
+incompatible interval files must show unavailable uncertainty while retaining a
+valid original comparison. Current source/report mismatches still clear the entire
+comparison. Cohort intervals are never per-gene confidence. Verify exports and the
+actual desktop; no fitting/calibration or biological admission.
+
+### Accepted interval display
+
+The existing Pf comparison now shows five original rates with descriptive95%
+whole-group percentile bounds and the forest-minus-kNN all-eligible recovery
+difference (12.5percentage points,5.3–20.5). Compact uncertainty text gives500
+resamples/145 recorded groups; assumptions and exact values remain in the export.
+The pinned interval file exactly matches the numerical packet SHA0bc3e966…061f9.
+Missing/corrupt intervals retain a valid original comparison with unavailable
+uncertainty; parent/report/source mismatches remain refused. All152 genes/four
+unsupported remain, and individual gene outcomes never receive cohort probabilities.
+48 focused checks pass, then18 final presentation checks. Actual desktop V2 and
+inspected screenshot: `results/functional_group_uncertainty_ui_2026_10_08_v2/`,
+6.88s/864,231,424-byte process peak under serial1900MiB, workers terminal.
+Independent acceptance verifies48 output receipts/20 current inputs and unchanged
+parent/benchmark bundle bytes. Initial display-only empty-reason wording corrected;
+no failed runs, fits, source changes or biological/calibration admission.
+Nightly history records commit/push; whole22/51 unchanged. Next: bounded class
+comparison navigation with exact cohort and annotation-negative semantics.

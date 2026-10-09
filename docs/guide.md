@@ -306,8 +306,12 @@ adds descriptive intervals from 500 whole-group resamples. Agreement recovery is
 35.1%, with a nominal 95% percentile interval of25.0–45.8%. The resampling keeps
 both methods paired and all unsupported genes in scope. These intervals depend
 on the recorded groups; they do not establish biological independence, activity
-accuracy or calibrated confidence for an individual gene. This interval report
-is currently a separate export.
+accuracy or calibrated confidence for an individual gene. The existing comparison
+card shows these intervals beside each rate, with all500 draws and145 recorded
+groups stated. It also reports the forest-minus-kNN source-recovery difference in
+percentage points. Exact interval values are included in the JSON export. If the
+interval file is missing or corrupt, the original comparison remains available
+and its uncertainty is marked unavailable.
 The test uses direct annotations; orthology-derived annotations remain separate.
 Individual annotation curation/prediction provenance is unresolved. These scores
 measure recorded annotation recovery; independent biological accuracy, calibrated
